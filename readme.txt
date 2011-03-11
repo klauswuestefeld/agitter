@@ -1,4 +1,10 @@
-= Para começar a desenvolver
+Para começar a desenvolver
+
+
+mkdir agitos
+cd agitos
+git clone git@github.com:teamware/agitos.git
+
 
 Importar no eclipse os projetos:
 git@github.com:teamware/agitos.git (privado)
