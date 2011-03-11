@@ -37,11 +37,11 @@
 	<classpathentry kind="lib" path="lib/social_auth/standard.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/twitter4j-core-2.1.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/social_auth/visural-common-0.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/gwt/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j.properties"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/oauth_consumer.properties"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/sneer"/>
+	<classpathentry kind="lib" path="lib/gwt/gwt-servlet.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/httprevayler"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sneer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/wg-gwt"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -2,7 +2,6 @@ package guardachuva;
 
 import static sneer.foundation.environments.Environments.my;
 import guardachuva.agitos.server.AgitosServer;
-import guardachuva.mailer.MailerServer;
 
 import java.io.File;
 

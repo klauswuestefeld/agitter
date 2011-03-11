@@ -3,18 +3,15 @@ package guardachuva.agitos.server.resources;
 import guardachuva.agitos.domain.User;
 
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.Jdk14Logger;
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.AuthProviderFactory;
 import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
-import org.brickred.socialauth.provider.GoogleImpl;
 
 
 public class SocialAuthResource extends AuthenticatedBaseResource {
