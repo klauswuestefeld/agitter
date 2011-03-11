@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="pt-BR">
+<head>
+	<title>Agitos</title> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="resource-type" content="document" />	
+	<meta name="author" content="Webgoal Aplicações e Soluções Web" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta name="language" content="pt-br" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script type="text/javascript" src="js/jquery-1.2.2.pack.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+</head> 
+<body>
+<div id="all">	
+	<div id="container">
+		<p class="welcome">Olá <span class="user">seu@email.com.br</span></p>
+		<h1 class="sorry">Crie seu agito!</h1>
+
+		<form method="post" action="agitos.html" id="agitar">
+			<div class="textarea text required">
+				<label for="descricao">O que está querendo fazer?</label>
+				<textarea id="descricao" name="descricao" rows="3" cols="50"></textarea>
+			</div>
+			<div class="inline">
+				<div class="input text required">
+					<label for="data">Quando?</label>
+					<input type="text" value="00/00/00" alt="00/00/00" class="lamp_on" id="data" name="data" />
+				</div>
+				<div class="input text required hour">
+					<label for="hora"> Que horas?</label>
+					<input type="text" value="00:00" alt="00:00" class="lamp_on" id="hora" name="hora" />
+				</div>
+			</div>
+			<div class="textarea text required">
+				<label for="quem">Quem você quer chamar?</label>
+				<textarea id="quem" name="quem" rows="3" cols="50" class="lamp_on" alt="amigo1@email.com.br, amigo2@email.com.br, amigo3@email.com.br, amigo4@email.com.br, amigo5@email.com.br">amigo1@email.com.br, amigo2@email.com.br, amigo3@email.com.br, amigo4@email.com.br, amigo5@email.com.br</textarea>
+			</div>
+			<div class="submit">
+				<input type="submit" class="btn" value="Agitar" />
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

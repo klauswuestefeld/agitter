@@ -1,0 +1,16 @@
+#! /bin/sh
+clear
+cd ../sneer
+git pull
+cd ../httprevayler
+git gui
+git pull
+git push
+cd ../wg-gwt
+git gui
+git pull
+git push
+cd ../agitos
+git gui
+git pull
+git push

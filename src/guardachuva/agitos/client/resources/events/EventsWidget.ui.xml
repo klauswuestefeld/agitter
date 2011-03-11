@@ -1,0 +1,44 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:d="urn:import:com.google.gwt.user.datepicker.client"
+	xmlns:w="urn:import:wg.gwt.widgets.client">
+
+	<g:HTMLPanel styleName="agitos">
+	
+		<g:HTMLPanel styleName="header">
+			<h1>Agitos</h1>
+			<g:HTMLPanel styleName="session">
+				<g:Label ui:field="emailLabel" />
+				<g:Anchor ui:field="feedbackLink" title="Usou o Agitos, o que achou?! Envie seu comentário ou sugestão!">Dê sua sugestão!</g:Anchor>
+				<g:Anchor ui:field="logout" title="Sair">sair</g:Anchor>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		
+		<g:HTMLPanel styleName="content">
+			<g:VerticalPanel ui:field="eventsList" styleName="eventsList"></g:VerticalPanel>
+			
+			<g:HTMLPanel styleName="newEvent">
+				<w:LampTextArea ui:field="descriptionField">descrição do seu agito...</w:LampTextArea>
+				<d:DateBox ui:field="dateField" styleName="eventDate" />
+				<g:ListBox ui:field="hourField" styleName="eventHour" />
+				<g:Button ui:field="addEventButton">agitar</g:Button>
+			</g:HTMLPanel>
+			
+			<g:HTMLPanel styleName="contacts">
+				<h2>Amigos</h2>
+				<w:LampTextBox ui:field="contactField">adicionar um e-mail</w:LampTextBox>
+				<g:Button ui:field="addContactButton">+</g:Button>
+				<g:VerticalPanel ui:field="contactsList"></g:VerticalPanel>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		
+		<g:DialogBox ui:field="feedbackDialog" autoHide="true" modal="true" visible="false">
+			<g:caption><b>Dê seu feedback!</b></g:caption>
+			<g:HTMLPanel>
+				<iframe src="https://spreadsheets.google.com/embeddedform?formkey=dE5VREJaMGZlVV9qYnVpWmV4dUJ4Z2c6MQ" width="760" height="585" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+			</g:HTMLPanel>
+		</g:DialogBox>
+		
+	</g:HTMLPanel>
+	
+</ui:UiBinder>
