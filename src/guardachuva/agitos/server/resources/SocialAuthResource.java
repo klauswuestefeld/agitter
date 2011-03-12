@@ -57,7 +57,7 @@ public class SocialAuthResource extends AuthenticatedBaseResource {
 			for (Contact contact : contactList) {
 				LOG.debug(contact);
 				try {
-				User newUser = _application.userHome().produceUser(contact.getEmail());
+				User newUser = _application.getUserHome().produceUser(contact.getEmail());
 				_user.addContact(newUser);
 				} catch (Exception e) {
 					LOG.warn(e.getMessage() +  " for: " + contact.toString());

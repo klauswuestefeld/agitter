@@ -15,7 +15,7 @@ public class IgnoredProducersResource extends AuthenticatedBaseResource {
 	@Override
 	protected Object doPost() throws Exception {
 		String contact_mail = _request.getParameter("email");
-		User producer = _application.userHome().produceUser(contact_mail);
+		User producer = _application.getUserHome().produceUser(contact_mail);
 		_user.ignoreProducer(producer);
 		return null;
 	}

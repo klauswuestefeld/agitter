@@ -24,7 +24,7 @@ public class ContactsResource extends AuthenticatedBaseResource {
 	@Override
 	protected Object doPost() throws Exception {
 		String contact_mail = _request.getParameter("contact_mail");
-		List<User> contacts = _application.userHome().produceMultipleUsers(contact_mail);
+		List<User> contacts = _application.getUserHome().produceMultipleUsers(contact_mail);
 		
 		for (User contact : contacts)
 			sendInvite(contact.getEmail());
@@ -35,10 +35,10 @@ public class ContactsResource extends AuthenticatedBaseResource {
 	
 	@Override
 	protected void doDelete() throws Exception {
-		if (!_application._userHome.isKnownUser(_request.getParameter("email")))
+		if (!_application.getUserHome().isKnownUser(_request.getParameter("email")))
 			throw new BusinessException("Este usuário não está na sua lista de contatos.");
 			
-		User contact = _application._userHome.produceUser(_request.getParameter("email"));
+		User contact = _application.getUserHome().produceUser(_request.getParameter("email"));
 		_user.removeContact(contact);
 	}
 	
@@ -50,7 +50,7 @@ public class ContactsResource extends AuthenticatedBaseResource {
 		properties.put("hash", URLEncoder.encode(new Cryptor().encode(contactMail), "UTF-8"));
 		properties.put("app_link", getLinkAplicacao());
 		
-		_application.scheduleMail(new Mail(contactMail,
+		_application.getScheduledMails().scheduleMail(new Mail(contactMail,
 				ConviteAcessoTemplate.class.getName(), properties));
 	}
 

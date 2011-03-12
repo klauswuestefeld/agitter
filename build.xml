@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="Agitos" default="jar" basedir=".">
+<project name="Agitos" default="build" basedir=".">
 
-	<target name="jar" description="Create a jar file">
+	<target name="build" depends="sneer-jar, httprevayler-jar, wg-gwt-jar" description="Create a jar file">
+	</target>
+
+	<target name="agitos-jar" description="Create a jar file">
 		<zip destfile="agitos.jar" basedir="war"/>
 	</target>
 
@@ -15,6 +18,10 @@
 
 	<target name="wg-gwt-jar" description="Create a jar file from wg-gwt binaries">
 		<zip destfile="war/WEB-INF/lib/wg-gwt.jar" basedir="../wg-gwt/bin/"/>
+	</target>
+	
+	<target name="run" description="Run the server">
+		
 	</target>
 	
 </project>

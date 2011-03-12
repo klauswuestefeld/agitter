@@ -1,45 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="config"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/prevayler/prevayler-2.3.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/com.thoughtworks.xstream.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/org.codehaus.jettison.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/org.json.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/org.restlet.ext.json.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/org.restlet.ext.xstream.jar"/>
-	<classpathentry kind="lib" path="lib/restlet/org.restlet.jar" sourcepath="lib/restlet/org.restlet-sources.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-all-7.1.6.v20100715.jar" sourcepath="lib/jetty/jetty-all-7.1.6.v20100715-sources.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="lib/gwt/gwt-dev.jar"/>
-	<classpathentry kind="lib" path="lib/gwt/gwt-user.jar"/>
-	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/flexjson-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/mail.jar"/>
-	<classpathentry kind="lib" path="lib/gson-1.5.jar"/>
-	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
-	<classpathentry kind="lib" path="lib/socialauth-1.0-beta2.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-digester.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-httpclient.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/commons-validator.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/dyuproject-openid-oauth-1.1.7-jarjar.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/guice-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/jakarta-oro.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/json-20080701.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/jstl.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/openid4java.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/standard.jar"/>
-	<classpathentry kind="lib" path="lib/social_auth/visural-common-0.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/gwt/gwt-servlet.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/httprevayler"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/sneer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/wg-gwt"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/socialauth-1.0-beta2.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/flexjson-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-7.1.6.v20100715.jar"/>
+	<classpathentry kind="lib" path="lib/prevayler/prevayler-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/restlet/com.thoughtworks.xstream.jar"/>
+	<classpathentry kind="lib" path="lib/restlet/org.codehaus.jettison.jar"/>
+	<classpathentry kind="lib" path="lib/restlet/org.restlet.jar"/>
 	<classpathentry kind="lib" path="lib/social_auth/twitter4j-core-2.1.3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/social_auth/dyuproject-openid-oauth-1.1.7-jarjar.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

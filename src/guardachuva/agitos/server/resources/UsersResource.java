@@ -9,7 +9,7 @@ public class UsersResource extends UnauthenticatedBaseResource {
 
 	@Override
 	protected Object doPost() throws Exception {
-		if (_application._userHome.isKnownUser(_request.getParameter("email"))) {
+		if (_application.getUserHome().isKnownUser(_request.getParameter("email"))) {
 			_response.setStatus(Response.SC_BAD_REQUEST);
 			return new String[] {"Usuário já existente."};			
 		}
@@ -25,7 +25,7 @@ public class UsersResource extends UnauthenticatedBaseResource {
 			return errors;
 		}
 		
-		_application._userHome.produceUser(
+		_application.getUserHome().produceUser(
 				_request.getParameter("name"),
 				_request.getParameter("userName"),
 				_request.getParameter("password"),

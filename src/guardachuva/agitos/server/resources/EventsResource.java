@@ -3,7 +3,7 @@ package guardachuva.agitos.server.resources;
 import static sneer.foundation.environments.Environments.my;
 import guardachuva.agitos.domain.Event;
 import guardachuva.agitos.domain.comparators.EventDateTimeComparator;
-import guardachuva.agitos.server.application.Application;
+import guardachuva.agitos.server.application.DateTimeUtils;
 import guardachuva.agitos.shared.BusinessException;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class EventsResource extends AuthenticatedBaseResource {
 
 	@Override
 	protected Object doPost() throws Exception {
-		Date date = Application.strToDate(_request.getParameter("date"));
+		Date date = DateTimeUtils.strToDate(_request.getParameter("date"));
 		// TODO: my(Clock) deve ter a data correta da chamada original.
 		// Não tem tanto problema usar a data atual porque eventos antigos não são exibidos.
 		Date now = new Date(my(Clock.class).time().currentValue());
@@ -38,7 +38,7 @@ public class EventsResource extends AuthenticatedBaseResource {
 		if (dateInPast)
 			throw new BusinessException("Você não pode criar agitos no passado.");
 		
-		_application._eventHome.createFor(
+		_application.getEventHome().createFor(
 			_user,
 			_request.getParameter("description"),
 			date
@@ -49,7 +49,7 @@ public class EventsResource extends AuthenticatedBaseResource {
 	@Override
 	protected void doDelete() throws Exception {
 		int id = Integer.parseInt(_request.getParameter("id"));
-		_application._eventHome.removeFor(_user, id);
+		_application.getEventHome().removeFor(_user, id);
 	}
 
 }
