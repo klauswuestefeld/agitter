@@ -5,6 +5,9 @@ import guardachuva.agitos.domain.User;
 public class ValidationException extends BusinessException {
 
 
+	public ValidationException() {
+	}
+	
 	private String[] _errors;
 
 	public ValidationException(Class<User> clazz, String[] errors) {

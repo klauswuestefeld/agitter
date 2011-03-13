@@ -1,5 +1,8 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
+import org.eclipse.jetty.server.Response;
+
+import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 
 
@@ -10,10 +13,11 @@ public class AccessControlResource extends UnauthenticatedBaseResource {
 		try {
 			String userName = _request.getParameter("userName");
 			String password = _request.getParameter("password");
-			_application.authenticate(userName, password);
-			return true;
+			SessionToken session = _application.authenticate(userName, password);
+			return session.getToken();
 		} catch (UnauthorizedBusinessException ex) {
-			return false;
+			this._response.setStatus(Response.SC_UNAUTHORIZED);
+			return null;
 		}
 	}
 

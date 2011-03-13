@@ -1,8 +1,10 @@
 package guardachuva.agitos.client.resources.events;
 
-import guardachuva.agitos.client.json_models.EventData;
-import guardachuva.agitos.client.json_models.UserData;
-import guardachuva.agitos.client.resources.BasePresenter;
+import guardachuva.agitos.client.DateTimeUtilsClient;
+import guardachuva.agitos.client.rest.EventData;
+import guardachuva.agitos.client.rest.UserData;
+import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.UserDTO;
 
 import java.util.Date;
 
@@ -75,7 +77,7 @@ public class EventsWidget extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		emailLabel.setText(_presenter.getEmailLogado());
-		dateField.setFormat(new DateBox.DefaultFormat(BasePresenter.getDateFormat()));
+		dateField.setFormat(new DateBox.DefaultFormat(DateTimeUtilsClient.getDateFormat()));
 		fillHourField();
 	}
 
@@ -84,22 +86,24 @@ public class EventsWidget extends Composite {
 		setDefaultValuesOnEventForm();
 	}
 
-	protected void renderEvents(JSONValue jsonValue) {
+	protected void renderEventsREST(JSONValue jsonValue) {
 		JsArray<EventData> eventDataArray = EventData.asArrayOfEventData(jsonValue.toString());
 		
 		eventsList.clear();
 		
 		if (eventDataArray != null) {
 			for (int i = 0; i < eventDataArray.length(); ++i) {
-				renderEvent(eventDataArray.get(i));
+				EventData eventData = eventDataArray.get(i);
+				renderEvent(eventData.getId(), eventData.getDate(), 
+					eventData.getDescription(), eventData.getModerator().getEmail());
 			}
 		}
 	}
 	
-	private void renderEvent(final EventData eventData) {
-		Label dateLabel = new Label(BasePresenter.dateToStr(eventData.getDate()));			
-		Label moderatorLabel = new Label(eventData.getModerator().getEmail());
-		Label descriptionLabel = new Label(eventData.getDescription());
+	private void renderEvent(final int id, final Date date, final String description, final String moderatorEmail) {
+		Label dateLabel = new Label(DateTimeUtilsClient.dateToStr(date));			
+		Label moderatorLabel = new Label(moderatorEmail);
+		Label descriptionLabel = new Label(description);
 		HorizontalPanel eventTime = new HorizontalPanel();
 		VerticalPanel eventItem = new VerticalPanel();
 		HorizontalPanel moderatorItem = new HorizontalPanel();
@@ -108,17 +112,18 @@ public class EventsWidget extends Composite {
 		ignoreAnchor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				_presenter.ignoreProducer(eventData);
+				_presenter.ignoreProducer(moderatorEmail);
 			}
 		});
 		ignoreAnchor.addStyleName("ignoreProducerAnchor");
 		ignoreAnchor.setTitle("Ignorar Usuário");
 		
 		Anchor deleteAnchor = new Anchor("Excluir");
+		
 		deleteAnchor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				_presenter.deleteEvent(eventData);
+				_presenter.deleteEvent(id);
 			}
 		});
 		deleteAnchor.addStyleName("deleteEventAnchor");
@@ -140,7 +145,7 @@ public class EventsWidget extends Composite {
 		
 		eventItem.add(deleteAnchor);
 		
-		if (eventData.getModerator().getEmail().equals(_presenter.getEmailLogado()))
+		if (moderatorEmail.equals(_presenter.getEmailLogado()))
 			ignoreAnchor.setVisible(false);
 		else
 			deleteAnchor.setVisible(false);
@@ -148,26 +153,27 @@ public class EventsWidget extends Composite {
 		eventsList.add(eventItem);
 	}
 	
-	protected void renderContacts(JSONValue jsonValue) {
-		JsArray<UserData> contactDataArray = UserData.asArrayOfUserData(jsonValue.toString());
-		
+	protected void renderContactsREST(JSONValue jsonValue) {
 		contactsList.clear();
-		
+
+		JsArray<UserData> contactDataArray = UserData.asArrayOfUserData(jsonValue.toString());
+
 		if (contactDataArray != null) {
 			for (int i = 0; i < contactDataArray.length(); ++i) {
-				renderContact(contactDataArray.get(i));
+				UserData userData = contactDataArray.get(i);
+				renderContact(userData.getEmail());
 			}
 		}
 	}
 	
-	private void renderContact(final UserData userData) {
+	private void renderContact(final String email) {
 		HorizontalPanel contactPanel = new HorizontalPanel();
-		Label emailLabel = new Label(userData.getEmail());
+		Label emailLabel = new Label(email);
 		Anchor deleteAnchor = new Anchor("del");
 		deleteAnchor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				_presenter.deleteContact(userData);
+				_presenter.deleteContact(email);
 			}
 		});
 		contactPanel.add(emailLabel);
@@ -256,6 +262,19 @@ public class EventsWidget extends Composite {
 		for (int hour=0; hour<24; hour++) {
 			hourField.addItem(hour + ":00");
 			hourField.addItem(hour + ":30");
+		}
+	}
+
+	public void renderEvents(EventDTO[] events) {
+		for (EventDTO event : events) {
+			renderEvent(event.getId(), event.getDate(), 
+			event.getDescription(), event.getModerator().getEmail());
+		}
+	}
+
+	public void renderContacts(UserDTO[] contacts) {
+		for (UserDTO contact : contacts) {
+			renderContact(contact.getEmail());
 		}
 	}
 }

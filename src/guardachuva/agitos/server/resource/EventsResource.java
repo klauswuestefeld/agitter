@@ -1,25 +1,28 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
+
+import guardachuva.agitos.server.DateTimeUtilsServer;
+
 
 
 public class EventsResource extends AuthenticatedBaseResource {
 
 	@Override
 	protected Object doGet() throws Exception {
-		return _application.getEventsFor(_user);
+		return _application.getEventsForMe(_session);
 	}
 
 	@Override
 	protected Object doPost() throws Exception {
-		_application.createEvent(_user, 
+		_application.createEvent(_session, 
 				getParam("description"), 
-				getParam("date"));
+				DateTimeUtilsServer.strToDate(getParam("date")));
 		return null;
 	}
 
 	@Override
 	protected void doDelete() throws Exception {
 		int id = Integer.parseInt(getParam("id"));
-		_application.removeEventFor(_user, id);
+		_application.removeEventForMe(_session, id);
 	}
 
 }

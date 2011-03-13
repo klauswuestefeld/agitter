@@ -29,24 +29,9 @@ public class SignupWrapper {
 		}});
 	}
 	
-	public String getName() {
-		return nameField.getText();
-	}
-	
-	public String getUserName() {
-		return userNameField.getText();
-	}
-	
-	public String getPassword() {
-		return passwordField.getText();
-	}
-	
-	public String getEmail() {
-		return emailField.getText();
-	}
-
 	protected void trySignup() {
-		_presenter.trySignup();
+		_presenter.trySignup(nameField.getText(), userNameField.getText(), 
+			passwordField.getText(), emailField.getText());
 	}
 	
 }

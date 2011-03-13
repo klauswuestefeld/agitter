@@ -1,4 +1,4 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class SocialAuthResource extends AuthenticatedBaseResource {
 				emails.append(" , ");
 			}
 			try {
-				_application.addContactsTo(_user, emails.toString(),
+				_application.addContactsToMe(_session, emails.toString(),
 						getLinkAplicacao());
 			} catch (Exception e) {
 				LOG.warn(e.getMessage() + " for: " + emails.toString());

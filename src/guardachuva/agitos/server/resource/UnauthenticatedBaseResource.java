@@ -1,18 +1,18 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
 import static sneer.foundation.environments.Environments.my;
-import guardachuva.agitos.server.application.Application;
-import guardachuva.agitos.server.application.IApplication;
+import guardachuva.agitos.server.application.ApplicationImpl;
+import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import httprevayler.BaseResource;
 
 public class UnauthenticatedBaseResource extends BaseResource {
 	
-	protected IApplication _application = null;
+	protected Application _application = null;
 	
 	@Override
 	protected void beforeService() throws UnauthorizedBusinessException {
-		_application = my(Application.class);
+		_application = my(ApplicationImpl.class);
 	}
 	
 	protected String getLinkAplicacao() {

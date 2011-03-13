@@ -1,18 +1,25 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
-import guardachuva.agitos.domain.User;
+import org.eclipse.jetty.server.Response;
+
+import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 
 public class AuthenticatedBaseResource extends UnauthenticatedBaseResource {
 	
-	protected User _user = null;
+	protected SessionToken _session;
 	
 	@Override
 	protected void beforeService() throws UnauthorizedBusinessException {
 		super.beforeService();
+		try {
 		String userName = _request.getCookieValue("userName");
 		String password = _request.getCookieValue("password");
-		_user = _application.authenticate(userName, password);
+		_session = _application.authenticate(userName, password);
+		} catch (UnauthorizedBusinessException e) {
+			_response.setStatus(Response.SC_UNAUTHORIZED);
+			throw e;
+		}
 	}
 	
 }

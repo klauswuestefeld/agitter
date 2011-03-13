@@ -4,21 +4,33 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>servletDispatcher</servlet-name>
-    <servlet-class>guardachuva.agitos.server.ApplicationServlet</servlet-class>
-    <load-on-startup>0</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>servletDispatcher</servlet-name>
-    <url-pattern>/api/*</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>servletDispatcher</servlet-name>
+		<servlet-class>guardachuva.agitos.server.ApplicationServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>servletDispatcher</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RemoteApplicationService</servlet-name>
+		<servlet-class>
+			guardachuva.agitos.server.rpc.RemoteApplicationService
+	  </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RemoteApplicationService</servlet-name>
+		<url-pattern>/agitos/rpc</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>

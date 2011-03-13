@@ -31,18 +31,18 @@ public class LoginWrapper {
 		}});
 	}
 	
-	public String getUserName() {
+	private String getUserName() {
 		return userNameField.getText();
 	}
 	
-	public String getPassword() {
+	private String getPassword() {
 		return passwordField.getText();
 	}
 	
 	void tryLogin() {
 		if (!loginButton.isEnabled()) return;
 		
-		_presenter.tryLogin();
+		_presenter.tryLogin(getUserName(), getPassword());
 		loginButton.setEnabled(false);
 	}
 	

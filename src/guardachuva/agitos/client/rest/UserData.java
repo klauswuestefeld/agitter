@@ -1,4 +1,4 @@
-package guardachuva.agitos.client.json_models;
+package guardachuva.agitos.client.rest;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;

@@ -1,8 +1,8 @@
 package guardachuva.agitos.domain_tests;
 
+import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.domain.Event;
 import guardachuva.agitos.domain.User;
-import guardachuva.agitos.server.application.DateTimeUtils;
 import guardachuva.agitos.server.application.homes.EventHome;
 import guardachuva.agitos.server.application.homes.UserHome;
 import guardachuva.agitos.shared.BusinessException;
@@ -73,13 +73,13 @@ public class UserTest extends Assert {
 	
 	@Test
 	public void myEvents() throws BusinessException, ParseException {
-		Event aniversario = _eventHome.createFor(_altieres, "Aniversário de 1 ano!", DateTimeUtils.strToDate("25/12/1982 12:00"));
+		Event aniversario = _eventHome.createFor(_altieres, "Aniversário de 1 ano!", DateTimeUtilsServer.strToDate("25/12/1982 12:00"));
 		assertEquals(aniversario, _altieres.myEvents().get(0));
 	}
 	
 	@Test
 	public void listEvents() throws ParseException, BusinessException {
-		Event aniversario = _eventHome.createFor(_altieres, "Aniversário de 1 ano!", DateTimeUtils.strToDate("25/12/1982 12:00"));
+		Event aniversario = _eventHome.createFor(_altieres, "Aniversário de 1 ano!", DateTimeUtilsServer.strToDate("25/12/1982 12:00"));
 		_altieres.addContact(_maoki);
 		assertEquals(aniversario, _maoki.listEvents().get(0));
 		assertEquals(aniversario, _altieres.listEvents().get(0));

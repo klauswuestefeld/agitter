@@ -2,9 +2,11 @@ package guardachuva.agitos.shared;
 
 public class UserAlreadyExistsException extends BusinessException {
 
+	public  UserAlreadyExistsException() {
+	}
+	
 	public UserAlreadyExistsException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

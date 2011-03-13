@@ -1,4 +1,4 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
 import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.ValidationException;
@@ -11,7 +11,7 @@ public class UsersResource extends UnauthenticatedBaseResource {
 	@Override
 	protected Object doPost() throws Exception {
 		try {
-			_application.createUser(
+			_application.createNewUser(
 				getParam("name"), getParam("userName"), 
 				getParam("password"), getParam("email"));
 			

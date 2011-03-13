@@ -1,9 +1,14 @@
 package guardachuva.agitos.client;
 
+import guardachuva.agitos.shared.SessionToken;
+
 import com.google.gwt.json.client.JSONValue;
 
 public interface IController {
 
+	void setSession(SessionToken session);
+	SessionToken getSession();
+	
 	void setLoggedUser(String userName, String password);
 	void logout();
 	String getUserMail();

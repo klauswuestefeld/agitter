@@ -4,8 +4,12 @@ import guardachuva.agitos.client.resources.events.EventsPresenter;
 import guardachuva.agitos.client.resources.events.EventsWidget;
 import guardachuva.agitos.client.resources.users.LoginPresenter;
 import guardachuva.agitos.client.resources.users.SignupPresenter;
+import guardachuva.agitos.shared.SessionToken;
+import guardachuva.agitos.shared.rpc.RemoteApplication;
+import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.UrlBuilder;
@@ -14,6 +18,7 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -23,10 +28,13 @@ public class ClientController implements IController, EntryPoint,
 	private final EventsPresenter _eventsPresenter;
 	@SuppressWarnings("unused")
 	private final LoginPresenter _loginPresenter;
+	private RemoteApplicationAsync _application;
+	protected SessionToken _session;
 
 	public ClientController() {
-		_eventsPresenter = new EventsPresenter(this);
-		_loginPresenter = new LoginPresenter(this);
+		_application = (RemoteApplicationAsync) GWT.create(RemoteApplication.class);
+		_eventsPresenter = new EventsPresenter(this, _application);
+		_loginPresenter = new LoginPresenter(this, _application);
 	}
 
 	public void onModuleLoad() {
@@ -36,7 +44,7 @@ public class ClientController implements IController, EntryPoint,
 			if (isLogged()) {				
 				redirect("/");
 			} else {
-				new LoginPresenter(this).wrap();	
+				new LoginPresenter(this, _application).wrap();	
 				AnalyticsTracker.track("login");			
 			}
 		}
@@ -45,7 +53,7 @@ public class ClientController implements IController, EntryPoint,
 			if (isLogged()) {
 				redirect("/");	
 			} else {
-				new SignupPresenter(this).wrap();
+				new SignupPresenter(this, _application).wrap();
 				AnalyticsTracker.track("signup");
 			}
 		}
@@ -94,6 +102,13 @@ public class ClientController implements IController, EntryPoint,
 	
 	@Override
 	public void logout() {
+		_application.logout(_session, new AsyncCallback<Void>() {			
+			public void onSuccess(Void result) {
+				_session = null;
+			}
+			public void onFailure(Throwable caught) {
+			}
+		});
 		Cookies.removeCookie("userName", "/");
 		Cookies.removeCookie("password", "/");
 		redirect("/login.html");
@@ -144,5 +159,15 @@ public class ClientController implements IController, EntryPoint,
 	@Override
 	public void showError(String string) {
 		Window.alert(string);
+	}
+
+	@Override
+	public void setSession(SessionToken session) {
+		_session = session;
+	}
+
+	@Override
+	public SessionToken getSession() {
+		return _session;
 	}
 }

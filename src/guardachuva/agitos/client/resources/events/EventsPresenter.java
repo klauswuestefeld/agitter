@@ -1,35 +1,26 @@
 package guardachuva.agitos.client.resources.events;
 
 import guardachuva.agitos.client.IController;
-import guardachuva.agitos.client.json_models.EventData;
-import guardachuva.agitos.client.json_models.UserData;
 import guardachuva.agitos.client.resources.BasePresenter;
 import guardachuva.agitos.domain.Event;
 import guardachuva.agitos.domain.User;
+import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.SessionToken;
+import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.Validations;
+import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import wg.gwt.utils.httprevayler.client.DecodedResponse;
-import wg.gwt.utils.httprevayler.client.SimpleRequest;
-
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class EventsPresenter extends BasePresenter {
 
-	private static final String EVENTS_URL = "api/events";
-	private static final String CONTACTS_URL = "api/contacts";
-	private static final String IGNORED_PRODUCERS_URL = "api/ignored_producers";
-
 	private EventsWidget _eventsWidget = null;
 
-	public EventsPresenter(IController controller) {
-		super(controller);
+	public EventsPresenter(IController controller, RemoteApplicationAsync application) {
+		super(controller, application);
 	}
 
 	public EventsWidget loadDataAndShowEventsWidget() {
@@ -58,88 +49,109 @@ public class EventsPresenter extends BasePresenter {
 			_controller.showError(msg);
 			_eventsWidget.addEventButton.setEnabled(true);
 		} else {
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("date", dateToStr(date));
-			params.put("description", description);
-			
-			new SimpleRequest(EVENTS_URL, RequestBuilder.POST, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-				if (response.getStatusCode() == Response.SC_OK)
+			_application.createEvent(getSession(), description, date, new AsyncCallback<Void>() {
+				public void onFailure(Throwable caught) {
+					showError(caught);
+					getEventsWidget().resetAddEventForm();
+				}
+				public void onSuccess(Void result) {
 					updateEventsList();
-				else
-					_controller.showError(response.getText());
-				getEventsWidget().resetAddEventForm();
-			}};
+					getEventsWidget().resetAddEventForm();
+				}
+			}); 
+			
 		}
 	}
 	
 	protected void updateEventsList() {
-		HashMap<String, String> params = new HashMap<String, String>();
-		
-		new SimpleRequest(EVENTS_URL, RequestBuilder.GET, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-			getEventsWidget().renderEvents(response.getJsonValue());
-		}};
+		_application.getEventsForMe(getSession(), new AsyncCallback<EventDTO[]>() {
+			public void onSuccess(EventDTO[] events) {
+				getEventsWidget().renderEvents(events);
+			}
+			public void onFailure(Throwable e) {
+				showError(e);
+			}
+		});
 	}
 	
 	public void addContact(String contactMail) {
 		if (!Validations.validateMultipleEmailAndOptinalName(contactMail)) {
 			_controller.showError("A lista de emails e nomes é inválida.");
 		} else {
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("contact_mail", contactMail);
-			
-			new SimpleRequest(CONTACTS_URL, RequestBuilder.POST, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-				updateContactsList();
-				getEventsWidget().resetAddContactForm();
-			}};
+			_application.addContactsToMe(getSession(), contactMail, null, new AsyncCallback<Void>() {
+				public void onSuccess(Void result) {
+					updateContactsList();
+				}
+				public void onFailure(Throwable caught) {
+					showError(caught);
+				}
+			});
 		}
 	}
 	
 	private void updateContactsList() {
-		HashMap<String, String> params = new HashMap<String, String>();
-		
-		new SimpleRequest(CONTACTS_URL, RequestBuilder.GET, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-				getEventsWidget().renderContacts(response.getJsonValue());
-		}};
-	}
-
-	public void deleteEvent(EventData eventData) {
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("id", Integer.toString(eventData.getId()));
-		
-		if (!Window.confirm("Excluir agito?"))
-			return;
-		
-		new SimpleRequest(EVENTS_URL, RequestBuilder.DELETE, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-			updateEventsList();
-		}};
+		_application.getContactsForMe(getSession(), new AsyncCallback<UserDTO[]>() {
+			public void onSuccess(UserDTO[] contacts) {
+				getEventsWidget().renderContacts(contacts);
+			}
+			public void onFailure(Throwable caught) {
+				showError(caught);
+			}
+		});
 	}
 	
-	public void ignoreProducer(EventData eventData) {
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("email", eventData.getModerator().getEmail());
-		
+	public void deleteEvent(int id) {
+		if (!Window.confirm("Excluir agito?"))
+			return;
+		_application.removeEventForMe(getSession(), id, new AsyncCallback<Void>() {
+			public void onSuccess(Void result) {
+				updateContactsList();
+			}
+			public void onFailure(Throwable e) {
+				showError(e);
+			}
+		});
+	}
+
+	private SessionToken getSession() {
+		return _controller.getSession();
+	}
+
+	public void ignoreProducer(String email) {
 		if (!Window.confirm("Ignorar usuário?"))
 			return;
 		
-		new SimpleRequest(IGNORED_PRODUCERS_URL, RequestBuilder.POST, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-			updateEventsList();
-		}};
+		_application.ignoreProducerForMe(getSession(), email, new AsyncCallback<Void>() {
+			public void onSuccess(Void result) {
+				updateContactsList();
+			}
+			public void onFailure(Throwable e) {
+				showError(e);
+			}
+		});
 	}
 
-	public void deleteContact(UserData userData) {
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("email", userData.getEmail());
-		
+	public void deleteContact(String email) {
 		if (!Window.confirm("Excluir contato?"))
 			return;
+		
+		_application.deleteContactForMe(getSession(), email, new AsyncCallback<Void>() {
+			public void onSuccess(Void result) {
+				updateContactsList();
+			}
+			public void onFailure(Throwable caught) {
+				showError(caught);
+			}
+		});
 
-		new SimpleRequest(CONTACTS_URL, RequestBuilder.DELETE, params) { @Override protected void onResponseReceived(Request request, DecodedResponse response) {
-			updateContactsList();
-		}};
 	}
 
 	public void logout() {
 		_controller.logout();
+	}
+
+	private void showError(Throwable e) {
+		_controller.showError(e.getMessage());
 	}
 
 }

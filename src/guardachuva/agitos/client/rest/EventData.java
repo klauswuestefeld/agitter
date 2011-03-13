@@ -1,4 +1,4 @@
-package guardachuva.agitos.client.json_models;
+package guardachuva.agitos.client.rest;
 
 import java.util.Date;
 

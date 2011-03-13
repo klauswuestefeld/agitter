@@ -1,22 +1,22 @@
-package guardachuva.agitos.server.resources;
+package guardachuva.agitos.server.resource;
 
 
 public class ContactsResource extends AuthenticatedBaseResource {
 
 	@Override
 	protected Object doGet() throws Exception {
-		return _application.getContactsFor(_user);
+		return _application.getContactsForMe(_session);
 	}
 
 	@Override
 	protected Object doPost() throws Exception {
-		_application.addContactsTo(_user, getParam("contact_mail"), this.getLinkAplicacao());
+		_application.addContactsToMe(_session, getParam("contact_mail"), this.getLinkAplicacao());
 		return null;
 	}
 	
 	@Override
 	protected void doDelete() throws Exception {
-		_application.deleteContactFor(_user, getParam("email"));
+		_application.deleteContactForMe(_session, getParam("email"));
 	}
 	
 }

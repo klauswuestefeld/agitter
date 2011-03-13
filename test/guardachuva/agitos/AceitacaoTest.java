@@ -4,16 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static sneer.foundation.environments.Environments.my;
-import guardachuva.agitos.domain.Event;
-import guardachuva.agitos.domain.User;
-import guardachuva.agitos.server.application.Application;
-import guardachuva.agitos.server.application.DateTimeUtils;
-import guardachuva.agitos.server.application.IApplication;
+import guardachuva.agitos.server.DateTimeUtilsServer;
+import guardachuva.agitos.server.application.ApplicationImpl;
+import guardachuva.agitos.shared.Application;
+import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.UserAlreadyExistsException;
+import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
-
-import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,50 +27,46 @@ public class AceitacaoTest {
 		my(BrickTestRunner.class).instanceBeingInitialized(this);
 	}
 
-	private IApplication app;
-	private User user;
+	private Application _app;
+	private UserDTO _user;
+	private SessionToken _session;
 	
 	@Before
-	public void setup() throws ValidationException, UserAlreadyExistsException {
-		app = new Application();
-		user = app.createUser("admin", "Admin", "password", "admin@email.com");
+	public void setup() throws ValidationException, UserAlreadyExistsException, UnauthorizedBusinessException {
+		_app = new ApplicationImpl();
+		_session = _app.createNewUser("admin", "Admin", "password", "admin@email.com");
+		_user = _app.getLoggedUserOn(_session);
 	}
 
 	@Test
 	public void createANewUser() throws ValidationException {
-
-		assertNotNull(user);
-		assertEquals("Admin", user.getUserName());
-		assertEquals("admin", user.getName());
-		assertTrue(user.isValidPassword("password")); //Weird.. had user.getPassword()
-		assertEquals("admin@email.com", user.getEmail());
-		assertEmpty(user.getContacts());
-		assertEmpty(user.getProducers());
+		assertNotNull(_user);
+		assertEquals("Admin", _user.getUserName());
+		assertEquals("admin", _user.getName());
+		assertEquals("admin@email.com", _user.getEmail());
 	}
 	
 	@Test
 	public void authenticateUser() throws ValidationException, UnauthorizedBusinessException {
-		User authenticatedUser = app.authenticate("admin@email.com", "password");
-		assertEquals(user, authenticatedUser);
+		_session = _app.authenticate("admin@email.com", "password");
+		assertNotNull(_session);
 	}
 
 	@Test(expected=UnauthorizedBusinessException.class)
 	public void authenticateUserWithWrongPassword() throws ValidationException, UnauthorizedBusinessException {
-		app.authenticate("admin@email.com", "WrongPassword");
+		_app.authenticate("admin@email.com", "WrongPassword");
 	}
 
 	@Test
 	public void createANewEvent() throws Exception {
-		Event event = app.createEvent(user, "Evento", "13/10/2010 10:45");
+		_app.createEvent(_session, "Evento", 
+				DateTimeUtilsServer.strToDate("13/10/2010 10:45"));
 
-		assertNotNull(event);
-		assertEquals("Evento", event.getDescription());
-		assertEquals(DateTimeUtils.strToDate("13/10/2010 10:45"), event.getDate());
+		EventDTO[] events = _app.getEventsForMe(_session);
+		assertNotNull(events);
+		assertTrue(events.length==1);
+		assertEquals("Evento", events[0].getDescription());
+		assertEquals(DateTimeUtilsServer.strToDate("13/10/2010 10:45"), events[0].getDate());
 	}
-	
-	private void assertEmpty(Collection<?> collection) {
-		assertTrue(collection.isEmpty());
-	}
-
-
+		
 }
