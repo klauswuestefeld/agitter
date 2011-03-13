@@ -1,9 +1,10 @@
 package guardachuva.agitos.shared;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class EventDTO implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class EventDTO implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;

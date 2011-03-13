@@ -34,7 +34,7 @@ public class PrevalentRpcServer {
 
 		ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletContextHandler.setContextPath("/agitos");
-        servletContextHandler.addServlet(new ServletHolder(_applicationServlet),"/*");
+        servletContextHandler.addServlet(new ServletHolder(_applicationServlet),"/rpc");
 
         ResourceHandler resourceHandler = new ResourceHandler();
 		resourceHandler.setDirectoriesListed(false);

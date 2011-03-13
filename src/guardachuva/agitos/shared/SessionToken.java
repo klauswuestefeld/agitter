@@ -1,9 +1,9 @@
 package guardachuva.agitos.shared;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 
-public class SessionToken implements Serializable {
+public class SessionToken implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 

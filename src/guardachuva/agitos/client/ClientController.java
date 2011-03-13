@@ -163,11 +163,18 @@ public class ClientController implements IController, EntryPoint,
 
 	@Override
 	public void setSession(SessionToken session) {
+		Cookies.setCookie("sessionToken", session.getToken());
 		_session = session;
 	}
 
 	@Override
 	public SessionToken getSession() {
+		if(_session==null) {
+			String token = Cookies.getCookie("sessionToken");
+			if(token!=null && !token.isEmpty()) {
+				_session = new SessionToken(token);
+			}
+		}
 		return _session;
 	}
 }
