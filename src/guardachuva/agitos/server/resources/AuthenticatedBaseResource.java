@@ -10,7 +10,9 @@ public class AuthenticatedBaseResource extends UnauthenticatedBaseResource {
 	@Override
 	protected void beforeService() throws UnauthorizedBusinessException {
 		super.beforeService();
-		_user = _application.getUserHome().authenticate(_request.getCookieValue("userName"), _request.getCookieValue("password"));
+		String userName = _request.getCookieValue("userName");
+		String password = _request.getCookieValue("password");
+		_user = _application.authenticate(userName, password);
 	}
 	
 }

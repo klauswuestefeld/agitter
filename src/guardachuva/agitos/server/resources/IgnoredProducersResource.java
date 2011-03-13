@@ -1,7 +1,5 @@
 package guardachuva.agitos.server.resources;
 
-import guardachuva.agitos.domain.User;
-
 import org.eclipse.jetty.server.Response;
 
 public class IgnoredProducersResource extends AuthenticatedBaseResource {
@@ -14,9 +12,8 @@ public class IgnoredProducersResource extends AuthenticatedBaseResource {
 
 	@Override
 	protected Object doPost() throws Exception {
-		String contact_mail = _request.getParameter("email");
-		User producer = _application.getUserHome().produceUser(contact_mail);
-		_user.ignoreProducer(producer);
+		String email = _request.getParameter("email");
+		_application.ignoreProducerFor(_user, email);
 		return null;
 	}
 	

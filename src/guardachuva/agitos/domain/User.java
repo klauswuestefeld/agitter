@@ -1,6 +1,7 @@
 package guardachuva.agitos.domain;
 
 import guardachuva.agitos.shared.BusinessException;
+import guardachuva.agitos.shared.ValidationException;
 import guardachuva.agitos.shared.Validations;
 
 import java.io.Serializable;
@@ -43,17 +44,14 @@ public class User implements Serializable {
 		return userName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 	
-	public static User createFor(String name, String userName, String password, String email) throws BusinessException {
-		if (User.errorsForConstruction(name, userName, password, email).length > 0)
-			throw new BusinessException("Erros encontrados. Valide antes da criação.");
+	public static User createFor(String name, String userName, String password, String email) throws ValidationException {
+		String[] errors = User.errorsForConstruction(name, userName, password, email);
+		if (errors.length > 0)
+			throw new ValidationException(User.class, errors);
 		
 		User user = new User(name, userName, password, email);
 		
@@ -165,6 +163,10 @@ public class User implements Serializable {
 			errors.add("O email não parece ser válido.");
 		
 		return (String[]) errors.toArray(new String[errors.size()]);
+	}
+
+	public boolean isValidPassword(String passwordToCheck) {
+		return password.equals(passwordToCheck);
 	}
 	
 }
