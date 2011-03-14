@@ -1,9 +1,9 @@
 package guardachuva.agitos.server.resource;
 
-import org.eclipse.jetty.server.Response;
-
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
+
+import org.eclipse.jetty.server.Response;
 
 public class AuthenticatedBaseResource extends UnauthenticatedBaseResource {
 	

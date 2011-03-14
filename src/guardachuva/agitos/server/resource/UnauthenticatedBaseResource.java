@@ -20,4 +20,8 @@ public class UnauthenticatedBaseResource extends BaseResource {
 		return requestURL.substring(0, requestURL.indexOf('/', 7));
 	}
 
+	protected String getParam(String paramName) {
+		return _request.getParameter(paramName);
+	}
+
 }
