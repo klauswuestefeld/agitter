@@ -2,7 +2,6 @@ package samples.jetty_prevayler3.simpleservlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +20,7 @@ public class SimpleHandler extends AbstractHandler {
 	@Override
 	public void handle(String targetIgnored, Request baseRequest,
 			HttpServletRequest request, final HttpServletResponse response)
-			throws IOException, ServletException {
+			throws IOException {
 		baseRequest.setHandled(true);
 
 		_handler.service(new SimpleRequest(request.getRequestURI()),

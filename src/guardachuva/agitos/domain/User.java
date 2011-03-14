@@ -14,14 +14,14 @@ import java.util.Set;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
-	private String userName;
-	private String password;
-	private String email;
+	private String _name;
+	private String _userName;
+	private String _password;
+	private String _email;
 	
 	private ArrayList<Event> myEvents = new ArrayList<Event>();
 
-	private HashSet<User> contacts = new HashSet<User>();
+	private HashSet<User> _contacts = new HashSet<User>();
 	private HashSet<User> ignoredProducers = new HashSet<User>();
 	private HashSet<User> producers = new HashSet<User>();
 	
@@ -30,22 +30,22 @@ public class User implements Serializable {
 	}
 	
 	private User(String name, String userName, String password, String email) {
-		this.name = name;
-		this.userName = userName;
-		this.password = password;
-		this.email = email;
+		this._name = name;
+		this._userName = userName;
+		this._password = password;
+		this._email = email;
 	}
 
 	public String getName() {
-		return name;
+		return _name;
 	}
 
 	public String getUserName() {
-		return userName;
+		return _userName;
 	}
 
 	public String getEmail() {
-		return email;
+		return _email;
 	}
 	
 	public static User createFor(String name, String userName, String password, String email) throws ValidationException {
@@ -73,16 +73,16 @@ public class User implements Serializable {
 			throw new BusinessException("Você não pode ser um dos seus contatos.");
 		
 		newContact.producers.add(this);
-		contacts.add(newContact);
+		_contacts.add(newContact);
 	}
 
 	public void removeContact(User contact) {
 		contact.producers.remove(this);
-		contacts.remove(contact);
+		_contacts.remove(contact);
 	}
 
 	public Set<User> getContacts() {
-		return contacts;
+		return _contacts;
 	}
 
 	public Set<User> getProducers() {
@@ -120,8 +120,8 @@ public class User implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((_email == null) ? 0 : _email.hashCode());
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
 		return result;
 	}
 
@@ -134,15 +134,15 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
+		if (_email == null) {
+			if (other._email != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!_email.equals(other._email))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (_name == null) {
+			if (other._name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!_name.equals(other._name))
 			return false;
 		return true;
 	}
@@ -162,11 +162,11 @@ public class User implements Serializable {
 		if (email != null && !Validations.validateEmail(email))
 			errors.add("O email não parece ser válido.");
 		
-		return (String[]) errors.toArray(new String[errors.size()]);
+		return errors.toArray(new String[errors.size()]);
 	}
 
 	public boolean isValidPassword(String passwordToCheck) {
-		return password.equals(passwordToCheck);
+		return _password.equals(passwordToCheck);
 	}
 	
 }

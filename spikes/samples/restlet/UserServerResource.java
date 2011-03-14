@@ -8,7 +8,8 @@ import org.restlet.resource.ServerResource;
  */
 public class UserServerResource extends ServerResource implements UserResource {
   
-    @Get  
+    @Override
+	@Get  
     public User getUser() {  
         return new User("Altieres", 28);  
     }

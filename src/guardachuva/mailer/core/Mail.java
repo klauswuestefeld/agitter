@@ -3,7 +3,6 @@ package guardachuva.mailer.core;
 import java.io.Serializable;
 import java.util.Properties;
 
-@SuppressWarnings("serial")
 public class Mail implements Serializable {
 
 	private String _to_mail;
@@ -47,4 +46,5 @@ public class Mail implements Serializable {
 		return getProperties().getProperty(key);
 	}
 
+	private static final long serialVersionUID = 1L;
 }

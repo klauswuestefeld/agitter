@@ -5,10 +5,10 @@ import java.sql.Date;
 public class UserConfig {
 	
 	private long lastSignIn;
-	private long lastMailSent;
+	private long _lastMailSent;
 
-	public void setLastSignIn(Date lastSignIn) {
-		this.lastSignIn = lastSignIn.getTime();
+	public void setLastSignIn(Date _lastSignIn) {
+		this.lastSignIn = _lastSignIn.getTime();
 	}
 	
 	public Date getLastSignIn() {
@@ -16,11 +16,11 @@ public class UserConfig {
 	}
 	
 	public void setLastMailSent(Date lastMailSent) {
-		this.lastMailSent = lastMailSent.getTime();
+		this._lastMailSent = lastMailSent.getTime();
 	}
 	
 	public Date getLastMailSent() {
-		return new Date(lastMailSent);
+		return new Date(_lastMailSent);
 	}
 	
 }

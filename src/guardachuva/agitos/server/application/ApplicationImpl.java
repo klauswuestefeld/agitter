@@ -73,7 +73,7 @@ public class ApplicationImpl implements Serializable, Application, ScheduledEmai
 		Date nowMinusTwoHours = new Date(my(Clock.class).time().currentValue() - twoHours);
 		System.out.println(nowMinusTwoHours.toString());
 		ArrayList<Event> eventsList = user.listEventsSince(nowMinusTwoHours);
-		Event[] events = (Event[])  eventsList.toArray(new Event[eventsList.size()]);
+		Event[] events = eventsList.toArray(new Event[eventsList.size()]);
 		Arrays.sort(events, new EventDateTimeComparator());
 		
 		EventDTO[] eventsDTOArray = toEventsDTO(events);

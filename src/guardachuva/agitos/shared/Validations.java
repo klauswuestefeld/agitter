@@ -3,7 +3,7 @@ package guardachuva.agitos.shared;
 
 public class Validations {
 	
-	public static String EMAIL_SEPARATOR = ", ";;
+	public static String EMAIL_SEPARATOR = ", ";
 	
 	// RFC 2822 compliant http://www.regular-expressions.info/email.html
 	public final static String EMAIL_VALIDATION_REGEX = "([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";

@@ -10,32 +10,32 @@ import java.util.Date;
 public final class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private final int id;
-	private final User moderator;
-	private final String description;
-	private final long date;
+	private final int _id;
+	private final User _moderator;
+	private final String _description;
+	private final long _date;
 	
 	private Event(int id, User moderator, String description, Date date) {
-		this.id = id;
-		this.moderator = moderator;
-		this.description = description;
-		this.date = date.getTime();
+		this._id = id;
+		this._moderator = moderator;
+		this._description = description;
+		this._date = date.getTime();
 	}
 	
 	public int getId() {
-		return id;
+		return _id;
 	}
 
 	public User getModerator() {
-		return moderator;
+		return _moderator;
 	}
 
 	public String getDescription() {
-		return description;
+		return _description;
 	}
 
 	public Date getDate() {
-		return new Date(date);
+		return new Date(_date);
 	}
 
 	public static Event createFor(int id, User moderator, String description, Date date) throws BusinessException {
@@ -59,19 +59,19 @@ public final class Event implements Serializable {
 		if (date == null)
 			errors.add("A data ou a hora é inválida.");
 		
-		return (String[]) errors.toArray(new String[errors.size()]);
+		return errors.toArray(new String[errors.size()]);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (date ^ (date >>> 32));
+		result = prime * result + (int) (_date ^ (_date >>> 32));
 		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + id;
+				+ ((_description == null) ? 0 : _description.hashCode());
+		result = prime * result + _id;
 		result = prime * result
-				+ ((moderator == null) ? 0 : moderator.hashCode());
+				+ ((_moderator == null) ? 0 : _moderator.hashCode());
 		return result;
 	}
 
@@ -84,19 +84,19 @@ public final class Event implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Event other = (Event) obj;
-		if (date != other.date)
+		if (_date != other._date)
 			return false;
-		if (description == null) {
-			if (other.description != null)
+		if (_description == null) {
+			if (other._description != null)
 				return false;
-		} else if (!description.equals(other.description))
+		} else if (!_description.equals(other._description))
 			return false;
-		if (id != other.id)
+		if (_id != other._id)
 			return false;
-		if (moderator == null) {
-			if (other.moderator != null)
+		if (_moderator == null) {
+			if (other._moderator != null)
 				return false;
-		} else if (!moderator.equals(other.moderator))
+		} else if (!_moderator.equals(other._moderator))
 			return false;
 		return true;
 	}

@@ -37,6 +37,7 @@ public class ClientController implements IController, EntryPoint,
 		_loginPresenter = new LoginPresenter(this, _application);
 	}
 
+	@Override
 	public void onModuleLoad() {
 		History.addValueChangeHandler(this);
 		
@@ -102,11 +103,13 @@ public class ClientController implements IController, EntryPoint,
 	@Override
 	public void logout() {
 		_application.logout(_session, new AsyncCallback<Void>() {			
+			@Override
 			public void onSuccess(Void result) {
 				clearSession();
 				clearUserNamePassword();
 				redirect("/login.html");
 			}
+			@Override
 			public void onFailure(Throwable caught) {
 				clearSession();
 				clearUserNamePassword();

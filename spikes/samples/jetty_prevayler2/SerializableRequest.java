@@ -1,9 +1,7 @@
 package samples.jetty_prevayler2;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -14,7 +12,6 @@ import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -39,6 +36,7 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 	}
 
 	
+	@Override
 	public AsyncContext getAsyncContext() {
 		throw new Error("Not implemented yet: ServletRequest.getAsyncContext");
 	}
@@ -68,12 +66,13 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 		throw new Error("Not implemented yet: ServletRequest.getContentType");
 	}
 
+	@Override
 	public DispatcherType getDispatcherType() {
 		throw new Error("Not implemented yet: ServletRequest.getDispatcherType");
 	}
 
 	@Override
-	public ServletInputStream getInputStream() throws IOException {
+	public ServletInputStream getInputStream() {
 		throw new Error("Not implemented yet: ServletRequest.getInputStream");
 	}
 
@@ -128,10 +127,11 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 	}
 
 	@Override
-	public BufferedReader getReader() throws IOException {
+	public BufferedReader getReader() {
 		throw new Error("Not implemented yet: ServletRequest.getReader");
 	}
 
+	@Deprecated
 	@Override
 	public String getRealPath(String arg0) {
 		throw new Error("Not implemented yet: ServletRequest.getRealPath");
@@ -172,14 +172,17 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 		throw new Error("Not implemented yet: ServletRequest.getServerPort");
 	}
 
+	@Override
 	public ServletContext getServletContext() {
 		throw new Error("Not implemented yet: ServletRequest.getServletContext");
 	}
 
+	@Override
 	public boolean isAsyncStarted() {
 		throw new Error("Not implemented yet: ServletRequest.isAsyncStarted");
 	}
 
+	@Override
 	public boolean isAsyncSupported() {
 		throw new Error("Not implemented yet: ServletRequest.isAsyncSupported");
 	}
@@ -205,22 +208,23 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 	}
 
 	@Override
-	public void setCharacterEncoding(String arg0)
-			throws UnsupportedEncodingException {
+	public void setCharacterEncoding(String arg0) {
 		throw new Error("Not implemented yet: ServletRequest.setCharacterEncoding");
 	}
 
+	@Override
 	public AsyncContext startAsync() throws IllegalStateException {
 		throw new Error("Not implemented yet: ServletRequest.startAsync");
 	}
 
+	@Override
 	public AsyncContext startAsync(ServletRequest arg0, ServletResponse arg1)
 			throws IllegalStateException {
 		throw new Error("Not implemented yet: ServletRequest.startAsync");
 	}
 
-	public boolean authenticate(HttpServletResponse arg0) throws IOException,
-			ServletException {
+	@Override
+	public boolean authenticate(HttpServletResponse arg0) {
 		throw new Error("Not implemented yet: HttpServletRequest.authenticate");
 	}
 
@@ -269,11 +273,13 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 		return _method;
 	}
 
-	public Part getPart(String arg0) throws IOException, ServletException {
+	@Override
+	public Part getPart(String arg0) {
 		throw new Error("Not implemented yet: HttpServletRequest.getPart");
 	}
 
-	public Collection<Part> getParts() throws IOException, ServletException {
+	@Override
+	public Collection<Part> getParts() {
 		throw new Error("Not implemented yet: HttpServletRequest.getParts");
 	}
 
@@ -342,6 +348,7 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 		throw new Error("Not implemented yet: HttpServletRequest.isRequestedSessionIdFromURL");
 	}
 
+	@Deprecated
 	@Override
 	public boolean isRequestedSessionIdFromUrl() {
 		throw new Error("Not implemented yet: HttpServletRequest.isRequestedSessionIdFromUrl");
@@ -357,11 +364,13 @@ public class SerializableRequest implements HttpServletRequest, Serializable {
 		throw new Error("Not implemented yet: HttpServletRequest.isUserInRole");
 	}
 
-	public void login(String arg0, String arg1) throws ServletException {
+	@Override
+	public void login(String arg0, String arg1) {
 		throw new Error("Not implemented yet: HttpServletRequest.login");
 	}
 
-	public void logout() throws ServletException {
+	@Override
+	public void logout() {
 		throw new Error("Not implemented yet: HttpServletRequest.logout");
 	}
 

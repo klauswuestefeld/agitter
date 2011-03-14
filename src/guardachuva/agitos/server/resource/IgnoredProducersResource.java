@@ -1,12 +1,12 @@
 package guardachuva.agitos.server.resource;
 
-import org.eclipse.jetty.server.Response;
+import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 
 public class IgnoredProducersResource extends AuthenticatedBaseResource {
 
 	@Override
-	protected Object doGet() throws Exception {
-		_response.setStatus(Response.SC_METHOD_NOT_ALLOWED);
+	protected Object doGet() {
+		_response.setStatus(SC_METHOD_NOT_ALLOWED);
 		return null;
 	}
 
@@ -18,8 +18,8 @@ public class IgnoredProducersResource extends AuthenticatedBaseResource {
 	}
 	
 	@Override
-	protected void doDelete() throws Exception {
-		_response.setStatus(Response.SC_METHOD_NOT_ALLOWED);
+	protected void doDelete() {
+		_response.setStatus(SC_METHOD_NOT_ALLOWED);
 	}
 
 }

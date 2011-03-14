@@ -39,7 +39,7 @@ public class AceitacaoTest {
 	}
 
 	@Test
-	public void createANewUser() throws ValidationException {
+	public void createANewUser() {
 		assertNotNull(_user);
 		assertEquals("Admin", _user.getUserName());
 		assertEquals("admin", _user.getName());
@@ -47,13 +47,13 @@ public class AceitacaoTest {
 	}
 	
 	@Test
-	public void authenticateUser() throws ValidationException, UnauthorizedBusinessException {
+	public void authenticateUser() throws UnauthorizedBusinessException {
 		_session = _app.authenticate("admin@email.com", "password");
 		assertNotNull(_session);
 	}
 
 	@Test(expected=UnauthorizedBusinessException.class)
-	public void authenticateUserWithWrongPassword() throws ValidationException, UnauthorizedBusinessException {
+	public void authenticateUserWithWrongPassword() throws UnauthorizedBusinessException {
 		_app.authenticate("admin@email.com", "WrongPassword");
 	}
 

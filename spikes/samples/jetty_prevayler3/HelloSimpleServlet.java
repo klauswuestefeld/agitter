@@ -14,11 +14,11 @@ public class HelloSimpleServlet implements SimpleServlet
 {
     private static final long serialVersionUID = 1L;
 	
-	private String greeting="Hello World";
+	private String _greeting="Hello World";
     public HelloSimpleServlet(){}
     public HelloSimpleServlet(String greeting)
     {
-        this.greeting=greeting;
+        this._greeting=greeting;
     }
 
 
@@ -27,6 +27,6 @@ public class HelloSimpleServlet implements SimpleServlet
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
 		PrintWriter writer = response.getWriter();
-		writer.println("<h1>"+greeting+"</h1>");
+		writer.println("<h1>"+_greeting+"</h1>");
 	}
 }
