@@ -266,6 +266,8 @@ public class EventsWidget extends Composite {
 	}
 
 	public void renderEvents(EventDTO[] events) {
+		eventsList.clear();
+		
 		for (EventDTO event : events) {
 			renderEvent(event.getId(), event.getDate(), 
 			event.getDescription(), event.getModerator().getEmail());
@@ -273,6 +275,8 @@ public class EventsWidget extends Composite {
 	}
 
 	public void renderContacts(UserDTO[] contacts) {
+		contactsList.clear();
+
 		for (UserDTO contact : contacts) {
 			renderContact(contact.getEmail());
 		}

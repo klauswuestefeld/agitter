@@ -55,8 +55,8 @@ public class EventsPresenter extends BasePresenter {
 					getEventsWidget().resetAddEventForm();
 				}
 				public void onSuccess(Void result) {
-					updateEventsList();
 					getEventsWidget().resetAddEventForm();
+					updateEventsList();
 				}
 			}); 
 			
@@ -80,6 +80,7 @@ public class EventsPresenter extends BasePresenter {
 		} else {
 			_application.addContactsToMe(getSession(), contactMail, null, new AsyncCallback<Void>() {
 				public void onSuccess(Void result) {
+					getEventsWidget().resetAddContactForm();
 					updateContactsList();
 				}
 				public void onFailure(Throwable caught) {
@@ -105,7 +106,7 @@ public class EventsPresenter extends BasePresenter {
 			return;
 		_application.removeEventForMe(getSession(), id, new AsyncCallback<Void>() {
 			public void onSuccess(Void result) {
-				updateContactsList();
+				updateEventsList();
 			}
 			public void onFailure(Throwable e) {
 				showError(e);
@@ -124,6 +125,7 @@ public class EventsPresenter extends BasePresenter {
 		_application.ignoreProducerForMe(getSession(), email, new AsyncCallback<Void>() {
 			public void onSuccess(Void result) {
 				updateContactsList();
+				updateEventsList();
 			}
 			public void onFailure(Throwable e) {
 				showError(e);

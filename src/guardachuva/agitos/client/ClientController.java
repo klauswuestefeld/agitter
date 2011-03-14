@@ -104,14 +104,12 @@ public class ClientController implements IController, EntryPoint,
 		_application.logout(_session, new AsyncCallback<Void>() {			
 			public void onSuccess(Void result) {
 				clearSession();
-				Cookies.removeCookie("userName", "/");
-				Cookies.removeCookie("password", "/");
+				clearUserNamePassword();
 				redirect("/login.html");
 			}
 			public void onFailure(Throwable caught) {
 				clearSession();
-				Cookies.removeCookie("userName", "/");
-				Cookies.removeCookie("password", "/");
+				clearUserNamePassword();
 				redirect("/login.html");
 			}
 		});
@@ -170,6 +168,11 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	
+	protected void clearUserNamePassword() {
+		Cookies.removeCookie("userName", "/");
+		Cookies.removeCookie("password", "/");
+	}
+
 	protected void clearSession() {
 		Cookies.removeCookie("sessionToken");
 		_session = null;
