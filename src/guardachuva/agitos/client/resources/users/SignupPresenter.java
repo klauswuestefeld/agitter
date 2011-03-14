@@ -30,7 +30,7 @@ public class SignupPresenter extends BasePresenter {
 			}
 			
 			public void onFailure(Throwable caught) {
-				_controller.showError(caught.getMessage());
+				showError(caught);
 			}
 		});
 	}

@@ -150,8 +150,4 @@ public class EventsPresenter extends BasePresenter {
 		_controller.logout();
 	}
 
-	private void showError(Throwable e) {
-		_controller.showError(e.getMessage());
-	}
-
 }

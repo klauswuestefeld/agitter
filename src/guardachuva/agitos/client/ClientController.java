@@ -82,8 +82,7 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	private boolean isLogged() {
-		return (Cookies.getCookie("userName") != null &&
-				Cookies.getCookie("password") != null);
+		return (Cookies.getCookie("sessionToken") != null);
 	}
 	
 	@Override
@@ -104,14 +103,18 @@ public class ClientController implements IController, EntryPoint,
 	public void logout() {
 		_application.logout(_session, new AsyncCallback<Void>() {			
 			public void onSuccess(Void result) {
-				_session = null;
+				clearSession();
+				Cookies.removeCookie("userName", "/");
+				Cookies.removeCookie("password", "/");
+				redirect("/login.html");
 			}
 			public void onFailure(Throwable caught) {
+				clearSession();
+				Cookies.removeCookie("userName", "/");
+				Cookies.removeCookie("password", "/");
+				redirect("/login.html");
 			}
 		});
-		Cookies.removeCookie("userName", "/");
-		Cookies.removeCookie("password", "/");
-		redirect("/login.html");
 	}
 
 	@Override
@@ -159,6 +162,17 @@ public class ClientController implements IController, EntryPoint,
 	@Override
 	public void showError(String string) {
 		Window.alert(string);
+	}
+	
+	@Override
+	public void showError(Throwable e) {
+		showError(e.getMessage());
+	}
+
+	
+	protected void clearSession() {
+		Cookies.removeCookie("sessionToken");
+		_session = null;
 	}
 
 	@Override

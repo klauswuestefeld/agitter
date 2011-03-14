@@ -1,5 +1,6 @@
 package guardachuva.agitos.server;
 
+import guardachuva.agitos.server.prevalent.PrevalentRemoteApplicationService;
 import guardachuva.agitos.server.rpc.RemoteApplicationService;
 import guardachuva.agitos.shared.Application;
 
@@ -26,7 +27,7 @@ public class PrevalentRpcServer {
 
 		Server server = new Server();
 		
-		_applicationServlet = new RemoteApplicationService(application);
+		_applicationServlet = new PrevalentRemoteApplicationService(application);
 
 		SelectChannelConnector connector = new SelectChannelConnector();
 		connector.setPort(serverPort);

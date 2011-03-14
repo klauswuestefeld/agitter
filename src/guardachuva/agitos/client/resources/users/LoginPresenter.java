@@ -27,8 +27,7 @@ public class LoginPresenter extends BasePresenter {
 				_controller.redirect("/");
 			}
 			public void onFailure(Throwable caught) {
-				_controller.showError("Login ou senha inválido.");
-//				_controller.showError(caught.getMessage());
+				showError(caught);
 				_view.resetForm();
 			}
 		});

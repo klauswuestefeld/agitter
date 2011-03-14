@@ -67,10 +67,8 @@ public class UserHome {
 
 	public User authenticate(String email, String password) throws UnauthorizedBusinessException {
 		User user = _users.get(email);
-		if (user == null)
-			throw new UnauthorizedBusinessException("Usuário não encontrado.");
-		if (!user.isValidPassword(password))
-			throw new UnauthorizedBusinessException("Senha inválida.");
+		if (user == null || !user.isValidPassword(password)) 
+			throw new UnauthorizedBusinessException("Usuario ou senha inválidos.");
 		return user;
 	}
 

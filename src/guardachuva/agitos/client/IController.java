@@ -8,7 +8,7 @@ public interface IController {
 
 	void setSession(SessionToken session);
 	SessionToken getSession();
-	
+
 	void setLoggedUser(String userName, String password);
 	void logout();
 	String getUserMail();
@@ -19,5 +19,6 @@ public interface IController {
 	void showMessage(String message);
 	void showError(JSONValue jsonValue);
 	void showError(String string);
+	void showError(Throwable e);
 	
 }

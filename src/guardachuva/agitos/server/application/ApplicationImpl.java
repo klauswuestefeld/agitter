@@ -132,7 +132,7 @@ public class ApplicationImpl implements Serializable, Application, ScheduledEmai
 		Properties properties = new Properties();
 		properties.put("from_mail", user.getEmail());
 		properties.put("hash", URLEncoder.encode(new Cryptor().encode(contactMail), "UTF-8"));
-		properties.put("app_link", linkToApplication);
+		properties.put("app_link", linkToApplication!=null ? linkToApplication : "");
 		
 		scheduleMail(new Mail(contactMail,
 				ConviteAcessoTemplate.class.getName(), properties));

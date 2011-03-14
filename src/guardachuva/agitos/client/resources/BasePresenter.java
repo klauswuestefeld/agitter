@@ -17,5 +17,9 @@ public abstract class BasePresenter {
 	public String getEmailLogado() {
 		return _controller.getUserMail();
 	}
+
+	protected void showError(Throwable caught) {
+		_controller.showError(caught);
+	}
 	
 }
