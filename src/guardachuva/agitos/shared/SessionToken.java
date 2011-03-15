@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class SessionToken implements Serializable {
 
-	private final String _token;
+	private String _token;
 
 	public SessionToken(String token) {
 		if (token == null) throw new IllegalArgumentException();
