@@ -1,25 +1,23 @@
 package guardachuva.mailer;
 
 import static sneer.foundation.environments.Environments.my;
-import flexjson.JSONDeserializer;
-import guardachuva.mailer.core.Mail;
+import guardachuva.agitos.shared.Mail;
+import guardachuva.agitos.shared.rpc.RemoteApplication;
 import guardachuva.mailer.core.Mailer;
 import guardachuva.mailer.core.MailerException;
 import guardachuva.mailer.templates.MailTemplate;
 
-import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.HashMap;
-import java.util.Properties;
 
 import org.restlet.data.Form;
-import org.restlet.resource.ClientResource;
 
 import sneer.bricks.hardware.clock.timer.Timer;
 import sneer.bricks.hardware.cpu.lang.contracts.WeakContract;
 import sneer.bricks.hardware.io.log.Logger;
 import sneer.bricks.pulp.exceptionhandling.ExceptionHandler;
 import sneer.foundation.lang.ClosureX;
+
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class MailerServer {
 
@@ -29,9 +27,9 @@ public class MailerServer {
 
 	
 	private final Mailer _mailer;
-	private final ClientResource _clientResource;
 
 	@SuppressWarnings("unused")	private WeakContract _refToAvoidGc;
+	private RemoteApplication _application;
 
 	private MailerServer() throws MailerException {
 		String agitosServer = System.getProperty("agitos.server", "127.0.0.1") +
@@ -41,29 +39,22 @@ public class MailerServer {
 		my(Logger.class).log("Starting mailer ({})", agitosServer);
 		
 		_mailer = new Mailer(mailServer, FROM_MAIL, FROM_NAME);
-		_clientResource = new ClientResource("http://" + agitosServer  + "/api/mails");
+		_application = (RemoteApplication) SyncProxy.newProxyInstance(
+				RemoteApplication.class, "http://127.0.0.1:8888/agitos/", "rpc");
 	}
 	
 	private void startTimer() {
-		_refToAvoidGc = my(Timer.class).wakeUpNowAndEvery(2000, new Runnable() { @Override public void run() {
+		_refToAvoidGc = my(Timer.class).wakeUpNowAndEvery(10000, new Runnable() { @Override public void run() {
 			process();
 		}});
 	}
 
 	private void process() {
-		try {
-			tryToProcess();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		tryToProcess();
 	}
 	
-	private void tryToProcess() throws IOException {
-		String jsonMails = URLDecoder.decode(_clientResource.get().getText(), "UTF-8"); 
-		my(Logger.class).log("Antes jsonToMails.");
-		HashMap<String, Mail> mails = jsonToMails(jsonMails);
-		my(Logger.class).log("Depois jsonToMails.");
-
+	private void tryToProcess() {
+		HashMap<String, Mail> mails = _application.getScheduledMails();
 		for (String key : mails.keySet())
 			send(key, mails.get(key));
 	}
@@ -78,25 +69,18 @@ public class MailerServer {
 		}});
 	}
 
-	private HashMap<String, Mail> jsonToMails(String jsonMails) {
-		return new JSONDeserializer<HashMap<String, Mail>>()
-				.use(null, HashMap.class).use("values", Mail.class)
-				.use("values.properties", Properties.class)
-				.deserialize(jsonMails);
-	}
-	
 	private void send(Mail mail) throws MailerException {
 		MailTemplate template = getTemplate(mail.getTemplate());
 		_mailer.send(mail.getToMail(), mail.getToMail(),
 				SUBJECT_PREFIX + template.getSubject(),
-				template.fillOutWith(mail.getProperties())
+				template.fillOutWith(mail)
 		);
 	}
 	
 	private void markSent(String key) {
 		Form form = new Form();
 		form.add("key", key);
-		_clientResource.post(form.getWebRepresentation());
+		_application.deleteMail(key);
 	}
 	
 	private MailTemplate getTemplate(String templateName) throws MailerException {

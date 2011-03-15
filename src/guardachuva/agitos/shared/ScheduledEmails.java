@@ -1,4 +1,5 @@
-package guardachuva.mailer.core;
+package guardachuva.agitos.shared;
+
 
 import java.util.HashMap;
 

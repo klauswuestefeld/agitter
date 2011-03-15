@@ -1,10 +1,12 @@
 package guardachuva.agitos.shared.rpc;
 
 import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UserDTO;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -38,4 +40,12 @@ public interface RemoteApplicationAsync {
 	void logout(SessionToken session, AsyncCallback<Void> callback);
 	
 	void getLoggedUserOn(SessionToken session, AsyncCallback<UserDTO> callback);
+	
+	// ScheduledEmails
+	void scheduleMail(Mail mail, AsyncCallback<Void> callback);
+
+	void getScheduledMails( AsyncCallback<HashMap<String, Mail>> callback);
+
+	void deleteMail(String key, AsyncCallback<Void> callback);
+
 }

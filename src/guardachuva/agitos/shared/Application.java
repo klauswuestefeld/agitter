@@ -1,6 +1,7 @@
 package guardachuva.agitos.shared;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public interface Application {
 
@@ -18,5 +19,13 @@ public interface Application {
 	void deleteContactForMe(SessionToken session, String email) throws BusinessException;
 
 	void ignoreProducerForMe(SessionToken session, String email) throws ValidationException, BusinessException;
+
+	// ScheduledEmails
+	public abstract void scheduleMail(Mail mail);
+
+	public abstract HashMap<String, Mail> getScheduledMails();
+
+	public abstract void deleteMail(String key);
+
 
 }
