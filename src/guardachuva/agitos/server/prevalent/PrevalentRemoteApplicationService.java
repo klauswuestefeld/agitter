@@ -1,7 +1,6 @@
 package guardachuva.agitos.server.prevalent;
 
 import static sneer.foundation.environments.Environments.my;
-import guardachuva.agitos.server.rpc.RemoteApplicationService;
 import guardachuva.agitos.shared.Application;
 
 import javax.servlet.http.HttpServletRequest;

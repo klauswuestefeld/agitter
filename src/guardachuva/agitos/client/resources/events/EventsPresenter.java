@@ -2,8 +2,6 @@ package guardachuva.agitos.client.resources.events;
 
 import guardachuva.agitos.client.IController;
 import guardachuva.agitos.client.resources.BasePresenter;
-import guardachuva.agitos.domain.Event;
-import guardachuva.agitos.domain.User;
 import guardachuva.agitos.shared.EventDTO;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UserDTO;
@@ -37,8 +35,8 @@ public class EventsPresenter extends BasePresenter {
 	}
 
 	protected void addEvent(String description, Date date) {
-		String[] errorsForConstruction = Event.errorsForConstruction(
-			new User(), 
+		String[] errorsForConstruction = EventDTO.errorsForConstruction(
+			"email@moderador.com", 
 			description, date
 		);
 		

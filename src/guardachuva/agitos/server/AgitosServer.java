@@ -1,6 +1,6 @@
 package guardachuva.agitos.server;
 
-import guardachuva.agitos.server.application.ApplicationImpl;
+import guardachuva.agitos.server.prevalent.PrevalentRpcServer;
 import guardachuva.agitos.shared.Application;
 
 public class AgitosServer {

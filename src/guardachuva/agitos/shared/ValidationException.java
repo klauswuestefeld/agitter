@@ -1,6 +1,5 @@
 package guardachuva.agitos.shared;
 
-import guardachuva.agitos.domain.User;
 
 public class ValidationException extends BusinessException {
 
@@ -10,13 +9,13 @@ public class ValidationException extends BusinessException {
 	
 	private String[] _errors;
 
-	public ValidationException(Class<User> clazz, String[] errors) {
-		super("Erros encontrados. Valide antes da criação. \n" + clazz.getName() + ":" + errors);
+	public ValidationException(String clazz, String[] errors) {
+		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + errors);
 		_errors = errors;
 	}
 
-	public ValidationException(Class<User> clazz, String error) {
-		super("Erros encontrados. Valide antes da criação. \n" + clazz.getName() + ":" + error);
+	public ValidationException(String clazz, String error) {
+		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + error);
 		_errors = new String[]{ error };
 	}
 

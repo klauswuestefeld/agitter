@@ -1,8 +1,6 @@
 package guardachuva.agitos.client.resources.events;
 
 import guardachuva.agitos.client.DateTimeUtilsClient;
-import guardachuva.agitos.client.rest.EventData;
-import guardachuva.agitos.client.rest.UserData;
 import guardachuva.agitos.shared.EventDTO;
 import guardachuva.agitos.shared.UserDTO;
 
@@ -12,11 +10,9 @@ import wg.gwt.widgets.client.LampTextArea;
 import wg.gwt.widgets.client.LampTextBox;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -86,20 +82,6 @@ public class EventsWidget extends Composite {
 		setDefaultValuesOnEventForm();
 	}
 
-	protected void renderEventsREST(JSONValue jsonValue) {
-		JsArray<EventData> eventDataArray = EventData.asArrayOfEventData(jsonValue.toString());
-		
-		eventsList.clear();
-		
-		if (eventDataArray != null) {
-			for (int i = 0; i < eventDataArray.length(); ++i) {
-				EventData eventData = eventDataArray.get(i);
-				renderEvent(eventData.getId(), eventData.getDate(), 
-					eventData.getDescription(), eventData.getModerator().getEmail());
-			}
-		}
-	}
-	
 	private void renderEvent(final int id, final Date date, final String description, final String moderatorEmail) {
 		Label dateLabel = new Label(DateTimeUtilsClient.dateToStr(date));			
 		Label moderatorLabel = new Label(moderatorEmail);
@@ -151,19 +133,6 @@ public class EventsWidget extends Composite {
 			deleteAnchor.setVisible(false);
 				
 		eventsList.add(eventItem);
-	}
-	
-	protected void renderContactsREST(JSONValue jsonValue) {
-		contactsList.clear();
-
-		JsArray<UserData> contactDataArray = UserData.asArrayOfUserData(jsonValue.toString());
-
-		if (contactDataArray != null) {
-			for (int i = 0; i < contactDataArray.length(); ++i) {
-				UserData userData = contactDataArray.get(i);
-				renderContact(userData.getEmail());
-			}
-		}
 	}
 	
 	private void renderContact(final String email) {
