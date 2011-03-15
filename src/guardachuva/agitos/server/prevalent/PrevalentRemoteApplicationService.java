@@ -25,19 +25,23 @@ public class PrevalentRemoteApplicationService extends RemoteApplicationService 
 	private final Environment _servletEnvironment;
 	private Prevayler _prevayler;
 
-
-	public PrevalentRemoteApplicationService(Application application) throws Exception {
+	public PrevalentRemoteApplicationService(Application application)
+			throws Exception {
 		super(application);
 
 		final PrevaylerFactory factory = new PrevaylerFactory();
 		factory.configurePrevalentSystem(application);
 		factory.configureTransactionFiltering(false);
 
-		_servletEnvironment = EnvironmentUtils.compose(new Bindings(this).environment(), my(Environment.class));
-		
-		Environments.runWith(_servletEnvironment, new ClosureX<Exception>() { @Override public void run() throws Exception {
-			_prevayler = factory.create();
-		}});		
+		_servletEnvironment = EnvironmentUtils.compose(
+				new Bindings(this).environment(), my(Environment.class));
+
+		Environments.runWith(_servletEnvironment, new ClosureX<Exception>() {
+			@Override
+			public void run() throws Exception {
+				_prevayler = factory.create();
+			}
+		});
 	}
 
 	@Override
@@ -60,8 +64,7 @@ public class PrevalentRemoteApplicationService extends RemoteApplicationService 
 	String superProcessCall(String args) throws SerializationException {
 		return super.processCall(args);
 	}
-	
-	
+
 	@Override
 	protected SerializationPolicy doGetSerializationPolicy(
 			HttpServletRequest request, String moduleBaseURL, String strongName) {
@@ -69,5 +72,10 @@ public class PrevalentRemoteApplicationService extends RemoteApplicationService 
 	}
 
 	
+	@Override
+	protected void checkPermutationStrongName() throws SecurityException {
+
+	}
+
 	private static final long serialVersionUID = 1L;
 }
