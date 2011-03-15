@@ -2,7 +2,9 @@ package guardachuva.agitos.shared;
 
 import java.io.Serializable;
 
-public class SessionToken implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class SessionToken implements Serializable, IsSerializable {
 
 	private String _token;
 
