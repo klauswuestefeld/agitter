@@ -55,7 +55,6 @@ public class PrevalentRpcServer {
 		server.setHandler(handlers);
 
 		server.start();
-		server.join();
 	}
 
 }

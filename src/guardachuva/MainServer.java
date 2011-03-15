@@ -2,6 +2,7 @@ package guardachuva;
 
 import static sneer.foundation.environments.Environments.my;
 import guardachuva.agitos.server.AgitosServer;
+import guardachuva.mailer.MailerServer;
 
 import java.io.File;
 
@@ -30,8 +31,7 @@ public class MainServer {
 		my(ClockTicker.class);
 		
 		AgitosServer.startRunning();
-// FIXME
-//		MailerServer.startRunning();
+		MailerServer.startRunning();
 		
 		my(Threads.class).waitUntilCrash();
 	}

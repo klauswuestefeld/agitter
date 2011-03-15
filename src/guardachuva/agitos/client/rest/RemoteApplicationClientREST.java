@@ -2,6 +2,7 @@ package guardachuva.agitos.client.rest;
 
 import guardachuva.agitos.client.DateTimeUtilsClient;
 import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
@@ -197,5 +198,20 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public void scheduleMail(Mail mail, AsyncCallback<Void> callback) {
+		throw new RuntimeException("Not Implemented");
+	}
+
+	@Override
+	public void getScheduledMails(AsyncCallback<HashMap<String, Mail>> callback) {
+		throw new RuntimeException("Not Implemented");		
+	}
+
+	@Override
+	public void deleteMail(String key, AsyncCallback<Void> callback) {
+		throw new RuntimeException("Not Implemented");
 	}
 }

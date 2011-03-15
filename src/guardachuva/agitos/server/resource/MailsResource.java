@@ -1,7 +1,7 @@
 package guardachuva.agitos.server.resource;
 
-import guardachuva.mailer.core.Mail;
-import guardachuva.mailer.core.ScheduledEmails;
+import guardachuva.agitos.shared.Mail;
+import guardachuva.agitos.shared.ScheduledEmails;
 
 import java.util.HashMap;
 

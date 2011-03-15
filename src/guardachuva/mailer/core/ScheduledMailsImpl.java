@@ -1,5 +1,8 @@
 package guardachuva.mailer.core;
 
+import guardachuva.agitos.shared.Mail;
+import guardachuva.agitos.shared.ScheduledEmails;
+
 import java.util.HashMap;
 
 public class ScheduledMailsImpl implements ScheduledEmails {

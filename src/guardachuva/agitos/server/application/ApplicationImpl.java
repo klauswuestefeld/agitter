@@ -11,13 +11,13 @@ import guardachuva.agitos.server.application.homes.UserHome;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.BusinessException;
 import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.Mail;
+import guardachuva.agitos.shared.ScheduledEmails;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
-import guardachuva.mailer.core.Mail;
-import guardachuva.mailer.core.ScheduledEmails;
 import guardachuva.mailer.core.ScheduledMailsImpl;
 import guardachuva.mailer.templates.ConviteAcessoTemplate;
 
@@ -28,12 +28,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 import sneer.bricks.hardware.clock.Clock;
 
 
-public class ApplicationImpl implements Serializable, Application, ScheduledEmails {
+public class ApplicationImpl implements Serializable, Application {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -129,13 +128,13 @@ public class ApplicationImpl implements Serializable, Application, ScheduledEmai
 
 	private void sendInvite(User user, String contactMail, String linkToApplication) throws Exception {
 
-		Properties properties = new Properties();
-		properties.put("from_mail", user.getEmail());
-		properties.put("hash", URLEncoder.encode(new Cryptor().encode(contactMail), "UTF-8"));
-		properties.put("app_link", linkToApplication!=null ? linkToApplication : "");
+		Mail mail = new Mail(contactMail,
+				ConviteAcessoTemplate.class.getName());
+		mail.set("from_mail", user.getEmail());
+		mail.set("hash", URLEncoder.encode(new Cryptor().encode(contactMail), "UTF-8"));
+		mail.set("app_link", linkToApplication!=null ? linkToApplication : "");
 		
-		scheduleMail(new Mail(contactMail,
-				ConviteAcessoTemplate.class.getName(), properties));
+		scheduleMail(mail);
 	}
 
 	@Override

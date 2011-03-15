@@ -3,6 +3,7 @@ package guardachuva.agitos.server.rpc;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.BusinessException;
 import guardachuva.agitos.shared.EventDTO;
+import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.UserAlreadyExistsException;
@@ -11,6 +12,7 @@ import guardachuva.agitos.shared.ValidationException;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -80,6 +82,21 @@ public class RemoteApplicationService extends RemoteServiceServlet implements
 	public UserDTO getLoggedUserOn(SessionToken session)
 			throws UnauthorizedBusinessException {
 		return app.getLoggedUserOn(session);
+	}
+
+	@Override
+	public void scheduleMail(Mail mail) {
+		app.scheduleMail(mail);
+	}
+
+	@Override
+	public HashMap<String, Mail> getScheduledMails() {
+		return app.getScheduledMails();
+	}
+
+	@Override
+	public void deleteMail(String key) {
+		app.deleteMail(key);
 	}
 
 }

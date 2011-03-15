@@ -1,6 +1,7 @@
 package guardachuva.mailer.templates;
 
-import java.util.Properties;
+import guardachuva.agitos.shared.Mail;
+
 
 public abstract class MailTemplate {
 
@@ -8,10 +9,10 @@ public abstract class MailTemplate {
 
 	protected abstract String getBodyTemplate();
 
-	public String fillOutWith(Properties properties) {
+	public String fillOutWith(Mail mail) {
 		String result = getBodyTemplate();
-		for (Object key : properties.keySet())
-			result = result.replace("[" + (String) key + "]", (String) properties.get(key));
+		for (String key : mail.getKeys())
+			result = result.replace("[" + (String) key + "]", (String) mail.get(key));
 
 		return result;
 	}

@@ -1,6 +1,6 @@
 package guardachuva.mailer;
 
-import guardachuva.mailer.core.Mail;
+import guardachuva.agitos.shared.Mail;
 
 import org.restlet.resource.Get;
 
