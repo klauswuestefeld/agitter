@@ -14,7 +14,6 @@
   <!-- Other module inherits                                      -->
   <inherits name="com.google.gwt.uibinder.UiBinder"/>
   <inherits name="wg.gwt.widgets.widgets"/>
-  <inherits name="wg.gwt.utils.httprevayler.httprevayler"/>
   
   <!-- Google analytics js built into build so we can call immediately on load -->
   <script src="../ga.js"/>
