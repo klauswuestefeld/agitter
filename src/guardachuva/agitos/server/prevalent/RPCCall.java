@@ -4,52 +4,50 @@ import static sneer.foundation.environments.Environments.my;
 
 import java.util.Date;
 
-import org.prevayler.Transaction;
+import org.prevayler.TransactionWithQuery;
 
-import sneer.bricks.hardware.io.log.exceptions.ExceptionLogger;
 import sneer.foundation.environments.Bindings;
 import sneer.foundation.environments.Environment;
 import sneer.foundation.environments.EnvironmentUtils;
-import sneer.foundation.environments.Environments;
-import sneer.foundation.lang.Closure;
+import sneer.foundation.lang.ProducerX;
 
-public class RPCCall implements Transaction {
+import com.google.gwt.user.client.rpc.SerializationException;
+
+public class RPCCall implements TransactionWithQuery {
 
 	final String _args;
 
+	
 	public RPCCall(String arg0) {
 		_args = arg0;
 	}
 
+	
 	@Override
-	public void executeOn(Object application, Date arg1) {
+	public Object executeAndQuery(Object application, Date arg1) throws SerializationException {
 		final PrevalentRemoteApplicationService servlet = my(PrevalentRemoteApplicationService.class);
 
 		Environment withAplicacao = EnvironmentUtils.compose(
 				new Bindings(application).environment(), my(Environment.class));
 
-		Environments.runWith(withAplicacao, new Closure() {
-			@Override
-			public void run() {
-				serviceWith(servlet);
-			}
-		});
+		return EnvironmentUtils.produceIn(withAplicacao, new ProducerX<String, SerializationException>() { @Override public String produce() throws SerializationException {
+			return serviceWith(servlet);
+		}});
 	}
 
-	private void serviceWith(final PrevalentRemoteApplicationService servlet) {
+	private String serviceWith(PrevalentRemoteApplicationService servlet) throws SerializationException {
+		System.out.println(">>RPC: " + _args);
+		String result;
 		try {
-			System.out.println(">>RPC: " + _args);
-			final StringBuffer response = servlet.getResponse(_args);
-			final String res = servlet.doProcessCall(_args);
-			System.out.println("<<RPC: " + res);
-			if(response!=null) {
-				response.append(res);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			my(ExceptionLogger.class).log(ex);
+			result = servlet.superProcessCall(_args);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
 		}
+		System.out.println("<<RPC: " + result);
+		return result;
 	}
 
 	private static final long serialVersionUID = 1L;
+
 }
