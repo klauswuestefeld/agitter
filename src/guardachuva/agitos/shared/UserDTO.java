@@ -2,8 +2,10 @@ package guardachuva.agitos.shared;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class UserDTO implements Serializable {
+
+public class UserDTO implements Serializable, IsSerializable  {
 
 	private static final long serialVersionUID = 1L;
 	private String _email;

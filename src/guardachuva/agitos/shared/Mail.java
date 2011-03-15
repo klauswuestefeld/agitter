@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Mail implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Mail implements Serializable, IsSerializable {
 	
 	private String _to_mail;
 	private String _template;
