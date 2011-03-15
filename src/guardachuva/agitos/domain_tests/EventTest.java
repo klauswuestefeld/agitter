@@ -82,7 +82,7 @@ public class EventTest extends Assert {
 		Event evento2 = _eventHome.createFor(_altieres, "meu nascimento!", DateTimeUtilsServer.strToDate("25/12/1981 10:30"));
 		Event evento1 = _eventHome.createFor(_altieres, "meia hora antes do meu nascimento!", DateTimeUtilsServer.strToDate("25/12/1981 10:00"));
 		
-		Event[] sortedEvents = (Event[]) _altieres.listEvents().toArray(new Event[_altieres.listEvents().size()]);
+		Event[] sortedEvents = _altieres.listEvents().toArray(new Event[_altieres.listEvents().size()]);
 		
 		Arrays.sort(sortedEvents, byDateTime);
 		

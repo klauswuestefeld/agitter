@@ -1,6 +1,5 @@
 package samples.jetty_prevayler3.simpleprevalent;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import samples.jetty_prevayler3.simpleservlet.ISimpleResponse;
@@ -18,7 +17,7 @@ public class DummySimpleResponse implements ISimpleResponse {
 	}
 
 	@Override
-	public PrintWriter getWriter() throws IOException {
+	public PrintWriter getWriter() {
 		return new PrintWriter(System.out, true);
 	}
 

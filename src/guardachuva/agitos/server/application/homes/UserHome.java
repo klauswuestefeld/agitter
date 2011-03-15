@@ -46,10 +46,9 @@ public class UserHome {
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {
-		if (matcher.group(3) == null)
-			return produceUser(matcher.group(1), matcher.group(2));
-		else
-			return produceUser(matcher.group(3), matcher.group(3));
+		return matcher.group(3) == null
+			? produceUser(matcher.group(1), matcher.group(2))
+			: produceUser(matcher.group(3), matcher.group(3));
 	}
 	
 	private User produceUser(String name, String email) throws ValidationException {

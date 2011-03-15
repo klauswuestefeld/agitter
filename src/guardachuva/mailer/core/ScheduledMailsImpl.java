@@ -13,6 +13,7 @@ public class ScheduledMailsImpl implements ScheduledEmails {
 	/* (non-Javadoc)
 	 * @see guardachuva.mailer.core.ScheduledEmails#scheduleMail(guardachuva.mailer.core.Mail)
 	 */
+	@Override
 	public void scheduleMail(Mail mail) {
 		_scheduledMailsCount++;
 		_scheduledMails.put(_scheduledMailsCount.toString(), mail);
@@ -21,6 +22,7 @@ public class ScheduledMailsImpl implements ScheduledEmails {
 	/* (non-Javadoc)
 	 * @see guardachuva.mailer.core.ScheduledEmails#getScheduledMails()
 	 */
+	@Override
 	public HashMap<String, Mail> getScheduledMails() {
 		return _scheduledMails;
 	}
@@ -28,6 +30,7 @@ public class ScheduledMailsImpl implements ScheduledEmails {
 	/* (non-Javadoc)
 	 * @see guardachuva.mailer.core.ScheduledEmails#deleteMail(java.lang.String)
 	 */
+	@Override
 	public void deleteMail(String key) {
 		_scheduledMails.remove(key);
 	}

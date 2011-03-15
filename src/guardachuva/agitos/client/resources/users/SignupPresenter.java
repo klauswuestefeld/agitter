@@ -23,12 +23,14 @@ public class SignupPresenter extends BasePresenter {
 	public void trySignup(final String name, final String userName, final String password, final String email) {
 		_application.createNewUser(name, userName, password, email, new AsyncCallback<SessionToken>() {
 			
+			@Override
 			public void onSuccess(SessionToken result) {
 				_controller.setSession(result);
 				_controller.setLoggedUser(email, password);
 				_controller.redirect("/");	
 			}
 			
+			@Override
 			public void onFailure(Throwable caught) {
 				showError(caught);
 			}

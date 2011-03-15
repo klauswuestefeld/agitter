@@ -21,11 +21,13 @@ public class LoginPresenter extends BasePresenter {
 	
 	public void tryLogin(final String email, final String password) {
 		_application.authenticate(email, password, new AsyncCallback<SessionToken>() {
+			@Override
 			public void onSuccess(SessionToken result) {
 				_controller.setSession(result);
 				_controller.setLoggedUser(email, password);
 				_controller.redirect("/");
 			}
+			@Override
 			public void onFailure(Throwable caught) {
 				showError(caught);
 				_view.resetForm();

@@ -8,13 +8,13 @@ import java.util.HashMap;
 public class MailsResource extends UnauthenticatedBaseResource {
 	
 	@Override
-	protected Object doGet() throws Exception {
+	protected Object doGet() {
 		HashMap<String, Mail> mails = ((ScheduledEmails)_application).getScheduledMails();
 		return mails;
 	}
 
 	@Override
-	protected Object doPost() throws Exception {
+	protected Object doPost() {
 		((ScheduledEmails)_application).deleteMail(_request.getParameter("key"));
 		return true;
 	}

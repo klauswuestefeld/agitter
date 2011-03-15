@@ -7,7 +7,7 @@ import org.prevayler.Query;
 public class SimpleQuery implements Query {
 
 	@Override
-	public Object query(Object arg0, Date arg1) throws Exception {
+	public Object query(Object arg0, Date arg1) {
 		throw new Error("Not implemented yet: Query.query");
 	}
 

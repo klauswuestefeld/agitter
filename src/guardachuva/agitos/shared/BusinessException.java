@@ -6,9 +6,7 @@ public class BusinessException extends Exception implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	public BusinessException() {
-		
-	}
+	protected BusinessException() {}
 
 	public BusinessException(String message) {
 		super(message);

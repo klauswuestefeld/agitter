@@ -7,14 +7,14 @@ import org.prevayler.SureTransactionWithQuery;
 final class Requisicao implements SureTransactionWithQuery {
 	
 	private static final long serialVersionUID = 1L;
-	private final String target;
+	private final String _target;
 
 	public Requisicao(String target) {
-		this.target = target;
+		this._target = target;
 	}
 
 	@Override
 	public Object executeAndQuery(Object aplicacao, Date arg1) {
-		return ((Aplicacao) aplicacao).processa(target);
+		return ((Aplicacao) aplicacao).processa(_target);
 	}
 }

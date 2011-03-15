@@ -2,9 +2,6 @@ package guardachuva.agitos.client;
 
 public class AnalyticsTracker {
 
-	public AnalyticsTracker() {
-	}
-
 	public static void track(String historyToken) {
 		if (historyToken == null) {
 			historyToken = "null";

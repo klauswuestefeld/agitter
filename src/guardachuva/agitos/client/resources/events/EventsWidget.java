@@ -42,7 +42,7 @@ public class EventsWidget extends Composite {
 	private static EventsViewUiBinder uiBinder = GWT.create(EventsViewUiBinder.class);
 
 	@UiField
-	Label emailLabel;
+	Label _emailLabel;
 	@UiField
 	Anchor feedbackLink;
 	@UiField
@@ -76,7 +76,7 @@ public class EventsWidget extends Composite {
 		_presenter = controller;
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		emailLabel.setText(_presenter.getEmailLogado());
+		_emailLabel.setText(_presenter.getEmailLogado());
 		dateField.setFormat(new DateBox.DefaultFormat(DateTimeUtilsClient.getDateFormat()));
 		fillHourField();
 	}
@@ -183,7 +183,7 @@ public class EventsWidget extends Composite {
 	}
 
 	@UiHandler("addEventButton")
-	void addEventButtonClick(ClickEvent e) {
+	void addEventButtonClick(@SuppressWarnings("unused") ClickEvent ignored) {
 		addEvent();
 	}
 	
@@ -207,18 +207,18 @@ public class EventsWidget extends Composite {
 	}
 
 	@UiHandler("feedbackLink")
-	void feedbackLinkClick(ClickEvent e) {
+	void feedbackLinkClick(@SuppressWarnings("unused") ClickEvent ignored) {
 		feedbackDialog.setVisible(true);
 		feedbackDialog.center();
 	}
 	
 	@UiHandler("logout")
-	void logoutLinkClick(ClickEvent e) {
+	void logoutLinkClick(@SuppressWarnings("unused") ClickEvent ignored) {
 		_presenter.logout();
 	}
 	
 	@UiHandler("addContactButton")
-	void addContactButtonClick(ClickEvent e) {
+	void addContactButtonClick(@SuppressWarnings("unused") ClickEvent ignored) {
 		addContact();
 	}
 	

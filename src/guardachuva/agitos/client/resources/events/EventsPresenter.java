@@ -50,10 +50,12 @@ public class EventsPresenter extends BasePresenter {
 			_eventsWidget.addEventButton.setEnabled(true);
 		} else {
 			_application.createEvent(getSession(), description, date, new AsyncCallback<Void>() {
+				@Override
 				public void onFailure(Throwable caught) {
 					showError(caught);
 					getEventsWidget().resetAddEventForm();
 				}
+				@Override
 				public void onSuccess(Void result) {
 					getEventsWidget().resetAddEventForm();
 					updateEventsList();
@@ -65,9 +67,11 @@ public class EventsPresenter extends BasePresenter {
 	
 	protected void updateEventsList() {
 		_application.getEventsForMe(getSession(), new AsyncCallback<EventDTO[]>() {
+			@Override
 			public void onSuccess(EventDTO[] events) {
 				getEventsWidget().renderEvents(events);
 			}
+			@Override
 			public void onFailure(Throwable e) {
 				showError(e);
 			}
@@ -79,10 +83,12 @@ public class EventsPresenter extends BasePresenter {
 			_controller.showError("A lista de emails e nomes é inválida.");
 		} else {
 			_application.addContactsToMe(getSession(), contactMail, null, new AsyncCallback<Void>() {
+				@Override
 				public void onSuccess(Void result) {
 					getEventsWidget().resetAddContactForm();
 					updateContactsList();
 				}
+				@Override
 				public void onFailure(Throwable caught) {
 					showError(caught);
 				}
@@ -92,9 +98,11 @@ public class EventsPresenter extends BasePresenter {
 	
 	private void updateContactsList() {
 		_application.getContactsForMe(getSession(), new AsyncCallback<UserDTO[]>() {
+			@Override
 			public void onSuccess(UserDTO[] contacts) {
 				getEventsWidget().renderContacts(contacts);
 			}
+			@Override
 			public void onFailure(Throwable caught) {
 				showError(caught);
 			}
@@ -105,9 +113,11 @@ public class EventsPresenter extends BasePresenter {
 		if (!Window.confirm("Excluir agito?"))
 			return;
 		_application.removeEventForMe(getSession(), id, new AsyncCallback<Void>() {
+			@Override
 			public void onSuccess(Void result) {
 				updateEventsList();
 			}
+			@Override
 			public void onFailure(Throwable e) {
 				showError(e);
 			}
@@ -123,10 +133,12 @@ public class EventsPresenter extends BasePresenter {
 			return;
 		
 		_application.ignoreProducerForMe(getSession(), email, new AsyncCallback<Void>() {
+			@Override
 			public void onSuccess(Void result) {
 				updateContactsList();
 				updateEventsList();
 			}
+			@Override
 			public void onFailure(Throwable e) {
 				showError(e);
 			}
@@ -138,9 +150,11 @@ public class EventsPresenter extends BasePresenter {
 			return;
 		
 		_application.deleteContactForMe(getSession(), email, new AsyncCallback<Void>() {
+			@Override
 			public void onSuccess(Void result) {
 				updateContactsList();
 			}
+			@Override
 			public void onFailure(Throwable caught) {
 				showError(caught);
 			}

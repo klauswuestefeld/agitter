@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class Mail implements Serializable {
 	
 	private String _to_mail;
@@ -47,4 +46,5 @@ public class Mail implements Serializable {
 		return _properties.keySet();
 	}
 
+	private static final long serialVersionUID = 1L;
 }

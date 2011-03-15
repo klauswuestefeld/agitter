@@ -1,7 +1,8 @@
 package guardachuva.agitos.crypt;
 
-@SuppressWarnings("serial")
 public class CryptorException extends Exception {
+
+	private static final long serialVersionUID = 1L;
 
 	public CryptorException(Exception ex) {
 		super(ex);

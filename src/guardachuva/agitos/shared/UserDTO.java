@@ -5,30 +5,30 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class UserDTO implements IsSerializable {
 
 	private static final long serialVersionUID = 1L;
-	private String email;
-	private String name;
-	private String userName;
+	private String _email;
+	private String _name;
+	private String _userName;
 	
 	@SuppressWarnings("unused")
 	private UserDTO() {
 	}
 	
 	public UserDTO(String name, String userName, String email) {
-		this.email = email;
-		this.name = name;
-		this.userName = userName;
+		this._email = email;
+		this._name = name;
+		this._userName = userName;
 	}
 
 	public String getEmail() {
-		return email;
+		return _email;
 	}
 
 	public String getName() {
-		return name;
+		return _name;
 	}
 
 	public String getUserName() {
-		return userName;
+		return _userName;
 	}
 	
 }

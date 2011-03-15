@@ -14,11 +14,9 @@ import guardachuva.agitos.shared.rpc.RemoteApplication;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class RemoteApplicationService extends RemoteServiceServlet implements
-		RemoteService, RemoteApplication {
+public class RemoteApplicationService extends RemoteServiceServlet implements RemoteApplication {
 
 	private static final long serialVersionUID = 1L;
 	

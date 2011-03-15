@@ -44,7 +44,7 @@ public class PrevalentRemoteApplicationService extends RemoteApplicationService 
 	}
 
 	@Override
-	public String processCall(String arg0) throws SerializationException {
+	public String processCall(String arg0) {
 		final String args = arg0;
 		final RPCCall call = new RPCCall(args);
 

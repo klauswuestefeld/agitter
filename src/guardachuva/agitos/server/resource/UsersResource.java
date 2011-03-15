@@ -1,15 +1,13 @@
 package guardachuva.agitos.server.resource;
 
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.ValidationException;
-
-import org.eclipse.jetty.server.Response;
-
 
 public class UsersResource extends UnauthenticatedBaseResource {
 
 	@Override
-	protected Object doPost() throws Exception {
+	protected Object doPost() {
 		try {
 			_application.createNewUser(
 				getParam("name"), getParam("userName"), 
@@ -17,12 +15,12 @@ public class UsersResource extends UnauthenticatedBaseResource {
 			
 		} catch (ValidationException e) {
 			
-			_response.setStatus(Response.SC_BAD_REQUEST);
+			_response.setStatus(SC_BAD_REQUEST);
 			return e.getValidationErrors();
 			
 		} catch (UserAlreadyExistsException e) {
 			
-			_response.setStatus(Response.SC_BAD_REQUEST);
+			_response.setStatus(SC_BAD_REQUEST);
 			return new String[] {e.getMessage()};
 			
 		}

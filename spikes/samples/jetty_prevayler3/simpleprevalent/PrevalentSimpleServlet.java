@@ -1,7 +1,5 @@
 package samples.jetty_prevayler3.simpleprevalent;
 
-import java.io.IOException;
-
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
@@ -32,7 +30,7 @@ public class PrevalentSimpleServlet implements SimpleServlet {
 	}
 
 	@Override
-	public void service(final SimpleRequest request, final ISimpleResponse response) throws IOException {
+	public void service(final SimpleRequest request, final ISimpleResponse response) {
 		Environments.runWith(_servletEnvironment, new Closure() { @Override public void run() {
 			_prevayler.execute(new SimpleCommand(request, response));
 			//_prevayler.execute(new Consulta(request, response));

@@ -47,7 +47,8 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 		
 		new SimpleRequestAsyncCallback<SessionToken>(ACCESS_CONTROL_URL, 
 				RequestBuilder.GET, params, callback) {
-			protected SessionToken getResult(Request request, DecodedResponse response) throws Throwable {
+			@Override
+			protected SessionToken getResult(Request request, DecodedResponse response) {
 				return new SessionToken(response.getText());
 			}
 		};
@@ -79,7 +80,7 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 
 			@Override
 			protected SessionToken getResult(Request request,
-					DecodedResponse response) throws Throwable {
+					DecodedResponse response) {
 				return new SessionToken(response.getText());
 			}};		
 	}
@@ -100,6 +101,7 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 		HashMap<String, String> params = new HashMap<String, String>();	
 		new SimpleRequestAsyncCallback<UserDTO[]>(CONTACTS_URL, 
 				RequestBuilder.GET, params, callback){
+			@Override
 			protected UserDTO[] getResult(Request request, DecodedResponse response) throws Throwable {
 				/*
 				JsArray<UserData> users = UserData.asArrayOfUserData(response.getJsonValue().toString());
@@ -118,6 +120,8 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 		
 		new SimpleRequestAsyncCallback<EventDTO[]>(EVENTS_URL, 
 				RequestBuilder.GET, params, callback){
+			
+			@Override
 			protected EventDTO[] getResult(Request request, DecodedResponse response) throws Throwable {
 				// FIXME: Como deserializar JSON para Event
 				/*
@@ -193,8 +197,7 @@ public class RemoteApplicationClientREST implements RemoteApplicationAsync {
 		}
 
 		@Override
-		protected Void getResult(Request request, DecodedResponse response)
-				throws Throwable {
+		protected Void getResult(Request request, DecodedResponse response) {
 			return null;
 		}
 		
