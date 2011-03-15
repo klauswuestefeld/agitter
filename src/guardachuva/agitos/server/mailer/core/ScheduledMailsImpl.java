@@ -1,4 +1,4 @@
-package guardachuva.server.mailer.core;
+package guardachuva.agitos.server.mailer.core;
 
 import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.ScheduledEmails;

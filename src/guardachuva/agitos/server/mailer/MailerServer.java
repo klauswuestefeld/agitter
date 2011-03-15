@@ -1,11 +1,11 @@
-package guardachuva.server.mailer;
+package guardachuva.agitos.server.mailer;
 
 import static sneer.foundation.environments.Environments.my;
+import guardachuva.agitos.server.mailer.core.Mailer;
+import guardachuva.agitos.server.mailer.core.MailerException;
+import guardachuva.agitos.server.mailer.templates.MailTemplate;
 import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
-import guardachuva.server.mailer.core.Mailer;
-import guardachuva.server.mailer.core.MailerException;
-import guardachuva.server.mailer.templates.MailTemplate;
 
 import java.util.HashMap;
 

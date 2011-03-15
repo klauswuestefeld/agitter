@@ -1,4 +1,4 @@
-package guardachuva.server.mailer.templates;
+package guardachuva.agitos.server.mailer.templates;
 
 public class ConviteAcessoTemplate extends MailTemplate {
 

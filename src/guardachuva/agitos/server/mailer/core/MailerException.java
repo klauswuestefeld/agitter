@@ -1,4 +1,4 @@
-package guardachuva.server.mailer.core;
+package guardachuva.agitos.server.mailer.core;
 
 public class MailerException extends Exception {
 

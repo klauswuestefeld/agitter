@@ -1,4 +1,4 @@
-package guardachuva.server.mailer.templates;
+package guardachuva.agitos.server.mailer.templates;
 
 import guardachuva.agitos.shared.Mail;
 

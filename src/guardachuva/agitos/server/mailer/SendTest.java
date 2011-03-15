@@ -1,7 +1,7 @@
-package guardachuva.server.mailer;
+package guardachuva.agitos.server.mailer;
 
-import guardachuva.server.mailer.core.Mailer;
-import guardachuva.server.mailer.core.MailerException;
+import guardachuva.agitos.server.mailer.core.Mailer;
+import guardachuva.agitos.server.mailer.core.MailerException;
 
 
 public class SendTest {

@@ -9,6 +9,8 @@ import guardachuva.agitos.server.domain.User;
 import guardachuva.agitos.server.domain.Users;
 import guardachuva.agitos.server.domain.comparators.EventDateTimeComparator;
 import guardachuva.agitos.server.domain.comparators.UserEmailComparator;
+import guardachuva.agitos.server.mailer.core.ScheduledMailsImpl;
+import guardachuva.agitos.server.mailer.templates.ConviteAcessoTemplate;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.BusinessException;
 import guardachuva.agitos.shared.EventDTO;
@@ -19,8 +21,6 @@ import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
-import guardachuva.server.mailer.core.ScheduledMailsImpl;
-import guardachuva.server.mailer.templates.ConviteAcessoTemplate;
 
 import java.io.Serializable;
 import java.net.URLEncoder;

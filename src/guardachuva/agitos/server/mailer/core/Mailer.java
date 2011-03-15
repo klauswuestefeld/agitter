@@ -1,4 +1,4 @@
-package guardachuva.server.mailer.core;
+package guardachuva.agitos.server.mailer.core;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
