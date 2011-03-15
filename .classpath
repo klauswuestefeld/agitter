@@ -20,6 +20,5 @@
 	<classpathentry kind="lib" path="lib/social_auth/dyuproject-openid-oauth-1.1.7-jarjar.jar"/>
 	<classpathentry kind="lib" path="lib/SyncProxy.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/wg-gwt"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

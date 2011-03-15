@@ -12,7 +12,7 @@ public abstract class MailTemplate {
 	public String fillOutWith(Mail mail) {
 		String result = getBodyTemplate();
 		for (String key : mail.getKeys())
-			result = result.replace("[" + (String) key + "]", (String) mail.get(key));
+			result = result.replace("[" + key + "]",  mail.get(key));
 
 		return result;
 	}

@@ -7,7 +7,6 @@ import guardachuva.mailer.core.Mailer;
 import guardachuva.mailer.core.MailerException;
 import guardachuva.mailer.templates.MailTemplate;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.restlet.data.Form;
@@ -51,14 +50,10 @@ public class MailerServer {
 	}
 
 	private void process() {
-		try {
-			tryToProcess();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		tryToProcess();
 	}
 	
-	private void tryToProcess() throws IOException {
+	private void tryToProcess() {
 		HashMap<String, Mail> mails = _application.getScheduledMails();
 		for (String key : mails.keySet())
 			send(key, mails.get(key));
