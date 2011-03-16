@@ -1,0 +1,10 @@
+<project name="build agitos" default="agitos-clone-pull" basedir=".">
+	
+	<import file="git-tasks.xml"/>
+	
+	<target name="agitos-clone-pull">
+		<git-clone-pull repository="git@github.com:teamware/agitos.git" dest="agitos"/>
+		<git-clone-pull repository="git@github.com:bihaiko/sneer.git" dest="sneer"/>
+	</target>
+
+</project>
