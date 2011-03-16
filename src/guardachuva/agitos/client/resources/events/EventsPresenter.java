@@ -3,7 +3,6 @@ package guardachuva.agitos.client.resources.events;
 import guardachuva.agitos.client.IController;
 import guardachuva.agitos.client.resources.BasePresenter;
 import guardachuva.agitos.shared.EventDTO;
-import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.Validations;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
@@ -36,7 +35,7 @@ public class EventsPresenter extends BasePresenter {
 
 	protected void addEvent(String description, Date date) {
 		String[] errorsForConstruction = EventDTO.errorsForConstruction(
-			"email@moderador.com", 
+			getLoggedUserEmail(), 
 			description, date
 		);
 		
@@ -107,10 +106,10 @@ public class EventsPresenter extends BasePresenter {
 		});
 	}
 	
-	public void deleteEvent(int id) {
+	public void deleteEvent(EventDTO event) {
 		if (!Window.confirm("Excluir agito?"))
 			return;
-		_application.removeEventForMe(getSession(), id, new AsyncCallback<Void>() {
+		_application.removeEventForMe(getSession(), event.getId(), new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				updateEventsList();
@@ -122,15 +121,11 @@ public class EventsPresenter extends BasePresenter {
 		});
 	}
 
-	private SessionToken getSession() {
-		return _controller.getSession();
-	}
-
-	public void ignoreProducer(String email) {
+	public void ignoreProducer(EventDTO event) {
 		if (!Window.confirm("Ignorar usuário?"))
 			return;
 		
-		_application.ignoreProducerForMe(getSession(), email, new AsyncCallback<Void>() {
+		_application.ignoreProducerForMe(getSession(), event.getModerator().getEmail(), new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				updateContactsList();
@@ -143,11 +138,11 @@ public class EventsPresenter extends BasePresenter {
 		});
 	}
 
-	public void deleteContact(String email) {
+	public void deleteContact(UserDTO contact) {
 		if (!Window.confirm("Excluir contato?"))
 			return;
 		
-		_application.deleteContactForMe(getSession(), email, new AsyncCallback<Void>() {
+		_application.deleteContactForMe(getSession(), contact.getEmail(), new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				updateContactsList();
@@ -158,10 +153,6 @@ public class EventsPresenter extends BasePresenter {
 			}
 		});
 
-	}
-
-	public void logout() {
-		_controller.logout();
 	}
 
 }

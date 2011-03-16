@@ -25,7 +25,7 @@ public class RPCCall implements TransactionWithQuery {
 	
 	@Override
 	public Object executeAndQuery(Object application, Date arg1) throws SerializationException {
-		final PrevalentRemoteApplicationService servlet = my(PrevalentRemoteApplicationService.class);
+		final PrevalentRemoteServiceServlet servlet = my(PrevalentRemoteServiceServlet.class);
 
 		Environment withAplicacao = EnvironmentUtils.compose(
 				new Bindings(application).environment(), my(Environment.class));
@@ -35,7 +35,7 @@ public class RPCCall implements TransactionWithQuery {
 		}});
 	}
 
-	private String serviceWith(PrevalentRemoteApplicationService servlet) throws SerializationException {
+	private String serviceWith(PrevalentRemoteServiceServlet servlet) throws SerializationException {
 		System.out.println(">>RPC: " + _args);
 		String result;
 		try {

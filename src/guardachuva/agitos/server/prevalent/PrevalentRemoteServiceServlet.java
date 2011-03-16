@@ -1,7 +1,6 @@
 package guardachuva.agitos.server.prevalent;
 
 import static sneer.foundation.environments.Environments.my;
-import guardachuva.agitos.shared.Application;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,14 +16,15 @@ import sneer.foundation.lang.ProducerX;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 
-public class PrevalentRemoteApplicationService extends RemoteApplicationService {
+public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	private final Environment _servletEnvironment;
 	private Prevayler _prevayler;
 
-	public PrevalentRemoteApplicationService(Application application)
+	public PrevalentRemoteServiceServlet(Object application)
 			throws Exception {
 		super(application);
 

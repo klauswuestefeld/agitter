@@ -83,7 +83,7 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	private boolean isLogged() {
-		return (Cookies.getCookie("sessionToken") != null);
+		return (Cookies.getCookie(SessionToken.COOKIE_NAME) != null);
 	}
 	
 	@Override
@@ -95,34 +95,23 @@ public class ClientController implements IController, EntryPoint,
 	}
 	
 	@Override
-	public void setLoggedUser(String userName, String password) {
-		Cookies.setCookie("userName", userName, null, null, "/", false);
-		Cookies.setCookie("password", password, null, null, "/", false);
-	}
-	
-	@Override
 	public void logout() {
 		_application.logout(_session, new AsyncCallback<Void>() {			
 			@Override
 			public void onSuccess(Void result) {
 				clearSession();
-				clearUserNamePassword();
+				clearLoggedUserEmail();
 				redirect("/login.html");
 			}
 			@Override
 			public void onFailure(Throwable caught) {
 				clearSession();
-				clearUserNamePassword();
+				clearLoggedUserEmail();
 				redirect("/login.html");
 			}
 		});
 	}
 
-	@Override
-	public String getUserMail() {
-		return Cookies.getCookie("userName");
-	}
-	
 	@Override
 	public void redirect(String path) {			
 		UrlBuilder urlBuilder = createUrlBuilder(path);		
@@ -171,26 +160,35 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	
-	protected void clearUserNamePassword() {
-		Cookies.removeCookie("userName", "/");
-		Cookies.removeCookie("password", "/");
+	@Override
+	public void setLoggedUserEmail(String email) {
+		Cookies.setCookie("loggedUserEmail", email, null, null, "/", false);
+	}
+	
+	@Override
+	public String getLoggedUserEmail() {
+		return Cookies.getCookie("loggedUserEmail");
+	}
+		
+	protected void clearLoggedUserEmail() {
+		Cookies.removeCookie("loggedUserEmail", "/");
 	}
 
 	protected void clearSession() {
-		Cookies.removeCookie("sessionToken");
+		Cookies.removeCookie(SessionToken.COOKIE_NAME);
 		_session = null;
 	}
 
 	@Override
 	public void setSession(SessionToken session) {
-		Cookies.setCookie("sessionToken", session.getToken());
+		Cookies.setCookie(SessionToken.COOKIE_NAME, session.getToken());
 		_session = session;
 	}
 
 	@Override
 	public SessionToken getSession() {
 		if(_session==null) {
-			String token = Cookies.getCookie("sessionToken");
+			String token = Cookies.getCookie(SessionToken.COOKIE_NAME);
 			if(token!=null && !token.isEmpty()) {
 				_session = new SessionToken(token);
 			}

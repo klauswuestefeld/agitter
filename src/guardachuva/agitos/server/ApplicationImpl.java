@@ -71,7 +71,6 @@ public class ApplicationImpl implements Serializable, Application {
 
 		long twoHours = 2*60*60*1000;
 		Date nowMinusTwoHours = new Date(my(Clock.class).time().currentValue() - twoHours);
-		System.out.println(nowMinusTwoHours.toString());
 		ArrayList<Event> eventsList = user.listEventsSince(nowMinusTwoHours);
 		Event[] events = eventsList.toArray(new Event[eventsList.size()]);
 		Arrays.sort(events, new EventDateTimeComparator());
@@ -91,7 +90,6 @@ public class ApplicationImpl implements Serializable, Application {
 		// TODO: my(Clock) deve ter a data correta da chamada original.
 		// Não tem tanto problema usar a data atual porque eventos antigos não são exibidos.
 		Date now = new Date(my(Clock.class).time().currentValue());
-		System.out.println(now.toString() + " / " + date.toString());
 		boolean dateInPast = date.before(now);
 		
 		if (dateInPast)

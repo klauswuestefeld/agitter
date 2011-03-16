@@ -20,7 +20,6 @@ public class MyServerApplication extends Application {
         component.getDefaultHost().attach(new MyServerApplication());
         component.start();  
         
-        //TODO startar o Jetty ao invés do server padrão
         // http://wiki.restlet.org/docs_2.0/13-restlet/28-restlet/78-restlet/55-restlet.html
 	}
 	

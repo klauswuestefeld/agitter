@@ -72,7 +72,7 @@ public class EventsWidget extends Composite {
 		_presenter = controller;
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		_emailLabel.setText(_presenter.getEmailLogado());
+		_emailLabel.setText(_presenter.getLoggedUserEmail());
 		dateField.setFormat(new DateBox.DefaultFormat(DateTimeUtilsClient.getDateFormat()));
 		fillHourField();
 	}
@@ -82,10 +82,10 @@ public class EventsWidget extends Composite {
 		setDefaultValuesOnEventForm();
 	}
 
-	private void renderEvent(final int id, final Date date, final String description, final String moderatorEmail) {
-		Label dateLabel = new Label(DateTimeUtilsClient.dateToStr(date));			
-		Label moderatorLabel = new Label(moderatorEmail);
-		Label descriptionLabel = new Label(description);
+	private void renderEvent(final EventDTO event) {
+		Label dateLabel = new Label(DateTimeUtilsClient.dateToStr(event.getDate()));			
+		Label moderatorLabel = new Label(event.getModerator().getEmail());
+		Label descriptionLabel = new Label(event.getDescription());
 		HorizontalPanel eventTime = new HorizontalPanel();
 		VerticalPanel eventItem = new VerticalPanel();
 		HorizontalPanel moderatorItem = new HorizontalPanel();
@@ -93,8 +93,8 @@ public class EventsWidget extends Composite {
 		Anchor ignoreAnchor = new Anchor("Ignorar");
 		ignoreAnchor.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				_presenter.ignoreProducer(moderatorEmail);
+			public void onClick(ClickEvent clickEvent) {
+				_presenter.ignoreProducer(event);
 			}
 		});
 		ignoreAnchor.addStyleName("ignoreProducerAnchor");
@@ -104,8 +104,8 @@ public class EventsWidget extends Composite {
 		
 		deleteAnchor.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				_presenter.deleteEvent(id);
+			public void onClick(ClickEvent clickEvent) {
+				_presenter.deleteEvent(event);
 			}
 		});
 		deleteAnchor.addStyleName("deleteEventAnchor");
@@ -127,22 +127,22 @@ public class EventsWidget extends Composite {
 		
 		eventItem.add(deleteAnchor);
 		
-		if (moderatorEmail.equals(_presenter.getEmailLogado()))
-			ignoreAnchor.setVisible(false);
-		else
+		if (!_presenter.canDeleteEvent(event))
 			deleteAnchor.setVisible(false);
+		else
+			ignoreAnchor.setVisible(false);
 				
 		eventsList.add(eventItem);
 	}
-	
-	private void renderContact(final String email) {
+
+	private void renderContact(final UserDTO contact) {
 		HorizontalPanel contactPanel = new HorizontalPanel();
-		Label emailLabel = new Label(email);
+		Label emailLabel = new Label(contact.getEmail());
 		Anchor deleteAnchor = new Anchor("del");
 		deleteAnchor.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				_presenter.deleteContact(email);
+				_presenter.deleteContact(contact);
 			}
 		});
 		contactPanel.add(emailLabel);
@@ -238,8 +238,7 @@ public class EventsWidget extends Composite {
 		eventsList.clear();
 		
 		for (EventDTO event : events) {
-			renderEvent(event.getId(), event.getDate(), 
-			event.getDescription(), event.getModerator().getEmail());
+			renderEvent(event);
 		}
 	}
 
@@ -247,7 +246,7 @@ public class EventsWidget extends Composite {
 		contactsList.clear();
 
 		for (UserDTO contact : contacts) {
-			renderContact(contact.getEmail());
+			renderContact(contact);
 		}
 	}
 }

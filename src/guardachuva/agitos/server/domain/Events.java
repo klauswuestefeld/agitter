@@ -12,7 +12,7 @@ public class Events {
 	public Event createFor(User moderator, String description, Date date) throws BusinessException {
 		Event event = Event.createFor(nextId(), moderator, description, date);
 		
-		moderator.myEvents().add(event);
+		moderator.addEvent(event);
 		
 		_events.put(event.getId(), event);
 		
@@ -28,7 +28,7 @@ public class Events {
 		if (!event.getModerator().equals(moderator))
 			throw new BusinessException("Este agito não é seu!");
 		
-		event.getModerator().myEvents().remove(event);
+		event.getModerator().removeEvent(event);
 		
 		_events.remove(id);
 	}

@@ -330,7 +330,7 @@ a.deleteEventAnchor:hover{
 /*** Dialog Box ***/
 
 .gwt-DialogBox .Caption {
-  background: #e3e8f3 url(agitos/gwt/standard/iimages/hborder.png) repeat-x 0px -2003px;
+  background: #e3e8f3 url(agitos/gwt/standard/images/hborder.png) repeat-x 0px -2003px;
   padding: 4px 4px 4px 8px;
   cursor: default;
   border-bottom: 1px solid #bbbbbb;

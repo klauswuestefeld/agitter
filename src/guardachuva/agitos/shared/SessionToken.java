@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class SessionToken implements Serializable, IsSerializable {
 
 	private String _token;
+	public static final String COOKIE_NAME = "sessionToken";
 
 	public SessionToken(String token) {
 		if (token == null) throw new IllegalArgumentException();

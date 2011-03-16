@@ -18,7 +18,6 @@ public class Servidor {
 	}
 	
 	public String processa(String target) {
-		//TODO teste para verificar se está funcionando...
 		String copia = (String) DeepCopier.deepCopy(target);
 		
 		return (String) prevayler.execute(new Requisicao(copia));

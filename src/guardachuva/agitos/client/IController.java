@@ -9,9 +9,9 @@ public interface IController {
 	void setSession(SessionToken session);
 	SessionToken getSession();
 
-	void setLoggedUser(String userName, String password);
+	void setLoggedUserEmail(String userName);
 	void logout();
-	String getUserMail();
+	String getLoggedUserEmail();
 	
 	void redirect(String path);
 	void showByToken(String token);

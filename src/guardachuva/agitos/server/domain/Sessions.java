@@ -1,21 +1,46 @@
 package guardachuva.agitos.server.domain;
 
+import static sneer.foundation.environments.Environments.my;
+
 import java.util.HashMap;
 
+import sneer.bricks.hardware.clock.Clock;
+
+import guardachuva.agitos.server.crypt.Cryptor;
+import guardachuva.agitos.server.crypt.CryptorException;
 import guardachuva.agitos.shared.SessionToken;
 
 public class Sessions {
 
 	HashMap<SessionToken, Session> _sessions = new HashMap<SessionToken, Session>();
+	private int _nextSessionId = 0;
 
 	public void logout(SessionToken sessionToken) {
 		_sessions.remove(sessionToken);
 	}
 
 	public SessionToken create(User user) {
-		SessionToken sessionToken = new SessionToken(Integer.toHexString(user.hashCode()));
-		Session session = new Session(user);
+		/// FIXME: Validar se esta certo pegar as milis do relogio deste jeito
+		Session session = new Session(user, _nextSessionId++, my(Clock.class).time().currentValue());
+		SessionToken sessionToken = createToken(session);
 		_sessions.put(sessionToken, session);
+		return sessionToken;
+	}
+
+	private SessionToken createToken(Session session) {
+		SessionToken sessionToken;
+		try {
+			sessionToken = new SessionToken(
+				new Cryptor().encode(
+					session.getLoggedUser().getEmail()
+//FIXME: Descomentar assim que estiver ok o clock lendo do jornal
+					 // + session.getId()
+					 //+ session.getSessionCreated()
+					)
+				);
+		} catch (CryptorException e) {
+			throw new RuntimeException(e);
+		}
 		return sessionToken;
 	}
 	

@@ -6,6 +6,7 @@ import guardachuva.agitos.shared.ValidationException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -58,9 +59,8 @@ public class User implements Serializable {
 		return user;
 	}
 	
-	public ArrayList<Event> myEvents() {
-		// TODO encapsular coleção
-		return myEvents;
+	public List<Event> myEvents() {
+		return Collections.unmodifiableList(this.myEvents);
 	}
 
 	public void addContacts(List<User> contacts) throws BusinessException {
@@ -148,7 +148,15 @@ public class User implements Serializable {
 	}
 	
 	public boolean isValidPassword(String passwordToCheck) {
-		return _password.equals(passwordToCheck);
+		return _password!=null && _password.equals(passwordToCheck);
+	}
+
+	public void addEvent(Event event) {
+		myEvents.add(event);
+	}
+
+	public void removeEvent(Event event) {
+		myEvents.remove(event);
 	}
 	
 }
