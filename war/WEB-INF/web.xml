@@ -7,24 +7,22 @@
 
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>servletDispatcher</servlet-name>
-		<servlet-class>guardachuva.agitos.server.ApplicationServlet</servlet-class>
+		<servlet-name>socialAuthServlet</servlet-name>
+		<servlet-class>
+			guardachuva.agitos.server.socialauth.SocialAuthServlet
+			</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>servletDispatcher</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>RemoteApplicationService</servlet-name>
+		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
 		<servlet-class>
-			guardachuva.agitos.server.rpc.RemoteApplicationService
+			guardachuva.agitos.server.prevalent.PrevalentRemoteServiceServlet
 	  </servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>RemoteApplicationService</servlet-name>
+		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
 		<url-pattern>/agitos/rpc</url-pattern>
 	</servlet-mapping>
 
