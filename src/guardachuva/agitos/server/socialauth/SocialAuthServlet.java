@@ -44,7 +44,6 @@ public class SocialAuthServlet extends HttpServlet {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-//		response.setStatus(Response.SC_OK);
 	}
 
 	private void authenticationRequested() throws Exception {
@@ -83,6 +82,8 @@ public class SocialAuthServlet extends HttpServlet {
 			}
 			
 			redirect("http://127.0.0.1:8888/" + "index.html?" + buildCodeSvrParam() + "#meus_agitos");
+		} else {
+			throw new ServletException("");
 		}
 	}
 

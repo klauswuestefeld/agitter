@@ -25,4 +25,24 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
 	</natures>
+	<filteredResources>
+		<filter>
+			<id>1300338164117</id>
+			<name>war/agitos</name>
+			<type>5</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-/war/agitos</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1300338164121</id>
+			<name>war/agitos</name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-build.xml</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
