@@ -16,7 +16,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>socialAuthServlet</servlet-name>
-		<url-pattern>/social_auth</url-pattern>
+		<url-pattern>/agitos/social_auth</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -28,7 +28,7 @@
 
 	<servlet-mapping>
 		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
-		<url-pattern>/rpc</url-pattern>
+		<url-pattern>/agitos/rpc</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
