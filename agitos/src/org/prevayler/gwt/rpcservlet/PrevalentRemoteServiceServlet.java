@@ -1,5 +1,7 @@
 package org.prevayler.gwt.rpcservlet;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.prevayler.Prevayler;
@@ -15,25 +17,33 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static PrevalentRemoteServiceServlet _Instance;
-	private Prevayler _prevayler;
+	private final Prevayler _prevayler;
 
-	public PrevalentRemoteServiceServlet(RemoteService remoteService)
-			throws Exception {
+	public PrevalentRemoteServiceServlet(RemoteService remoteService) throws Exception {
 		super(remoteService);
 
-		setThisAsInstance();
+		initSingleton();
 
-		final PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(remoteService);
-		factory.configureTransactionFiltering(false);
-
-		_prevayler = factory.create();
+		_prevayler = initPrevayler(remoteService);
 	}
 
-	private void setThisAsInstance() {
+
+	private void initSingleton() {
+		if (_Instance != null) throw new IllegalStateException();
 		_Instance = this;
 	}
 
+
+	private Prevayler initPrevayler(RemoteService remoteService)
+			throws IOException, ClassNotFoundException {
+		PrevaylerFactory factory = new PrevaylerFactory();
+		factory.configurePrevalentSystem(remoteService);
+		factory.configureTransactionFiltering(false);
+
+		return factory.create();
+	}
+
+	
 	@Override
 	public String processCall(String args) throws SerializationException {
 		final RPCCall call = new RPCCall(args);
@@ -49,10 +59,12 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		}
 	}
 
+	
 	String superProcessCall(String args) throws SerializationException {
 		return super.processCall(args);
 	}
 
+	
 	@Override
 	protected SerializationPolicy doGetSerializationPolicy(
 			HttpServletRequest request, String moduleBaseURL, String strongName) {
@@ -65,7 +77,8 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	}
 
-	public static PrevalentRemoteServiceServlet GetInstance() {
+	
+	static PrevalentRemoteServiceServlet GetInstance() {
 		return _Instance;
 	}
 	
