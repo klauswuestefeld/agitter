@@ -35,14 +35,23 @@ public class Simploy extends RunListener {
 	private Simploy(String[] args) throws Exception {
 		parseArgs(args);
 		
+		while (true) {
+			deployNewVersionIfAvailable();
+			waitAFewMinutes();
+		}
+	}
+	
+	
+	synchronized
+	private void deployNewVersionIfAvailable() throws Exception {
 		exec("git pull");
 		exec(_buildCommand);
 		runTests();
 		if (!_someTestHasFailed)
 			exec(_deployCommand);
 	}
-	
-	
+
+
 	private void runTests() {
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(this);
@@ -174,4 +183,15 @@ public class Simploy extends RunListener {
 		int beforeDotClass = classFilePath.length() - DOT_CLASS;
 		return classFilePath.substring(afterRoot, beforeDotClass).replace('/', '.').replace('\\', '.');
 	}
+
+	
+	private void waitAFewMinutes() {
+		try {
+			Thread.sleep(1000 * 60 * 5);
+		} catch (InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 }
+
+
