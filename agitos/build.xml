@@ -26,10 +26,7 @@
 		<pathelement location="lib/junit4/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
 	</path>
 
-	<path id="agitos.classpath">
-		<pathelement location="war/WEB-INF/classes"/>
-		<path refid="gwt.libraryclasspath"/>
-		<path refid="junit4.libraryclasspath"/>
+	<path id="agitosdeps.libraryclasspath">
 		<pathelement location="lib/social_auth/commons-beanutils.jar"/>
 		<pathelement location="lib/social_auth/commons-codec-1.3.jar"/>
 		<pathelement location="lib/social_auth/commons-collections-3.1.jar"/>
@@ -49,6 +46,13 @@
 		<pathelement location="lib/prevayler/prevayler-2.3.jar"/>
 		<pathelement location="lib/mail.jar"/>
 		<pathelement location="lib/restlet/com.thoughtworks.xstream.jar"/>
+	</path>
+
+	<path id="agitos.classpath">
+		<pathelement location="war/WEB-INF/classes"/>
+		<path refid="gwt.libraryclasspath"/>
+		<path refid="junit4.libraryclasspath"/>
+		<path refid="agitosdeps.libraryclasspath"/>
 	</path>
 
 	<target name="init">
