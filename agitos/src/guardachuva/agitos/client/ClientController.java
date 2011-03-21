@@ -41,7 +41,7 @@ public class ClientController implements IController, EntryPoint,
 	public void onModuleLoad() {
 		History.addValueChangeHandler(this);
 		
-		if (Window.Location.getPath().equals("/login.html")) {
+		if (Window.Location.getPath().endsWith("/login.html")) {
 			if (isLogged()) {				
 				redirect("/");
 			} else {
@@ -50,7 +50,7 @@ public class ClientController implements IController, EntryPoint,
 			}
 		}
 		
-		if (Window.Location.getPath().equals("/signup.html")) {
+		if (Window.Location.getPath().endsWith("/signup.html")) {
 			if (isLogged()) {
 				redirect("/");	
 			} else {
@@ -59,7 +59,7 @@ public class ClientController implements IController, EntryPoint,
 			}
 		}
 		
-		if (Window.Location.getPath().equals("/") || Window.Location.getPath().equals("/index.html")) {
+		if (Window.Location.getPath().equals("/") || Window.Location.getPath().endsWith("/index.html")) {
 			if (!isLogged())
 				redirect("/login.html");
 			else {
