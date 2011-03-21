@@ -1,4 +1,4 @@
-package guardachuva.agitos.server.prevalent;
+package org.prevayler.gwt.rpcservlet;
 
 
 import java.util.Date;

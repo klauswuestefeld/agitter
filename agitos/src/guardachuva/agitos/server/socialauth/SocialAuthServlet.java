@@ -23,6 +23,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class SocialAuthServlet extends HttpServlet {
 
+	public static final String AGITOS_URL = "http://127.0.0.1:8888";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
 	private HttpSession _session;
@@ -50,7 +51,7 @@ public class SocialAuthServlet extends HttpServlet {
 		AuthProvider provider = AuthProviderFactory.getInstance(_request
 				.getParameter("id"));
 		String redirect = provider
-				.getLoginRedirectURL("http://127.0.0.1:8888/agitos/social_auth?status=success");
+				.getLoginRedirectURL(AGITOS_URL + "/agitos/social_auth?status=success");
 		_session.setAttribute("AuthProvider", provider);
 		redirect(redirect);
 	}
@@ -61,30 +62,28 @@ public class SocialAuthServlet extends HttpServlet {
 	}
 
 	private void authenticationSucceded() throws Exception {
-		AuthProvider provider = (AuthProvider) _request.getSession()
-				.getAttribute("AuthProvider");
-		if (provider != null) {
-			Profile profile = provider.verifyResponse(_request);
-			System.out.println("Autenticado: " + profile);
-			System.out.println("Obtendo lista de contatos");
-			List<Contact> contactList = provider.getContactList();
-			StringBuffer emails = new StringBuffer();
-			for (Contact contact : contactList) {
-				emails.append("< " + contact.getFirstName() + " > ");
-				emails.append(contact.getEmail());
-				emails.append(" , ");
-			}
-			try {
-				SessionToken sessionToken = new SessionToken(getSessionTokenFromCookies());
-				getApp().addContactsToMe(sessionToken, emails.toString(), "");
-			} catch (Exception e) {
-				System.out.println(e.getMessage() + " for: " + emails.toString());
-			}
-			
-			redirect("http://127.0.0.1:8888/" + "index.html?" + buildCodeSvrParam() + "#meus_agitos");
-		} else {
-			throw new ServletException("");
+		AuthProvider provider = (AuthProvider) _request.getSession().getAttribute("AuthProvider");
+		if (provider == null)
+			throw new ServletException("AuthProvider not found in session");
+		
+		Profile profile = provider.verifyResponse(_request);
+		System.out.println("Autenticado: " + profile);
+		System.out.println("Obtendo lista de contatos");
+		List<Contact> contactList = provider.getContactList();
+		StringBuffer emails = new StringBuffer();
+		for (Contact contact : contactList) {
+			emails.append("< " + contact.getFirstName() + " > ");
+			emails.append(contact.getEmail());
+			emails.append(" , ");
 		}
+		try {
+			SessionToken sessionToken = new SessionToken(getSessionTokenFromCookies());
+			getApp().addContactsToMe(sessionToken, emails.toString(), "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage() + " for: " + emails.toString());
+		}
+
+		redirect(AGITOS_URL + "/index.html?" + buildCodeSvrParam() + "#meus_agitos");
 	}
 
 	private String buildCodeSvrParam() {
@@ -108,7 +107,7 @@ public class SocialAuthServlet extends HttpServlet {
 	private RemoteApplication getApp() {
 		if(_application==null)
 			_application = (RemoteApplication) SyncProxy.newProxyInstance(
-					RemoteApplication.class, "http://127.0.0.1:8888/agitos/", "rpc");
+					RemoteApplication.class, AGITOS_URL + "/agitos", "rpc");
 		return _application;
 	}
 

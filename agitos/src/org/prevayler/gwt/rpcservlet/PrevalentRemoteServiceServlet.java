@@ -1,13 +1,11 @@
-package guardachuva.agitos.server.prevalent;
-
-import guardachuva.agitos.server.ApplicationImpl;
-import guardachuva.agitos.server.mailer.MailerServer;
+package org.prevayler.gwt.rpcservlet;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -19,26 +17,17 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 	private static PrevalentRemoteServiceServlet _Instance;
 	private Prevayler _prevayler;
 
-	public PrevalentRemoteServiceServlet() throws Exception {
-		this(createRemoteApplicationService());		
-	}
-
-	private static RemoteApplicationService createRemoteApplicationService() {
-		return new RemoteApplicationService(new ApplicationImpl());
-	}
-	
-	public PrevalentRemoteServiceServlet(RemoteApplicationService remoteApplication)
+	public PrevalentRemoteServiceServlet(RemoteService remoteService)
 			throws Exception {
-		super(remoteApplication);
+		super(remoteService);
 
 		setThisAsInstance();
 
 		final PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(remoteApplication);
+		factory.configurePrevalentSystem(remoteService);
 		factory.configureTransactionFiltering(false);
 
 		_prevayler = factory.create();
-		MailerServer.startRunning();
 	}
 
 	private void setThisAsInstance() {

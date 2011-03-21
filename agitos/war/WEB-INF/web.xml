@@ -20,14 +20,14 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
+		<servlet-name>remoteApplicationServlet</servlet-name>
 		<servlet-class>
-			guardachuva.agitos.server.prevalent.PrevalentRemoteServiceServlet
+			guardachuva.agitos.server.servlet.RemoteApplicationServlet
 	  </servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
+		<servlet-name>remoteApplicationServlet</servlet-name>
 		<url-pattern>/agitos/rpc</url-pattern>
 	</servlet-mapping>
 
