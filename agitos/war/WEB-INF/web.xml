@@ -23,7 +23,8 @@
 		<servlet-name>remoteApplicationServlet</servlet-name>
 		<servlet-class>
 			guardachuva.agitos.server.servlet.RemoteApplicationServlet
-	  </servlet-class>
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
