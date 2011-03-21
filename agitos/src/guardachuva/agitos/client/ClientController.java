@@ -41,27 +41,27 @@ public class ClientController implements IController, EntryPoint,
 	public void onModuleLoad() {
 		History.addValueChangeHandler(this);
 		
-		if (Window.Location.getPath().endsWith("/login.html")) {
+		if (isAtLoginPage()) {
 			if (isLogged()) {				
-				redirect("/");
+				redirectToRoot();
 			} else {
 				new LoginPresenter(this, _application).wrap();	
 				AnalyticsTracker.track("login");			
 			}
 		}
 		
-		if (Window.Location.getPath().endsWith("/signup.html")) {
+		if (isAtSignupPage()) {
 			if (isLogged()) {
-				redirect("/");	
+				redirectToRoot();	
 			} else {
 				new SignupPresenter(this, _application).wrap();
 				AnalyticsTracker.track("signup");
 			}
 		}
 		
-		if (Window.Location.getPath().equals("/") || Window.Location.getPath().endsWith("/index.html")) {
+		if (isAtRootPage()) {
 			if (!isLogged())
-				redirect("/login.html");
+				redirectToLoginPage();
 			else {
 				showByToken(EventsWidget.token);
 				History.fireCurrentHistoryState();
@@ -80,6 +80,22 @@ public class ClientController implements IController, EntryPoint,
 			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Acesse</a>");
 			RootPanel.get("loginLink").add(link);		
 		}	
+	}
+
+	private boolean isAtRootPage() {
+		return Window.Location.getPath().equals("/") || Window.Location.getPath().endsWith("/index.html");
+	}
+
+	private boolean isAtSignupPage() {
+		return Window.Location.getPath().endsWith("/signup.html");
+	}
+
+	private boolean isAtLoginPage() {
+		return Window.Location.getPath().endsWith("/login.html");
+	}
+
+	private void redirectToRoot() {
+		redirect("/index.html");
 	}
 
 	private boolean isLogged() {
@@ -101,13 +117,13 @@ public class ClientController implements IController, EntryPoint,
 			public void onSuccess(Void result) {
 				clearSession();
 				clearLoggedUserEmail();
-				redirect("/login.html");
+				redirectToLoginPage();
 			}
 			@Override
 			public void onFailure(Throwable caught) {
 				clearSession();
 				clearLoggedUserEmail();
-				redirect("/login.html");
+				redirectToLoginPage();
 			}
 		});
 	}
@@ -120,7 +136,7 @@ public class ClientController implements IController, EntryPoint,
 
 	private UrlBuilder createUrlBuilder(String path) {
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
-		urlBuilder.setPath(path);
+		urlBuilder.setPath("/agitos" + path);
 		
 		String argName = "gwt.codesvr";
 		String gwtCodesvr = Window.Location.getParameter(argName);
@@ -194,5 +210,9 @@ public class ClientController implements IController, EntryPoint,
 			}
 		}
 		return _session;
+	}
+
+	private void redirectToLoginPage() {
+		redirect("/login.html");
 	}
 }
