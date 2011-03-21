@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ClientController implements IController, EntryPoint,
 		ValueChangeHandler<String> {
 
-	private static final String AGITOS_BASE_URL = "/agitos";
+	private static final String AGITOS_BASE_URL = ""; //"/agitos";
 	private final EventsPresenter _eventsPresenter;
 	@SuppressWarnings("unused")
 	private final LoginPresenter _loginPresenter;
@@ -84,7 +84,9 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	public boolean isAtRootPage() {
-		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") || Window.Location.getPath().endsWith("/index.html");
+		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") 
+			|| Window.Location.getPath().equals(AGITOS_BASE_URL) 
+			|| Window.Location.getPath().endsWith("/index.html");
 	}
 
 	public boolean isAtSignupPage() {

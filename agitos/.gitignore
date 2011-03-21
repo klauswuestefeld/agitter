@@ -6,7 +6,7 @@ war/WEB-INF/classes
 war/WEB-INF/deploy
 war/WEB-INF/lib/*.*
 !war/WEB-INF/lib/gwt-servlet.jar
-war/agitos
+war/agitosweb
 build
 logs
 junit

@@ -120,7 +120,7 @@
 
 	<target name="clean">
 		<delete dir="war/WEB-INF/classes"/>
-		<delete dir="war/agitos" failonerror="false" />
+		<delete dir="war/agitosweb" failonerror="false" />
 		<delete dir="junit" failonerror="false" />
 		<delete dir="deploy" failonerror="false" />
 	</target>

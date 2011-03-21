@@ -23,7 +23,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class SocialAuthServlet extends HttpServlet {
 
-	public static final String AGITOS_URL = "http://www.vagaloom.com:8080/agitos";
+	public static final String AGITOS_URL = "http://www.vagaloom.com";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
 	private HttpSession _session;
@@ -51,7 +51,7 @@ public class SocialAuthServlet extends HttpServlet {
 		AuthProvider provider = AuthProviderFactory.getInstance(_request
 				.getParameter("id"));
 		String redirect = provider
-				.getLoginRedirectURL(AGITOS_URL + "/agitos/social_auth?status=success");
+				.getLoginRedirectURL(AGITOS_URL + "/agitosweb/social_auth?status=success");
 		_session.setAttribute("AuthProvider", provider);
 		redirect(redirect);
 	}
@@ -71,9 +71,11 @@ public class SocialAuthServlet extends HttpServlet {
 		System.out.println("Obtendo lista de contatos");
 		List<Contact> contactList = provider.getContactList();
 		StringBuffer emails = new StringBuffer();
+		int x=0;
 		for (Contact contact : contactList) {
-			emails.append("< " + contact.getFirstName() + " > ");
+//			emails.append("< " + contact.getFirstName() + " > ");
 			emails.append(contact.getEmail());
+			if(x++ > 100) break;
 			emails.append(" , ");
 		}
 		try {
@@ -107,7 +109,7 @@ public class SocialAuthServlet extends HttpServlet {
 	private RemoteApplication getApp() {
 		if(_application==null)
 			_application = (RemoteApplication) SyncProxy.newProxyInstance(
-					RemoteApplication.class, AGITOS_URL + "/agitos", "rpc");
+					RemoteApplication.class, AGITOS_URL + "/agitosweb", "rpc");
 		return _application;
 	}
 
