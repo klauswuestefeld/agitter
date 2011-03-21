@@ -71,13 +71,13 @@ public class ClientController implements IController, EntryPoint,
 		}
 			
 		if(RootPanel.get("signupLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("signup.html");
+			UrlBuilder urlBuilder = createUrlBuilder("/signup.html");
 			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Cadastrar</a>");
 			RootPanel.get("signupLink").add(link);		
 		}	
 		
 		if(RootPanel.get("loginLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("login.html");
+			UrlBuilder urlBuilder = createUrlBuilder("/login.html");
 			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Acesse</a>");
 			RootPanel.get("loginLink").add(link);		
 		}	
