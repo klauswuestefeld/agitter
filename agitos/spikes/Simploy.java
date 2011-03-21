@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,21 +13,29 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 
-public class Simploy extends RunListener {
+public class Simploy extends RunListener implements Runnable {
+
 
 	private static final String USAGE =
 		"Usage: Simploy buildCommand compiledTestsRootFolder deployCommand" +
 		"\n" +
 		"\nExample: java Simploy \"ant build\" ./bin/tests \"ant deploy\"";
 
-	private static final int DOT_CLASS = ".class".length();
 
 	private String _buildCommand;
 	private File _testsFolder;
 	private String _deployCommand;
 
 	private boolean _someTestHasFailed = false;
+
+	private ServerSocket _serverSocket;
+	private static final int TCP_PORT = 44321;
+	private static final int DEPLOY_REQUEST_TIMEOUT = 1000 * 7;
+	private static final String SECRET = "SimploySecret";
+
 	
+	private static final int DOT_CLASS = ".class".length();
+
 	
 	public static void main(String[] args) throws Exception {
 		new Simploy(args);
@@ -35,6 +45,8 @@ public class Simploy extends RunListener {
 	private Simploy(String[] args) throws Exception {
 		parseArgs(args);
 		
+		startListeningForBuildRequests();
+		
 		while (true) {
 			deployNewVersionIfAvailable();
 			waitAFewMinutes();
@@ -42,13 +54,73 @@ public class Simploy extends RunListener {
 	}
 	
 	
+	private void startListeningForBuildRequests() throws IOException {
+		_serverSocket = new ServerSocket(TCP_PORT);
+		
+		Thread thread = new Thread(this);
+		thread.setDaemon(true);
+		thread.start();
+	}
+
+
+	@Override
+	public void run() {
+		while (true)
+			try {
+				acceptRequest();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+
+
+	private void acceptRequest() throws Exception {
+		Socket socket = _serverSocket.accept();
+		boolean isValidRequest = false;
+		try {
+			isValidRequest = validateRequest(socket);
+		} finally {
+			socket.close();
+		}
+		if (isValidRequest)
+			deployNewVersionIfAvailable();
+	}
+
+	
+	private boolean validateRequest(Socket socket) throws Exception {
+		socket.setSoTimeout(DEPLOY_REQUEST_TIMEOUT);
+		long t0 = System.currentTimeMillis();
+		InputStream inputStream = socket.getInputStream();
+		String request = "";
+		while (true) {
+			int read = inputStream.read();
+			if (read == -1) return false;
+			request += (char)read;
+			if (System.currentTimeMillis() - t0 > DEPLOY_REQUEST_TIMEOUT) return false;
+			if (request.length() > 4000) return false;
+			if (request.contains(SECRET)) return true;
+		}
+	}
+
+
 	synchronized
 	private void deployNewVersionIfAvailable() throws Exception {
-		exec("git pull");
+		boolean isUpToDate = gitPull();
+		if (isUpToDate)
+			return;
+		
 		exec(_buildCommand);
 		runTests();
-		if (!_someTestHasFailed)
-			exec(_deployCommand);
+		if (_someTestHasFailed)
+			return;
+		
+		exec(_deployCommand);
+	}
+
+
+	private boolean gitPull() throws Exception {
+		String stdOut = exec("git pull");
+		return stdOut.contains("Already up-to-date.");
 	}
 
 
@@ -58,7 +130,6 @@ public class Simploy extends RunListener {
 		junit.run(findTestClasses());
 		System.out.println("\n");
 	}
-
 
 	
 	@Override
@@ -79,22 +150,25 @@ public class Simploy extends RunListener {
 	}
 
 
-	private void exec(String command) throws Exception {
+	private String exec(String command) throws Exception {
 		Process process = Runtime.getRuntime().exec(command);
 		printOut(process.getErrorStream());
-		printOut(process.getInputStream());
+		String stdOut = printOut(process.getInputStream());
 		
 		if (process.waitFor() != 0)
 			exitWith("Command failed: " + command);
 
 		System.out.println("\n");
+		return stdOut;
 	}
 
 
-	private void printOut(InputStream inputStream) throws IOException {
+	private String printOut(InputStream inputStream) throws IOException {
+		String result = "";
 		while (true) {
 			int read = inputStream.read();
-			if (read == -1) break;
+			if (read == -1) return result;
+			result += (char)read;
 			System.out.print((char)read);
 		}
 	}
@@ -192,6 +266,7 @@ public class Simploy extends RunListener {
 			throw new IllegalStateException(e);
 		}
 	}
+
 }
 
 
