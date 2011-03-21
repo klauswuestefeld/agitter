@@ -113,6 +113,11 @@
 		</copy>
 	</target>
 
+
+	<target name="deploy" depends="war">
+		<copy todir="/agitos_server/tomcat/webapps" file="deploy/agitos.war"/>
+	</target>
+
 	<target name="clean">
 		<delete dir="war/WEB-INF/classes"/>
 		<delete dir="war/agitos" failonerror="false" />
