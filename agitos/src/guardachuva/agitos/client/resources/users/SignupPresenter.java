@@ -27,7 +27,7 @@ public class SignupPresenter extends BasePresenter {
 			public void onSuccess(SessionToken result) {
 				_controller.setSession(result);
 				_controller.setLoggedUserEmail(email);
-				_controller.redirect("/");	
+				_controller.redirectToRoot();
 			}
 			
 			@Override

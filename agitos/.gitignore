@@ -1,5 +1,6 @@
 .byecycle
 .DS_Store
+.gwt
 Prevalence
 war/WEB-INF/classes
 war/WEB-INF/deploy

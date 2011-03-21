@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ClientController implements IController, EntryPoint,
 		ValueChangeHandler<String> {
 
+	private static final String AGITOS_BASE_URL = "/agitos";
 	private final EventsPresenter _eventsPresenter;
 	@SuppressWarnings("unused")
 	private final LoginPresenter _loginPresenter;
@@ -82,23 +83,31 @@ public class ClientController implements IController, EntryPoint,
 		}	
 	}
 
-	private boolean isAtRootPage() {
-		return Window.Location.getPath().equals("/") || Window.Location.getPath().endsWith("/index.html");
+	public boolean isAtRootPage() {
+		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") || Window.Location.getPath().endsWith("/index.html");
 	}
 
-	private boolean isAtSignupPage() {
+	public boolean isAtSignupPage() {
 		return Window.Location.getPath().endsWith("/signup.html");
 	}
 
-	private boolean isAtLoginPage() {
+	public boolean isAtLoginPage() {
 		return Window.Location.getPath().endsWith("/login.html");
 	}
 
-	private void redirectToRoot() {
+	public void redirectToRoot() {
 		redirect("/index.html");
 	}
 
-	private boolean isLogged() {
+	public void redirectToLoginPage() {
+		redirect("/login.html");
+	}
+	
+	public void redirectToSignupPage() {
+		redirect("/signup.html");
+	}
+
+	public boolean isLogged() {
 		return (Cookies.getCookie(SessionToken.COOKIE_NAME) != null);
 	}
 	
@@ -128,15 +137,14 @@ public class ClientController implements IController, EntryPoint,
 		});
 	}
 
-	@Override
-	public void redirect(String path) {			
+	private void redirect(String path) {			
 		UrlBuilder urlBuilder = createUrlBuilder(path);		
 		Window.Location.assign(urlBuilder.buildString());		
 	}
 
 	private UrlBuilder createUrlBuilder(String path) {
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
-		urlBuilder.setPath("/agitos" + path);
+		urlBuilder.setPath(AGITOS_BASE_URL + path);
 		
 		String argName = "gwt.codesvr";
 		String gwtCodesvr = Window.Location.getParameter(argName);
@@ -212,7 +220,4 @@ public class ClientController implements IController, EntryPoint,
 		return _session;
 	}
 
-	private void redirectToLoginPage() {
-		redirect("/login.html");
-	}
 }
