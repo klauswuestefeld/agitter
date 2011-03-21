@@ -1,7 +1,9 @@
 package guardachuva.agitos;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import guardachuva.agitos.server.ApplicationImpl;
 import guardachuva.agitos.server.DateTimeUtilsServer;
@@ -61,6 +63,13 @@ public class AceitacaoTest {
 		assertTrue(events.length==1);
 		assertEquals("Evento", events[0].getDescription());
 		assertEquals(DateTimeUtilsServer.strToDate("13/10/2010 10:45"), events[0].getDate());
+	}
+	
+	@Test
+	public void addContactsInLargeBathes() throws ValidationException, Exception {
+		_app.addContactsToMe(_session, "\"Alisson Vale\" <alissoncvale@gmail.com>,bihaiko@gmail.com , leonardonunes@gmail.com, matias.g.rodriguez@gmail.com , , ", "");
+		UserDTO[] contacts = _app.getContactsForMe(_session);
+		assertThat(contacts.length, equalTo(4));
 	}
 		
 }

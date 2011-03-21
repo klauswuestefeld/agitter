@@ -29,19 +29,22 @@ public class Users {
 		List<User> users = new ArrayList<User>();
 		String[] userStrings = text.split(Validations.EMAIL_SEPARATOR);
 		
-		for (String userString : userStrings)
-			users.add(produceUser(userString));
+		for (String userString : userStrings) {
+			if(!userString.trim().isEmpty())
+				users.add(produceUser(userString));
+		}
 		
 		return users;
 	}
 	
 	public User produceUser(String text) throws ValidationException {
-		Matcher matcher = Pattern.compile(Validations.EMAIL_AND_OPTIONAL_NAME_REGEX).matcher(text);
+		String emailText = text.trim();
+		Matcher matcher = Pattern.compile(Validations.EMAIL_AND_OPTIONAL_NAME_REGEX).matcher(emailText);
 		
 		if (matcher.find())
 			return produceUserFromMatch(matcher);
 		
-		throw new ValidationException(User.class.getName(), "O formato do e-mail é inválido.");
+		throw new ValidationException(emailText, "O formato do e-mail é inválido.");
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {
