@@ -14,11 +14,15 @@
 	<!-- Arguments to gwtc and devmode targets -->
 	<property name="gwt.args" value="" />
 
-	<path id="gwt.libraryclasspath">
-		<pathelement location="lib/gwt-2.2/gwt-user.jar"/>
-		<pathelement location="lib/gwt-2.2/gwt-dev.jar"/>
+	<path id="gwt-servlet.libraryclasspath">
 		<pathelement location="lib/gwt-2.2/gwt-servlet.jar"/>
 		<pathelement location="lib/gwt-2.2/gwt-servlet-deps.jar"/>
+	</path>
+	
+	<path id="gwt.libraryclasspath">
+		<pathelement location="lib/gwt-2.2/gwt-dev.jar"/>
+		<pathelement location="lib/gwt-2.2/gwt-user.jar"/>
+		<path refid="gwt-servlet.libraryclasspath"/>
 	</path>
 
 	<path id="junit4.libraryclasspath">
@@ -100,6 +104,12 @@
 				<exclude name="**/*.launch"/>
 				<exclude name="**/*.java"/>
 			</fileset>
+		</copy>
+		
+	    <mkdir dir="war/WEB-INF/lib" />
+		<copy todir="war/WEB-INF/lib" flatten="yes">
+			<path refid="agitosdeps.libraryclasspath"/>
+			<path refid="gwt-servlet.libraryclasspath"/>
 		</copy>
 	</target>
 
