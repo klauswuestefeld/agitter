@@ -213,7 +213,8 @@ public class EventsWidget extends Composite {
 	private int indexOfHourFieldForNow() {
 		int hour = new Date().getHours();
 		boolean lessThanHalfHour = new Date().getMinutes() < 30;
-		return hour * 2 + (lessThanHalfHour ? 1 : 2);
+		int index = hour * 2 + (lessThanHalfHour ? 1 : 2);
+		return index < 48 ? index : 0;
 	}
 
 	public void resetAddContactForm() {
