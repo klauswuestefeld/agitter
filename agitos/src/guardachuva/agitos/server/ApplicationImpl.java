@@ -47,7 +47,7 @@ public class ApplicationImpl implements Serializable, Application {
 	@Override
 	public SessionToken createNewUser(String name, String userName, String password, String email) throws ValidationException, UserAlreadyExistsException {
 		if(_users.isKnownUser(email))
-			throw new UserAlreadyExistsException("Usuario já existente.");
+			throw new UserAlreadyExistsException("Usuario j√° existente.");
 		return _sessions.create(_users.produceUser(name, userName, password, email));
 	}
 
@@ -92,7 +92,7 @@ public class ApplicationImpl implements Serializable, Application {
 		boolean dateInPast = date.before(now);
 		
 		if (dateInPast)
-			throw new BusinessException("Você não pode criar agitos no passado.");
+			throw new BusinessException("Voce nao pode criar agitos no passado.");
 		
 		 _events.createFor(
 			_sessions.getLoggedUserOn(session),
@@ -142,70 +142,70 @@ public class ApplicationImpl implements Serializable, Application {
 		User user = _sessions.getLoggedUserOn(session);
 
 		if (!_users.isKnownUser(email))
-			throw new BusinessException("Este usu√°rio n√£o est√° na sua lista de contatos.");
+				throw new BusinessException("Este usu√°rio n√£o est√° na sua lista de contatos.");
+				
+			User contact = _users.produceUser(email);
+			user.removeContact(contact);
+		}
+
+		@Override
+		public UserDTO[] getContactsForMe(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+
+			User loggedUser = _sessions.getLoggedUserOn(session);
 			
-		User contact = _users.produceUser(email);
-		user.removeContact(contact);
-	}
-
-	@Override
-	public UserDTO[] getContactsForMe(SessionToken session) throws UnauthorizedBusinessException {
-		assertValidSession(session);
-
-		User loggedUser = _sessions.getLoggedUserOn(session);
-		
-		User[] users = loggedUser.getContacts().toArray(new User[loggedUser.getContacts().size()]);
-		Arrays.sort(users, new UserEmailComparator());
-		
-		return toUsersDTO(users);
-	}
-
-	@Override
-	public void ignoreProducerForMe(SessionToken session, String email) throws BusinessException {
-		assertValidSession(session);
-		User user = _sessions.getLoggedUserOn(session);		
-		User producer = _users.produceUser(email);
-		user.ignoreProducer(producer);
-	}
-
-	@Override
-	public void logout(SessionToken session) throws UnauthorizedBusinessException {
-		assertValidSession(session);
-		_sessions.logout(session);
-	}
-
-	@Override
-	public UserDTO getLoggedUserOn(SessionToken session) throws UnauthorizedBusinessException {
-		assertValidSession(session);
-		return toUserDTO(_sessions.getLoggedUserOn(session));
-	}
-
-	private UserDTO[] toUsersDTO(User[] users) {
-		ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
-		for (User user : users) {
-			usersDTO.add(toUserDTO(user));
+			User[] users = loggedUser.getContacts().toArray(new User[loggedUser.getContacts().size()]);
+			Arrays.sort(users, new UserEmailComparator());
+			
+			return toUsersDTO(users);
 		}
-		return usersDTO.toArray(new UserDTO[usersDTO.size()]);
-	}
 
-	private UserDTO toUserDTO(User user) {
-		return new UserDTO(user.getName(), user.getUserName(), user.getEmail());
-	}
-	
-	private EventDTO[] toEventsDTO(Event[] events) {
-		ArrayList<EventDTO> eventsDTO = new ArrayList<EventDTO>();
-		for (Event event : events) {
-			eventsDTO.add(new EventDTO(event.getId(), event.getDescription(), 
-					event.getDate(), toUserDTO(event.getModerator())));
+		@Override
+		public void ignoreProducerForMe(SessionToken session, String email) throws BusinessException {
+			assertValidSession(session);
+			User user = _sessions.getLoggedUserOn(session);		
+			User producer = _users.produceUser(email);
+			user.ignoreProducer(producer);
 		}
-		return eventsDTO.toArray(new EventDTO[eventsDTO.size()]);
-	}
+
+		@Override
+		public void logout(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+			_sessions.logout(session);
+		}
+
+		@Override
+		public UserDTO getLoggedUserOn(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+			return toUserDTO(_sessions.getLoggedUserOn(session));
+		}
+
+		private UserDTO[] toUsersDTO(User[] users) {
+			ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+			for (User user : users) {
+				usersDTO.add(toUserDTO(user));
+			}
+			return usersDTO.toArray(new UserDTO[usersDTO.size()]);
+		}
+
+		private UserDTO toUserDTO(User user) {
+			return new UserDTO(user.getName(), user.getUserName(), user.getEmail());
+		}
+		
+		private EventDTO[] toEventsDTO(Event[] events) {
+			ArrayList<EventDTO> eventsDTO = new ArrayList<EventDTO>();
+			for (Event event : events) {
+				eventsDTO.add(new EventDTO(event.getId(), event.getDescription(), 
+						event.getDate(), toUserDTO(event.getModerator())));
+			}
+			return eventsDTO.toArray(new EventDTO[eventsDTO.size()]);
+		}
 
 
-	private void assertValidSession(SessionToken session)
-			throws UnauthorizedBusinessException {
-		if(!_sessions.isValid(session))
-			throw new UnauthorizedBusinessException("Sessãoo não é valida");
+		private void assertValidSession(SessionToken session)
+				throws UnauthorizedBusinessException {
+			if(!_sessions.isValid(session))
+				throw new UnauthorizedBusinessException("Sessao nao √© valida");
 	}
 
 	// API Scheduled Mails
