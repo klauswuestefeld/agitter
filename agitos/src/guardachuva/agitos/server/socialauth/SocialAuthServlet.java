@@ -23,7 +23,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class SocialAuthServlet extends HttpServlet {
 
-	public static final String AGITOS_URL = "http://127.0.0.1:8888";
+	public static final String AGITOS_URL = "http://www.vagaloom.com:8080/agitos";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
 	private HttpSession _session;

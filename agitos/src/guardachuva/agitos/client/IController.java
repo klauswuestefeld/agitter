@@ -21,5 +21,9 @@ public interface IController {
 	void showError(Throwable e);
 	void redirectToLoginPage();
 	void redirectToRoot();
+	boolean isAtLoginPage();
+	boolean isAtSignupPage();
+	boolean isAtRootPage();
+	void redirectToSignupPage();
 	
 }
