@@ -13,12 +13,18 @@ public interface IController {
 	void logout();
 	String getLoggedUserEmail();
 	
-	void redirect(String path);
 	void showByToken(String token);
 	
 	void showMessage(String message);
 	void showError(JSONValue jsonValue);
 	void showError(String string);
 	void showError(Throwable e);
+	void redirectToLoginPage();
+	void redirectToRoot();
+	boolean isAtLoginPage();
+	boolean isAtSignupPage();
+	boolean isAtRootPage();
+	void redirectToSignupPage();
+	void redirectToSocialAuth(String providerName);
 	
 }

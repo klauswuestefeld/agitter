@@ -1,0 +1,79 @@
+	É nosso objetivo validar as seguintes suposições o mais cedo possivel:
+
+	- Do Caralho - Vai ser do caralho trabalhar com pessoas altamente capacitadas e motivadas.
+
+	- Aprendizado - Vai ser um grande aprendizado tecnologico e mercadologico participar de um startup web.
+>>		- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
+
+	- Valor - Vai ser muito valioso para as pessoas o nosso serviço. Esta é a ESSÊNCIA dele, do ponto de vista do usuário:
+		- AGENDA - Vou poder ver, quando >EU< quiser, uma agenda de agitos ALTAMENTE RELEVANTES aos quais estou convidado. Ou seja, não vou receber agitos que não me interessam ou em momentos inoportunos.
+		- DIVULGAÇÂO - Vou poder divulgar meus agitos a um público maior, mais interessado e sem encher o saco deles com spam.
+
+	- Rentabilidade - Vai ser rentável operar e eventualmente vender o serviço.
+		- Ads - Podemos rentabilizar o serviço através da colocação de ads.
+			- Google Ads
+			- Ads Normais em espaços do site - Ads simples, elegantes, institucionais e SEM ANIMAÇÂO pelamordedeus.
+			- Agitos Patrocinados - Ex: "21h - Re-Estréia do Filme E.T. - Cinemark - [Link para comprar]"
+			
+	- Privacidade - Não vamos ceder os dados q temos a terceiros em hipótese alguma.
+		- Vazamentos - Temos capacidade técnica para impedir "vazamentos" de dados. 
+	
+	- Abrangência - O serviço de agitos terá abrangência mundial em todas as idades acima dos 12, principalmente dos 16 aos 25 anos.
+
+	- Escalabilidade - Teremos tempo de substituir ou adaptar as tecnologias que estamos usando à medida que precisarmos de maior escalabilidade.
+	
+	- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
+	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
+		- Continuous Deployment
+SB			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O Simploy hoje é rodado usando "ant build" e depois "ant simploy". Fazer o target simploy depender do target build.
+KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
+>>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
+				
+AV	- Cadastrar - Bug do contato ser considerado como "Usuario já existe".
+>>		- Senha Nova - Seguir mesmo fluxo q o usuário q esqueceu a senha: mandar e mail de confirmação. 
+				
+	- Rede Social
+		- Convidados - Vejo todos, adiciono, removo.  
+			- Bloqueio - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+		- Penetras - Posso escolher seguir os agitos publicos de certas pessoas. Equivalente aos seguidores do Twitter.
+	
+	- Agitos
+		- Lista - Quero ver os Agitos aos quais fui convidado.
+			- Ordenados por data.
+			- Futuro próximo.
+			- Limitar a 40.
+		- RSVP - Pedir confirmacao, dar confirmação.
+		- Comentários nos agitos.
+			- Fotos, mapas, o caralho.
+		- ReAgitar - Equivalente ao ReTweet.
+
+	- EMail - O serviço funcionará bem com base em email.
+>>		- Esqueci minha senha - Mande via email por favor.
+JB		- Importação de Emails de meus Contatos
+			- GMail, Yahoo, Hotmail através do SocialAuth
+			- Outros Provedores através de paste num campo grande ou upload de arquivo.
+				- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
+		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
+			- 3 Agitos passados q eu perdi?
+			- 5 Agitos futuros mais relevantes.
+			- Ver templates de email no googledoc chamado "Vagaloom"
+
+	- Grupos de Convidados - Pode conter outros grupos.
+		- Grupos Publicos - Permitem seguidores.
+
+	- Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
+				
+	- Outras Redes Sociais - Vai ser importante interoperar com Twitter e Facebook.
+		- Facebook
+			- Login via facebook (oauth).
+			- Visualizar meus agitos no facebook.
+			- Agitar via facebook? Um link pro site do agitos já ta bom no 1o momento?
+		- Twitter
+			- Login via twitter (oauth).
+			- Twitar os agitos c X tempo (uma hora?) de antecedencia.
+			- Que mais podemos fazer com o Twitter?
+	
+	- Agenda
+		- Google Calendar - Ver meus agitos no Calendar.
+ 
+	- Mobile - Client específico pro Agitos no mobile.	

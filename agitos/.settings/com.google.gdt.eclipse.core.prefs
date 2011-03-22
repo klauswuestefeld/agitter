@@ -1,7 +1,7 @@
-#Sat Mar 19 16:01:45 BRT 2011
+#Mon Mar 21 04:01:56 BRT 2011
 eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
-lastWarOutDir=/Users/jbernab/work/agitos/agitos/agitos/war
+lastWarOutDir=war
 launchConfigExternalUrlPrefix=
 warSrcDir=war
 warSrcDirIsOutput=false

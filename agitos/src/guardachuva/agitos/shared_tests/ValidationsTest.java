@@ -42,7 +42,7 @@ public class ValidationsTest extends Assert {
 		assertTrue(Validations.validateMultipleEmailAndOptinalName("altiereslopes@gmail.com, \"Altieres Lopes\" <alt.lop@webgoal.com.br>, \"Maoki\" <mao_ki@gmail.com>"));
 		
 		assertFalse(Validations.validateMultipleEmailAndOptinalName("\"Maoki\" <mao_ki@gmail.com>altieres+lopes@gmail.com"));
-		assertFalse(Validations.validateMultipleEmailAndOptinalName("altiereslopes@gmail.com,\"Altieres Lopes\" <alt.lop@webgoal.com.br>"));
+		assertTrue(Validations.validateMultipleEmailAndOptinalName("altiereslopes@gmail.com,\"Altieres Lopes\" <alt.lop@webgoal.com.br>"));
 	}
 
 	@Test

@@ -15,7 +15,7 @@ public class AnalyticsTracker {
 
 	public static native void trackGoogleAnalytics(String historyToken) /*-{
 	    try {
-		    var pageTracker = $wnd._gat._getTracker("UA-5713377-15");
+		    var pageTracker = $wnd._gat._getTracker("UA-22190720-1");
 		    
 		    pageTracker._setRemoteServerMode();
 		    

@@ -16,19 +16,20 @@
 	
 	<servlet-mapping>
 		<servlet-name>socialAuthServlet</servlet-name>
-		<url-pattern>/agitos/social_auth</url-pattern>
+		<url-pattern>/agitosweb/social_auth</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
+		<servlet-name>remoteApplicationServlet</servlet-name>
 		<servlet-class>
-			guardachuva.agitos.server.prevalent.PrevalentRemoteServiceServlet
-	  </servlet-class>
+			guardachuva.agitos.server.servlet.RemoteApplicationServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>prevalentRemoteServiceServlet</servlet-name>
-		<url-pattern>/agitos/rpc</url-pattern>
+		<servlet-name>remoteApplicationServlet</servlet-name>
+		<url-pattern>/agitosweb/rpc</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

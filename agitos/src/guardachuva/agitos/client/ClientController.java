@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ClientController implements IController, EntryPoint,
 		ValueChangeHandler<String> {
 
+	private static final String AGITOS_BASE_URL = ""; //"/agitos";
 	private final EventsPresenter _eventsPresenter;
 	@SuppressWarnings("unused")
 	private final LoginPresenter _loginPresenter;
@@ -41,27 +42,27 @@ public class ClientController implements IController, EntryPoint,
 	public void onModuleLoad() {
 		History.addValueChangeHandler(this);
 		
-		if (Window.Location.getPath().equals("/login.html")) {
+		if (isAtLoginPage()) {
 			if (isLogged()) {				
-				redirect("/");
+				redirectToRoot();
 			} else {
 				new LoginPresenter(this, _application).wrap();	
 				AnalyticsTracker.track("login");			
 			}
 		}
 		
-		if (Window.Location.getPath().equals("/signup.html")) {
+		if (isAtSignupPage()) {
 			if (isLogged()) {
-				redirect("/");	
+				redirectToRoot();	
 			} else {
 				new SignupPresenter(this, _application).wrap();
 				AnalyticsTracker.track("signup");
 			}
 		}
 		
-		if (Window.Location.getPath().equals("/") || Window.Location.getPath().equals("/index.html")) {
+		if (isAtRootPage()) {
 			if (!isLogged())
-				redirect("/login.html");
+				redirectToLoginPage();
 			else {
 				showByToken(EventsWidget.token);
 				History.fireCurrentHistoryState();
@@ -70,19 +71,45 @@ public class ClientController implements IController, EntryPoint,
 		}
 			
 		if(RootPanel.get("signupLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("signup.html");
+			UrlBuilder urlBuilder = createUrlBuilder("/signup.html");
 			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Cadastrar</a>");
 			RootPanel.get("signupLink").add(link);		
 		}	
 		
 		if(RootPanel.get("loginLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("login.html");
+			UrlBuilder urlBuilder = createUrlBuilder("/login.html");
 			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Acesse</a>");
 			RootPanel.get("loginLink").add(link);		
 		}	
 	}
 
-	private boolean isLogged() {
+	public boolean isAtRootPage() {
+		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") 
+			|| Window.Location.getPath().equals(AGITOS_BASE_URL) 
+			|| Window.Location.getPath().endsWith("/index.html");
+	}
+
+	public boolean isAtSignupPage() {
+		return Window.Location.getPath().endsWith("/signup.html");
+	}
+
+	public boolean isAtLoginPage() {
+		return Window.Location.getPath().endsWith("/login.html");
+	}
+
+	public void redirectToRoot() {
+		redirect("/index.html");
+	}
+
+	public void redirectToLoginPage() {
+		redirect("/login.html");
+	}
+	
+	public void redirectToSignupPage() {
+		redirect("/signup.html");
+	}
+
+	public boolean isLogged() {
 		return (Cookies.getCookie(SessionToken.COOKIE_NAME) != null);
 	}
 	
@@ -101,32 +128,44 @@ public class ClientController implements IController, EntryPoint,
 			public void onSuccess(Void result) {
 				clearSession();
 				clearLoggedUserEmail();
-				redirect("/login.html");
+				redirectToLoginPage();
 			}
 			@Override
 			public void onFailure(Throwable caught) {
 				clearSession();
 				clearLoggedUserEmail();
-				redirect("/login.html");
+				redirectToLoginPage();
 			}
 		});
 	}
 
-	@Override
-	public void redirect(String path) {			
-		UrlBuilder urlBuilder = createUrlBuilder(path);		
+	private void redirect(String path) {			
+		redirect(path, new Parameter[0]);		
+	}
+
+	private void redirect(String path, Parameter params[]) {			
+		UrlBuilder urlBuilder = createUrlBuilder(path, params);		
 		Window.Location.assign(urlBuilder.buildString());		
 	}
 
 	private UrlBuilder createUrlBuilder(String path) {
+		return createUrlBuilder(path, new Parameter[0]);
+	}
+	
+	private UrlBuilder createUrlBuilder(String path, Parameter params[]) {
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
-		urlBuilder.setPath(path);
+		urlBuilder.setPath(AGITOS_BASE_URL + path);
 		
+		for (Parameter parameter : params)
+			urlBuilder.setParameter(parameter.getName(), parameter.getValue());
+
 		String argName = "gwt.codesvr";
 		String gwtCodesvr = Window.Location.getParameter(argName);
 		if(gwtCodesvr != null && !gwtCodesvr.isEmpty()){
 			urlBuilder.setParameter(argName, gwtCodesvr);
 		}
+		
+
 		return urlBuilder;
 	}	
 
@@ -195,4 +234,10 @@ public class ClientController implements IController, EntryPoint,
 		}
 		return _session;
 	}
+
+	@Override
+	public void redirectToSocialAuth(String providerName) {
+		redirect("/agitosweb/social_auth", new Parameter[] { new Parameter("id", providerName) });
+	}
+
 }

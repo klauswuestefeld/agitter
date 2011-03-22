@@ -1,18 +1,18 @@
 package guardachuva.agitos.server.mailer;
 
+import static org.apache.commons.logging.LogFactory.getLog;
+import guardachuva.agitos.server.ApplicationImpl;
 import guardachuva.agitos.server.mailer.core.Mailer;
 import guardachuva.agitos.server.mailer.core.MailerException;
 import guardachuva.agitos.server.mailer.templates.MailTemplate;
+import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.Mail;
-import guardachuva.agitos.shared.rpc.RemoteApplication;
+
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static org.apache.commons.logging.LogFactory.getLog;
-
 import org.apache.commons.logging.Log;
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class MailerServer {
 
@@ -22,7 +22,7 @@ public class MailerServer {
 
 	
 	private final Mailer _mailer;
-	private RemoteApplication _application;
+	private Application _application;
 	Log _log = getLog(MailerServer.class);
 	private Timer timer = new Timer();
 
@@ -33,9 +33,9 @@ public class MailerServer {
 		
 		_log.info("Starting mailer ({})" + agitosServer);
 		
+		_application = ApplicationImpl.GetInstance();
+
 		_mailer = new Mailer(mailServer, FROM_MAIL, FROM_NAME);
-		_application = (RemoteApplication) SyncProxy.newProxyInstance(
-				RemoteApplication.class, "http://127.0.0.1:8888/agitos/", "rpc");
 	}
 	
 	private void startTimer() {
