@@ -39,7 +39,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		public void run() {
 			while (running) {
 				try {
-					Thread.sleep(10000);
+					Thread.sleep(1000 * 60 * 10);
 					_prevayler.takeSnapshot();
 				} catch (Exception e) {
 					e.printStackTrace();
