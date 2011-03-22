@@ -83,6 +83,7 @@ public class Simploy extends RunListener implements Runnable {
 	private void acceptRequest() throws Exception {
 		Socket socket = _serverSocket.accept();
 		System.out.println("Request Received");
+		
 		try {
 			validateRequest(socket);
 		} finally {
