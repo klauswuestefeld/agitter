@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -67,6 +68,14 @@ public class EventsWidget extends Composite {
 	@UiField
 	DialogBox feedbackDialog;
 	
+	@UiField
+	Image gmailImport;
+
+	@UiField
+	Image yahooImport;
+
+	@UiField
+	Image hotMailImport;
 
 	public EventsWidget(EventsPresenter controller) {
 		_presenter = controller;
@@ -139,12 +148,9 @@ public class EventsWidget extends Composite {
 		HorizontalPanel contactPanel = new HorizontalPanel();
 		Label emailLabel = new Label(contact.getEmail());
 		Anchor deleteAnchor = new Anchor("del");
-		deleteAnchor.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		deleteAnchor.addClickHandler(new ClickHandler() { @Override public void onClick(ClickEvent event) {
 				_presenter.deleteContact(contact);
-			}
-		});
+			}});
 		contactPanel.add(emailLabel);
 		contactPanel.add(deleteAnchor);
 		contactsList.add(contactPanel);
@@ -173,6 +179,21 @@ public class EventsWidget extends Composite {
 		Date eventDate = new Date(eventTime);
 		
 		_presenter.addEvent(descriptionField.getTextCleaned(), eventDate);
+	}
+	
+	@UiHandler("gmailImport")
+	void gmailImportClick(ClickEvent ignored) {
+		_presenter.importContacts("google");
+	}
+
+	@UiHandler("yahooImport")
+	void yahooImportClick(ClickEvent ignored) {
+		_presenter.importContacts("yahoo");
+	}
+
+	@UiHandler("hotMailImport")
+	void hotmailImportClick(ClickEvent ignored) {
+		_presenter.importContacts("hotmail");
 	}
 
 	@UiHandler("feedbackLink")
