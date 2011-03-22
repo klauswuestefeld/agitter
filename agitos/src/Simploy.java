@@ -170,6 +170,7 @@ public class Simploy extends RunListener implements Runnable {
 
 	private String exec(String command) throws Exception {
 		System.out.println("Executing: " + command);
+		
 		Process process = Runtime.getRuntime().exec(command);
 		printOut(process.getErrorStream());
 		String stdOut = printOut(process.getInputStream());
