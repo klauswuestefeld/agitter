@@ -61,6 +61,7 @@ public class Simploy extends RunListener implements Runnable {
 	
 	private void startListeningForBuildRequests() throws IOException {
 		_serverSocket = new ServerSocket(TCP_PORT);
+		System.out.println("Listening for requests on port " + TCP_PORT);
 		
 		Thread thread = new Thread(this);
 		thread.setDaemon(true);
@@ -81,6 +82,7 @@ public class Simploy extends RunListener implements Runnable {
 
 	private void acceptRequest() throws Exception {
 		Socket socket = _serverSocket.accept();
+		System.out.println("Request Received");
 		try {
 			validateRequest(socket);
 		} finally {
@@ -167,6 +169,7 @@ public class Simploy extends RunListener implements Runnable {
 
 
 	private String exec(String command) throws Exception {
+		System.out.println("Executing: " + command);
 		Process process = Runtime.getRuntime().exec(command);
 		printOut(process.getErrorStream());
 		String stdOut = printOut(process.getInputStream());
