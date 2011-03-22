@@ -156,14 +156,15 @@ public class ClientController implements IController, EntryPoint,
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
 		urlBuilder.setPath(AGITOS_BASE_URL + path);
 		
+		for (Parameter parameter : params)
+			urlBuilder.setParameter(parameter.getName(), parameter.getValue());
+
 		String argName = "gwt.codesvr";
 		String gwtCodesvr = Window.Location.getParameter(argName);
 		if(gwtCodesvr != null && !gwtCodesvr.isEmpty()){
 			urlBuilder.setParameter(argName, gwtCodesvr);
 		}
 		
-		for (Parameter parameter : params)
-			urlBuilder.setParameter(parameter.getName(), parameter.getValue());
 
 		return urlBuilder;
 	}	

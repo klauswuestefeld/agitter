@@ -7,7 +7,7 @@ public class Parameter {
 
 	public Parameter(String name, String value) {
 		this.name = name;
-		this.name = value;
+		this.value = value;
 	}
 
 	public String getName() {
