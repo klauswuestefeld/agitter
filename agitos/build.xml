@@ -219,10 +219,10 @@
 				<pathelement location="src"/>
 				<path refid="agitos.classpath"/>
 			</classpath>
-			<jvmarg value="-Xmx256M"/>
 			<arg value="ant build"/>
 			<arg value="war/WEB-INF/classes"/>
 			<arg value="ant deploy"/>
+			<arg value="SimploySecret"/>
 		</java>
 	</target>
 
