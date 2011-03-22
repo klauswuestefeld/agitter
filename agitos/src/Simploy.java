@@ -143,6 +143,7 @@ public class Simploy extends RunListener implements Runnable {
 
 
 	private void runTests() throws Exception {
+		_someTestHasFailed = false;
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(this);
 		junit.run(findTestClasses());
