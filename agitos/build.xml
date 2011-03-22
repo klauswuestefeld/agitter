@@ -213,6 +213,18 @@
 		<zip destfile="deploy/agitos.war" basedir="war" />
 	</target>
 
+	<target name="simploy">
+		<java failonerror="true" fork="false" classname="Simploy">
+			<classpath>
+				<pathelement location="src"/>
+				<path refid="agitos.classpath"/>
+			</classpath>
+			<jvmarg value="-Xmx256M"/>
+			<arg value="ant build"/>
+			<arg value="war/WEB-INF/classes"/>
+			<arg value="ant deploy"/>
+		</java>
+	</target>
 
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 	<target name="agitos">
