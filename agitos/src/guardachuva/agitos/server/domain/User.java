@@ -171,7 +171,7 @@ public class User implements Serializable {
 	}
 	
 	private Boolean wasPasswordDefined(){
-		return (_password != SENHA_DEFAULT);
+		return (!SENHA_DEFAULT.equals(_password));
 	}
 	
 	private static void validateUser(String name, String userName,
