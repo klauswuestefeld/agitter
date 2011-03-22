@@ -79,7 +79,7 @@ public class EventsPresenter extends BasePresenter {
 		if (!Validations.validateMultipleEmailAndOptinalName(contactMail)) {
 			_controller.showError("A lista de emails e nomes é inválida.");
 		} else {
-			_application.addContactsToMe(getSession(), contactMail, null, new AsyncCallback<Void>() {
+			_application.addContactsToMe(getSession(), contactMail, "", new AsyncCallback<Void>() {
 				@Override
 				public void onSuccess(Void result) {
 					getEventsWidget().resetAddContactForm();
@@ -153,6 +153,10 @@ public class EventsPresenter extends BasePresenter {
 			}
 		});
 
+	}
+
+	public void importContacts(String providerName) {
+		this._controller.redirectToSocialAuth(providerName);
 	}
 
 }

@@ -6,7 +6,7 @@ public class Validations {
 	public static String EMAIL_SEPARATOR = ",";
 	
 	// RFC 2822 compliant http://www.regular-expressions.info/email.html
-	public final static String EMAIL_VALIDATION_REGEX = "([a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
+	public final static String EMAIL_VALIDATION_REGEX = "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)";
 	
 	public final static String EMAIL_AND_NAME_REGEX = "\"([a-zA-Z ]+)\" <" + EMAIL_VALIDATION_REGEX + ">";
 	
@@ -18,11 +18,11 @@ public class Validations {
 	public final static String TIME_VALIDATION_REGEX = "\\d{1,2}:\\d{1,2}";
 
 	public static boolean validateEmail(String email) {
-		return email.matches(EMAIL_VALIDATION_REGEX);
+		return email.trim().matches(EMAIL_VALIDATION_REGEX);
 	}
 	
 	public static boolean validateEmailAndOptinalName(String text) {
-		return text.matches(EMAIL_AND_OPTIONAL_NAME_REGEX);
+		return text.trim().matches(EMAIL_AND_OPTIONAL_NAME_REGEX);
 	}
 	
 	public static boolean validateMultipleEmailAndOptinalName(String text) {
