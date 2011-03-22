@@ -109,7 +109,7 @@ public class SocialAuthServlet extends HttpServlet {
 	private RemoteApplication getApp() {
 		if(_application==null)
 			_application = (RemoteApplication) SyncProxy.newProxyInstance(
-					RemoteApplication.class, AGITOS_URL + "/agitosweb", "rpc");
+					RemoteApplication.class, AGITOS_URL + "/agitosweb/", "rpc");
 		return _application;
 	}
 
