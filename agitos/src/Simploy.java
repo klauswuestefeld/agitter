@@ -185,8 +185,6 @@ public class Simploy extends RunListener implements Runnable {
 	private String printOut(InputStream inputStream) throws Exception {
 		String result = "";
 		while (true) {
-			while (inputStream.available() == 0)
-				Thread.sleep(20);
 			int read = inputStream.read();
 			if (read == -1) return result;
 			result += (char)read;
