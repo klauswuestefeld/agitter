@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
+import org.prevayler.foundation.serialization.XStreamSerializer;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -39,8 +40,24 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		PrevaylerFactory factory = new PrevaylerFactory();
 		factory.configurePrevalentSystem(remoteService);
 		factory.configureTransactionFiltering(false);
+		factory.configureSnapshotSerializer(new XStreamSerializer("UTF-8"));
+		
+		final Prevayler prevayler = factory.create();
 
-		return factory.create();
+		// TODO: ver como fazer para que não fiquem rodando
+		new Thread( new Runnable() { @Override public void run() {
+			while(true) {
+				try {
+					Thread.sleep(10000);
+					prevayler.takeSnapshot();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			}});
+		
+		return prevayler; 
 	}
 
 	

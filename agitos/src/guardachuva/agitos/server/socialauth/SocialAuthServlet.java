@@ -1,7 +1,6 @@
 package guardachuva.agitos.server.socialauth;
 
 import guardachuva.agitos.shared.SessionToken;
-import guardachuva.agitos.shared.rpc.RemoteApplication;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,16 +17,13 @@ import org.brickred.socialauth.AuthProviderFactory;
 import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 
-public class SocialAuthServlet extends HttpServlet {
+public class SocialAuthServlet extends ApplicationAwareServlet {
 
-	public static final String AGITOS_URL = "http://www.vagaloom.com";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
 	private HttpSession _session;
-	private RemoteApplication _application;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException {
@@ -104,13 +99,6 @@ public class SocialAuthServlet extends HttpServlet {
 			}
 		}
 		return "";
-	}
-
-	private RemoteApplication getApp() {
-		if(_application==null)
-			_application = (RemoteApplication) SyncProxy.newProxyInstance(
-					RemoteApplication.class, AGITOS_URL + "/agitosweb/", "rpc");
-		return _application;
 	}
 
 	private static final long serialVersionUID = 1L;
