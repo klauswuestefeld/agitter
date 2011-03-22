@@ -75,7 +75,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 		snapshotTaker = new SnapshotTakerThread(prevayler);
 		snapshotTaker.setDaemon(true);
-		snapshotTaker.run();
+		snapshotTaker.start();
 		return prevayler;
 	}
 
