@@ -16,7 +16,7 @@ public class SyncProxyExploration {
 	private static final String AGITOSWEB_PROD = "http://www.vagaloom.com/agitosweb/";
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void problemWithMultipleContacts() throws ValidationException, Exception {
 		RemoteApplication _application = (RemoteApplication) SyncProxy.newProxyInstance(
 				RemoteApplication.class, AGITOSWEB_PROD, "rpc");
