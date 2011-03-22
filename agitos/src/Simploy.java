@@ -83,6 +83,7 @@ public class Simploy extends RunListener implements Runnable {
 	private void acceptRequest() throws Exception {
 		Socket socket = _serverSocket.accept();
 		System.out.println("Request Received");
+		
 		try {
 			validateRequest(socket);
 		} finally {
@@ -143,6 +144,7 @@ public class Simploy extends RunListener implements Runnable {
 
 
 	private void runTests() throws Exception {
+		_someTestHasFailed = false;
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(this);
 		junit.run(findTestClasses());

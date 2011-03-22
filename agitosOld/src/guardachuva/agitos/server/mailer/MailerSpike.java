@@ -4,7 +4,7 @@ import guardachuva.agitos.server.mailer.core.Mailer;
 import guardachuva.agitos.server.mailer.core.MailerException;
 
 
-public class SendTest {
+public class MailerSpike {
 	
 	public static void main(String[] args) {
 	    String from_mail = "eu@agitos.com.br";
