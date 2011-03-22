@@ -66,11 +66,9 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 		System.out.println("Obtendo lista de contatos");
 		List<Contact> contactList = provider.getContactList();
 		StringBuffer emails = new StringBuffer();
-		int x=0;
 		for (Contact contact : contactList) {
 //			emails.append("< " + contact.getFirstName() + " > ");
 			emails.append(contact.getEmail());
-			if(x++ > 100) break;
 			emails.append(" , ");
 		}
 		try {
