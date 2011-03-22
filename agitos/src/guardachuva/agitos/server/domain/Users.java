@@ -41,7 +41,7 @@ public class Users {
 		if (matcher.find())
 			return produceUserFromMatch(matcher);
 		
-		throw new ValidationException(User.class.getName(), "O formato do e-mail √© inv√°lido.");
+		throw new ValidationException(User.class.getName(), "O formato do e-mail á inválido.");
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {
@@ -51,7 +51,7 @@ public class Users {
 	}
 	
 	private User produceUser(String name, String email) throws ValidationException {
-		return produceUser(name, email, "123456", email);
+		return produceUser(name, email, User.SENHA_DEFAULT, email);
 	}
 
 	public User produceUser(String name, String userName, String password, String email) throws ValidationException {
@@ -66,7 +66,7 @@ public class Users {
 	public User authenticate(String email, String password) throws UnauthorizedBusinessException {
 		User user = _users.get(email);
 		if (user == null || !user.isValidPassword(password)) 
-			throw new UnauthorizedBusinessException("Usuario ou senha inv√°lidos.");
+			throw new UnauthorizedBusinessException("Usuário ou senha inválidos.");
 		return user;
 	}
 

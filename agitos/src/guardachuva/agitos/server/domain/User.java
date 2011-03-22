@@ -14,6 +14,8 @@ import java.util.Set;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	public static final String SENHA_DEFAULT = "123456";
 	
 	private String _name;
 	private String _userName;
@@ -50,9 +52,7 @@ public class User implements Serializable {
 	}
 	
 	public static User createFor(String name, String userName, String password, String email) throws ValidationException {
-		String[] errors = UserDTO.errorsForConstruction(name, userName, password, email);
-		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no usuario. Valide antes da criação.", errors);
+		validateUser(name, userName, password, email);
 		
 		User user = new User(name, userName, password, email);
 		
@@ -70,7 +70,7 @@ public class User implements Serializable {
 	
 	public void addContact(User newContact) throws BusinessException {
 		if (this.equals(newContact))
-			throw new BusinessException("Você não pode ser um dos seus contatos.");
+			throw new BusinessException("Voc� n�o pode ser um dos seus contatos.");
 		
 		newContact.producers.add(this);
 		_contacts.add(newContact);
@@ -111,7 +111,7 @@ public class User implements Serializable {
 	
 	public void ignoreProducer(User producer) throws BusinessException {
 		if (this.equals(producer))
-			throw new BusinessException("Você não pode ignorar a si mesmo.");
+			throw new BusinessException("Voc� n�o pode ignorar a si mesmo.");
 		
 		ignoredProducers.add(producer);
 	}
@@ -148,7 +148,7 @@ public class User implements Serializable {
 	}
 	
 	public boolean isValidPassword(String passwordToCheck) {
-		return _password!=null && _password.equals(passwordToCheck);
+		return (_password != null && _password.equals(passwordToCheck));
 	}
 
 	public void addEvent(Event event) {
@@ -158,5 +158,26 @@ public class User implements Serializable {
 	public void removeEvent(Event event) {
 		myEvents.remove(event);
 	}
+
+	public boolean isRegistered() {
+		return wasPasswordDefined();
+	}
+
+	public void registerMe(String name, String userName, String password) throws ValidationException {
+		validateUser(name, userName, password, _email);
+		_name = name;
+		_userName = userName;
+		_password = password;
+	}
 	
+	private Boolean wasPasswordDefined(){
+		return (_password != SENHA_DEFAULT);
+	}
+	
+	private static void validateUser(String name, String userName,
+			String password, String email) throws ValidationException {
+		String[] errors = UserDTO.errorsForConstruction(name, userName, password, email);
+		if (errors.length > 0)
+			throw new ValidationException("Erros encontrados no usuario. Valide antes da criação.", errors);
+	}
 }

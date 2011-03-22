@@ -46,9 +46,24 @@ public class ApplicationImpl implements Serializable, Application {
 	 */
 	@Override
 	public SessionToken createNewUser(String name, String userName, String password, String email) throws ValidationException, UserAlreadyExistsException {
-		if(_users.isKnownUser(email))
-			throw new UserAlreadyExistsException("Usuario j‡ existente.");
-		return _sessions.create(_users.produceUser(name, userName, password, email));
+		User user;
+		if (!_users.isKnownUser(email))
+			user = _users.produceUser(name, userName, password, email);
+		else // if user already exists, he is _probably_ a contact trying to get registered
+			user = tryToRegisterUser(name, userName, password, email);
+		
+		return _sessions.create(user);
+	}
+
+	private User tryToRegisterUser(String name, String userName, String password,
+			String email) throws ValidationException,
+			UserAlreadyExistsException {
+		User user = _users.produceUser(email);
+		if (user.isRegistered())
+			throw new UserAlreadyExistsException();
+		
+		user.registerMe(name, userName, password);
+		return user;
 	}
 
 	/* (non-Javadoc)
@@ -224,8 +239,5 @@ public class ApplicationImpl implements Serializable, Application {
 	public void scheduleMail(Mail mail) {
 		_scheduledMails.scheduleMail(mail);
 	}
-
-	
-
 }
 

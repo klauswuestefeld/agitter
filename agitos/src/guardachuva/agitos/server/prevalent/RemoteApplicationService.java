@@ -96,5 +96,4 @@ public class RemoteApplicationService extends RemoteServiceServlet implements Re
 	public void deleteMail(String key) {
 		app.deleteMail(key);
 	}
-
 }

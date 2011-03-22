@@ -1,8 +1,5 @@
 package guardachuva.agitos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import guardachuva.agitos.server.ApplicationImpl;
 import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.shared.Application;
@@ -13,11 +10,12 @@ import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class AceitacaoTest {
+public class AceitacaoTest extends Assert {
 	
 	private Application _app;
 	private UserDTO _user;
@@ -36,6 +34,15 @@ public class AceitacaoTest {
 		assertEquals("Admin", _user.getUserName());
 		assertEquals("admin", _user.getName());
 		assertEquals("admin@email.com", _user.getEmail());
+	}
+	
+	@Test
+	public void createNewUserShouldRegisterAlreadyExistentContact() throws ValidationException, Exception{
+		String mailOfTheContact = "derek@gmail.com";
+		_app.addContactsToMe(_session, mailOfTheContact, null );
+		String password = "drk2011";
+		_app.createNewUser("Derek Muller", "derek", password, mailOfTheContact);
+		assertNotNull(_app.authenticate(mailOfTheContact, password));
 	}
 	
 	@Test

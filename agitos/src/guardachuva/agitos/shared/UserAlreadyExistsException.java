@@ -2,7 +2,10 @@ package guardachuva.agitos.shared;
 
 public class UserAlreadyExistsException extends BusinessException {
 
+	private static final String DEFAULT_MESSAGE = "Essa conta de usu‡rio j‡ existe.";
+
 	public  UserAlreadyExistsException() {
+		super(DEFAULT_MESSAGE);
 	}
 	
 	public UserAlreadyExistsException(String message) {

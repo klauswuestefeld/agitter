@@ -10,12 +10,12 @@ public class ValidationException extends BusinessException {
 	private String[] _errors;
 
 	public ValidationException(String clazz, String[] errors) {
-		super("Erros encontrados. Valide antes da cria√ß√£o. \n" + clazz + ":" + errors);
+		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + errors);
 		_errors = errors;
 	}
 
 	public ValidationException(String clazz, String error) {
-		super("Erros encontrados. Valide antes da cria√ß√£o. \n" + clazz + ":" + error);
+		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + error);
 		_errors = new String[]{ error };
 	}
 
