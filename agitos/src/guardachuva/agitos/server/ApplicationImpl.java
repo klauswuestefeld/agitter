@@ -35,15 +35,18 @@ public class ApplicationImpl implements Serializable, Application {
 	private static final long serialVersionUID = 1L;
 
 	private static Clock clock = SystemClock.getInstance();
+
+	private static Application _Instance=null;
 	
 	private final Users _users = new Users();
 	private final Events _events = new Events();
 	private final ScheduledEmails _scheduledMails = new ScheduledMailsImpl();
 	private final Sessions _sessions = new Sessions();
 	
-	/* (non-Javadoc)
-	 * @see guardachuva.agitos.server.application.IApplication#createUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
+	public ApplicationImpl() {
+		setupInstance();
+	}
+
 	@Override
 	public SessionToken createNewUser(String name, String userName, String password, String email) throws ValidationException, UserAlreadyExistsException {
 		if(_users.isKnownUser(email))
@@ -51,17 +54,11 @@ public class ApplicationImpl implements Serializable, Application {
 		return _sessions.create(_users.produceUser(name, userName, password, email));
 	}
 
-	/* (non-Javadoc)
-	 * @see guardachuva.agitos.server.application.IApplication#authenticate(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public SessionToken authenticate(String email, String password) throws UnauthorizedBusinessException {
 		return _sessions.create(_users.authenticate(email, password));
 	}
 
-	/* (non-Javadoc)
-	 * @see guardachuva.agitos.server.application.IApplication#getEventsFor(guardachuva.agitos.domain.User)
-	 */
 	@Override
 	public EventDTO[] getEventsForMe(SessionToken session) throws UnauthorizedBusinessException {
 		assertValidSession(session);
@@ -79,9 +76,6 @@ public class ApplicationImpl implements Serializable, Application {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see guardachuva.agitos.server.application.IApplication#createEvent(guardachuva.agitos.domain.User, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public void createEvent(SessionToken session, String description, Date date) throws BusinessException {
 		assertValidSession(session);
@@ -100,9 +94,6 @@ public class ApplicationImpl implements Serializable, Application {
 			date);
 	}
 
-	/* (non-Javadoc)
-	 * @see guardachuva.agitos.server.application.IApplication#removeEventFor(guardachuva.agitos.domain.User, int)
-	 */
 	@Override
 	public void removeEventForMe(SessionToken session, int id) throws BusinessException {
 		assertValidSession(session);
@@ -225,7 +216,21 @@ public class ApplicationImpl implements Serializable, Application {
 		_scheduledMails.scheduleMail(mail);
 	}
 
+	public static Application GetInstance() {
+		if(_Instance==null)
+			throw new IllegalStateException("Intentando usar singleton do ApplicationImpl antes de ser inicializado");
+		return _Instance;
+	}
+
+	private void setupInstance() {
+		/*
+		if(_Instance!=null) {
+			throw new IllegalStateException("ApplicationImpl sendo instanciada mais de uma vez");
+		}/**/
+		_Instance = this;
+	}
 	
+
 
 }
 
