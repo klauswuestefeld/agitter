@@ -44,7 +44,7 @@ public class Users {
 		if (matcher.find())
 			return produceUserFromMatch(matcher);
 		
-		throw new ValidationException(emailText, "O formato do e-mail é inválido.");
+		throw new ValidationException(emailText, "O formato do e-mail √© inv√°lido.");
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {
@@ -69,7 +69,7 @@ public class Users {
 	public User authenticate(String email, String password) throws UnauthorizedBusinessException {
 		User user = _users.get(email);
 		if (user == null || !user.isValidPassword(password)) 
-			throw new UnauthorizedBusinessException("Usuário ou senha inválidos.");
+			throw new UnauthorizedBusinessException("Usu√°rio ou senha inv√°lidos.");
 		return user;
 	}
 

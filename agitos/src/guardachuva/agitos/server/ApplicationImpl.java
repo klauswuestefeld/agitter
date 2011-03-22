@@ -101,7 +101,7 @@ public class ApplicationImpl implements Serializable, Application {
 		boolean dateInPast = date.before(now);
 		
 		if (dateInPast)
-			throw new BusinessException("Voce nao pode criar agitos no passado.");
+			throw new BusinessException("Voc√™ n√£o pode criar agitos no passado.");
 		
 		 _events.createFor(
 			_sessions.getLoggedUserOn(session),
@@ -211,7 +211,7 @@ public class ApplicationImpl implements Serializable, Application {
 		private void assertValidSession(SessionToken session)
 				throws UnauthorizedBusinessException {
 			if(!_sessions.isValid(session))
-				throw new UnauthorizedBusinessException("A Sessão não é válida");
+				throw new UnauthorizedBusinessException("A Sess√£o n√£o √© v√°lida");
 	}
 
 	// API Scheduled Mails
@@ -233,7 +233,7 @@ public class ApplicationImpl implements Serializable, Application {
 
 	public static Application GetInstance() {
 		if(_Instance==null)
-			throw new IllegalStateException("Intentando usar singleton do ApplicationImpl antes de ser inicializado");
+			throw new IllegalStateException("Tentando usar singleton do ApplicationImpl antes de ser inicializado");
 		return _Instance;
 	}
 

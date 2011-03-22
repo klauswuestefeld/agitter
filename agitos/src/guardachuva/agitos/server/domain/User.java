@@ -70,7 +70,7 @@ public class User implements Serializable {
 	
 	public void addContact(User newContact) throws BusinessException {
 		if (this.equals(newContact))
-			throw new BusinessException("Você não pode ser um dos seus contatos.");
+			throw new BusinessException("VocÔøΩ nÔøΩo pode ser um dos seus contatos.");
 		
 		newContact.producers.add(this);
 		_contacts.add(newContact);
@@ -111,7 +111,7 @@ public class User implements Serializable {
 	
 	public void ignoreProducer(User producer) throws BusinessException {
 		if (this.equals(producer))
-			throw new BusinessException("Você não pode ignorar a si mesmo.");
+			throw new BusinessException("Voc√™ n√£o pode ignorar a si mesmo.");
 		
 		ignoredProducers.add(producer);
 	}
@@ -178,6 +178,6 @@ public class User implements Serializable {
 			String password, String email) throws ValidationException {
 		String[] errors = UserDTO.errorsForConstruction(name, userName, password, email);
 		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no usuario. Valide antes da cria√ß√£o.", errors);
+			throw new ValidationException("Erros encontrados no usu√°rio. Valide antes da cria√ß√£o.", errors);
 	}
 }

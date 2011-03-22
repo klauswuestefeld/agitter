@@ -75,7 +75,7 @@ public class AceitacaoTest {
 	}
 	
 	@Test
-	public void addContactsInLargeBathes() throws ValidationException, Exception {
+	public void addContactsInLargeBatches() throws ValidationException, Exception {
 		_app.addContactsToMe(_session, "\"Alisson Vale\" <alissoncvale@gmail.com>,bihaiko@gmail.com , leonardonunes@gmail.com, matias.g.rodriguez@gmail.com , , ", "");
 		UserDTO[] contacts = _app.getContactsForMe(_session);
 		assertThat(contacts.length, equalTo(4));
