@@ -54,7 +54,7 @@ public class Users {
 	}
 	
 	private User produceUser(String name, String email) throws ValidationException {
-		return produceUser(name, email, User.SENHA_DEFAULT, email);
+		return produceUser(name, email, User.PASSWORD_DEFAULT, email);
 	}
 
 	public User produceUser(String name, String userName, String password, String email) throws ValidationException {
