@@ -12,6 +12,7 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 
 public class SyncProxyExploration {
 	
+	@SuppressWarnings("unused")
 	private static final String AGITOSWEB_DEV = "http://127.0.0.1:8888/agitosweb/";
 	private static final String AGITOSWEB_PROD = "http://www.vagaloom.com/agitosweb/";
 
