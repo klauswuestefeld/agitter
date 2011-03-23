@@ -57,8 +57,8 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		super(remoteService);
 
 		initSingleton();
-
 		_prevayler = initPrevayler(remoteService);
+		startSnapshotTaker();
 	}
 
 	private void initSingleton() {
@@ -73,13 +73,13 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		factory.configurePrevalentSystem(remoteService);
 		factory.configureTransactionFiltering(false);
 		factory.configureSnapshotSerializer(new XStreamSerializer("UTF-8"));
+		return factory.create();
+	}
 
-		final Prevayler prevayler = factory.create();
-
+	private void startSnapshotTaker() {
 		snapshotTaker = new SnapshotTakerThread();
-		snapshotTaker.setDaemon(true);
+//		snapshotTaker.setDaemon(true);
 		snapshotTaker.start();
-		return prevayler;
 	}
 
 	@Override
