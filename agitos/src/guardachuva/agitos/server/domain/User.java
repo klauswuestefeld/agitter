@@ -15,7 +15,7 @@ import java.util.Set;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String SENHA_DEFAULT = "123456";
+	public static final String PASSWORD_DEFAULT = "123456";
 	
 	private String _name;
 	private String _userName;
@@ -171,7 +171,7 @@ public class User implements Serializable {
 	}
 	
 	private Boolean wasPasswordDefined(){
-		return (!SENHA_DEFAULT.equals(_password));
+		return (!PASSWORD_DEFAULT.equals(_password));
 	}
 	
 	private static void validateUser(String name, String userName,
