@@ -6,6 +6,7 @@ import guardachuva.agitos.server.domain.Events;
 import guardachuva.agitos.server.domain.User;
 import guardachuva.agitos.server.domain.Users;
 import guardachuva.agitos.shared.BusinessException;
+import guardachuva.agitos.shared.ValidationException;
 
 import java.text.ParseException;
 import java.util.List;
@@ -127,6 +128,21 @@ public class UserTest extends Assert {
 			_altieres.ignoreProducer(_altieres);
 			fail();
 		} catch (BusinessException e) { }
+	}
+	
+	@Test
+	public void userShouldBeConsideredRegistered() throws BusinessException {
+		User john = _userHome.produceUser("john@mailer.com");
+		assertFalse(john.isRegistered());
+		
+		john.registerMe("John Ferri", "johnf", "passw");
+		assertTrue(john.isRegistered());
+	}
+	
+	@Test(expected=ValidationException.class)
+	public void shouldValidateRegistrationWithInvalidPassword() throws ValidationException {
+		User olivia = _userHome.produceUser("benson@mailer.com");
+		olivia.registerMe("Benson O.", "olivia", null);
 	}
 	
 }

@@ -17,6 +17,7 @@
 	<path id="gwt-servlet.libraryclasspath">
 		<pathelement location="lib/gwt-2.2/gwt-servlet.jar"/>
 		<pathelement location="lib/gwt-2.2/gwt-servlet-deps.jar"/>
+
 	</path>
 	
 	<path id="gwt.libraryclasspath">
@@ -27,7 +28,7 @@
 
 	<path id="junit4.libraryclasspath">
 		<pathelement location="lib/junit4/junit.jar"/>
-		<pathelement location="lib/junit4/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+		<pathelement location="lib/junit4/hamcrest-all-1.3.0RC2.jar"/>
 	</path>
 
 	<path id="agitosdeps.libraryclasspath">
@@ -46,10 +47,14 @@
 		<pathelement location="lib/social_auth/socialauth-1.0-beta2.jar"/>
 		<pathelement location="lib/social_auth/twitter4j-core-2.1.3-SNAPSHOT.jar"/>
 		<pathelement location="lib/social_auth/visural-common-0.3.2.jar"/>
+
 		<pathelement location="lib/SyncProxy.jar"/>
-		<pathelement location="lib/prevayler/prevayler-2.3.jar"/>
 		<pathelement location="lib/mail.jar"/>
 		<pathelement location="lib/restlet/com.thoughtworks.xstream.jar"/>
+
+		<pathelement location="lib/prevayler/prevayler-2.3.jar"/>
+		<pathelement location="lib/prevayler/xpp3_min-1.1.4c.jar"/>
+		<pathelement location="lib/prevayler/xstream-1.3.1.jar"/>
 	</path>
 
 	<path id="agitos.classpath">
@@ -98,13 +103,6 @@
 				<exclude name="org/prevayler/"/>
 			</fileset>
 		</copy>
-
-		<copy includeemptydirs="false" todir="war/WEB-INF/classes">
-			<fileset dir="config">
-				<exclude name="**/*.launch"/>
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
 		
 	    <mkdir dir="war/WEB-INF/lib" />
 		<copy todir="war/WEB-INF/lib" flatten="yes">
@@ -115,7 +113,7 @@
 
 
 	<target name="deploy" depends="war">
-		<copy todir="/agitos_server/tomcat/webapps" file="deploy/agitos.war"/>
+		<copy todir="/agitos_server/tomcat/webapps" file="deploy/ROOT.war"/>
 	</target>
 
 	<target name="clean">
@@ -127,7 +125,7 @@
 
 	<target depends="clean" name="cleanall"/>
 
-	<target depends="build-subprojects,build-project, build-gwt" name="build"/>
+	<target depends="clean, build-subprojects,build-project, build-gwt" name="build"/>
 
 	<target name="build-subprojects"/>
 
@@ -168,11 +166,6 @@
 			<classpath refid="agitos.classpath"/>
 		</javac>
 
-		<javac debug="true" debuglevel="${debuglevel}" destdir="war/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
-			<src path="config"/>
-			<classpath refid="agitos.classpath"/>
-		</javac>
-
 	</target>
 
 	<target name="build-gwt" depends="build-project" description="GWT compile to JavaScript (production mode)">
@@ -210,9 +203,21 @@
 
 	<target name="war" depends="build" description="Create a war file">
 		<mkdir dir="deploy"/>
-		<zip destfile="deploy/agitos.war" basedir="war" />
+		<zip destfile="deploy/ROOT.war" basedir="war" />
 	</target>
 
+	<target name="simploy">
+		<java failonerror="true" fork="false" classname="Simploy">
+			<classpath>
+				<pathelement location="src"/>
+				<path refid="agitos.classpath"/>
+			</classpath>
+			<arg value="ant build"/>
+			<arg value="war/WEB-INF/classes"/>
+			<arg value="ant deploy"/>
+			<arg value="SimploySecret"/>
+		</java>
+	</target>
 
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 	<target name="agitos">

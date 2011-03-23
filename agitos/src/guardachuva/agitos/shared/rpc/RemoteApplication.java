@@ -9,3 +9,4 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface RemoteApplication extends Application, RemoteService {
 
 }
+ 

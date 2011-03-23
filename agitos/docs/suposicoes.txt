@@ -2,7 +2,8 @@
 
 	- Do Caralho - Vai ser do caralho trabalhar com pessoas altamente capacitadas e motivadas.
 
-	- Aprendizado - Vai ser um grande aprendizado tecnologico e mercadologico participar de um startup web. 
+	- Aprendizado - Vai ser um grande aprendizado tecnologico e mercadologico participar de um startup web.
+>>		- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
 
 	- Valor - Vai ser muito valioso para as pessoas o nosso serviço. Esta é a ESSÊNCIA dele, do ponto de vista do usuário:
 		- AGENDA - Vou poder ver, quando >EU< quiser, uma agenda de agitos ALTAMENTE RELEVANTES aos quais estou convidado. Ou seja, não vou receber agitos que não me interessam ou em momentos inoportunos.
@@ -23,8 +24,14 @@
 	
 	- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
 	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
-KW,SB		- Continuous Deployment
-
+		- Continuous Deployment
+SB			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O Simploy hoje é rodado usando "ant build" e depois "ant simploy". Fazer o target simploy depender do target build.
+KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
+>>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
+				
+AV	- Cadastrar - Bug do contato ser considerado como "Usuario já existe".
+>>		- Senha Nova - Seguir mesmo fluxo q o usuário q esqueceu a senha: mandar e mail de confirmação. 
+				
 	- Rede Social
 		- Convidados - Vejo todos, adiciono, removo.  
 			- Bloqueio - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
@@ -46,7 +53,7 @@ JB		- Importação de Emails de meus Contatos
 			- GMail, Yahoo, Hotmail através do SocialAuth
 			- Outros Provedores através de paste num campo grande ou upload de arquivo.
 				- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
->>		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
+		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
 			- 3 Agitos passados q eu perdi?
 			- 5 Agitos futuros mais relevantes.
 			- Ver templates de email no googledoc chamado "Vagaloom"
@@ -69,4 +76,7 @@ JB		- Importação de Emails de meus Contatos
 	- Agenda
 		- Google Calendar - Ver meus agitos no Calendar. Possibilita Mobile. Importante para grandes agitadores!
  
-	- Mobile - Client específico pro Agitos no mobile.	
+	- Mobile - Client específico pro Agitos no mobile.
+	
+	- Sites de eventos / shows
+		- Integração com widget estilo o "I Like" do facebook mais que seja "Eu Vou" e "Eu Fui" (para avaliação de eventos que já aconteceram)

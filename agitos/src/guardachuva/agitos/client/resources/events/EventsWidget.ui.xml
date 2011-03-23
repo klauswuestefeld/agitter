@@ -14,7 +14,7 @@
 			</g:HTMLPanel>
 		</g:HTMLPanel>
 		
-		<g:HTMLPanel styleName="content">
+		<g:HTMLPanel styleName="content" height="389px">
 			<g:VerticalPanel ui:field="eventsList" styleName="eventsList"></g:VerticalPanel>
 			
 			<g:HTMLPanel styleName="newEvent">
@@ -28,6 +28,10 @@
 				<h2>Amigos</h2>
 				<w:LampTextBox ui:field="contactField">adicionar um e-mail</w:LampTextBox>
 				<g:Button ui:field="addContactButton">+</g:Button>
+				<h4>Importe seus contatos</h4>
+				<g:Image ui:field="gmailImport" altText="GMail" url="images/socialauth/gmail-icon32.jpeg" />
+				<g:Image ui:field="yahooImport" altText="Yahoo" url="images/socialauth/yahoomail-32.jpeg" />
+				<g:Image ui:field="hotMailImport" altText="Hotmail" url="images/socialauth/hotmail-32.jpeg" />
 				<g:VerticalPanel ui:field="contactsList"></g:VerticalPanel>
 			</g:HTMLPanel>
 		</g:HTMLPanel>

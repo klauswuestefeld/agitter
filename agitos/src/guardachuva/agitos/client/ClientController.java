@@ -140,19 +140,32 @@ public class ClientController implements IController, EntryPoint,
 	}
 
 	private void redirect(String path) {			
-		UrlBuilder urlBuilder = createUrlBuilder(path);		
+		redirect(path, new Parameter[0]);		
+	}
+
+	private void redirect(String path, Parameter params[]) {			
+		UrlBuilder urlBuilder = createUrlBuilder(path, params);		
 		Window.Location.assign(urlBuilder.buildString());		
 	}
 
 	private UrlBuilder createUrlBuilder(String path) {
+		return createUrlBuilder(path, new Parameter[0]);
+	}
+	
+	private UrlBuilder createUrlBuilder(String path, Parameter params[]) {
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
 		urlBuilder.setPath(AGITOS_BASE_URL + path);
 		
+		for (Parameter parameter : params)
+			urlBuilder.setParameter(parameter.getName(), parameter.getValue());
+
 		String argName = "gwt.codesvr";
 		String gwtCodesvr = Window.Location.getParameter(argName);
 		if(gwtCodesvr != null && !gwtCodesvr.isEmpty()){
 			urlBuilder.setParameter(argName, gwtCodesvr);
 		}
+		
+
 		return urlBuilder;
 	}	
 
@@ -220,6 +233,11 @@ public class ClientController implements IController, EntryPoint,
 			}
 		}
 		return _session;
+	}
+
+	@Override
+	public void redirectToSocialAuth(String providerName) {
+		redirect("/agitosweb/social_auth", new Parameter[] { new Parameter("id", providerName) });
 	}
 
 }

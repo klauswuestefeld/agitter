@@ -25,5 +25,6 @@ public interface IController {
 	boolean isAtSignupPage();
 	boolean isAtRootPage();
 	void redirectToSignupPage();
+	void redirectToSocialAuth(String providerName);
 	
 }

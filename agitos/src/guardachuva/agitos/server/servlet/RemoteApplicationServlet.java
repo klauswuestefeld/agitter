@@ -8,9 +8,11 @@ public class RemoteApplicationServlet extends PrevalentRemoteServiceServlet {
 	public RemoteApplicationServlet() throws Exception {
 		super(createRemoteApplicationService());		
 //		MailerServer.startRunning();
+		System.out.println("Started Agitos RemoteApplicationServlet");
 	}
 
 	private static RemoteApplicationImpl createRemoteApplicationService() {
+		System.out.println("Starting Agitos RemoteApplicationServlet");
 		return new RemoteApplicationImpl();
 	}
 	
