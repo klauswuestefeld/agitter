@@ -41,10 +41,16 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 				try {
 					Thread.sleep(1000 * 60 * 10);
 					_prevayler.takeSnapshot();
-				} catch (Exception e) {
+				} catch (InterruptedException e) {
+					System.out.println("PrevaylerSnapshotThread stopped");
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
+			}
+			try {
+				_prevayler.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
