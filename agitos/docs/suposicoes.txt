@@ -67,6 +67,6 @@ JB		- Importação de Emails de meus Contatos
 			- Que mais podemos fazer com o Twitter?
 	
 	- Agenda
-		- Google Calendar - Ver meus agitos no Calendar.
+		- Google Calendar - Ver meus agitos no Calendar. Possibilita Mobile. Importante para grandes agitadores!
  
 	- Mobile - Client específico pro Agitos no mobile.	
