@@ -76,6 +76,7 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 			System.out.println("Autenticado: " + profile);
 
 			List<UserDTO> contactsToImport = new ArrayList<UserDTO>();
+			
 			for (Contact contact : provider.getContactList()) {
 				contactsToImport
 						.add(new UserDTO(null, null, contact.getEmail()));

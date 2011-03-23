@@ -249,7 +249,7 @@ public class ApplicationImpl implements Serializable, Application {
 	public void importContactsFromService(SessionToken session, List<UserDTO> contactsToImport, String service) throws UnauthorizedBusinessException, ValidationException {
 		assertValidSession(session);
 		try {
-			User user = _sessions.getLoggedUserOn(session);
+			User loggedOnUser = _sessions.getLoggedUserOn(session);
 
 			List<User> usersToImport = new ArrayList<User>();
 			for (UserDTO contactToImport : contactsToImport) {
@@ -258,15 +258,16 @@ public class ApplicationImpl implements Serializable, Application {
 						contactToImport.getName(), contactToImport.getEmail());
 
 				// Não colocar ele mesmo como contato dele
-				if (user.equals(userToImport)) 
+				if (loggedOnUser.equals(userToImport)) 
 					continue;
 			
 				usersToImport.add(userToImport);			
 			}
 			System.out.println("Application.importContactsFromService: Adding " + usersToImport.size() + " contacts from " + service);			
-			user.addContacts(usersToImport);
+			loggedOnUser.addContacts(usersToImport);
 		} catch (BusinessException e) {
 			// Ignorar problemas especificos de um ou outro usuario na importação desde um serviço
+			e.printStackTrace();
 		}
 	}	
 }
