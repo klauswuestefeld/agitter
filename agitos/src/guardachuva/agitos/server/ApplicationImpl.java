@@ -257,13 +257,13 @@ public class ApplicationImpl implements Serializable, Application {
 				User userToImport = _users.produceUser(
 						contactToImport.getName(), contactToImport.getEmail());
 
-				if (user.equals(userToImport)) // Não colocar ele mesmo como
-												// contato dele
-				continue;
+				// Não colocar ele mesmo como contato dele
+				if (user.equals(userToImport)) 
+					continue;
 			
 				usersToImport.add(userToImport);			
 			}
-			
+			System.out.println("Application.importContactsFromService: Adding " + usersToImport.size() + " contacts from " + service);			
 			user.addContacts(usersToImport);
 		} catch (BusinessException e) {
 			// Ignorar problemas especificos de um ou outro usuario na importação desde um serviço

@@ -80,10 +80,13 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 				contactsToImport
 						.add(new UserDTO(null, null, contact.getEmail()));
 			}
+
 			SessionToken sessionToken = new SessionToken(
 					getSessionTokenFromCookies());
+			
 			getApp().importContactsFromService(sessionToken, contactsToImport,
 					provider.getClass().toString());
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
