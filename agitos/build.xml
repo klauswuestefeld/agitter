@@ -103,13 +103,6 @@
 				<exclude name="org/prevayler/"/>
 			</fileset>
 		</copy>
-
-		<copy includeemptydirs="false" todir="war/WEB-INF/classes">
-			<fileset dir="config">
-				<exclude name="**/*.launch"/>
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
 		
 	    <mkdir dir="war/WEB-INF/lib" />
 		<copy todir="war/WEB-INF/lib" flatten="yes">
@@ -120,7 +113,7 @@
 
 
 	<target name="deploy" depends="war">
-		<copy todir="/agitos_server/tomcat/webapps" file="deploy/agitos.war"/>
+		<copy todir="/agitos_server/tomcat/webapps" file="deploy/ROOT.war"/>
 	</target>
 
 	<target name="clean">
@@ -173,11 +166,6 @@
 			<classpath refid="agitos.classpath"/>
 		</javac>
 
-		<javac debug="true" debuglevel="${debuglevel}" destdir="war/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
-			<src path="config"/>
-			<classpath refid="agitos.classpath"/>
-		</javac>
-
 	</target>
 
 	<target name="build-gwt" depends="build-project" description="GWT compile to JavaScript (production mode)">
@@ -215,7 +203,7 @@
 
 	<target name="war" depends="build" description="Create a war file">
 		<mkdir dir="deploy"/>
-		<zip destfile="deploy/agitos.war" basedir="war" />
+		<zip destfile="deploy/ROOT.war" basedir="war" />
 	</target>
 
 	<target name="simploy">

@@ -1,9 +1,11 @@
 package guardachuva.agitos.server.socialauth;
 
 import guardachuva.agitos.shared.SessionToken;
+import guardachuva.agitos.shared.UserDTO;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,13 +19,13 @@ import org.brickred.socialauth.AuthProviderFactory;
 import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 
-
 public class SocialAuthServlet extends ApplicationAwareServlet {
 
+	private static final String OAUTH_CONSUMER_PROPERTIES = "oauth_consumer.properties";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
 	private HttpSession _session;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException {
@@ -43,12 +45,19 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 	}
 
 	private void authenticationRequested() throws Exception {
-		AuthProvider provider = AuthProviderFactory.getInstance(_request
-				.getParameter("id"));
-		String redirect = provider
-				.getLoginRedirectURL(AGITOS_URL + "/agitosweb/social_auth?status=success");
+		System.out.println("Using SocialAuth properties from: " + pathToPropertyFile());
+
+		AuthProvider provider = AuthProviderFactory.getInstance(
+				_request.getParameter("id"), pathToPropertyFile());
+
+		String redirect = provider.getLoginRedirectURL(AGITOS_URL
+				+ "/agitosweb/social_auth?status=success");
 		_session.setAttribute("AuthProvider", provider);
 		redirect(redirect);
+	}
+
+	private String pathToPropertyFile() {
+		return getClass().getPackage().getName().replace('.', '/') + "/" + OAUTH_CONSUMER_PROPERTIES; 
 	}
 
 	private void redirect(String redirect) {
@@ -57,42 +66,46 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 	}
 
 	private void authenticationSucceded() throws Exception {
-		AuthProvider provider = (AuthProvider) _request.getSession().getAttribute("AuthProvider");
-		if (provider == null)
-			throw new ServletException("AuthProvider not found in session");
-		
-		Profile profile = provider.verifyResponse(_request);
-		System.out.println("Autenticado: " + profile);
-		System.out.println("Obtendo lista de contatos");
-		List<Contact> contactList = provider.getContactList();
-		StringBuffer emails = new StringBuffer();
-		for (Contact contact : contactList) {
-//			emails.append("< " + contact.getFirstName() + " > ");
-			emails.append(contact.getEmail());
-			emails.append(" , ");
-		}
 		try {
-			SessionToken sessionToken = new SessionToken(getSessionTokenFromCookies());
-			getApp().addContactsToMe(sessionToken, emails.toString(), "");
+			AuthProvider provider = (AuthProvider) _request.getSession()
+					.getAttribute("AuthProvider");
+			if (provider == null)
+				throw new ServletException("AuthProvider not found in session");
+
+			Profile profile = provider.verifyResponse(_request);
+			System.out.println("Autenticado: " + profile);
+
+			List<UserDTO> contactsToImport = new ArrayList<UserDTO>();
+			for (Contact contact : provider.getContactList()) {
+				contactsToImport
+						.add(new UserDTO(null, null, contact.getEmail()));
+			}
+			SessionToken sessionToken = new SessionToken(
+					getSessionTokenFromCookies());
+			getApp().importContactsFromService(sessionToken, contactsToImport,
+					provider.getClass().toString());
 		} catch (Exception e) {
-			System.out.println(e.getMessage() + " for: " + emails.toString());
+			System.out.println(e.getMessage());
 		}
 
-		redirect(AGITOS_URL + "/index.html?" + buildCodeSvrParam() + "#meus_agitos");
+		redirect(AGITOS_URL + "/index.html?" + buildCodeSvrParam()
+				+ "#meus_agitos");
 	}
 
 	private String buildCodeSvrParam() {
 		final String codesvr = _request.getParameter("gwt.codesvr");
-		return (codesvr !=null ? "gwt.codesvr="+codesvr : "");
+		return (codesvr != null ? "gwt.codesvr=" + codesvr : "");
 	}
 
-	private String getSessionTokenFromCookies() throws UnsupportedEncodingException {
+	private String getSessionTokenFromCookies()
+			throws UnsupportedEncodingException {
 		return getCookieValue(SessionToken.COOKIE_NAME);
 	}
 
-	private String getCookieValue(final String cookieName) throws UnsupportedEncodingException {
+	private String getCookieValue(final String cookieName)
+			throws UnsupportedEncodingException {
 		for (Cookie cookie : _request.getCookies()) {
-			if(cookieName.equals(cookie.getName())) {
+			if (cookieName.equals(cookie.getName())) {
 				return URLDecoder.decode(cookie.getValue(), "UTF-8");
 			}
 		}
