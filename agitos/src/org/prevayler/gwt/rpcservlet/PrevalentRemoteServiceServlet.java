@@ -23,12 +23,8 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	class SnapshotTakerThread extends Thread {
 
-		final Prevayler _prevayler;
 		boolean running = true;
 
-		SnapshotTakerThread(final Prevayler prevayler) {
-			_prevayler = prevayler;
-		}
 
 		public void stopSnapshots() {
 			running = false;
@@ -80,7 +76,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 		final Prevayler prevayler = factory.create();
 
-		snapshotTaker = new SnapshotTakerThread(prevayler);
+		snapshotTaker = new SnapshotTakerThread();
 		snapshotTaker.setDaemon(true);
 		snapshotTaker.start();
 		return prevayler;
@@ -90,6 +86,12 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 	public void destroy() {
 		super.destroy();
 		snapshotTaker.stopSnapshots();
+		try {
+			snapshotTaker.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
