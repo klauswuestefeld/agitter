@@ -5,6 +5,7 @@ import guardachuva.agitos.shared.EventDTO;
 import guardachuva.agitos.shared.UserDTO;
 
 import java.util.Date;
+import java.util.List;
 
 import wg.gwt.widgets.client.LampTextArea;
 import wg.gwt.widgets.client.LampTextBox;
@@ -256,7 +257,7 @@ public class EventsWidget extends Composite {
 		}
 	}
 
-	public void renderEvents(EventDTO[] events) {
+	public void renderEvents(List<EventDTO> events) {
 		eventsList.clear();
 		
 		for (EventDTO event : events) {
@@ -264,7 +265,7 @@ public class EventsWidget extends Composite {
 		}
 	}
 
-	public void renderContacts(UserDTO[] contacts) {
+	public void renderContacts(List<UserDTO> contacts) {
 		contactsList.clear();
 
 		for (UserDTO contact : contacts) {

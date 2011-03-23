@@ -70,7 +70,7 @@ public class User implements Serializable {
 	
 	public void addContact(User newContact) throws BusinessException {
 		if (this.equals(newContact))
-			throw new BusinessException("Voc� n�o pode ser um dos seus contatos.");
+			throw new BusinessException("Você não pode ser um dos seus contatos.");
 		
 		newContact.producers.add(this);
 		_contacts.add(newContact);

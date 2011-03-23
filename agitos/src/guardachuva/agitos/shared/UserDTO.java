@@ -52,5 +52,36 @@ public class UserDTO implements Serializable, IsSerializable  {
 		
 		return errors.toArray(new String[errors.size()]);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_email == null) ? 0 : _email.hashCode());
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserDTO other = (UserDTO) obj;
+		if (_email == null) {
+			if (other._email != null)
+				return false;
+		} else if (!_email.equals(other._email))
+			return false;
+		if (_name == null) {
+			if (other._name != null)
+				return false;
+		} else if (!_name.equals(other._name))
+			return false;
+		return true;
+	}
 	
 }

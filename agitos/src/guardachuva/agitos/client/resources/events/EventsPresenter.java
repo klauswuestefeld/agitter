@@ -8,6 +8,7 @@ import guardachuva.agitos.shared.Validations;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -63,9 +64,9 @@ public class EventsPresenter extends BasePresenter {
 	}
 	
 	protected void updateEventsList() {
-		_application.getEventsForMe(getSession(), new AsyncCallback<EventDTO[]>() {
+		_application.getEventsForMe(getSession(), new AsyncCallback<List<EventDTO>>() {
 			@Override
-			public void onSuccess(EventDTO[] events) {
+			public void onSuccess(List<EventDTO> events) {
 				getEventsWidget().renderEvents(events);
 			}
 			@Override
@@ -79,7 +80,7 @@ public class EventsPresenter extends BasePresenter {
 		if (!Validations.validateMultipleEmailAndOptinalName(contactMail)) {
 			_controller.showError("A lista de emails e nomes é inválida.");
 		} else {
-			_application.addContactsToMe(getSession(), contactMail, "", new AsyncCallback<Void>() {
+			_application.addContactsToMe(getSession(), contactMail, new AsyncCallback<Void>() {
 				@Override
 				public void onSuccess(Void result) {
 					getEventsWidget().resetAddContactForm();
@@ -94,9 +95,9 @@ public class EventsPresenter extends BasePresenter {
 	}
 	
 	private void updateContactsList() {
-		_application.getContactsForMe(getSession(), new AsyncCallback<UserDTO[]>() {
+		_application.getContactsForMe(getSession(), new AsyncCallback<List<UserDTO>>() {
 			@Override
-			public void onSuccess(UserDTO[] contacts) {
+			public void onSuccess(List<UserDTO> contacts) {
 				getEventsWidget().renderContacts(contacts);
 			}
 			@Override

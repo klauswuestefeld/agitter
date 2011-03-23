@@ -75,7 +75,7 @@ public class ApplicationImpl implements Serializable, Application {
 	}
 
 	@Override
-	public EventDTO[] getEventsForMe(SessionToken session) throws UnauthorizedBusinessException {
+	public List<EventDTO> getEventsForMe(SessionToken session) throws UnauthorizedBusinessException {
 		assertValidSession(session);
 
 		User user = _sessions.getLoggedUserOn(session);
@@ -86,8 +86,7 @@ public class ApplicationImpl implements Serializable, Application {
 		Event[] events = eventsList.toArray(new Event[eventsList.size()]);
 		Arrays.sort(events, new EventDateTimeComparator());
 		
-		EventDTO[] eventsDTOArray = toEventsDTO(events);
-		return eventsDTOArray;
+		return toEventsDTO(events);
 	}
 
 
@@ -117,15 +116,16 @@ public class ApplicationImpl implements Serializable, Application {
 	}
 
 	@Override
-	public void addContactsToMe(SessionToken session, String contact_mail, String linkToApplication) throws Exception {
+	public void addContactsToMe(SessionToken session, String contact_mail) throws Exception {
 		assertValidSession(session);
 		
 		User user = _sessions.getLoggedUserOn(session);
 
 		List<User> contacts = _users.produceMultipleUsers(contact_mail);
 		
+		//FIXME: Deve ter forma de accessar de forma segura um link para adicionar no email
 		for (User contact : contacts)
-			sendInvite(user, contact.getEmail(), linkToApplication);
+			sendInvite(user, contact.getEmail(), "DEVE TER LINK PARA APLICAÇÃO AQUI");
 		
 		user.addContacts(contacts);
 	}
@@ -155,7 +155,7 @@ public class ApplicationImpl implements Serializable, Application {
 		}
 
 		@Override
-		public UserDTO[] getContactsForMe(SessionToken session) throws UnauthorizedBusinessException {
+		public List<UserDTO> getContactsForMe(SessionToken session) throws UnauthorizedBusinessException {
 			assertValidSession(session);
 
 			User loggedUser = _sessions.getLoggedUserOn(session);
@@ -186,25 +186,25 @@ public class ApplicationImpl implements Serializable, Application {
 			return toUserDTO(_sessions.getLoggedUserOn(session));
 		}
 
-		private UserDTO[] toUsersDTO(User[] users) {
+		private List<UserDTO> toUsersDTO(User[] users) {
 			ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
 			for (User user : users) {
 				usersDTO.add(toUserDTO(user));
 			}
-			return usersDTO.toArray(new UserDTO[usersDTO.size()]);
+			return usersDTO;
 		}
 
 		private UserDTO toUserDTO(User user) {
 			return new UserDTO(user.getName(), user.getUserName(), user.getEmail());
 		}
 		
-		private EventDTO[] toEventsDTO(Event[] events) {
+		private List<EventDTO> toEventsDTO(Event[] events) {
 			ArrayList<EventDTO> eventsDTO = new ArrayList<EventDTO>();
 			for (Event event : events) {
 				eventsDTO.add(new EventDTO(event.getId(), event.getDescription(), 
 						event.getDate(), toUserDTO(event.getModerator())));
 			}
-			return eventsDTO.toArray(new EventDTO[eventsDTO.size()]);
+			return eventsDTO;
 		}
 
 
@@ -243,5 +243,30 @@ public class ApplicationImpl implements Serializable, Application {
 			throw new IllegalStateException("ApplicationImpl sendo instanciada mais de uma vez");
 		}/**/
 		_Instance = this;
+	}
+
+	@Override
+	public void importContactsFromService(SessionToken session, List<UserDTO> contactsToImport, String service) throws UnauthorizedBusinessException, ValidationException {
+		assertValidSession(session);
+		try {
+			User user = _sessions.getLoggedUserOn(session);
+
+			List<User> usersToImport = new ArrayList<User>();
+			for (UserDTO contactToImport : contactsToImport) {
+
+				User userToImport = _users.produceUser(
+						contactToImport.getName(), contactToImport.getEmail());
+
+				if (user.equals(userToImport)) // Não colocar ele mesmo como
+												// contato dele
+				continue;
+			
+				usersToImport.add(userToImport);			
+			}
+			
+			user.addContacts(usersToImport);
+		} catch (BusinessException e) {
+			// Ignorar problemas especificos de um ou outro usuario na importação desde um serviço
+		}
 	}	
 }

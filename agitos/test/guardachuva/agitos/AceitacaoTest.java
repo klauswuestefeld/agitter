@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import guardachuva.agitos.server.ApplicationImpl;
 import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.shared.Application;
@@ -43,7 +47,7 @@ public class AceitacaoTest {
 	@Test
 	public void createNewUserShouldRegisterAlreadyExistentContact() throws ValidationException, Exception{
 		String mailOfTheContact = "derek@gmail.com";
-		_app.addContactsToMe(_session, mailOfTheContact, null );
+		_app.addContactsToMe(_session, mailOfTheContact);
 		String password = "drk2011";
 		_app.createNewUser("Derek Muller", "derek", password, mailOfTheContact);
 		assertNotNull(_app.authenticate(mailOfTheContact, password));
@@ -67,18 +71,26 @@ public class AceitacaoTest {
 		_app.createEvent(_session, "Evento", 
 				DateTimeUtilsServer.strToDate("13/10/2010 10:45"));
 
-		EventDTO[] events = _app.getEventsForMe(_session);
+		List<EventDTO> events = _app.getEventsForMe(_session);
 		assertNotNull(events);
-		assertTrue(events.length==1);
-		assertEquals("Evento", events[0].getDescription());
-		assertEquals(DateTimeUtilsServer.strToDate("13/10/2010 10:45"), events[0].getDate());
+		assertTrue(events.size()==1);
+		assertEquals("Evento", events.get(0).getDescription());
+		assertEquals(DateTimeUtilsServer.strToDate("13/10/2010 10:45"), events.get(0).getDate());
 	}
 	
 	@Test
 	public void addContactsInLargeBatches() throws ValidationException, Exception {
-		_app.addContactsToMe(_session, "\"Alisson Vale\" <alissoncvale@gmail.com>,bihaiko@gmail.com , leonardonunes@gmail.com, matias.g.rodriguez@gmail.com , , ", "");
-		UserDTO[] contacts = _app.getContactsForMe(_session);
-		assertThat(contacts.length, equalTo(4));
+		_app.addContactsToMe(_session, "\"Alisson Vale\" <alissoncvale@gmail.com>,bihaiko@gmail.com , leonardonunes@gmail.com, matias.g.rodriguez@gmail.com , , ");
+		List<UserDTO> contacts = _app.getContactsForMe(_session);
+		assertThat(contacts.size(), equalTo(4));
 	}
 		
+	@Test
+	public void importContactsFromService() throws UnauthorizedBusinessException, ValidationException {
+		List<UserDTO> contactsToImport = new ArrayList<UserDTO>();
+		contactsToImport.add(new UserDTO("Juan", "juan.bernabo@teamware.com.br", "juan.bernabo@teamware.com.br"));
+		_app.importContactsFromService(_session, contactsToImport, "gmail");
+		assertThat(contactsToImport, equalTo(_app.getContactsForMe(_session)));
+	}
+	
 }

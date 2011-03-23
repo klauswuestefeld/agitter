@@ -53,7 +53,7 @@ public class Users {
 			: produceUser(matcher.group(3), matcher.group(3));
 	}
 	
-	private User produceUser(String name, String email) throws ValidationException {
+	public User produceUser(String name, String email) throws ValidationException {
 		return produceUser(name, email, User.SENHA_DEFAULT, email);
 	}
 

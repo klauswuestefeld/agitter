@@ -7,13 +7,17 @@ import guardachuva.agitos.shared.UserDTO;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface RemoteApplicationAsync {
 
 	void addContactsToMe(SessionToken session, String contact_mail,
-			String linkToApplication, AsyncCallback<Void> callback);
+			AsyncCallback<Void> callback);
+	
+	void importContactsFromService(SessionToken session, 
+			List<UserDTO> contactsToImport, String service, AsyncCallback<Void> callback);
 
 	void authenticate(String email, String password,
 			AsyncCallback<SessionToken> callback);
@@ -27,9 +31,9 @@ public interface RemoteApplicationAsync {
 	void deleteContactForMe(SessionToken session, String email, 
 			AsyncCallback<Void> callback);
 
-	void getContactsForMe(SessionToken session, AsyncCallback<UserDTO[]> callback);
+	void getContactsForMe(SessionToken session, AsyncCallback<List<UserDTO>> callback);
 
-	void getEventsForMe(SessionToken session, AsyncCallback<EventDTO[]> callback);
+	void getEventsForMe(SessionToken session, AsyncCallback<List<EventDTO>> callback);
 
 	void ignoreProducerForMe(SessionToken session, String email, 
 			AsyncCallback<Void> callback);
