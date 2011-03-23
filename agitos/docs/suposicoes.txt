@@ -76,4 +76,7 @@ JB		- Importação de Emails de meus Contatos
 	- Agenda
 		- Google Calendar - Ver meus agitos no Calendar.
  
-	- Mobile - Client específico pro Agitos no mobile.	
+	- Mobile - Client específico pro Agitos no mobile.
+	
+	- Sites de eventos / shows
+		- Integração com widget estilo o "I Like" do facebook mais que seja "Eu Vou" e "Eu Fui" (para avaliação de eventos que já aconteceram)
