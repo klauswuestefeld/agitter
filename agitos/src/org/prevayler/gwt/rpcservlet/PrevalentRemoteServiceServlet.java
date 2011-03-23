@@ -23,10 +23,10 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	class SnapshotTakerThread extends Thread {
 
-		Prevayler _prevayler;
+		final Prevayler _prevayler;
 		boolean running = true;
 
-		SnapshotTakerThread(Prevayler prevayler) {
+		SnapshotTakerThread(final Prevayler prevayler) {
 			_prevayler = prevayler;
 		}
 
