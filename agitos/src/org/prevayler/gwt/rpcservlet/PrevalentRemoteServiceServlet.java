@@ -48,6 +48,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 				}
 			}
 			try {
+				_prevayler.takeSnapshot();
 				_prevayler.close();
 			} catch (IOException e) {
 				e.printStackTrace();
