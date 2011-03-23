@@ -17,10 +17,12 @@ public class UserDTO implements Serializable, IsSerializable  {
 	private UserDTO() {
 	}
 	
-	public UserDTO(String name, String userName, String email) {
+	public UserDTO(String name, String userName, String email) throws ValidationException {
 		this._email = email;
 		this._name = name;
 		this._userName = userName;
+		if (email == null || !Validations.validateEmail(email))
+			throw new ValidationException("Emajl", "Usuario deve ter email valido");
 	}
 
 	public String getEmail() {
@@ -28,7 +30,7 @@ public class UserDTO implements Serializable, IsSerializable  {
 	}
 
 	public String getName() {
-		return _name;
+		return _name != null ? _name : _email;
 	}
 
 	public String getUserName() {

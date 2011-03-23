@@ -86,7 +86,11 @@ public class ApplicationImpl implements Serializable, Application {
 		Event[] events = eventsList.toArray(new Event[eventsList.size()]);
 		Arrays.sort(events, new EventDateTimeComparator());
 		
-		return toEventsDTO(events);
+		try {
+			return toEventsDTO(events);
+		} catch (ValidationException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 
@@ -163,7 +167,11 @@ public class ApplicationImpl implements Serializable, Application {
 			User[] users = loggedUser.getContacts().toArray(new User[loggedUser.getContacts().size()]);
 			Arrays.sort(users, new UserEmailComparator());
 			
-			return toUsersDTO(users);
+			try {
+				return toUsersDTO(users);
+			} catch (ValidationException e) {
+				throw new IllegalStateException(e);
+			}
 		}
 
 		@Override
@@ -183,10 +191,14 @@ public class ApplicationImpl implements Serializable, Application {
 		@Override
 		public UserDTO getLoggedUserOn(SessionToken session) throws UnauthorizedBusinessException {
 			assertValidSession(session);
-			return toUserDTO(_sessions.getLoggedUserOn(session));
+			try {
+				return toUserDTO(_sessions.getLoggedUserOn(session));
+			} catch (ValidationException e) {
+				throw new IllegalStateException(e);
+			}
 		}
 
-		private List<UserDTO> toUsersDTO(User[] users) {
+		private List<UserDTO> toUsersDTO(User[] users) throws ValidationException {
 			ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
 			for (User user : users) {
 				usersDTO.add(toUserDTO(user));
@@ -194,11 +206,11 @@ public class ApplicationImpl implements Serializable, Application {
 			return usersDTO;
 		}
 
-		private UserDTO toUserDTO(User user) {
+		private UserDTO toUserDTO(User user) throws ValidationException {
 			return new UserDTO(user.getName(), user.getUserName(), user.getEmail());
 		}
 		
-		private List<EventDTO> toEventsDTO(Event[] events) {
+		private List<EventDTO> toEventsDTO(Event[] events) throws ValidationException {
 			ArrayList<EventDTO> eventsDTO = new ArrayList<EventDTO>();
 			for (Event event : events) {
 				eventsDTO.add(new EventDTO(event.getId(), event.getDescription(), 
@@ -254,8 +266,10 @@ public class ApplicationImpl implements Serializable, Application {
 			List<User> usersToImport = new ArrayList<User>();
 			for (UserDTO contactToImport : contactsToImport) {
 
+				
 				User userToImport = _users.produceUser(
-						contactToImport.getName(), contactToImport.getEmail());
+						contactToImport.getName(), 
+						contactToImport.getEmail());
 
 				// Não colocar ele mesmo como contato dele
 				if (loggedOnUser.equals(userToImport)) 
