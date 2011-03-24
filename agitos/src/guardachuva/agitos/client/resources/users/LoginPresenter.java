@@ -29,8 +29,8 @@ public class LoginPresenter extends BasePresenter {
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				showError(caught);
 				_view.resetForm();
+				_view.showValidation(caught.getMessage());
 			}
 		});
 	}

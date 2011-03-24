@@ -22,7 +22,7 @@ public class UserDTO implements Serializable, IsSerializable  {
 		this._name = name;
 		this._userName = userName;
 		if (email == null || !Validations.validateEmail(email))
-			throw new ValidationException("Emajl", "Usuario deve ter email valido");
+			throw new ValidationException("Usuario deve ter email valido");
 	}
 
 	public String getEmail() {
@@ -46,11 +46,11 @@ public class UserDTO implements Serializable, IsSerializable  {
 		if (userName == null || !Validations.validateMinLength(userName, 3))
 			errors.add("O nome de usuário deve possuir no mínimo 3 caracteres.");
 	
-		if (password != null && !Validations.validateMinLength(password, 3))
-			errors.add("A senha deve possuir no mínimo 3 caracteres.");
-	
 		if (email == null || !Validations.validateEmail(email))
 			errors.add("O email não parece ser válido.");
+		
+		if (password != null && !Validations.validateMinLength(password, 3))
+			errors.add("A senha deve possuir no mínimo 3 caracteres.");
 		
 		return errors.toArray(new String[errors.size()]);
 	}

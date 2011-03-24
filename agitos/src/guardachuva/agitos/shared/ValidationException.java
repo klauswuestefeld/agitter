@@ -1,29 +1,22 @@
 package guardachuva.agitos.shared;
 
-
 public class ValidationException extends BusinessException {
 
-
-	public ValidationException() {
-	}
-	
+	private static final long serialVersionUID = 1L;
 	private String[] _errors;
 
-	public ValidationException(String clazz, String[] errors) {
-		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + errors);
-		_errors = errors;
+	public ValidationException(){
+		
+	}
+	
+	public ValidationException(String message) {
+		super(message);
 	}
 
-	public ValidationException(String clazz, String error) {
-		super("Erros encontrados. Valide antes da criação. \n" + clazz + ":" + error);
-		_errors = new String[]{ error };
+	public ValidationException(String[] errors) {
+		super(ConversionUtils.arrayToString(errors, "\n"));
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	
 	public String[] getValidationErrors() {
 		return _errors;
 	}
