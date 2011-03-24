@@ -46,7 +46,7 @@ public class UserDTO implements Serializable, IsSerializable  {
 		if (userName == null || !Validations.validateMinLength(userName, 3))
 			errors.add("O nome de usuário deve possuir no mínimo 3 caracteres.");
 	
-		if (password == null || !Validations.validateMinLength(password, 3))
+		if (password != null && !Validations.validateMinLength(password, 3))
 			errors.add("A senha deve possuir no mínimo 3 caracteres.");
 	
 		if (email == null || !Validations.validateEmail(email))

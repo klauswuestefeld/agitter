@@ -122,12 +122,9 @@ public class UserTest extends Assert {
 		assertFalse(_altieres.getProducers().contains(_maoki));
 	}
 	
-	@Test
-	public void shouldNotIgnoreHimself() {
-		try {
-			_altieres.ignoreProducer(_altieres);
-			fail();
-		} catch (BusinessException e) { }
+	@Test(expected=BusinessException.class)
+	public void shouldNotIgnoreHimself() throws BusinessException {
+		_altieres.ignoreProducer(_altieres);
 	}
 	
 	@Test
@@ -138,11 +135,4 @@ public class UserTest extends Assert {
 		john.registerMe("John Ferri", "johnf", "passw");
 		assertTrue(john.isRegistered());
 	}
-	
-	@Test(expected=ValidationException.class)
-	public void shouldValidateRegistrationWithInvalidPassword() throws ValidationException {
-		User olivia = _userHome.produceUser("benson@mailer.com");
-		olivia.registerMe("Benson O.", "olivia", null);
-	}
-	
 }
