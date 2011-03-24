@@ -27,15 +27,12 @@ public class ClientController implements IController, EntryPoint,
 
 	private static final String AGITOS_BASE_URL = ""; //"/agitos";
 	private final EventsPresenter _eventsPresenter;
-	@SuppressWarnings("unused")
-	private final LoginPresenter _loginPresenter;
 	private RemoteApplicationAsync _application;
 	protected SessionToken _session;
 
 	public ClientController() {
 		_application = (RemoteApplicationAsync) GWT.create(RemoteApplication.class);
 		_eventsPresenter = new EventsPresenter(this, _application);
-		_loginPresenter = new LoginPresenter(this, _application);
 	}
 
 	@Override
