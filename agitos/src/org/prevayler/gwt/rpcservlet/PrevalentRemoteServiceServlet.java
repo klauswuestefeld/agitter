@@ -25,6 +25,11 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 		boolean running = true;
 
+		{
+			setDaemon(true);
+			start();
+		}
+		
 
 		public void stopSnapshots() {
 			running = false;
@@ -33,22 +38,26 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 		
 		@Override
 		public void run() {
-			while (running) {
-				try {
-					Thread.sleep(1000 * 60 * 10);
-					_prevayler.takeSnapshot();
-				} catch (InterruptedException e) {
-					System.out.println("PrevaylerSnapshotThread stopped");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			while (running)
+				takeSnapshot();
+			
 			try {
-				_prevayler.takeSnapshot();
 				_prevayler.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+
+		private void takeSnapshot() {
+			try {
+				Thread.sleep(1000 * 60 * 10);
+//					_prevayler.takeSnapshot();
+			} catch (InterruptedException e) {
+				System.out.println("PrevaylerSnapshotThread stopped");
+			}
+//				catch (IOException e) {
+//					e.printStackTrace();
+//				}
 		}
 	}
 
@@ -78,8 +87,6 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	private void startSnapshotTaker() {
 		snapshotTaker = new SnapshotTakerThread();
-//		snapshotTaker.setDaemon(true);
-		snapshotTaker.start();
 	}
 
 	@Override
