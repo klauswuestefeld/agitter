@@ -22,7 +22,7 @@ public class SignupWrapper extends BaseValidationWrapper implements EntryPoint {
 	private Button signupButton;
 	public SignupWrapper(SignupPresenter signupPresenter) {
 		_presenter = signupPresenter;
-		_presenter.addFailureListener(this);
+		_presenter.setFailureListener(this);
 		nameField = TextBox.wrap(Document.get().getElementById("name"));
 		passwordField = PasswordTextBox.wrap(Document.get().getElementById("password"));
 		emailField = TextBox.wrap(Document.get().getElementById("email"));

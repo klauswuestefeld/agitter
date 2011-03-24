@@ -3,6 +3,7 @@ package guardachuva.agitos.client;
 import guardachuva.agitos.client.resources.events.EventsPresenter;
 import guardachuva.agitos.client.resources.events.EventsWidget;
 import guardachuva.agitos.client.resources.users.LoginPresenter;
+import guardachuva.agitos.client.resources.users.LoginWrapper;
 import guardachuva.agitos.client.resources.users.SignupPresenter;
 import guardachuva.agitos.client.resources.users.SignupWrapper;
 import guardachuva.agitos.shared.SessionToken;
@@ -44,7 +45,8 @@ public class ClientController implements IController, EntryPoint,
 			if (isLogged()) {				
 				redirectToRoot();
 			} else {
-				new LoginPresenter(this, _application).wrap();	
+				LoginPresenter presenter = new LoginPresenter(this, _application);
+				new LoginWrapper(presenter);
 				AnalyticsTracker.track("login");			
 			}
 		}

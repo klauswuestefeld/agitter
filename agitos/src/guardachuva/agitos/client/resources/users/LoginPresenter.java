@@ -9,14 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class LoginPresenter extends BasePresenter {
 
-	private LoginWrapper _view;
-	
 	public LoginPresenter(IController controller, RemoteApplicationAsync application) {
 		super(controller, application);
-	}
-	
-	public void wrap() {
-		_view = new LoginWrapper(this);
 	}
 	
 	public void tryLogin(final String email, final String password) {
@@ -29,8 +23,7 @@ public class LoginPresenter extends BasePresenter {
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				_view.resetForm();
-				_view.onFailure(caught.getMessage());
+				notifyFailureListener(caught);
 			}
 		});
 	}
