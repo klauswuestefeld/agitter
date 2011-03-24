@@ -4,10 +4,12 @@ import guardachuva.agitos.server.crypt.Cryptor;
 import guardachuva.agitos.server.crypt.CryptorException;
 import guardachuva.agitos.shared.SessionToken;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Sessions {
+public class Sessions implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	HashMap<SessionToken, Session> _sessions = new HashMap<SessionToken, Session>();
 	private int _nextSessionId = 0;
 
