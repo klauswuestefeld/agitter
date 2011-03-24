@@ -4,13 +4,14 @@ import guardachuva.agitos.client.resources.shared.ValidationComponent;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
-public abstract class BaseValidationWrapper extends BaseWrapper {
+public abstract class BaseValidationWrapper extends BaseWrapper implements FailureListener {
 	
 	protected ValidationComponent validationComponent;
 	protected abstract RootPanel getContainerForValidation();
-	public void showValidation(String errors) {
-		String[] errorList = errors.split("\n");
-		getValidation().displayValidationMessages(errorList);
+	
+	@Override
+	public void onFailure(String... errorMessages) {
+		getValidation().displayValidationMessages(errorMessages);
 		getContainerForValidation().add(getValidation());
 	}
 

@@ -2,6 +2,7 @@ package guardachuva.agitos.client.resources.users;
 
 import guardachuva.agitos.client.IController;
 import guardachuva.agitos.client.resources.BasePresenter;
+import guardachuva.agitos.client.resources.FailureListener;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
 
@@ -9,14 +10,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class SignupPresenter extends BasePresenter {
 
-	private SignupWrapper _view;
+	private FailureListener _listener;
 
 	public SignupPresenter(IController controller, RemoteApplicationAsync application) {
 		super(controller, application);
-	}
-
-	public void wrap() {
-		_view = new SignupWrapper(this);
 	}
 
 	public void trySignup(final String name, final String userName, final String password, final String email) {
@@ -31,8 +28,16 @@ public class SignupPresenter extends BasePresenter {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				_view.showValidation(caught.getMessage());
+				String[] errorMessages = caught.getMessage().split("\n");
+				if (_listener != null)
+					_listener.onFailure(errorMessages);
 			}
 		});
+	}
+	
+	public void addFailureListener(FailureListener listener){
+		if (_listener != null)
+			throw new IllegalStateException();
+		_listener = listener;
 	}
 }
