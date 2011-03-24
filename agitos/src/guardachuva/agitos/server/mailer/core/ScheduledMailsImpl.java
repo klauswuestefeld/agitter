@@ -3,10 +3,12 @@ package guardachuva.agitos.server.mailer.core;
 import guardachuva.agitos.shared.Mail;
 import guardachuva.agitos.shared.ScheduledEmails;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class ScheduledMailsImpl implements ScheduledEmails {
+public class ScheduledMailsImpl implements ScheduledEmails, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Integer _scheduledMailsCount = 0;
 	private HashMap<String, Mail> _scheduledMails = new HashMap<String, Mail>();
 
