@@ -6,7 +6,6 @@ import guardachuva.agitos.server.domain.Events;
 import guardachuva.agitos.server.domain.User;
 import guardachuva.agitos.server.domain.Users;
 import guardachuva.agitos.shared.BusinessException;
-import guardachuva.agitos.shared.ValidationException;
 
 import java.text.ParseException;
 import java.util.List;

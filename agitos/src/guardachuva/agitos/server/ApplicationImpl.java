@@ -277,7 +277,6 @@ public class ApplicationImpl implements Serializable, Application {
 			
 				usersToImport.add(userToImport);			
 			}
-			System.out.println("Application.importContactsFromService: Adding " + usersToImport.size() + " contacts from " + service);			
 			loggedOnUser.addContacts(usersToImport);
 		} catch (BusinessException e) {
 			// Ignorar problemas especificos de um ou outro usuario na importação desde um serviço

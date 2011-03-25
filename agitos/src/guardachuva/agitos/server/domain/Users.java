@@ -48,7 +48,7 @@ public class Users  implements Serializable {
 		if (matcher.find())
 			return produceUserFromMatch(matcher);
 		
-		throw new ValidationException(emailText, "O formato do e-mail é inválido.");
+		throw new ValidationException("O formato do e-mail é inválido.");
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {

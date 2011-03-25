@@ -1,23 +1,29 @@
 package org.prevayler.bubble;
 
-import static sneer.foundation.environments.Environments.my;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import sneer.bricks.hardware.io.prevalence.flag.PrevalenceFlag;
 import sneer.foundation.lang.Immutable;
 
-public class PrevalenceMap {
+public class IdMap {
 	
-	private static Map<Object, Long> _idsByObject = new ConcurrentHashMap<Object, Long>();
-	private static Map<Long, Object> _objectsById = new ConcurrentHashMap<Long, Object>();
-	private static long _nextId = 1;
+	private final Map<Object, Long> _idsByObject = new ConcurrentHashMap<Object, Long>();
+	private final Map<Long, Object> _objectsById = new ConcurrentHashMap<Long, Object>();
+	private long _nextId = 1;
 
 	
-	public static void register(Object object) {
+	IdMap() {} //Not public
+	
+	
+	public void register(Object object) {
 		checkInsidePrevalence(object);
+		doRegister(object);
+	}
+
+
+	private void doRegister(Object object) {
+		if (object == null) throw new IllegalArgumentException();
 		
 		if (_idsByObject.containsKey(object))
 			throw new IllegalStateException("Object already registered in prevalence map: " + object);
@@ -28,18 +34,18 @@ public class PrevalenceMap {
 	}
 
 	
-	public static boolean isRegistered(Object object) {
+	public boolean isRegistered(Object object) {
 		return _idsByObject.containsKey(object);
 	}
 
 	
-	private static <T> void checkInsidePrevalence(T object) {
-		if (!my(PrevalenceFlag.class).isInsidePrevalence())
+	private void checkInsidePrevalence(Object object) {
+		if (!PrevalenceFlag.isInsidePrevalence())
 			throw new IllegalStateException("Trying to register object '" + object + "' outside prevalent environment.");
 	}
 
 	
-	public static Object[] marshal(Object[] array) {
+	Object[] marshal(Object[] array) {
 		if (array == null)
 			return null;
 		
@@ -50,7 +56,7 @@ public class PrevalenceMap {
 	}
 	
 	
-	private static Object marshalIfNecessary(Object object) {
+	private Object marshalIfNecessary(Object object) {
 		if (object == null) return null;
 		
 		Long id = _idsByObject.get(object);
@@ -63,7 +69,7 @@ public class PrevalenceMap {
 	}
 
 
-	public static long marshal(Object object) {
+	long marshal(Object object) {
 		Long result = _idsByObject.get(object);
 		if (result == null)
 			throw new IllegalStateException("Id not found for object: " + object);
@@ -71,7 +77,7 @@ public class PrevalenceMap {
 	}
 	
 	
-	public static Object[] unmarshal(Object[] array) {
+	Object[] unmarshal(Object[] array) {
 		if (array == null)
 			return null;
 
@@ -82,14 +88,14 @@ public class PrevalenceMap {
 	}
 
 	
-	private static Object unmarshal(Object object) {
+	Object unmarshal(Object object) {
 		return object instanceof OID
 			? unmarshal(((OID)object)._id)
 			: object;
 	}
 
 	
-	public static Object unmarshal(long id) {
+	Object unmarshal(long id) {
 		Object result = _objectsById.get(id);
 		if (result == null)
 			throw new IllegalStateException("Object not found for id: " + id);
@@ -97,7 +103,7 @@ public class PrevalenceMap {
 	}
 
 
-	public static boolean requiresRegistration(Object object) {
+	boolean requiresRegistration(Object object) {
 		if (object == null) return false;
 
 		Class<?> type = object.getClass();
@@ -106,6 +112,12 @@ public class PrevalenceMap {
 		if (Immutable.isImmutable(type)) return false;
 		
 		return true;
+	}
+
+
+	void registerFirstObject(Object object) {
+		if (!_objectsById.isEmpty()) throw new IllegalStateException();
+		doRegister(object);
 	}
 	
 }

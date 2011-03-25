@@ -3,7 +3,9 @@ package guardachuva.agitos.client;
 import guardachuva.agitos.client.resources.events.EventsPresenter;
 import guardachuva.agitos.client.resources.events.EventsWidget;
 import guardachuva.agitos.client.resources.users.LoginPresenter;
+import guardachuva.agitos.client.resources.users.LoginWrapper;
 import guardachuva.agitos.client.resources.users.SignupPresenter;
+import guardachuva.agitos.client.resources.users.SignupWrapper;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
@@ -27,15 +29,12 @@ public class ClientController implements IController, EntryPoint,
 
 	private static final String AGITOS_BASE_URL = ""; //"/agitos";
 	private final EventsPresenter _eventsPresenter;
-	@SuppressWarnings("unused")
-	private final LoginPresenter _loginPresenter;
 	private RemoteApplicationAsync _application;
 	protected SessionToken _session;
 
 	public ClientController() {
 		_application = (RemoteApplicationAsync) GWT.create(RemoteApplication.class);
 		_eventsPresenter = new EventsPresenter(this, _application);
-		_loginPresenter = new LoginPresenter(this, _application);
 	}
 
 	@Override
@@ -46,7 +45,8 @@ public class ClientController implements IController, EntryPoint,
 			if (isLogged()) {				
 				redirectToRoot();
 			} else {
-				new LoginPresenter(this, _application).wrap();	
+				LoginPresenter presenter = new LoginPresenter(this, _application);
+				new LoginWrapper(presenter);
 				AnalyticsTracker.track("login");			
 			}
 		}
@@ -55,7 +55,8 @@ public class ClientController implements IController, EntryPoint,
 			if (isLogged()) {
 				redirectToRoot();	
 			} else {
-				new SignupPresenter(this, _application).wrap();
+				SignupPresenter presenter = new SignupPresenter(this, _application);
+				new SignupWrapper(presenter);
 				AnalyticsTracker.track("signup");
 			}
 		}
@@ -83,28 +84,34 @@ public class ClientController implements IController, EntryPoint,
 		}	
 	}
 
+	@Override
 	public boolean isAtRootPage() {
 		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") 
 			|| Window.Location.getPath().equals(AGITOS_BASE_URL) 
 			|| Window.Location.getPath().endsWith("/index.html");
 	}
 
+	@Override
 	public boolean isAtSignupPage() {
 		return Window.Location.getPath().endsWith("/signup.html");
 	}
 
+	@Override
 	public boolean isAtLoginPage() {
 		return Window.Location.getPath().endsWith("/login.html");
 	}
 
+	@Override
 	public void redirectToRoot() {
 		redirect("/index.html");
 	}
 
+	@Override
 	public void redirectToLoginPage() {
 		redirect("/login.html");
 	}
 	
+	@Override
 	public void redirectToSignupPage() {
 		redirect("/signup.html");
 	}

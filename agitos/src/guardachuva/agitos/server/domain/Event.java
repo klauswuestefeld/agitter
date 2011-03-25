@@ -41,7 +41,7 @@ public final class Event implements Serializable {
 	public static Event createFor(int id, User moderator, String description, Date date) throws BusinessException {
 		String[] errors = EventDTO.errorsForConstruction(moderator.getEmail(), description, date);
 		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no evento. Valide antes da criação.", errors);
+			throw new ValidationException(errors);
 		
 		Event event = new Event(id, moderator, description, date);
 		

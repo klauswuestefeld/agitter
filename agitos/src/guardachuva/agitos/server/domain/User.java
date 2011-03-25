@@ -178,6 +178,6 @@ public class User implements Serializable {
 			String password, String email) throws ValidationException {
 		String[] errors = UserDTO.errorsForConstruction(name, userName, password, email);
 		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no usuário. Valide antes da criação.", errors);
+			throw new ValidationException(errors);
 	}
 }
