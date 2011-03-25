@@ -1,14 +1,6 @@
 package guardachuva.agitos;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import guardachuva.agitos.server.ApplicationImpl;
 import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.shared.Application;
@@ -19,11 +11,16 @@ import guardachuva.agitos.shared.UserAlreadyExistsException;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class AceitacaoTest {
+import sneer.foundation.testsupport.CleanTestBase;
+
+public class AceitacaoTest extends CleanTestBase {
 	
 	private Application _app;
 	private UserDTO _user;
