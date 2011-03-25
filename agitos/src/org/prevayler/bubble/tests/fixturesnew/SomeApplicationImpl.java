@@ -1,22 +1,22 @@
 package org.prevayler.bubble.tests.fixturesnew;
 
-import org.prevayler.bubble.tests.fixtures.SomePrevalentBrick;
-import org.prevayler.bubble.tests.fixtures.brick2.PrevalentBrick2;
-import org.prevayler.bubble.tests.fixtures.brick2.impl.PrevalentBrick2Impl;
-import org.prevayler.bubble.tests.fixtures.impl.SomePrevalentBrickImpl;
+import org.prevayler.bubble.tests.fixtures.SomeModule;
+import org.prevayler.bubble.tests.fixtures.brick2.SomeModule2;
+import org.prevayler.bubble.tests.fixtures.brick2.impl.SomeModule2Impl;
+import org.prevayler.bubble.tests.fixtures.impl.SomeModuleImpl;
 
 public class SomeApplicationImpl implements SomeApplication {
 
-	private SomePrevalentBrick _somePrevalentBrick = new SomePrevalentBrickImpl();
-	private PrevalentBrick2 _somePrevalentBrick2 = new PrevalentBrick2Impl(_somePrevalentBrick);
+	private SomeModule _somePrevalentBrick = new SomeModuleImpl();
+	private SomeModule2 _somePrevalentBrick2 = new SomeModule2Impl(_somePrevalentBrick);
 
 	@Override
-	public SomePrevalentBrick somePrevalentBrick() {
+	public SomeModule module1() {
 		return _somePrevalentBrick;
 	}
 
 	@Override
-	public PrevalentBrick2 somePrevalentBrick2() {
+	public SomeModule2 module2() {
 		return _somePrevalentBrick2;
 	}
 

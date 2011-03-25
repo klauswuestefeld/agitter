@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.prevayler.bubble.PrevalentContext;
 import org.prevayler.bubble.tests.fixtures.Item;
-import org.prevayler.bubble.tests.fixtures.SomePrevalentBrick;
+import org.prevayler.bubble.tests.fixtures.SomeModule;
 
 import sneer.foundation.lang.Closure;
 import sneer.foundation.lang.Consumer;
 
-public class SomePrevalentBrickImpl implements SomePrevalentBrick {
+public class SomeModuleImpl implements SomeModule {
 
 	private static final String INITIAL_VALUE = "INITIAL_VALUE";
 

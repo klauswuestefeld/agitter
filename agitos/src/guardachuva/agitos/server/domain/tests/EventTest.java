@@ -1,4 +1,4 @@
-package guardachuva.agitos.server.domain_tests;
+package guardachuva.agitos.server.domain.tests;
 
 import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.server.domain.Event;
