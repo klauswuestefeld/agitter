@@ -1,4 +1,4 @@
-package guardachuva.agitos;
+package guardachuva.agitos.tests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import guardachuva.agitos.server.ApplicationImpl;

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.prevayler.bubble.Bubble;
 import org.prevayler.bubble.PrevalentContext;
 import org.prevayler.bubble.tests.fixtures.Item;
-import org.prevayler.bubble.tests.fixtures.SomePrevalentBrick;
+import org.prevayler.bubble.tests.fixtures.SomeModule;
 import org.prevayler.bubble.tests.fixturesnew.SomeApplication;
 import org.prevayler.bubble.tests.fixturesnew.SomeApplicationImpl;
 
@@ -25,11 +25,11 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	
 	@Test (timeout = 4000)
 	public void stateIsPreserved() {
-		_subject.somePrevalentBrick().set("foo");
-		assertEquals("foo", _subject.somePrevalentBrick().get());
+		_subject.module1().set("foo");
+		assertEquals("foo", _subject.module1().get());
 
 		_subject = resetSubject();
-		assertEquals("foo", _subject.somePrevalentBrick().get());
+		assertEquals("foo", _subject.module1().get());
 	}
 
 	
@@ -42,35 +42,35 @@ public class PrevalentBubbleTest extends CleanTestBase {
 
 	@Test (timeout = 2000)
 	public void nullParameter() {
-		_subject.somePrevalentBrick().set("foo");
-		_subject.somePrevalentBrick().set(null);
+		_subject.module1().set("foo");
+		_subject.module1().set(null);
 
-		assertNull(_subject.somePrevalentBrick().get());
+		assertNull(_subject.module1().get());
 	}
 
 	
 	@Test //(timeout = 3000)
 	public void multipleBricks() {
-		_subject.somePrevalentBrick().addItem("Foo");
-		_subject.somePrevalentBrick2().rememberItemCount();
+		_subject.module1().addItem("Foo");
+		_subject.module2().rememberItemCount();
 		
 		_subject = resetSubject();
-		assertEquals(1, _subject.somePrevalentBrick2().recallItemCount());
+		assertEquals(1, _subject.module2().recallItemCount());
 	}
 	
 	
 	@Test (timeout = 3000)
 	public void brickCommandCausesAnotherBrickInstantiation() {
-		_subject.somePrevalentBrick2().rememberItemCount();
+		_subject.module2().rememberItemCount();
 		
 		_subject = resetSubject();
-		assertEquals(0, _subject.somePrevalentBrick2().recallItemCount());
+		assertEquals(0, _subject.module2().recallItemCount());
 	}
 	
 	
 	@Test (timeout = 3000)
 	public void baptismProblem() {
-		SomePrevalentBrick brick = _subject.somePrevalentBrick();
+		SomeModule brick = _subject.module1();
 		brick.addItem("Foo");
 		assertEquals(1, brick.itemCount());
 		brick.addItem("Bar");
@@ -81,20 +81,20 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		assertEquals(1, brick.itemCount());
 		
 		_subject = resetSubject();
-		assertEquals(1, _subject.somePrevalentBrick().itemCount());
+		assertEquals(1, _subject.module1().itemCount());
 	}
 	
 	
 	@Test (timeout = 3000)
 	public void objectsReturnedFromTransactionsAreAutomaticallyRegistered() {
-		SomePrevalentBrick brick = _subject.somePrevalentBrick();
+		SomeModule brick = _subject.module1();
 		Item foo = brick.addItemAndReturnIt_AnnotatedAsTransaction("Foo");
 		brick.addItem("Bar");
 		brick.removeItem(foo);
 		assertEquals(1, brick.itemCount());
 		
 		_subject = resetSubject();
-		brick = _subject.somePrevalentBrick();
+		brick = _subject.module1();
 		assertEquals(1, brick.itemCount());
 		assertEquals("Bar", brick.getItem("Bar").name());
 	}
@@ -102,7 +102,7 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	
 	@Test (timeout = 3000)
 	public void bubbleExpandsToQueriedValues() {
-		SomePrevalentBrick brick = _subject.somePrevalentBrick();
+		SomeModule brick = _subject.module1();
 		brick.addItem("Foo");
 		
 		Item item = brick.getItem("Foo");
@@ -112,23 +112,23 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		assertSame(item, brick.getItem("Bar"));
 		
 		_subject = resetSubject();
-		assertNotNull(_subject.somePrevalentBrick().getItem("Bar"));
+		assertNotNull(_subject.module1().getItem("Bar"));
 	}
 
 	
 	@Test (timeout = 3000)
 	public void queriesThatReturnUnregisteredObjectsAreAssumedToBeIdempotent() {
-		SomePrevalentBrick brick = _subject.somePrevalentBrick();
+		SomeModule brick = _subject.module1();
 		brick.itemAdder_Idempotent().consume("Foo");
 		
 		_subject = resetSubject();
-		assertNotNull(_subject.somePrevalentBrick().getItem("Foo"));
+		assertNotNull(_subject.module1().getItem("Foo"));
 	}
 
 	
 	@Test (timeout = 3000)
 	public void transactionAnnotation() {
-		SomePrevalentBrick brick = _subject.somePrevalentBrick();
+		SomeModule brick = _subject.module1();
 
 		Item item = brick.addItemAndReturnIt_AnnotatedAsTransaction("Foo");
 		item.name("Bar");
@@ -137,38 +137,38 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		assertSame(item, brick.getItem("Bar"));
 		
 		_subject = resetSubject();
-		assertNotNull(_subject.somePrevalentBrick().getItem("Bar"));
+		assertNotNull(_subject.module1().getItem("Bar"));
 	}
 
 	
 	@Test (timeout = 3000)
 	public void objectsReturnedByTransactionsAreRegistered() {
-		Item item = _subject.somePrevalentBrick().addItemAndReturnIt_AnnotatedAsTransaction("Foo");
+		Item item = _subject.module1().addItemAndReturnIt_AnnotatedAsTransaction("Foo");
 		assertTrue("Item should be registered.", PrevalentContext.idMap().isRegistered(item));
 	}
 
 	
 	@Test (timeout = 3000)
 	public void invocationPathWithArgs() {
-		_subject.somePrevalentBrick().addItem("foo"); //Registers it.
-		_subject.somePrevalentBrick().addItem("bar");
-		Item item = _subject.somePrevalentBrick().getItem("foo"); 
-		Closure remover = _subject.somePrevalentBrick().removerFor(item);
+		_subject.module1().addItem("foo"); //Registers it.
+		_subject.module1().addItem("bar");
+		Item item = _subject.module1().getItem("foo"); 
+		Closure remover = _subject.module1().removerFor(item);
 		remover.run();
 
 		_subject = resetSubject();
-		assertEquals(1, _subject.somePrevalentBrick().itemCount());
-		assertNotNull(_subject.somePrevalentBrick().getItem("bar"));
+		assertEquals(1, _subject.module1().itemCount());
+		assertNotNull(_subject.module1().getItem("bar"));
 	}
 
 	
 	@Test (timeout = 3000)
 	public void transactionMethodCallingTransactionMethod() {
-		_subject.somePrevalentBrick2().addItemToSomePrevalentBrick("foo");
-		assertNotNull(_subject.somePrevalentBrick().getItem("foo"));
+		_subject.module2().addItemToSomeModule("foo");
+		assertNotNull(_subject.module1().getItem("foo"));
 
 		_subject = resetSubject();
-		assertNotNull(_subject.somePrevalentBrick().getItem("foo"));
+		assertNotNull(_subject.module1().getItem("foo"));
 	}
 
 }

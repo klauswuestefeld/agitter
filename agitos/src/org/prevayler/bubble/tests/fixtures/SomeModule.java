@@ -5,7 +5,7 @@ import org.prevayler.bubble.Transaction;
 import sneer.foundation.lang.Closure;
 import sneer.foundation.lang.Consumer;
 
-public interface SomePrevalentBrick {
+public interface SomeModule {
 
 	void set(String string);
 	String get();

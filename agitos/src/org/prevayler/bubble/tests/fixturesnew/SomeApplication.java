@@ -1,12 +1,12 @@
 package org.prevayler.bubble.tests.fixturesnew;
 
-import org.prevayler.bubble.tests.fixtures.SomePrevalentBrick;
-import org.prevayler.bubble.tests.fixtures.brick2.PrevalentBrick2;
+import org.prevayler.bubble.tests.fixtures.SomeModule;
+import org.prevayler.bubble.tests.fixtures.brick2.SomeModule2;
 
 public interface SomeApplication {
 
-	SomePrevalentBrick somePrevalentBrick();
+	SomeModule module1();
 
-	PrevalentBrick2 somePrevalentBrick2();
+	SomeModule2 module2();
 
 }

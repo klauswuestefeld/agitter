@@ -1,12 +1,12 @@
 package org.prevayler.bubble.tests.fixtures.brick2;
 
 
-public interface PrevalentBrick2 {
+public interface SomeModule2 {
 
 	void rememberItemCount();
 
 	int recallItemCount();
 	
-	void addItemToSomePrevalentBrick(String name);
+	void addItemToSomeModule(String name);
 
 }
