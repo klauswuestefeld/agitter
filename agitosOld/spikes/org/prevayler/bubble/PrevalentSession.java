@@ -1,36 +1,36 @@
 package org.prevayler.bubble;
 
-import static sneer.foundation.environments.Environments.my;
-
 import java.io.File;
 import java.io.IOException;
 
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
-import sneer.bricks.hardware.cpu.threads.Threads;
-import sneer.bricks.hardware.cpu.threads.latches.Latch;
-import sneer.bricks.hardware.cpu.threads.latches.Latches;
-import sneer.foundation.lang.Closure;
+import sneer.foundation.util.concurrent.Latch;
 
-public class PrevaylerHolder {
+class PrevalentSession {
 
-	static Prevayler _prevayler;
-	static private final Latch _transactionLogReplayed = my(Latches.class).produce();
+	Prevayler _prevayler;
+	private final Latch _transactionLogReplayed = new Latch();
 
-	static private Object _prevalentSystem;
-	static private final Latch _buildingAvailable = my(Latches.class).produce();
+	private Object _prevalentSystem;
+	private final Latch _prevalentSystemAvailable = new Latch();
+	
+	IdMap _idMap = new IdMap();
 
-	public static void start(final Object initialPrevalentSystem, final File prevalenceBase) {
-		my(Threads.class).startDaemon("Prevalent transaction log replay.", new Closure() { @Override public void run() {
+	PrevalentSession(final Object initialPrevalentSystem, final File prevalenceBase) {
+		Thread thread = new Thread(new Runnable() { @Override public void run() {
+
 			_prevayler = createPrevayler(initialPrevalentSystem, prevalenceBase);
 			setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
 			_transactionLogReplayed.open();
-		}});
+
+		}}, "Prevalent transaction log replay.");
+		thread.setDaemon(true);
+		thread.start();
 	}
 
 	private static Prevayler createPrevayler(Object prevalentSystem, final File prevalenceBase) {
-		
 		final PrevaylerFactory factory = createPrevaylerFactory(prevalentSystem, prevalenceBase);
 
 		try {
@@ -50,28 +50,41 @@ public class PrevaylerHolder {
 		return factory;
 	}
 	
-	static void setPrevalentSystemIfNecessary(Object building) {
+	void setPrevalentSystemIfNecessary(Object system) {
+		if (system == null) throw new IllegalArgumentException();
+		
 		if (_prevalentSystem == null) {
-			_prevalentSystem = building;
-			_buildingAvailable.open();
+			_idMap.registerFirstObject(system);
+			
+			_prevalentSystem = system;
+			_prevalentSystemAvailable.open();
 		}
-		if (building != _prevalentSystem) throw new IllegalStateException();
+		if (system != _prevalentSystem) throw new IllegalStateException();
 	}
 
 
-	public static Object prevalentSystem() {
-		_buildingAvailable.waitTillOpen();
+	public Object prevalentSystem() {
+		waitForTransactionLogReplay();
 		return _prevalentSystem;
 	}
 
 
-	static boolean isReplayingTransactions() {
+	boolean isReplayingTransactions() {
 		return !_transactionLogReplayed.isOpen();
 	}
 
 
-	static void waitForTransactionLogReplayIfNecessary() {
+	void waitForTransactionLogReplay() {
 		_transactionLogReplayed.waitTillOpen();
+	}
+
+	public void close() {
+		try {
+			_prevayler.close();
+			_prevalentSystem = null;
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 }

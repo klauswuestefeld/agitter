@@ -1,11 +1,12 @@
 package org.prevayler.bubble;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import sneer.foundation.lang.ProducerX;
 
-class Invocation implements ProducerX<Object, Exception> {
+class Invocation implements ProducerX<Object, Exception>, Serializable {
 
 	Invocation(ProducerX<Object, ? extends Exception> targetProducer, Method method, Object[] args) {
 		_targetProducer = targetProducer;
@@ -45,12 +46,13 @@ class Invocation implements ProducerX<Object, Exception> {
 
 	
 	static private Object[] unmarshal(Object[] args) {
-		return PrevalenceMap.unmarshal(args);
+		return PrevalentContext.idMap().unmarshal(args);
 	}
 
 	
 	static private Object[] marshal(Object[] args) {
-		return PrevalenceMap.marshal(args);
+		return PrevalentContext.idMap().marshal(args);
 	}
 
+	private static final long serialVersionUID = 1L;
 }

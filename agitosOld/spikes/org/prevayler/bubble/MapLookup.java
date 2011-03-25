@@ -1,17 +1,14 @@
 package org.prevayler.bubble;
 
-import static sneer.foundation.environments.Environments.my;
-import sneer.bricks.hardware.io.prevalence.map.PrevalenceMap;
+import java.io.Serializable;
+
 import sneer.foundation.lang.Producer;
 
 
-class MapLookup implements Producer<Object> {
-	
-	private static PrevalenceMap PrevalenceMap = my(PrevalenceMap.class);
-
+class MapLookup implements Producer<Object>, Serializable {
 	
 	MapLookup(Object delegate) {
-		_id = PrevalenceMap.marshal(delegate);
+		_id = PrevalentContext.idMap().marshal(delegate);
 	}
 
 
@@ -20,8 +17,8 @@ class MapLookup implements Producer<Object> {
 
 	@Override
 	public Object produce() {
-		return PrevalenceMap.unmarshal(_id);
+		return PrevalentContext.idMap().unmarshal(_id);
 	}
 
-
+	private static final long serialVersionUID = 1L;
 }

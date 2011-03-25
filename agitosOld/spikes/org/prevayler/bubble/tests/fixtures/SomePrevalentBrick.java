@@ -2,7 +2,6 @@ package org.prevayler.bubble.tests.fixtures;
 
 import sneer.bricks.hardware.io.prevalence.nature.Prevalent;
 import sneer.bricks.hardware.io.prevalence.nature.Transaction;
-import sneer.bricks.pulp.reactive.Register;
 import sneer.foundation.brickness.Brick;
 import sneer.foundation.lang.Closure;
 import sneer.foundation.lang.Consumer;
@@ -23,7 +22,5 @@ public interface SomePrevalentBrick {
 	
 	Consumer<String> itemAdder_Idempotent();
 	
-	Register<String> itemAdder_Idempotent_Transitive();
-
 	Closure removerFor(Item item);
 }

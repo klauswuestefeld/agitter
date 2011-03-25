@@ -5,14 +5,17 @@ import java.util.Date;
 
 import org.prevayler.TransactionWithQuery;
 
-import foundation.Logger;
-
 import sneer.foundation.lang.ProducerX;
+import foundation.Logger;
 
 public class TransactionInvocation extends Invocation implements TransactionWithQuery {
 
 	private static final long serialVersionUID = 1L;
 
+	private TransactionInvocation() {
+		super(null, null, null);
+		throw new IllegalStateException();
+	}
 
 	TransactionInvocation(ProducerX<Object, ? extends Exception> targetProducer, Method method, Object[] args) {
 		super(targetProducer, method, args);
@@ -21,8 +24,14 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	@Override
 	public Object executeAndQuery(Object prevalentSystem, Date executionTimeIgnored) throws Exception {
-		PrevaylerHolder.setPrevalentSystemIfNecessary(prevalentSystem);
-		return produce();
+		PrevalentContext.setPrevalentSystemIfNecessary(prevalentSystem);
+
+		PrevalenceFlag.setInsidePrevalence(true);
+		try {
+			return produce();
+		} finally {
+			PrevalenceFlag.setInsidePrevalence(false);
+		}
 	}
 
 	
@@ -31,7 +40,7 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 		try {
 			return produceAndRegister();
 		} catch (RuntimeException rx) {
-			if (PrevaylerHolder.isReplayingTransactions())
+			if (PrevalentContext.isReplayingTransactions())
 				Logger.log(rx, "Exception thrown while replaying prevalent transactions: " + rx.getMessage());
 			throw rx;
 		}
@@ -46,9 +55,9 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 
 
 	private static void registerIfNecessary(Object object) {
-		if (!PrevalenceMap.requiresRegistration(object)) return;
-		if (PrevalenceMap.isRegistered(object)) return;
-		PrevalenceMap.register(object);
+		if (!PrevalentContext.idMap().requiresRegistration(object)) return;
+		if (PrevalentContext.idMap().isRegistered(object)) return;
+		PrevalentContext.idMap().register(object);
 	}
 
 	
