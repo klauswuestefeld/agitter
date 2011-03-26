@@ -1,16 +1,15 @@
 package org.prevayler.bubble;
 
-import java.io.File;
-
 import org.prevayler.Prevayler;
+import org.prevayler.PrevaylerFactory;
 
 public class PrevalentContext {
 
 	static PrevalentSession _session;
 	
-	public static void startSession(Object initialPrevalentSystem, File prevalenceBase) {
+	public static void startSession(PrevaylerFactory factory) {
 		closeSession();
-		_session = new PrevalentSession(initialPrevalentSystem, prevalenceBase);
+		_session = new PrevalentSession(factory);
 	}
 	
 	static void setPrevalentSystemIfNecessary(Object system) {

@@ -1,16 +1,11 @@
-package sneer.foundation.lang;
+package guardachuva.agitos.shared;
 
-import java.lang.reflect.Field;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Date;
 
-import sneer.foundation.testsupport.PrettyPrinter;
 
 public abstract class Immutable implements ReadOnly {
 
+	/*
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -119,7 +114,7 @@ public abstract class Immutable implements ReadOnly {
 		return result.toString();
 	}
 
-
+/**/
 	public static boolean isImmutable(Class<?> type) {
 		if (type == String.class) return true;
 
@@ -133,7 +128,7 @@ public abstract class Immutable implements ReadOnly {
 		if (type == Character.class) return true;
 		
 		if (type == Date.class) return true;
-		if (Immutable.class.isAssignableFrom(type)) return true;
+//		if (Immutable.class.isAssignableFrom(type)) return true;
 		return false;
 	}
 

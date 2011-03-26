@@ -1,6 +1,5 @@
 package org.prevayler.bubble;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.prevayler.Prevayler;
@@ -18,38 +17,21 @@ class PrevalentSession {
 	
 	IdMap _idMap = new IdMap();
 
-	PrevalentSession(final Object initialPrevalentSystem, final File prevalenceBase) {
-		Thread thread = new Thread(new Runnable() { @Override public void run() {
+	PrevalentSession(final PrevaylerFactory factory) {
 
-			_prevayler = createPrevayler(initialPrevalentSystem, prevalenceBase);
+			try { 
+				_prevayler = factory.create();
+			} catch (IOException e) {
+				// Depois eu trago a Bubble limpa p ca...
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
 			_transactionLogReplayed.open();
-
-		}}, "Prevalent transaction log replay.");
-		thread.setDaemon(true);
-		thread.start();
 	}
 
-	private static Prevayler createPrevayler(Object prevalentSystem, final File prevalenceBase) {
-		final PrevaylerFactory factory = createPrevaylerFactory(prevalentSystem, prevalenceBase);
-
-		try {
-			return factory.create();
-		} catch (IOException e) {
-			throw new foundation.lang.exceptions.NotImplementedYet(e); // Fix Handle this exception.
-		} catch (ClassNotFoundException e) {
-			throw new foundation.lang.exceptions.NotImplementedYet(e); // Fix Handle this exception.
-		}
-	}
-		
-	private static PrevaylerFactory createPrevaylerFactory(Object system, File prevalenceBase) {
-		PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(system);
-		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
-		factory.configureTransactionFiltering(false);
-		return factory;
-	}
-	
 	void setPrevalentSystemIfNecessary(Object system) {
 		if (system == null) throw new IllegalArgumentException();
 		

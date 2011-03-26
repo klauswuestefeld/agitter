@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class EventDTO implements Serializable, IsSerializable {
+public class EventDTO extends Immutable implements Serializable, IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 	private int _id;

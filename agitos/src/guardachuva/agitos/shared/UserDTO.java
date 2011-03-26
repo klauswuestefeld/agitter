@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
-public class UserDTO implements Serializable, IsSerializable  {
+public class UserDTO extends Immutable implements Serializable, IsSerializable  {
 
 	private static final long serialVersionUID = 1L;
 	private String _email;

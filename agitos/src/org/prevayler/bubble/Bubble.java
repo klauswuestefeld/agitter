@@ -1,15 +1,16 @@
 package org.prevayler.bubble;
 
+import guardachuva.agitos.shared.Immutable;
+import guardachuva.agitos.shared.ReadOnly;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 
 import sneer.foundation.lang.CacheMap;
-import sneer.foundation.lang.Immutable;
 import sneer.foundation.lang.Producer;
 import sneer.foundation.lang.ProducerX;
-import sneer.foundation.lang.ReadOnly;
 import sneer.foundation.lang.types.Classes;
 
 public class Bubble implements InvocationHandler {
@@ -55,6 +56,7 @@ public class Bubble implements InvocationHandler {
 		Class<?> type = object.getClass();
 		if (type.isArray()) return object;
 		if (Collection.class.isAssignableFrom(type)) return object;
+		if (object instanceof Immutable) return object;
 		if (Immutable.isImmutable(type)) return object;
 		
 		if (ReadOnly.class.isAssignableFrom(type)) return object;

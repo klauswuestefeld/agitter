@@ -1,10 +1,11 @@
 package org.prevayler.bubble;
 
+import guardachuva.agitos.shared.Immutable;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import sneer.foundation.lang.Immutable;
 
 public class IdMap {
 	
@@ -109,6 +110,7 @@ public class IdMap {
 		Class<?> type = object.getClass();
 		if (type.isArray()) return false;
 		if (Collection.class.isAssignableFrom(type)) return false;
+		if (object instanceof Immutable) return false;
 		if (Immutable.isImmutable(type)) return false;
 		
 		return true;
