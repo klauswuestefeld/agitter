@@ -1,7 +1,9 @@
 package guardachuva.agitos.server.socialauth;
 
 import guardachuva.agitos.shared.SessionToken;
+import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.UserDTO;
+import guardachuva.agitos.shared.ValidationException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -21,6 +23,7 @@ import org.brickred.socialauth.Profile;
 
 public class SocialAuthServlet extends ApplicationAwareServlet {
 
+	private static final String SOCIAL_AUTH_URL = AGITOS_URL + "/agitosweb/social_auth";
 	private static final String OAUTH_CONSUMER_PROPERTIES = "oauth_consumer.properties";
 	private HttpServletRequest _request;
 	private HttpServletResponse _response;
@@ -34,7 +37,7 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 		_session = request.getSession();
 
 		try {
-			if ("success".equals(request.getParameter("status"))) {
+			if (hasAuthenticationSucceded(request)) {
 				authenticationSucceded();
 			} else {
 				authenticationRequested();
@@ -44,19 +47,23 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 		}
 	}
 
+	private boolean hasAuthenticationSucceded(HttpServletRequest request) {
+		return "success".equals(request.getParameter("status"));
+	}
+
 	private void authenticationRequested() throws Exception {
 		System.out.println("Using SocialAuth properties from: " + pathToPropertyFile());
 
 		AuthProvider provider = AuthProviderFactory.getInstance(
 				_request.getParameter("id"), pathToPropertyFile());
 
-		String redirect = provider.getLoginRedirectURL(AGITOS_URL
-				+ "/agitosweb/social_auth?status=success");
+		String redirect = provider.getLoginRedirectURL(SOCIAL_AUTH_URL + "?status=success");
 		_session.setAttribute("AuthProvider", provider);
 		redirect(redirect);
 	}
 
 	private String pathToPropertyFile() {
+//		return getClass().getResource("").getFile() + OAUTH_CONSUMER_PROPERTIES;
 		return getClass().getPackage().getName().replace('.', '/') + "/" + OAUTH_CONSUMER_PROPERTIES; 
 	}
 
@@ -75,18 +82,7 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 			Profile profile = provider.verifyResponse(_request);
 			System.out.println("Autenticado: " + profile);
 
-			List<UserDTO> contactsToImport = new ArrayList<UserDTO>();
-			
-			for (Contact contact : provider.getContactList()) {
-				contactsToImport
-						.add(new UserDTO(null, null, contact.getEmail()));
-			}
-
-			SessionToken sessionToken = new SessionToken(
-					getSessionTokenFromCookies());
-			
-			getApp().importContactsFromService(sessionToken, contactsToImport,
-					provider.getClass().toString());
+			importContacts(provider.getContactList(), provider.getClass().toString());
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -94,6 +90,23 @@ public class SocialAuthServlet extends ApplicationAwareServlet {
 
 		redirect(AGITOS_URL + "/index.html?" + buildCodeSvrParam()
 				+ "#meus_agitos");
+	}
+
+	private void importContacts(final List<Contact> contactList,
+			final String providerName) throws ValidationException,
+			UnsupportedEncodingException, UnauthorizedBusinessException {
+		List<UserDTO> contactsToImport = new ArrayList<UserDTO>();
+		
+		for (Contact contact : contactList) {
+			contactsToImport
+					.add(new UserDTO(null, null, contact.getEmail()));
+		}
+
+		SessionToken sessionToken = new SessionToken(
+				getSessionTokenFromCookies());
+		
+		getApp().importContactsFromService(sessionToken, contactsToImport,
+				providerName);
 	}
 
 	private String buildCodeSvrParam() {
