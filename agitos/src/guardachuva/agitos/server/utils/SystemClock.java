@@ -1,4 +1,4 @@
-package guardachuva.agitos.server;
+package guardachuva.agitos.server.utils;
 
 import java.util.Date;
 

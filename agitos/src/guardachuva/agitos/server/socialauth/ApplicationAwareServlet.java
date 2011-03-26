@@ -1,6 +1,6 @@
 package guardachuva.agitos.server.socialauth;
 
-import guardachuva.agitos.server.ApplicationImpl;
+import guardachuva.agitos.server.domain.ApplicationImpl;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
 

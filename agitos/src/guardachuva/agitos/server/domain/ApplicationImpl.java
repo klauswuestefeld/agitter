@@ -1,15 +1,12 @@
-package guardachuva.agitos.server;
+package guardachuva.agitos.server.domain;
 
 import guardachuva.agitos.server.crypt.Cryptor;
-import guardachuva.agitos.server.domain.Event;
-import guardachuva.agitos.server.domain.Events;
-import guardachuva.agitos.server.domain.Sessions;
-import guardachuva.agitos.server.domain.User;
-import guardachuva.agitos.server.domain.Users;
 import guardachuva.agitos.server.domain.comparators.EventDateTimeComparator;
 import guardachuva.agitos.server.domain.comparators.UserEmailComparator;
 import guardachuva.agitos.server.mailer.core.ScheduledMailsImpl;
 import guardachuva.agitos.server.mailer.templates.ConviteAcessoTemplate;
+import guardachuva.agitos.server.utils.Clock;
+import guardachuva.agitos.server.utils.SystemClock;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.BusinessException;
 import guardachuva.agitos.shared.EventDTO;

@@ -1,7 +1,7 @@
 package guardachuva.agitos.server.mailer;
 
 import static org.apache.commons.logging.LogFactory.getLog;
-import guardachuva.agitos.server.ApplicationImpl;
+import guardachuva.agitos.server.domain.ApplicationImpl;
 import guardachuva.agitos.server.mailer.core.Mailer;
 import guardachuva.agitos.server.mailer.core.MailerException;
 import guardachuva.agitos.server.mailer.templates.MailTemplate;
@@ -26,16 +26,18 @@ public class MailerServer {
 	Log _log = getLog(MailerServer.class);
 	private Timer timer = new Timer();
 
-	private MailerServer() throws MailerException {
-		String agitosServer = System.getProperty("agitos.server", "127.0.0.1") +
-			":" + System.getProperty("agitos.port", "80");
-		String mailServer = System.getProperty("mail.server", "192.168.1.51");
+	private MailerServer(Application application) throws MailerException {
+		_application = application;
 		
-		_log.info("Starting mailer ({})" + agitosServer);
+		_log.info("Starting mailer(mail.server=" + getMailServerHost()+ ")");
 		
 		_application = ApplicationImpl.GetInstance();
 
-		_mailer = new Mailer(mailServer, FROM_MAIL, FROM_NAME);
+		_mailer = new Mailer(getMailServerHost(), FROM_MAIL, FROM_NAME);
+	}
+
+	private String getMailServerHost() {
+		return System.getProperty("mail.server", "192.168.1.51");
 	}
 	
 	private void startTimer() {
@@ -88,8 +90,8 @@ public class MailerServer {
 		}
 	}
 
-	public static void startRunning() throws MailerException {
-		new MailerServer().startTimer();
+	public static void startRunning(Application application) throws MailerException {
+		new MailerServer(application).startTimer();
 	}
 
 }

@@ -1,8 +1,8 @@
 package guardachuva.agitos.tests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import guardachuva.agitos.server.ApplicationImpl;
-import guardachuva.agitos.server.DateTimeUtilsServer;
+import guardachuva.agitos.server.domain.ApplicationImpl;
+import guardachuva.agitos.server.utils.DateTimeUtilsServer;
 import guardachuva.agitos.shared.Application;
 import guardachuva.agitos.shared.EventDTO;
 import guardachuva.agitos.shared.SessionToken;

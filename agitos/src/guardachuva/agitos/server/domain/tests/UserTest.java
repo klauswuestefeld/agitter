@@ -1,10 +1,10 @@
 package guardachuva.agitos.server.domain.tests;
 
-import guardachuva.agitos.server.DateTimeUtilsServer;
 import guardachuva.agitos.server.domain.Event;
 import guardachuva.agitos.server.domain.Events;
 import guardachuva.agitos.server.domain.User;
 import guardachuva.agitos.server.domain.Users;
+import guardachuva.agitos.server.utils.DateTimeUtilsServer;
 import guardachuva.agitos.shared.BusinessException;
 
 import java.text.ParseException;
