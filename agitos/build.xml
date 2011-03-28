@@ -27,11 +27,12 @@
 	</path>
 
 	<path id="testsupport.libraryclasspath">
-		<pathelement location="lib/junit4/junit-4.4.jar"/>
-		<pathelement location="lib/junit4/hamcrest-core-1.1.jar"/>
-		<pathelement location="lib/junit4/hamcrest-library-1.1.jar"/>
-		<pathelement location="lib/junit4/jmock-2.5.1.jar"/>
-		<pathelement location="lib/junit4/jmock-junit4-2.5.1.jar"/>
+		<pathelement location="lib/testsupport/junit-4.4.jar"/>
+		<pathelement location="lib/testsupport/hamcrest-core-1.1.jar"/>
+		<pathelement location="lib/testsupport/hamcrest-library-1.1.jar"/>
+		<pathelement location="lib/testsupport/jmock-2.5.1.jar"/>
+		<pathelement location="lib/testsupport/jmock-junit4-2.5.1.jar"/>
+		<pathelement location="lib/testsupport/htmlunit.jar"/>
 	</path>
 
 	<path id="agitosdeps.libraryclasspath">
