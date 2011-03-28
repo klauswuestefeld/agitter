@@ -1,12 +1,11 @@
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-
-import java.util.List;
-
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.UserDTO;
 import guardachuva.agitos.shared.ValidationException;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
+
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;

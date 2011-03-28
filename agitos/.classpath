@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry excluding="samples/jetty_prevayler/|samples/jetty_prevayler2/|samples/jetty_prevayler3/|samples/jetty_prevayler3/simpleprevalent/|samples/jetty_prevayler3/simpleservlet/|samples/jetty_servlet/|samples/restlet/|foundation/|foundation/lang/exceptions/|org/prevayler/bubble/|org/prevayler/bubble/tests/|org/prevayler/bubble/tests/fixtures/|org/prevayler/bubble/tests/fixtures/brick2/|org/prevayler/bubble/tests/fixtures/brick2/impl/|org/prevayler/bubble/tests/fixtures/impl/|org/prevayler/bubble/tests/fixturesnew/|org/prevayler/bubble/tests/fixturesnew/SomeApplication.java|org/prevayler/bubble/tests/fixturesnew/SomeApplicationImpl.java|org/prevayler/" kind="src" path="spikes"/>
+	<classpathentry kind="src" path="spikes"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/social_auth/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="lib/social_auth/commons-codec-1.3.jar"/>
