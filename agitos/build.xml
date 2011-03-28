@@ -76,37 +76,6 @@
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
-		<copy includeemptydirs="false" todir="war/WEB-INF/classes">
-			<fileset dir="test">
-				<exclude name="**/*.launch"/>
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-		<copy includeemptydirs="false" todir="war/WEB-INF/classes">
-			<fileset dir="spikes">
-				<exclude name="**/*.launch"/>
-				<exclude name="**/*.java"/>
-				<exclude name="samples/jetty_prevayler/"/>
-				<exclude name="samples/jetty_prevayler2/"/>
-				<exclude name="samples/jetty_prevayler3/"/>
-				<exclude name="samples/jetty_prevayler3/simpleprevalent/"/>
-				<exclude name="samples/jetty_prevayler3/simpleservlet/"/>
-				<exclude name="samples/jetty_servlet/"/>
-				<exclude name="samples/restlet/"/>
-				<exclude name="foundation/"/>
-				<exclude name="foundation/lang/exceptions/"/>
-				<exclude name="org/prevayler/bubble/"/>
-				<exclude name="org/prevayler/bubble/tests/"/>
-				<exclude name="org/prevayler/bubble/tests/fixtures/"/>
-				<exclude name="org/prevayler/bubble/tests/fixtures/brick2/"/>
-				<exclude name="org/prevayler/bubble/tests/fixtures/brick2/impl/"/>
-				<exclude name="org/prevayler/bubble/tests/fixtures/impl/"/>
-				<exclude name="org/prevayler/bubble/tests/fixturesnew/"/>
-				<exclude name="org/prevayler/bubble/tests/fixturesnew/SomeApplication.java"/>
-				<exclude name="org/prevayler/bubble/tests/fixturesnew/SomeApplicationImpl.java"/>
-				<exclude name="org/prevayler/"/>
-			</fileset>
-		</copy>
 		
 	    <mkdir dir="war/WEB-INF/lib" />
 		<copy todir="war/WEB-INF/lib" flatten="yes">
