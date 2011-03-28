@@ -2,10 +2,8 @@
 .DS_Store
 .gwt
 Prevalence
-war/WEB-INF/classes
-war/WEB-INF/deploy
-war/WEB-INF/lib/*.*
-!war/WEB-INF/lib/gwt-servlet.jar
+war/WEB-INF
+!war/WEB-INF/web.xml
 war/agitosweb
 build
 logs
