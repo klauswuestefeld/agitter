@@ -20,6 +20,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 	class SnapshotTakerThread extends Thread {
 
+		private static final int SNAPSHOT_RATE = 1000 * 60 * 10;
 		boolean running = true;
 
 		{
@@ -46,7 +47,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 
 		private void takeSnapshot() {
 			try {
-				Thread.sleep(1000 * 30);
+				Thread.sleep(SNAPSHOT_RATE);
 				_prevayler.takeSnapshot();
 			} catch (InterruptedException e) {
 				System.out.println("PrevaylerSnapshotThread stopped");
