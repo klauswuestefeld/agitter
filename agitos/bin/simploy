@@ -1,1 +1,0 @@
-java -cp war/WEB-INF/classes/:lib/junit4/junit.jar Simploy $*
