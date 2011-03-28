@@ -28,7 +28,8 @@
 SB			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O Simploy hoje é rodado usando "ant build" e depois "ant simploy". Fazer o target simploy depender do target build.
 KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
 >>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
-				
+		- install.sh - instalar tomcat dentro do diretorio do agitos_server, nao no raiz.
+						
 AV	- Cadastrar - Bug do contato ser considerado como "Usuario já existe".
 >>		- Senha Nova - Seguir mesmo fluxo q o usuário q esqueceu a senha: mandar e mail de confirmação. 
 				
