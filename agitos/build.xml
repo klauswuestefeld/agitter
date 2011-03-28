@@ -32,7 +32,7 @@
 		<pathelement location="lib/testsupport/hamcrest-library-1.1.jar"/>
 		<pathelement location="lib/testsupport/jmock-2.5.1.jar"/>
 		<pathelement location="lib/testsupport/jmock-junit4-2.5.1.jar"/>
-		<pathelement location="lib/testsupport/htmlunit.jar"/>
+		<pathelement location="lib/testsupport/httpunit.jar"/>
 	</path>
 
 	<path id="agitosdeps.libraryclasspath">
