@@ -15,8 +15,8 @@ import java.util.Set;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String PASSWORD_DEFAULT = "123456";
-	
+	public static final String PASSWORD_DEFAULT = null;
+
 	private String _name;
 	private String _userName;
 	private String _password;
@@ -171,13 +171,13 @@ public class User implements Serializable {
 	}
 	
 	private Boolean wasPasswordDefined(){
-		return (!PASSWORD_DEFAULT.equals(_password));
+		return (_password != null);
 	}
 	
 	private static void validateUser(String name, String userName,
 			String password, String email) throws ValidationException {
 		String[] errors = UserDTO.errorsForConstruction(name, userName, password, email);
 		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no usuário. Valide antes da criação.", errors);
+			throw new ValidationException(errors);
 	}
 }

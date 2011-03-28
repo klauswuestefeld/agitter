@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 
-public class UserDTO implements Serializable, IsSerializable  {
+public class UserDTO extends Immutable implements Serializable, IsSerializable  {
 
 	private static final long serialVersionUID = 1L;
 	private String _email;
@@ -17,10 +17,12 @@ public class UserDTO implements Serializable, IsSerializable  {
 	private UserDTO() {
 	}
 	
-	public UserDTO(String name, String userName, String email) {
+	public UserDTO(String name, String userName, String email) throws ValidationException {
 		this._email = email;
 		this._name = name;
 		this._userName = userName;
+		if (email == null || !Validations.validateEmail(email))
+			throw new ValidationException("Usuario deve ter email valido");
 	}
 
 	public String getEmail() {
@@ -28,7 +30,7 @@ public class UserDTO implements Serializable, IsSerializable  {
 	}
 
 	public String getName() {
-		return _name;
+		return _name != null ? _name : _email;
 	}
 
 	public String getUserName() {
@@ -44,11 +46,11 @@ public class UserDTO implements Serializable, IsSerializable  {
 		if (userName == null || !Validations.validateMinLength(userName, 3))
 			errors.add("O nome de usuário deve possuir no mínimo 3 caracteres.");
 	
-		if (password == null || !Validations.validateMinLength(password, 3))
-			errors.add("A senha deve possuir no mínimo 3 caracteres.");
-	
 		if (email == null || !Validations.validateEmail(email))
 			errors.add("O email não parece ser válido.");
+		
+		if (password != null && !Validations.validateMinLength(password, 3))
+			errors.add("A senha deve possuir no mínimo 3 caracteres.");
 		
 		return errors.toArray(new String[errors.size()]);
 	}

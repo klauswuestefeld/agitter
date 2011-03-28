@@ -16,6 +16,7 @@
 			- Agitos Patrocinados - Ex: "21h - Re-Estréia do Filme E.T. - Cinemark - [Link para comprar]"
 			
 	- Privacidade - Não vamos ceder os dados q temos a terceiros em hipótese alguma.
+		- Cross-site scripting - Evitar. Fazer: html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"); em algum ponto focal da arquitetura.
 		- Vazamentos - Temos capacidade técnica para impedir "vazamentos" de dados. 
 	
 	- Abrangência - O serviço de agitos terá abrangência mundial em todas as idades acima dos 12, principalmente dos 16 aos 25 anos.
@@ -29,8 +30,8 @@ SB			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O S
 KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
 >>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
 		- install.sh - instalar tomcat dentro do diretorio do agitos_server, nao no raiz.
-						
-AV	- Cadastrar - Bug do contato ser considerado como "Usuario já existe".
+
+AV	- Cadastro - Bug do contato ser considerado como "Usuario já existe".
 >>		- Senha Nova - Seguir mesmo fluxo q o usuário q esqueceu a senha: mandar e mail de confirmação. 
 				
 	- Rede Social
@@ -59,7 +60,7 @@ JB		- Importação de Emails de meus Contatos
 			- 5 Agitos futuros mais relevantes.
 			- Ver templates de email no googledoc chamado "Vagaloom"
 
-	- Grupos de Convidados - Pode conter outros grupos.
+	- Grupos de Convidados - Podem conter outros grupos.
 		- Grupos Publicos - Permitem seguidores.
 
 	- Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
@@ -75,9 +76,13 @@ JB		- Importação de Emails de meus Contatos
 			- Que mais podemos fazer com o Twitter?
 	
 	- Agenda
-		- Google Calendar - Ver meus agitos no Calendar.
+		- Google Calendar - Ver meus agitos no Calendar. Possibilita Mobile. Importante para grandes agitadores!
  
-	- Mobile - Client específico pro Agitos no mobile.
+	- Mobile
+		- SMS
+			- Receber via SMS agitos de pessoas q eu escolher.
+			- Receber lembretes de agitos um pouco antes.
+		- Client específico pro Agitos no mobile.
 	
 	- Sites de eventos / shows
 		- Integração com widget estilo o "I Like" do facebook mais que seja "Eu Vou" e "Eu Fui" (para avaliação de eventos que já aconteceram)

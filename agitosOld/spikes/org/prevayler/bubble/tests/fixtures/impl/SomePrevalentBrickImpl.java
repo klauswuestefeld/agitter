@@ -1,19 +1,12 @@
 package org.prevayler.bubble.tests.fixtures.impl;
 
-import static sneer.foundation.environments.Environments.my;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import org.prevayler.bubble.PrevalentContext;
 import org.prevayler.bubble.tests.fixtures.Item;
 import org.prevayler.bubble.tests.fixtures.SomePrevalentBrick;
 
-import sneer.bricks.hardware.cpu.lang.contracts.WeakContract;
-import sneer.bricks.hardware.io.prevalence.map.PrevalenceMap;
-import sneer.bricks.pulp.reactive.Register;
-import sneer.bricks.pulp.reactive.Signals;
 import sneer.foundation.lang.Closure;
 import sneer.foundation.lang.Consumer;
 
@@ -43,7 +36,6 @@ public class SomePrevalentBrickImpl implements SomePrevalentBrick {
 	
 	private String _string;
 	private List<Item> _items = new ArrayList<Item>();
-	private Set<WeakContract> _refToAvoidGC = new HashSet<WeakContract>();
 
 	
 	@Override
@@ -61,7 +53,7 @@ public class SomePrevalentBrickImpl implements SomePrevalentBrick {
 	@Override
 	public void addItem(String name) {
 		ItemImpl item = addItemWithoutRegistering(name);
-		my(PrevalenceMap.class).register(item);
+		PrevalentContext.idMap().register(item);
 	}
 
 
@@ -104,14 +96,6 @@ public class SomePrevalentBrickImpl implements SomePrevalentBrick {
 				return;
 			addItem(name);
 		}};
-	}
-
-
-	@Override
-	public Register<String> itemAdder_Idempotent_Transitive() {
-		final Register<String> register = my(Signals.class).newRegister(INITIAL_VALUE);
-		_refToAvoidGC.add(register.output().addReceiver(itemAdder_Idempotent()));
-		return register;
 	}
 
 

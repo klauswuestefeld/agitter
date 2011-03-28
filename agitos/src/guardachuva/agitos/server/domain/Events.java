@@ -2,10 +2,13 @@ package guardachuva.agitos.server.domain;
 
 import guardachuva.agitos.shared.BusinessException;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Events {
+public class Events implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public HashMap<Integer, Event> _events = new HashMap<Integer, Event>();
 	private int nextId = 0;
 

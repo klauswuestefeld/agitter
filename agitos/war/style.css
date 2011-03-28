@@ -127,6 +127,21 @@ a:hover{
 	margin-left:60px;
 }
 
+/*** Validation ***/
+
+#form-validation-result{
+	margin-left:60px;
+	background-color: lightyellow;
+	width: 350px;
+	padding: 5px;
+	border: 1px solid #801800;
+}
+
+.validation-result ul {
+	font-size: 80%;
+	color: #801800;
+}
+
 /*** Agitos ***/
 
 .header{

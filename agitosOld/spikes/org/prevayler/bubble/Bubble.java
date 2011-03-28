@@ -1,14 +1,10 @@
 package org.prevayler.bubble;
 
-import static sneer.foundation.environments.Environments.my;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 
-import sneer.bricks.hardware.io.prevalence.flag.PrevalenceFlag;
-import sneer.bricks.hardware.io.prevalence.map.PrevalenceMap;
 import sneer.bricks.hardware.io.prevalence.nature.Transaction;
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Immutable;
@@ -18,8 +14,6 @@ import sneer.foundation.lang.ReadOnly;
 import sneer.foundation.lang.types.Classes;
 
 public class Bubble implements InvocationHandler {
-	
-	private static final PrevalenceMap PrevalenceMap = my(PrevalenceMap.class);
 	
 	private static final CacheMap<Object, Object> _proxiesByObject = CacheMap.newInstance();
 	
@@ -75,7 +69,7 @@ public class Bubble implements InvocationHandler {
 			return new Invocation(_invocationPath, method, args);
 
 		TransactionInvocation transaction = new TransactionInvocation(_invocationPath, method, args);
-		return my(PrevalenceFlag.class).isInsidePrevalence()
+		return PrevalenceFlag.isInsidePrevalence()
 			? transaction
 			: withPrevayler(transaction);
 	}
@@ -83,7 +77,7 @@ public class Bubble implements InvocationHandler {
 
 	private ProducerX<Object, Exception> withPrevayler(final TransactionInvocation transaction) {
 		return new ProducerX<Object, Exception>() { @Override public Object produce() throws Exception {
-			return PrevaylerHolder._prevayler.execute(transaction);
+			return PrevalentContext.prevayler().execute(transaction);
 		}};
 	}
 
@@ -96,7 +90,7 @@ public class Bubble implements InvocationHandler {
 	
 	
 	private static boolean isRegistered(Object object) {
-		return PrevalenceMap.isRegistered(object);
+		return PrevalentContext.idMap().isRegistered(object);
 	}
 
 }

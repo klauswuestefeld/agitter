@@ -9,6 +9,7 @@ public abstract class BasePresenter {
 	
 	protected final IController _controller;
 	protected final RemoteApplicationAsync _application;
+	protected FailureListener _listener;
 
 	
 	public BasePresenter(IController controller, RemoteApplicationAsync application) {
@@ -38,6 +39,18 @@ public abstract class BasePresenter {
 
 	protected SessionToken getSession() {
 		return _controller.getSession();
+	}
+
+	public void setFailureListener(FailureListener listener) {
+		if (_listener != null)
+			throw new IllegalStateException();
+		_listener = listener;
+	}
+
+	protected void notifyFailureListener(Throwable caught) {
+		String[] errorMessages = caught.getMessage().split("\n");
+		if (_listener != null)
+			_listener.onFailure(errorMessages);
 	}
 	
 }

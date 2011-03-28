@@ -4,13 +4,17 @@ import guardachuva.agitos.shared.UnauthorizedBusinessException;
 import guardachuva.agitos.shared.ValidationException;
 import guardachuva.agitos.shared.Validations;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Users {
+public class Users  implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
 	public HashMap<String, User> _users = new HashMap<String, User>();
 	
 	public boolean isKnownUser(String userName) {
@@ -44,7 +48,7 @@ public class Users {
 		if (matcher.find())
 			return produceUserFromMatch(matcher);
 		
-		throw new ValidationException(emailText, "O formato do e-mail é inválido.");
+		throw new ValidationException("O formato do e-mail é inválido.");
 	}
 
 	private User produceUserFromMatch(Matcher matcher) throws ValidationException {

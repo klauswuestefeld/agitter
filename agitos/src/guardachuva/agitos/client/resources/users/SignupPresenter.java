@@ -9,15 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class SignupPresenter extends BasePresenter {
 
-	@SuppressWarnings("unused")
-	private SignupWrapper _view;
-
 	public SignupPresenter(IController controller, RemoteApplicationAsync application) {
 		super(controller, application);
-	}
-
-	public void wrap() {
-		_view = new SignupWrapper(this);
 	}
 
 	public void trySignup(final String name, final String userName, final String password, final String email) {
@@ -32,7 +25,7 @@ public class SignupPresenter extends BasePresenter {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				showError(caught);
+				notifyFailureListener(caught);
 			}
 		});
 	}

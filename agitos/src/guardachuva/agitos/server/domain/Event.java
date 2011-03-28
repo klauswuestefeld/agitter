@@ -11,15 +11,15 @@ public final class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private final int _id;
-	private final User _moderator;
+	private final User _owner;
 	private final String _description;
 	private final long _date;
 	
-	private Event(int id, User moderator, String description, Date date) {
+	private Event(int id, User owner, String description, long datetime) {
 		this._id = id;
-		this._moderator = moderator;
+		this._owner = owner;
 		this._description = description;
-		this._date = date.getTime();
+		this._date = datetime;
 	}
 	
 	public int getId() {
@@ -27,7 +27,7 @@ public final class Event implements Serializable {
 	}
 
 	public User getModerator() {
-		return _moderator;
+		return _owner;
 	}
 
 	public String getDescription() {
@@ -41,9 +41,9 @@ public final class Event implements Serializable {
 	public static Event createFor(int id, User moderator, String description, Date date) throws BusinessException {
 		String[] errors = EventDTO.errorsForConstruction(moderator.getEmail(), description, date);
 		if (errors.length > 0)
-			throw new ValidationException("Erros encontrados no evento. Valide antes da criação.", errors);
+			throw new ValidationException(errors);
 		
-		Event event = new Event(id, moderator, description, date);
+		Event event = new Event(id, moderator, description, date.getTime());
 		
 		return event;
 	}
@@ -57,7 +57,7 @@ public final class Event implements Serializable {
 				+ ((_description == null) ? 0 : _description.hashCode());
 		result = prime * result + _id;
 		result = prime * result
-				+ ((_moderator == null) ? 0 : _moderator.hashCode());
+				+ ((_owner == null) ? 0 : _owner.hashCode());
 		return result;
 	}
 
@@ -79,10 +79,10 @@ public final class Event implements Serializable {
 			return false;
 		if (_id != other._id)
 			return false;
-		if (_moderator == null) {
-			if (other._moderator != null)
+		if (_owner == null) {
+			if (other._owner != null)
 				return false;
-		} else if (!_moderator.equals(other._moderator))
+		} else if (!_owner.equals(other._owner))
 			return false;
 		return true;
 	}

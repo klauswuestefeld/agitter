@@ -157,10 +157,6 @@ public class Simploy extends RunListener implements Runnable {
 		System.out.println(description);
 	}
 	@Override
-	public void testAssumptionFailure(Failure failure) {
-		fail();
-	}
-	@Override
 	public void testFailure(Failure failure) {
 		fail();
 	}
