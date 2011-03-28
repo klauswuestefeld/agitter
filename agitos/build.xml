@@ -111,11 +111,6 @@
 		</javac>
 
 		<javac debug="true" debuglevel="${debuglevel}" destdir="war/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
-			<src path="test"/>
-			<classpath refid="agitos.classpath"/>
-		</javac>
-
-		<javac debug="true" debuglevel="${debuglevel}" destdir="war/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
 			<src path="spikes"/>
 			<exclude name="samples/jetty_prevayler/"/>
 			<exclude name="samples/jetty_prevayler2/"/>
