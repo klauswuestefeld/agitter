@@ -39,7 +39,7 @@
 	</target>
 
 		
-	<target name="build" depends="clean, build-project, build-gwt"/>
+	<target name="build" depends="clean, build-project, compile-gwt"/>
 
 	<target name="build-project" depends="init">
 		<echo message="${ant.project.name}: ${ant.file}"/>
@@ -67,7 +67,7 @@
 	</target>
 
 	
-	<target name="build-gwt" depends="build-project" description="GWT compile to JavaScript (production mode)">
+	<target name="compile-gwt" depends="build-project" description="GWT compile to JavaScript (production mode)">
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
 				<pathelement location="src"/>
