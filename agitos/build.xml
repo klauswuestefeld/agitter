@@ -19,13 +19,14 @@
 	</path>
 
 
-	<target name="simploy">
+	<target name="simploy" depends="compile-server">
 		<java failonerror="true" fork="false" classname="Simploy">
 			<classpath>
 				<path refid="agitos.classpath"/>
 			</classpath>
 			<arg value="ant build"/>
 			<arg value="war/WEB-INF/classes"/>
+			<arg value="war/WEB-INF/lib"/>
 			<arg value="ant deploy"/>
 			<arg value="SimploySecret"/>
 		</java>
