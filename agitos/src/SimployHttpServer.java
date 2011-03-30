@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,7 +11,7 @@ public class SimployHttpServer {
 	private static ServerSocket _serverSocket;
 
 	private static final int TCP_PORT = 44321;
-	private static final int REQUEST_TIMEOUT = 1000 * 7;
+	private static final int REQUEST_TIMEOUT = 1000 * 3;
 
 	static void start(String password) throws IOException {
 		_password = password;
@@ -37,14 +38,19 @@ public class SimployHttpServer {
 		Socket socket = _serverSocket.accept();
 		System.out.println("Request Received");
 		
-		socket.getOutputStream().write(SimployCore.report().getBytes("UTF-8"));
+		OutputStream output = socket.getOutputStream();
+		output.write(SimployCore.report().getBytes("UTF-8"));
+		output.flush();
+		output.close();
 		
 		try {
 			validateBuildRequest(socket);
 		} finally {
 			socket.close();
 		}
-		SimployCore.build();
+		new Thread() { @Override public void run() {
+			SimployCore.build();
+		}}.start();
 	}
 
 	
