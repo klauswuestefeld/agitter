@@ -18,7 +18,6 @@ public class ValidationsTest extends Assert {
 		
 		assertFalse(Validations.validateEmail("altieres"));
 		assertFalse(Validations.validateEmail("altieres@asd"));
-
 	}
 	
 	@Test
