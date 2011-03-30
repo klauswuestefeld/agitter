@@ -41,7 +41,6 @@ public class SimployHttpServer {
 		OutputStream output = socket.getOutputStream();
 		output.write(SimployCore.report().getBytes("UTF-8"));
 		output.flush();
-		output.close();
 		
 		try {
 			validateBuildRequest(socket);
