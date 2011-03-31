@@ -16,7 +16,7 @@
 			- Agitos Patrocinados - Ex: "21h - Re-Estréia do Filme E.T. - Cinemark - [Link para comprar]"
 			
 	- Privacidade - Não vamos ceder os dados q temos a terceiros em hipótese alguma.
-		- Cross-site scripting - Evitar. Fazer: html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"); em algum ponto focal da arquitetura.
+>>		- Cross-site scripting - Evitar. Fazer: html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"); em algum ponto focal da arquitetura.
 		- Vazamentos - Temos capacidade técnica para impedir "vazamentos" de dados. 
 	
 	- Abrangência - O serviço de agitos terá abrangência mundial em todas as idades acima dos 12, principalmente dos 16 aos 25 anos.
@@ -26,42 +26,49 @@
 	- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
 	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
 		- Continuous Deployment
-SB			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O Simploy hoje é rodado usando "ant build" e depois "ant simploy". Fazer o target simploy depender do target build.
+>>			- Simploy no Startup da Maquina - Adicionar isso no script install.sh - O Simploy hoje é rodado usando "ant build" e depois "ant simploy". Fazer o target simploy depender do target build.
 KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
 >>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
-		- install.sh - instalar tomcat dentro do diretorio do agitos_server, nao no raiz.
+>>		- install.sh - instalar tomcat dentro do diretorio do agitos_server, nao no raiz.
 
-AV	- Cadastro - Bug do contato ser considerado como "Usuario já existe".
->>		- Senha Nova - Seguir mesmo fluxo q o usuário q esqueceu a senha: mandar e mail de confirmação. 
+>>	- Cadastro e Login
+AV		- Infra de envio de emails - AmazonSES
+		- Email de confirmação de cadastro. 
+		- HTML - Fazer usando apenas html (nao gwt) p ficar rapido
+		- Segundo campo p confirmacao de senha no cadastro.
+		- Bug do contato ser considerado como "Usuario já existe".
+		- Esqueci minha senha - Mande via email por favor.
 				
 	- Rede Social
-		- Convidados - Vejo todos, adiciono, removo.  
+>>		- Convidados - Vejo todos, adiciono, removo.  
 			- Bloqueio - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
 		- Penetras - Posso escolher seguir os agitos publicos de certas pessoas. Equivalente aos seguidores do Twitter.
 	
 	- Agitos
-		- Lista - Quero ver os Agitos aos quais fui convidado.
+>>		- Lista - Quero ver os Agitos aos quais fui convidado.
 			- Ordenados por data.
 			- Futuro próximo.
 			- Limitar a 40.
+>>		- Agitar - O que? Quando?
+			- Quem? - Auto completion de nomes, emails, grupos e outros agitos (significa: convidar a mesma galera do outro agito).
+		- Onde? - Local/Mapa do agito
 		- RSVP - Pedir confirmacao, dar confirmação.
 		- Comentários nos agitos.
-			- Fotos, mapas, o caralho.
+			- Fotos, o caralho.
 		- ReAgitar - Equivalente ao ReTweet.
 
 	- EMail - O serviço funcionará bem com base em email.
->>		- Esqueci minha senha - Mande via email por favor.
 JB		- Importação de Emails de meus Contatos
 			- GMail, Yahoo, Hotmail através do SocialAuth
 			- Outros Provedores através de paste num campo grande ou upload de arquivo.
 				- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
-		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
-			- 3 Agitos passados q eu perdi?
+>>		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
+			- 3 Agitos passados mais relevantes q eu perdi (?)
 			- 5 Agitos futuros mais relevantes.
 			- Ver templates de email no googledoc chamado "Vagaloom"
 
-	- Grupos de Convidados - Podem conter outros grupos.
-		- Grupos Publicos - Permitem seguidores.
+>>	- Grupos de Contatos - Podem conter outros grupos.
+	- Grupos Publicos - Permitem seguidores.
 
 	- Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
 				
