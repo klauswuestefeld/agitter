@@ -31,8 +31,8 @@ KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, tw
 >>				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
 >>		- install.sh - instalar tomcat dentro do diretorio do agitos_server, nao no raiz.
 
->>	- Cadastro e Login
-AV		- Infra de envio de emails - AmazonSES
+AV	- Cadastro e Login
+		- Infra de envio de emails - AmazonSES
 		- Email de confirmação de cadastro. 
 		- HTML - Fazer usando apenas html (nao gwt) p ficar rapido
 		- Segundo campo p confirmacao de senha no cadastro.
