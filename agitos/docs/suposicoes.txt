@@ -1,6 +1,6 @@
 // Linhas começando com >> são parte do MVP.
 // Linhas começando com iniciais indicam alguém trabalhando no tema.
-// Linhas começanco com OK indicam tema pronto. Depois de um tempo serão apagadas.
+// Linhas começando com OK indicam tema pronto. Depois de um tempo serão apagadas.
 
 --------------------------------------------------------------------------------------
 
@@ -68,10 +68,10 @@ JB			- GMail, Yahoo, Hotmail através do SocialAuth
 			- Futuro próximo.
 			- Limitar a 40.
 >>		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
-			- 3 Agitos passados mais relevantes q eu perdi (?)
 			- 5 Agitos futuros mais relevantes.
-			- Ver templates de email no googledoc chamado "Vagaloom"
+			- Ver docs/ui/mvp/EmailTemplate.rtf
 >>		- Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+			- Usubscribe geral do Agitos.
 >>		- Agitar (ver docs/ui/mvp)
 			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
 			- Quem? - Lista de convidados no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
