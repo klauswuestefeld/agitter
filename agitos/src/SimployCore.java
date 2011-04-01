@@ -19,6 +19,7 @@ public class SimployCore {
 	private static StringBuffer _lastBuildOutputs;
 
 	private static Date _lastSuccessDate;
+	private static int _gitPullFailures;
 	
 	
 	synchronized
@@ -55,12 +56,10 @@ public class SimployCore {
 	private static boolean pullNewVersion() {
 		try {
 			String stdOut = exec("git pull");
+			_gitPullFailures = 0;
 			return !stdOut.contains("Already up-to-date.");
 		} catch (Exception e) {
-			e.printStackTrace();
-			_lastBuildDate = new Date();
-			_lastBuildStatus = "GIT PULL FAILED";
-			_lastBuildOutputs = _outputsBeingCaptured;
+			_gitPullFailures++;
 			return false;
 		}
 	}
@@ -97,6 +96,7 @@ public class SimployCore {
 
 	static String report() {
 		return
+			gitPullStatus() +
 			"Last build status: " + _lastBuildStatus +
 			"\nLast build date  : " + _lastBuildDate +
 			"\nLast success date: " + _lastSuccessDate +
@@ -107,6 +107,13 @@ public class SimployCore {
 			"\n-----------------------------------------------------" +
 			"\nRAM used: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024 + "MB  (Max " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "MB)" +
 			"\nReport produced by Simploy.";
+	}
+
+
+	private static String gitPullStatus() {
+		return _gitPullFailures < 3
+			? ""
+			: "git pull FAILED " + _gitPullFailures + " times in a row.\n";
 	}
 	
 }
