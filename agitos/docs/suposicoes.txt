@@ -14,7 +14,7 @@
 		- SER CONVIDADO - Vou poder ver, quando >EU< quiser, uma agenda de agitos ALTAMENTE RELEVANTES aos quais estou convidado. Ou seja, não vou receber agitos que não me interessam ou em momentos inoportunos.
 		- CONVIDAR - Vou poder divulgar meus agitos a um público maior, mais interessado e sem encher o saco deles com spam.
 	
-	- Lema Contra-Intuitivo: "Saia da Internet. Vá agitar!"
+	- Lema Contra-Intuitivo: "Saia da Internet. Vá agitar com seus amigos!"
 
 	- Rentabilidade - Vai ser rentável operar e eventualmente vender o serviço.
 		- Ads - Podemos rentabilizar o serviço através da colocação de ads.
