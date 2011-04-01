@@ -13,7 +13,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 
-class SimployTestsRunner extends RunListener {
+class SimployTestsRunner {
 
 	private static final int DOT_CLASS = ".class".length();
 
@@ -36,7 +36,7 @@ class SimployTestsRunner extends RunListener {
 		_testsFolderPath = testsFolder;
 		
 		JUnitCore junit = new JUnitCore();
-		junit.addListener(this);
+		junit.addListener(failureListener());
 		
 		junit.run(findTestClasses());
 		
@@ -45,6 +45,23 @@ class SimployTestsRunner extends RunListener {
 	}
 
 	
+	private RunListener failureListener() {
+		return new RunListener() {
+			@Override
+			public void testStarted(Description description) throws Exception {
+				System.out.println(description);
+			}
+
+			@Override
+			public void testFailure(Failure failure) {
+				_someTestFailed = true;
+				System.out.println("FAILED\n");
+				System.out.println(failure.getTrace());
+			}
+		};
+	}
+
+
 	private static void instantiate(Class<?> separateClass, String testsPath) throws Exception {
 		Constructor<?> ctor = separateClass.getConstructor(String.class);
 		ctor.setAccessible(true);
@@ -90,19 +107,6 @@ class SimployTestsRunner extends RunListener {
 		for (String path : paths)
 			result.add(new File(path).toURI().toURL());
 		return result;
-	}
-
-
-	@Override
-	public void testStarted(Description description) throws Exception {
-		System.out.println(description);
-	}
-
-	@Override
-	public void testFailure(Failure failure) {
-		_someTestFailed = true;
-		System.out.println("FAILED\n");
-		System.out.println(failure.getTrace());
 	}
 
 
