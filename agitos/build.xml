@@ -20,7 +20,7 @@
 
 
 	<target name="simploy" depends="compile-server">
-		<java fork="true" spawn="true" classname="Simploy" output="build/simploy-log">
+		<java fork="true" classname="Simploy">
 			<classpath>
 				<pathelement location="war/WEB-INF/classes"/>
 			</classpath>
