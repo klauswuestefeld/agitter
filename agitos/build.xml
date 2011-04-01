@@ -20,9 +20,9 @@
 
 
 	<target name="simploy" depends="compile-server">
-		<java failonerror="true" fork="false" classname="Simploy">
+		<java failonerror="true" fork="true" classname="Simploy">
 			<classpath>
-				<path refid="agitos.classpath"/>
+				<pathelement location="war/WEB-INF/classes"/>
 			</classpath>
 			<arg value="ant build"/>
 			<arg value="war/WEB-INF/classes"/>
