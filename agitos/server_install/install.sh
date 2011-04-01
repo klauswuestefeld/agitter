@@ -25,7 +25,14 @@ chmod 600 /root/.ssh/id_rsa.pub
 chmod 600 /root/.ssh/known_hosts
 echo .
 echo ----------------------
-echo retreiving build.xml
+echo Init Script
+echo ----------------------
+cp agitos_boot.sh /etc/init.d/
+chmod +x /etc/init.d/agitos_boot.sh
+update-rc.d agitos_boot.sh defaults 80
+echo .
+echo ----------------------
+echo Git Repositories
 echo ----------------------
 mkdir /agitos_server
 mkdir /agitos_server/git_repositories
@@ -41,5 +48,3 @@ wget http://linorg.usp.br/apache/tomcat/tomcat-7/v7.0.11/bin/apache-tomcat-7.0.1
 tar -xf *.tar.gz
 rm *.tar.gz
 mv *tomcat* tomcat
-echo .
-
