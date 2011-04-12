@@ -32,14 +32,10 @@
 	
 	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
 >>		- Continuous Deployment
-OK			- Simploy.
-OK			- Pingdom monitorando 
-			- Simploy no Startup da Maquina - Adicionar isso no script install.sh
 		- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
 KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
 				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
 		- Higiene - Código limpo, bem fatorado, para evitar bugs e simplificar seu entendimento, sua evolução. 
->>			- install.sh - Configurar o tomcat p subir o agitos.
 
 >>	- Web Design
 
