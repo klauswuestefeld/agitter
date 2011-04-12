@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -17,10 +18,12 @@ public class SimployHttpServer {
 			"Content-Type: text/plain\r\n" +
 			"\r\n";
 
+	private static final PrintStream SYSOUT = System.out;
+	
 	static void start(String password) throws IOException {
 		_password = password;
 		_serverSocket = new ServerSocket(TCP_PORT);
-		System.out.println("Listening for requests on port " + TCP_PORT);
+		SYSOUT.println("Listening for requests on port " + TCP_PORT);
 		
 		new Thread() { @Override public void run() {
 			while (true)
@@ -33,14 +36,14 @@ public class SimployHttpServer {
 		try {
 			tryToAcceptRequest();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			SYSOUT.println(e.getMessage());
 		}
 	}
 
 	
 	private static void tryToAcceptRequest() throws Exception {
 		Socket socket = _serverSocket.accept();
-		System.out.println("Request Received");
+		SYSOUT.println("Request Received");
 		
 		sendReport(socket);
 		
