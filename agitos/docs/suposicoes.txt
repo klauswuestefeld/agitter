@@ -31,13 +31,13 @@
 	- Escalabilidade - Teremos tempo de substituir ou adaptar as tecnologias que estamos usando à medida que precisarmos de maior escalabilidade.
 	
 	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
->>		- Continuous Deployment
 		- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
 KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
 				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
 		- Higiene - Código limpo, bem fatorado, para evitar bugs e simplificar seu entendimento, sua evolução. 
 
 >>	- Web Design
+		- Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
 
 AV	- Cadastro e Login - Fazer usando apenas html (nao gwt) p ficar rapido
 		- Bug do contato ser considerado como "Usuario já existe".
@@ -73,7 +73,6 @@ JB			- GMail, Yahoo, Hotmail através do SocialAuth
 			- Quem? - Lista de convidados no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
 				- http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
 				- http://loopj.com/jquery-tokeninput/
->>		- Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
 		- Onde? - Local/Mapa do agito
 		- RSVP - Pedir confirmacao, dar confirmação.
 		- Comentários nos agitos.
