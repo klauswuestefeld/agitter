@@ -56,7 +56,6 @@ a:hover{
 #mainContainer{
 	padding:20px 30px 30px;
 	background-color:#FFF;
-	border:1px solid #E3E3E0;
 	width:820px;
 	margin:30px auto;
 	overflow:hidden
@@ -93,37 +92,36 @@ a:hover{
 	margin:0 0 5px;	
 }
 
-.input label{
+.input div{
 	display:block;
 	float:left;
 	line-height:34px;
+	width: 60px;
 }
 
 .input input{
 	display:block;
 	float:left;	
+	width: 200px;
 }
+
 
 /*** Login & Signup ***/
 
-#login-form,
-#signup-form{
+.login-form{
 	background:url("images/post-it.jpg") no-repeat 450px 20px;
 	padding:30px 50px;
 }
 
-#login-form label,
-#signup-form label{
+.login-form label{
 	width:60px	
 }
 
-#login-form input,
-#signup-form input{
+.login-form input{
 	font-size:1em;
 }
 
-#login-form button,
-#signup-form button{
+.login-form button{
 	margin-left:60px;
 }
 

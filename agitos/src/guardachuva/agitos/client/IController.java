@@ -19,12 +19,7 @@ public interface IController {
 	void showError(JSONValue jsonValue);
 	void showError(String string);
 	void showError(Throwable e);
-	void redirectToLoginPage();
-	void redirectToRoot();
-	boolean isAtLoginPage();
-	boolean isAtSignupPage();
-	boolean isAtRootPage();
-	void redirectToSignupPage();
 	void redirectToSocialAuth(String providerName);
+	void start();
 	
 }

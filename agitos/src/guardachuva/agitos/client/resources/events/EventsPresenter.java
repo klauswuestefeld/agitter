@@ -22,15 +22,13 @@ public class EventsPresenter extends BasePresenter {
 	}
 
 	public EventsWidget loadDataAndShowEventsWidget() {
+		_eventsWidget = new EventsWidget(this);
 		updateEventsList();
 		updateContactsList();
 		return getEventsWidget();
 	}
 
 	private EventsWidget getEventsWidget() {
-		if (_eventsWidget == null)
-			_eventsWidget = new EventsWidget(this);
-		
 		return _eventsWidget;
 	}
 

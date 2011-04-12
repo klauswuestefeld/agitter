@@ -7,12 +7,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class BaseValidationWrapper extends BaseWrapper implements FailureListener {
 	
 	protected ValidationComponent validationComponent;
-	protected abstract RootPanel getContainerForValidation();
+	protected abstract RootPanel getMainContainer();
 	
 	@Override
 	public void onFailure(String... errorMessages) {
 		getValidation().displayValidationMessages(errorMessages);
-		getContainerForValidation().add(getValidation());
+		getMainContainer().add(getValidation());
 	}
 
 	protected ValidationComponent getValidation(){
