@@ -13,12 +13,6 @@
 			</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>socialAuthServlet</servlet-name>
-		<url-pattern>/agitosweb/social_auth</url-pattern>
-	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>remoteApplicationServlet</servlet-name>
 		<servlet-class>
@@ -27,10 +21,16 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+
+	<servlet-mapping>
+		<servlet-name>socialAuthServlet</servlet-name>
+		<url-pattern>/agitosweb/social_auth</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>remoteApplicationServlet</servlet-name>
 		<url-pattern>/agitosweb/rpc</url-pattern>
 	</servlet-mapping>
+
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
