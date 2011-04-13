@@ -4,8 +4,6 @@ import guardachuva.agitos.client.resources.events.EventsPresenter;
 import guardachuva.agitos.client.resources.events.EventsWidget;
 import guardachuva.agitos.client.resources.users.LoginPresenter;
 import guardachuva.agitos.client.resources.users.LoginWrapper;
-import guardachuva.agitos.client.resources.users.SignupPresenter;
-import guardachuva.agitos.client.resources.users.SignupWrapper;
 import guardachuva.agitos.shared.SessionToken;
 import guardachuva.agitos.shared.rpc.RemoteApplication;
 import guardachuva.agitos.shared.rpc.RemoteApplicationAsync;
@@ -21,7 +19,6 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class ClientController implements IController, EntryPoint,
@@ -40,80 +37,21 @@ public class ClientController implements IController, EntryPoint,
 	@Override
 	public void onModuleLoad() {
 		History.addValueChangeHandler(this);
-		
-		if (isAtLoginPage()) {
-			if (isLogged()) {				
-				redirectToRoot();
-			} else {
-				LoginPresenter presenter = new LoginPresenter(this, _application);
-				new LoginWrapper(presenter);
-				AnalyticsTracker.track("login");			
-			}
+		start();
+	}
+
+	@Override
+	public void start() {
+		clear();
+		if (isLogged()) {				
+			showByToken(EventsWidget.token);
+			History.fireCurrentHistoryState();
+			AnalyticsTracker.track("app_loaded");
+		} else {
+			LoginPresenter presenter = new LoginPresenter(this, _application);
+			new LoginWrapper(presenter);
+			AnalyticsTracker.track("login");			
 		}
-		
-		if (isAtSignupPage()) {
-			if (isLogged()) {
-				redirectToRoot();	
-			} else {
-				SignupPresenter presenter = new SignupPresenter(this, _application);
-				new SignupWrapper(presenter);
-				AnalyticsTracker.track("signup");
-			}
-		}
-		
-		if (isAtRootPage()) {
-			if (!isLogged())
-				redirectToLoginPage();
-			else {
-				showByToken(EventsWidget.token);
-				History.fireCurrentHistoryState();
-				AnalyticsTracker.track("app_loaded");
-			}
-		}
-			
-		if(RootPanel.get("signupLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("/signup.html");
-			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Cadastrar</a>");
-			RootPanel.get("signupLink").add(link);		
-		}	
-		
-		if(RootPanel.get("loginLink")!=null){			
-			UrlBuilder urlBuilder = createUrlBuilder("/login.html");
-			HTML link = new HTML("<a href='" + urlBuilder.buildString() + "'>Acesse</a>");
-			RootPanel.get("loginLink").add(link);		
-		}	
-	}
-
-	@Override
-	public boolean isAtRootPage() {
-		return Window.Location.getPath().equals(AGITOS_BASE_URL + "/") 
-			|| Window.Location.getPath().equals(AGITOS_BASE_URL) 
-			|| Window.Location.getPath().endsWith("/index.html");
-	}
-
-	@Override
-	public boolean isAtSignupPage() {
-		return Window.Location.getPath().endsWith("/signup.html");
-	}
-
-	@Override
-	public boolean isAtLoginPage() {
-		return Window.Location.getPath().endsWith("/login.html");
-	}
-
-	@Override
-	public void redirectToRoot() {
-		redirect("/index.html");
-	}
-
-	@Override
-	public void redirectToLoginPage() {
-		redirect("/login.html");
-	}
-	
-	@Override
-	public void redirectToSignupPage() {
-		redirect("/signup.html");
 	}
 
 	public boolean isLogged() {
@@ -122,10 +60,14 @@ public class ClientController implements IController, EntryPoint,
 	
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		RootPanel.get("mainContainer").clear();
+		clear();
 		RootPanel.get("mainContainer").add(_eventsPresenter.loadDataAndShowEventsWidget());
 		
 		AnalyticsTracker.track(History.getToken());
+	}
+
+	private void clear() {
+		RootPanel.get("mainContainer").clear();
 	}
 	
 	@Override
@@ -133,21 +75,14 @@ public class ClientController implements IController, EntryPoint,
 		_application.logout(_session, new AsyncCallback<Void>() {			
 			@Override
 			public void onSuccess(Void result) {
-				clearSession();
-				clearLoggedUserEmail();
-				redirectToLoginPage();
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				clearSession();
-				clearLoggedUserEmail();
-				redirectToLoginPage();
 			}
 		});
-	}
-
-	private void redirect(String path) {			
-		redirect(path, new Parameter[0]);		
+		clearSession();
+		clearLoggedUserEmail();
+		start();
 	}
 
 	private void redirect(String path, Parameter params[]) {			
@@ -155,10 +90,6 @@ public class ClientController implements IController, EntryPoint,
 		Window.Location.assign(urlBuilder.buildString());		
 	}
 
-	private UrlBuilder createUrlBuilder(String path) {
-		return createUrlBuilder(path, new Parameter[0]);
-	}
-	
 	private UrlBuilder createUrlBuilder(String path, Parameter params[]) {
 		UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
 		urlBuilder.setPath(AGITOS_BASE_URL + path);
