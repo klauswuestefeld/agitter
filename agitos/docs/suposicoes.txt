@@ -1,5 +1,4 @@
-// Linhas começando com >> são parte do MVP.
-// Linhas começando com iniciais indicam alguém trabalhando no tema.
+// Linhas numeradas são parte do MVP, por ordem de prioridade.
 // Linhas começando com OK indicam tema pronto. Depois de um tempo serão apagadas.
 
 --------------------------------------------------------------------------------------
@@ -23,7 +22,7 @@
 			- Agitos Patrocinados - Ex: "21h - Re-Estréia do Filme E.T. - Cinemark - [Link para comprar]"
 			
 	- Privacidade - Não vamos ceder os dados q temos a terceiros em hipótese alguma.
->>		- Cross-site scripting - Evitar. Fazer: html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"); em algum ponto focal da arquitetura.
+98		- Cross-site scripting - Evitar. Fazer: html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"); em algum ponto focal da arquitetura.
 		- Vazamentos - Temos capacidade técnica para impedir "vazamentos" de dados. 
 	
 	- Abrangência - O serviço de agitos terá abrangência mundial em todas as idades acima dos 12, principalmente dos 16 aos 25 anos.
@@ -32,52 +31,51 @@
 	
 	- Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
 		- Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
-KW			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS.
-				- http://vagaloom.com/check - Fazer um servlet q executa uma transacao na aplicacao, consulta a existencia de um arquivo criado e apagado pelo Simploy e retorna um erro caso algo nao esteja ok. Com isso, monitoramos o webserver, a aplicacao e o Simploy c uma tacada só. Com só uma url fica de graça lá no pingdom.
+97			- Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
+				- http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
 		- Higiene - Código limpo, bem fatorado, para evitar bugs e simplificar seu entendimento, sua evolução. 
 
->>	- Web Design
-		- Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
-
-AV	- Cadastro e Login - Fazer usando apenas html (nao gwt) p ficar rapido
-		- Bug do contato ser considerado como "Usuario já existe".
-		- Sair - Finalizar sessao e voltar p tela de login.
-		- Email de confirmação de cadastro. 
-AV			- Infra de envio de emails - AmazonSES
-		- Segundo campo p confirmacao de senha no cadastro.
+07	- Cadastro e Login
+		- Email de autenticação de cadastro. 
 		- Esqueci minha senha - Mande via email por favor.
 				
 	- Rede Social
->>		- Importação de Emails de meus Contatos
-JB			- GMail, Yahoo, Hotmail através do SocialAuth
+02		- Importação de Emails de meus Contatos
+			- GMail, Yahoo, Hotmail através do SocialAuth
 				- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
 			- Outros Provedores através de paste num campo grande ou upload de arquivo.
 				- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
->>		- Grupos de Contatos
+03		- Grupos de Contatos
 			- Grupos dentro de grupos.
 		- Grupos Publicos - Permitem seguidores.
 		- Penetras - Posso escolher seguir os agitos publicos de certas pessoas. Equivalente aos seguidores do Twitter.
 
 	- Agitos
->>		- Lista - Quero ver os Agitos MAIS RELEVANTES aos quais fui convidado.
-			- Ordenados por data.
-			- Futuro próximo.
-			- Limitar a 40.
->>		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
-			- 5 Agitos futuros mais relevantes.
-			- Ver docs/ui/mvp/EmailTemplate.rtf
->>		- Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
-			- Usubscribe geral do Agitos.
->>		- Agitar (ver docs/ui/mvp)
+01		- Agitar (ver docs/ui/mvp)
 			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
 			- Quem? - Lista de convidados no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
 				- http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
 				- http://loopj.com/jquery-tokeninput/
+04		- Agenda Lembrete - Um email enviado toda quinta-feira será muito útil para me lembrar da existencia do serviço
+			- Ver docs/ui/mvp/EmailTemplate.rtf
+			- 5 Agitos futuros mais relevantes.
+			- Infra de envio de emails - AmazonSES
+05		- Lista - Quero ver os Agitos MAIS RELEVANTES aos quais fui convidado.
+			- Ordenados por data.
+			- Futuro próximo.
+			- Limitar a 40.
+06		- Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+			- Usubscribe geral do Agitos.
+
 		- Onde? - Local/Mapa do agito
 		- RSVP - Pedir confirmacao, dar confirmação.
 		- Comentários nos agitos.
 			- Fotos, o caralho.
 		- ReAgitar - Equivalente ao ReTweet.
+
+99	- Acabamento de UI
+		- Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
+		- Ilustração Explicativa - Falar c Petra. 
 
 	- Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
 				
