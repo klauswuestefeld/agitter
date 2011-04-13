@@ -43,10 +43,8 @@ public final class Event implements Serializable {
 		String[] errors = EventDTO.errorsForConstruction(moderator.getEmail(), description, date);
 		if (errors.length > 0)
 			throw new ValidationException(errors);
-		
-		Event event = new Event(id, moderator, description, date.getTime());
-		
-		return event;
+
+		return new Event(id, moderator, description, date.getTime());
 	}
 	
 	@Override
