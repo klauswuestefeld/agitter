@@ -8,3 +8,4 @@ war/agitosweb
 build
 logs
 junit
+.settings/com.google.gdt.eclipse.core.prefs
