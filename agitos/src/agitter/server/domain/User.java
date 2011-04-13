@@ -54,10 +54,8 @@ public class User implements Serializable {
 	
 	public static User createFor(String name, String userName, String password, String email) throws ValidationException {
 		validateUser(name, userName, password, email);
-		
-		User user = new User(name, userName, password, email);
-		
-		return user;
+
+		return new User(name, userName, password, email);
 	}
 	
 	public List<Event> myEvents() {
