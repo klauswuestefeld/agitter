@@ -1,0 +1,284 @@
+package agitter.server.domain;
+
+
+import java.io.Serializable;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import agitter.server.crypt.Cryptor;
+import agitter.server.domain.comparators.EventDateTimeComparator;
+import agitter.server.domain.comparators.UserEmailComparator;
+import agitter.server.mailer.core.ScheduledMailsImpl;
+import agitter.server.mailer.templates.ConviteAcessoTemplate;
+import agitter.server.utils.Clock;
+import agitter.server.utils.SystemClock;
+import agitter.shared.Application;
+import agitter.shared.BusinessException;
+import agitter.shared.EventDTO;
+import agitter.shared.Mail;
+import agitter.shared.ScheduledEmails;
+import agitter.shared.SessionToken;
+import agitter.shared.UnauthorizedBusinessException;
+import agitter.shared.UserAlreadyExistsException;
+import agitter.shared.UserDTO;
+import agitter.shared.ValidationException;
+
+
+public class ApplicationImpl implements Serializable, Application {
+	
+	private static final long serialVersionUID = 1L;
+
+	private static Clock clock = SystemClock.getInstance();
+
+	private static Application _Instance=null;
+	
+	private final Users _users = new Users();
+	private final Events _events = new Events();
+	private final ScheduledEmails _scheduledMails = new ScheduledMailsImpl();
+	private final Sessions _sessions = new Sessions();
+	
+	public ApplicationImpl() {
+		setupInstance();
+	}
+
+	@Override
+	public SessionToken createNewUser(String name, String userName, String password, String email) throws ValidationException, UserAlreadyExistsException {
+		User user;
+		if (!_users.isKnownUser(email))
+			user = _users.produceUser(name, userName, password, email);
+		else // if user already exists, he is _probably_ a contact trying to get registered
+			user = tryToRegisterUser(name, userName, password, email);
+		
+		return _sessions.create(user);
+	}
+
+	private User tryToRegisterUser(String name, String userName, String password,
+			String email) throws ValidationException,
+			UserAlreadyExistsException {
+		User user = _users.produceUser(email);
+		if (user.isRegistered())
+			throw new UserAlreadyExistsException();
+		
+		user.registerMe(name, userName, password);
+		return user;
+	}
+
+	@Override
+	public SessionToken authenticate(String email, String password) throws UnauthorizedBusinessException {
+		return _sessions.create(_users.authenticate(email, password));
+	}
+
+	@Override
+	public List<EventDTO> getEventsForMe(SessionToken session) throws UnauthorizedBusinessException {
+		assertValidSession(session);
+
+		User user = _sessions.getLoggedUserOn(session);
+
+		long twoHours = 2*60*60*1000;
+		Date nowMinusTwoHours = new Date(clock.millis() - twoHours);
+		ArrayList<Event> eventsList = user.listEventsSince(nowMinusTwoHours);
+		Event[] events = eventsList.toArray(new Event[eventsList.size()]);
+		Arrays.sort(events, new EventDateTimeComparator());
+		
+		try {
+			return toEventsDTO(events);
+		} catch (ValidationException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+
+	@Override
+	public void createEvent(SessionToken session, String description, Date date) throws BusinessException {
+		assertValidSession(session);
+
+		// TODO: my(Clock) deve ter a data correta da chamada original.
+		// Não tem tanto problema usar a data atual porque eventos antigos não são exibidos.
+		Date now = clock.date();
+		boolean dateInPast = date.before(now);
+		
+		if (dateInPast)
+			throw new BusinessException("Você não pode criar agitos no passado.");
+		
+		 _events.createFor(
+			_sessions.getLoggedUserOn(session),
+			description,
+			date);
+	}
+
+	@Override
+	public void removeEventForMe(SessionToken session, int id) throws BusinessException {
+		assertValidSession(session);
+		User user = _sessions.getLoggedUserOn(session);
+		_events.removeFor(user, id);		
+	}
+
+	@Override
+	public void addContactsToMe(SessionToken session, String contact_mail) throws Exception {
+		assertValidSession(session);
+		
+		User user = _sessions.getLoggedUserOn(session);
+
+		List<User> contacts = _users.produceMultipleUsers(contact_mail);
+		
+		//FIXME: Deve ter forma de accessar de forma segura um link para adicionar no email
+		for (User contact : contacts)
+			sendInvite(user, contact.getEmail(), "DEVE TER LINK PARA APLICAÇÃO AQUI");
+		
+		user.addContacts(contacts);
+	}
+
+	private void sendInvite(User user, String contactMail, String linkToApplication) throws Exception {
+
+		Mail mail = new Mail(contactMail,
+				ConviteAcessoTemplate.class.getName());
+		mail.set("from_mail", user.getEmail());
+		mail.set("hash", URLEncoder.encode(new Cryptor().encode(contactMail), "UTF-8"));
+		mail.set("app_link", linkToApplication!=null ? linkToApplication : "");
+		
+		scheduleMail(mail);
+	}
+
+	@Override
+	public void deleteContactForMe(SessionToken session, String email) throws BusinessException {
+		assertValidSession(session);
+
+		User user = _sessions.getLoggedUserOn(session);
+
+		if (!_users.isKnownUser(email))
+				throw new BusinessException("Este usuário não está na sua lista de contatos.");
+				
+			User contact = _users.produceUser(email);
+			user.removeContact(contact);
+		}
+
+		@Override
+		public List<UserDTO> getContactsForMe(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+
+			User loggedUser = _sessions.getLoggedUserOn(session);
+			
+			User[] users = loggedUser.getContacts().toArray(new User[loggedUser.getContacts().size()]);
+			Arrays.sort(users, new UserEmailComparator());
+			
+			try {
+				return toUsersDTO(users);
+			} catch (ValidationException e) {
+				throw new IllegalStateException(e);
+			}
+		}
+
+		@Override
+		public void ignoreProducerForMe(SessionToken session, String email) throws BusinessException {
+			assertValidSession(session);
+			User user = _sessions.getLoggedUserOn(session);		
+			User producer = _users.produceUser(email);
+			user.ignoreProducer(producer);
+		}
+
+		@Override
+		public void logout(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+			_sessions.logout(session);
+		}
+
+		@Override
+		public UserDTO getLoggedUserOn(SessionToken session) throws UnauthorizedBusinessException {
+			assertValidSession(session);
+			try {
+				return toUserDTO(_sessions.getLoggedUserOn(session));
+			} catch (ValidationException e) {
+				throw new IllegalStateException(e);
+			}
+		}
+
+		private List<UserDTO> toUsersDTO(User[] users) throws ValidationException {
+			ArrayList<UserDTO> usersDTO = new ArrayList<UserDTO>();
+			for (User user : users) {
+				usersDTO.add(toUserDTO(user));
+			}
+			return usersDTO;
+		}
+
+		private UserDTO toUserDTO(User user) throws ValidationException {
+			return new UserDTO(user.getName(), user.getUserName(), user.getEmail());
+		}
+		
+		private List<EventDTO> toEventsDTO(Event[] events) throws ValidationException {
+			ArrayList<EventDTO> eventsDTO = new ArrayList<EventDTO>();
+			for (Event event : events) {
+				eventsDTO.add(new EventDTO(event.getId(), event.getDescription(), 
+						event.getDate(), toUserDTO(event.getModerator())));
+			}
+			return eventsDTO;
+		}
+
+
+		private void assertValidSession(SessionToken session)
+				throws UnauthorizedBusinessException {
+			if(!_sessions.isValid(session))
+				throw new UnauthorizedBusinessException("A Sessão não é válida");
+	}
+
+	// API Scheduled Mails
+	
+	@Override
+	public HashMap<String, Mail> getScheduledMails() {
+		return _scheduledMails.getScheduledMails();
+	}
+
+	@Override
+	public void deleteMail(String key) {
+		_scheduledMails.deleteMail(key);
+	}
+
+	@Override
+	public void scheduleMail(Mail mail) {
+		_scheduledMails.scheduleMail(mail);
+	}
+
+	public static Application GetInstance() {
+		if(_Instance==null)
+			throw new IllegalStateException("Tentando usar singleton do ApplicationImpl antes de ser inicializado");
+		return _Instance;
+	}
+
+	private void setupInstance() {
+		/*
+		if(_Instance!=null) {
+			throw new IllegalStateException("ApplicationImpl sendo instanciada mais de uma vez");
+		}/**/
+		_Instance = this;
+	}
+
+	@Override
+	public void importContactsFromService(SessionToken session, List<UserDTO> contactsToImport, String service) throws UnauthorizedBusinessException, ValidationException {
+		assertValidSession(session);
+		try {
+			User loggedOnUser = _sessions.getLoggedUserOn(session);
+
+			List<User> usersToImport = new ArrayList<User>();
+			for (UserDTO contactToImport : contactsToImport) {
+
+				
+				User userToImport = _users.produceUser(
+						contactToImport.getName(), 
+						contactToImport.getEmail());
+
+				// Não colocar ele mesmo como contato dele
+				if (loggedOnUser.equals(userToImport)) 
+					continue;
+			
+				usersToImport.add(userToImport);			
+			}
+			loggedOnUser.addContacts(usersToImport);
+		} catch (BusinessException e) {
+			// Ignorar problemas especificos de um ou outro usuario na importação desde um serviço
+			e.printStackTrace();
+		}
+	}	
+}

@@ -1,14 +1,15 @@
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import guardachuva.agitos.shared.SessionToken;
-import guardachuva.agitos.shared.UserDTO;
-import guardachuva.agitos.shared.ValidationException;
-import guardachuva.agitos.shared.rpc.RemoteApplication;
 
 import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import agitter.shared.SessionToken;
+import agitter.shared.UserDTO;
+import agitter.shared.ValidationException;
+import agitter.shared.rpc.RemoteApplication;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 

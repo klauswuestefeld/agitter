@@ -9,7 +9,7 @@
 	<servlet>
 		<servlet-name>socialAuthServlet</servlet-name>
 		<servlet-class>
-			guardachuva.agitos.server.socialauth.SocialAuthServlet
+			agitter.server.socialauth.SocialAuthServlet
 			</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
@@ -22,7 +22,7 @@
 	<servlet>
 		<servlet-name>remoteApplicationServlet</servlet-name>
 		<servlet-class>
-			guardachuva.agitos.server.servlet.RemoteApplicationServlet
+			agitter.server.servlet.RemoteApplicationServlet
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

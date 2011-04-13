@@ -1,10 +1,11 @@
 package org.prevayler.bubble;
 
-import guardachuva.agitos.shared.Immutable;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import agitter.shared.Immutable;
 
 
 public class IdMap {

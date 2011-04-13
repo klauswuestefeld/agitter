@@ -80,7 +80,7 @@
 			<arg value="war"/>
 			<!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
 			<arg line=""/>
-			<arg value="guardachuva.agitos.AgitosClient"/>
+			<arg value="agitter.AgitosClient"/>
 		</java>
 	</target>
 

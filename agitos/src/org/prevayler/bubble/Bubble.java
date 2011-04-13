@@ -1,12 +1,13 @@
 package org.prevayler.bubble;
 
-import guardachuva.agitos.shared.Immutable;
-import guardachuva.agitos.shared.ReadOnly;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
+
+import agitter.shared.Immutable;
+import agitter.shared.ReadOnly;
 
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Producer;
