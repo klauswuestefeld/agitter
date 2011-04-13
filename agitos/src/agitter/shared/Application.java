@@ -32,9 +32,6 @@ public interface Application {
 
 	void ignoreProducerForMe(SessionToken session, String email) throws ValidationException, BusinessException;
  
-	// ScheduledEmails
-	void scheduleMail(Mail mail);
-
 	HashMap<String, Mail> getScheduledMails();
 
 	void deleteMail(String key);

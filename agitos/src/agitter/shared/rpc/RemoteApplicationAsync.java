@@ -46,9 +46,6 @@ public interface RemoteApplicationAsync {
 	
 	void getLoggedUserOn(SessionToken session, AsyncCallback<UserDTO> callback);
 	
-	// ScheduledEmails
-	void scheduleMail(Mail mail, AsyncCallback<Void> callback);
-
 	void getScheduledMails( AsyncCallback<HashMap<String, Mail>> callback);
 
 	void deleteMail(String key, AsyncCallback<Void> callback);

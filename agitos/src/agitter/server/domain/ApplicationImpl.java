@@ -12,7 +12,6 @@ import java.util.List;
 import agitter.server.crypt.Cryptor;
 import agitter.server.domain.comparators.EventDateTimeComparator;
 import agitter.server.domain.comparators.UserEmailComparator;
-import agitter.server.mailer.core.ScheduledMailsImpl;
 import agitter.server.mailer.templates.ConviteAcessoTemplate;
 import agitter.server.utils.Clock;
 import agitter.server.utils.SystemClock;
@@ -20,7 +19,6 @@ import agitter.shared.Application;
 import agitter.shared.BusinessException;
 import agitter.shared.EventDTO;
 import agitter.shared.Mail;
-import agitter.shared.ScheduledEmails;
 import agitter.shared.SessionToken;
 import agitter.shared.UnauthorizedBusinessException;
 import agitter.shared.UserAlreadyExistsException;
@@ -38,7 +36,7 @@ public class ApplicationImpl implements Serializable, Application {
 	
 	private final Users _users = new Users();
 	private final Events _events = new Events();
-	private final ScheduledEmails _scheduledMails = new ScheduledMailsImpl();
+	private final ScheduledMails _scheduledMails = new ScheduledMails();
 	private final Sessions _sessions = new Sessions();
 	
 	public ApplicationImpl() {
@@ -236,8 +234,7 @@ public class ApplicationImpl implements Serializable, Application {
 		_scheduledMails.deleteMail(key);
 	}
 
-	@Override
-	public void scheduleMail(Mail mail) {
+	private void scheduleMail(Mail mail) {
 		_scheduledMails.scheduleMail(mail);
 	}
 
