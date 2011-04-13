@@ -9,23 +9,23 @@ public class AnalyticsTracker {
 
 		historyToken = "/agitos/" + historyToken;
 
-//		trackGoogleAnalytics(historyToken);
+		trackGoogleAnalytics(historyToken);
 
 	}
 
-//	public static native void trackGoogleAnalytics(String historyToken) /*-{
-//	    try {
-//		    var pageTracker = $wnd._gat._getTracker("UA-22190720-1");
-//		    
-//		    pageTracker._setRemoteServerMode();
-//		    
-//		    // turn on anchor observing
-//		    pageTracker._setAllowAnchor(true)
-//		    
-//		    // send event to google server
-//		    pageTracker._trackPageview(historyToken);
-//		        
-//		} catch(err) { }
-//    }-*/;
+	public static native void trackGoogleAnalytics(String historyToken) /*-{
+	    try {
+		    var pageTracker = $wnd._gat._getTracker("UA-22190720-1");
+		    
+		    pageTracker._setRemoteServerMode();
+		    
+		    // turn on anchor observing
+		    pageTracker._setAllowAnchor(true)
+		    
+		    // send event to google server
+		    pageTracker._trackPageview(historyToken);
+		        
+		} catch(err) { }
+    }-*/;
 
 }
