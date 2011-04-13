@@ -2,7 +2,7 @@
 
 Estando no diretorio server_install:
 
-   scp -r ../server_install root@vagaloom.com:/tmp
+   scp -r ../server_install root@agitter.com:/tmp
 
 
 2) Rodar o script no server como root:

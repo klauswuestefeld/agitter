@@ -24,13 +24,8 @@ echo .
 echo ----------------------
 echo SSH Keys...
 echo ----------------------
-mkdir /root/.ssh
-rm /root/.ssh/id_rsa
-rm /root/.ssh/id_rsa.pub
-rm /root/.ssh/known_hosts
-cp id_rsa      /root/.ssh/id_rsa
-cp id_rsa.pub  /root/.ssh/id_rsa.pub
-cp known_hosts /root/.ssh/known_hosts
+rm -rf    /root/.ssh
+cp -r ssh /root/.ssh
 chmod 600 /root/.ssh/id_rsa
 chmod 600 /root/.ssh/id_rsa.pub
 chmod 600 /root/.ssh/known_hosts
