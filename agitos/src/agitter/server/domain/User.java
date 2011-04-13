@@ -30,7 +30,6 @@ public class User implements Serializable {
 	private HashSet<User> producers = new HashSet<User>();
 	
 	public User() {
-		super();
 	}
 	
 	private User(String name, String userName, String password, String email) {
