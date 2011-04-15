@@ -1,4 +1,0 @@
-# executar servidor
-#java -classpath build:lib/restlet/com.thoughtworks.xstream.jar:lib/restlet/org.restlet.jar:lib/prevayler/prevayler-2.3.jar:lib/jetty/javax.servlet.jar:lib/jetty/jetty-all-7.1.6.v20100715.jar:lib/flexjson-2.0.jar:lib/mail.jar:lib/flexjson-2.0.jar -Dagitos.server=127.0.0.1 -Dmail.server=127.0.0.1 guardachuva.MainServer
-
-sudo java -server -XX:MaxGCPauseMillis=500 -XX:GCTimeRatio=9 -classpath war/WEB-INF/classes:war/WEB-INF/lib/* -Dagitos.server=127.0.0.1 -Dmail.server=127.0.0.1 guardachuva.MainServer
