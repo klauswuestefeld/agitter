@@ -53,6 +53,8 @@ Public MVP Release 1.0
 				
 	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
 
+	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
+
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
 
