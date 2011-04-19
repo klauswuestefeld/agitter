@@ -13,8 +13,9 @@ import com.vaadin.ui.Panel;
 
 public class EventPanel extends CustomComponent {
 
-	private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private static final long serialVersionUID = 1L;
 
+	private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private Panel mainPanel;
 
 	public EventPanel(agitter.Event event) {
@@ -35,6 +36,4 @@ public class EventPanel extends CustomComponent {
 		return result;
 	}
 
-	
-	private static final long serialVersionUID = 1L;
 }

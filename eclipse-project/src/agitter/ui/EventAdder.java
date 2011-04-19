@@ -1,9 +1,8 @@
 package agitter.ui;
 
-import agitter.Event;
 
 public interface EventAdder {
 
-	void add(Event event);
+	void add(String description, long time);
 
 }

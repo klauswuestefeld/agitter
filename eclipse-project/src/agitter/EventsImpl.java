@@ -1,11 +1,14 @@
 package agitter;
 
+import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import agitter.util.Clock;
 
-public class EventsImpl implements Events {
+public class EventsImpl implements Events, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Clock _clock;
 	private SortedSet<Event> _all = new TreeSet<Event>( new EventComparator() );
