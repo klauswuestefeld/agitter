@@ -72,6 +72,8 @@ public class AgitoHomeImplTest {
 		Set<Agito> atD3 = home.toHappen();
 		Assert.assertTrue(atD3.size()==0);
 
+		Assert.assertTrue(home.all().size()==3);
+
 	}
 
 }
