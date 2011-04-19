@@ -2,8 +2,8 @@ package agitter.ui;
 
 import java.util.Date;
 
-import agitter.EventHome;
-import agitter.EventHomeImpl;
+import agitter.Events;
+import agitter.EventsImpl;
 import agitter.util.SystemClock;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
@@ -20,7 +20,7 @@ public class InvitePanel extends CustomComponent {
 
 	private TextArea _descriptionTextArea = new TextArea();
 	private PopupDateField _dateField = new PopupDateField();
-	private EventHome _eventHome = new EventHomeImpl(new SystemClock()); //TODO - This is just a spike to use the home in the current UI.
+	private Events _events = new EventsImpl(new SystemClock()); //TODO - This is just a spike to use the home in the current UI.
 
 	public InvitePanel(final EventAdder adder) {
 		Panel panel = new Panel();
@@ -42,7 +42,7 @@ public class InvitePanel extends CustomComponent {
 			try {
 				final String description = getEventDescription();
 				final Date eventDate = getEventDate();
-				adder.add(InvitePanel.this._eventHome.create(description, eventDate.getTime()));
+				adder.add(InvitePanel.this._events.create(description, eventDate.getTime()));
 				InvitePanel.this._dateField.setValue(null);
 				InvitePanel.this._descriptionTextArea.setValue(null);
 			} catch (Exception exc) {

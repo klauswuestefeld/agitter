@@ -6,13 +6,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import agitter.Event;
-import agitter.EventHomeImpl;
+import agitter.EventsImpl;
 import agitter.util.ClockMock;
 
 public class EventHomeTest extends Assert {
 
 	private final ClockMock _clock = new ClockMock();
-	private final EventHomeImpl _subject = new EventHomeImpl(_clock);
+	private final EventsImpl _subject = new EventsImpl(_clock);
 
 
 	@Test

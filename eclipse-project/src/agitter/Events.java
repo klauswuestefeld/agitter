@@ -2,7 +2,7 @@ package agitter;
 
 import java.util.SortedSet;
 
-public interface EventHome {
+public interface Events {
 
 	Event create(String description, long datetime);
 	SortedSet<Event> all();

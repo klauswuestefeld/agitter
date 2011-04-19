@@ -5,13 +5,13 @@ import java.util.TreeSet;
 
 import agitter.util.Clock;
 
-public class EventHomeImpl implements EventHome {
+public class EventsImpl implements Events {
 
 	private Clock _clock;
 	private SortedSet<Event> _all = new TreeSet<Event>( new EventComparator() );
 	
 	
-	public EventHomeImpl(Clock clock) {
+	public EventsImpl(Clock clock) {
 		_clock = clock;
 	}
 
