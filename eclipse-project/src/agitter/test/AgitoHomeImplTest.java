@@ -1,6 +1,3 @@
-/**
- * This code is property of Sumersoft Tecnologia Ltda.
- */
 package agitter.test;
 
 import java.util.Date;
