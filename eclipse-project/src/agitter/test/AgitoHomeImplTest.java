@@ -59,19 +59,20 @@ public class AgitoHomeImplTest {
 		Assert.assertTrue(all.contains(a3));
 
 		clock.setMilis(milisAtD0 + 1L);
-		Set atD1 = home.toHappen();
+		Set<Agito> atD1 = home.toHappen();
 		Assert.assertTrue(atD1.size()==2);
+		Assert.assertFalse(atD1.contains(a1));
 		Assert.assertTrue(atD1.contains(a2));
 		Assert.assertTrue(atD1.contains(a3));
 
 		clock.setMilis(milisAtD0 + 2L);
-		Set atD2 = home.toHappen();
+		Set<Agito> atD2 = home.toHappen();
 		Assert.assertTrue(atD2.size()==1);
 		Assert.assertTrue(atD2.contains(a3));
 
 
 		clock.setMilis(milisAtD0 + 3L);
-		Set atD3 = home.toHappen();
+		Set<Agito> atD3 = home.toHappen();
 		Assert.assertTrue(atD3.size()==0);
 
 	}
