@@ -30,7 +30,8 @@ public class InvitePanel extends CustomComponent {
 		setCompositionRoot(panel);
 
 		_dateField.setResolution(PopupDateField.RESOLUTION_MIN);
-		_descriptionTextArea.setNullRepresentation("Descrição do seu agito ...");
+		_dateField.setDateFormat("dd/MM/yyyy HH:mm");
+		_descriptionTextArea.setNullRepresentation("Descrição do seu agito...");
 		_descriptionTextArea.setValue(null);
 
 	}
@@ -42,6 +43,8 @@ public class InvitePanel extends CustomComponent {
 				final String description = getEventDescription();
 				final Date eventDate = getEventDate();
 				adder.add(InvitePanel.this._eventHome.create(description, eventDate.getTime()));
+				InvitePanel.this._dateField.setValue(null);
+				InvitePanel.this._descriptionTextArea.setValue(null);
 			} catch (Exception exc) {
 				InvitePanel.this.showErrorMessage(exc.getMessage());
 			}
