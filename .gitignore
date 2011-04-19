@@ -1,5 +1,7 @@
+*bin
+*Prevalence
 nohup.out
 *.byecycle
-*Prevalence
 .idea
 agitter.iml
+

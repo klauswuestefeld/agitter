@@ -1,6 +1,7 @@
 package agitter.ui;
 
-import agitter.Agito;
+import agitter.Event;
+
 import com.vaadin.Application;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
@@ -8,22 +9,22 @@ import com.vaadin.ui.Window;
 
 public class AgitterUI extends Application {
 	
-	private final ComponentContainer agitosList = new VerticalLayout();
+	private final ComponentContainer eventList = new VerticalLayout();
 
 	@Override
 	public void init() {
 		Window mainWindow = new Window("Agitter");
 
-		mainWindow.addComponent(agitarPanel());
-		mainWindow.addComponent(agitosList);
+		mainWindow.addComponent(invitePanel());
+		mainWindow.addComponent(eventList);
 		
 		setMainWindow(mainWindow);
 	}
 
 	
-	private AgitarPanel agitarPanel() {
-		return new AgitarPanel(new AgitoAdder() { @Override public void add(Agito agito) {
-			agitosList.addComponent(new AgitoPanel(agito));
+	private InvitePanel invitePanel() {
+		return new InvitePanel(new EventAdder() { @Override public void add(Event event) {
+			eventList.addComponent(new EventPanel(event));
 		}});
 	}
 
