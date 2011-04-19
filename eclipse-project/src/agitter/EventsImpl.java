@@ -28,8 +28,7 @@ public class EventsImpl implements Events {
 	public SortedSet<Event> all() {
 		return _all;
 	}
-	
-	
+		
 	@Override
 	public SortedSet<Event> toHappen() {
 		return _all.tailSet(new Event("Dummy", _clock.datetime()));
