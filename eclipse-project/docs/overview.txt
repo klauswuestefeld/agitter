@@ -1,0 +1,28 @@
+É nosso objetivo validar as seguintes suposições o mais cedo possivel:
+
+	Do Caralho - Vai ser do caralho trabalhar com pessoas altamente capacitadas e motivadas.
+
+	Aprendizado - Vai ser um grande aprendizado tecnologico e mercadologico participar de um startup web.
+
+	Valor - Vai ser muito valioso para as pessoas o nosso serviço. Esta é a ESSÊNCIA dele, do ponto de vista do usuário:
+		SER CONVIDADO - Vou poder ver, quando >EU< quiser, uma agenda de agitos ALTAMENTE RELEVANTES aos quais estou convidado. Ou seja, não vou receber agitos que não me interessam ou em momentos inoportunos.
+		CONVIDAR - Vou poder divulgar meus agitos a um público maior, mais interessado e sem encher o saco deles com spam.
+	
+	Lema Contra-Intuitivo: "Saia da Internet. Vá agitar com seus amigos!"
+
+	Rentabilidade - Vai ser rentável operar e eventualmente vender o serviço
+		Ads - Podemos rentabilizar o serviço através da colocação de ads.
+			Google Ads.
+			Ads Normais em espaços do site - Ads simples, elegantes, institucionais e SEM ANIMAÇÂO pelamordedeus.
+			Agitos Patrocinados - Ex: "21h - Re-Estréia do Filme E.T. - Cinemark - [Link para comprar]"
+			
+	Privacidade - Não vamos ceder os dados q temos a terceiros em hipótese alguma.
+		Vazamentos - Temos capacidade técnica para impedir "vazamentos" de dados. 
+	
+	Abrangência - O serviço de agitos terá abrangência mundial em todas as idades acima dos 12, principalmente dos 16 aos 25 anos.
+
+	Escalabilidade - Teremos tempo de substituir ou adaptar as tecnologias que estamos usando à medida que precisarmos de maior escalabilidade.
+	
+	Agilidade - Teremos um tempo de resposta a mudanças extremamante baixo.
+		Corretude - Teremos testes automatizados suficientes para garantir a corretude do serviço sem a necessidade de testes manuais de corretude.
+		Higiene - Código limpo, bem fatorado, para evitar bugs e simplificar seu entendimento, sua evolução. 

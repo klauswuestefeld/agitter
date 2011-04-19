@@ -1,2 +1,6 @@
+*bin
+*Prevalence
 nohup.out
-eclipse-spike-htmlunit/bin/*
+*.byecycle
+.idea
+agitter.iml

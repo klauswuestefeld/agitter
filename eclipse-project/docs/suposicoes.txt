@@ -1,0 +1,104 @@
+DogFood Release - Pra nós mesmos do time usarmos sem convidar ninguem de fora para os agitos.
+
+	Requisitos nao-funcionais
+		Tudo menos a UI com TDD
+		Persistencia
+
+SWARM>	Agitar
+		O que? Quando?
+
+	Lista
+		Ordenados por data.
+		Futuro próximo.
+
+	Email diario - 5 Agitos futuros mais relevantes.
+		Infra de envio de emails - AmazonSES
+
+
+Empreenda-Framps Release - Somente para eventos de software - Todos continuam recebendo todos os Agitos.
+
+	Sign-up e Login.
+	
+	Nome de quem agitou no Agito.
+
+	Continuous Deploy
+
+
+Public MVP Release 1.0
+
+	Acabamento de UI
+		Agitar (ver docs/ui/mvp)
+			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
+		Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
+			Ver docs/ui/mvp/EmailTemplate.rtf
+		Ilustração Explicativa - Falar c Petra. 
+
+	Importação de Emails de meus Contatos
+		- GMail, Yahoo, Hotmail através do SocialAuth
+			- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
+		- Outros Provedores através de paste num campo grande ou upload de arquivo.
+			- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
+
+	Quem? - Lista de convidados do Agito no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
+		http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
+		http://loopj.com/jquery-tokeninput/
+		Grupos de Contatos
+			Grupos dentro de grupos.
+
+	Cadastro
+		Email de autenticação de cadastro. 
+		Esqueci minha senha - Mande via email por favor.
+
+	Agenda Semanal em vez de diária.
+				
+	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
+
+	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
+
+	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
+		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
+
+
+Release 1.1
+
+	Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+	
+
+
+------------------------------------------------------------------
+Idéias Pro Futuro:
+
+	Rede Social
+		Grupos Publicos - Permitem seguidores.
+		Penetras - Posso escolher seguir os agitos publicos de certas pessoas. Equivalente aos seguidores do Twitter.
+
+	Agitos
+		Onde? - Local/Mapa do agito
+		RSVP - Pedir confirmacao, dar confirmação.
+		Comentários nos agitos.
+			Fotos, o caralho.
+		ReAgitar - Equivalente ao ReTweet.
+
+	Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
+				
+	Outras Redes Sociais - Vai ser importante interoperar com Twitter e Facebook.
+		Facebook
+			Login via facebook (oauth).
+			Visualizar meus agitos no facebook.
+			Agitar via facebook? Um link pro site do agitos já ta bom no 1o momento?
+		Twitter
+			Login via twitter (oauth).
+			Twitar os agitos c X tempo (uma hora?) de antecedencia.
+			Que mais podemos fazer com o Twitter?
+	
+	Agenda
+		Google Calendar - Ver meus agitos no Calendar. Possibilita Mobile. Importante para grandes agitadores!
+ 
+	Mobile
+		SMS
+			Receber via SMS agitos de pessoas q eu escolher.
+			Receber lembretes de agitos um pouco antes.
+		Client específico pro Agitos no mobile.
+	
+	Sites de eventos / shows
+		Integração com widget estilo o "I Like" do facebook mais que seja "Eu Vou" e "Eu Fui" (para avaliação de eventos que já aconteceram)
