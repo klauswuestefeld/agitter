@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import agitter.util.Clock;
+import agitter.util.AgitterClock;
 
 public class EventsImpl implements Events, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Clock _clock;
+	private AgitterClock _clock;
 	private SortedSet<Event> _all = new TreeSet<Event>( new EventComparator() );
 	
 	
-	public EventsImpl(Clock clock) {
+	public EventsImpl(AgitterClock clock) {
 		_clock = clock;
 	}
 

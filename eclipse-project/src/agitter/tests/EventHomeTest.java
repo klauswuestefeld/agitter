@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import agitter.Event;
 import agitter.EventsImpl;
-import agitter.util.ClockMock;
+import agitter.util.AgitterClockMock;
 
 public class EventHomeTest extends Assert {
 
-	private final ClockMock _clock = new ClockMock();
+	private final AgitterClockMock _clock = new AgitterClockMock();
 	private final EventsImpl _subject = new EventsImpl(_clock);
 
 

@@ -1,9 +1,8 @@
+
 package agitter.util;
 
 
-import java.util.Date;
-
-public class ClockMock implements Clock {
+public class AgitterClockMock implements AgitterClock {
 
 	private long _datetime;
 
@@ -15,8 +14,5 @@ public class ClockMock implements Clock {
 	public long datetime() {
 		return _datetime;
 	}
-	@Override
-	public Date time() {
-		return new Date(_datetime);
-	}
+
 }

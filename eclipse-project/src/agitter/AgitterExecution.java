@@ -1,12 +1,12 @@
 package agitter;
 
-import agitter.util.Clock;
+import agitter.util.AgitterClock;
 
 public class AgitterExecution {
 
 	private EventsImpl _events;
 
-	void initializeHomes(Clock clock) {
+	void initializeHomes(AgitterClock clock) {
 		this._events = new EventsImpl(clock);
 	}
 

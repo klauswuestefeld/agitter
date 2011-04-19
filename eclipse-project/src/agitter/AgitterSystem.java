@@ -2,9 +2,11 @@ package agitter;
 
 import java.io.File;
 
-import agitter.util.PrevalentClock;
 import org.prevayler.Clock;
 import org.prevayler.bubble.PrevalentBubble;
+
+import agitter.util.AgitterClock;
+import agitter.util.PrevaylerClockToAgitterClockAdapter;
 
 public class AgitterSystem {
 
@@ -15,9 +17,9 @@ public class AgitterSystem {
 		if(_execution!=null) { throw new IllegalStateException("Execution already initilized"); }
 		_execution = new AgitterExecution();
 		PrevalentBubble.wrap(_execution, dataFolder);
-		final Clock clock = PrevalentBubble.prevayler().clock();
-		PrevalentClock prevalentClock = new PrevalentClock(clock);
-		execution().initializeHomes(prevalentClock);
+		final Clock prevaylerClock = PrevalentBubble.prevayler().clock();
+		final AgitterClock agitterClock = new PrevaylerClockToAgitterClockAdapter( prevaylerClock );
+		execution().initializeHomes( agitterClock );
 	}
 
 	synchronized
