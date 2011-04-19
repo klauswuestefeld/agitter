@@ -1,5 +1,10 @@
-package agitter;
+package agitter.ui;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import agitter.Agito;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -24,7 +29,13 @@ public class AgitarPanel  extends CustomComponent {
 	private Button agitarButton(final AgitoAdder adder) {
 		Button result = new Button("Agitar!");
 		result.addListener(new ClickListener() { private static final long serialVersionUID = 1L;  @Override public void buttonClick(ClickEvent event) {
-			adder.add(new Agito(description.toString(), date.toString()));
+			DateFormat dateFormat = new SimpleDateFormat(); //TODO - See whats the pattern and set
+			try {
+				adder.add(new Agito(description.toString(), dateFormat.parse(date.toString())));
+			} catch(ParseException e) {
+				System.out.println("Date format shout be in the format of the folowing string: "+ date.toString());
+				e.printStackTrace();
+			}
 		}});
 		return result;
 	}

@@ -1,4 +1,6 @@
-package agitter;
+package agitter.ui;
+
+import agitter.Agito;
 
 public interface AgitoAdder {
 

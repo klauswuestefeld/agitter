@@ -1,5 +1,6 @@
-package agitter;
+package agitter.ui;
 
+import agitter.Agito;
 import com.vaadin.Application;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;

@@ -1,5 +1,6 @@
-package agitter;
+package agitter.ui;
 
+import agitter.Agito;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -15,7 +16,7 @@ public class AgitoPanel extends CustomComponent {
 		mainPanel = new Panel();
 		mainPanel.addComponent(new Label(agito.description()));
 		mainPanel.addComponent(new Label("klaus@gmail.com"));
-		mainPanel.addComponent(new Label(agito.date()));
+		mainPanel.addComponent(new Label(agito.date().toString())); //TODO - Date format applies here
 		mainPanel.addComponent(removeButton());
 		setCompositionRoot(mainPanel);
 	}
