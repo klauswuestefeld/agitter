@@ -1,12 +1,7 @@
 package agitter;
 
+public interface Agitter {
 
-public class Agitter {
-
-	private final EventsImpl _events = new EventsImpl();
-	
-	public Events events() {
-		return _events;
-	}
+	Events events();
 
 }

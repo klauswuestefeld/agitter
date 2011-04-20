@@ -16,7 +16,6 @@ public class Clock {
 	}
 
 	public static void clearForCurrentThread() {
-		if (_currentTime.get() == null) throw new IllegalStateException("Clock time was not set for thread: " + Thread.currentThread());
 		_currentTime.remove();		
 	}
 

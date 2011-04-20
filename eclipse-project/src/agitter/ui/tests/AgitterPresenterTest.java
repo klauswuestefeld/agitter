@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import agitter.Agitter;
+import agitter.AgitterImpl;
 import agitter.Event;
 import agitter.ui.AgitterPresenter;
 import agitter.ui.AgitterPresenterImpl;
@@ -14,12 +14,12 @@ import agitter.ui.AgitterPresenterImpl;
 public class AgitterPresenterTest {
 	
 	private AgitterPresenter presenter;
-	private Agitter agitter;
+	private AgitterImpl agitter;
 	private final PresenterViewStub view = new PresenterViewStub();
 
 	@Before
 	public void setUp() {
-		agitter = new Agitter();
+		agitter = new AgitterImpl();
 		presenter = new AgitterPresenterImpl(agitter);
 		presenter.setView(view);
 	}
