@@ -17,8 +17,12 @@ public class EventPanel extends CustomComponent {
 
 	private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private Panel mainPanel;
+	private final agitter.Event event;
+	private final EventRemover eventRemover;
 
-	public EventPanel(agitter.Event event) {
+	public EventPanel(agitter.Event event, EventRemover eventRemover) {
+		this.event = event;
+		this.eventRemover = eventRemover;
 		mainPanel = new Panel();
 		mainPanel.addComponent(new Label(event.description()));
 		mainPanel.addComponent(new Label("everybody@aggiter.com"));
@@ -30,8 +34,8 @@ public class EventPanel extends CustomComponent {
 
 	private Button removeButton() {
 		Button result = new Button("X");
-		result.addListener(new ClickListener() {  private static final long serialVersionUID = 1L;  @Override public void buttonClick(ClickEvent event) {
-			System.out.println("Event to be removed or hid?");
+		result.addListener(new ClickListener() {  private static final long serialVersionUID = 1L;  @Override public void buttonClick(ClickEvent clickEvent) {
+			eventRemover.remove(event);
 		}});
 		return result;
 	}

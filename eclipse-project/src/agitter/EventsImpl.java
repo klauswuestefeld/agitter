@@ -37,4 +37,10 @@ public class EventsImpl implements Events, Serializable {
 		return _all.tailSet(new Event("Dummy", _clock.datetime()));
 	}
 
+
+	@Override
+	public void remove(Event event) {
+		_all.remove(event);
+	}
+
 }

@@ -2,8 +2,9 @@ package agitter.tests;
 
 import java.io.File;
 
-import agitter.AgitterSystem;
 import agitter.Events;
+import agitter.util.PrevaylerBootstrap;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,13 +15,13 @@ public class AgitterTest extends Assert {
 		final File tmpFolder = new File("./repo");
 		if(!tmpFolder.exists()) { tmpFolder.mkdir(); }
 
-		AgitterSystem.open(tmpFolder);
-		Events events = AgitterSystem.execution().events();
+		PrevaylerBootstrap.open(tmpFolder);
+		Events events = PrevaylerBootstrap.execution().events();
 		events.create("Dinner at Joe's", 1234);
-		AgitterSystem.close();
+		PrevaylerBootstrap.close();
 
-		AgitterSystem.open(tmpFolder);
-		assertEquals(1, AgitterSystem.execution().events().all().size());
+		PrevaylerBootstrap.open(tmpFolder);
+		assertEquals(1, PrevaylerBootstrap.execution().events().all().size());
 	}
 	
 

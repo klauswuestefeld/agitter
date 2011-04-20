@@ -7,6 +7,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
@@ -30,7 +31,7 @@ public class InvitePanel extends CustomComponent {
 		panel.addComponent(inviteButton(adder));
 		setCompositionRoot(panel);
 
-		_dateField.setResolution(PopupDateField.RESOLUTION_MIN);
+		_dateField.setResolution(DateField.RESOLUTION_MIN);
 		_dateField.setDateFormat("dd/MM/yyyy HH:mm");
 		_descriptionTextArea.setNullRepresentation("Descrição do seu agito...");
 		_descriptionTextArea.setValue(null);

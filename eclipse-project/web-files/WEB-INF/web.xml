@@ -12,13 +12,15 @@
     </servlet-class>
     <init-param>
       <param-name>application</param-name>
-      <param-value>agitter.ui.AgitterUI</param-value>
+      <param-value>agitter.ui.AgitterApplication</param-value>
     </init-param>
   </servlet>
+  
 
   <servlet-mapping>
     <servlet-name>agitter-servlet</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
-
+  
+  
 </web-app>

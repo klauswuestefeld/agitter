@@ -7,5 +7,6 @@ public interface Events {
 	Event create(String description, long datetime);
 	SortedSet<Event> all();
 	SortedSet<Event> toHappen();
+	void remove(Event event);
 
 }
