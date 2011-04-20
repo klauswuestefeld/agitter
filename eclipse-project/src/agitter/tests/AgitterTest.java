@@ -1,26 +1,23 @@
 package agitter.tests;
 
-import java.io.File;
+import org.junit.Ignore;
+import org.junit.Test;
 
+import sneer.foundation.testsupport.CleanTestBase;
 import agitter.Events;
 import agitter.util.PrevaylerBootstrap;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-public class AgitterTest extends Assert {
+@Ignore
+public class AgitterTest extends CleanTestBase {
 
 	@Test
 	public void persistence() throws Exception {
-		final File tmpFolder = new File("./repo");
-		if(!tmpFolder.exists()) { tmpFolder.mkdir(); }
-
-		PrevaylerBootstrap.open(tmpFolder);
+		PrevaylerBootstrap.open(tmpFolder());
 		Events events = PrevaylerBootstrap.execution().events();
 		events.create("Dinner at Joe's", 1234);
 		PrevaylerBootstrap.close();
 
-		PrevaylerBootstrap.open(tmpFolder);
+		PrevaylerBootstrap.open(tmpFolder());
 		assertEquals(1, PrevaylerBootstrap.execution().events().all().size());
 	}
 	

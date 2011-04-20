@@ -1,6 +1,6 @@
 package agitter.ui.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,19 +9,17 @@ import agitter.Agitter;
 import agitter.Event;
 import agitter.ui.AgitterPresenter;
 import agitter.ui.AgitterPresenterImpl;
-import agitter.util.AgitterClockMock;
 
 
 public class AgitterPresenterTest {
 	
 	private AgitterPresenter presenter;
 	private Agitter agitter;
-	private final AgitterClockMock clock = new AgitterClockMock();
 	private final PresenterViewStub view = new PresenterViewStub();
 
 	@Before
 	public void setUp() {
-		agitter = new Agitter(clock);
+		agitter = new Agitter();
 		presenter = new AgitterPresenterImpl(agitter);
 		presenter.setView(view);
 	}

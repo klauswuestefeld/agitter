@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.prevayler.TransactionWithQuery;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Logger;
 import sneer.foundation.lang.ProducerX;
 
@@ -23,14 +24,16 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	
 	@Override
-	public Object executeAndQuery(Object prevalentSystem, Date executionTimeIgnored) throws Exception {
+	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
 		PrevalentBubble.setPrevalentSystemIfNecessary(prevalentSystem);
 
+		Clock.setForCurrentThread(datetime.getTime());
 		PrevalenceFlag.setInsidePrevalence(true);
 		try {
 			return produce();
 		} finally {
 			PrevalenceFlag.setInsidePrevalence(false);
+			Clock.clearForCurrentThread();
 		}
 	}
 
