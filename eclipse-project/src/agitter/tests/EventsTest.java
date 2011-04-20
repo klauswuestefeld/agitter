@@ -1,16 +1,14 @@
 package agitter.tests;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
+import sneer.foundation.testsupport.CleanTestBase;
 import agitter.Event;
 import agitter.Events;
 import agitter.EventsImpl;
 
-public class EventsTest extends Assert {
+public class EventsTest extends CleanTestBase {
 
 	private final Events _subject = new EventsImpl();
 
@@ -58,16 +56,6 @@ public class EventsTest extends Assert {
 		
 		_subject.remove(eventToRemove);
 		assertEquals(0, _subject.all().size());
-	}
-
-	
-	@Before
-	public void beforeEventsTest() {
-		Clock.setForCurrentThread(0);
-	}
-	@After
-	public void afterEventsTest() {
-		Clock.clearForCurrentThread();
 	}
 
 }
