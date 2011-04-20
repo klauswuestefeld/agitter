@@ -1,9 +1,9 @@
-package example.launch;
+package agitter.main;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-public class Launcher {
+public class AgitterLauncher {
 
 	private static String contextPath = "/";
 	private static String resourceBase = "web-files";
