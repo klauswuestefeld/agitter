@@ -19,7 +19,7 @@ public class AgitterApplication extends Application {
 	}
 	private void initSystem() {
 		try {
-			final File tmpFolder = new File("/agitterrepo"); //TODO
+			final File tmpFolder = new File("prevalence"); //TODO
 			if(!tmpFolder.exists()) { tmpFolder.mkdir(); }
 			PrevaylerBootstrap.open(tmpFolder);
 		} catch(Exception ex) {
