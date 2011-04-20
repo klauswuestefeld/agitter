@@ -1,29 +1,24 @@
 package agitter.ui;
 
-import java.io.File;
-
-import agitter.util.PrevaylerBootstrap;
+import agitter.Agitter;
 
 import com.vaadin.Application;
 
 public class AgitterVaadinApplication extends Application {
 
 	private static final long serialVersionUID = 1L;
+	private static Agitter _agitter;
 
+	public static void init(Agitter agitter) {
+		_agitter = agitter;
+	}
+
+	
 	@Override
 	public void init() {
-		initSystem();
-		AgitterPresenterImpl presenter = new AgitterPresenterImpl(PrevaylerBootstrap.execution());
+		AgitterPresenterImpl presenter = new AgitterPresenterImpl(_agitter);
 		AgitterMainWindow window = new AgitterMainWindow(presenter);
 		setMainWindow(window);
 	}
-	private void initSystem() {
-		try {
-			final File tmpFolder = new File("/agitterrepo"); //TODO
-			if(!tmpFolder.exists()) { tmpFolder.mkdir(); }
-			PrevaylerBootstrap.open(tmpFolder);
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+	
 }
