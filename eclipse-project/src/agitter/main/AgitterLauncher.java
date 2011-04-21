@@ -7,7 +7,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import agitter.Agitter;
 import agitter.ui.AgitterVaadinApplication;
-import agitter.util.PrevaylerBootstrap;
 
 public class AgitterLauncher {
 
@@ -44,7 +43,7 @@ public class AgitterLauncher {
 	
 	private static Agitter initPrevalentSystem() {
 		PrevaylerBootstrap.open(new File("prevalence"));
-		return PrevaylerBootstrap.execution();
+		return PrevaylerBootstrap.agitter();
 	}
 	
 }

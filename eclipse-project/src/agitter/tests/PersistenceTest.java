@@ -4,19 +4,19 @@ import org.junit.Test;
 
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.Events;
-import agitter.util.PrevaylerBootstrap;
+import agitter.main.PrevaylerBootstrap;
 
-public class AgitterTest extends CleanTestBase {
+public class PersistenceTest extends CleanTestBase {
 
 	@Test
 	public void persistence() throws Exception {
 		PrevaylerBootstrap.open(tmpFolder());
-		Events events = PrevaylerBootstrap.execution().events();
+		Events events = PrevaylerBootstrap.agitter().events();
 		events.create("Dinner at Joe's", 1234);
 		PrevaylerBootstrap.close();
 
 		PrevaylerBootstrap.open(tmpFolder());
-		assertEquals(1, PrevaylerBootstrap.execution().events().all().size());
+		assertEquals(1, PrevaylerBootstrap.agitter().events().all().size());
 	}
 	
 
