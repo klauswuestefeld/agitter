@@ -4,20 +4,14 @@ import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import agitter.util.AgitterClock;
+import sneer.foundation.lang.Clock;
 
 public class EventsImpl implements Events, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private AgitterClock _clock;
 	private SortedSet<Event> _all = new TreeSet<Event>( new EventComparator() );
 	
-	
-	public EventsImpl(AgitterClock clock) {
-		_clock = clock;
-	}
-
 	
 	@Override
 	public Event create(String description, long datetime) {
@@ -34,7 +28,7 @@ public class EventsImpl implements Events, Serializable {
 		
 	@Override
 	public SortedSet<Event> toHappen() {
-		return _all.tailSet(new Event("Dummy", _clock.datetime()));
+		return _all.tailSet(new Event("Dummy", Clock.currentTimeMillis()));
 	}
 
 

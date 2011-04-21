@@ -1,15 +1,29 @@
-package example.launch;
+package agitter.main;
+
+import java.io.File;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-public class Launcher {
+import agitter.Agitter;
+import agitter.ui.AgitterVaadinApplication;
+import agitter.util.PrevaylerBootstrap;
+
+public class AgitterLauncher {
 
 	private static String contextPath = "/";
 	private static String resourceBase = "web-files";
 	private static int httpPort = 8888;
 
 	public static void main(String[] args) throws Exception {
+		Agitter agitter = initPrevalentSystem();
+		AgitterVaadinApplication.init(agitter);
+		
+		runJetty();
+	}
+
+
+	private static void runJetty() throws Exception, InterruptedException {
 		Server server = new Server(httpPort);
 		server.setHandler(webapp());
 		server.start();
@@ -27,4 +41,10 @@ public class Launcher {
 		return result;
 	}
 
+	
+	private static Agitter initPrevalentSystem() {
+		PrevaylerBootstrap.open(new File("prevalence"));
+		return PrevaylerBootstrap.execution();
+	}
+	
 }

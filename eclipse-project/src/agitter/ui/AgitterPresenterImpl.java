@@ -15,6 +15,9 @@ public class AgitterPresenterImpl implements AgitterPresenter {
 	@Override
 	public void setView(View view) {
 		this.view = view;
+		
+		for (Event event : agitter.events().toHappen())
+			view.addEvent(event);
 	}
 
 	@Override

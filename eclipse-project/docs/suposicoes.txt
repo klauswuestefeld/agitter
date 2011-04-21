@@ -11,13 +11,12 @@ SWARM>	Agitar
 		Ordenados por data.
 		Futuro próximo.
 
-	Email diario - 5 Agitos futuros mais relevantes.
-		Infra de envio de emails - AmazonSES
-
-
 Empreenda-Framps Release - Somente para eventos de software - Todos continuam recebendo todos os Agitos.
 
 	Sign-up e Login.
+
+	Email diario - 5 Agitos futuros mais relevantes.
+		Infra de envio de emails - AmazonSES
 	
 	Nome de quem agitou no Agito.
 
@@ -49,14 +48,14 @@ Public MVP Release 1.0
 		Email de autenticação de cadastro. 
 		Esqueci minha senha - Mande via email por favor.
 
-	Agenda Semanal em vez de diária.
-				
 	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
 
 	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
 
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
+
+	Agenda Semanal em vez de diária.
 
 
 Release 1.1

@@ -3,7 +3,9 @@ package agitter;
 
 import java.io.Serializable;
 
-public class Event implements Serializable {
+import sneer.foundation.lang.ReadOnly;
+
+public class Event implements Serializable, ReadOnly {
 
 	private static final long serialVersionUID = 1L;
 

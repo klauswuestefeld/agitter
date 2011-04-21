@@ -3,4 +3,4 @@
 nohup.out
 *.byecycle
 .idea
-agitter.iml
+*.iml

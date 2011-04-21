@@ -13,6 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
+import sneer.foundation.lang.Clock;
+
 /** A test that does not pollute the environment: it closes all files handles it opens, it does not leak threads, it does not write to the console (out and err). */
 @RunWith(CleanTestRunner.class)
 public abstract class CleanTestBase extends AssertUtils {
@@ -93,6 +95,7 @@ public abstract class CleanTestBase extends AssertUtils {
 	
 	@Before
 	public void beforeCleanTest() {
+		Clock.setForCurrentThread(0);
 		_activeThreadsBeforeTest = Thread.getAllStackTraces().keySet();
 		
 		System.setOut(_outSentinel);
@@ -102,6 +105,7 @@ public abstract class CleanTestBase extends AssertUtils {
 	
 	@After
 	public void afterCleanTest() {
+		Clock.clearForCurrentThread();
 		recoverConsole();
 
 		if (_failure != null) {
