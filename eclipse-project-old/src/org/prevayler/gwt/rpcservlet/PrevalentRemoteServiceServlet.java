@@ -68,7 +68,7 @@ public class PrevalentRemoteServiceServlet extends RemoteServiceServlet {
 	public PrevalentRemoteServiceServlet(RemoteService remoteService)
 			throws Exception {
 		super(prevalent(remoteService));
-//		startSnapshotTaker();
+		startSnapshotTaker();
 	}
 
 	private static Object prevalent(RemoteService remoteService)
