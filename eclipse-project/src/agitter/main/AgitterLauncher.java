@@ -6,7 +6,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import agitter.domain.Agitter;
-import agitter.ui.AgitterVaadinApplication;
+import agitter.ui.presenter.Presenter;
+import agitter.ui.presenter.impl.PresenterImpl;
+import agitter.ui.view.impl.AgitterVaadinApplication;
 
 public class AgitterLauncher {
 
@@ -16,7 +18,8 @@ public class AgitterLauncher {
 
 	public static void main(String[] args) throws Exception {
 		Agitter agitter = initPrevalentSystem();
-		AgitterVaadinApplication.init(agitter);
+		Presenter presenter = new PresenterImpl(agitter);
+		AgitterVaadinApplication.staticInit(presenter);
 		
 		runJetty();
 	}
