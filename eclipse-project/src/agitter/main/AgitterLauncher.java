@@ -11,7 +11,7 @@ import agitter.ui.AgitterVaadinApplication;
 public class AgitterLauncher {
 
 	private static String contextPath = "/";
-	private static String resourceBase = "web-files";
+	private static String resourceBase = "agitter-web";
 	private static int httpPort = 8888;
 
 	public static void main(String[] args) throws Exception {
