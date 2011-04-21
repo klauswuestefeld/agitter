@@ -1,4 +1,4 @@
-package agitter.tests;
+package agitter.domain.tests;
 
 import org.junit.Test;
 
