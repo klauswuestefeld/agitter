@@ -1,4 +1,4 @@
-package agitter;
+package agitter.domain;
 
 
 public class AgitterImpl implements Agitter {

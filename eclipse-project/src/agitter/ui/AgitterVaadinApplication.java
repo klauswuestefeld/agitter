@@ -1,6 +1,6 @@
 package agitter.ui;
 
-import agitter.Agitter;
+import agitter.domain.Agitter;
 
 import com.vaadin.Application;
 

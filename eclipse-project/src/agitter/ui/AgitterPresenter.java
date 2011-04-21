@@ -1,6 +1,6 @@
 package agitter.ui;
 
-import agitter.Event;
+import agitter.domain.Event;
 
 public interface AgitterPresenter extends EventAdder, EventRemover {
 

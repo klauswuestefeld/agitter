@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import agitter.AgitterImpl;
-import agitter.Event;
+import agitter.domain.AgitterImpl;
+import agitter.domain.Event;
 import agitter.ui.AgitterPresenter;
 import agitter.ui.AgitterPresenterImpl;
 

@@ -1,4 +1,4 @@
-package agitter;
+package agitter.domain;
 
 public interface Agitter {
 

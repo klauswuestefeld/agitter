@@ -11,7 +11,7 @@ public class AgitterMainWindow extends com.vaadin.ui.Window implements AgitterPr
 	private static final long serialVersionUID = 1L;
 	private final ComponentContainer eventList = new VerticalLayout();
 	private final AgitterPresenter presenter;
-	private final HashMap<agitter.Event, EventPanel> events = new HashMap<agitter.Event, EventPanel>();
+	private final HashMap<agitter.domain.Event, EventPanel> events = new HashMap<agitter.domain.Event, EventPanel>();
 
     public AgitterMainWindow(AgitterPresenter presenter){
     		this.presenter = presenter;
@@ -25,14 +25,14 @@ public class AgitterMainWindow extends com.vaadin.ui.Window implements AgitterPr
 	}
 
 	@Override
-	public void addEvent(agitter.Event event) {
+	public void addEvent(agitter.domain.Event event) {
 		EventPanel eventPanel = new EventPanel(event,presenter);
 		events.put(event, eventPanel);		
 		eventList.addComponent(eventPanel);
 	}
 
 	@Override
-	public void removeEvent(agitter.Event event) {
+	public void removeEvent(agitter.domain.Event event) {
 		EventPanel panel = events.get(event);
 		eventList.removeComponent(panel);
 	}

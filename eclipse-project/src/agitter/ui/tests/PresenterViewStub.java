@@ -2,7 +2,7 @@ package agitter.ui.tests;
 
 import java.util.ArrayList;
 
-import agitter.Event;
+import agitter.domain.Event;
 import agitter.ui.AgitterPresenter;
 
 public class PresenterViewStub implements AgitterPresenter.View {

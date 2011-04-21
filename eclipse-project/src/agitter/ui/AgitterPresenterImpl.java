@@ -1,7 +1,7 @@
 package agitter.ui;
 
-import agitter.Agitter;
-import agitter.Event;
+import agitter.domain.Agitter;
+import agitter.domain.Event;
 
 public class AgitterPresenterImpl implements AgitterPresenter {
 
@@ -22,7 +22,7 @@ public class AgitterPresenterImpl implements AgitterPresenter {
 
 	@Override
 	public void add(String description, long time) {
-		agitter.Event event = agitter.events().create(description, time);
+		agitter.domain.Event event = agitter.events().create(description, time);
 		view.addEvent(event);
 	}
 

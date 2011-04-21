@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.prevayler.bubble.PrevalentBubble;
 
-import agitter.Agitter;
-import agitter.AgitterImpl;
+import agitter.domain.Agitter;
+import agitter.domain.AgitterImpl;
 
 public class PrevaylerBootstrap {
 

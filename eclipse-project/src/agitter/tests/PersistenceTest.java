@@ -3,7 +3,7 @@ package agitter.tests;
 import org.junit.Test;
 
 import sneer.foundation.testsupport.CleanTestBase;
-import agitter.Events;
+import agitter.domain.Events;
 import agitter.main.PrevaylerBootstrap;
 
 public class PersistenceTest extends CleanTestBase {

@@ -17,10 +17,10 @@ public class EventPanel extends CustomComponent {
 
 	private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private Panel mainPanel;
-	private final agitter.Event event;
+	private final agitter.domain.Event event;
 	private final EventRemover eventRemover;
 
-	public EventPanel(agitter.Event event, EventRemover eventRemover) {
+	public EventPanel(agitter.domain.Event event, EventRemover eventRemover) {
 		this.event = event;
 		this.eventRemover = eventRemover;
 		mainPanel = new Panel();

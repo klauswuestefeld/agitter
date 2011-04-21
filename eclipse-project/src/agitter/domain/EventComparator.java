@@ -1,4 +1,4 @@
-package agitter;
+package agitter.domain;
 
 import java.io.Serializable;
 import java.util.Comparator;

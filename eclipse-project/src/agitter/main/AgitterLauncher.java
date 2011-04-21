@@ -5,7 +5,7 @@ import java.io.File;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import agitter.Agitter;
+import agitter.domain.Agitter;
 import agitter.ui.AgitterVaadinApplication;
 
 public class AgitterLauncher {

@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.testsupport.CleanTestBase;
-import agitter.Event;
-import agitter.Events;
-import agitter.EventsImpl;
+import agitter.domain.Event;
+import agitter.domain.Events;
+import agitter.domain.EventsImpl;
 
 public class EventsTest extends CleanTestBase {
 

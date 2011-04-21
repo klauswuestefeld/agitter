@@ -1,5 +1,5 @@
 package agitter.ui;
 
 public interface EventRemover {
-	void remove(agitter.Event event);
+	void remove(agitter.domain.Event event);
 }
