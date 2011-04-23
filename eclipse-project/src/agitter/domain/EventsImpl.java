@@ -15,9 +15,17 @@ public class EventsImpl implements Events, Serializable {
 	
 	@Override
 	public Event create(String description, long datetime) {
+		assertIsInTheFuture(datetime);
+		
 		Event event = new Event(description, datetime);
 		_all.add(event);
 		return event;
+	}
+
+
+	private void assertIsInTheFuture(long datetime) {
+		if(Clock.currentTimeMillis()>datetime)
+			throw new IllegalArgumentException("new events should be in the future");
 	}
 
 	

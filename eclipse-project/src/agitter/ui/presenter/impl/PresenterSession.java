@@ -32,26 +32,23 @@ class PresenterSession {
 		return new Runnable() { @Override public void run() {
 			String description = inviteView().getEventDescription();
 			Date datetime = inviteView().getDatetime();
-			if (!validate(description, datetime)) return;
-			_agitter.events().create(description, datetime.getTime());
-			refreshEventList();
-			inviteView().clearFields();
+			try {
+				validate(datetime);
+				_agitter.events().create(description, datetime.getTime());
+				refreshEventList();
+				inviteView().clearFields();
+			}
+			catch(Exception e) {
+				_view.showErrorMessage(e.getMessage());
+			}
 		}};
 	}
 
 	
-	private boolean validate(String description, Date datetime) {
-		 //Fix: Model should validate!
-		
-		if (description == null) {
-			_view.showErrorMessage("Descrição do agito deve ser preenchida.");
-			return false;
-		}
-		if (datetime == null) {
-			_view.showErrorMessage("Data do agito deve ser preenchida.");
-			return false;
-		}
-		return true;
+	private void validate(Date datetime) {
+		//TODO: Should be in model
+		if (datetime == null)
+			throw new IllegalArgumentException("Data do agito deve ser preenchida.");
 	}
 	
 	

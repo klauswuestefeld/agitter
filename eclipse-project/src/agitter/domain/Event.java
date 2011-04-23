@@ -13,7 +13,8 @@ public class Event implements Serializable, ReadOnly {
 	final private String _description;
 
 	public Event(String description, long datetime) {
-		if (null == description) { throw new IllegalArgumentException("description can not be null"); }
+		if (datetime == 0) throw new IllegalArgumentException("Data do agito deve ser preenchida.");
+		if (null == description) throw new IllegalArgumentException("description can not be null");
 		_description = description;
 		_datetime = datetime;
 	}
