@@ -1,16 +1,15 @@
 package org.prevayler.bubble;
 
-import java.io.File;
-
 import org.prevayler.Prevayler;
+import org.prevayler.PrevaylerFactory;
 
 public class PrevalentBubble {
 
 	static PrevalentSession _session;
 	
-	public static <T> T wrap(T initialPrevalentSystem, File prevalenceBase) {
-		pop();
-		_session = new PrevalentSession(initialPrevalentSystem, prevalenceBase);
+	public static <T> T wrap(PrevaylerFactory factory) {
+		if (_session != null) throw new IllegalStateException();
+		_session = new PrevalentSession(factory);
 		return (T) BubbleProxy.wrapped(_session.prevalentSystem(), null);
 	}
 	
@@ -20,7 +19,9 @@ public class PrevalentBubble {
 	
 	/** Bursts the bubble, closing Prevayler. */
 	public static void pop() {
-		if (_session != null) _session.close();
+		if (_session == null) throw new IllegalStateException();
+		_session.close();
+		_session = null;
 	}
 	
 	public static IdMap idMap() {

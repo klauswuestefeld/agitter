@@ -1,10 +1,13 @@
 package org.prevayler.bubble;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
+import org.prevayler.Clock;
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
+
+import com.sun.org.apache.xpath.internal.FoundIndex;
 
 import sneer.foundation.lang.exceptions.NotImplementedYet;
 import sneer.foundation.util.concurrent.Latch;
@@ -19,10 +22,10 @@ class PrevalentSession {
 	
 	IdMap _idMap = new IdMap();
 
-	PrevalentSession(final Object initialPrevalentSystem, final File prevalenceBase) {
+	PrevalentSession(final PrevaylerFactory factory) {
 		Thread thread = new Thread(new Runnable() { @Override public void run() {
 
-			_prevayler = createPrevayler(initialPrevalentSystem, prevalenceBase);
+			_prevayler = createPrevayler(factory);
 			setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
 			_transactionLogReplayed.open();
 
@@ -31,8 +34,10 @@ class PrevalentSession {
 		thread.start();
 	}
 
-	private static Prevayler createPrevayler(Object prevalentSystem, final File prevalenceBase) {
-		final PrevaylerFactory factory = createPrevaylerFactory(prevalentSystem, prevalenceBase);
+	private static Prevayler createPrevayler(PrevaylerFactory factory) {
+		factory.configureClock(new Clock() { @Override public Date time() {
+			return new Date(sneer.foundation.lang.Clock.currentTimeMillis());
+		}});
 
 		try {
 			return factory.create();
@@ -43,14 +48,6 @@ class PrevalentSession {
 		}
 	}
 		
-	private static PrevaylerFactory createPrevaylerFactory(Object system, File prevalenceBase) {
-		PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(system);
-		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
-		factory.configureTransactionFiltering(false);
-		return factory;
-	}
-	
 	void setPrevalentSystemIfNecessary(Object system) {
 		if (system == null) throw new IllegalArgumentException();
 		
