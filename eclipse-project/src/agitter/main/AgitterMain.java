@@ -5,22 +5,14 @@ import java.io.File;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import agitter.domain.Agitter;
-import agitter.ui.presenter.Presenter;
-import agitter.ui.presenter.impl.PresenterImpl;
-import agitter.ui.view.impl.AgitterVaadinApplication;
-
-public class AgitterLauncher {
+public class AgitterMain {
 
 	private static String contextPath = "/";
 	private static String resourceBase = "agitter-web";
 	private static int httpPort = 8888;
 
 	public static void main(String[] args) throws Exception {
-		Agitter agitter = initPrevalentSystem();
-		Presenter presenter = new PresenterImpl(agitter);
-		AgitterVaadinApplication.staticInit(presenter);
-		
+		initPrevalentSystem();
 		runJetty();
 	}
 
@@ -44,9 +36,8 @@ public class AgitterLauncher {
 	}
 
 	
-	private static Agitter initPrevalentSystem() {
+	private static void initPrevalentSystem() {
 		PrevaylerBootstrap.open(new File("prevalence"));
-		return PrevaylerBootstrap.agitter();
 	}
 	
 }
