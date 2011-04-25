@@ -31,9 +31,6 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 		PrevalenceFlag.setInsidePrevalence(true);
 		try {
 			return produce();
-		} catch (RuntimeException rx) {
-			rx.printStackTrace();
-			throw rx;
 		} finally {
 			PrevalenceFlag.setInsidePrevalence(false);
 			Clock.clearForCurrentThread();
