@@ -7,17 +7,23 @@ public class PrevalentBubble {
 
 	static PrevalentSession _session;
 	
+	
+	synchronized
 	public static <T> T wrap(PrevaylerFactory factory) {
 		if (_session != null) throw new IllegalStateException();
 		_session = new PrevalentSession(factory);
+		_session.start(); //_session has to be set before start() so that the setPrevalentSystemIfNecessary method can be called.
 		return (T) BubbleProxy.wrapped(_session.prevalentSystem(), null);
 	}
+
 	
 	public static Prevayler prevayler() {
 		return _session._prevayler;
 	}
+
 	
 	/** Bursts the bubble, closing Prevayler. */
+	synchronized
 	public static void pop() {
 		if (_session == null) throw new IllegalStateException();
 		_session.close();

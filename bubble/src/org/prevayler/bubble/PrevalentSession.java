@@ -18,27 +18,26 @@ class PrevalentSession {
 	private Object _prevalentSystem;
 	private final Latch _prevalentSystemAvailable = new Latch();
 	
-	IdMap _idMap = new IdMap();
+	final IdMap _idMap = new IdMap();
+	private final PrevaylerFactory _factory;
 
 	PrevalentSession(final PrevaylerFactory factory) {
-		Thread thread = new Thread(new Runnable() { @Override public void run() {
-
-			_prevayler = createPrevayler(factory);
-			setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
-			_transactionLogReplayed.open();
-
-		}}, "Prevalent transaction log replay.");
-		thread.setDaemon(true);
-		thread.start();
+		_factory = factory;
 	}
 
-	private static Prevayler createPrevayler(PrevaylerFactory factory) {
-		factory.configureClock(new Clock() { @Override public Date time() {
+	void start() {
+		initPrevayler();
+		setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
+		_transactionLogReplayed.open();
+	}
+	
+	private void initPrevayler() {
+		_factory.configureClock(new Clock() { @Override public Date time() {
 			return new Date(sneer.foundation.lang.Clock.currentTimeMillis());
 		}});
 
 		try {
-			return factory.create();
+			_prevayler = _factory.create();
 		} catch (IOException e) {
 			throw new NotImplementedYet(e); // Fix Handle this exception.
 		} catch (ClassNotFoundException e) {
