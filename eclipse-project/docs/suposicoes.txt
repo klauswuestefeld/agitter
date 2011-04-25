@@ -4,7 +4,7 @@ DogFood Release - Pra nós mesmos do time usarmos sem convidar ninguem de fora p
 		Tudo menos a UI com TDD
 		Persistencia
 
-SWARM>	Agitar
+	Agitar
 		O que? Quando?
 
 	Lista
@@ -13,7 +13,7 @@ SWARM>	Agitar
 
 Empreenda-Framps Release - Somente para eventos de software - Todos continuam recebendo todos os Agitos.
 
-	Sign-up e Login.
+SWARM>	Sign-up e Login.
 
 	Email diario - 5 Agitos futuros mais relevantes.
 		Infra de envio de emails - AmazonSES
@@ -21,6 +21,8 @@ Empreenda-Framps Release - Somente para eventos de software - Todos continuam re
 	Nome de quem agitou no Agito.
 
 	Continuous Deploy
+	
+	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
 
 
 Public MVP Release 1.0
