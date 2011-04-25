@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.Event;
 import agitter.ui.view.AgitterView;
@@ -21,34 +22,33 @@ class PresenterSession {
 		_agitter = agitter;
 		_view = view;
 		
-		inviteView().onInvite(inviteAction());
 		inviteView().clearFields();
+		inviteView().onInvite(new Runnable() { @Override public void run() {
+			invite();
+		}});
 
 		refreshEventList();
 	}
 
 	
-	private Runnable inviteAction() {
-		return new Runnable() { @Override public void run() {
-			String description = inviteView().getEventDescription();
-			Date datetime = inviteView().getDatetime();
-			try {
-				validate(datetime);
-				_agitter.events().create(description, datetime.getTime());
-				refreshEventList();
-				inviteView().clearFields();
-			}
-			catch(Exception e) {
-				_view.showErrorMessage(e.getMessage());
-			}
-		}};
+	private void invite() {
+		String description = inviteView().getEventDescription();
+		Date datetime = inviteView().getDatetime();
+		try {
+			validate(datetime);
+			_agitter.events().create(description, datetime.getTime());
+		} catch (Refusal e) {
+			_view.showErrorMessage(e.getMessage());
+			return;
+		}
+		refreshEventList();
+		inviteView().clearFields();
 	}
-
 	
-	private void validate(Date datetime) {
-		//TODO: Should be in model
+	
+	private void validate(Date datetime) throws Refusal {
 		if (datetime == null)
-			throw new IllegalArgumentException("Data do agito deve ser preenchida.");
+			throw new Refusal("Data do agito deve ser preenchida.");
 	}
 	
 	
@@ -82,6 +82,6 @@ class PresenterSession {
 			refreshEventList();
 		}};
 	}
-	
+
 }
 

@@ -5,6 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import sneer.foundation.lang.Clock;
+import sneer.foundation.lang.exceptions.Refusal;
 
 public class EventsImpl implements Events, Serializable {
 
@@ -14,7 +15,7 @@ public class EventsImpl implements Events, Serializable {
 	
 	
 	@Override
-	public Event create(String description, long datetime) {
+	public Event create(String description, long datetime) throws Refusal {
 		assertIsInTheFuture(datetime);
 		
 		Event event = new Event(description, datetime);
@@ -23,9 +24,9 @@ public class EventsImpl implements Events, Serializable {
 	}
 
 
-	private void assertIsInTheFuture(long datetime) {
-		if(Clock.currentTimeMillis()>datetime)
-			throw new IllegalArgumentException("new events should be in the future");
+	private void assertIsInTheFuture(long datetime) throws Refusal {
+		if (datetime < Clock.currentTimeMillis())
+			throw new Refusal("Novos eventos devem ser criados com data futura.");
 	}
 
 	

@@ -95,7 +95,8 @@ public abstract class CleanTestBase extends AssertUtils {
 	
 	@Before
 	public void beforeCleanTest() {
-		Clock.setForCurrentThread(0);
+		Clock.setForCurrentThread(1);
+		
 		_activeThreadsBeforeTest = Thread.getAllStackTraces().keySet();
 		
 		System.setOut(_outSentinel);
@@ -106,6 +107,7 @@ public abstract class CleanTestBase extends AssertUtils {
 	@After
 	public void afterCleanTest() {
 		Clock.clearForCurrentThread();
+		
 		recoverConsole();
 
 		if (_failure != null) {
