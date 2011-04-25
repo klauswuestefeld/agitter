@@ -7,8 +7,6 @@ import org.prevayler.Clock;
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
-import com.sun.org.apache.xpath.internal.FoundIndex;
-
 import sneer.foundation.lang.exceptions.NotImplementedYet;
 import sneer.foundation.util.concurrent.Latch;
 

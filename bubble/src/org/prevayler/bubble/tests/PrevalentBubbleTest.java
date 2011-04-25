@@ -2,11 +2,13 @@ package org.prevayler.bubble.tests;
 
 import org.junit.After;
 import org.junit.Test;
+import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
 import org.prevayler.bubble.tests.fixtures.SomeApplication;
 import org.prevayler.bubble.tests.fixtures.SomeApplicationImpl;
 import org.prevayler.bubble.tests.fixtures.module1.Item;
 import org.prevayler.bubble.tests.fixtures.module1.SomeModule;
+import org.prevayler.foundation.serialization.XStreamSerializer;
 
 import sneer.foundation.lang.Closure;
 import sneer.foundation.testsupport.CleanTestBase;
@@ -17,7 +19,14 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	
 	
 	private SomeApplication resetSubject() {
-		return PrevalentBubble.wrap(new SomeApplicationImpl(), tmpFolder());
+		if (_subject != null) PrevalentBubble.pop();
+		
+		PrevaylerFactory factory = new PrevaylerFactory();
+		factory.configurePrevalentSystem(new SomeApplicationImpl());
+		factory.configurePrevalenceDirectory(tmpFolder().getAbsolutePath());
+		factory.configureJournalSerializer(new XStreamSerializer());
+		factory.configureTransactionFiltering(false);
+		return PrevalentBubble.wrap(factory);
 	}
 
 
