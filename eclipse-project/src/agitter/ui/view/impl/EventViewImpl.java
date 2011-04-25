@@ -13,14 +13,14 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 
-public class EventPanel extends CustomComponent {
+public class EventViewImpl extends CustomComponent {
 
 	static private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	private Button _removeButton = new Button("X");
 
 	
-	public EventPanel(EventData event) {
+	public EventViewImpl(EventData event) {
 		Panel mainPanel = new Panel();
 		mainPanel.addComponent(new Label(event._description));
 		mainPanel.addComponent(new Label(event._ownerEmail));

@@ -7,13 +7,13 @@ import agitter.ui.view.EventListView;
 
 import com.vaadin.ui.VerticalLayout;
 
-final class EventListViewImplementation extends VerticalLayout implements EventListView {
+final class EventListViewImpl extends VerticalLayout implements EventListView {
 
 	@Override
 	public void display(List<EventData> events) {
 		removeAllComponents();
 		for (EventData eventData : events)
-			addComponent(new EventPanel(eventData));
+			addComponent(new EventViewImpl(eventData));
 	}
 
 }

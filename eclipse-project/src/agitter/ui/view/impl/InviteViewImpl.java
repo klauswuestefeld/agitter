@@ -13,13 +13,13 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
 
-public class InvitePanel extends CustomComponent implements InviteView {
+public class InviteViewImpl extends CustomComponent implements InviteView {
 
 	private TextArea _descriptionTextArea = new TextArea();
 	private PopupDateField _dateField = new PopupDateField();
 	private Button _inviteButton = new Button("Invite!");
 
-	public InvitePanel() {
+	public InviteViewImpl() {
 		Panel panel = new Panel();
 		panel.addComponent(_descriptionTextArea);
 		panel.addComponent(_dateField);
@@ -55,8 +55,8 @@ public class InvitePanel extends CustomComponent implements InviteView {
 	@Override
 	public void clearFields() {
 		_descriptionTextArea.setNullRepresentation("Descrição do seu agito...");
-		InvitePanel.this._dateField.setValue(null);
-		InvitePanel.this._descriptionTextArea.setValue(null);
+		InviteViewImpl.this._dateField.setValue(null);
+		InviteViewImpl.this._descriptionTextArea.setValue(null);
 	}
 
 }

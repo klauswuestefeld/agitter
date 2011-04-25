@@ -7,12 +7,12 @@ import agitter.ui.view.InviteView;
 
 import com.vaadin.ui.Window;
 
-public class AgitterMainWindow extends com.vaadin.ui.Window implements AgitterView {
+public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView {
 
-	private InvitePanel _invitePanel = new InvitePanel();
-	private EventListViewImplementation _eventList = new EventListViewImplementation();
+	private InviteViewImpl _invitePanel = new InviteViewImpl();
+	private EventListViewImpl _eventList = new EventListViewImpl();
 
-    public AgitterMainWindow(){
+    public AgitterViewImpl(){
 		addComponent(_invitePanel);
 		addComponent(_eventList);
     }
