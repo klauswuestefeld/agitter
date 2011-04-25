@@ -1,19 +1,7 @@
-DogFood Release - Pra nós mesmos do time usarmos sem convidar ninguem de fora para os agitos.
+Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
-	Requisitos nao-funcionais
-		Tudo menos a UI com TDD
-		Persistencia
-
-	Agitar
-		O que? Quando?
-
-	Lista
-		Ordenados por data.
-		Futuro próximo.
-
-Empreenda-Framps Release - Somente para eventos de software - Todos continuam recebendo todos os Agitos.
-
-SWARM>	Sign-up e Login.
+	Sign-up e Login.
+		Esqueci minha senha - Mande via email por favor.
 
 	Email diario - 5 Agitos futuros mais relevantes.
 		Infra de envio de emails - AmazonSES
@@ -48,7 +36,6 @@ Public MVP Release 1.0
 
 	Cadastro
 		Email de autenticação de cadastro. 
-		Esqueci minha senha - Mande via email por favor.
 
 	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
 
