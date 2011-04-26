@@ -1,13 +1,13 @@
-package agitter.domain.tests;
+package agitter.domain.events.tests;
 
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
-import agitter.domain.Event;
-import agitter.domain.Events;
-import agitter.domain.EventsImpl;
+import agitter.domain.events.Event;
+import agitter.domain.events.Events;
+import agitter.domain.events.EventsImpl;
 
 public class EventsTest extends CleanTestBase {
 

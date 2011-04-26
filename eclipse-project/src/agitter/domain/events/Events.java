@@ -1,8 +1,9 @@
-package agitter.domain;
+package agitter.domain.events;
 
 import java.util.SortedSet;
 
 import org.prevayler.bubble.Transaction;
+
 
 import sneer.foundation.lang.exceptions.Refusal;
 

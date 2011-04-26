@@ -1,15 +1,18 @@
 package agitter.domain;
 
+import agitter.domain.events.Events;
+
 
 
 public class AgitterSessionImpl implements AgitterSession {
 
-	private final EventsImpl _events = new EventsImpl();
+	private final Events _events;
 	private final String _userName;
 
 	
-	AgitterSessionImpl(String userName) {
+	AgitterSessionImpl(String userName, Events events) {
 		_userName = userName;
+		_events = events;
 	}
 
 	

@@ -1,4 +1,4 @@
-package agitter.domain;
+package agitter.domain.events;
 
 
 import java.io.Serializable;

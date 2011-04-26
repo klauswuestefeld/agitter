@@ -8,7 +8,7 @@ import java.util.SortedSet;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.AgitterSession;
-import agitter.domain.Event;
+import agitter.domain.events.Event;
 import agitter.ui.view.EventData;
 import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;

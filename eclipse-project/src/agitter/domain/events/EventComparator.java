@@ -1,7 +1,8 @@
-package agitter.domain;
+package agitter.domain.events;
 
 import java.io.Serializable;
 import java.util.Comparator;
+
 
 
 public class EventComparator implements Comparator<Event>, Serializable {

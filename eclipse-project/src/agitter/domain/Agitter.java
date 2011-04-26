@@ -8,6 +8,7 @@ public interface Agitter {
 
 	@Transaction
 	AgitterSession signup(String name, String email, String password);
+	@Transaction
 	AgitterSession login(String email, String password) throws Refusal;
 
 }

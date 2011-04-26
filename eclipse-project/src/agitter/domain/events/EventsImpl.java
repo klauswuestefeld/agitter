@@ -1,8 +1,9 @@
-package agitter.domain;
+package agitter.domain.events;
 
 import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
