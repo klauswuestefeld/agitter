@@ -45,6 +45,8 @@ Public MVP Release 1.0
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
 
 	Agenda Semanal em vez de diária.
+	
+	Vaadin productionMode=true no web.xml
 
 
 Release 1.1
