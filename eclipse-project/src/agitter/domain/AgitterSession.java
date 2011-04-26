@@ -2,8 +2,8 @@ package agitter.domain;
 
 public interface AgitterSession {
 
+	String userName();
 	void logout();
-	Object userName();
 	
 	Events events();
 
