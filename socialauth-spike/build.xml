@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="socialauth-spike">
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+
+
+	<path id="lib.classpath">
+	  <fileset dir="lib">
+	    <include name="**/*.jar" />
+	  </fileset>
+	</path>
+
+	<path id="socialauth-spike.classpath">
+		<pathelement location="spike-web/WEB-INF/classes"/>
+		<path refid="lib.classpath"/>
+	</path>
+
+
+	<target name="build" depends="copy-resources, copy-libs">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+
+		<javac debug="true" debuglevel="${debuglevel}" destdir="spike-web/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
+			<src path="src"/>
+			<classpath refid="socialauth-spike.classpath"/>
+		</javac>
+	</target>
+
+	
+	<target name="copy-resources">
+		<delete dir="spike-web/WEB-INF/classes"/>
+		<mkdir dir="spike-web/WEB-INF/classes"/>
+		<copy includeemptydirs="false" todir="spike-web/WEB-INF/classes">
+			<fileset dir="src">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	
+	<target name="copy-libs">
+		<delete dir="spike-web/WEB-INF/lib"/>
+	    <mkdir dir="spike-web/WEB-INF/lib" />
+		<copy todir="spike-web/WEB-INF/lib" flatten="yes">
+			<path refid="lib.classpath"/>
+		</copy>
+	</target>
+
+
+</project>
