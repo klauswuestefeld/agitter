@@ -1,9 +1,11 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
+	Lista de Agitos Atualizada via ICEPush - http://vaadin.com/directory#addon/icepush
+	
 	Sign-up e Login.
 		Esqueci minha senha - Mande via email por favor.
 
-	Email diario - 5 Agitos futuros mais relevantes.
+	Email diario - 5 Agitos futuros mais próximos.
 		Infra de envio de emails - AmazonSES
 	
 	Nome de quem agitou no Agito.
@@ -33,6 +35,8 @@ Public MVP Release 1.0
 		http://loopj.com/jquery-tokeninput/
 		Grupos de Contatos
 			Grupos dentro de grupos.
+
+	Relevancia - Filtrar agitos mais relevantes.
 
 	Cadastro
 		Email de autenticação de cadastro. 
