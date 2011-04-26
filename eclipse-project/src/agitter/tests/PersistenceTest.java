@@ -2,21 +2,20 @@ package agitter.tests;
 
 import org.junit.Test;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
-import agitter.domain.Events;
 import agitter.main.PrevaylerBootstrap;
 
 public class PersistenceTest extends CleanTestBase {
 
 	@Test
-	public void persistence() throws Exception {
+	public void persistence() throws Refusal {
 		PrevaylerBootstrap.open(tmpFolder());
-		Events events = PrevaylerBootstrap.agitter().events();
-		events.create("Dinner at Joe's", 1234);
+		PrevaylerBootstrap.agitter().signup("Ana", "ana@gmail.com", "ana123");
 		PrevaylerBootstrap.close();
 
 		PrevaylerBootstrap.open(tmpFolder());
-		assertEquals(1, PrevaylerBootstrap.agitter().events().all().size());
+		PrevaylerBootstrap.agitter().login("ana@gmail.com", "ana123");
 	}
 	
 
