@@ -1,5 +1,7 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
+	Lista de Agitos Atualizada via ICEPush - http://vaadin.com/directory#addon/icepush
+	
 	Sign-up e Login.
 		Esqueci minha senha - Mande via email por favor.
 
