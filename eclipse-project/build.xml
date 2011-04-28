@@ -14,7 +14,7 @@
 
 	
 	<target name="copy-resources" depends="clean">
-		<copy todir="${bin}">
+		<copy todir="${bin}" includeemptydirs="false">
 			<fileset dir="${src}">
 				<exclude name="**/*.java"/>
 			</fileset>
@@ -48,9 +48,9 @@
 
 
 	<target name="simploy" depends="build">
-		<copy todir="${bin}/lib">
+		<copy todir="${bin}/lib" includeemptydirs="false">
 			<fileset dir="${bubble-path}">
-				<exclude name="**/*.jar"/>
+				<include name="**/*.jar"/>
 			</fileset>
 		</copy>
 		
