@@ -13,6 +13,7 @@
 	  </fileset>
 	</path>
 
+	
 	<path id="socialauth-spike.classpath">
 		<pathelement location="spike-web/WEB-INF/classes"/>
 		<path refid="lib.classpath"/>
@@ -26,6 +27,14 @@
 			<src path="src"/>
 			<classpath refid="socialauth-spike.classpath"/>
 		</javac>
+
+		<java fork="false" spawn="false" classname="spike.SpikeMain">
+			<classpath>
+				<pathelement location="war/WEB-INF/classes"/>
+				<path refid="lib.classpath"/>
+			</classpath>
+		</java>
+
 	</target>
 
 	
