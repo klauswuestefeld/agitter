@@ -4,7 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/jetty/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-7.1.6.v20100715.jar" sourcepath="lib/jetty/jetty-all-7.1.6.v20100715-sources.jar"/>
+	<classpathentry kind="lib" path="lib/socialauth/socialauth-1.1-beta1.jar"/>
+	<classpathentry kind="lib" path="lib/socialauth/dependencies-1.1.zip"/>
+	<classpathentry kind="lib" path="lib/socialauth/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/socialauth/json-20090211.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/bubble"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

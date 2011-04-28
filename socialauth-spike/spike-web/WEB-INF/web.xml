@@ -11,7 +11,19 @@
   
   <servlet-mapping>
     <servlet-name>socialauth-spike</servlet-name>
-    <url-pattern>/socialauth/*</url-pattern>
+    <url-pattern>/auth/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>socialauth-callback</servlet-name>
+    <servlet-class>
+        spike.CallBackServlet
+    </servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>socialauth-callback</servlet-name>
+    <url-pattern>/authresp/*</url-pattern>
   </servlet-mapping>
   
 </web-app>

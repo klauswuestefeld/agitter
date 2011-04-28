@@ -1,0 +1,13 @@
+Google
+User: AgitterSite
+Pass: d4f8j34s9y
+
+Twitter
+FullName: Agitter
+Email: agittersite@gmail.com
+Pass: f8q6x5fg2m
+
+Facebook
+FirstName: Agitter
+Email: agittersite@gmail.com
+Pass: n3kdm2a7j2
