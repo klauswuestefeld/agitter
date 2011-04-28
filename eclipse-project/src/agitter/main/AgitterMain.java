@@ -1,5 +1,7 @@
 package agitter.main;
 
+import infra.processreplacer.ProcessReplacer;
+
 import java.io.File;
 
 import org.eclipse.jetty.server.Server;
@@ -13,6 +15,8 @@ public class AgitterMain {
 
 	
 	public static void main(String[] args) throws Exception {
+		ProcessReplacer.start();
+		
 		initPrevalentSystem();
 		runJetty();
 	}
