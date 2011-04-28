@@ -10,7 +10,6 @@
 	<path id="lib.classpath">
 	  <fileset dir="lib">
 	    <include name="**/*.jar" />
-	    <include name="**/*.zip" />
 	  </fileset>
 	</path>
 
@@ -21,7 +20,7 @@
 	</path>
 
 
-	<target name="build" depends="copy-resources, copy-libs">
+	<target name="build" depends="copy-resources">
 		<echo message="${ant.project.name}: ${ant.file}"/>
 
 		<javac debug="true" debuglevel="${debuglevel}" destdir="spike-web/WEB-INF/classes" source="${source}" target="${target}" encoding="UTF-8">
@@ -44,15 +43,6 @@
 				<exclude name="**/*.launch"/>
 				<exclude name="**/*.java"/>
 			</fileset>
-		</copy>
-	</target>
-
-	
-	<target name="copy-libs">
-		<delete dir="spike-web/WEB-INF/lib"/>
-	    <mkdir dir="spike-web/WEB-INF/lib" />
-		<copy todir="spike-web/WEB-INF/lib" flatten="yes">
-			<path refid="lib.classpath"/>
 		</copy>
 	</target>
 

@@ -5,9 +5,9 @@
 	<classpathentry kind="lib" path="lib/jetty/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-7.1.6.v20100715.jar" sourcepath="lib/jetty/jetty-all-7.1.6.v20100715-sources.jar"/>
 	<classpathentry kind="lib" path="lib/socialauth/socialauth-1.1-beta1.jar"/>
-	<classpathentry kind="lib" path="lib/socialauth/dependencies-1.1.zip"/>
 	<classpathentry kind="lib" path="lib/socialauth/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/socialauth/json-20090211.jar"/>
+	<classpathentry kind="lib" path="lib/socialauth/json-20080701.jar"/>
+	<classpathentry kind="lib" path="lib/socialauth/openid4java.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
