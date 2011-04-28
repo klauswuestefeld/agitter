@@ -1,38 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 <project basedir="." default="run" name="agitter">
-	<property environment="env"/>
-	
+
 	<property name="bin" value="build/bin"/>
 	<property name="src" value="src"/>
 	<property name="bubble-path" value="../bubble"/>
 	
 	
-	<property name="debuglevel" value="source,lines,vars"/>
-	<property name="target" value="1.6"/>
-	<property name="source" value="1.6"/>
-
+	<target name="clean">
+		<delete dir="${bin}"/>
+		<mkdir dir="${bin}"/>
+	</target>
+	
 	
 	<path id="agitter-classpath">
 		<pathelement location="${bin}"/>
-		<fileset dir="lib">
-	    		<include name="**/*.jar" />
-	  	</fileset>
-		<fileset dir="${bubble-path}/lib">
-	    		<include name="**/*.jar" />
-	  	</fileset>
+		<fileset dir="lib"> <include name="**/*.jar"/> </fileset>
+		<fileset dir="${bubble-path}/lib"> <include name="**/*.jar"/> </fileset>
 	</path>
 
 	
-	<target name="run" depends="compile, copy-resources">
-		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
-			<classpath refid="agitter-classpath"/>
-		</java>
-	</target>
-
-	
 	<target name="compile" depends="clean">
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" source="${source}" target="${target}" encoding="UTF-8">
+		<javac destdir="${bin}" source="1.6" target="1.6" encoding="UTF-8" debug="true" debuglevel="source,lines,vars">
 			<src path="${src}"/>
 			<src path="${bubble-path}/src"/>
 			<classpath refid="agitter-classpath"/>
@@ -49,10 +38,11 @@
 	</target>
 
 	
-	<target name="clean">
-		<delete dir="${bin}"/>
-		<mkdir dir="${bin}"/>
+	<target name="run" depends="compile, copy-resources">
+		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
+		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
+			<classpath refid="agitter-classpath"/>
+		</java>
 	</target>
-
 	
 </project>
