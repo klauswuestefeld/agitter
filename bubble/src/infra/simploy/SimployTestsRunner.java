@@ -58,7 +58,7 @@ class SimployTestsRunner {
 
 
 	private static URL myOwnPath() {
-		return SimployTestsRunner.class.getResource("");
+		return SimployTestsRunner.class.getResource("../.."); // Go up the parent packages.
 	}
 
 	
