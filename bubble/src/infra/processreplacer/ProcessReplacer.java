@@ -6,7 +6,7 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/** Kills previous instances of this process. */
+/** Kills previous instances of this process. It connects to the ProcessReplacerPort (system property) and sends the ProcessReplacerSecret (system property). It then listens on that port for connections to kill itself (System.exit(0)).*/
 public class ProcessReplacer {
 
 	private static final int REQUEST_TIMEOUT = 1000 * 3;
