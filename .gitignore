@@ -1,6 +1,10 @@
+*build
 *bin
 *prevalence
+
 nohup.out
+
 *.byecycle
-.idea
+
+*.idea
 *.iml
