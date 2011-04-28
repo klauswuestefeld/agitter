@@ -12,16 +12,6 @@ apt-get -y install openjdk-6-jdk
 apt-get -y install ant
 echo .
 echo ----------------------
-echo Tomcat
-echo ----------------------
-wget http://linorg.usp.br/apache/tomcat/tomcat-7/v7.0.11/bin/apache-tomcat-7.0.11.tar.gz
-tar -xf *tomcat*.tar.gz
-rm *.tar.gz
-mv *tomcat* /agitos_server/tomcat
-cp server.xml /agitos_server/tomcat/conf
-rm -rf /agitos_server/tomcat/webapps/*
-echo .
-echo ----------------------
 echo SSH Keys...
 echo ----------------------
 rm -rf    /root/.ssh
@@ -38,6 +28,7 @@ mkdir /agitos_server/git_repositories
 cd    /agitos_server/git_repositories
 git clone git@github.com:teamware/agitos.git
 git clone git@github.com:bihaiko/sneer.git
+git clone git@github.com:klauswuestefeld/simploy.git
 cd agitos/agitos
 ant build
 ant deploy
