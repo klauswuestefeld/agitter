@@ -1,3 +1,4 @@
+package infra.simploy;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ class SimployTestsRun {
 	private boolean _someTestFailed = false;
 
 	
-	public SimployTestsRun(String testsFolder) {
+	SimployTestsRun(String testsFolder) {
 		_testsFolderPath = testsFolder;
 		
 		JUnitCore junit = new JUnitCore();

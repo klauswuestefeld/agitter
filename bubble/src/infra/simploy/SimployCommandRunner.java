@@ -1,8 +1,9 @@
+package infra.simploy;
 import java.io.IOException;
 import java.io.InputStream;
 
 
-public class SimployCommandRunner {
+class SimployCommandRunner {
 
 	static String exec(String command) throws Exception {
 		Process process = startProcess(command);

@@ -1,3 +1,4 @@
+package infra.simploy;
 import java.io.IOException;
 
 
@@ -5,10 +6,10 @@ public class Simploy {
 
 	private static final String USAGE =
 		"Usage: " +
-		"\n  java Simploy compileCommand compiledTestsRootFolder jarsRootFolder deployCommand [password]" +
+		"\n  java Simploy compiledTestsRootFolder [password]" +
 		"\n" +
 		"\nExample:" +
-		"\n  java Simploy \"ant build\" ./bin/tests ./lib \"ant deploy\" password123" +
+		"\n  java Simploy ./bin/tests password123" +
 		"\n";
 
 	
@@ -33,12 +34,9 @@ public class Simploy {
 
 
 	private static void tryToInitWith(String[] args) throws ArrayIndexOutOfBoundsException, IOException {
-		SimployCore._compileCommand = args[0];
-		SimployCore._testsFolder = args[1];
-		SimployCore._libJarsFolder = args[2];
-		SimployCore._deployCommand = args[3];
-		if (args.length == 5)
-			SimployHttpServer.start(args[4]);
+		SimployCore._testsFolder = args[0];
+		if (args.length == 2)
+			SimployHttpServer.start(args[1]);
 	}
 
 

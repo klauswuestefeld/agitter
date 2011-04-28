@@ -1,15 +1,13 @@
+package infra.simploy;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 
 
-public class SimployCore {
+class SimployCore {
 
-	static String _compileCommand;
 	static String _testsFolder;
-	static String _libJarsFolder;
-	static String _deployCommand;
 
 	static final PrintStream SYSOUT = System.out;
 	private static StringBuffer _outputsBeingCaptured;
@@ -66,9 +64,9 @@ public class SimployCore {
 
 
 	private static void compileTestDeploy() throws Exception {
-		exec(_compileCommand);
-		SimployTestsRunner.runAllTestsIn(_testsFolder, _libJarsFolder);
-		exec(_deployCommand);
+		exec("ant build");
+		SimployTestsRunner.runAllTestsIn(_testsFolder);
+		exec("ant deploy");
 	}
 	
 	

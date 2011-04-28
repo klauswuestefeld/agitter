@@ -1,3 +1,4 @@
+package infra.simploy;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -10,14 +11,13 @@ import java.util.List;
 class SimployTestsRunner {
 
 
-	public static void runAllTestsIn(String testsPath, String libJarsFolder) throws Exception {
-		runInSeparateClassLoader(testsPath, libJarsFolder);
+	static void runAllTestsIn(String testsPath) throws Exception {
+		runInSeparateClassLoader(testsPath);
 	}
 
 
-	private static void runInSeparateClassLoader(String testsPath, String libJarsFolder) throws Exception {
-		URLClassLoader separateClassLoader = separateClassLoader(libJarsFolder);
-		Class<?> runClass = separateClassLoader.loadClass(SimployTestsRun.class.getName());
+	private static void runInSeparateClassLoader(String testsPath) throws Exception {
+		Class<?> runClass = separateClassLoader().loadClass(SimployTestsRun.class.getName());
 		instantiate(runClass, testsPath);
 	}
 
@@ -34,14 +34,14 @@ class SimployTestsRunner {
 	}
 
 	
-	static private URLClassLoader separateClassLoader(String libJarsFolder) throws Exception {
+	static private URLClassLoader separateClassLoader() throws Exception {
 		ClassLoader noParent = null;
-		return new URLClassLoader(classpath(libJarsFolder), noParent);
+		return new URLClassLoader(classpath(), noParent);
 	}
 	
 	
-	private static URL[] classpath(String libJarsFolder) throws Exception {
-		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File(libJarsFolder), ".jar");
+	private static URL[] classpath() throws Exception {
+		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File("."), ".jar");
 		printClasspath(jarPaths);
 		List<URL> result = convertToURLs(jarPaths);
 		result.add(0, myOwnPath());
