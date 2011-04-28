@@ -10,6 +10,7 @@
 	<path id="lib.classpath">
 	  <fileset dir="lib">
 	    <include name="**/*.jar" />
+	    <include name="**/*.zip" />
 	  </fileset>
 	</path>
 
@@ -29,10 +30,7 @@
 		</javac>
 
 		<java fork="false" spawn="false" classname="spike.SpikeMain">
-			<classpath>
-				<pathelement location="war/WEB-INF/classes"/>
-				<path refid="lib.classpath"/>
-			</classpath>
+			<classpath refid="socialauth-spike.classpath"/>
 		</java>
 
 	</target>
