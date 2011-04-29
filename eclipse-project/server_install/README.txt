@@ -8,7 +8,7 @@ Estando no diretorio server_install:
 2) Rodar o script no server como root:
 
    cd /tmp/server_install
-   chmod 700 install.sh
+   chmod a+x install.sh
    ./install.sh
 
 

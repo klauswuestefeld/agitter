@@ -52,7 +52,7 @@
 	</target>
 
 
-	<target name="simploy" depends="build">
+	<target name="simploy" depends="deploy">
 		<!--fork="true" spawn="true"-->
 		<java classname="infra.simploy.Simploy">
 			<classpath location="${bin}"/>
