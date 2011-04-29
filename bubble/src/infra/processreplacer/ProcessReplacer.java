@@ -12,7 +12,7 @@ public class ProcessReplacer {
 	private static final int REQUEST_TIMEOUT = 1000 * 3;
 
 	private static final String _secret = property("Secret", "defaultSecret");
-	private static final int _port = Integer.parseInt(property("Port", "44321"));
+	private static final int _port = Integer.parseInt(property("Port", "44111"));
 
 	private static ServerSocket _serverSocket;
 	private static int _attemptCount = 0;
