@@ -92,6 +92,7 @@ public class ProcessReplacer {
 
 
 	private static void die() {
+		try { _serverSocket.close(); } catch (IOException e) {}
 		System.out.println(className() + " exiting.");
 		System.exit(0);
 	}
