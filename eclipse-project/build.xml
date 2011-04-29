@@ -35,6 +35,11 @@
 			<src path="${bubble-path}/src"/>
 			<classpath refid="agitter-classpath"/>
 		</javac>
+
+		<!--Required for test execution with simploy.-->
+		<copy todir="${bin}/lib">
+			<fileset dir="${bubble-path}/lib"/>
+		</copy>
 	</target>
 	
 	
@@ -48,12 +53,6 @@
 
 
 	<target name="simploy" depends="build">
-		<copy todir="${bin}/lib" includeemptydirs="false">
-			<fileset dir="${bubble-path}">
-				<include name="**/*.jar"/>
-			</fileset>
-		</copy>
-		
 		<!--fork="true" spawn="true"-->
 		<java classname="infra.simploy.Simploy">
 			<classpath location="${bin}"/>
