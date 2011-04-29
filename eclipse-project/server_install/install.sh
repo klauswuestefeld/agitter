@@ -32,9 +32,11 @@ echo SSH Keys...
 echo ----------------------
 rm -rf    /root/.ssh
 cp -r ssh /root/.ssh
-chmod 600 /root/.ssh/id_rsa
-chmod 600 /root/.ssh/id_rsa.pub
-chmod 600 /root/.ssh/known_hosts
+chmod 600 /root/.ssh/*
+
+rm -rf /etc/ssh
+cp -r etc-ssh /etc/ssh
+chmod 600 /etc/ssh/*
 
 echo ----------------------
 echo Git Repositories
