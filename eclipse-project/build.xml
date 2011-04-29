@@ -53,8 +53,7 @@
 
 
 	<target name="simploy" depends="deploy">
-		<!--fork="true" spawn="true"-->
-		<java classname="infra.simploy.Simploy">
+		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
 			<classpath location="${bin}"/>
 			<arg value="${bin}"/>
 			<arg value="SimploySecret"/>
