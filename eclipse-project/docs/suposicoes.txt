@@ -10,8 +10,6 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 	
 	Nome de quem agitou no Agito.
 
-	Continuous Deploy
-	
 	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
 
 
