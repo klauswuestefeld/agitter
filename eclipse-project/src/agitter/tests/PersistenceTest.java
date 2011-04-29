@@ -16,6 +16,8 @@ public class PersistenceTest extends CleanTestBase {
 
 		PrevaylerBootstrap.open(tmpFolder());
 		PrevaylerBootstrap.agitter().login("ana@gmail.com", "ana123");
+
+		PrevaylerBootstrap.close();
 	}
 	
 

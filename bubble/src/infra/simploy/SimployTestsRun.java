@@ -18,7 +18,7 @@ class SimployTestsRun {
 	private boolean _someTestFailed = false;
 
 	
-	SimployTestsRun(String testsFolder) {
+	public SimployTestsRun(String testsFolder) {
 		_testsFolderPath = testsFolder;
 		
 		JUnitCore junit = new JUnitCore();

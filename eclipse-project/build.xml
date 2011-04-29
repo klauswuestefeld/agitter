@@ -8,7 +8,7 @@
 	
 	
 	<target name="clean">
-		<delete dir="${bin}"/>
+		<delete dir="build"/>
 		<mkdir dir="${bin}"/>
 	</target>
 
