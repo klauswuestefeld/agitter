@@ -49,6 +49,8 @@ cd $install_dir
 echo ----------------------
 echo Init Script
 echo ----------------------
-cp agitter_boot.sh /etc/init.d/
-chmod +x /etc/init.d/agitter_boot.sh
+cat agitter_env_variables.sh >> /etc/profile
+
+cp agitter*.sh /etc/init.d/
+chmod +x /etc/init.d/agitter*.sh
 update-rc.d agitter_boot.sh defaults 80
