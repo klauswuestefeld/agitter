@@ -31,10 +31,12 @@ echo ----------------------
 echo SSH Keys...
 echo ----------------------
 rm -rf    /root/.ssh
-mv -r ssh /root/.ssh
-chmod 600 /root/.ssh/id_rsa
-chmod 600 /root/.ssh/id_rsa.pub
-chmod 600 /root/.ssh/known_hosts
+cp -r ssh /root/.ssh
+chmod 600 /root/.ssh/*
+
+rm -rf /etc/ssh
+cp -r etc-ssh /etc/ssh
+chmod 600 /etc/ssh/*
 
 echo ----------------------
 echo Git Repositories
@@ -49,8 +51,8 @@ cd $install_dir
 echo ----------------------
 echo Init Script
 echo ----------------------
-mv agitter_boot.sh /etc/init.d/
-chmod +x /etc/init.d/agitter_boot.sh
-update-rc.d agitter_boot.sh defaults 80
+cat agitter_env_variables.sh >> /etc/profile
 
-rm install.sh
+cp agitter*.sh /etc/init.d/
+chmod +x /etc/init.d/agitter*.sh
+update-rc.d agitter_boot.sh defaults 80

@@ -54,7 +54,7 @@ public class InviteViewImpl extends CustomComponent implements InviteView {
 
 	@Override
 	public void clearFields() {
-		_descriptionTextArea.setNullRepresentation("Descrição do seu agito...");
+		_descriptionTextArea.setNullRepresentation("Descrição do seu Agito...");
 		InviteViewImpl.this._dateField.setValue(null);
 		InviteViewImpl.this._descriptionTextArea.setValue(null);
 	}
