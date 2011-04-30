@@ -1,5 +1,5 @@
 Google
-User: AgitterSite
+User: AgitterSite  (agittersite@gmail.com)
 Pass: d4f8j34s9y
 
 Twitter
@@ -18,3 +18,9 @@ User: agittersite   (agittersite@yahoo.com ou .com.br )
 FirstName: Agitter
 LastName: Site
 Pass: u4k7j54h9c
+
+Hotmail (Windows Live)
+User: agittersite  (agittersite@hotmail.com)
+Pass: k8f96s6j2m
+
+
