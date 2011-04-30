@@ -5,6 +5,7 @@ import java.util.List;
 import agitter.ui.view.EventData;
 import agitter.ui.view.EventListView;
 
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.VerticalLayout;
 
@@ -12,21 +13,21 @@ final class EventListViewImpl extends VerticalLayout implements EventListView {
 
 
 	@Override
-	public void display(List<EventData> events) {
+	public void refresh(List<EventData> events, int millisToNextRefresh) {
 		removeAllComponents();
-		enableHiddenPolling();
+		addComponent(createPoller(millisToNextRefresh));
 		
 		for (EventData eventData : events)
 			addComponent(new EventViewImpl(eventData));
 	}
 
 	
-	private void enableHiddenPolling() {
-		ProgressIndicator progressIndicator = new ProgressIndicator();
-		progressIndicator.setPollingInterval(1000 * 1);
-		progressIndicator.setWidth("0px");
-		progressIndicator.setHeight("0px");
-		addComponent(progressIndicator);
+	private Component createPoller(int millisToNextRefresh) {
+		ProgressIndicator result = new ProgressIndicator();
+		result.setPollingInterval(millisToNextRefresh);
+		result.setWidth("0px");
+		result.setHeight("0px");
+		return result;
 	}
 
 }

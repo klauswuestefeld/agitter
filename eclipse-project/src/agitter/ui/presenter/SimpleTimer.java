@@ -8,72 +8,61 @@ import java.util.List;
 
 class SimpleTimer {
 
-	private static class Callee {
-		private final WeakReference<Object> _owner;
-		private final Runnable _runnable;
-		
-		private Callee(Object owner, Runnable runnable) {
-			_owner = new WeakReference<Object>(owner);
-			_runnable = runnable;
-		}
-	}
+	interface HandleToAvoidLeaks {}
 
-
-	private static final List<Callee> _callees = Collections.synchronizedList(new ArrayList<Callee>());
-	private static final long DURATION_OF_ROUND = 1000 * 10;
+	private static final List<WeakReference<Runnable>> _sleepers = Collections.synchronizedList(new ArrayList<WeakReference<Runnable>>());
+	static final int MILLIS_TO_SLEEP_BETWEEN_ROUNDS = 1000 * 10;
 
 	
 	static {
 		Thread thread = new Thread("SimpleTimer") {  @Override public void run() {
-			while (true) nextRound();
+			while (true) wakeUpNextRound();
 		}};
 		thread.setDaemon(true);
 		thread.start();
 	}
 	
 	
-	static void runNowAndPeriodically(Object owner, Runnable runnable) {
+	static HandleToAvoidLeaks runNowAndPeriodically(final Runnable runnable) {
 		runnable.run();
-		_callees.add(new Callee(owner, runnable));
+		
+		_sleepers.add(new WeakReference<Runnable>(runnable));
+		return new HandleToAvoidLeaks() { @Override protected void finalize() throws Throwable {
+			_sleepers.remove(runnable);
+		}};
 	}
 
 	
-	private static void nextRound() {
-		long roundStart = System.currentTimeMillis();
+	private static void wakeUpNextRound() {
+		int removeThisGcWhenVaadinSessionLeakMysteryIsSolved;
+		System.gc();
 		
-		Callee[] round = _callees.toArray(new Callee[0]);
-		for (Callee callee : round)
-			takeTurn(callee);
-		
-		sleepTillEndOfRound(roundStart);
+		@SuppressWarnings("unchecked")
+		WeakReference<Runnable>[] round = _sleepers.toArray(new WeakReference[0]);
+		for (WeakReference<Runnable> sleeper : round)
+			wakeUp(sleeper.get());
+		sleep();
 	}
 
 
-	private static void sleepTillEndOfRound(long roundStart) {
-		long durationOfCurrentRound = System.currentTimeMillis() - roundStart;
-		long millisToSleep = DURATION_OF_ROUND - durationOfCurrentRound;
-		if (millisToSleep < 1) return;
+	private static void sleep() {
 		try {
-			Thread.sleep(millisToSleep);
+			Thread.sleep(MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		} catch (InterruptedException e) {
 			//Don't you love the Java API?
 		}
 	}
 
 
-	private static void takeTurn(Callee callee) {
-		if (wasGarbageCollected(callee))
+	private static void wakeUp(Runnable sleeper) {
+		if (wasGarbageCollected(sleeper))
 			return;
-		callee._runnable.run();
+		sleeper.run();
 	}
 
 
-	private static boolean wasGarbageCollected(Callee callee) {
-		if (callee._owner.get() == null) {
-			_callees.remove(callee);
-			return true;
-		}
-		return false;
+	private static boolean wasGarbageCollected(Object reference) {
+		return reference == null;
 	}
 
 }

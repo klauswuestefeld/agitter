@@ -9,6 +9,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.AgitterSession;
 import agitter.domain.events.Event;
+import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.EventData;
 import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;
@@ -18,6 +19,9 @@ public class SessionPresenter {
 	private final AgitterSession _session;
 	private final SessionView _view;
 	private final Consumer<String> _errorDisplayer;
+	
+	@SuppressWarnings("unused")
+	private final HandleToAvoidLeaks _handle;
 
 	
 	public SessionPresenter(AgitterSession session, SessionView view, Consumer<String> errorDisplayer) {
@@ -30,10 +34,9 @@ public class SessionPresenter {
 			invite();
 		}});
 
-//		SimpleTimer.runNowAndPeriodically(this, new Runnable(){  @Override public void run() {
-//			refreshEventList();
-//		}});
-		refreshEventList();
+		_handle = SimpleTimer.runNowAndPeriodically(new Runnable(){  @Override public void run() {
+			refreshEventList();
+		}});
 	}
 
 	
@@ -66,7 +69,7 @@ public class SessionPresenter {
 	synchronized
 	private void refreshEventList() {
 		System.out.println("Refreshing " + this);
-		_view.eventListView().display(eventDataList());
+		_view.eventListView().refresh(eventDataList(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
 	
