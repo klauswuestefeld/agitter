@@ -20,7 +20,8 @@ public class SocialAuthServlet extends HttpServlet {
 		try {
 		
 			provider = AuthProviderFactory.getInstance(providerId);
-			String url = provider.getLoginRedirectURL("http://agitter.com/authresp");   //  "http://localhost/auth"
+			String url = provider.getLoginRedirectURL("http://agitter.com/authresp");
+//			String url = provider.getLoginRedirectURL("http://localhost/authresp");
 			req.getSession().setAttribute("provider", provider);
 			
 			resp.sendRedirect(url);

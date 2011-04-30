@@ -1,2 +1,4 @@
-spike-web
-!spike-web/WEB-INF/web.xml
+spike-web/WEB-INF
+!spike-web/WEB-INF/*.xml
+
+
