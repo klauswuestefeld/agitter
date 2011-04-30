@@ -30,6 +30,9 @@ public class SessionPresenter {
 			invite();
 		}});
 
+//		SimpleTimer.runNowAndPeriodically(this, new Runnable(){  @Override public void run() {
+//			refreshEventList();
+//		}});
 		refreshEventList();
 	}
 
@@ -60,7 +63,9 @@ public class SessionPresenter {
 	}
 	
 	
+	synchronized
 	private void refreshEventList() {
+		System.out.println("Refreshing " + this);
 		_view.eventListView().display(eventDataList());
 	}
 
