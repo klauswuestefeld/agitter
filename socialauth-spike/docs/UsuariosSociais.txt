@@ -12,3 +12,9 @@ FirstName: Agitter
 LastName: Page
 Email: agittersite@gmail.com
 Pass: n3kdm2a7j2
+
+Yahoo
+User: agittersite   (agittersite@yahoo.com ou .com.br )
+FirstName: Agitter
+LastName: Site
+Pass: u4k7j54h9c
