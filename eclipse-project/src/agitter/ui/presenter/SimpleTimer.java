@@ -34,9 +34,6 @@ class SimpleTimer {
 
 	
 	private static void wakeUpNextRound() {
-		int removeThisGcWhenVaadinSessionLeakMysteryIsSolved;
-		System.gc();
-		
 		@SuppressWarnings("unchecked")
 		WeakReference<Runnable>[] round = _sleepers.toArray(new WeakReference[0]);
 		for (WeakReference<Runnable> sleeper : round)

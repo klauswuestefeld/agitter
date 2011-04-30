@@ -68,7 +68,6 @@ public class SessionPresenter {
 	
 	synchronized
 	private void refreshEventList() {
-		System.out.println("Refreshing " + this);
 		_view.eventListView().refresh(eventDataList(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
