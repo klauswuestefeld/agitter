@@ -32,7 +32,13 @@ public class CallBackServlet extends HttpServlet {
 			resp.getOutputStream().println("<br />");
 			resp.getOutputStream().println("ValidatedID: " + profile.getValidatedId());
 			resp.getOutputStream().println("<br />");
-			resp.getOutputStream().println("FullName: " + profile.getFullName());
+			resp.getOutputStream().println("First Name: " + profile.getFirstName());
+			resp.getOutputStream().println("<br />");
+			resp.getOutputStream().println("Last Name: " + profile.getLastName());
+			resp.getOutputStream().println("<br />");
+			resp.getOutputStream().println("Full Name: " + profile.getFullName());
+			resp.getOutputStream().println("<br />");
+			resp.getOutputStream().println("Display Name: " + profile.getDisplayName());
 			resp.getOutputStream().println("<br />");
 			resp.getOutputStream().println("Image:");
 			resp.getOutputStream().println("<br />");
