@@ -14,8 +14,14 @@ public class AgitterTest extends CleanTestBase {
 	
 	@Test
 	public void signup() {
-		AgitterSession session = _subject.signup("Ana Almeida", "ana@gmail.com", "ana123");
-		assertEquals("Ana Almeida", session.userName());
+		assertSignUp("Ana Almeida", "ana@gmail.com", "ana123");
+		assertSignUp("Bruno Barros", "bruno@gmail.com", "brunox");
+	}
+
+
+	private void assertSignUp(String userName, String email, String password) {
+		AgitterSession session = _subject.signup(userName, email, password);
+		assertEquals(userName, session.userName());
 	}
 
 }
