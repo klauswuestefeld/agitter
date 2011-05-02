@@ -3,12 +3,15 @@ package agitter.domain;
 import org.prevayler.bubble.Transaction;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.events.Events;
 
 public interface Agitter {
 
 	@Transaction
-	AgitterSession signup(String name, String email, String password);
+	User signup(String name, String email, String password) throws Refusal;
 	@Transaction
-	AgitterSession login(String email, String password) throws Refusal;
+	User login(String email, String password) throws Refusal;
+	
+	Events events();
 
 }

@@ -2,10 +2,11 @@ package agitter.domain.tests;
 
 import org.junit.Test;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
-import agitter.domain.AgitterSession;
+import agitter.domain.User;
 
 public class AgitterTest extends CleanTestBase {
 
@@ -13,15 +14,15 @@ public class AgitterTest extends CleanTestBase {
 
 	
 	@Test
-	public void signup() {
+	public void signup() throws Refusal {
 		assertSignUp("Ana Almeida", "ana@gmail.com", "ana123");
 		assertSignUp("Bruno Barros", "bruno@gmail.com", "brunox");
 	}
 
 
-	private void assertSignUp(String userName, String email, String password) {
-		AgitterSession session = _subject.signup(userName, email, password);
-		assertEquals(userName, session.userName());
+	private void assertSignUp(String userName, String email, String password) throws Refusal {
+		User session = _subject.signup(userName, email, password);
+		assertEquals(userName, session.name());
 	}
 
 }

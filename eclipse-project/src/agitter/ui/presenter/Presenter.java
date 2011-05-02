@@ -1,8 +1,9 @@
 package agitter.ui.presenter;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
-import agitter.domain.AgitterSession;
+import agitter.domain.User;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.SessionView;
 
@@ -16,10 +17,15 @@ public class Presenter {
 		_agitter = agitter;
 		_view = view;
 		
-		AgitterSession session = _agitter.signup("Ana", "ana@gmail.com", "ana123");
+		User user;
+		try {
+			user = _agitter.signup("Ana", "ana@gmail.com", "ana123");
+		} catch (Refusal e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		}
 		
 		SessionView sessionView = _view.showSessionView();
-		new SessionPresenter(session, sessionView, errorDisplayer());
+		new SessionPresenter(_agitter.events(), user, sessionView, errorDisplayer());
 	}
 
 

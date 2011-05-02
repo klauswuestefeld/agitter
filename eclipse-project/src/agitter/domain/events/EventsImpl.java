@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.User;
 
 public class EventsImpl implements Events, Serializable {
 
@@ -16,7 +16,7 @@ public class EventsImpl implements Events, Serializable {
 	
 	
 	@Override
-	public Event create(String description, long datetime) throws Refusal {
+	public Event create(User user, String description, long datetime) throws Refusal {
 		assertIsInTheFuture(datetime);
 		
 		Event event = new Event(description, datetime);
@@ -32,18 +32,18 @@ public class EventsImpl implements Events, Serializable {
 
 	
 	@Override
-	public SortedSet<Event> all() {
+	public SortedSet<Event> all(User user) {
 		return _all;
 	}
 		
 	@Override
-	public SortedSet<Event> toHappen() {
+	public SortedSet<Event> toHappen(User user) {
 		return _all.tailSet(new Event("Dummy", Clock.currentTimeMillis()));
 	}
 
 
 	@Override
-	public void remove(Event event) {
+	public void remove(User user, Event event) {
 		_all.remove(event);
 	}
 
