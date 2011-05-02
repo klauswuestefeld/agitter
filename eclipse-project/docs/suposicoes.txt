@@ -3,10 +3,10 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 	Sign-up e Login.
 		Esqueci minha senha - Mande via email por favor.
 			Infra de envio de emails - AmazonSES
-
-	Email diario - 5 Agitos futuros mais próximos.
 	
 	Nome de quem agitou no Agito.
+
+	Email diario - 5 Agitos futuros mais próximos.
 
 	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
 
