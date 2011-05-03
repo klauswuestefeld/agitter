@@ -5,9 +5,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 import agitter.domain.User;
-import sneer.foundation.lang.ReadOnly;
 
-public class PublicEvent implements Serializable, ReadOnly {
+public class EventImpl implements Serializable, Event {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,7 +16,7 @@ public class PublicEvent implements Serializable, ReadOnly {
 
 	final private HashSet<User> notInterested = new HashSet<User>();
 
-	public PublicEvent(User owner, String description, long datetime) {
+	public EventImpl(User owner, String description, long datetime) {
 		if(null==owner) { throw new IllegalArgumentException("user can not be null"); }
 		if(datetime==0) { throw new IllegalArgumentException("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new IllegalArgumentException("description can not be null"); }
@@ -26,17 +25,17 @@ public class PublicEvent implements Serializable, ReadOnly {
 		_datetime = datetime;
 	}
 
+	@Override
 	public String description() {
 		return _description;
 	}
 
+	@Override
 	public long datetime() {
 		return _datetime;
 	}
 
-	public HashSet<User> getNotInterested() {
-		return notInterested;
-	}
+	@Override
 	public void notInterested(User user) {
 		this.notInterested.add(user);
 	}
@@ -46,7 +45,7 @@ public class PublicEvent implements Serializable, ReadOnly {
 		if(this==o) { return true; }
 		if(o==null || getClass()!=o.getClass()) { return false; }
 
-		PublicEvent agito = (PublicEvent) o;
+		EventImpl agito = (EventImpl) o;
 
 		return _datetime==agito._datetime && _description.equals(agito._description);
 	}
@@ -58,4 +57,7 @@ public class PublicEvent implements Serializable, ReadOnly {
 		return result;
 	}
 
+	boolean isInterested(User user) {
+		return !notInterested.contains(user);
+	}
 }

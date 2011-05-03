@@ -1,7 +1,8 @@
 package agitter.domain.events;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -12,35 +13,36 @@ import agitter.domain.User;
 public class EventsImpl implements Events, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final int MAX_EVENTS_TO_SHOW = 40;
 
-	private SortedSet<PublicEvent> _all = new TreeSet<PublicEvent>( new EventComparator() );
-	
-	
+	private SortedSet<EventImpl> _all = new TreeSet<EventImpl>( new EventComparator() );
+
 	@Override
-	public PublicEvent create(User user, String description, long datetime) throws Refusal {
+	public Event create(User user, String description, long datetime) throws Refusal {
 		assertIsInTheFuture(datetime);
-		PublicEvent publicEvent = new PublicEvent(user, description, datetime);
-		_all.add(publicEvent);
-		return publicEvent;
+		EventImpl event = new EventImpl(user, description, datetime);
+		_all.add(event);
+		return event;
 	}
 
+
+	@Override
+	public List<Event> toHappen(User user) {
+		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SHOW);
+		final long currentDate = Clock.currentTimeMillis();
+
+		for(EventImpl e : _all) {
+			if (e.datetime() < currentDate) continue;
+			if (!e.isInterested(user)) continue;
+			result.add(e);
+			if (result.size()==MAX_EVENTS_TO_SHOW) break;
+		}
+		return result;
+	}
 
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
-	}
-
-	
-	@Override
-	public SortedSet<PublicEvent> toHappen(User user) {
-		SortedSet<PublicEvent> all = _all.tailSet(new PublicEvent(null, "Dummy", Clock.currentTimeMillis()));
-		SortedSet<PublicEvent> toHappenForTheUser = new TreeSet<PublicEvent>(all);
-		for(PublicEvent e: all) {
-			if(e.getNotInterested().contains(user)) {
-				toHappenForTheUser.remove(e);
-			}
-		}
-		return toHappenForTheUser;
 	}
 
 }
