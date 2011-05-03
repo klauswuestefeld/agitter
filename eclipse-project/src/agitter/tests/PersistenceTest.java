@@ -11,7 +11,7 @@ public class PersistenceTest extends CleanTestBase {
 	@Test
 	public void persistence() throws Refusal {
 		PrevaylerBootstrap.open(tmpFolder());
-		PrevaylerBootstrap.agitter().signup("Ana", "ana@gmail.com", "ana123");
+		PrevaylerBootstrap.agitter().signup("ana", "Ana", "ana@gmail.com", "ana123");
 		PrevaylerBootstrap.close();
 
 		PrevaylerBootstrap.open(tmpFolder());

@@ -15,7 +15,7 @@ public class AgitterImpl implements Agitter {
 
 
 	@Override
-	public User signup(String name, String email, String password) throws Refusal {
+	public User signup(String login, String name, String email, String password) throws Refusal {
 		try {
 			return login(email, password);
 		} catch (Refusal e) {	}
