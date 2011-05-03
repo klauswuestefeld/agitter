@@ -5,6 +5,7 @@ public interface AgitterView {
 	void showErrorMessage(String message);
 	
 	SessionView showSessionView();
-	
-	//LoginView
+
+	AuthenticationView authenticationView();
+
 }
