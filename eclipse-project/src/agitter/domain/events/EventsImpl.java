@@ -1,6 +1,7 @@
 package agitter.domain.events;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -12,16 +13,16 @@ public class EventsImpl implements Events, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private SortedSet<Event> _all = new TreeSet<Event>( new EventComparator() );
+	private SortedSet<PublicEvent> _all = new TreeSet<PublicEvent>( new EventComparator() );
 	
 	
 	@Override
-	public Event create(User user, String description, long datetime) throws Refusal {
+	public PublicEvent create(User user, String description, long datetime) throws Refusal {
 		assertIsInTheFuture(datetime);
 		
-		Event event = new Event(description, datetime);
-		_all.add(event);
-		return event;
+		PublicEvent publicEvent = new PublicEvent(description, datetime);
+		_all.add(publicEvent);
+		return publicEvent;
 	}
 
 
@@ -31,19 +32,22 @@ public class EventsImpl implements Events, Serializable {
 	}
 
 	
-	public SortedSet<Event> all() {
-		return _all;
-	}
-
 	@Override
-	public SortedSet<Event> toHappen() {
-		return _all.tailSet(new Event("Dummy", Clock.currentTimeMillis()));
+	public SortedSet<PublicEvent> toHappen(User user) {
+		SortedSet<PublicEvent> all = _all.tailSet(new PublicEvent("Dummy", Clock.currentTimeMillis()));
+		SortedSet<PublicEvent> toHappenForTheUser = new TreeSet<PublicEvent>(all);
+		for(PublicEvent e: all) {
+			if(e.getNotInterested().contains(user)) {
+				toHappenForTheUser.remove(e);
+			}
+		}
+		return toHappenForTheUser;
 	}
 
 
-	@Override
-	public void remove(User user, Event event) {
-		_all.remove(event);
-	}
+//	@Override
+//	public void remove(User user, PublicEvent publicEvent) {
+//		_all.remove(publicEvent);
+//	}
 
 }

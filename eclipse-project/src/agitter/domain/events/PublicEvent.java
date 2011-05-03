@@ -2,17 +2,20 @@ package agitter.domain.events;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 
+import agitter.domain.User;
 import sneer.foundation.lang.ReadOnly;
 
-public class Event implements Serializable, ReadOnly {
+public class PublicEvent implements Serializable, ReadOnly {
 
 	private static final long serialVersionUID = 1L;
 
 	final private long _datetime;
 	final private String _description;
+	final private HashSet<User> notInterested = new HashSet<User>();
 
-	public Event(String description, long datetime) {
+	public PublicEvent(String description, long datetime) {
 		if (datetime == 0) throw new IllegalArgumentException("Data do agito deve ser preenchida.");
 		if (null == description) throw new IllegalArgumentException("description can not be null");
 		_description = description;
@@ -27,12 +30,19 @@ public class Event implements Serializable, ReadOnly {
 		return _datetime;
 	}
 
+	public HashSet<User> getNotInterested() {
+		return notInterested;
+	}
+	public void notInterested(User user) {
+		this.notInterested.add(user);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(this==o) { return true; }
 		if(o==null || getClass()!=o.getClass()) { return false; }
 
-		Event agito = (Event) o;
+		PublicEvent agito = (PublicEvent) o;
 
 		return _datetime == agito._datetime && _description.equals(agito._description);
 	}

@@ -8,7 +8,7 @@ import java.util.SortedSet;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.User;
-import agitter.domain.events.Event;
+import agitter.domain.events.PublicEvent;
 import agitter.domain.events.Events;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.EventData;
@@ -76,20 +76,21 @@ public class SessionPresenter {
 
 	private List<EventData> eventDataList() {
 		List<EventData> result = new ArrayList<EventData>();
-		SortedSet<Event> toHappen = _events.toHappen();
-		for (Event event : toHappen)
+		SortedSet<PublicEvent> toHappen = _events.toHappen(_user);
+		for (PublicEvent publicEvent : toHappen)
 			result.add(new EventData(
-				event.description(),
-				event.datetime(),
+				publicEvent.description(),
+				publicEvent.datetime(),
 				"everybody@agitter.com",
-				removeAction(event)
+				removeAction(publicEvent)
 			));
 		return result;
 	}
 
-	private Runnable removeAction(final Event event) {
+	private Runnable removeAction(final PublicEvent publicEvent) {
 		return new Runnable() { @Override public void run() {
-			_events.remove(_user, event);
+			publicEvent.notInterested(_user);
+//			_events.remove(_user, publicEvent);
 			refreshEventList();
 		}};
 	}
