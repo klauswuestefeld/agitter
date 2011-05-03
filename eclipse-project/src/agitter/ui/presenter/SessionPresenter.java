@@ -26,11 +26,13 @@ public class SessionPresenter {
 	private final HandleToAvoidLeaks _handle;
 
 	
-	public SessionPresenter(Events events, User user, SessionView view, Consumer<String> errorDisplayer) {
+	public SessionPresenter(Events events, User user, SessionView view, Runnable onLogout, Consumer<String> errorDisplayer) {
 		_events = events;
 		_user = user;
 		_view = view;
 		_errorDisplayer = errorDisplayer;
+		
+		_view.onLogout(onLogout);
 		
 		inviteView().clearFields();
 		inviteView().onInvite(new Runnable() { @Override public void run() {
