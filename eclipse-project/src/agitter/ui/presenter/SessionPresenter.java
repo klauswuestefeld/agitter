@@ -74,10 +74,9 @@ public class SessionPresenter {
 		_view.eventListView().refresh(eventDataList(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
-	
 	private List<EventData> eventDataList() {
 		List<EventData> result = new ArrayList<EventData>();
-		SortedSet<Event> toHappen = _events.toHappen(_user);
+		SortedSet<Event> toHappen = _events.toHappen();
 		for (Event event : toHappen)
 			result.add(new EventData(
 				event.description(),
@@ -87,7 +86,6 @@ public class SessionPresenter {
 			));
 		return result;
 	}
-
 
 	private Runnable removeAction(final Event event) {
 		return new Runnable() { @Override public void run() {
