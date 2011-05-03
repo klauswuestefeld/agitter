@@ -4,7 +4,7 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 		Esqueci minha senha - Mande via email por favor.
 			Infra de envio de emails - AmazonSES
 	
-	Nome de quem agitou no Agito.
+	Username e Fullname de quem agitou no Agito.
 
 	Email diario - 5 Agitos futuros mais próximos.
 
