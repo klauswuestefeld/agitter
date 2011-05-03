@@ -1,12 +1,11 @@
 package agitter.domain;
 
-
 public interface User {
 
-	String name();
+	public String name();
 
-	String email();
+	public String email();
 
-	boolean isPassword(String password);
+	public boolean isPassword(String password);
 
 }

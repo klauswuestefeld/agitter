@@ -1,9 +1,10 @@
 package agitter.domain;
 
+import java.io.Serializable;
 
+public class UserImpl implements User, Serializable {
 
-
-public class UserImpl implements User {
+	private static final long serialVersionUID = 1L;
 
 	private final String _name;
 	private final String _email;

@@ -19,8 +19,7 @@ public class EventsImpl implements Events, Serializable {
 	@Override
 	public PublicEvent create(User user, String description, long datetime) throws Refusal {
 		assertIsInTheFuture(datetime);
-		
-		PublicEvent publicEvent = new PublicEvent(description, datetime);
+		PublicEvent publicEvent = new PublicEvent(user, description, datetime);
 		_all.add(publicEvent);
 		return publicEvent;
 	}
@@ -34,7 +33,7 @@ public class EventsImpl implements Events, Serializable {
 	
 	@Override
 	public SortedSet<PublicEvent> toHappen(User user) {
-		SortedSet<PublicEvent> all = _all.tailSet(new PublicEvent("Dummy", Clock.currentTimeMillis()));
+		SortedSet<PublicEvent> all = _all.tailSet(new PublicEvent(null, "Dummy", Clock.currentTimeMillis()));
 		SortedSet<PublicEvent> toHappenForTheUser = new TreeSet<PublicEvent>(all);
 		for(PublicEvent e: all) {
 			if(e.getNotInterested().contains(user)) {
@@ -43,11 +42,5 @@ public class EventsImpl implements Events, Serializable {
 		}
 		return toHappenForTheUser;
 	}
-
-
-//	@Override
-//	public void remove(User user, PublicEvent publicEvent) {
-//		_all.remove(publicEvent);
-//	}
 
 }
