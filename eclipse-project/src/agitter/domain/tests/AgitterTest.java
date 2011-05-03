@@ -15,14 +15,14 @@ public class AgitterTest extends CleanTestBase {
 	
 	@Test
 	public void signup() throws Refusal {
-		assertSignUp("Ana Almeida", "ana@gmail.com", "ana123");
-		assertSignUp("Bruno Barros", "bruno@gmail.com", "brunox");
+		assertSignUp("ana", "Ana Almeida", "ana@gmail.com", "ana123");
+		assertSignUp("bruninho", "Bruno Barros", "bruno@gmail.com", "brunox");
 	}
 
 
-	private void assertSignUp(String userName, String email, String password) throws Refusal {
-		User session = _subject.signup(userName, email, password);
-		assertEquals(userName, session.name());
+	private void assertSignUp(String login, String userName, String email, String password) throws Refusal {
+		User user = _subject.signup(login, userName, email, password);
+		assertEquals(userName, user.name());
 	}
 
 }

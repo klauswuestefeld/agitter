@@ -19,7 +19,7 @@ public class Presenter {
 		
 		User user;
 		try {
-			user = _agitter.signup("Ana", "ana@gmail.com", "ana123");
+			user = _agitter.signup("ana", "Ana", "ana@gmail.com", "ana123");
 		} catch (Refusal e) {
 			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
 		}
