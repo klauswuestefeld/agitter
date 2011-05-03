@@ -21,7 +21,7 @@ public class AgitterTest extends CleanTestBase {
 
 
 	private void assertSignUp(String login, String userName, String email, String password) throws Refusal {
-		User user = _subject.signup(login, userName, email, password);
+		User user = _subject.signup(userName, login, email, password);
 		assertEquals(userName, user.name());
 	}
 
