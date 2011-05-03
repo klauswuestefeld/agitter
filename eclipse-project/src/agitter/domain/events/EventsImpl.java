@@ -32,11 +32,6 @@ public class EventsImpl implements Events, Serializable {
 
 	
 	@Override
-	public SortedSet<Event> all(User user) {
-		return _all;
-	}
-		
-	@Override
 	public SortedSet<Event> toHappen(User user) {
 		return _all.tailSet(new Event("Dummy", Clock.currentTimeMillis()));
 	}

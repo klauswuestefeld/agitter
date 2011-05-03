@@ -19,8 +19,8 @@ public class EventsTest extends CleanTestBase {
 	@Test
 	public void addNew() throws Exception {
 		_subject.create(_ana, "Dinner at Joes", 1000);
-		assertEquals(1, _subject.all(_ana).size());
-		Event event = _subject.all(_ana).iterator().next();
+		assertEquals(1, _subject.toHappen(_ana).size());
+		Event event = _subject.toHappen(_ana).iterator().next();
 		assertEquals("Dinner at Joes", event.description());
 		assertEquals(1000, event.datetime());
 	}
@@ -49,18 +49,16 @@ public class EventsTest extends CleanTestBase {
 
 		Clock.setForCurrentThread(13);
 		assertTrue(_subject.toHappen(_ana).isEmpty());
-
-		assertTrue(_subject.all(_ana).size()==3);
 	}
 	
 	
 	@Test
 	public void remove() throws Refusal {
 		Event eventToRemove = _subject.create(_ana, "Dinner at Joes", 1000);
-		assertEquals(1, _subject.all(_ana).size());
+		assertEquals(1, _subject.toHappen(_ana).size());
 		
 		_subject.remove(_ana, eventToRemove);
-		assertEquals(0, _subject.all(_ana).size());
+		assertEquals(0, _subject.toHappen(_ana).size());
 	}
 
 }

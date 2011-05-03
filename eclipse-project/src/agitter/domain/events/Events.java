@@ -12,7 +12,6 @@ public interface Events {
 	@Transaction
 	Event create(User user, String description, long datetime) throws Refusal;
 	
-	SortedSet<Event> all(User user);
 	SortedSet<Event> toHappen(User user);
 	void remove(User user, Event event);
 
