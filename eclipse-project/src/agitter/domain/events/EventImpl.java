@@ -1,24 +1,22 @@
 package agitter.domain.events;
 
 
-import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Set;
 
 import agitter.domain.User;
 
-public class EventImpl implements Serializable, Event {
-
-	private static final long serialVersionUID = 1L;
+public class EventImpl implements Event {
 
 	final private User _owner;
 	final private long _datetime;
 	final private String _description;
 
-	final private HashSet<User> notInterested = new HashSet<User>();
+	final private Set<User> notInterested = new HashSet<User>();
 
 	public EventImpl(User owner, String description, long datetime) {
 		if(null==owner) { throw new IllegalArgumentException("user can not be null"); }
-		if(datetime==0) { throw new IllegalArgumentException("Data do agito deve ser preenchida."); }
+		if(datetime==0L) { throw new IllegalArgumentException("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new IllegalArgumentException("description can not be null"); }
 		_owner = owner;
 		_description = description;
