@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import agitter.domain.User;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.User;
 
 public class EventsImpl implements Events {
 
@@ -30,18 +30,18 @@ public class EventsImpl implements Events {
 		final long currentDate = Clock.currentTimeMillis();
 
 		for(EventImpl e : _all) {
-			if(e.datetime() < currentDate) { continue; }
-			if(!e.isInterested(user)) { continue; }
+			if (e.datetime() < currentDate) continue;
+			if (!e.isInterested(user)) continue;
 			result.add(e);
-			if(result.size()==MAX_EVENTS_TO_SHOW) { break; }
+			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
 		return result;
 	}
 
+	
 	private void assertIsInTheFuture(long datetime) throws Refusal {
-		if(datetime < Clock.currentTimeMillis()) {
+		if(datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
-		}
 	}
 
 }

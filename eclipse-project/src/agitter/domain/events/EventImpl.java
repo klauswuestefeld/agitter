@@ -8,12 +8,13 @@ import agitter.domain.User;
 
 public class EventImpl implements Event {
 
-	final private User _owner;
-	final private long _datetime;
 	final private String _description;
+	final private long _datetime;
+	final private User _owner;
 
 	final private Set<User> notInterested = new HashSet<User>();
 
+	
 	public EventImpl(User owner, String description, long datetime) {
 		if(null==owner) { throw new IllegalArgumentException("user can not be null"); }
 		if(datetime==0L) { throw new IllegalArgumentException("Data do agito deve ser preenchida."); }
@@ -23,21 +24,31 @@ public class EventImpl implements Event {
 		_datetime = datetime;
 	}
 
+	
 	@Override
 	public String description() {
 		return _description;
 	}
 
+	
 	@Override
 	public long datetime() {
 		return _datetime;
 	}
 
+	
 	@Override
-	public void notInterested(User user) {
-		this.notInterested.add(user);
+	public User owner() {
+		return _owner;
 	}
 
+	
+	@Override
+	public void notInterested(User user) {
+		notInterested.add(user);
+	}
+
+	
 	@Override
 	public boolean equals(Object o) {
 		if(this==o) { return true; }
@@ -48,6 +59,7 @@ public class EventImpl implements Event {
 		return _datetime==agito._datetime && _description.equals(agito._description);
 	}
 
+	
 	@Override
 	public int hashCode() {
 		int result = (int) _datetime;
@@ -55,7 +67,9 @@ public class EventImpl implements Event {
 		return result;
 	}
 
+	
 	boolean isInterested(User user) {
 		return !notInterested.contains(user);
 	}
+
 }

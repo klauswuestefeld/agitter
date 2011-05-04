@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.User;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
@@ -11,8 +13,6 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.EventData;
 import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.exceptions.Refusal;
 
 public class SessionPresenter {
 
@@ -77,19 +77,19 @@ public class SessionPresenter {
 
 	synchronized
 	private void refreshEventList() {
-		_view.eventListView().refresh(eventDataList(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		_view.eventListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
 
-	private List<EventData> eventDataList() {
+	private List<EventData> eventsToHappen() {
 		List<EventData> result = new ArrayList<EventData>();
 		List<Event> toHappen = _events.toHappen(_user);
 		for(Event event : toHappen) {
 			result.add(new EventData(
-					event.description(),
-					event.datetime(),
-					"everybody@agitter.com",
-					removeAction(event)
+				event.description(),
+				event.datetime(),
+				event.owner().email(),
+				removeAction(event)
 			));
 		}
 		return result;
@@ -97,14 +97,10 @@ public class SessionPresenter {
 
 
 	private Runnable removeAction(final Event event) {
-		return new Runnable() {
-			@Override
-			public void run() {
-//			_events.remove(_user, event);
-				event.notInterested(_user);
-				refreshEventList();
-			}
-		};
+		return new Runnable() { @Override public void run() {
+			event.notInterested(_user);
+			refreshEventList();
+		}};
 	}
 
 }

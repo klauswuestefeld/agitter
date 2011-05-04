@@ -23,7 +23,7 @@ public class EventViewImpl extends CustomComponent {
 	public EventViewImpl(EventData event) {
 		Panel mainPanel = new Panel();
 		mainPanel.addComponent(new Label(event._description));
-		mainPanel.addComponent(new Label(event._ownerEmail));
+		mainPanel.addComponent(new Label(event._owner));
 		mainPanel.addComponent(new Label(_dateFormat.format(new Date(event._datetime))));
 		mainPanel.addComponent(_removeButton);
 		onRemovePressed(event._onRemoveAction);
