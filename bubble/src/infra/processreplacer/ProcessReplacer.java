@@ -1,41 +1,52 @@
 package infra.processreplacer;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/** Kills previous instances of this process. It connects to the ProcessReplacerPort (system property) and sends the ProcessReplacerSecret (system property). It then listens on that port for connections to kill itself (System.exit(0)).*/
+/** Kills previous instances of this process. It deletes the ProcessReplacer.mutex file and connects to the ProcessReplacerPort (system property). It then listens on that port to kill itself (System.exit(0)) if it receives a connection and the mutex file was deleted.*/
 public class ProcessReplacer {
 
-	private static final int REQUEST_TIMEOUT = 1000 * 3;
-
-	private static final String _secret = property("Secret", "defaultSecret");
 	private static final int _port = Integer.parseInt(property("Port", "44111"));
 
 	private static ServerSocket _serverSocket;
 	private static int _attemptCount = 0;
 	private static boolean _previousSessionKillAttempted;
 
+	private static final File _pleaseDieFile = new File(className() + ".request");
+
 	
 	public static void start() throws IOException {
-		acquireLockOnServerPort();
-
-		new Thread() { @Override public void run() {
-			while (true)
-				acceptKillRequest();
-		}}.start();
+		killPreviousSessionIfNecessary();
+		startAcceptingKillRequests();
 	}
 
 
-	private static void acquireLockOnServerPort() throws IOException {
+	private static void startAcceptingKillRequests() throws IOException {
+		Thread t = new Thread() { @Override public void run() {
+			while (true)
+				acceptKillRequest();
+		}};
+		t.setDaemon(true);
+		t.start();
+	}
+
+
+	private static void deletePleaseDieFile() throws IOException {
+		if (_pleaseDieFile.exists() && !_pleaseDieFile.delete())
+			throw new IOException("Unable to delete " + _pleaseDieFile);
+	}
+
+
+	private static void killPreviousSessionIfNecessary() throws IOException {
 		while (true) {
 			try {
 				_serverSocket = new ServerSocket(_port);
 				break;
 			} catch (BindException be) {
-				killPreviousSessionIfNecessary();
+				sendKillRequestIfNecessary();
 				sleepOneSecond();
 				if (_attemptCount++ == 10)
 					throw new IOException(className() + " unable to kill previous process.", be);
@@ -46,12 +57,7 @@ public class ProcessReplacer {
 
 	private static String property(String property, String defaultValue) {
 		String key = className() + property;
-		String result = System.getProperty(key);
-		if (result == null) {
-			System.out.println("Warning: " + key + " system property not set. Using default value.");
-			return defaultValue;
-		}
-		return result;
+		return System.getProperty(key, defaultValue);
 	}
 
 
@@ -79,15 +85,13 @@ public class ProcessReplacer {
 
 	
 	private static void tryToAcceptRequest() throws Exception {
-		Socket socket = _serverSocket.accept();
-		System.out.println(className() + " request received...");
+		deletePleaseDieFile();
 
-		try {
-			validateKillRequest(socket);
-		} finally {
-			socket.close();
-		}
-		die();
+		Socket request = _serverSocket.accept();
+		request.close();
+
+		if (_pleaseDieFile.exists());
+			die();
 	}
 
 
@@ -98,36 +102,17 @@ public class ProcessReplacer {
 	}
 
 	
-	private static void killPreviousSessionIfNecessary() throws IOException {
+	private static void sendKillRequestIfNecessary() throws IOException {
 		if (_previousSessionKillAttempted) return;
 		_previousSessionKillAttempted = true;
-		final Socket s = new Socket("127.0.0.1", _port);
-		s.getOutputStream().write(_secret.getBytes());
-		s.close();
+		killPreviousSession();
 	}
 
-	
-	private static void validateKillRequest(Socket socket) throws Exception {
-		socket.setSoTimeout(REQUEST_TIMEOUT);
-		long t0 = System.currentTimeMillis();
 
-		InputStream inputStream = socket.getInputStream();
-		String request = "";
-		while (!request.contains(_secret)) {
-			int read = inputStream.read();
-			if (read == -1)
-				throwInvalid(request);
-			request += (char) read;
-			if (System.currentTimeMillis() - t0 > REQUEST_TIMEOUT)
-				throwInvalid(request);
-			if (request.length() > 100)
-				throwInvalid("<Request too large>");
-		}
-	}
-	
-	
-	private static void throwInvalid(String request) throws Exception {
-		throw new Exception("Invalid Request: " + request);
+	private static void killPreviousSession() throws IOException {
+		_pleaseDieFile.createNewFile();
+		Socket request = new Socket("127.0.0.1", _port);
+		request.close();
 	}
 
 }
