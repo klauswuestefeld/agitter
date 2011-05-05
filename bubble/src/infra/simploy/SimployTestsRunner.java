@@ -12,12 +12,8 @@ class SimployTestsRunner {
 
 
 	static void runAllTestsIn(String testsPath) throws Exception {
-		runInSeparateClassLoader(testsPath);
-	}
-
-
-	private static void runInSeparateClassLoader(String testsPath) throws Exception {
-		Class<?> runClass = separateClassLoader().loadClass(SimployTestsRun.class.getName());
+		URLClassLoader loader = separateClassLoader(findJars());
+		Class<?> runClass = loader.loadClass(SimployTestsRun.class.getName());
 		instantiate(runClass, testsPath);
 	}
 
@@ -34,13 +30,13 @@ class SimployTestsRunner {
 	}
 
 	
-	static private URLClassLoader separateClassLoader() throws Exception {
+	static private URLClassLoader separateClassLoader(URL[] classpath) throws Exception {
 		ClassLoader noParent = null;
-		return new URLClassLoader(classpath(), noParent);
+		return new URLClassLoader(classpath, noParent);
 	}
 	
 	
-	private static URL[] classpath() throws Exception {
+	private static URL[] findJars() throws Exception {
 		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File("."), ".jar");
 		printClasspath(jarPaths);
 		List<URL> result = convertToURLs(jarPaths);
