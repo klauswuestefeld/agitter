@@ -11,9 +11,11 @@ public class AgitterVaadinApplication extends Application {
 	@Override
 	public void init() {
 		Agitter agitter = PrevaylerBootstrap.agitter();
+
 		AgitterViewImpl view = new AgitterViewImpl();
-		new Presenter(agitter, view);
 		setMainWindow(view);
+
+		new Presenter(agitter, view);
 	}
 	
 }
