@@ -1,64 +1,42 @@
 package agitter.main;
 
+import static agitter.main.JettyRunner.*;
 import infra.processreplacer.ProcessReplacer;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class AgitterMain {
 
-	private static final int HTTP_PORT = 8888;
-
-	
 	public static void main(String[] args) throws Exception {
 		ProcessReplacer.start();
 		
-		initPrevalentSystem();
-		runJetty();
-	}
-
-
-	private static void runJetty() throws Exception, InterruptedException {
-		Server server = new Server(HTTP_PORT);
-		
-		ContextHandlerCollection contexts = new ContextHandlerCollection();
-		contexts.addHandler(resourcesContext()); 
-		contexts.addHandler(vaadinContext());
-
-		server.setHandler(contexts);
-		server.start();
-		
-		System.out.println("Agitter started on PORT: " + HTTP_PORT);
-		server.join();
+		PrevaylerBootstrap.open(new File("prevalence"));
+		runWebApps(resources(), vaadin());
 	}
 
 	
-	private static WebAppContext resourcesContext() {
-		WebAppContext result = new WebAppContext();
-		result.setContextPath("/resources");
-		result.setResourceBase("resources");
-		result.setClassLoader(Thread.currentThread().getContextClassLoader());
-		return result;
-	}
-
-	
-	private static WebAppContext vaadinContext() {
-		WebAppContext result = new WebAppContext();
-		result.addServlet(vaadinServlet(), "/*");
-		result.setResourceBase("ignored"); //Will cause an NPE if left null.
-		result.setClassLoader(Thread.currentThread().getContextClassLoader());
-		return result;
+	private static WebAppContext resources() {
+		return createStaticFileSite("resources", "/resources");
 	}
 
 
-	private static ServletHolder vaadinServlet() {
-		ServletHolder result = new ServletHolder(com.vaadin.terminal.gwt.server.ApplicationServlet.class);
-		result.setInitParameter("application", AgitterVaadinApplication.class.getName());
-		return result;
+	private static WebAppContext vaadin() {
+		return createServletApp(
+			com.vaadin.terminal.gwt.server.ApplicationServlet.class,
+			initWith(AgitterVaadinApplication.class),
+			"/*"
+		);
+	}
+
+
+	private static Map<String, String> initWith(Class<AgitterVaadinApplication> vaadinApp) {
+		Map<String, String> initParams = new HashMap<String, String>();
+		initParams.put("application", vaadinApp.getName());
+		return initParams;
 	}
 
 //Example WEB-INF/web.xml file to deploy Vaadin in Tomcat or other servlet server, if necessary:
@@ -81,9 +59,4 @@ public class AgitterMain {
 //	  </servlet-mapping>
 //	</web-app>
 
-	
-	private static void initPrevalentSystem() {
-		PrevaylerBootstrap.open(new File("prevalence"));
-	}
-	
 }
