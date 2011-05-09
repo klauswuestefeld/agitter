@@ -2,7 +2,7 @@ package agitter.domain;
 
 public interface User {
 
-	public String name();
+	public String username();
 
 	public String email();
 

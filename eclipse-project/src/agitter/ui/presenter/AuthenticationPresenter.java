@@ -20,19 +20,28 @@ public class AuthenticationPresenter {
 		this.errorDisplayer = errorDisplayer;
 
 		this.view.show();
-		this.view.onLoginAttempt(new Runnable() { @Override public void run() {
+		this.view.onSignupAttempt(new Runnable() { @Override public void run() {
 			loginAttempt();
 		}});
 	}
 
 	private void loginAttempt() {
+		if (!isPasswordConfirmed()) {
+			errorDisplayer.consume("Senha e confirmação devem ser iguais.");
+			return;
+		}
+		
 		User user;
 		try {
-			user = agitter.signup(view.fullName(), view.login(), view.email(), view.password());
+			user = agitter.signup(view.username(), view.email(), view.password());
 			onAuthenticate.consume(user);
 		} catch (Refusal e) {
 			errorDisplayer.consume(e.getMessage());
 		}
+	}
+
+	private boolean isPasswordConfirmed() {
+		return view.password().equals(view.passwordConfirmation());
 	}
 	
 }

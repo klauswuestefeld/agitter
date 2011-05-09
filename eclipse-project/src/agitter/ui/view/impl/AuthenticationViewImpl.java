@@ -6,16 +6,17 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
 public class AuthenticationViewImpl implements AuthenticationView {
 
 	private final ComponentContainer container;
-	private final TextField fullName = new TextField("Nome:");
-	private final TextField login = new TextField("Login:");
-	private final TextField email = new TextField("Email:");
-	private final TextField password = new TextField("Senha:");
-	private final Button ok = new Button("OK");
+	private final TextField email = new TextField("Email");
+	private final TextField username = new TextField("Username");
+	private final PasswordField password = new PasswordField("Senha");
+	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
+	private final Button signup = new Button("Cadastrar");
 
 	AuthenticationViewImpl(ComponentContainer container) {
 		this.container = container;
@@ -24,21 +25,16 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		container.addComponent(fullName);
-		container.addComponent(login);
 		container.addComponent(email);
+		container.addComponent(username);
 		container.addComponent(password);
-		container.addComponent(ok);
+		container.addComponent(passwordConfirmation);
+		container.addComponent(signup);
 	}
 
 	@Override
-	public String fullName() {
-		return (String)fullName.getValue();
-	}
-
-	@Override
-	public String login() {
-		return (String)login.getValue();
+	public String username() {
+		return (String)username.getValue();
 	}
 
 	@Override
@@ -52,8 +48,13 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	}
 
 	@Override
-	public void onLoginAttempt(final Runnable runnable) {
-		ok.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+	public String passwordConfirmation() {
+		return (String)passwordConfirmation.getValue(); 
+	}
+
+	@Override
+	public void onSignupAttempt(final Runnable runnable) {
+		signup.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
 	}

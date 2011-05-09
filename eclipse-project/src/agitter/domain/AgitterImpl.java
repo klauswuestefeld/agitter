@@ -15,21 +15,21 @@ public class AgitterImpl implements Agitter {
 
 
 	@Override
-	public User signup(String fullName, String login, String email, String password) throws Refusal {
+	public User signup(String username, String email, String password) throws Refusal {
 		try {
 			return login(email, password);
 		} catch (Refusal e) {	}
 		
-		return createNewUser(fullName, email, password);
+		return createNewUser(username, email, password);
 	}
 
 
-	private User createNewUser(String name, String email, String password) throws Refusal {
+	private User createNewUser(String username, String email, String password) throws Refusal {
 		for (User existingUser : _users)
 			if (existingUser.email().equals(email))
 				throw new Refusal("Já existe um usuário cadastrado com este email: " + email);
 
-		UserImpl result = new UserImpl(name, email, password);
+		UserImpl result = new UserImpl(username, email, password);
 		_users.add(result);
 		return result;
 	}

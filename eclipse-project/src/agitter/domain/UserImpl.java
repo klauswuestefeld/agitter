@@ -3,21 +3,21 @@ package agitter.domain;
 
 public class UserImpl implements User {
 
-	private final String _name;
+	private final String _username;
 	private final String _email;
 	private final String _password;
 
 	
-	public UserImpl(String name, String email, String password) {
-		_name = name;
+	public UserImpl(String username, String email, String password) {
+		_username = username;
 		_email = email;
 		_password = password;
 	}
 
 
 	@Override
-	public String name() {
-		return _name;
+	public String username() {
+		return _username;
 	}
 
 

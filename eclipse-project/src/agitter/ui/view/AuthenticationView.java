@@ -4,14 +4,11 @@ public interface AuthenticationView {
 
 	void show();
 
-	String login();
-
-	String fullName();
-
+	String username();
 	String email();
-
 	String password();
+	String passwordConfirmation();
 
-	void onLoginAttempt(Runnable runnable);
+	void onSignupAttempt(Runnable runnable);
 
 }

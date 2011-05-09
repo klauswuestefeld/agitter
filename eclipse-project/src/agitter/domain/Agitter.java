@@ -8,7 +8,7 @@ import agitter.domain.events.Events;
 public interface Agitter {
 
 	@Transaction
-	User signup(String fullName, String login, String email, String password) throws Refusal;
+	User signup(String login, String email, String password) throws Refusal;
 	@Transaction
 	User login(String loginOrEmail, String password) throws Refusal;
 	
