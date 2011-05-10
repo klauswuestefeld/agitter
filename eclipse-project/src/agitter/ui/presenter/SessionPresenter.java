@@ -82,7 +82,7 @@ public class SessionPresenter {
 			result.add(new EventData(
 				event.description(),
 				event.datetime(),
-				event.owner().email(),
+				event.owner().username(),
 				removeAction(event)
 			));
 		}
