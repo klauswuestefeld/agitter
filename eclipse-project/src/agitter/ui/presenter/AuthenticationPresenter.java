@@ -13,19 +13,19 @@ public class AuthenticationPresenter {
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
 
-	public AuthenticationPresenter(Users agitter, AuthenticationView authenticationView, Consumer<User> onAuthenticate, Consumer<String> errorDisplayer) {
-		this.users = agitter;
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
+		this.users = users;
 		this.view = authenticationView;
 		this.onAuthenticate = onAuthenticate;
-		this.warningDisplayer = errorDisplayer;
+		this.warningDisplayer = warningDisplayer;
 
 		this.view.show();
 		this.view.onSignupAttempt(new Runnable() { @Override public void run() {
-			loginAttempt();
+			signupAttempt();
 		}});
 	}
 
-	private void loginAttempt() {
+	private void signupAttempt() {
 		if (!isPasswordConfirmed()) {
 			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
 			return;

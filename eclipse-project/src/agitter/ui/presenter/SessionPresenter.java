@@ -34,19 +34,13 @@ public class SessionPresenter {
 		_view.onLogout(onLogout);
 
 		inviteView().clearFields();
-		inviteView().onInvite(new Runnable() {
-			@Override
-			public void run() {
-				invite();
-			}
-		});
+		inviteView().onInvite(new Runnable() { @Override public void run() {
+			invite();
+		}});
 
-		_handle = SimpleTimer.runNowAndPeriodically(new Runnable() {
-			@Override
-			public void run() {
-				refreshEventList();
-			}
-		});
+		_handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
+			refreshEventList();
+		}});
 	}
 
 
