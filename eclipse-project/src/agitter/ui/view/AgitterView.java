@@ -2,7 +2,7 @@ package agitter.ui.view;
 
 public interface AgitterView {
 
-	void showErrorMessage(String message);
+	void showWarningMessage(String message);
 	
 	SessionView showSessionView();
 

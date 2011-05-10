@@ -1,4 +1,4 @@
-package agitter.domain;
+package agitter.domain.users;
 
 
 public class UserImpl implements User {

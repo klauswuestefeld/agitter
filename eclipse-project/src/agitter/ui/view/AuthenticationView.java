@@ -9,6 +9,6 @@ public interface AuthenticationView {
 	String password();
 	String passwordConfirmation();
 
-	void onSignupAttempt(Runnable runnable);
+	void onSignupAttempt(Runnable action);
 
 }

@@ -6,10 +6,10 @@ import org.junit.Test;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
-import agitter.domain.User;
-import agitter.domain.UserImpl;
 import agitter.domain.events.Events;
 import agitter.domain.events.EventsImpl;
+import agitter.domain.users.User;
+import agitter.domain.users.UserImpl;
 
 public class EventsTest extends CleanTestBase {
 

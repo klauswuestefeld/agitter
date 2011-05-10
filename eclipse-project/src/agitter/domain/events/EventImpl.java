@@ -4,7 +4,7 @@ package agitter.domain.events;
 import java.util.HashSet;
 import java.util.Set;
 
-import agitter.domain.User;
+import agitter.domain.users.User;
 
 public class EventImpl implements Event {
 

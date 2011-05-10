@@ -1,16 +1,11 @@
 package agitter.domain;
 
-import org.prevayler.bubble.Transaction;
-
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Events;
+import agitter.domain.users.Users;
 
 public interface Agitter {
 
-	@Transaction
-	User signup(String login, String email, String password) throws Refusal;
-	@Transaction
-	User login(String loginOrEmail, String password) throws Refusal;
+	Users users();
 	
 	Events events();
 

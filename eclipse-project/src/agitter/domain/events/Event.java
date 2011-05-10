@@ -1,6 +1,6 @@
 package agitter.domain.events;
 
-import agitter.domain.User;
+import agitter.domain.users.User;
 
 public interface Event {
 	String description();

@@ -6,9 +6,9 @@ import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.User;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
+import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.EventData;
 import agitter.ui.view.InviteView;
@@ -19,7 +19,7 @@ public class SessionPresenter {
 	private final Events _events;
 	private final User _user;
 	private final SessionView _view;
-	private final Consumer<String> _errorDisplayer;
+	private final Consumer<String> _warningDisplayer;
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks _handle;
@@ -29,7 +29,7 @@ public class SessionPresenter {
 		_events = events;
 		_user = user;
 		_view = view;
-		_errorDisplayer = errorDisplayer;
+		_warningDisplayer = errorDisplayer;
 
 		_view.onLogout(onLogout);
 
@@ -57,7 +57,7 @@ public class SessionPresenter {
 			validate(datetime);
 			_events.create(_user, description, datetime.getTime());
 		} catch(Refusal e) {
-			_errorDisplayer.consume(e.getMessage());
+			_warningDisplayer.consume(e.getMessage());
 			return;
 		}
 		refreshEventList();

@@ -2,7 +2,7 @@ package agitter.ui.presenter;
 
 import sneer.foundation.lang.Consumer;
 import agitter.domain.Agitter;
-import agitter.domain.User;
+import agitter.domain.users.User;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.SessionView;
 
@@ -21,14 +21,14 @@ public class Presenter {
 
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(_agitter, _view.authenticationView(), onAuthenticate(), errorDisplayer());
+		new AuthenticationPresenter(_agitter.users(), _view.authenticationView(), onAuthenticate(), warningDisplayer());
 	}
 
 
 	private Consumer<User> onAuthenticate() {
 		return new Consumer<User>() { @Override public void consume(User user) {
 			SessionView sessionView = _view.showSessionView();
-			new SessionPresenter(_agitter.events(), user, sessionView, onLogout(), errorDisplayer());
+			new SessionPresenter(_agitter.events(), user, sessionView, onLogout(), warningDisplayer());
 		}};
 	}
 
@@ -40,9 +40,9 @@ public class Presenter {
 	}
 
 
-	private Consumer<String> errorDisplayer() {
+	private Consumer<String> warningDisplayer() {
 		return new Consumer<String>() { @Override public void consume(String message) {
-			_view.showErrorMessage(message);
+			_view.showWarningMessage(message);
 		}};
 	}
 	

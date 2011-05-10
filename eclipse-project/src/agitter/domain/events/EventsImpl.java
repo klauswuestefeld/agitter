@@ -7,7 +7,7 @@ import java.util.TreeSet;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.User;
+import agitter.domain.users.User;
 
 public class EventsImpl implements Events {
 

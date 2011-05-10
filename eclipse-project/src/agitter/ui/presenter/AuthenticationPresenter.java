@@ -2,22 +2,22 @@ package agitter.ui.presenter;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.Agitter;
-import agitter.domain.User;
+import agitter.domain.users.User;
+import agitter.domain.users.Users;
 import agitter.ui.view.AuthenticationView;
 
 public class AuthenticationPresenter {
 
-	private final Agitter agitter;
+	private final Users users;
 	private final AuthenticationView view;
 	private final Consumer<User> onAuthenticate;
-	private final Consumer<String> errorDisplayer;
+	private final Consumer<String> warningDisplayer;
 
-	public AuthenticationPresenter(Agitter agitter, AuthenticationView authenticationView, Consumer<User> onAuthenticate, Consumer<String> errorDisplayer) {
-		this.agitter = agitter;
+	public AuthenticationPresenter(Users agitter, AuthenticationView authenticationView, Consumer<User> onAuthenticate, Consumer<String> errorDisplayer) {
+		this.users = agitter;
 		this.view = authenticationView;
 		this.onAuthenticate = onAuthenticate;
-		this.errorDisplayer = errorDisplayer;
+		this.warningDisplayer = errorDisplayer;
 
 		this.view.show();
 		this.view.onSignupAttempt(new Runnable() { @Override public void run() {
@@ -27,16 +27,16 @@ public class AuthenticationPresenter {
 
 	private void loginAttempt() {
 		if (!isPasswordConfirmed()) {
-			errorDisplayer.consume("Senha e confirmação devem ser iguais.");
+			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
 			return;
 		}
 		
 		User user;
 		try {
-			user = agitter.signup(view.username(), view.email(), view.password());
+			user = users.signup(view.username(), view.email(), view.password());
 			onAuthenticate.consume(user);
 		} catch (Refusal e) {
-			errorDisplayer.consume(e.getMessage());
+			warningDisplayer.consume(e.getMessage());
 		}
 	}
 

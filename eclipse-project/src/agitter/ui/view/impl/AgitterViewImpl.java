@@ -6,12 +6,11 @@ import agitter.ui.view.SessionView;
 
 import com.vaadin.ui.Window;
 
-public class AgitterViewImpl extends com.vaadin.ui.Window implements
-		AgitterView {
+public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView {
 
 	@Override
-	public void showErrorMessage(String message) {
-		showNotification(message, Window.Notification.TYPE_ERROR_MESSAGE);
+	public void showWarningMessage(String message) {
+		showNotification(message, Window.Notification.TYPE_WARNING_MESSAGE);
 	}
 
 	

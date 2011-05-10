@@ -1,4 +1,4 @@
-package agitter.domain;
+package agitter.domain.users;
 
 public interface User {
 
