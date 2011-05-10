@@ -4,25 +4,48 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
-import agitter.ui.view.AuthenticationView;
+import agitter.domain.users.Users.InvalidPassword;
+import agitter.domain.users.Users.UserNotFound;
+import agitter.ui.view.LoginView;
+import agitter.ui.view.SignupView;
 
 public class AuthenticationPresenter {
 
 	private final Users users;
-	private final AuthenticationView view;
+	private final LoginView loginView;
+	private final SignupView signupView;
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
 
-	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
+	public AuthenticationPresenter(Users users, LoginView loginView, SignupView signupView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
 		this.users = users;
-		this.view = authenticationView;
+		this.loginView = loginView;
+		this.signupView = signupView;
 		this.onAuthenticate = onAuthenticate;
 		this.warningDisplayer = warningDisplayer;
 
-		this.view.show();
-		this.view.onSignupAttempt(new Runnable() { @Override public void run() {
+		this.loginView.onLoginAttempt(new Runnable() { @Override public void run() {
+			loginAttempt();
+		}});
+		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
 			signupAttempt();
 		}});
+
+		this.loginView.show();
+	}
+
+	private void loginAttempt() {
+		User user = null; 
+		try {
+			user = users.login(loginView.emailOrUsername(), loginView.password());
+		} catch (InvalidPassword e) {
+			warningDisplayer.consume(e.getMessage());
+			return;
+		} catch (UserNotFound e) {
+			signupView.show();
+			return;
+		}
+		onAuthenticate.consume(user);
 	}
 
 	private void signupAttempt() {
@@ -33,7 +56,7 @@ public class AuthenticationPresenter {
 		
 		User user;
 		try {
-			user = users.signup(view.username(), view.email(), view.password());
+			user = users.signup(signupView.username(), signupView.email(), signupView.password());
 			onAuthenticate.consume(user);
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
@@ -41,7 +64,7 @@ public class AuthenticationPresenter {
 	}
 
 	private boolean isPasswordConfirmed() {
-		return view.password().equals(view.passwordConfirmation());
+		return signupView.password().equals(signupView.passwordConfirmation());
 	}
 	
 }

@@ -1,15 +1,16 @@
 package agitter.ui.view.impl;
 
-import agitter.ui.view.AuthenticationView;
+import agitter.ui.view.SignupView;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
-public class AuthenticationViewImpl implements AuthenticationView {
+public class SignupViewImpl implements SignupView {
 
 	private final ComponentContainer container;
 	private final TextField email = new TextField("Email");
@@ -18,13 +19,15 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
 	private final Button signup = new Button("Cadastrar");
 
-	AuthenticationViewImpl(ComponentContainer container) {
+	SignupViewImpl(ComponentContainer container) {
 		this.container = container;
 	}
 
 	@Override
 	public void show() {
 		container.removeAllComponents();
+		container.addComponent(new Label("Bem-vindo"));
+		container.addComponent(new Label("Cadastre-se e comece a agitar!"));
 		container.addComponent(email);
 		container.addComponent(username);
 		container.addComponent(password);

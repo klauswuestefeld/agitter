@@ -1,6 +1,6 @@
 package agitter.ui.view;
 
-public interface AuthenticationView {
+public interface SignupView {
 
 	void show();
 
