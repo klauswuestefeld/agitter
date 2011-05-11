@@ -33,12 +33,33 @@ public class UsersImpl implements Users {
 
 
 	@Override
-	public User login(String email, String password) throws Refusal {
-		for (User candidate : _users)
-			if (candidate.email().equals(email) && candidate.isPassword(password))
-				return candidate;
+	public User login(String emailOrUsername, String password) throws UserNotFound, InvalidPassword {
+		User user = emailOrUsername.contains("@") 
+			? searchByEmail(emailOrUsername) 
+			: searchByUsername(emailOrUsername);
+		
+		if (user == null)
+			throw new UserNotFound("Usuário não encontrado: " + emailOrUsername);
 
-		throw new Refusal("Invalid Email or Password.");
+		if (!user.isPassword(password))
+			throw new InvalidPassword("Senha inválida.");
+
+		return user;
+	}
+		
+		
+	private User searchByEmail(String email) {
+		for (User candidate : _users)
+			if (candidate.email().equals(email))
+				return candidate;
+		return null;
+	}
+
+	private User searchByUsername(String username) {
+		for (User candidate : _users)
+			if (candidate.username().equals(username))
+				return candidate;
+		return null;
 	}
 
 }
