@@ -38,7 +38,9 @@ public class AmazonSimpleEmailServiceSpike {
 	 *            from Amazon Simple Email Service.
 	 */
 	private static final String TO = "klauswuestefeld@gmail.com";
-	private static final String FROM = "Agitter<no-reply@agitter.com>";
+	
+	private static final String FROM = "no-reply@agitter.com";
+	private static final String FROM_NAME = "Agitter";
 	private static final String SUBJECT = "Bem-Vindo";
 	private static final String BODY = "Seja bem vindo!<br /><br />"
 		+ "Agora você já pode visualizar e criar seus próprios agitos acessando o link:<br />"
@@ -53,25 +55,29 @@ public class AmazonSimpleEmailServiceSpike {
 		
 		AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient(credentials);		
 
-        verifyAddressIfNecessary(service, TO);
+        verifyAddressIfNecessary(service, FROM);
 		
 		Destination destination = new Destination(Arrays.asList(TO));
 		Content subject = new Content(SUBJECT);
 		Body body = new Body().withHtml(new Content(BODY));
 		Message message = new Message(subject, body);
-		service.sendEmail(new SendEmailRequest(FROM, destination, message));
+		service.sendEmail(new SendEmailRequest(from(), destination, message));
 		
 		System.exit(0);
 
 	}		
 	
+	private static String from() {
+		return FROM_NAME + "<" + FROM + ">"; // "Joe Smith<joe@gmail.com>"
+	}
+
 	/**
      * SES requires that the sender and receiver of each message be
      * verified through the service. The verifyEmailAddress interface will
      * send the given address a verification message with a URL they can
      * click to verify that address.
      */
-	private static void verifyAddressIfNecessary(AmazonSimpleEmailService service, String address) {
+	static void verifyAddressIfNecessary(AmazonSimpleEmailService service, String address) {
 		ListVerifiedEmailAddressesResult verifiedEmails = service.listVerifiedEmailAddresses();
         if (verifiedEmails.getVerifiedEmailAddresses().contains(address)) return;
 
