@@ -2,30 +2,49 @@ package agitter.ui.view.impl;
 
 import agitter.ui.view.LoginView;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.BaseTheme;
 
 public class LoginViewImpl implements LoginView {
 
-	private final ComponentContainer container;
+	private final VerticalLayout container;
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
-	private final Button login = new Button("Agitar!");
+	private final Button login = new NativeButton("Agitar!");
+//	private final Button forgotMyPassword = forgotMyPasswordButton();
 
-	LoginViewImpl(ComponentContainer container) {
+	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
+	}
+
+	@SuppressWarnings("unused")
+	private Button forgotMyPasswordButton() {
+        Button b = new Button("Esqueci");
+        b.setStyleName(BaseTheme.BUTTON_LINK);
+        return b;
 	}
 
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		container.addComponent(emailOrUsername);
-		container.addComponent(password);
-		container.addComponent(login);
+		GridLayout loginGrid = new GridLayout(3,2);
+		loginGrid.addComponent(emailOrUsername, 0, 0);
+		loginGrid.addComponent(password, 1, 0);
+		loginGrid.addComponent(login, 2, 0);
+		loginGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
+//		loginGrid.addComponent(forgotMyPassword, 1, 1);
+		loginGrid.setSpacing(true);
+		container.addComponent(loginGrid);
+		container.setComponentAlignment(loginGrid, Alignment.MIDDLE_RIGHT);
+
 	}
 
 	@Override

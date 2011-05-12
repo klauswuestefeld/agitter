@@ -13,6 +13,7 @@ public class AgitterVaadinApplication extends Application {
 		Agitter agitter = PrevaylerBootstrap.agitter();
 
 		AgitterViewImpl view = new AgitterViewImpl();
+		setTheme("agitter");
 		setMainWindow(view);
 
 		new Presenter(agitter, view);
