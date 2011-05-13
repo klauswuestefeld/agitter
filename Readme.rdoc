@@ -12,7 +12,7 @@ Já removimos todas as dependencias e migramos para GWT 2.2.
 
 Botão direito no projeto e Run As > WebApplication (Google)
 
-==Para rodar sem o ambiente de dev.
+==Para rodar sem o ambiente de desenvolvimento
 
 Compilar no eclipse, usando o icone do GWT no toolbar do eclipse ou botão direito no projeto agitos
 e depois Google >> GWT Compile
