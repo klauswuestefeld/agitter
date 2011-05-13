@@ -1,9 +1,9 @@
-package agitter.domain.users.tests;
+package agitter.ui.presenter.tests;
 
 import org.junit.Test;
 
 import sneer.foundation.testsupport.AssertUtils;
-import agitter.domain.users.Credential;
+import agitter.ui.presenter.Credential;
 
 
 public class CredentialTest extends AssertUtils {
@@ -18,18 +18,18 @@ public class CredentialTest extends AssertUtils {
 	
 	@Test
 	public void credentialShouldHavePassword(){
-		assertEquals(SAMPLE_PASSWORD, credentialWithEmailProvided().getPassword());
+		assertEquals(SAMPLE_PASSWORD, credentialWithEmailProvided().password());
 	}
 
 	@Test
 	public void credentialShouldKnowHowToExtractUserNameFromEmail(){
-		assertEquals(SAMPLE_USERNAME, credentialWithEmailProvided().getUserName());
+		assertEquals(SAMPLE_USERNAME, credentialWithEmailProvided().suggestedUserName());
 	}
 	
 	@Test
 	public void emailShoudBeEmptyWhenUserNameIsProvided(){
-		assertEquals(SAMPLE_USERNAME, credentialWithJustUserNameProvided().getUserName());
-		assertEquals("", credentialWithJustUserNameProvided().getEmail());
+		assertEquals(SAMPLE_USERNAME, credentialWithJustUserNameProvided().username());
+		assertEquals("", credentialWithJustUserNameProvided().email());
 	}
 	
 	@Test

@@ -4,6 +4,7 @@ import static agitter.main.JettyRunner.*;
 import infra.processreplacer.ProcessReplacer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,12 +14,25 @@ public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		ProcessReplacer.start();
-		
-		PrevaylerBootstrap.open(new File("prevalence"));
+		File prevalenceDir = new File("prevalence");
+		clean(prevalenceDir);
+		PrevaylerBootstrap.open(prevalenceDir);
 		runWebApps(vaadinThemes(), vaadin());
 	}
 
 	
+	private static void clean(File prevalenceDir) throws IOException {
+		if (!prevalenceDir.exists())
+			return;
+		
+		for(File file : prevalenceDir.listFiles())
+			if (!file.delete())
+				throw new IOException("Unable to delete " + file);
+		
+		System.out.println("prevalence directory deleted.");
+	}
+
+
 	private static WebAppContext vaadinThemes() {
 		return createStaticFileSite("vaadin-theme", "/VAADIN/themes/agitter");
 	}

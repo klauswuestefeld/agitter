@@ -5,6 +5,6 @@
 nohup.out
 
 *.byecycle
-
+*.metadata
 *.idea
 *.iml

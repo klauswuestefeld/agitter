@@ -14,10 +14,10 @@ public class UsersImpl implements Users {
 	@Override
 	public User signup(String username, String email, String password) throws Refusal {
 		try {
-			return login(new Credential(email, password));
-		} catch (Refusal e) {	}
-		
-		return createNewUser(username, email, password);
+			return loginWithUsername(username, password);
+		} catch (UserNotFound e) {
+			return createNewUser(username, email, password);
+		}
 	}
 
 
@@ -32,16 +32,11 @@ public class UsersImpl implements Users {
 	}
 
 
-	@Override
-	public User login(Credential credential) throws UserNotFound, InvalidPassword {
-		User user = credential.isEmailProvided() 
-			? searchByEmail(credential.getEmail()) 
-			: searchByUsername(credential.getUserName());
-		
+	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
 		if (user == null)
-			throw new UserNotFound("Usuário não encontrado: " + credential);
+			throw new UserNotFound("Usuário não encontrado: " + emailOrUsername);
 
-		if (!user.isPassword(credential.getPassword()))
+		if (!user.isPassword(passwordAttempt))
 			throw new InvalidPassword("Senha inválida.");
 
 		return user;
@@ -60,6 +55,20 @@ public class UsersImpl implements Users {
 			if (candidate.username().equals(username))
 				return candidate;
 		return null;
+	}
+
+
+	@Override
+	public User loginWithUsername(String username, String password) throws UserNotFound, InvalidPassword {
+		User user = searchByUsername(username);
+		return login(user, username, password);
+	}
+
+
+	@Override
+	public User loginWithEmail(String email, String password) throws UserNotFound, InvalidPassword {
+		User user = searchByEmail(email);
+		return login(user, email, password);
 	}
 
 }

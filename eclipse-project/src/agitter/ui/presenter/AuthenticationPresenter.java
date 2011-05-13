@@ -2,7 +2,6 @@ package agitter.ui.presenter;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.users.Credential;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
@@ -39,12 +38,15 @@ public class AuthenticationPresenter {
 		User user = null; 
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
-			user = users.login(credential);
+			user = credential.isEmailProvided()
+				? users.loginWithEmail(credential.email(), credential.password())
+				: users.loginWithUsername(credential.username(), credential.password());
+			
 		} catch (InvalidPassword e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		} catch (UserNotFound e) {
-			signupView.show(credential);
+			signupView.show(credential.email(), credential.suggestedUserName(), credential.password());
 			return;
 		}
 		onAuthenticate.consume(user);

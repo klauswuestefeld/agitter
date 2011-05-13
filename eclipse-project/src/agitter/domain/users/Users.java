@@ -2,7 +2,6 @@ package agitter.domain.users;
 
 import org.prevayler.bubble.Transaction;
 
-
 import sneer.foundation.lang.exceptions.Refusal;
 
 public interface Users {
@@ -11,9 +10,12 @@ public interface Users {
 	public class InvalidPassword extends Refusal {  public InvalidPassword(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
 
 	@Transaction
-	User login(Credential credential) throws UserNotFound, InvalidPassword;
+	User signup(String username, String email, String password) throws Refusal;
 
 	@Transaction
-	User signup(String username, String email, String password) throws Refusal;
+	User loginWithUsername(String username, String password) throws UserNotFound, InvalidPassword;
+
+	@Transaction
+	User loginWithEmail(String email, String password) throws UserNotFound, InvalidPassword;
 
 }

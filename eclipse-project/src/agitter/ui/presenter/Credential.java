@@ -1,10 +1,7 @@
-package agitter.domain.users;
+package agitter.ui.presenter;
 
-import java.io.Serializable;
 
-import sneer.foundation.lang.Immutable;
-
-public class Credential extends Immutable implements Serializable {
+public class Credential {
 	
 	private static String EMAIL_SYMBOL = "@";
 
@@ -24,20 +21,21 @@ public class Credential extends Immutable implements Serializable {
 	}
 	
 	
-	public String getUserName() {
-		String[] parts = emailOrUsername.split(EMAIL_SYMBOL);
-		return parts[0];
+	public String username() {
+		return !isEmailProvided()
+			? emailOrUsername
+			: "";
 	}
 
 	
-	public String getEmail() {
+	public String email() {
 		return isEmailProvided()
 			? emailOrUsername
 			:"";
 	}
 
 	
-	public String getPassword() {
+	public String password() {
 		return password;
 	}
 	
@@ -49,5 +47,12 @@ public class Credential extends Immutable implements Serializable {
 	
 	private Boolean isEmail(String string){
 		return string.contains(EMAIL_SYMBOL);
+	}
+
+
+	public String suggestedUserName() {
+		return isEmailProvided() 
+				? emailOrUsername.split(EMAIL_SYMBOL)[0]
+				: username();
 	}
 }
