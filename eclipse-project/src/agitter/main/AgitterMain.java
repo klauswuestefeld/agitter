@@ -15,12 +15,12 @@ public class AgitterMain {
 		ProcessReplacer.start();
 		
 		PrevaylerBootstrap.open(new File("prevalence"));
-		runWebApps(resources(), vaadin());
+		runWebApps(vaadinThemes(), vaadin());
 	}
 
 	
-	private static WebAppContext resources() {
-		return createStaticFileSite("resources", "/resources");
+	private static WebAppContext vaadinThemes() {
+		return createStaticFileSite("vaadin-theme", "/VAADIN/themes/agitter");
 	}
 
 

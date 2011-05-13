@@ -3,6 +3,7 @@ package agitter.domain.users;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import sneer.foundation.lang.exceptions.Refusal;
 
 
@@ -14,7 +15,7 @@ public class UsersImpl implements Users {
 	@Override
 	public User signup(String username, String email, String password) throws Refusal {
 		try {
-			return login(email, password);
+			return login(new Credential(email, password));
 		} catch (Refusal e) {	}
 		
 		return createNewUser(username, email, password);
@@ -33,15 +34,15 @@ public class UsersImpl implements Users {
 
 
 	@Override
-	public User login(String emailOrUsername, String password) throws UserNotFound, InvalidPassword {
-		User user = emailOrUsername.contains("@") 
-			? searchByEmail(emailOrUsername) 
-			: searchByUsername(emailOrUsername);
+	public User login(Credential credential) throws UserNotFound, InvalidPassword {
+		User user = credential.isEmailProvided() 
+			? searchByEmail(credential.getEmail()) 
+			: searchByUsername(credential.getPassword());
 		
 		if (user == null)
-			throw new UserNotFound("Usuário não encontrado: " + emailOrUsername);
+			throw new UserNotFound("Usuário não encontrado: " + credential.getId());
 
-		if (!user.isPassword(password))
+		if (!user.isPassword(credential.getPassword()))
 			throw new InvalidPassword("Senha inválida.");
 
 		return user;

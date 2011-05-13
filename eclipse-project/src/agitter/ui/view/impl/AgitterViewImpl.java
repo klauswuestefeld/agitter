@@ -5,14 +5,13 @@ import agitter.ui.view.LoginView;
 import agitter.ui.view.SessionView;
 import agitter.ui.view.SignupView;
 
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView {
 
-	private ComponentContainer mainPanel = new VerticalLayout();
+	private VerticalLayout mainPanel = new VerticalLayout();
 	private final UriFragmentUtility fragmentUtility = new UriFragmentUtility();
 	
 	public AgitterViewImpl() {

@@ -1,0 +1,13 @@
+@import "../reindeer/styles.css";
+
+.v-nativebutton {
+	height: 25px;
+	border-style: outset;
+	border-width: 1px;	
+	border-color: #AADDAA;
+	background: darkgreen;
+}
+
+.v-nativebutton .v-nativebutton-caption {
+	color: white;
+}

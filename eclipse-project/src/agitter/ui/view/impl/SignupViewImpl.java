@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import agitter.domain.users.Credential;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.ui.Button;
@@ -24,13 +25,20 @@ public class SignupViewImpl implements SignupView {
 	}
 
 	@Override
-	public void show() {
+	public void show(Credential credential) {
 		container.removeAllComponents();
 		container.addComponent(new Label("Bem-vindo"));
 		container.addComponent(new Label("Cadastre-se e comece a agitar!"));
+		
+		email.setValue(credential.getEmail());
 		container.addComponent(email);
+		
+		username.setValue(credential.getUserName());
 		container.addComponent(username);
+		
+		password.setValue(credential.getPassword());
 		container.addComponent(password);
+		
 		container.addComponent(passwordConfirmation);
 		container.addComponent(signup);
 	}
