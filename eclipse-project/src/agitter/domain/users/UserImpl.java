@@ -32,4 +32,10 @@ public class UserImpl implements User {
 		return _password.equals(password);
 	}
 
+
+	@Override
+	public String password() {
+		return _password;
+	}
+
 }

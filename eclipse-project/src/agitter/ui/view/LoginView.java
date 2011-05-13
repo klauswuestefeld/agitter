@@ -8,5 +8,6 @@ public interface LoginView {
 	String password();
 	
 	void onLoginAttempt(Runnable action);
+	void onForgotMyPassword(Runnable action);
 
 }

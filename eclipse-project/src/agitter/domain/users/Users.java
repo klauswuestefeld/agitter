@@ -17,5 +17,11 @@ public interface Users {
 
 	@Transaction
 	User loginWithEmail(String email, String password) throws UserNotFound, InvalidPassword;
+	
+	@Transaction
+	User findByUsername(String username) throws UserNotFound;
+
+	@Transaction
+	User findByEmail(String email) throws UserNotFound;
 
 }

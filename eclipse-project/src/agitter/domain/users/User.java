@@ -8,4 +8,6 @@ public interface User {
 
 	public boolean isPassword(String password);
 
+	public String password();
+
 }

@@ -19,15 +19,14 @@ public class LoginViewImpl implements LoginView {
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
-//	private final Button forgotMyPassword = forgotMyPasswordButton();
+	private final Button forgotMyPassword = forgotMyPasswordButton();
 
 	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
 	}
 
-	@SuppressWarnings("unused")
 	private Button forgotMyPasswordButton() {
-        Button b = new Button("Esqueci");
+        Button b = new Button("Esqueci minha senha");
         b.setStyleName(BaseTheme.BUTTON_LINK);
         return b;
 	}
@@ -40,7 +39,7 @@ public class LoginViewImpl implements LoginView {
 		loginGrid.addComponent(password, 1, 0);
 		loginGrid.addComponent(login, 2, 0);
 		loginGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
-//		loginGrid.addComponent(forgotMyPassword, 1, 1);
+		loginGrid.addComponent(forgotMyPassword, 1, 1);
 		loginGrid.setSpacing(true);
 		container.addComponent(loginGrid);
 		container.setComponentAlignment(loginGrid, Alignment.MIDDLE_RIGHT);
@@ -60,6 +59,13 @@ public class LoginViewImpl implements LoginView {
 	@Override
 	public void onLoginAttempt(final Runnable runnable) {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			runnable.run();
+		}});
+	}
+
+	@Override
+	public void onForgotMyPassword(final Runnable runnable) {
+		forgotMyPassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
 	}

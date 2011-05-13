@@ -51,6 +51,30 @@ public class UsersTest extends CleanTestBase {
 		_subject.loginWithEmail("unknown_email@somewhere.com", "irrelevant");
 	}
 	
+	@Test
+	public void findUserByUsername() throws Refusal{
+		signUpAna();
+		User user = _subject.findByUsername("ana");
+		assertEquals("ana@gmail.com", user.email());
+	}
+	
+	@Test(expected = UserNotFound.class)
+	public void findUserByUsernameWithNoResults() throws Refusal {
+		_subject.findByUsername("unknown");
+	}
+	
+	@Test
+	public void findUserByEmail() throws Refusal{
+		signUpAna();
+		User user = _subject.findByEmail("ana@gmail.com");
+		assertEquals("ana", user.username());
+	}
+	
+	@Test(expected = UserNotFound.class)
+	public void findUserByEmailWithNoResults() throws Refusal {
+		_subject.findByEmail("unknown@somewhere.com");
+	}
+	
 	private void assertAna(User user) {
 		assertEquals("ana", user.username());
 		assertEquals("ana@gmail.com", user.email());
