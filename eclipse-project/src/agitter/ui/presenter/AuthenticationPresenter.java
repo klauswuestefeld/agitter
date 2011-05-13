@@ -2,14 +2,15 @@ package agitter.ui.presenter;
 
 import java.io.IOException;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
+import agitter.email.ForgotPasswordMailDispatcher;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 
 public class AuthenticationPresenter {
 
@@ -40,32 +41,8 @@ public class AuthenticationPresenter {
 		this.loginView.show();
 	}
 	
-	private void forgotMyPassword() {
-		if (loginView.emailOrUsername() == null || loginView.emailOrUsername().trim().length() == 0){
-			warningDisplayer.consume("Preencha seu email ou username.");
-			return;
-		}
-		User user = null;
-		try{
-			Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
-			user = credential.isEmailProvided()
-			? users.findByEmail(credential.email())
-			: users.findByUsername(credential.username());
-		} catch(UserNotFound e){
-			warningDisplayer.consume(e.getMessage());
-			return;
-		}
-		
-		try {
-			ForgotPasswordMailDispatcher.send(user);
-			warningDisplayer.consume("E-mail enviado com sucesso!");
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private void loginAttempt() {
-		User user = null; 
+		User user;
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
 			user = credential.isEmailProvided()
@@ -101,4 +78,27 @@ public class AuthenticationPresenter {
 		return signupView.password().equals(signupView.passwordConfirmation());
 	}
 	
+	private void forgotMyPassword() {
+		if (loginView.emailOrUsername() == null || loginView.emailOrUsername().trim().length() == 0){
+			warningDisplayer.consume("Preencha seu email ou username.");
+			return;
+		}
+		User user;
+		try{
+			Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
+			user = credential.isEmailProvided()
+			? users.findByEmail(credential.email())
+			: users.findByUsername(credential.username());
+		} catch(UserNotFound e){
+			warningDisplayer.consume(e.getMessage());
+			return;
+		}
+		try {
+			ForgotPasswordMailDispatcher.send(user.email(), user.username(), user.password());
+			warningDisplayer.consume("E-mail enviado com sucesso!");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

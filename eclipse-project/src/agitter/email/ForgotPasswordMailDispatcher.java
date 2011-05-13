@@ -1,0 +1,75 @@
+package agitter.email;
+
+/*
+ * Copyright 2011 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ *
+ *  http://aws.amazon.com/apache2.0
+ *
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import com.amazonaws.auth.PropertiesCredentials;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
+import com.amazonaws.services.simpleemail.model.*;
+
+//TODO: Please, refactor all this!
+public class ForgotPasswordMailDispatcher {
+
+	private static final String FROM = "no-reply@agitter.com";
+	private static final String FROM_NAME = "Agitter";
+	private static final String SUBJECT = "Lembrete de Senha";
+	private static final String BODY = "Você solicitou que nós enviássemos sua senha.<br />"
+		+ "Seus dados são:<br />"
+		+ "Usuário: %USERNAME% <br/>"
+		+ "Senha: %PASSWORD% <br/><br/>"
+		+ "<a href=\"http://agitter.com\">Agitter</a><br /><br />"
+		+ "Bons agitos,<br />Equipe Agitter.";
+
+	public static void send(String emailTo, String username, String password) throws IOException {
+
+		PropertiesCredentials credentials = new PropertiesCredentials(
+				ForgotPasswordMailDispatcher.class
+						.getResourceAsStream("AwsCredentials.properties"));
+		
+		AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient(credentials);		
+
+        verifyAddressIfNecessary(service, FROM);
+		
+		Destination destination = new Destination(Arrays.asList(emailTo));
+		Content subject = new Content(SUBJECT);
+		String mailText = BODY.replaceAll("%USERNAME%", username).replaceAll("%PASSWORD%", password);
+		Body body = new Body().withHtml(new Content(mailText));
+		Message message = new Message(subject, body);
+		service.sendEmail(new SendEmailRequest(from(), destination, message));
+	}		
+	
+	private static String from() {
+		return FROM_NAME + "<" + FROM + ">";
+	}
+
+	/**
+     * SES requires that the sender and receiver of each message be
+     * verified through the service. The verifyEmailAddress interface will
+     * send the given address a verification message with a URL they can
+     * click to verify that address.
+     */
+	static void verifyAddressIfNecessary(AmazonSimpleEmailService service, String address) {
+		ListVerifiedEmailAddressesResult verifiedEmails = service.listVerifiedEmailAddresses();
+        if (verifiedEmails.getVerifiedEmailAddresses().contains(address)) return;
+
+        service.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(address));
+        throw new RuntimeException("Please check the email address " + address + " to verify it.");
+	}
+
+}
