@@ -2,10 +2,10 @@ package agitter.domain.events;
 
 import java.util.List;
 
-import agitter.domain.users.User;
-
 import org.prevayler.bubble.Transaction;
+
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.users.User;
 
 public interface Events {
 

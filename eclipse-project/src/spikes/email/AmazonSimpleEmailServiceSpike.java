@@ -32,11 +32,6 @@ import com.amazonaws.services.simpleemail.model.VerifyEmailAddressRequest;
 
 public class AmazonSimpleEmailServiceSpike {
 
-	/*
-	 * Important: Be sure to fill in an email address you have access to
-	 *            so that you can receive the initial confirmation email
-	 *            from Amazon Simple Email Service.
-	 */
 	private static final String TO = "klauswuestefeld@gmail.com";
 	
 	private static final String FROM = "no-reply@agitter.com";
