@@ -2,8 +2,8 @@ package agitter.domain.users.tests;
 
 import org.junit.Test;
 
-import agitter.domain.users.Credential;
 import sneer.foundation.testsupport.AssertUtils;
+import agitter.domain.users.Credential;
 
 
 public class CredentialTest extends AssertUtils {
@@ -12,11 +12,15 @@ public class CredentialTest extends AssertUtils {
 	private static String SAMPLE_PASSWORD = "pwd";
 	
 	@Test
-	public void credentialShouldHaveIdAndPassword(){
-		assertEquals(SAMPLE_EMAIL, credentialWithEmailProvided().getId());
-		assertEquals(SAMPLE_PASSWORD, credentialWithEmailProvided().getPassword());
+	public void credentialToString(){
+		assertEquals(SAMPLE_EMAIL, credentialWithEmailProvided().toString());
 	}
 	
+	@Test
+	public void credentialShouldHavePassword(){
+		assertEquals(SAMPLE_PASSWORD, credentialWithEmailProvided().getPassword());
+	}
+
 	@Test
 	public void credentialShouldKnowHowToExtractUserNameFromEmail(){
 		assertEquals(SAMPLE_USERNAME, credentialWithEmailProvided().getUserName());

@@ -3,7 +3,6 @@ package agitter.domain.users;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import sneer.foundation.lang.exceptions.Refusal;
 
 
@@ -37,10 +36,10 @@ public class UsersImpl implements Users {
 	public User login(Credential credential) throws UserNotFound, InvalidPassword {
 		User user = credential.isEmailProvided() 
 			? searchByEmail(credential.getEmail()) 
-			: searchByUsername(credential.getPassword());
+			: searchByUsername(credential.getUserName());
 		
 		if (user == null)
-			throw new UserNotFound("Usuário não encontrado: " + credential.getId());
+			throw new UserNotFound("Usuário não encontrado: " + credential);
 
 		if (!user.isPassword(credential.getPassword()))
 			throw new InvalidPassword("Senha inválida.");
