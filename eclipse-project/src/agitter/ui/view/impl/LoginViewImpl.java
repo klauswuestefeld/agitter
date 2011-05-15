@@ -58,7 +58,9 @@ public class LoginViewImpl implements LoginView {
 				loginFieldsGrid.addComponent(forgotMyPassword, 1, 1);
 			// Picture
 			Embedded loginPicture = new Embedded(); loginPicture.addStyleName("a-login-picture");
-			loginPicture.setSource(new ThemeResource("resource/login/LoginMainPicture.png"));
+			ThemeResource img = new ThemeResource("resource/login/LoginMainPicture.png");
+			loginPicture.setSource(img);
+			loginPicture.setType(Embedded.TYPE_IMAGE);
 			loginMainGrid.addComponent(loginPicture, 0, 1);
 			// Advertisement
 			VerticalLayout loginAdvertLayout = new VerticalLayout(); loginAdvertLayout.addStyleName("a-login-advert-layout");
