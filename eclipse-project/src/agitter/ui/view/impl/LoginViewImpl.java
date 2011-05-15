@@ -2,11 +2,14 @@ package agitter.ui.view.impl;
 
 import agitter.ui.view.LoginView;
 
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -16,6 +19,7 @@ import com.vaadin.ui.themes.BaseTheme;
 public class LoginViewImpl implements LoginView {
 
 	private final VerticalLayout container;
+	private final VerticalLayout loginView = new VerticalLayout();
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
@@ -34,16 +38,53 @@ public class LoginViewImpl implements LoginView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		GridLayout loginGrid = new GridLayout(3,2);
-		loginGrid.addComponent(emailOrUsername, 0, 0);
-		loginGrid.addComponent(password, 1, 0);
-		loginGrid.addComponent(login, 2, 0);
-		loginGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
-		loginGrid.addComponent(forgotMyPassword, 1, 1);
-		loginGrid.setSpacing(true);
-		container.addComponent(loginGrid);
-		container.setComponentAlignment(loginGrid, Alignment.MIDDLE_RIGHT);
-
+		container.addComponent(loginView); loginView.addStyleName("a-login-view");
+		GridLayout loginMainGrid = new GridLayout(2,2); loginMainGrid.addStyleName("a-login-main-grid");
+		loginMainGrid.setMargin(false);
+		loginView.addComponent(loginMainGrid);
+		loginView.setComponentAlignment(loginMainGrid, Alignment.TOP_CENTER);
+			// Main Title
+			Label loginAgitterTitle = new Label("Agitter!"); loginAgitterTitle.addStyleName("a-login-agitter-title");
+			loginMainGrid.addComponent(loginAgitterTitle, 0, 0);
+			// Login Fields and Buttons
+			GridLayout loginFieldsGrid = new GridLayout(3,2); loginFieldsGrid.addStyleName("a-login-fields-grid");
+			loginFieldsGrid.setSpacing(true);
+			loginMainGrid.addComponent(loginFieldsGrid, 1, 0);
+			loginMainGrid.setComponentAlignment(loginFieldsGrid, Alignment.MIDDLE_LEFT);
+				loginFieldsGrid.addComponent(emailOrUsername, 0, 0);
+				loginFieldsGrid.addComponent(password, 1, 0);
+				loginFieldsGrid.addComponent(login, 2, 0);
+				loginFieldsGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
+				loginFieldsGrid.addComponent(forgotMyPassword, 1, 1);
+			// Picture
+			Embedded loginPicture = new Embedded(); loginPicture.addStyleName("a-login-picture");
+			loginPicture.setSource(new ThemeResource("resource/login/LoginMainPicture.png"));
+			loginMainGrid.addComponent(loginPicture, 0, 1);
+			// Advertisement
+			VerticalLayout loginAdvertLayout = new VerticalLayout(); loginAdvertLayout.addStyleName("a-login-advert-layout");
+			loginAdvertLayout.setWidth("410px");
+			loginMainGrid.addComponent(loginAdvertLayout, 1, 1);
+				Label label;
+				label = new Label(
+						"Ainda não está agitando?"
+				);
+				label.addStyleName("a-login-advert-1");
+				loginAdvertLayout.addComponent(label);
+				label = new Label(
+						"Participar é fácil, basta algum amigo te convidar para um agito."
+				);
+				label.addStyleName("a-login-advert-2");
+				loginAdvertLayout.addComponent(label);
+				label = new Label(
+						"Festas, saídas, jogos, churrascos, baladas, espetáculos, qualquer coisa."
+				);
+				label.addStyleName("a-login-advert-3");
+				loginAdvertLayout.addComponent(label);
+				label = new Label(
+						"Saia da internet. Vá agitar com seus amigos!"
+				);
+				label.addStyleName("a-login-advert-4");
+				loginAdvertLayout.addComponent(label);
 	}
 
 	@Override

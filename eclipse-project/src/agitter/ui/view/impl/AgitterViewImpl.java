@@ -5,6 +5,7 @@ import agitter.ui.view.LoginView;
 import agitter.ui.view.SessionView;
 import agitter.ui.view.SignupView;
 
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -15,7 +16,10 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 	private final UriFragmentUtility fragmentUtility = new UriFragmentUtility();
 	
 	public AgitterViewImpl() {
+		this.getContent().addStyleName("a-agitter-main-window");
+		((Layout)this.getContent()).setMargin(false);    // removes the margin from the entire application
 		addComponent(fragmentUtility);
+		mainPanel.addStyleName("a-agitter-view");
 		addComponent(mainPanel);
 	}
 

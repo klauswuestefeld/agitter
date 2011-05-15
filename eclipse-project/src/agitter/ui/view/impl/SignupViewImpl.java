@@ -9,10 +9,12 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class SignupViewImpl implements SignupView {
 
 	private final ComponentContainer container;
+	private final VerticalLayout signupView = new VerticalLayout();
 	private final TextField email = new TextField("Email");
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
@@ -26,20 +28,23 @@ public class SignupViewImpl implements SignupView {
 	@Override
 	public void show(String email_,String username_, String password_) {
 		container.removeAllComponents();
-		container.addComponent(new Label("Bem-vindo"));
-		container.addComponent(new Label("Cadastre-se e comece a agitar!"));
+		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
+		signupView.setMargin(true);
+		
+		signupView.addComponent(new Label("Bem-vindo"));
+		signupView.addComponent(new Label("Cadastre-se e comece a agitar!"));
 		
 		email.setValue(email_);
-		container.addComponent(email);
+		signupView.addComponent(email);
 		
 		username.setValue(username_);
-		container.addComponent(username);
+		signupView.addComponent(username);
 		
 		password.setValue(password_);
-		container.addComponent(password);
+		signupView.addComponent(password);
 		
-		container.addComponent(passwordConfirmation);
-		container.addComponent(signup);
+		signupView.addComponent(passwordConfirmation);
+		signupView.addComponent(signup);
 		
 		username.focus();
 	}

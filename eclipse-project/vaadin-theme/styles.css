@@ -1,13 +1,74 @@
 @import "../reindeer/styles.css";
 
-.v-nativebutton {
-	height: 25px;
-	border-style: outset;
-	border-width: 1px;	
-	border-color: #AADDAA;
-	background: darkgreen;
+.v-app {
+	background: white;
 }
 
-.v-nativebutton .v-nativebutton-caption {
+.a-login-view {
+	background-image: url('resource/login/LoginBackground.png');
+}
+
+.a-login-main-grid {
+	padding-top: 5px;
+}
+
+.a-login-agitter-title {
 	color: white;
+	text-shadow: 2px 2px 1px #000000;
+	font-size: 60px;
+    line-height: normal;
+    position: relative;
+	top: -4px;
+	padding-left: 30px;
+}
+
+.a-login-fields-grid .v-gridlayout-spacing-on {
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 7px;
+	padding-bottom: 4px;
+}
+
+.a-login-fields-grid .v-captiontext {
+	color: white;
+}
+.a-login-fields-grid .v-button-caption {
+	color: white;
+}
+.a-login-fields-grid .v-nativebutton {
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;	
+	border-color: #E49E9E;
+	background: #E44545;
+}
+.a-login-fields-grid .v-nativebutton-caption {
+	color: white;
+}
+
+.a-login-picture {
+	padding-top: 34px;
+	padding-right: 16px;
+	width: 548px;
+}
+
+.a-login-advert-1 {
+	padding-top: 44px;
+	font-size: 36px;
+    line-height: normal;
+}
+.a-login-advert-2 {
+	padding-top: 36px;
+	font-size: 28px;
+    line-height: normal;
+}
+.a-login-advert-3 {
+	padding-top: 73px;
+	font-size: 24px;
+    line-height: normal;
+}
+.a-login-advert-4 {
+	padding-top: 16px;
+	font-size: 24px;
+    line-height: normal;
 }
