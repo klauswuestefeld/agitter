@@ -13,10 +13,11 @@
 }
 
 .a-login-agitter-title {
+	font-family: "Arial Black", Arial, sans-serif;
 	color: white;
 	text-shadow: 2px 2px 1px #000000;
-	font-size: 60px;
-    line-height: normal;
+	font-size: 54px;
+    line-height: 68px;
     position: relative;
 	top: -4px;
 	padding-left: 30px;
