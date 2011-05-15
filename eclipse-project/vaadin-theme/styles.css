@@ -4,12 +4,11 @@
 	background: white;
 }
 
+
+/* Login  ----------------------------------------------------------------------   */
+
 .a-login-view {
 	background-image: url('resource/login/LoginBackground.png');
-}
-
-.a-login-main-grid {
-	padding-top: 5px;
 }
 
 .a-login-agitter-title {
@@ -18,8 +17,9 @@
 	text-shadow: 2px 2px 1px #000000;
 	font-size: 60px;
     line-height: 68px;
+    height: 78px;
     position: relative;
-	top: -3px;
+	top: 2px;
 	padding-left: 30px;
 }
 
@@ -49,14 +49,14 @@
 }
 
 .a-login-picture {
-	padding-top: 34px;
+	padding-top: 24px;
 	padding-right: 16px;
 	width: 548px;
 }
 
 .a-login-advert-1 {
 	font-weight: bold;
-	padding-top: 44px;
+	padding-top: 34px;
 	font-size: 34px;
     line-height: normal;
 }
@@ -74,4 +74,41 @@
 	padding-top: 16px;
 	font-size: 22px;
     line-height: normal;
+}
+
+
+/* Signup  ---------------------------------------------------------------------- */
+
+.a-signup-view {
+	padding-top: 34px;
+	padding-left: 20px;
+}
+
+.a-signup-welcome1 {
+	font-weight: bold;
+	font-size: 34px;
+    line-height: normal;
+}
+.a-signup-welcome2 {
+	// padding-top: 10px;
+	font-size: 21px;
+    line-height: normal;
+}
+
+.a-signup-fields {
+	padding-top: 20px;
+	padding-left: 20px;
+}
+
+.a-signup-fields .v-nativebutton {
+	margin-top: 6px;
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: #E44545;
+}
+.a-signup-fields .v-nativebutton-caption {
+	color: white;
+	font-weight: bold;
 }

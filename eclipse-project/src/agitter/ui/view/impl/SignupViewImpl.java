@@ -2,11 +2,11 @@ package agitter.ui.view.impl;
 
 import agitter.ui.view.SignupView;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -19,32 +19,41 @@ public class SignupViewImpl implements SignupView {
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
-	private final Button signup = new Button("Cadastrar");
+	private final NativeButton signup = new NativeButton("Cadastrar");
 
-	SignupViewImpl(ComponentContainer container) {
-		this.container = container;
+	SignupViewImpl(ComponentContainer parent) {
+		this.container = parent;
 	}
 
 	@Override
 	public void show(String email_,String username_, String password_) {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
-		signupView.setMargin(true);
 		
-		signupView.addComponent(new Label("Bem-vindo"));
-		signupView.addComponent(new Label("Cadastre-se e comece a agitar!"));
-		
-		email.setValue(email_);
-		signupView.addComponent(email);
-		
-		username.setValue(username_);
-		signupView.addComponent(username);
-		
-		password.setValue(password_);
-		signupView.addComponent(password);
-		
-		signupView.addComponent(passwordConfirmation);
-		signupView.addComponent(signup);
+			// Welcome messages
+			Label label;
+			label = new Label("Bem-vindo."); label.addStyleName("a-signup-welcome1");
+			signupView.addComponent(label);
+			label = new Label("Complete seus dados e comece a agitar!"); label.addStyleName("a-signup-welcome2");
+			signupView.addComponent(label);
+
+			// Signup Fields
+			VerticalLayout signupfields = new VerticalLayout(); signupfields.addStyleName("a-signup-fields");
+			signupfields.setSpacing(true);
+			signupView.addComponent(signupfields);
+
+			email.setValue(email_);
+			email.setWidth("180px");
+			signupfields.addComponent(email);
+			username.setValue(username_);
+			username.setWidth("180px");
+			signupfields.addComponent(username);
+			password.setValue(password_);
+			password.setWidth("180px");
+			signupfields.addComponent(password);
+			passwordConfirmation.setWidth("180px");
+			signupfields.addComponent(passwordConfirmation);
+			signupfields.addComponent(signup);
 		
 		username.focus();
 	}

@@ -2,6 +2,8 @@ package agitter.ui.presenter;
 
 import java.io.IOException;
 
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
@@ -9,21 +11,18 @@ import agitter.domain.users.Users.UserNotFound;
 import agitter.email.ForgotPasswordMailDispatcher;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.exceptions.Refusal;
 
 public class AuthenticationPresenter {
 
 	private final Users users;
 	private final LoginView loginView;
-	private final SignupView signupView;
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
+	private SignupView signupView;
 
-	public AuthenticationPresenter(Users users, LoginView loginView, SignupView signupView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
+	public AuthenticationPresenter(Users users, LoginView loginView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
 		this.users = users;
 		this.loginView = loginView;
-		this.signupView = signupView;
 		this.onAuthenticate = onAuthenticate;
 		this.warningDisplayer = warningDisplayer;
 
@@ -34,10 +33,6 @@ public class AuthenticationPresenter {
 			forgotMyPassword();
 		}});
 		
-		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
-			signupAttempt();
-		}});
-
 		this.loginView.show();
 	}
 	
@@ -53,31 +48,20 @@ public class AuthenticationPresenter {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		} catch (UserNotFound e) {
-			signupView.show(credential.email(), credential.suggestedUserName(), credential.password());
+			showSignup(credential);
 			return;
 		}
 		onAuthenticate.consume(user);
 	}
 
-	private void signupAttempt() {
-		if (!isPasswordConfirmed()) {
-			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
-			return;
-		}
-		
-		User user;
-		try {
-			user = users.signup(signupView.username(), signupView.email(), signupView.password());
-			onAuthenticate.consume(user);
-		} catch (Refusal e) {
-			warningDisplayer.consume(e.getMessage());
-		}
+	private void showSignup(Credential credential) {
+		signupView = loginView.signupView();
+		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
+			signupAttempt();
+		}});
+		signupView.show(credential.email(), credential.suggestedUserName(), credential.password());
 	}
 
-	private boolean isPasswordConfirmed() {
-		return signupView.password().equals(signupView.passwordConfirmation());
-	}
-	
 	private void forgotMyPassword() {
 		if (loginView.emailOrUsername() == null || loginView.emailOrUsername().trim().length() == 0){
 			warningDisplayer.consume("Preencha seu email ou username.");
@@ -101,4 +85,23 @@ public class AuthenticationPresenter {
 		}
 	}
 
+	private void signupAttempt() {
+		if (!isPasswordConfirmed()) {
+			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
+			return;
+		}
+		
+		User user;
+		try {
+			user = users.signup(signupView.username(), signupView.email(), signupView.password());
+			onAuthenticate.consume(user);
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+		}
+	}
+
+	private boolean isPasswordConfirmed() {
+		return signupView.password().equals(signupView.passwordConfirmation());
+	}
+	
 }

@@ -21,7 +21,7 @@ public class Presenter {
 
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(_agitter.users(), _view.loginView(), _view.signupView(), onAuthenticate(), warningDisplayer());
+		new AuthenticationPresenter(_agitter.users(), _view.loginView(), onAuthenticate(), warningDisplayer());
 	}
 
 

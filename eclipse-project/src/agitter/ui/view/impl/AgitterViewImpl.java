@@ -3,7 +3,6 @@ package agitter.ui.view.impl;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SessionView;
-import agitter.ui.view.SignupView;
 
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UriFragmentUtility;
@@ -35,12 +34,6 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 		return new LoginViewImpl(mainPanel);
 	}
 	
-
-	@Override
-	public SignupView signupView() {
-		return new SignupViewImpl(mainPanel);
-	}
-
 
 	@Override
 	public SessionView showSessionView() {

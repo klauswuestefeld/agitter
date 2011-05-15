@@ -1,12 +1,14 @@
 package agitter.ui.view.impl;
 
 import agitter.ui.view.LoginView;
+import agitter.ui.view.SignupView;
 
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -24,6 +26,7 @@ public class LoginViewImpl implements LoginView {
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
 	private final Button forgotMyPassword = forgotMyPasswordButton();
+	private final ComponentContainer loginRightSideContainer = new VerticalLayout();;
 
 	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
@@ -51,7 +54,9 @@ public class LoginViewImpl implements LoginView {
 			loginFieldsGrid.setSpacing(true);
 			loginMainGrid.addComponent(loginFieldsGrid, 1, 0);
 			loginMainGrid.setComponentAlignment(loginFieldsGrid, Alignment.MIDDLE_LEFT);
+				emailOrUsername.setWidth("180px");
 				loginFieldsGrid.addComponent(emailOrUsername, 0, 0);
+				password.setWidth("100%");  // To assume the same width as the forgotMyPassword button
 				loginFieldsGrid.addComponent(password, 1, 0);
 				loginFieldsGrid.addComponent(login, 2, 0);
 				loginFieldsGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
@@ -62,34 +67,42 @@ public class LoginViewImpl implements LoginView {
 			loginPicture.setSource(img);
 			loginPicture.setType(Embedded.TYPE_IMAGE);
 			loginMainGrid.addComponent(loginPicture, 0, 1);
-			// Advertisement
-			VerticalLayout loginAdvertLayout = new VerticalLayout(); loginAdvertLayout.addStyleName("a-login-advert-layout");
-			loginAdvertLayout.setWidth("410px");
-			loginMainGrid.addComponent(loginAdvertLayout, 1, 1);
-				Label label;
-				label = new Label(
-						"Ainda não está agitando?"
-				);
-				label.addStyleName("a-login-advert-1");
-				loginAdvertLayout.addComponent(label);
-				label = new Label(
-						"Participar é fácil, basta algum<br/>amigo te convidar para um agito."
-				);
-				label.setContentMode(Label.CONTENT_XHTML);
-				label.addStyleName("a-login-advert-2");
-				loginAdvertLayout.addComponent(label);
-				label = new Label(
-						"Festas, saídas, jogos, churrascos,<br/>baladas, espetáculos, qualquer coisa."
-				);
-				label.setContentMode(Label.CONTENT_XHTML);
-				label.addStyleName("a-login-advert-3");
-				loginAdvertLayout.addComponent(label);
-				label = new Label(
-						"Saia da internet.<br/>Vá agitar com seus amigos!"
-				);
-				label.setContentMode(Label.CONTENT_XHTML);
-				label.addStyleName("a-login-advert-4");
-				loginAdvertLayout.addComponent(label);
+			// RightSideContainer
+			loginRightSideContainer.setWidth("410px");
+			loginMainGrid.addComponent(loginRightSideContainer, 1, 1);
+				// Advertisement
+				VerticalLayout loginAdvertLayout = new VerticalLayout(); loginAdvertLayout.addStyleName("a-login-advert-layout");
+				loginRightSideContainer.addComponent(loginAdvertLayout);
+					Label label;
+					label = new Label(
+							"Ainda não está agitando?"
+					);
+					label.addStyleName("a-login-advert-1");
+					loginAdvertLayout.addComponent(label);
+					label = new Label(
+							"Participar é fácil, basta algum<br/>amigo te convidar para um agito."
+					);
+					label.setContentMode(Label.CONTENT_XHTML);
+					label.addStyleName("a-login-advert-2");
+					loginAdvertLayout.addComponent(label);
+					label = new Label(
+							"Festas, saídas, jogos, churrascos,<br/>baladas, espetáculos, qualquer coisa."
+					);
+					label.setContentMode(Label.CONTENT_XHTML);
+					label.addStyleName("a-login-advert-3");
+					loginAdvertLayout.addComponent(label);
+					label = new Label(
+							"Saia da internet.<br/>Vá agitar com seus amigos!"
+					);
+					label.setContentMode(Label.CONTENT_XHTML);
+					label.addStyleName("a-login-advert-4");
+					loginAdvertLayout.addComponent(label);
+		emailOrUsername.focus();
+	}
+
+	@Override
+	public SignupView signupView() {
+		return new SignupViewImpl(loginRightSideContainer);
 	}
 
 	@Override
