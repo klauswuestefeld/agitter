@@ -71,18 +71,21 @@ public class LoginViewImpl implements LoginView {
 				label.addStyleName("a-login-advert-1");
 				loginAdvertLayout.addComponent(label);
 				label = new Label(
-						"Participar é fácil, basta algum amigo te convidar para um agito."
+						"Participar é fácil, basta algum<br/>amigo te convidar para um agito."
 				);
+				label.setContentMode(Label.CONTENT_XHTML);
 				label.addStyleName("a-login-advert-2");
 				loginAdvertLayout.addComponent(label);
 				label = new Label(
-						"Festas, saídas, jogos, churrascos, baladas, espetáculos, qualquer coisa."
+						"Festas, saídas, jogos, churrascos,<br/>baladas, espetáculos, qualquer coisa."
 				);
+				label.setContentMode(Label.CONTENT_XHTML);
 				label.addStyleName("a-login-advert-3");
 				loginAdvertLayout.addComponent(label);
 				label = new Label(
-						"Saia da internet. Vá agitar com seus amigos!"
+						"Saia da internet.<br/>Vá agitar com seus amigos!"
 				);
+				label.setContentMode(Label.CONTENT_XHTML);
 				label.addStyleName("a-login-advert-4");
 				loginAdvertLayout.addComponent(label);
 	}

@@ -54,8 +54,9 @@
 }
 
 .a-login-advert-1 {
+	font-weight: bold;
 	padding-top: 44px;
-	font-size: 36px;
+	font-size: 34px;
     line-height: normal;
 }
 .a-login-advert-2 {
@@ -64,12 +65,12 @@
     line-height: normal;
 }
 .a-login-advert-3 {
-	padding-top: 73px;
-	font-size: 24px;
+	padding-top: 76px;
+	font-size: 22px;
     line-height: normal;
 }
 .a-login-advert-4 {
 	padding-top: 16px;
-	font-size: 24px;
+	font-size: 22px;
     line-height: normal;
 }
