@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import agitter.ui.presenter.Credential;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 
@@ -22,6 +23,7 @@ public class LoginViewImpl implements LoginView {
 
 	private final VerticalLayout container;
 	private final VerticalLayout loginView = new VerticalLayout();
+	private final GridLayout loginFieldsGrid = new GridLayout(3,2);
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
@@ -50,11 +52,11 @@ public class LoginViewImpl implements LoginView {
 			Label loginAgitterTitle = new Label("Agitter!"); loginAgitterTitle.addStyleName("a-login-agitter-title");
 			loginMainGrid.addComponent(loginAgitterTitle, 0, 0);
 			// Login Fields and Buttons
-			GridLayout loginFieldsGrid = new GridLayout(3,2); loginFieldsGrid.addStyleName("a-login-fields-grid");
+			loginFieldsGrid.addStyleName("a-login-fields-grid");
 			loginFieldsGrid.setSpacing(true);
 			loginMainGrid.addComponent(loginFieldsGrid, 1, 0);
 			loginMainGrid.setComponentAlignment(loginFieldsGrid, Alignment.MIDDLE_LEFT);
-				emailOrUsername.setWidth("180px");
+				emailOrUsername.setWidth("170px");
 				loginFieldsGrid.addComponent(emailOrUsername, 0, 0);
 				password.setWidth("100%");  // To assume the same width as the forgotMyPassword button
 				loginFieldsGrid.addComponent(password, 1, 0);
@@ -101,8 +103,11 @@ public class LoginViewImpl implements LoginView {
 	}
 
 	@Override
-	public SignupView signupView() {
-		return new SignupViewImpl(loginRightSideContainer);
+	public SignupView showSignupView(Credential credential) {
+		loginFieldsGrid.setVisible(false);
+		SignupView signup = new SignupViewImpl(loginRightSideContainer);
+		signup.show(credential);
+		return signup;
 	}
 
 	@Override

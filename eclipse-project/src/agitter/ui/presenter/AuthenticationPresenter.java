@@ -55,11 +55,10 @@ public class AuthenticationPresenter {
 	}
 
 	private void showSignup(Credential credential) {
-		signupView = loginView.signupView();
+		signupView = loginView.showSignupView(credential);
 		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
 			signupAttempt();
 		}});
-		signupView.show(credential.email(), credential.suggestedUserName(), credential.password());
 	}
 
 	private void forgotMyPassword() {

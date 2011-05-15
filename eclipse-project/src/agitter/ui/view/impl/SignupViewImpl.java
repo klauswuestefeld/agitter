@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import agitter.ui.presenter.Credential;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,7 +27,7 @@ public class SignupViewImpl implements SignupView {
 	}
 
 	@Override
-	public void show(String email_,String username_, String password_) {
+	public void show(Credential credential) {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
@@ -42,16 +43,16 @@ public class SignupViewImpl implements SignupView {
 			signupfields.setSpacing(true);
 			signupView.addComponent(signupfields);
 
-			email.setValue(email_);
-			email.setWidth("180px");
+			email.setValue(credential.email());
+			email.setWidth("170px");
 			signupfields.addComponent(email);
-			username.setValue(username_);
-			username.setWidth("180px");
+			username.setValue(credential.username());
+			username.setWidth("170px");
 			signupfields.addComponent(username);
-			password.setValue(password_);
-			password.setWidth("180px");
+			password.setValue(credential.password());
+			password.setWidth("170px");
 			signupfields.addComponent(password);
-			passwordConfirmation.setWidth("180px");
+			passwordConfirmation.setWidth("170px");
 			signupfields.addComponent(passwordConfirmation);
 			signupfields.addComponent(signup);
 		

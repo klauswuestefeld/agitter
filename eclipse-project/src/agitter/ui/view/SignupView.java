@@ -1,8 +1,10 @@
 package agitter.ui.view;
 
+import agitter.ui.presenter.Credential;
+
 public interface SignupView {
 
-	void show(String email, String username, String password);
+	void show(Credential credential);
 
 	String username();
 	String email();
