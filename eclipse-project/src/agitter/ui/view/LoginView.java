@@ -13,5 +13,6 @@ public interface LoginView {
 	
 	void onLoginAttempt(Runnable action);
 	void onForgotMyPassword(Runnable action);
+	void onLogoClicked(Runnable action);
 
 }

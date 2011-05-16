@@ -11,16 +11,19 @@
 	background-image: url('resource/login/LoginBackground.png');
 }
 
-.a-login-agitter-title {
+.a-login-agitter-logo {
+    height: 78px;
+	margin-left: 20px;
+	border: none;
+	background: transparent;
+}
+.a-login-agitter-logo .v-nativebutton-caption {
 	font-weight: bold;
 	color: white;
 	text-shadow: 2px 2px 1px #000000;
 	font-size: 60px;
-    line-height: 68px;
-    height: 78px;
-    position: relative;
-	top: 2px;
-	padding-left: 30px;
+	position: relative;
+	top: -3px;
 }
 
 .a-login-fields-grid .v-gridlayout-spacing-on {

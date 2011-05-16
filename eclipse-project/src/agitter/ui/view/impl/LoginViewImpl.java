@@ -23,12 +23,13 @@ public class LoginViewImpl implements LoginView {
 
 	private final VerticalLayout container;
 	private final VerticalLayout loginView = new VerticalLayout();
+	private final Button loginAgitterLogo = new NativeButton("Agitter!");
 	private final GridLayout loginFieldsGrid = new GridLayout(3,2);
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
 	private final Button forgotMyPassword = forgotMyPasswordButton();
-	private final ComponentContainer loginRightSideContainer = new VerticalLayout();;
+	private final ComponentContainer loginRightSideContainer = new VerticalLayout();
 
 	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
@@ -43,17 +44,21 @@ public class LoginViewImpl implements LoginView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		container.addComponent(loginView); loginView.addStyleName("a-login-view");
+		loginView.addStyleName("a-login-view");
+		loginView.removeAllComponents();
+		container.addComponent(loginView); 
+		// Main Grid
 		GridLayout loginMainGrid = new GridLayout(2,2); loginMainGrid.addStyleName("a-login-main-grid");
-		loginMainGrid.setMargin(false);
 		loginView.addComponent(loginMainGrid);
 		loginView.setComponentAlignment(loginMainGrid, Alignment.TOP_CENTER);
-			// Main Title
-			Label loginAgitterTitle = new Label("Agitter!"); loginAgitterTitle.addStyleName("a-login-agitter-title");
-			loginMainGrid.addComponent(loginAgitterTitle, 0, 0);
+			// Logo
+			loginAgitterLogo.addStyleName("a-login-agitter-logo");
+			loginMainGrid.addComponent(loginAgitterLogo, 0, 0);
 			// Login Fields and Buttons
 			loginFieldsGrid.addStyleName("a-login-fields-grid");
 			loginFieldsGrid.setSpacing(true);
+			loginFieldsGrid.removeAllComponents();
+			loginFieldsGrid.setVisible(true);
 			loginMainGrid.addComponent(loginFieldsGrid, 1, 0);
 			loginMainGrid.setComponentAlignment(loginFieldsGrid, Alignment.MIDDLE_LEFT);
 				emailOrUsername.setWidth("170px");
@@ -71,6 +76,7 @@ public class LoginViewImpl implements LoginView {
 			loginMainGrid.addComponent(loginPicture, 0, 1);
 			// RightSideContainer
 			loginRightSideContainer.setWidth("410px");
+			loginRightSideContainer.removeAllComponents();
 			loginMainGrid.addComponent(loginRightSideContainer, 1, 1);
 				// Advertisement
 				VerticalLayout loginAdvertLayout = new VerticalLayout(); loginAdvertLayout.addStyleName("a-login-advert-layout");
@@ -130,6 +136,13 @@ public class LoginViewImpl implements LoginView {
 	@Override
 	public void onForgotMyPassword(final Runnable runnable) {
 		forgotMyPassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			runnable.run();
+		}});
+	}
+
+	@Override
+	public void onLogoClicked(final Runnable runnable) {
+		loginAgitterLogo.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
 	}

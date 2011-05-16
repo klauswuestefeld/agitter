@@ -32,6 +32,9 @@ public class AuthenticationPresenter {
 		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
 			forgotMyPassword();
 		}});
+		this.loginView.onLogoClicked(new Runnable() { @Override public void run() {
+			logoClicked();
+		}});
 		
 		this.loginView.show();
 	}
@@ -54,11 +57,8 @@ public class AuthenticationPresenter {
 		onAuthenticate.consume(user);
 	}
 
-	private void showSignup(Credential credential) {
-		signupView = loginView.showSignupView(credential);
-		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
-			signupAttempt();
-		}});
+	protected void logoClicked() {
+		loginView.show();
 	}
 
 	private void forgotMyPassword() {
@@ -82,6 +82,13 @@ public class AuthenticationPresenter {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void showSignup(Credential credential) {
+		signupView = loginView.showSignupView(credential);
+		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
+			signupAttempt();
+		}});
 	}
 
 	private void signupAttempt() {
