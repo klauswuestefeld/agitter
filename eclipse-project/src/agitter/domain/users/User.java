@@ -10,4 +10,5 @@ public interface User {
 
 	public String password();
 
+	public String fullName();
 }

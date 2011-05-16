@@ -53,6 +53,7 @@ Public MVP Release 1.0
 Release 1.1
 
 	Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+	Unsubscribe - Capacidade de dar um unsubscribe direto no email da agenda.
 	
 
 
@@ -69,6 +70,7 @@ Idéias Pro Futuro:
 		Comentários nos agitos.
 			Fotos, o caralho.
 		ReAgitar - Equivalente ao ReTweet.
+		Bounce - Quando convidar um cara que deu unsubscribe no email avisar agitador que convidado nao vai receber email.
 
 	Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
 				

@@ -1,21 +1,25 @@
 package agitter.domain.users;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
 
 
 public class UsersImpl implements Users {
 
-	private final Set<User> _users = new HashSet<User>();
+	private final List<User> _users = new ArrayList<User>();
 
+	@Override
+	public User[] all() {
+		return _users.toArray(new User[_users.size()]);
+	}
 
 	@Override
 	public User signup(String username, String email, String password) throws Refusal {
 		try {
 			return loginWithUsername(username, password);
-		} catch (UserNotFound e) {
+		} catch(UserNotFound e) {
 			return createNewUser(username, email, password);
 		}
 	}
@@ -46,41 +50,37 @@ public class UsersImpl implements Users {
 		return user;
 	}
 
-	
+
 	private User createNewUser(String username, String email, String password) throws Refusal {
-		for (User existingUser : _users)
-			if (existingUser.email().equals(email))
-				throw new Refusal("Já existe um usuário cadastrado com este email: " + email);
-		
+		for(User existingUser : _users) {
+			if(existingUser.email().equals(email)) {
+				throw new Refusal("Já existe um usuário cadastrado com este email: "+email);
+			}
+		}
+
 		UserImpl result = new UserImpl(username, email, password);
 		_users.add(result);
 		return result;
 	}
-	
+
 	private void checkUser(User user, String emailOrUsername) throws UserNotFound {
-		if (user == null)
-			throw new UserNotFound("Usuário não encontrado: " + emailOrUsername);
+		if(user==null) { throw new UserNotFound("Usuário não encontrado: "+emailOrUsername); }
 	}
-			
+
 	private User searchByEmail(String email) {
-		for (User candidate : _users)
-			if (candidate.email().equals(email))
-				return candidate;
+		for(User candidate : _users) { if(candidate.email().equals(email)) { return candidate; } }
 		return null;
 	}
 
 	private User searchByUsername(String username) {
-		for (User candidate : _users)
-			if (candidate.username().equals(username))
-				return candidate;
+		for(User candidate : _users) { if(candidate.username().equals(username)) { return candidate; } }
 		return null;
 	}
-	
+
 	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
 		checkUser(user, emailOrUsername);
 
-		if (!user.isPassword(passwordAttempt))
-			throw new InvalidPassword("Senha inválida.");
+		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
 
 		return user;
 	}
