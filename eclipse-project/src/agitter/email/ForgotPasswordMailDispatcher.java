@@ -44,8 +44,6 @@ public class ForgotPasswordMailDispatcher {
 		
 		AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient(credentials);		
 
-        verifyAddressIfNecessary(service, FROM);
-		
 		Destination destination = new Destination(Arrays.asList(emailTo));
 		Content subject = new Content(SUBJECT);
 		String mailText = BODY.replaceAll("%USERNAME%", username).replaceAll("%PASSWORD%", password);
