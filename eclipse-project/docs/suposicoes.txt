@@ -1,11 +1,10 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
-	Sign-up e Login.
-		Esqueci minha senha - Mande via email por favor.
-			Infra de envio de emails - AmazonSES
+	Sign-up
+		Back do Browser e botão de Cancelar pra voltar.
+		Enter para fazer login e signup
+		Campo de email: browser sugerir valores já preenchidos pra outros sites.
 	
-	Username e Fullname de quem agitou no Agito.
-
 	Email diario - 5 Agitos futuros mais próximos.
 
 	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
@@ -26,11 +25,13 @@ Public MVP Release 1.0
 		- Outros Provedores através de paste num campo grande ou upload de arquivo.
 			- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
 
-	Quem? - Lista de convidados do Agito no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
-		http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
-		http://loopj.com/jquery-tokeninput/
-		Grupos de Contatos
-			Grupos dentro de grupos.
+	Quem?
+		- Username e Fullname de quem agitou no Agito.
+		- Lista de convidados do Agito no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
+			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
+			http://loopj.com/jquery-tokeninput/
+			Grupos de Contatos
+				Grupos dentro de grupos.
 
 	Relevancia - Filtrar agitos mais relevantes.
 
@@ -46,7 +47,7 @@ Public MVP Release 1.0
 
 	Agenda Semanal em vez de diária.
 	
-	Vaadin productionMode=true no web.xml
+	Vaadin productionMode=true
 
 
 Release 1.1
