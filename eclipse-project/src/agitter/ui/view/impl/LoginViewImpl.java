@@ -75,7 +75,7 @@ public class LoginViewImpl implements LoginView {
 			loginPicture.setType(Embedded.TYPE_IMAGE);
 			loginMainGrid.addComponent(loginPicture, 0, 1);
 			// RightSideContainer
-			loginRightSideContainer.setWidth("410px");
+			loginRightSideContainer.setWidth("430px");
 			loginRightSideContainer.removeAllComponents();
 			loginMainGrid.addComponent(loginRightSideContainer, 1, 1);
 				// Advertisement
