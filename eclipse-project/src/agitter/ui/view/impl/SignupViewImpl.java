@@ -33,7 +33,7 @@ public class SignupViewImpl implements SignupView {
 		
 			// Welcome messages
 			Label label;
-			label = new Label("Bem-vindo."); label.addStyleName("a-signup-welcome1");
+			label = new Label("Bem-vindo"); label.addStyleName("a-signup-welcome1");
 			signupView.addComponent(label);
 			label = new Label("Complete seus dados e comece a agitar!"); label.addStyleName("a-signup-welcome2");
 			signupView.addComponent(label);
@@ -46,7 +46,7 @@ public class SignupViewImpl implements SignupView {
 			email.setValue(credential.email());
 			email.setWidth("170px");
 			signupfields.addComponent(email);
-			username.setValue(credential.username());
+			username.setValue(credential.suggestedUserName());
 			username.setWidth("170px");
 			signupfields.addComponent(username);
 			password.setValue(credential.password());
@@ -56,7 +56,10 @@ public class SignupViewImpl implements SignupView {
 			signupfields.addComponent(passwordConfirmation);
 			signupfields.addComponent(signup);
 		
-		username.focus();
+		if (credential.isEmailProvided())
+			username.focus();
+		else
+			email.focus();
 	}
 
 	@Override

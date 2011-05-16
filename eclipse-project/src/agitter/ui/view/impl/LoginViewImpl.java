@@ -28,15 +28,16 @@ public class LoginViewImpl implements LoginView {
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
-	private final Button forgotMyPassword = forgotMyPasswordButton();
+	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
+	private final Button signupLink = linkButton("Cadastre-se");
 	private final ComponentContainer loginRightSideContainer = new VerticalLayout();
 
 	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
 	}
 
-	private Button forgotMyPasswordButton() {
-        Button b = new Button("Esqueci minha senha");
+	private Button linkButton(String caption) {
+        Button b = new Button(caption);
         b.setStyleName(BaseTheme.BUTTON_LINK);
         return b;
 	}
@@ -87,14 +88,10 @@ public class LoginViewImpl implements LoginView {
 					);
 					label.addStyleName("a-login-advert-1");
 					loginAdvertLayout.addComponent(label);
+					signupLink.addStyleName("a-login-advert-2");
+					loginAdvertLayout.addComponent(signupLink);
 					label = new Label(
-							"Participar é fácil, basta algum<br/>amigo te convidar para um agito."
-					);
-					label.setContentMode(Label.CONTENT_XHTML);
-					label.addStyleName("a-login-advert-2");
-					loginAdvertLayout.addComponent(label);
-					label = new Label(
-							"Festas, saídas, jogos, churrascos,<br/>baladas, espetáculos, qualquer coisa."
+							"Festas, saídas, jogos, churrascos, baladas,<br/> aniversários, espetáculos, qualquer coisa!"
 					);
 					label.setContentMode(Label.CONTENT_XHTML);
 					label.addStyleName("a-login-advert-3");
@@ -129,6 +126,9 @@ public class LoginViewImpl implements LoginView {
 	@Override
 	public void onLoginAttempt(final Runnable runnable) {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			runnable.run();
+		}});
+		signupLink.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
 	}
