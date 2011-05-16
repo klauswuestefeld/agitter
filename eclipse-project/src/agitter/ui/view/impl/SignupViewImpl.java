@@ -1,6 +1,5 @@
 package agitter.ui.view.impl;
 
-import agitter.ui.presenter.Credential;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.ui.Button.ClickEvent;
@@ -27,7 +26,7 @@ public class SignupViewImpl implements SignupView {
 	}
 
 	@Override
-	public void show(Credential credential) {
+	public void show(String email_, String suggestedUserName_, String password_) {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
@@ -43,25 +42,32 @@ public class SignupViewImpl implements SignupView {
 			signupfields.setSpacing(true);
 			signupView.addComponent(signupfields);
 
-			email.setValue(credential.email());
+			email.setValue(email_);
 			email.setWidth("170px");
 			signupfields.addComponent(email);
-			username.setValue(credential.suggestedUserName());
+			username.setValue(suggestedUserName_);
 			username.setWidth("170px");
 			signupfields.addComponent(username);
-			password.setValue(credential.password());
+			password.setValue(password_);
 			password.setWidth("170px");
 			signupfields.addComponent(password);
 			passwordConfirmation.setWidth("170px");
 			signupfields.addComponent(passwordConfirmation);
 			signupfields.addComponent(signup);
 		
-		if (credential.isEmailProvided())
+		setFocus();
+	}
+
+	
+	private void setFocus() {
+		String emailValue = (String)email.getValue();
+		if (emailValue != null && !emailValue.isEmpty())
 			username.focus();
 		else
 			email.focus();
 	}
 
+	
 	@Override
 	public String username() {
 		return (String)username.getValue();

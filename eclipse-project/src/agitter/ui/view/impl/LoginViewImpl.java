@@ -1,6 +1,5 @@
 package agitter.ui.view.impl;
 
-import agitter.ui.presenter.Credential;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 
@@ -106,10 +105,10 @@ public class LoginViewImpl implements LoginView {
 	}
 
 	@Override
-	public SignupView showSignupView(Credential credential) {
+	public SignupView showSignupView(String email_, String suggestedUserName_, String password_) {
 		loginFieldsGrid.setVisible(false);
 		SignupView signup = new SignupViewImpl(loginRightSideContainer);
-		signup.show(credential);
+		signup.show(email_, suggestedUserName_, password_);
 		return signup;
 	}
 
