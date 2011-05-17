@@ -1,14 +1,16 @@
 package agitter.main;
 
-import static agitter.main.JettyRunner.*;
-import infra.processreplacer.ProcessReplacer;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import agitter.PeriodicScheduleNotificationDaemon;
+import agitter.email.AmazonEmailSender;
+import infra.processreplacer.ProcessReplacer;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import static agitter.main.JettyRunner.*;
 
 public class AgitterMain {
 
@@ -17,6 +19,7 @@ public class AgitterMain {
 		File prevalenceDir = new File("prevalence");
 		clean(prevalenceDir);
 		PrevaylerBootstrap.open(prevalenceDir);
+		PeriodicScheduleNotificationDaemon.start(PrevaylerBootstrap.agitter(), new AmazonEmailSender());
 		runWebApps(vaadinThemes(), vaadin());
 	}
 

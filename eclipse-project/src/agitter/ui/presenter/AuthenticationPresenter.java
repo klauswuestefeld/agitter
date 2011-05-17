@@ -85,7 +85,7 @@ public class AuthenticationPresenter {
 	}
 
 	private void showSignup(Credential credential) {
-		signupView = loginView.showSignupView(credential);
+		signupView = loginView.showSignupView(credential.email(), credential.suggestedUserName(), credential.password());
 		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
 			signupAttempt();
 		}});

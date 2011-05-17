@@ -38,4 +38,9 @@ public class UserImpl implements User {
 		return _password;
 	}
 
+	@Override
+	public String fullName() {
+		return username();
+	}
+
 }

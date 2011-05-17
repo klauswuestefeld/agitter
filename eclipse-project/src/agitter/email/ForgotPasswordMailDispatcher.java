@@ -56,18 +56,4 @@ public class ForgotPasswordMailDispatcher {
 		return FROM_NAME + "<" + FROM + ">";
 	}
 
-	/**
-     * SES requires that the sender and receiver of each message be
-     * verified through the service. The verifyEmailAddress interface will
-     * send the given address a verification message with a URL they can
-     * click to verify that address.
-     */
-	static void verifyAddressIfNecessary(AmazonSimpleEmailService service, String address) {
-		ListVerifiedEmailAddressesResult verifiedEmails = service.listVerifiedEmailAddresses();
-        if (verifiedEmails.getVerifiedEmailAddresses().contains(address)) return;
-
-        service.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(address));
-        throw new RuntimeException("Please check the email address " + address + " to verify it.");
-	}
-
 }
