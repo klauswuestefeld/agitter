@@ -1,16 +1,20 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
 	Sign-up
-		Back do Browser e botão de Cancelar pra voltar.
-		Enter para fazer login e signup
-		Campo de email: browser sugerir valores já preenchidos pra outros sites.
+		Enter e tab para fazer login e signup
 	
 	Email diario - 5 Agitos futuros mais próximos.
+	
+	Design UI Agitos - Tapa
 
 	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
 
 
 Public MVP Release 1.0
+
+	Signup
+		Back do Browser e botão de Cancelar pra voltar.
+		Campo de email: browser sugerir valores já preenchidos pra outros sites.
 
 	Acabamento de UI
 		Agitar (ver docs/ui/mvp)
