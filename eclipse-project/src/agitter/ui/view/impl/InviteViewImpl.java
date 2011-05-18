@@ -20,7 +20,7 @@ public class InviteViewImpl extends CustomComponent implements InviteView {
 	private Button _inviteButton = new Button("Invite!");
 
 	public InviteViewImpl() {
-		Panel panel = new Panel();
+		Panel panel = new Panel(); panel.addStyleName("a-invite-view");
 		panel.addComponent(_descriptionTextArea);
 		panel.addComponent(_dateField);
 		panel.addComponent(_inviteButton);

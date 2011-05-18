@@ -21,7 +21,7 @@ public class EventViewImpl extends CustomComponent {
 
 	
 	public EventViewImpl(EventData event) {
-		Panel mainPanel = new Panel();
+		Panel mainPanel = new Panel(); mainPanel.addStyleName("a-event-list-view");
 		mainPanel.addComponent(new Label(event._description));
 		mainPanel.addComponent(new Label(event._owner));
 		mainPanel.addComponent(new Label(_dateFormat.format(new Date(event._datetime))));

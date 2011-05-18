@@ -5,6 +5,7 @@ import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
@@ -12,18 +13,21 @@ import com.vaadin.ui.themes.BaseTheme;
 
 public class SessionViewImpl implements SessionView {
 
-	private final InviteViewImpl _invitePanel = new InviteViewImpl();
-	private final EventListViewImpl _eventList = new EventListViewImpl();
-	private final Button _logout = logoutButton();
+	private final VerticalLayout sessionView = new VerticalLayout();
+	private final InviteViewImpl invitePanel = new InviteViewImpl();
+	private final EventListViewImpl eventList = new EventListViewImpl();
+	private final Button logout = logoutButton();
 	
     public SessionViewImpl(ComponentContainer container){
     	container.removeAllComponents();
-		container.addComponent(_logout);
-		container.addComponent(_invitePanel);
-		container.addComponent(_eventList);
+    	sessionView.addStyleName("a-session-view");
+    	sessionView.setHeight("");
+    	container.addComponent(sessionView);
+    		sessionView.addComponent(logout);
+    		sessionView.addComponent(invitePanel);
+    		sessionView.addComponent(eventList);
     }
     
-
 	private Button logoutButton() {
         Button b = new Button("Sair");
         b.setStyleName(BaseTheme.BUTTON_LINK);
@@ -33,19 +37,19 @@ public class SessionViewImpl implements SessionView {
 
 	@Override
 	public InviteView inviteView() {
-		return _invitePanel;
+		return invitePanel;
 	}
 
 	
 	@Override
 	public EventListView eventListView() {
-		return _eventList;
+		return eventList;
 	}
 
 
 	@Override
 	public void onLogout(final Runnable onLogout) {
-		_logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+		logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			onLogout.run();
 		}});
 	}

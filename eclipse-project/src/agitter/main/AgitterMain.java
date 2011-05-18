@@ -1,23 +1,29 @@
 package agitter.main;
 
+import static agitter.main.JettyRunner.createServletApp;
+import static agitter.main.JettyRunner.createStaticFileSite;
+import static agitter.main.JettyRunner.runWebApps;
+import infra.processreplacer.ProcessReplacer;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import agitter.PeriodicScheduleNotificationDaemon;
-import agitter.email.AmazonEmailSender;
-import infra.processreplacer.ProcessReplacer;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import static agitter.main.JettyRunner.*;
+import agitter.PeriodicScheduleNotificationDaemon;
+import agitter.email.AmazonEmailSender;
 
 public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		ProcessReplacer.start();
 		File prevalenceDir = new File("prevalence");
-		clean(prevalenceDir);
+		if (Arrays.binarySearch(args, "keep-prevalence") < 0) {
+			clean(prevalenceDir);
+		}
 		PrevaylerBootstrap.open(prevalenceDir);
 		PeriodicScheduleNotificationDaemon.start(PrevaylerBootstrap.agitter(), new AmazonEmailSender());
 		runWebApps(vaadinThemes(), vaadin());

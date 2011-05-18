@@ -28,7 +28,7 @@ public class LoginViewImpl implements LoginView {
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
 	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
-	private final Button signupLink = linkButton("Cadastre-se");
+	private final Button signup = new NativeButton("Cadastre-se");
 	private final ComponentContainer loginRightSideContainer = new VerticalLayout();
 
 	LoginViewImpl(VerticalLayout container) {
@@ -87,8 +87,9 @@ public class LoginViewImpl implements LoginView {
 					);
 					label.addStyleName("a-login-advert-1");
 					loginAdvertLayout.addComponent(label);
-					signupLink.addStyleName("a-login-advert-2");
-					loginAdvertLayout.addComponent(signupLink);
+					signup.addStyleName("a-login-signup-button");
+					loginAdvertLayout.addComponent(signup);
+					loginAdvertLayout.setComponentAlignment(signup, Alignment.MIDDLE_CENTER);
 					label = new Label(
 							"Festas, saídas, jogos, churrascos, baladas,<br/> aniversários, espetáculos, qualquer coisa!"
 					);
@@ -127,7 +128,7 @@ public class LoginViewImpl implements LoginView {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
-		signupLink.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+		signup.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});
 	}
