@@ -92,10 +92,9 @@
     line-height: normal;
 }
 
+/* Signup  ----------------------------------------------------------------------   */
 
-/* Signup  ---------------------------------------------------------------------- */
-
-.a-signup-wiew {
+.a-signup-view {
 	padding-top: 34px;
 	padding-left: 20px;
 }
@@ -114,7 +113,6 @@
 	padding-top: 20px;
 	padding-left: 20px;
 }
-
 .a-signup-fields .v-nativebutton {
 	margin-top: 6px;
 	height: 24px;
@@ -127,22 +125,6 @@
 	color: white;
 	font-weight: bold;
 }
-
-
-/* Session  ---------------------------------------------------------------------- */
-
-/*
-.a-session-view {
-}
-
-.a-invite-view {
-	background: #EFE5AA;	
-	margin: 30px 30px 30px 30px;
-	outline-size: 2px;
-	outline-color: red;
-}
-*/
-
 
 
 
