@@ -22,7 +22,7 @@ public class LoginViewImpl implements LoginView {
 
 	private final VerticalLayout container;
 	private final VerticalLayout loginView = new VerticalLayout();
-	private final Button loginAgitterLogo = new NativeButton("Agitter!");
+	private final Button loginAgitterLogo = new NativeButton("agitter!");
 	private final GridLayout loginFieldsGrid = new GridLayout(3,2);
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
@@ -46,14 +46,16 @@ public class LoginViewImpl implements LoginView {
 		container.removeAllComponents();
 		loginView.addStyleName("a-login-view");
 		loginView.removeAllComponents();
+		loginView.setSizeFull();
 		container.addComponent(loginView); 
 		// Main Grid
 		GridLayout loginMainGrid = new GridLayout(2,2); loginMainGrid.addStyleName("a-login-main-grid");
 		loginView.addComponent(loginMainGrid);
 		loginView.setComponentAlignment(loginMainGrid, Alignment.TOP_CENTER);
 			// Logo
-			loginAgitterLogo.addStyleName("a-login-agitter-logo");
+			loginAgitterLogo.addStyleName("a-login-logo");
 			loginMainGrid.addComponent(loginAgitterLogo, 0, 0);
+			loginMainGrid.setComponentAlignment(loginAgitterLogo, Alignment.MIDDLE_LEFT);
 			// Login Fields and Buttons
 			loginFieldsGrid.addStyleName("a-login-fields-grid");
 			loginFieldsGrid.setSpacing(true);

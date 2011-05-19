@@ -8,26 +8,26 @@
 /* Login  ----------------------------------------------------------------------   */
 
 .a-login-view {
-	background-image: url('resource/login/LoginBackground.png');
+	background: url('resource/login/LoginBackground.png');
 }
 
 .a-login-main-grid {
 	background: transparent;
 }
 
-.a-login-agitter-logo {
-    height: 78px;
+.a-login-logo {
+    height: 74px;
 	margin-left: 20px;
 	border: none;
 	background: transparent;
 }
-.a-login-agitter-logo .v-nativebutton-caption {
+.a-login-logo .v-nativebutton-caption {
 	font-weight: bold;
 	color: white;
 	text-shadow: 2px 2px 1px #000000;
 	font-size: 60px;
 	position: relative;
-	top: -4px;
+	top: -3px;
 }
 
 .a-login-fields-grid .v-gridlayout-spacing-on {
@@ -127,7 +127,122 @@
 }
 
 
+/* Session  ----------------------------------------------------------------------   */
+
+.a-session-view {
+	background-image: url('resource/session/SessionBackground.png');
+}
+
+.a-session-top-bar {
+}
+
+.a-session-logo {
+    height: 36x;
+	padding-left: 2px;
+    border: none;
+	background: transparent;
+}
+.a-session-logo .v-nativebutton-caption {
+	font-weight: bold;
+	color: white;
+	text-shadow: 2px 2px 1px #000000;
+	font-size: 33px;
+	position: relative;
+	top: -2px;
+}
+
+.a-session-user-greeting {
+	color: white;
+	padding-top: 2px;
+	padding-right: 15px;
+}
+
+.a-session-logout-button .v-button-caption {
+	font-weight: bold;
+	color: white;
+	padding-right: 2px;
+}
+
+.a-session-scroll-content {
+}
+
+.a-session-main-content {
+	padding-top: 20px;
+}
 
 
+/* Invite  ----------------------------------------------------------------------   */
 
+.a-invite-view .v-panel-content {
+	background: #FFFFC0;
+	border-color: gray;
+	border-width: 2px;
+	border-radius: 10px;
+	border-style: outset;
+	/* box-shadow: 4px 4px 3px gray;   :-(  */
+}
+.a-invite-view .v-captiontext {
+	font-size: 20px;
+	text-shadow: 1px 1px 1px #EEEEEE;
+}
+textarea.a-invite-description  {
+	font-size: 18px;
+}
+
+.a-invite-button {
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: #E44545;
+	margin-top: 6px;
+}
+.a-invite-button .v-nativebutton-caption {
+	color: white;
+	font-weight: bold;
+}
+
+
+/* Event List  ----------------------------------------------------------------------   */
+
+.a-event-list-view {
+	padding-top: 20px;
+}
+
+
+/* Event  ----------------------------------------------------------------------   */
+
+.a-event-view .v-panel-content {
+	background: #FFFFF0;
+	border-color: gray;
+	border-width: 1px;
+	border-style: outset;
+}
+.a-event-owner {
+	color: dodgerblue;
+	font-weight: bold;
+}
+.a-event-description {
+	color: black;
+	font-size: 18px;
+	margin-top: 2px;
+}
+.a-event-date {
+	font-weight: bold;
+	margin-top: 2px;
+}
+.a-event-remove-button {
+	height: 16px;
+	width: 16px;
+	font-weight: bold;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: #E44545;
+	margin-top: 3px;
+	padding: 0px;
+}
+.a-event-remove-button .v-nativebutton-caption {
+	color: white;
+}
 

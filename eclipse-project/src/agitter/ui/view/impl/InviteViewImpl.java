@@ -4,49 +4,56 @@ import java.util.Date;
 
 import agitter.ui.view.InviteView;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
-public class InviteViewImpl extends CustomComponent implements InviteView {
+public class InviteViewImpl extends Panel implements InviteView {
 
-	private TextArea _descriptionTextArea = new TextArea();
-	private PopupDateField _dateField = new PopupDateField();
-	private Button _inviteButton = new Button("Invite!");
+	private TextArea description = new TextArea("Qual é o agito?");
+	private PopupDateField date = new PopupDateField("Quando?");
+	private NativeButton invite = new NativeButton("Enviar!");
 
 	public InviteViewImpl() {
-		Panel panel = new Panel(); panel.addStyleName("a-invite-view");
-		panel.addComponent(_descriptionTextArea);
-		panel.addComponent(_dateField);
-		panel.addComponent(_inviteButton);
-		setCompositionRoot(panel);
-
-		_dateField.setResolution(DateField.RESOLUTION_MIN);
-		_dateField.setDateFormat("dd/MM/yyyy HH:mm");
+		setScrollable(false);
+		addStyleName(Reindeer.PANEL_LIGHT);
+		addStyleName("a-invite-view");
+		VerticalLayout content = (VerticalLayout)getContent();
+		content.setSpacing(true);
+			description.setWidth("500px");
+			description.setHeight("55px");
+			content.addComponent(description); description.addStyleName("a-invite-description");
+			date.setResolution(DateField.RESOLUTION_MIN);
+			date.setDateFormat("dd/MM/yyyy HH:mm");
+			content.addComponent(date);
+			invite.addStyleName("a-invite-button");
+			content.addComponent(invite);
+			description.focus();
 	}
 
 	
 	@Override
 	public String getEventDescription() {
-		return (String)_descriptionTextArea.getValue();
+		return (String)description.getValue();
 	}
 
 
 	@Override
 	public void onInvite(final Runnable action) {
-		_inviteButton.addListener(new ClickListener() { private static final long serialVersionUID = 1L; @Override public void buttonClick(ClickEvent ignored) {
+		invite.addListener(new ClickListener() { private static final long serialVersionUID = 1L; @Override public void buttonClick(ClickEvent ignored) {
 			action.run();			
 		}});
 	}
 
 	@Override
 	public Date getDatetime() {
-		Object result = _dateField.getValue();
+		Object result = date.getValue();
 		return result == null
 			? null
 			: (Date)result;
@@ -54,9 +61,11 @@ public class InviteViewImpl extends CustomComponent implements InviteView {
 
 	@Override
 	public void clearFields() {
-		_descriptionTextArea.setNullRepresentation("Descrição do seu Agito...");
-		InviteViewImpl.this._dateField.setValue(null);
-		InviteViewImpl.this._descriptionTextArea.setValue(null);
+		description.setValue(null);
+		description.setNullRepresentation("");
+		description.setInputPrompt("Descrição do agito...");
+		date.setValue(null);
+		date.setInputPrompt("Data do agito...");
 	}
 
 }

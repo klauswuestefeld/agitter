@@ -6,34 +6,38 @@ import java.util.Date;
 
 import agitter.ui.view.EventData;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
-public class EventViewImpl extends CustomComponent {
+public class EventViewImpl extends Panel {
 
-	static private DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	static private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	private Button _removeButton = new Button("X");
+	private NativeButton removeButton = new NativeButton("X");
 
-	
 	public EventViewImpl(EventData event) {
-		Panel mainPanel = new Panel(); mainPanel.addStyleName("a-event-list-view");
-		mainPanel.addComponent(new Label(event._description));
-		mainPanel.addComponent(new Label(event._owner));
-		mainPanel.addComponent(new Label(_dateFormat.format(new Date(event._datetime))));
-		mainPanel.addComponent(_removeButton);
-		onRemovePressed(event._onRemoveAction);
-		
-		setCompositionRoot(mainPanel);
+		setScrollable(false);
+		addStyleName(Reindeer.PANEL_LIGHT);
+		addStyleName("a-event-view");
+		VerticalLayout content = (VerticalLayout)getContent();
+			Label label = new Label(event.owner);
+			content.addComponent(label); label.addStyleName("a-event-owner");
+			label = new Label(event.description);
+			content.addComponent(label); label.addStyleName("a-event-description");
+			label = new Label(dateFormat.format(new Date(event.datetime)));
+			content.addComponent(label); label.addStyleName("a-event-date");
+			content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
+			onRemovePressed(event.onRemoveAction);
 	}
 
 
 	private void onRemovePressed(final Runnable action) {
-		_removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+		removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			action.run();
 		}});
 	}

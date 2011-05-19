@@ -3,16 +3,16 @@ package agitter.ui.view;
 
 public class EventData {
 	
-	public final String _description;
-	public final long _datetime;
-	public final String _owner;
-	public final Runnable _onRemoveAction;
+	public final String description;
+	public final long datetime;
+	public final String owner;
+	public final Runnable onRemoveAction;
 
 	public EventData(String description, long datetime, String owner, Runnable onRemoveAction) {
-		_description = description;
-		_datetime = datetime;
-		_owner = owner;
-		_onRemoveAction = onRemoveAction;
+		this.description = description;
+		this.datetime = datetime;
+		this.owner = owner;
+		this.onRemoveAction = onRemoveAction;
 	}
 	
 }

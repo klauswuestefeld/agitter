@@ -6,5 +6,7 @@ public interface SessionView {
 	
 	EventListView eventListView();
 
+	void show(String username);
+	
 	void onLogout(Runnable onLogout);
 }

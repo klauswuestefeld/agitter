@@ -32,6 +32,8 @@ public class SessionPresenter {
 		_warningDisplayer = errorDisplayer;
 
 		_view.onLogout(onLogout);
+		
+		_view.show(_user.username()); 
 
 		inviteView().clearFields();
 		inviteView().onInvite(new Runnable() { @Override public void run() {

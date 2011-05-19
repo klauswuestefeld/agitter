@@ -20,7 +20,8 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 		((Layout)this.getContent()).setMargin(false);    // removes the margin from the entire application
 		addComponent(fragmentUtility);
 		mainPanel.addStyleName("a-agitter-view");
-		addComponent(mainPanel);
+		mainPanel.setSizeFull();
+		setContent(mainPanel);
 	}
 
 	@Override

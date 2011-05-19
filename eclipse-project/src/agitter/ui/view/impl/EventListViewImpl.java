@@ -11,7 +11,10 @@ import com.vaadin.ui.VerticalLayout;
 
 final class EventListViewImpl extends VerticalLayout implements EventListView {
 
-
+	public EventListViewImpl() {
+		addStyleName("a-event-list-view");
+	}
+	
 	@Override
 	public void refresh(List<EventData> events, int millisToNextRefresh) {
 		removeAllComponents();
@@ -21,7 +24,6 @@ final class EventListViewImpl extends VerticalLayout implements EventListView {
 			addComponent(new EventViewImpl(eventData));
 	}
 
-	
 	private Component createPoller(int millisToNextRefresh) {
 		ProgressIndicator result = new ProgressIndicator();
 		result.setPollingInterval(millisToNextRefresh);
