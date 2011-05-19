@@ -218,19 +218,19 @@ textarea.a-invite-description  {
 	border-width: 1px;
 	border-style: outset;
 }
-.a-event-owner {
-	color: dodgerblue;
-	font-weight: bold;
-}
 .a-event-description {
 	color: black;
 	font-size: 18px;
     line-height: normal;
-	margin-top: 2px;
 }
 .a-event-date {
 	font-weight: bold;
 	margin-top: 2px;
+}
+.a-event-owner {
+	color: dodgerblue;
+	font-weight: bold;
+	margin-top: 1px;
 }
 .a-event-remove-button {
 	height: 16px;
@@ -240,7 +240,7 @@ textarea.a-invite-description  {
 	border-width: 1px;
 	border-color: #E49E9E;
 	background: #E44545;
-	margin-top: 3px;
+	margin-top: 4px;
 	padding: 0px;
 }
 .a-event-remove-button .v-nativebutton-caption {

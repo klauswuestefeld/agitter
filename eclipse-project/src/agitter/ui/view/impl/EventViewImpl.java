@@ -25,12 +25,12 @@ public class EventViewImpl extends Panel {
 		addStyleName(Reindeer.PANEL_LIGHT);
 		addStyleName("a-event-view");
 		VerticalLayout content = (VerticalLayout)getContent();
-			Label label = new Label(event.owner);
-			content.addComponent(label); label.addStyleName("a-event-owner");
-			label = new Label(event.description);
+			Label label = new Label(event.description);
 			content.addComponent(label); label.addStyleName("a-event-description");
 			label = new Label(dateFormat.format(new Date(event.datetime)));
 			content.addComponent(label); label.addStyleName("a-event-date");
+			label = new Label(event.owner);
+			content.addComponent(label); label.addStyleName("a-event-owner");
 			content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
 			onRemovePressed(event.onRemoveAction);
 	}
