@@ -6,8 +6,6 @@ import static agitter.main.JettyRunner.runWebApps;
 import infra.processreplacer.ProcessReplacer;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,25 +18,11 @@ public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		ProcessReplacer.start();
-		File prevalenceDir = new File("prevalence");
-		if (Arrays.binarySearch(args, "keep-prevalence") < 0) {
-			clean(prevalenceDir);
-		}
-		PrevaylerBootstrap.open(prevalenceDir);
+
+		PrevaylerBootstrap.open(new File("prevalence"));
+
 		PeriodicScheduleNotificationDaemon.start(PrevaylerBootstrap.agitter(), new AmazonEmailSender());
 		runWebApps(vaadinThemes(), vaadin());
-	}
-
-	
-	private static void clean(File prevalenceDir) throws IOException {
-		if (!prevalenceDir.exists())
-			return;
-		
-		for(File file : prevalenceDir.listFiles())
-			if (!file.delete())
-				throw new IOException("Unable to delete " + file);
-		
-		System.out.println("prevalence directory deleted.");
 	}
 
 
