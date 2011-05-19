@@ -225,6 +225,7 @@ textarea.a-invite-description  {
 .a-event-description {
 	color: black;
 	font-size: 18px;
+    line-height: normal;
 	margin-top: 2px;
 }
 .a-event-date {
