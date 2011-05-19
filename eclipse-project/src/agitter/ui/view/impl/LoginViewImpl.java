@@ -8,6 +8,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
@@ -104,7 +105,8 @@ public class LoginViewImpl implements LoginView {
 					label.setContentMode(Label.CONTENT_XHTML);
 					label.addStyleName("a-login-advert-4");
 					loginAdvertLayout.addComponent(label);
-		emailOrUsername.focus();
+					
+		this.setupFocusOrder();
 	}
 
 	@Override
@@ -149,4 +151,16 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
+	private void setupFocusOrder() {
+		final Component.Focusable[] tabOrder = new Component.Focusable[] { 
+			emailOrUsername, password, login, forgotMyPassword, signup 
+		};
+
+		for(int i = 0; i < tabOrder.length; ++i) {
+			tabOrder[ i ].setTabIndex( i + 1 );
+		}
+		tabOrder[ 0 ].focus();
+	}
+
 }
+
