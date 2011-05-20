@@ -47,7 +47,8 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 
 		assertEquals("klaus@email.com", mock.to());
 		assertEquals("Agitos da Semana", mock.subject());
-		final String body = "Olá klaus, seus amigos estão agitando e querem você lá: <br/><BR><BR>leo - churras<BR><BR>klaus - event2<BR><BR>klaus - event3<BR><BR>klaus - event4<BR><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e também convidar seus amigos para festas, eventos, saídas ou qualquer outro tipo de agito.<BR><BR><BR>Saia da Internet. Agite!   \\o/<BR>Equipe Agitter<BR><a href=\"http://agitter.com\">agitter.com</a><BR/>";
+		final String body =
+			"Olá klaus, seus amigos estão agitando e querem você lá: <br/><br/>leo - churras<BR/><BR/>klaus - event2<BR/><BR/>klaus - event3<BR/><BR/>klaus - event4<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, baladas ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
 		assertEquals(body, mock.body());
 	}
 
