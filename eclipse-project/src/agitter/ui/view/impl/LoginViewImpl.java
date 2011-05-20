@@ -3,6 +3,7 @@ package agitter.ui.view.impl;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -108,6 +109,8 @@ public class LoginViewImpl implements LoginView {
 					label.addStyleName("a-login-advert-4");
 					loginAdvertLayout.addComponent(label);
 					
+		login.setClickShortcut( KeyCode.ENTER );
+		
 		setupFocus();
 	}
 
