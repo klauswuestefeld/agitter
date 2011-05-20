@@ -19,14 +19,15 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 	public void periodicSchedule() throws Refusal, IOException {
 		Clock.setForCurrentThread(9);
 		Agitter agitter = new AgitterImpl();
-		agitter.users().signup("leo", "leo@email.com", "pass");
-		User host = agitter.users().signup("klaus", "klaus@email.com", "pass");
+		User leo = agitter.users().signup("leo", "leo@email.com", "pass");
+		User klaus = agitter.users().signup("klaus", "klaus@email.com", "pass");
 
 
-		agitter.events().create(host, "event1", 10L);
-		agitter.events().create(host, "event2", 11L);
-		agitter.events().create(host, "event3", 12L);
-		agitter.events().create(host, "event4", 13L);
+		agitter.events().create(klaus, "event1", 10L);
+		agitter.events().create(klaus, "event2", 11L);
+		agitter.events().create(leo, "churras", 11L);
+		agitter.events().create(klaus, "event3", 12L);
+		agitter.events().create(klaus, "event4", 13L);
 
 		Clock.setForCurrentThread(11);
 
@@ -34,9 +35,9 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		PeriodicScheduleNotificationDaemon daemon = new PeriodicScheduleNotificationDaemon(agitter, emailSenderMock);
 		daemon.sendEventsToHappenIn24Hours();
 
-		assertEquals("leo@email.com", emailSenderMock.to());
+		assertEquals("klaus@email.com", emailSenderMock.to());
 		assertEquals("Agitos da Semana", emailSenderMock.subject());
-		final String body = "Olá leo, seus amigos estão agitando e querem você lá: <br/><BR><BR>klaus - event2<BR><BR>klaus - event3<BR><BR>klaus - event4<BR><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e também convidar seus amigos para festas, eventos, saídas ou qualquer outro tipo de agito.<BR><BR><BR>Saia da Internet. Agite!   \\o/<BR>Equipe Agitter<BR><a href=\"http://agitter.com\">agitter.com</a><BR/>";
+		final String body = "Olá klaus, seus amigos estão agitando e querem você lá: <br/><BR><BR>leo - churras<BR><BR>klaus - event2<BR><BR>klaus - event3<BR><BR>klaus - event4<BR><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e também convidar seus amigos para festas, eventos, saídas ou qualquer outro tipo de agito.<BR><BR><BR>Saia da Internet. Agite!   \\o/<BR>Equipe Agitter<BR><a href=\"http://agitter.com\">agitter.com</a><BR/>";
 		assertEquals(body, emailSenderMock.body());
 
 	}

@@ -1,6 +1,8 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
-	Email diario de agitos - Tapa no layout
+	Email diario de agitos
+		- Tapa no layout
+		- Uma vez por dia só. Nao a cada deploy.
 	
 	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
 
