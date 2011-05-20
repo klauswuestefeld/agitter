@@ -65,7 +65,6 @@ public class EventsTest extends CleanTestBase {
 
 		User jose = new UserImpl("Jose", "jose@gmail.com", "123");
 		assertEquals(1, _subject.toHappen(jose).size());
-
 	}
 
 }
