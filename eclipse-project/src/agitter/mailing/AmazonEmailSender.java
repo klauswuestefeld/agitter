@@ -1,4 +1,4 @@
-package agitter.email;
+package agitter.mailing;
 
 import java.io.IOException;
 import java.util.Arrays;

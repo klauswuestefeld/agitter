@@ -1,9 +1,9 @@
 /**
  * This code is property of Sumersoft Tecnologia Ltda.
  */
-package agitter.email.tests;
+package agitter.mailing.tests;
 
-import agitter.email.EmailSender;
+import agitter.mailing.EmailSender;
 
 public class EmailSenderMock implements EmailSender {
 

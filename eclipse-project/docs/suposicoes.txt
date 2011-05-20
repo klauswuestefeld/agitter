@@ -2,12 +2,13 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 
 	Email diario de agitos
 		- Tapa no layout
-		- Uma vez por dia só. Nao a cada deploy.
 	
 	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
 
 
 Public MVP Release 1.0
+
+	Logging de Excecoes
 
 	Sign-up
 		Enter e tab para fazer login e signup

@@ -1,4 +1,4 @@
-package agitter.email;
+package agitter.mailing;
 
 import java.util.List;
 

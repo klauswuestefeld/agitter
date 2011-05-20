@@ -8,7 +8,7 @@ import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
-import agitter.email.ForgotPasswordMailDispatcher;
+import agitter.mailing.ForgotPasswordMailDispatcher;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 

@@ -1,4 +1,4 @@
-package agitter.email;
+package agitter.mailing;
 
 public interface EmailSender {
 

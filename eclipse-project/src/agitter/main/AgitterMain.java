@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import agitter.PeriodicScheduleNotificationDaemon;
-import agitter.email.AmazonEmailSender;
+import agitter.PeriodicScheduleMailer;
+import agitter.mailing.AmazonEmailSender;
 
 public class AgitterMain {
 
@@ -21,7 +21,7 @@ public class AgitterMain {
 
 		PrevaylerBootstrap.open(new File("prevalence"));
 
-		PeriodicScheduleNotificationDaemon.start(PrevaylerBootstrap.agitter(), new AmazonEmailSender());
+		PeriodicScheduleMailer.start(PrevaylerBootstrap.agitter(), new AmazonEmailSender());
 		runWebApps(vaadinThemes(), vaadin());
 	}
 

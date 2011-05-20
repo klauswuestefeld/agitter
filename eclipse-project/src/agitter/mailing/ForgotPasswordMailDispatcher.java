@@ -1,4 +1,4 @@
-package agitter.email;
+package agitter.mailing;
 
 /*
  * Copyright 2011 Amazon.com, Inc. or its affiliates. All Rights Reserved.

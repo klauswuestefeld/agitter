@@ -7,27 +7,29 @@ import sneer.foundation.lang.Clock;
 import agitter.domain.Agitter;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
-import agitter.email.AmazonEmailSender;
-import agitter.email.EmailSender;
-import agitter.email.EventsMailFormatter;
+import agitter.mailing.AmazonEmailSender;
+import agitter.mailing.EmailSender;
+import agitter.mailing.EventsMailFormatter;
 
-public class PeriodicScheduleNotificationDaemon {
+public class PeriodicScheduleMailer {
 
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
+	
+	
 	public static void start(Agitter agitter, AmazonEmailSender amazonEmailSender) {
-		final PeriodicScheduleNotificationDaemon instance = new PeriodicScheduleNotificationDaemon(agitter, amazonEmailSender);
+		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, amazonEmailSender);
 		new Thread() { {setDaemon(true); } @Override public void run() {
 			while(true) {
 				instance.sendEventsToHappenIn24Hours();
-				sleepOneDay();
+				sleepHalfAnHour();
 			}
 		}}.start();
 	}
 
-	private static void sleepOneDay() {
+	private static void sleepHalfAnHour() {
 		try {
-			Thread.sleep(24*60*60*1000);
+			Thread.sleep(30*60*1000);
 		} catch(InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -38,13 +40,16 @@ public class PeriodicScheduleNotificationDaemon {
 
 	private EventsMailFormatter formatter = new EventsMailFormatter();
 
-	public PeriodicScheduleNotificationDaemon(Agitter agitter, EmailSender sender) {
+	public PeriodicScheduleMailer(Agitter agitter, EmailSender sender) {
 		this.sender = sender;
 		this.agitter = agitter;
 	}
 
 	
 	public void sendEventsToHappenIn24Hours() {
+		if (!agitter.mailing().shouldSendScheduleNow()) return;
+		agitter.mailing().markScheduleSent();
+		
 		for (User user : agitter.users().all())
 			sendEventsToHappenIn24Hours(user);
 	}
