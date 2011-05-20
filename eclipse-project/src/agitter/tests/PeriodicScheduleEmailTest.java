@@ -1,6 +1,8 @@
 package agitter.tests;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -21,17 +23,20 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 	
 	@Test
 	public void sendingEmailsForNext24Hours() throws Refusal, IOException {
+		long fourOClockToday = new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
+		Clock.setForCurrentThread(fourOClockToday);
+		
 		User leo = signup("leo");
 		User klaus = signup("klaus");
 
-		agitter.events().create(klaus, "event1", 10L);
-		agitter.events().create(klaus, "event2", 11L);
-		agitter.events().create(leo, "churras", 11L);
-		agitter.events().create(klaus, "event3", 12L);
-		agitter.events().create(klaus, "event4", 13L);
-		agitter.events().create(klaus, "eventNextDay", 13L + ONE_DAY);
+		agitter.events().create(klaus, "event1", fourOClockToday + 10L);
+		agitter.events().create(klaus, "event2", fourOClockToday + 11L);
+		agitter.events().create(leo, "churras", fourOClockToday + 11L);
+		agitter.events().create(klaus, "event3", fourOClockToday + 12L);
+		agitter.events().create(klaus, "event4", fourOClockToday + 13L);
+		agitter.events().create(klaus, "eventNextDay", fourOClockToday + 13L + ONE_DAY);
 
-		Clock.setForCurrentThread(11);
+		Clock.setForCurrentThread(fourOClockToday + 11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
