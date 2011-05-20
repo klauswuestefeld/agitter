@@ -1,16 +1,16 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
-	Sign-up
-		Enter e tab para fazer login e signup
+	Email diario de agitos - Confirmar se tá funcionando
 	
-	Email diario - 5 Agitos futuros mais próximos.
-	
-	Design UI Agitos - Tapa
-
-	Schema Evolution - Parar de apagar a persistencia. Em vez disso, fazer sempre a migração pro novo schema.
+	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
 
 
 Public MVP Release 1.0
+
+	Sign-up
+		Enter e tab para fazer login e signup
+	
+	Feedback - Mecanismo fácil da galera reportar feedback.
 
 	Signup
 		Back do Browser e botão de Cancelar pra voltar.
