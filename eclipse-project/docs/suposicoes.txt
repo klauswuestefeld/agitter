@@ -8,6 +8,8 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 
 Public MVP Release 1.0
 
+	TimeZone do Server - Acertar no script de install.
+
 	Logging de Excecoes
 
 	Sign-up
