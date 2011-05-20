@@ -55,11 +55,13 @@ public class SignupViewImpl implements SignupView {
 			signupfields.addComponent(passwordConfirmation);
 			signupfields.addComponent(signup);
 		
-		setFocus();
+		setupFocus();
 	}
 
 	
-	private void setFocus() {
+	private void setupFocus() {
+		VaadinUtils.focusOrder(email, username, password, passwordConfirmation, signup);
+		
 		String emailValue = (String)email.getValue();
 		if (emailValue != null && !emailValue.isEmpty())
 			username.focus();

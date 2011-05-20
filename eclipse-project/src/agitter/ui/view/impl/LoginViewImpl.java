@@ -8,7 +8,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
@@ -32,16 +31,19 @@ public class LoginViewImpl implements LoginView {
 	private final Button signup = new NativeButton("Cadastre-se");
 	private final ComponentContainer loginRightSideContainer = new VerticalLayout();
 
+	
 	LoginViewImpl(VerticalLayout container) {
 		this.container = container;
 	}
 
+	
 	private Button linkButton(String caption) {
         Button b = new Button(caption);
         b.setStyleName(BaseTheme.BUTTON_LINK);
         return b;
 	}
 
+	
 	@Override
 	public void show() {
 		container.removeAllComponents();
@@ -106,9 +108,10 @@ public class LoginViewImpl implements LoginView {
 					label.addStyleName("a-login-advert-4");
 					loginAdvertLayout.addComponent(label);
 					
-		this.setupFocusOrder();
+		setupFocus();
 	}
 
+	
 	@Override
 	public SignupView showSignupView(String email_, String suggestedUserName_, String password_) {
 		loginFieldsGrid.setVisible(false);
@@ -117,16 +120,19 @@ public class LoginViewImpl implements LoginView {
 		return signup;
 	}
 
+	
 	@Override
 	public String emailOrUsername() {
 		return (String)emailOrUsername.getValue();
 	}
 
+	
 	@Override
 	public String password() {
 		return (String)password.getValue(); 
 	}
 
+	
 	@Override
 	public void onLoginAttempt(final Runnable runnable) {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -137,6 +143,7 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
+	
 	@Override
 	public void onForgotMyPassword(final Runnable runnable) {
 		forgotMyPassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -144,6 +151,7 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
+	
 	@Override
 	public void onLogoClicked(final Runnable runnable) {
 		loginAgitterLogo.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -151,15 +159,10 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
-	private void setupFocusOrder() {
-		final Component.Focusable[] tabOrder = new Component.Focusable[] { 
-			emailOrUsername, password, login, forgotMyPassword, signup 
-		};
-
-		for(int i = 0; i < tabOrder.length; ++i) {
-			tabOrder[ i ].setTabIndex( i + 1 );
-		}
-		tabOrder[ 0 ].focus();
+	
+	private void setupFocus() {
+		VaadinUtils.focusOrder(emailOrUsername, password, login, forgotMyPassword, signup);
+		emailOrUsername.focus();
 	}
 
 }
