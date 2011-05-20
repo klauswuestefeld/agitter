@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -19,24 +20,28 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 
 	private static final long ONE_DAY = 1000 * 60 * 60 * 24;
 	private final Agitter agitter = new AgitterImpl();
+	private final long startTime = fourOClockToday();
 
+	
+	@Before
+	public void beforeMailingTest() {
+		Clock.setForCurrentThread(startTime);
+	}
+	
 	
 	@Test
 	public void sendingEmailsForNext24Hours() throws Refusal, IOException {
-		long fourOClockToday = new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
-		Clock.setForCurrentThread(fourOClockToday);
-		
 		User leo = signup("leo");
 		User klaus = signup("klaus");
 
-		agitter.events().create(klaus, "event1", fourOClockToday + 10L);
-		agitter.events().create(klaus, "event2", fourOClockToday + 11L);
-		agitter.events().create(leo, "churras", fourOClockToday + 11L);
-		agitter.events().create(klaus, "event3", fourOClockToday + 12L);
-		agitter.events().create(klaus, "event4", fourOClockToday + 13L);
-		agitter.events().create(klaus, "eventNextDay", fourOClockToday + 13L + ONE_DAY);
+		agitter.events().create(klaus, "event1", startTime + 10L);
+		agitter.events().create(klaus, "event2", startTime + 11L);
+		agitter.events().create(leo, "churras", startTime + 11L);
+		agitter.events().create(klaus, "event3", startTime + 12L);
+		agitter.events().create(klaus, "event4", startTime + 13L);
+		agitter.events().create(klaus, "eventNextDay", startTime + 13L + ONE_DAY);
 
-		Clock.setForCurrentThread(fourOClockToday + 11);
+		Clock.setForCurrentThread(startTime + 11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
@@ -46,16 +51,26 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		assertEquals(body, mock.body());
 	}
 
+
+	private long fourOClockToday() {
+		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
+	}
+
 	
 	@Test
 	public void onlyOnceADay() throws Refusal, IOException {
 		User leo = signup("leo");
-		agitter.events().create(leo, "eventToday", 11L);
-		agitter.events().create(leo, "eventTomorrow", 11L + ONE_DAY);
-		
+		agitter.events().create(leo, "eventToday", startTime + 11L);
+		agitter.events().create(leo, "eventTomorrow", startTime + 11L + ONE_DAY);
+
+		long tooEarly = startTime - 10;
+		Clock.setForCurrentThread(tooEarly);
+		assertNull(sendEmailsAndCaptureLast().to());
+
+		Clock.setForCurrentThread(startTime);
 		assertNotNull(sendEmailsAndCaptureLast().to());
 		assertNull(sendEmailsAndCaptureLast().to());
-		
+
 		Clock.setForCurrentThread(Clock.currentTimeMillis() + ONE_DAY);
 		assertNotNull(sendEmailsAndCaptureLast().to());
 	}
