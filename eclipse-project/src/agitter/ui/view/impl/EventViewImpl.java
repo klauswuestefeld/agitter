@@ -6,8 +6,10 @@ import java.util.Date;
 
 import agitter.ui.view.EventData;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
@@ -24,15 +26,24 @@ public class EventViewImpl extends Panel {
 		setScrollable(false);
 		addStyleName(Reindeer.PANEL_LIGHT);
 		addStyleName("a-event-view");
-		VerticalLayout content = (VerticalLayout)getContent();
+		HorizontalLayout content = new HorizontalLayout();
+		setContent(content);
+		content.setMargin(true);
+		content.setSizeFull();
+		VerticalLayout texts = new VerticalLayout();
+		content.addComponent(texts); 
+		content.setExpandRatio(texts, 1);
 			Label label = new Label(event.description);
-			content.addComponent(label); label.addStyleName("a-event-description");
+			texts.addComponent(label); label.addStyleName("a-event-description");
 			label = new Label(dateFormat.format(new Date(event.datetime)));
-			content.addComponent(label); label.addStyleName("a-event-date");
+			texts.addComponent(label); label.addStyleName("a-event-date");
 			label = new Label(event.owner);
-			content.addComponent(label); label.addStyleName("a-event-owner");
-			content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
-			onRemovePressed(event.onRemoveAction);
+			texts.addComponent(label); label.addStyleName("a-event-owner");
+		content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
+		content.setComponentAlignment(removeButton,	Alignment.TOP_RIGHT);
+		content.setExpandRatio(removeButton, 0);
+		
+		onRemovePressed(event.onRemoveAction);
 	}
 
 

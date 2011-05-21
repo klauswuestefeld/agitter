@@ -26,9 +26,10 @@ public class SessionViewImpl implements SessionView {
 	private final Label userGreeting = new Label();
 	private final Button logout = logoutButton();
 	private final Panel sessionScrollContent = new Panel();
-	private final VerticalLayout mainContent = new VerticalLayout();
+	private final Panel mainContent = new Panel();
 	private final InviteViewImpl inviteView = new InviteViewImpl();
 	private final EventListViewImpl eventList = new EventListViewImpl();
+	private final Label bottomFiller = new Label("");
 	
     public SessionViewImpl(ComponentContainer container){
     	this.container = container;
@@ -60,15 +61,24 @@ public class SessionViewImpl implements SessionView {
 	    	sessionView.addComponent(sessionScrollContent);
     		sessionView.setComponentAlignment(sessionScrollContent, Alignment.TOP_CENTER);
     		sessionView.setExpandRatio(sessionScrollContent, 1);
-    		VerticalLayout lay = (VerticalLayout)sessionScrollContent.getContent();
-    		lay.setMargin(false);
-    			mainContent.setWidth("950px");
-    			lay.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
-    			lay.setComponentAlignment(mainContent, Alignment.TOP_CENTER);
-	    			mainContent.addComponent(inviteView);
-	    			mainContent.setComponentAlignment(inviteView, Alignment.TOP_CENTER);
-	    			mainContent.addComponent(eventList);
-	    			mainContent.setComponentAlignment(eventList, Alignment.TOP_CENTER);
+    		VerticalLayout scrollContentLayout = (VerticalLayout)sessionScrollContent.getContent();
+    		scrollContentLayout.setMargin(false);
+    			VerticalLayout mainContentWrapper = new VerticalLayout();
+        		mainContentWrapper.setMargin(true);
+        		mainContentWrapper.setWidth("1000px");
+    			scrollContentLayout.addComponent(mainContentWrapper);
+    			scrollContentLayout.setComponentAlignment(mainContentWrapper, Alignment.TOP_CENTER);
+	    			mainContent.setScrollable(false);
+	    			mainContent.addStyleName(Reindeer.PANEL_LIGHT);
+	    			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
+	    			mainContentWrapper.setComponentAlignment(mainContent, Alignment.TOP_CENTER);
+	        		VerticalLayout mainContentLayout = (VerticalLayout)mainContent.getContent();
+	        		mainContentLayout.setMargin(false);
+		        		mainContentLayout.addComponent(inviteView);
+		        		mainContentLayout.addComponent(eventList);
+		        		bottomFiller.setSizeFull();
+		        		bottomFiller.setHeight("1000px");
+		        		mainContentLayout.addComponent(bottomFiller); bottomFiller.addStyleName("a-session-main-content-bottom-filler");
         userGreeting.setValue("Bem-vindo " + username + ".");
 	}
     
