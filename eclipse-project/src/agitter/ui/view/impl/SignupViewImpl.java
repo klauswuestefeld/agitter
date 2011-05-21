@@ -2,6 +2,7 @@ package agitter.ui.view.impl;
 
 import agitter.ui.view.SignupView;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
@@ -56,6 +57,7 @@ public class SignupViewImpl implements SignupView {
 			signupfields.addComponent(signup);
 		
 		setupFocus();
+		signup.setClickShortcut( KeyCode.ENTER );
 	}
 
 	
