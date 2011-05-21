@@ -172,12 +172,12 @@
 .a-session-main-content .v-panel-content {
 	background: white;
 	border: none;
-	border-radius: 10px;
+	border-radius: 9px;
 	border-right-style: solid;
 	border-right-width: 1px;
 	border-right-color: gray;
-	border-bottom-left-radius: 7px;
-	border-bottom-right-radius: 7px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
 
 .a-session-main-content-bottom-filler {
@@ -191,8 +191,8 @@
 	border: none;
 	border-width: 1px;
 	border-radius: 0px;
-	border-top-left-radius: 9px;
-	border-top-right-radius: 9px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-style: solid;
 	border-bottom-color: darkgray;
 }

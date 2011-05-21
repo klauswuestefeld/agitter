@@ -64,7 +64,7 @@ public class SessionViewImpl implements SessionView {
     		VerticalLayout scrollContentLayout = (VerticalLayout)sessionScrollContent.getContent();
     		scrollContentLayout.setMargin(false);
     			VerticalLayout mainContentWrapper = new VerticalLayout();
-        		mainContentWrapper.setMargin(true);
+        		mainContentWrapper.setMargin(true, true, false, true);
         		mainContentWrapper.setWidth("1000px");
     			scrollContentLayout.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			scrollContentLayout.setComponentAlignment(mainContentWrapper, Alignment.TOP_CENTER);
