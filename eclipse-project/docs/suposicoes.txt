@@ -1,6 +1,12 @@
 Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
 
+	Unsubscribe do email diario com um link assim:
+		"Nao quero mais receber emails de agitos publicos somente agitos aos quais fui convidado."
+		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
+			* Usar simplesmente o email do cara, por enquanto, como chave. Ou, se vc souber fazer, criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
+
 	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
+	
 
 
 Public MVP Release 1.0
