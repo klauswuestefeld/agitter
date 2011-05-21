@@ -40,7 +40,7 @@ public class SessionViewImpl implements SessionView {
     	sessionView.setSizeFull();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
     		sessionTopBar.setHeight("45px");
-    		sessionTopBar.setWidth("950px");
+    		sessionTopBar.setWidth("990px");
     		sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
     		sessionView.setComponentAlignment(sessionTopBar, Alignment.TOP_CENTER);
     		sessionView.setExpandRatio(sessionTopBar, 0);

@@ -138,9 +138,9 @@
 
 .a-session-logo {
     height: 36x;
-	padding-left: 2px;
     border: none;
 	background: transparent;
+	padding-left: 20px;
 }
 .a-session-logo .v-nativebutton-caption {
 	font-weight: bold;
@@ -153,10 +153,14 @@
 .a-session-user-greeting {
 	color: white;
 	padding-top: 2px;
-	padding-right: 15px;
+	padding-right: 10px;
 }
 
-.a-session-logout-button .v-button-caption {
+.a-session-logout-button {
+	margin-right: 30px;
+}
+
+	.a-session-logout-button .v-button-caption {
 	font-weight: bold;
 	color: white;
 	padding-right: 2px;
