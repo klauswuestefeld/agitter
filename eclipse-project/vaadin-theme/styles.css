@@ -170,16 +170,18 @@
 }
 
 .a-session-main-content .v-panel-content {
+	background: white;
 	border: none;
 	border-radius: 10px;
 	border-right-style: solid;
 	border-right-width: 1px;
 	border-right-color: gray;
-	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
 }
 
 .a-session-main-content-bottom-filler {
-	background: white;
+	background: transparent;
 }
 
 /* Invite  ----------------------------------------------------------------------   */

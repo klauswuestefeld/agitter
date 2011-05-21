@@ -66,7 +66,7 @@ public class SessionViewImpl implements SessionView {
     			VerticalLayout mainContentWrapper = new VerticalLayout();
         		mainContentWrapper.setMargin(true);
         		mainContentWrapper.setWidth("1000px");
-    			scrollContentLayout.addComponent(mainContentWrapper);
+    			scrollContentLayout.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			scrollContentLayout.setComponentAlignment(mainContentWrapper, Alignment.TOP_CENTER);
 	    			mainContent.setScrollable(false);
 	    			mainContent.addStyleName(Reindeer.PANEL_LIGHT);
