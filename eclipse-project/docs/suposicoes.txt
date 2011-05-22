@@ -11,6 +11,8 @@ Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - 
 
 Public MVP Release 1.0
 
+	Segurança - Precisamos ter um mínimo de segurança nas informacoes relativas ao login, com https.
+
 	TimeZone do Server - Acertar no script de install.
 
 	Logging de Excecoes
