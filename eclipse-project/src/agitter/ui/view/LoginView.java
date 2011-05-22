@@ -10,7 +10,7 @@ public interface LoginView {
 	String emailOrUsername();
 	String password();
 	
-	void onLoginAttempt(Runnable action);
+	void onLoginAttempt(Runnable loginAction, Runnable signupAction);
 	void onForgotMyPassword(Runnable action);
 	void onLogoClicked(Runnable action);
 

@@ -26,9 +26,10 @@ public class AuthenticationPresenter {
 		this.onAuthenticate = onAuthenticate;
 		this.warningDisplayer = warningDisplayer;
 
-		this.loginView.onLoginAttempt(new Runnable() { @Override public void run() {
-			loginAttempt();
-		}});
+		this.loginView.onLoginAttempt(
+			new Runnable() { @Override public void run() { loginAttempt(); }},
+			new Runnable() { @Override public void run() { signup(); }}
+		);
 		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
 			forgotMyPassword();
 		}});
@@ -41,6 +42,10 @@ public class AuthenticationPresenter {
 	
 	private void loginAttempt() {
 		User user;
+		//TODO: QuickFix. Parece que cadastraram um usuário sem username e por isso pode logar sem digitar nada. 
+		if( loginView.emailOrUsername().trim().equals( "" ) ) {
+			return;
+		}
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
 			user = credential.isEmailProvided()
@@ -51,10 +56,16 @@ public class AuthenticationPresenter {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		} catch (UserNotFound e) {
-			showSignup(credential);
+			warningDisplayer.consume( e.getMessage() );
+			//showSignup(credential);
 			return;
 		}
 		onAuthenticate.consume(user);
+	}
+
+	private void signup() {
+		final Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
+		showSignup( credential );
 	}
 
 	protected void logoClicked() {

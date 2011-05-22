@@ -137,12 +137,12 @@ public class LoginViewImpl implements LoginView {
 
 	
 	@Override
-	public void onLoginAttempt(final Runnable runnable) {
+	public void onLoginAttempt(final Runnable loginAction, final Runnable signupAction) {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			runnable.run();
+			loginAction.run();
 		}});
 		signup.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			runnable.run();
+			signupAction.run();
 		}});
 	}
 
