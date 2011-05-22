@@ -64,6 +64,7 @@ public class Presenter {
 		//TODO - Acho que o unsubscribe deveria ter uma tela de login para confirmar o unsubscribe, ai nao precisava nem ter crypto na url
 		try {
 			this._agitter.users().unsubscribe(userEncryptedInfo);
+			_view.showWarningMessage("Você não mais receberá emails relativos a eventos públicos!");
 		} catch(Users.UserNotFound userNotFound) {
 			this._view.showWarningMessage(userNotFound.getMessage());
 		}
