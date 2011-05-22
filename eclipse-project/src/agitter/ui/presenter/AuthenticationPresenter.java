@@ -43,7 +43,7 @@ public class AuthenticationPresenter {
 	private void loginAttempt() {
 		User user;
 		//TODO: QuickFix. Parece que cadastraram um usuário sem username e por isso pode logar sem digitar nada. 
-		if( loginView.emailOrUsername().trim().equals( "" ) ) {
+		if( this.isBlank( loginView.emailOrUsername() ) ) {
 			return;
 		}
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
@@ -102,7 +102,26 @@ public class AuthenticationPresenter {
 		}});
 	}
 
+	private boolean isBlank(final String value) {
+		return value == null || value.trim().equals( "" );
+	}
+	
 	private void signupAttempt() {
+		if( this.isBlank( signupView.email() ) ) {
+			warningDisplayer.consume("Campo email deve ser especificado");
+			return;			
+		}
+		
+		if( this.isBlank( signupView.username() ) ) {
+			warningDisplayer.consume("Campo username deve ser especificado");
+			return;			
+		}
+		
+		if( this.isBlank( signupView.password() ) ) {
+			warningDisplayer.consume("Campo senha deve ser especificado");
+			return;			
+		}
+
 		if (!isPasswordConfirmed()) {
 			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
 			return;
