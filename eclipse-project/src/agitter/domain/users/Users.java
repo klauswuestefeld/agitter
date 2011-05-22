@@ -12,10 +12,12 @@ public interface Users {
 
 	@Transaction
 	User signup(String username, String email, String password) throws Refusal;
+	void unsubscribe(String userEncryptedInfo) throws UserNotFound;
 
 	User loginWithUsername(String username, String password) throws UserNotFound, InvalidPassword;
 	User loginWithEmail(String email, String password) throws UserNotFound, InvalidPassword;
 	User findByUsername(String username) throws UserNotFound;
 	User findByEmail(String email) throws UserNotFound;
+	String userEncyptedInfo(User user);
 
 }
