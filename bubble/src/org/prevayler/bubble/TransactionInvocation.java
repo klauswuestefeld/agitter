@@ -27,13 +27,14 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
 		PrevalentBubble.setPrevalentSystemIfNecessary(prevalentSystem);
 
+		Long clockState = Clock.memento();
 		Clock.setForCurrentThread(datetime.getTime());
 		PrevalenceFlag.setInsidePrevalence(true);
 		try {
 			return produce();
 		} finally {
 			PrevalenceFlag.setInsidePrevalence(false);
-			Clock.clearForCurrentThread();
+			Clock.restore(clockState);
 		}
 	}
 

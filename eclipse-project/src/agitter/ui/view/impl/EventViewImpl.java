@@ -6,6 +6,7 @@ import java.util.Date;
 
 import agitter.ui.view.EventData;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
@@ -38,11 +39,11 @@ public class EventViewImpl extends Panel {
 			texts.addComponent(label); label.addStyleName("a-event-date");
 			label = new Label(event.owner);
 			texts.addComponent(label); label.addStyleName("a-event-owner");
-		//content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
-		//content.setComponentAlignment(removeButton,	Alignment.TOP_RIGHT);
-		//content.setExpandRatio(removeButton, 0);
+		content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
+		content.setComponentAlignment(removeButton, Alignment.TOP_RIGHT);
+		content.setExpandRatio(removeButton, 0);
 		
-		//onRemovePressed(event.onRemoveAction);
+		onRemovePressed(event.onRemoveAction);
 	}
 
 

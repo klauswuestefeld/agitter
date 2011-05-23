@@ -4,12 +4,14 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
+import java.util.List;
 
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Immutable;
 import sneer.foundation.lang.Producer;
 import sneer.foundation.lang.ProducerX;
 import sneer.foundation.lang.ReadOnly;
+import sneer.foundation.lang.exceptions.NotImplementedYet;
 import sneer.foundation.lang.types.Classes;
 
 class BubbleProxy implements InvocationHandler {
@@ -34,6 +36,7 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private BubbleProxy(ProducerX<Object, ? extends Exception> producer) {
+		if (producer == null) throw new IllegalArgumentException();
 		_invocationPath = producer;
 	}
 
@@ -53,13 +56,30 @@ class BubbleProxy implements InvocationHandler {
 		if (object == null) return object;
 		
 		Class<?> type = object.getClass();
-		if (type.isArray()) return object;
-		if (Collection.class.isAssignableFrom(type)) return object;
+		if (type.isArray()) throwNotImplementedYet("array");
+		if (List.class.isAssignableFrom(type)) {
+			wrapListElementsIfNecessary((List<Object>)object);
+			return object;
+		}
+		if (Collection.class.isAssignableFrom(type)) throwNotImplementedYet(type.getName());
+
 		if (Immutable.isImmutable(type)) return object;
-		
 		if (ReadOnly.class.isAssignableFrom(type)) return object;
 		
 		return wrapped(object, path);
+	}
+
+
+	private void wrapListElementsIfNecessary(List<Object> list) {
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			list.set(i, wrapIfNecessary(obj, null)); //null means no path. Mutable objects in collections must be registered. 
+		}
+	}
+
+
+	private void throwNotImplementedYet(String typeName) {
+		throw new NotImplementedYet("" + BubbleProxy.class + " does not yet handle "+typeName+" return types. It does handle List returns though.");
 	}
 
 
