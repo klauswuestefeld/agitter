@@ -1,35 +1,4 @@
-Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
-
-	Unsubscribe do email diario com um link assim:
-		"Nao quero mais receber emails de agitos publicos somente agitos aos quais fui convidado."
-		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
-			* Usar simplesmente o email do cara, por enquanto, como chave. Ou, se vc souber fazer, criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
-
-	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
-	
-
-
 Public MVP Release 1.0
-
-	TimeZone do Server - Acertar no script de install.
-
-	Logging de Excecoes
-
-	Sign-up
-		Enter e tab para fazer login e signup
-	
-	Feedback - Mecanismo fácil da galera reportar feedback.
-
-	Signup
-		Back do Browser e botão de Cancelar pra voltar.
-		Campo de email: browser sugerir valores já preenchidos pra outros sites.
-
-	Acabamento de UI
-		Agitar (ver docs/ui/mvp)
-			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
-		Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
-			Ver docs/ui/mvp/EmailTemplate.rtf
-		Ilustração Explicativa - Falar c Petra. 
 
 	Importação de Emails de meus Contatos
 		- GMail, Yahoo, Hotmail através do SocialAuth
@@ -45,10 +14,33 @@ Public MVP Release 1.0
 			Grupos de Contatos
 				Grupos dentro de grupos.
 
-	Relevancia - Filtrar agitos mais relevantes.
+	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User) - Envolve mexer na Bubble
 
-	Cadastro
-		Email de autenticação de cadastro. 
+	URLs clicáveis na descricao do agito
+
+	Permalink para cada agito, para que possa ser linkado, tweetado, etc. Envolve lidar c a browser History no Vaadin
+
+	Unsubscribe do email diario com um link assim:
+		"Nao quero mais receber emails de agitos publicos somente agitos aos quais fui convidado."
+		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
+			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
+
+	Sign-up
+		Enter para fazer login e signup
+		Email de validacao de cadastro. 
+		Campo de email: browser sugerir valores já preenchidos pra outros sites.
+		Back do Browser e botão de Cancelar pra voltar.
+	
+	Feedback - Mecanismo fácil da galera reportar feedback.
+
+	Acabamento de UI
+		Agitar (ver docs/ui/mvp)
+			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
+		Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
+			Ver docs/ui/mvp/EmailTemplate.rtf
+		Ilustração Explicativa - Falar c Petra. 
+
+	Relevancia - Filtrar agitos mais relevantes.
 
 	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
 
@@ -59,6 +51,10 @@ Public MVP Release 1.0
 
 	Agenda Semanal em vez de diária.
 	
+	TimeZone do Server - Acertar no script de install.
+
+	Logging no Server (Exceções, etc)
+
 	Vaadin productionMode=true
 
 
