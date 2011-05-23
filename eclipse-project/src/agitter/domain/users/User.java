@@ -11,4 +11,9 @@ public interface User {
 	public String password();
 
 	public String fullName();
+
+	public boolean isInterestedInPublicEvents();
+
+	public void setInterestedInPublicEvents(boolean interested);
+
 }

@@ -50,6 +50,18 @@ public class UsersImpl implements Users {
 		return user;
 	}
 
+	@Override
+	public String userEncyptedInfo(User user) {
+		return user.username();//TODO - Implement encryption
+	}
+
+	@Override
+	public void unsubscribe(String userEncryptedInfo) throws UserNotFound {
+		//TODO - Implement decrypt
+		String username = userEncryptedInfo;
+		User user = this.findByUsername(username);
+		user.setInterestedInPublicEvents(false);
+	}
 
 	private User createNewUser(String username, String email, String password) throws Refusal {
 		for(User existingUser : _users) {
@@ -79,9 +91,7 @@ public class UsersImpl implements Users {
 
 	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
 		checkUser(user, emailOrUsername);
-
 		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-
 		return user;
 	}
 }
