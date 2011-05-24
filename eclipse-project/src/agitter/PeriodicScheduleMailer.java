@@ -54,11 +54,20 @@ public class PeriodicScheduleMailer {
 		if(!agitter.mailing().shouldSendScheduleNow()) { return; }
 		agitter.mailing().markScheduleSent();
 
-		for(User user : agitter.users().all()) { sendEventsToHappenIn24Hours(user); }
+		for(User user : agitter.users().all())
+			sendEventsToHappenIn24Hours(user);
 	}
 
 
 	private void sendEventsToHappenIn24Hours(User user) {
+		try {
+			tryToSendEventsToHappenIn24Hours(user);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void tryToSendEventsToHappenIn24Hours(User user) {
 		if(!user.isInterestedInPublicEvents()) { return; }
 		List<Event> candidateEvents = agitter.events().toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
