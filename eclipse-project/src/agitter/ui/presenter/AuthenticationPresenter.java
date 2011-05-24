@@ -27,14 +27,16 @@ public class AuthenticationPresenter {
 		this.warningDisplayer = warningDisplayer;
 
 		this.loginView.onLoginAttempt(
-			new Runnable() { @Override public void run() { loginAttempt(); }},
-			new Runnable() { @Override public void run() { signup(); }}
+			new Runnable() { @Override public void run() { loginAttempt(); }}
 		);
 		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
 			forgotMyPassword();
 		}});
 		this.loginView.onLogoClicked(new Runnable() { @Override public void run() {
 			logoClicked();
+		}});
+		this.loginView.onStartSignup(new Runnable() { @Override public void run() {
+			startSignup();
 		}});
 		
 		this.loginView.show();
@@ -57,15 +59,16 @@ public class AuthenticationPresenter {
 			return;
 		} catch (UserNotFound e) {
 			warningDisplayer.consume( e.getMessage() );
-			//showSignup(credential);
 			return;
 		}
 		onAuthenticate.consume(user);
 	}
 
-	private void signup() {
-		final Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
-		showSignup( credential );
+	private void startSignup() {
+		signupView = loginView.showSignupView();
+		signupView.onSignupAttempt(new Runnable() { @Override public void run() {
+			signupAttempt();
+		}});
 	}
 
 	protected void logoClicked() {
@@ -93,13 +96,6 @@ public class AuthenticationPresenter {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	private void showSignup(Credential credential) {
-		signupView = loginView.showSignupView(credential.email(), credential.suggestedUserName(), credential.password());
-		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
-			signupAttempt();
-		}});
 	}
 
 	private boolean isBlank(final String value) {

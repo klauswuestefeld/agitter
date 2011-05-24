@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import agitter.PeriodicScheduleMailer;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
 import agitter.domain.users.User;
+import agitter.mailing.PeriodicScheduleMailer;
 import agitter.mailing.tests.EmailSenderMock;
 import org.junit.Before;
 import org.junit.Test;

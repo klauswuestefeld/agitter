@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import agitter.PeriodicScheduleMailer;
 import agitter.mailing.AmazonEmailSender;
+import agitter.mailing.PeriodicScheduleMailer;
 
 public class AgitterMain {
 

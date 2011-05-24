@@ -8,11 +8,11 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 public class UsersImpl implements Users {
 
-	private final List<User> _users = new ArrayList<User>();
+	private final List<User> users = new ArrayList<User>();
 
 	@Override
-	public User[] all() {
-		return _users.toArray(new User[_users.size()]);
+	public List<User> all() {
+		return new ArrayList<User>(users);
 	}
 
 	@Override
@@ -64,14 +64,14 @@ public class UsersImpl implements Users {
 	}
 
 	private User createNewUser(String username, String email, String password) throws Refusal {
-		for(User existingUser : _users) {
+		for(User existingUser : users) {
 			if(existingUser.email().equals(email)) {
 				throw new Refusal("Já existe um usuário cadastrado com este email: "+email);
 			}
 		}
 
 		UserImpl result = new UserImpl(username, email, password);
-		_users.add(result);
+		users.add(result);
 		return result;
 	}
 
@@ -80,12 +80,12 @@ public class UsersImpl implements Users {
 	}
 
 	private User searchByEmail(String email) {
-		for(User candidate : _users) { if(candidate.email().equals(email)) { return candidate; } }
+		for(User candidate : users) { if(candidate.email().equals(email)) { return candidate; } }
 		return null;
 	}
 
 	private User searchByUsername(String username) {
-		for(User candidate : _users) { if(candidate.username().equals(username)) { return candidate; } }
+		for(User candidate : users) { if(candidate.username().equals(username)) { return candidate; } }
 		return null;
 	}
 

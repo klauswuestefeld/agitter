@@ -27,7 +27,7 @@ public class SignupViewImpl implements SignupView {
 	}
 
 	@Override
-	public void show(String email_, String suggestedUserName_, String password_) {
+	public void show() {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
@@ -43,13 +43,10 @@ public class SignupViewImpl implements SignupView {
 			signupfields.setSpacing(true);
 			signupView.addComponent(signupfields);
 
-			email.setValue(email_);
 			email.setWidth("170px");
 			signupfields.addComponent(email);
-			username.setValue(suggestedUserName_);
 			username.setWidth("170px");
 			signupfields.addComponent(username);
-			password.setValue(password_);
 			password.setWidth("170px");
 			signupfields.addComponent(password);
 			passwordConfirmation.setWidth("170px");

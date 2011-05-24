@@ -1,15 +1,12 @@
-package agitter;
+package agitter.mailing;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import sneer.foundation.lang.Clock;
 import agitter.domain.Agitter;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
-import agitter.mailing.AmazonEmailSender;
-import agitter.mailing.EmailSender;
-import agitter.mailing.EventsMailFormatter;
-import sneer.foundation.lang.Clock;
 
 public class PeriodicScheduleMailer {
 
@@ -19,16 +16,12 @@ public class PeriodicScheduleMailer {
 
 	public static void start(Agitter agitter, AmazonEmailSender amazonEmailSender) {
 		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, amazonEmailSender);
-		new Thread() {
-			{setDaemon(true); }
-			@Override
-			public void run() {
-				while(true) {
-					instance.sendEventsToHappenIn24Hours();
-					sleepHalfAnHour();
-				}
+		new Thread() { {setDaemon(true); } @Override public void run() {
+			while(true) {
+				instance.sendEventsToHappenIn24Hours();
+				sleepHalfAnHour();
 			}
-		}.start();
+		}}.start();
 	}
 
 	private static void sleepHalfAnHour() {

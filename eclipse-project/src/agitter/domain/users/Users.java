@@ -1,6 +1,9 @@
 package agitter.domain.users;
 
+import java.util.List;
+
 import org.prevayler.bubble.Transaction;
+
 import sneer.foundation.lang.exceptions.Refusal;
 
 public interface Users {
@@ -8,7 +11,7 @@ public interface Users {
 	public class UserNotFound extends Refusal {  public UserNotFound(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
 	public class InvalidPassword extends Refusal {  public InvalidPassword(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
 
-	User[] all();
+	List<User> all();
 
 	@Transaction
 	User signup(String username, String email, String password) throws Refusal;
