@@ -1,25 +1,20 @@
 Public MVP Release 1.0
 
+	Recentes - Mostrar os agitos duas horas atras pra cá.
+
+	Logging no Server (Exceções, etc)
+
 	Unsubscribe do email diario com um link assim:
 		"Nao quero mais receber emails de agitos publicos somente agitos aos quais fui convidado."
 		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
 			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
 
-	Sign-up
-		Enter para fazer login e signup
+	Sign-up e Login
 		Email de validacao de cadastro. 
 		Campo de email: browser sugerir valores já preenchidos pra outros sites.
 		Back do Browser e botão de Cancelar pra voltar.
-	
-	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User) - Envolve mexer na Bubble
-
+		
 	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
-
-	Importação de Emails de meus Contatos
-		- GMail, Yahoo, Hotmail através do SocialAuth
-			- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
-		- Outros Provedores através de paste num campo grande ou upload de arquivo.
-			- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
 
 	Quem?
 		- Username e Fullname de quem agitou no Agito.
@@ -28,6 +23,12 @@ Public MVP Release 1.0
 			http://loopj.com/jquery-tokeninput/
 			Grupos de Contatos
 				Grupos dentro de grupos.
+
+	Importação de Emails de meus Contatos
+		- GMail, Yahoo, Hotmail através do SocialAuth
+			- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
+		- Outros Provedores através de paste num campo grande ou upload de arquivo.
+			- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
 
 	URLs clicáveis na descricao do agito
 
@@ -54,8 +55,6 @@ Public MVP Release 1.0
 	Agenda Semanal em vez de diária.
 	
 	TimeZone do Server - Acertar no script de install.
-
-	Logging no Server (Exceções, etc)
 
 	Vaadin productionMode=true
 
