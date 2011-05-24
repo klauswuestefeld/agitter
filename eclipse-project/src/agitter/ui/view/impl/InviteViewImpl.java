@@ -3,22 +3,16 @@ package agitter.ui.view.impl;
 import java.util.Date;
 
 import agitter.ui.view.InviteView;
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.NativeButton;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 
 public class InviteViewImpl extends Panel implements InviteView {
 
 	private TextArea description = new TextArea("Qual é o agito?");
 	private PopupDateField date = new PopupDateField("Quando?");
-	private NativeButton invite = new NativeButton("Enviar!");
+	private NativeButton invite = new NativeButton("Agitar!");
 
 	public InviteViewImpl() {
 		setScrollable(false);
