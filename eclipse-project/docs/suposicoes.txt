@@ -9,15 +9,12 @@ Easy Kills
 
 "Finish What We Started" Release
 
-	Unsubscribe do email diario com um link assim:
-		"Nao quero mais receber emails de agitos publicos somente agitos aos quais fui convidado."
-		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
-			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
-
 	Sign-up e Login
-		Email de validacao de cadastro. 
-		Campo de email: browser sugerir valores já preenchidos pra outros sites.
+		Validação de email (puxar do projeto antigo)
+		Validação de username (mesmas regras do twitter).
+		Email de confirmacao de cadastro. 
 		Back do Browser e botão de Cancelar pra voltar.
+		Campo de email: browser sugerir valores já preenchidos pra outros sites.
 
 		
 "Estamos Começando a Conversar" Release
@@ -28,8 +25,12 @@ Easy Kills
 			http://loopj.com/jquery-tokeninput/
 
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
+		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
+			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
 
-	Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+	Privacidade
+		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+		- Unsubscribe geral do email diario.
 
 
 "Break the Vial" Release
