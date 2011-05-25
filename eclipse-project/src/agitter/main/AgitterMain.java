@@ -1,22 +1,26 @@
 package agitter.main;
 
-import static agitter.main.JettyRunner.createServletApp;
-import static agitter.main.JettyRunner.createStaticFileSite;
-import static agitter.main.JettyRunner.runWebApps;
-import infra.processreplacer.ProcessReplacer;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.eclipse.jetty.webapp.WebAppContext;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
+import infra.processreplacer.ProcessReplacer;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+import static agitter.main.JettyRunner.*;
 
 public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
+		initLogger();
+		getLogger().info("Starting server ...");
 		ProcessReplacer.start();
 
 		PrevaylerBootstrap.open(new File("prevalence"));
@@ -33,9 +37,9 @@ public class AgitterMain {
 
 	private static WebAppContext vaadin() {
 		return createServletApp(
-			com.vaadin.terminal.gwt.server.ApplicationServlet.class,
-			initWith(AgitterVaadinApplication.class),
-			"/*"
+				com.vaadin.terminal.gwt.server.ApplicationServlet.class,
+				initWith(AgitterVaadinApplication.class),
+				"/*"
 		);
 	}
 
@@ -46,24 +50,25 @@ public class AgitterMain {
 		return initParams;
 	}
 
-//Example WEB-INF/web.xml file to deploy Vaadin in Tomcat or other servlet server, if necessary:
-//
-//	<?xml version="1.0" encoding="UTF-8"?> <!--DO NOT USE DTD VALIDATION ON EXTERNAL SITE BECAUSE THAT SLOWS STARTUP CONSIDERABLY FOR TESTING-->
-//	<web-app>
-//	  <servlet>
-//	    <servlet-name>agitter-servlet</servlet-name>
-//	    <servlet-class>
-//	        com.vaadin.terminal.gwt.server.ApplicationServlet
-//	    </servlet-class>
-//	    <init-param>
-//	      <param-name>application</param-name>
-//	      <param-value>agitter.main.AgitterVaadinApplication</param-value>
-//	    </init-param>
-//	  </servlet>
-//	  <servlet-mapping>
-//	    <servlet-name>agitter-servlet</servlet-name>
-//	    <url-pattern>/*</url-pattern>
-//	  </servlet-mapping>
-//	</web-app>
+
+	private static final int LOG_FILE_SIZE_LIMIT = 9000000;
+	private static final int LOG_FILE_ROTATION_COUNT = 5;
+	private static final Level INFO = Level.INFO;
+
+	static synchronized public void initLogger() {
+		Logger logger = getLogger();
+		String logFilePath = "agitter.log";
+		Logger.getLogger("").setLevel(INFO);
+		try {
+			FileHandler fh = new FileHandler(logFilePath, LOG_FILE_SIZE_LIMIT, LOG_FILE_ROTATION_COUNT, false);
+			fh.setFormatter(new SimpleFormatter());
+			logger.addHandler(fh);
+			Logger.getLogger("").addHandler(fh);
+		} catch(IOException ioExc) {
+			logger.log(Level.SEVERE, "Error creating the log file handler!", ioExc);
+		}
+		logger.setLevel(INFO);
+	}
+	private static Logger getLogger() {return Logger.getLogger("agitter");}
 
 }

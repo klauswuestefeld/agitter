@@ -10,6 +10,8 @@ import com.vaadin.ui.themes.Reindeer;
 
 public class InviteViewImpl extends Panel implements InviteView {
 
+	private static final long serialVersionUID = 1L;
+
 	private TextArea description = new TextArea("Qual é o agito?");
 	private PopupDateField date = new PopupDateField("Quando?");
 	private NativeButton invite = new NativeButton("Agitar!");

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
@@ -13,6 +11,8 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.EventData;
 import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 
 public class SessionPresenter {
 
@@ -44,7 +44,6 @@ public class SessionPresenter {
 			refreshEventList();
 		}});
 	}
-
 
 	private void invite() {
 		String description = inviteView().getEventDescription();

@@ -2,33 +2,39 @@ package agitter.mailing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import sneer.foundation.lang.Clock;
 import agitter.domain.Agitter;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
+import sneer.foundation.lang.Clock;
 
 public class PeriodicScheduleMailer {
 
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
-
 	public static void start(Agitter agitter, AmazonEmailSender amazonEmailSender) {
 		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, amazonEmailSender);
-		new Thread() { {setDaemon(true); } @Override public void run() {
-			while(true) {
-				instance.sendEventsToHappenIn24Hours();
-				sleepHalfAnHour();
+		new Thread() {
+			{setDaemon(true); }
+			@Override
+			public void run() {
+				while(true) {
+					instance.sendEventsToHappenIn24Hours();
+					sleepHalfAnHour();
+				}
 			}
-		}}.start();
+		}.start();
 	}
 
+	private static Logger getLogger() {return Logger.getLogger("agitter.mailing");}
 	private static void sleepHalfAnHour() {
 		try {
 			Thread.sleep(30*60*1000);
 		} catch(InterruptedException e) {
-			e.printStackTrace();
+			getLogger().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -47,16 +53,16 @@ public class PeriodicScheduleMailer {
 		if(!agitter.mailing().shouldSendScheduleNow()) { return; }
 		agitter.mailing().markScheduleSent();
 
-		for(User user : agitter.users().all())
-			sendEventsToHappenIn24Hours(user);
+		for(User user : agitter.users().all()) { sendEventsToHappenIn24Hours(user); }
 	}
 
 
 	private void sendEventsToHappenIn24Hours(User user) {
 		try {
+			getLogger().info("Sending events to user: " + user.username()); //TODO - Info or Fine ?
 			tryToSendEventsToHappenIn24Hours(user);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
+		} catch(RuntimeException e) {
+			getLogger().log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
