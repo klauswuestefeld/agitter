@@ -59,7 +59,7 @@ public class PeriodicScheduleMailer {
 
 	private void sendEventsToHappenIn24Hours(User user) {
 		try {
-//			getLogger().info("Sending events to user: " + user.username()); //TODO - Info or Fine ?
+			getLogger().info("Sending events to user: " + user.username());
 			tryToSendEventsToHappenIn24Hours(user);
 		} catch(RuntimeException e) {
 			getLogger().log(Level.SEVERE, e.getMessage(), e);

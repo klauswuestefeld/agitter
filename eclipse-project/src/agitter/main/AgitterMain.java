@@ -58,7 +58,7 @@ public class AgitterMain {
 	static synchronized public void initLogger() {
 		Logger logger = getLogger();
 		String logFilePath = "agitter.log";
-		Logger.getLogger("").setLevel(INFO);
+		Logger.getLogger("").setLevel(Level.WARNING);
 		try {
 			FileHandler fh = new FileHandler(logFilePath, LOG_FILE_SIZE_LIMIT, LOG_FILE_ROTATION_COUNT, false);
 			fh.setFormatter(new SimpleFormatter());

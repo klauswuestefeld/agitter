@@ -3,6 +3,8 @@ package agitter.tests;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
@@ -24,6 +26,7 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 	
 	@Before
 	public void beforeMailingTest() {
+		Logger.getLogger("").setLevel(Level.WARNING);
 		Clock.setForCurrentThread(startTime);
 	}
 	

@@ -24,7 +24,7 @@ public class UsersImpl implements Users {
 
 		UserImpl result = new UserImpl(username, email, password);
 		users.add(result);
-//		getLogger().info("Signup: "+username+" - email: "+email); //TODO - Log Test Support
+		getLogger().info("Signup: "+username+" - email: "+email);
 		return result;
 	}
 
@@ -95,7 +95,7 @@ public class UsersImpl implements Users {
 	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
 		checkUser(user, emailOrUsername);
 		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-//		getLogger().info("Login: "+emailOrUsername); //TODO - Log Test Support
+		getLogger().info("Login: "+emailOrUsername);
 		return user;
 	}
 

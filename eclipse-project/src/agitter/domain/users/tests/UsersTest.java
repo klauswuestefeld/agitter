@@ -1,19 +1,26 @@
 package agitter.domain.users.tests;
 
-import org.junit.Test;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
 import agitter.domain.users.UsersImpl;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import sneer.foundation.lang.exceptions.Refusal;
+import sneer.foundation.testsupport.CleanTestBase;
 
 public class UsersTest extends CleanTestBase {
 
 	private final Users _subject = new UsersImpl();
 
+	@BeforeClass
+	static public void setConsoleLogLevel() {
+		Logger.getLogger("").setLevel(Level.WARNING);
+	}
 	
 	@Test
 	public void signup() throws Refusal {
