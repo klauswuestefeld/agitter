@@ -58,17 +58,18 @@ public class AgitterMain {
 	static private void initLogger() {
 		Logger logger = getLogger();
 		String logFilePath = "agitter.log";
-		Logger.getLogger("").setLevel(Level.WARNING);
+//		Logger.getLogger("").setLevel(Level.WARNING);
 		try {
 			FileHandler fh = new FileHandler(logFilePath, LOG_FILE_SIZE_LIMIT, LOG_FILE_ROTATION_COUNT, false);
 			fh.setFormatter(new SimpleFormatter());
 			logger.addHandler(fh);
-			Logger.getLogger("").addHandler(fh);
+			logger.setLevel(INFO);
 		} catch(IOException ioExc) {
-			logger.log(Level.SEVERE, "Error creating the log file handler!", ioExc);
+			Logger.getLogger("").log(Level.SEVERE, "Error creating the log file handler!", ioExc);
+//			logger.log(Level.SEVERE, "Error creating the log file handler!", ioExc);
 		}
-		logger.setLevel(INFO);
+
 	}
-	private static Logger getLogger() {return Logger.getLogger("agitter");}
+	private static Logger getLogger() {return Logger.getLogger("");}
 
 }
