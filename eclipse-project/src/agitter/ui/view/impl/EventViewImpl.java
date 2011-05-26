@@ -40,7 +40,7 @@ public class EventViewImpl extends Panel {
 			label = new Label(event.owner);
 			texts.addComponent(label); label.addStyleName("a-event-owner");
 		content.addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
-		content.setComponentAlignment(removeButton,	Alignment.TOP_RIGHT);
+		content.setComponentAlignment(removeButton, Alignment.TOP_RIGHT);
 		content.setExpandRatio(removeButton, 0);
 		
 		onRemovePressed(event.onRemoveAction);

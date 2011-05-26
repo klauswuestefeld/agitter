@@ -3,18 +3,19 @@ package agitter.tests;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
-import agitter.PeriodicScheduleMailer;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
 import agitter.domain.users.User;
+import agitter.mailing.PeriodicScheduleMailer;
 import agitter.mailing.tests.EmailSenderMock;
+import org.junit.Before;
+import org.junit.Test;
+import sneer.foundation.lang.Clock;
+import sneer.foundation.lang.exceptions.Refusal;
+import sneer.foundation.testsupport.CleanTestBase;
 
 public class PeriodicScheduleEmailTest extends CleanTestBase {
 
@@ -25,6 +26,7 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 	
 	@Before
 	public void beforeMailingTest() {
+		Logger.getLogger("").setLevel(Level.WARNING);
 		Clock.setForCurrentThread(startTime);
 	}
 	
@@ -52,12 +54,6 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		assertEquals(body, mock.body());
 	}
 
-
-	private long fourOClockToday() {
-		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
-	}
-
-	
 	@Test
 	public void onlyOnceADay() throws Refusal, IOException {
 		User leo = signup("leo");
@@ -76,6 +72,25 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		assertNotNull(sendEmailsAndCaptureLast().to());
 	}
 
+	@Test
+	public void notInterestedInPublicEvents() throws Refusal, IOException {
+		User leo = signup("leo");
+		agitter.events().create(leo, "eventToday", startTime + 11L);
+		agitter.events().create(leo, "eventTomorrow", startTime + 11L + ONE_DAY);
+
+		Clock.setForCurrentThread(startTime);
+		assertNotNull(sendEmailsAndCaptureLast().to());
+
+		leo.setInterestedInPublicEvents(false);
+
+		Clock.setForCurrentThread(Clock.currentTimeMillis() + ONE_DAY);
+		assertNull(sendEmailsAndCaptureLast().to());
+	}
+	
+
+	private long fourOClockToday() {
+		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
+	}
 
 	private EmailSenderMock sendEmailsAndCaptureLast() {
 		EmailSenderMock emailSenderMock = new EmailSenderMock();
@@ -84,7 +99,6 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		return emailSenderMock;
 	}
 
-	
 	private User signup(String username) throws Refusal {
 		return agitter.users().signup(username, username + "@email.com", "123");
 	}

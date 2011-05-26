@@ -6,8 +6,8 @@ public class UserImpl implements User {
 	private final String _username;
 	private final String _email;
 	private final String _password;
+	private boolean isInterestedInPublicEvents = true;
 
-	
 	public UserImpl(String username, String email, String password) {
 		_username = username;
 		_email = email;
@@ -41,6 +41,16 @@ public class UserImpl implements User {
 	@Override
 	public String fullName() {
 		return username();
+	}
+
+	@Override
+	public boolean isInterestedInPublicEvents() {
+		return isInterestedInPublicEvents;
+	}
+
+	@Override
+	public void setInterestedInPublicEvents(boolean interested) {
+		isInterestedInPublicEvents = interested;
 	}
 
 }

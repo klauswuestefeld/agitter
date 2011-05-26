@@ -115,10 +115,10 @@ public class LoginViewImpl implements LoginView {
 
 	
 	@Override
-	public SignupView showSignupView(String email_, String suggestedUserName_, String password_) {
+	public SignupView showSignupView() {
 		loginFieldsGrid.setVisible(false);
 		SignupView signup = new SignupViewImpl(loginRightSideContainer);
-		signup.show(email_, suggestedUserName_, password_);
+		signup.show();
 		return signup;
 	}
 
@@ -136,12 +136,17 @@ public class LoginViewImpl implements LoginView {
 
 	
 	@Override
-	public void onLoginAttempt(final Runnable runnable) {
+	public void onLoginAttempt(final Runnable loginAction) {
 		login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			runnable.run();
+			loginAction.run();
 		}});
+	}
+
+	
+	@Override
+	public void onStartSignup(final Runnable action) {
 		signup.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			runnable.run();
+			action.run();
 		}});
 	}
 

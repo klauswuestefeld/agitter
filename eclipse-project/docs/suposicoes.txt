@@ -1,22 +1,53 @@
-Empreenda-Framps Release (vai ser usado pra eventos de software por enquanto) - Todos continuam recebendo todos os Agitos.
+Easy Kills
 
-	"X" Button pra remover agito - Fazer funcionar de novo, chamando o Event.notInterested(User)
+	Recentes - Mostrar os agitos duas horas atras pra cá. (em cinzinha deixa pro futuro)
+
+	Cross-site scripting - Evitar.
+
+	URLs clicáveis na descricao do agito
 
 
-Public MVP Release 1.0
+"Finish What We Started" Release
 
-	TimeZone do Server - Acertar no script de install.
-
-	Logging de Excecoes
-
-	Sign-up
-		Enter e tab para fazer login e signup
-	
-	Feedback - Mecanismo fácil da galera reportar feedback.
-
-	Signup
+	Sign-up e Login
+		Validação de email (puxar do projeto antigo)
+		Validação de username (mesmas regras do twitter).
+		Email de confirmacao de cadastro. 
 		Back do Browser e botão de Cancelar pra voltar.
 		Campo de email: browser sugerir valores já preenchidos pra outros sites.
+
+		
+"Estamos Começando a Conversar" Release
+
+	Quem?
+		- Lista de emails convidados do Agito no espaço da direita. Xizinho em cada um p remover. Emails ficam persistidos p usar em auto-completion dos proximos agitos.
+			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
+			http://loopj.com/jquery-tokeninput/
+
+	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
+		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
+			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
+
+	Privacidade
+		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+		- Unsubscribe geral do email diario.
+
+
+"Break the Vial" Release
+
+	Grupos de Contatos
+		Grupos dentro de grupos.
+
+	Importação de Emails de meus Contatos
+		- GMail, Yahoo, Hotmail através do SocialAuth
+		- Outros Provedores através de paste num campo grande.
+			- Achar os arroba @ e detectar os emails válidos em volta deles.
+
+	- Username e Fullname de quem agitou no Agito.
+		- Tela de "Account Settings" pra preencher FullName
+		- Convidados: Auto-complete de username, fullname e grupos
+
+	Permalink para cada agito, para que possa ser linkado, tweetado, etc. Envolve lidar c a browser History no Vaadin
 
 	Acabamento de UI
 		Agitar (ver docs/ui/mvp)
@@ -25,79 +56,20 @@ Public MVP Release 1.0
 			Ver docs/ui/mvp/EmailTemplate.rtf
 		Ilustração Explicativa - Falar c Petra. 
 
-	Importação de Emails de meus Contatos
-		- GMail, Yahoo, Hotmail através do SocialAuth
-			- Servlet p redirecionar www.vagaloom.com -> vagaloom.com. Senao dá pau no SocialAuth se for usado o errado.
-		- Outros Provedores através de paste num campo grande ou upload de arquivo.
-			- Achar os arroba @ no arquivo e detectar os emails válidos em volta deles.
-
-	Quem?
-		- Username e Fullname de quem agitou no Agito.
-		- Lista de convidados do Agito no espaço da direita. Auto completion de nomes, emails e grupos. Xizinho em cada um p remover.
-			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
-			http://loopj.com/jquery-tokeninput/
-			Grupos de Contatos
-				Grupos dentro de grupos.
-
-	Relevancia - Filtrar agitos mais relevantes.
-
-	Cadastro
-		Email de autenticação de cadastro. 
-
-	Cross-site scripting - Evitar em algum ponto focal da arquitetura.
-
-	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
-
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
 
-	Agenda Semanal em vez de diária.
-	
+	TimeZone do Server - Acertar no script de install.
+
 	Vaadin productionMode=true
 
+	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
 
-Release 1.1
+	HTTPS - Precisamos ter um mínimo de segurança nas informacoes relativas ao login, com https.
 
-	Privacidade - Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
-	Unsubscribe - Capacidade de dar um unsubscribe direto no email da agenda.
+
+"Delete suposicoes.txt" Release
+
+	Feedback - Mecanismo fácil da galera reportar feedback e controlarmos priorização.
+
 	
-
-
-------------------------------------------------------------------
-Idéias Pro Futuro:
-
-	Rede Social
-		Grupos Publicos - Permitem seguidores.
-		Penetras - Posso escolher seguir os agitos publicos de certas pessoas. Equivalente aos seguidores do Twitter.
-
-	Agitos
-		Onde? - Local/Mapa do agito
-		RSVP - Pedir confirmacao, dar confirmação.
-		Comentários nos agitos.
-			Fotos, o caralho.
-		ReAgitar - Equivalente ao ReTweet.
-		Bounce - Quando convidar um cara que deu unsubscribe no email avisar agitador que convidado nao vai receber email.
-
-	Unificação de Credenciais - Mesmo tendo multiplas contas de email, twitter, facebook, etc, quero ser uma unica pessoa no agitos.   
-				
-	Outras Redes Sociais - Vai ser importante interoperar com Twitter e Facebook.
-		Facebook
-			Login via facebook (oauth).
-			Visualizar meus agitos no facebook.
-			Agitar via facebook? Um link pro site do agitos já ta bom no 1o momento?
-		Twitter
-			Login via twitter (oauth).
-			Twitar os agitos c X tempo (uma hora?) de antecedencia.
-			Que mais podemos fazer com o Twitter?
-	
-	Agenda
-		Google Calendar - Ver meus agitos no Calendar. Possibilita Mobile. Importante para grandes agitadores!
- 
-	Mobile
-		SMS
-			Receber via SMS agitos de pessoas q eu escolher.
-			Receber lembretes de agitos um pouco antes.
-		Client específico pro Agitos no mobile.
-	
-	Sites de eventos / shows
-		Integração com widget estilo o "I Like" do facebook mais que seja "Eu Vou" e "Eu Fui" (para avaliação de eventos que já aconteceram)

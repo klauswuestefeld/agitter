@@ -15,8 +15,20 @@ public class Clock {
 		_currentTime.set(millis);
 	}
 
+	public static Long memento() {
+		return _currentTime.get();		
+	}
+
+	public static void restore(Long memento) {
+		if (memento == null) {
+			_currentTime.remove();
+			return;
+		}
+		_currentTime.set(memento);
+	}
+
 	public static void clearForCurrentThread() {
-		_currentTime.remove();		
+		_currentTime.remove();
 	}
 
 }

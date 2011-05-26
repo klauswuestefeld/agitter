@@ -3,7 +3,7 @@ package agitter.ui.view;
 
 public interface SignupView {
 
-	void show(String email_, String suggestedUserName_, String password_);
+	void show();
 
 	String username();
 	String email();

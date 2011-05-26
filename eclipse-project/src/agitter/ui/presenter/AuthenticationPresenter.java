@@ -26,14 +26,17 @@ public class AuthenticationPresenter {
 		this.onAuthenticate = onAuthenticate;
 		this.warningDisplayer = warningDisplayer;
 
-		this.loginView.onLoginAttempt(new Runnable() { @Override public void run() {
-			loginAttempt();
-		}});
+		this.loginView.onLoginAttempt(
+			new Runnable() { @Override public void run() { loginAttempt(); }}
+		);
 		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
 			forgotMyPassword();
 		}});
 		this.loginView.onLogoClicked(new Runnable() { @Override public void run() {
 			logoClicked();
+		}});
+		this.loginView.onStartSignup(new Runnable() { @Override public void run() {
+			startSignup();
 		}});
 		
 		this.loginView.show();
@@ -41,6 +44,10 @@ public class AuthenticationPresenter {
 	
 	private void loginAttempt() {
 		User user;
+		//TODO: QuickFix. Parece que cadastraram um usuário sem username e por isso pode logar sem digitar nada. 
+		if( this.isBlank( loginView.emailOrUsername() ) ) {
+			return;
+		}
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
 			user = credential.isEmailProvided()
@@ -51,10 +58,17 @@ public class AuthenticationPresenter {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		} catch (UserNotFound e) {
-			showSignup(credential);
+			warningDisplayer.consume( e.getMessage() );
 			return;
 		}
 		onAuthenticate.consume(user);
+	}
+
+	private void startSignup() {
+		signupView = loginView.showSignupView();
+		signupView.onSignupAttempt(new Runnable() { @Override public void run() {
+			signupAttempt();
+		}});
 	}
 
 	protected void logoClicked() {
@@ -84,14 +98,26 @@ public class AuthenticationPresenter {
 		}
 	}
 
-	private void showSignup(Credential credential) {
-		signupView = loginView.showSignupView(credential.email(), credential.suggestedUserName(), credential.password());
-		this.signupView.onSignupAttempt(new Runnable() { @Override public void run() {
-			signupAttempt();
-		}});
+	private boolean isBlank(final String value) {
+		return value == null || value.trim().equals( "" );
 	}
-
+	
 	private void signupAttempt() {
+		if( this.isBlank( signupView.email() ) ) {
+			warningDisplayer.consume("Campo email deve ser especificado");
+			return;			
+		}
+		
+		if( this.isBlank( signupView.username() ) ) {
+			warningDisplayer.consume("Campo username deve ser especificado");
+			return;			
+		}
+		
+		if( this.isBlank( signupView.password() ) ) {
+			warningDisplayer.consume("Campo senha deve ser especificado");
+			return;			
+		}
+
 		if (!isPasswordConfirmed()) {
 			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
 			return;
