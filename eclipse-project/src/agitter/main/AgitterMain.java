@@ -55,7 +55,7 @@ public class AgitterMain {
 	private static final int LOG_FILE_ROTATION_COUNT = 5;
 	private static final Level INFO = Level.INFO;
 
-	static synchronized public void initLogger() {
+	static private void initLogger() {
 		Logger logger = getLogger();
 		String logFilePath = "agitter.log";
 		Logger.getLogger("").setLevel(Level.WARNING);

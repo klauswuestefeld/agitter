@@ -62,7 +62,7 @@ public class PeriodicScheduleMailer {
 			getLogger().info("Sending events to user: " + user.username());
 			tryToSendEventsToHappenIn24Hours(user);
 		} catch(RuntimeException e) {
-			getLogger().log(Level.SEVERE, e.getMessage(), e);
+			getLogger().log(Level.SEVERE, "Erro enviando email para: " + user.username()+ "/" + user.email() + " - " + e.getMessage(), e);
 		}
 	}
 
