@@ -1,0 +1,168 @@
+/* Session  ----------------------------------------------------------------------   */
+
+.a-session-view {
+	min-height: 100%;
+	background-color: #FF7022;
+	background-image: url('SessionBackground.png');
+	background-repeat: repeat-x; 
+}
+
+.a-session-top-bar {
+	width: 1000px;
+	height: 44px;  
+	margin: 0 auto;
+	padding: 0px 25px 0px 25px;
+}
+
+.a-session-logo {
+	float: left;
+	border: none;
+	background: transparent;
+	height: 42px;  
+	margin-left: 5px;
+}
+.a-session-logo .v-nativebutton-caption {
+	font-weight: bold;
+	color: orange;
+	font-size: 32px;
+}
+
+.a-session-top-bar-right {
+	float: right;
+	margin-top: 12px;
+	margin-right: 12px;
+}
+
+.a-session-user-greeting {
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	color: white;
+	vertical-align: middle;
+	margin-top: 1px;
+	margin-right: 10px;
+}
+
+.a-session-logout-button {
+	display: inline-block;
+	vertical-align: middle;
+}
+.a-session-logout-button .v-button-caption {
+	font-weight: bold;
+	color: white;
+}
+
+.a-session-main-content-wrapper {
+	min-width: 1000px;  /* 900 */
+	max-width: 1000px;  /* 1100 */
+	margin: 0 auto;
+	padding: 25px 25px 0px 25px;
+}
+
+.a-session-main-content {
+	min-height: 1080px;
+	background: white;
+	border: none;
+	border-radius: 8px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-right-color: dimgray;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	box-shadow: 2px 3px 3px gray;
+	margin-right: 2px;
+}
+
+.a-session-main-content-bottom-filler {
+	background: white;
+}
+
+/* Invite  ----------------------------------------------------------------------   */
+
+.a-invite-view .v-panel-content {
+	background: #EBEBEB;
+	border: none;
+	border-width: 1px;
+	border-radius: 0px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-style: solid;
+	border-bottom-color: darkgray;
+}
+
+.a-invite-view .v-captiontext {
+	color: #404040;
+	font-size: 20px;
+	text-shadow: 1px 1px 1px white;
+	padding-bottom: 3px;
+}
+textarea.a-invite-description  {
+	font-size: 18px;
+	resize: none;
+}
+ 	
+.a-invite-button {
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: #E44545;
+	margin-top: 6px;
+}
+.a-invite-button .v-nativebutton-caption {
+	color: white;
+	font-weight: bold;
+}
+
+
+/* Event List  ----------------------------------------------------------------------   */
+
+.a-event-list-view {
+}
+
+
+/* Event  ----------------------------------------------------------------------   */
+
+.a-event-view .v-panel-content {
+	background: white;
+	border: none;
+	border-style: solid;
+	border-width: 0px;
+	border-radius: 0px;
+	border-bottom-width: 1px;
+	border-bottom-color: lightgray;
+}
+
+.a-event-view .v-panel-content:hover {
+	background: #F0F0F0;
+}
+
+.a-event-description {
+	color: black;
+	font-size: 18px;
+    line-height: normal;
+}
+.a-event-date {
+	font-weight: bold;
+	margin-top: 2px;
+}
+.a-event-owner {
+	color: dodgerblue;
+	font-weight: bold;
+	margin-top: 1px;
+}
+.a-event-remove-button {
+	height: 16px;
+	width: 16px;
+	font-weight: bold;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: #E44545;
+	margin-top: 4px;
+	padding: 0px;
+}
+.a-event-remove-button .v-nativebutton-caption {
+	color: white;
+}
+

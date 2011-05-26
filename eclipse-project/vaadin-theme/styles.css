@@ -1,274 +1,65 @@
-@import "../reindeer/styles.css";
+@import "../reindeer/styles.css"; 
+
+@import "login/styles.css";
+@import "session/styles.css";
+
+/*  Vaadin defaults
+html, body {
+	height: 100%;
+	margin: 0;
+}
+/*
+
+/* Reindeer defaults
+.v-generated-body {
+    width: 100%;
+    height: 1000px;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.v-app {
+    height: 100%;
+}
+.v-view {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    outline: none;
+    margin-top: -1px;
+    border-top: 1px solid transparent;
+    position: relative;
+}
+.v-csslayout {
+	overflow: hidden;     <-----------
+}	
+*/
 
 .v-app {
 	background: white;
 }
 
-
-/* Login  ----------------------------------------------------------------------   */
-
-.a-login-view {
-	background: url('resource/login/LoginBackground.png');
+.v-view {
 }
 
-.a-login-main-grid {
-	background: transparent;
+.a-agitter-main-window {
+	height: inherit;
+	width: inherit;
+	overflow: inherit;
 }
 
-.a-login-logo {
-    height: 74px;
-	margin-left: 20px;
-	border: none;
-	background: transparent;
-}
-.a-login-logo .v-nativebutton-caption {
-	font-weight: bold;
-	color: orange;
-	text-shadow: 1px 1px 0px #F5F5F5;
-	font-size: 60px;
-	position: relative;
-	top: -3px;
+.a-agitter-view {
+	height: inherit;
+	width: inherit;
+	overflow: inherit;
 }
 
-.a-login-fields-grid .v-gridlayout-spacing-on {
-	padding-top: 0px;
-	padding-left: 0px;
-	padding-right: 7px;
-	padding-bottom: 4px;
+.v-csslayout {
 }
 
-.a-login-fields-grid .v-captiontext {
-	color: white;
+/* To make the automatic inner divs of a CSSLayout irrelevant in termos of sizing and scrolling  */
+.v-csslayout .v-csslayout-container, .v-csslayout .v-csslayout-margin {
+	width: inherit;
+	height: inherit;
+	overflow: inherit;
 }
-.a-login-fields-grid .v-button-caption {
-	color: white;
-}
-.a-login-fields-grid .v-nativebutton {
-	height: 24px;
-	border-style: outset;
-	border-width: 1px;	
-	border-color: #E49E9E;
-	background: #E44545;
-}
-.a-login-fields-grid .v-nativebutton-caption {
-	color: white;
-	font-weight: bold;
-}
-
-.a-login-picture {
-	padding-top: 24px;
-	padding-right: 16px;
-	width: 548px;
-}
-
-.a-login-advert-1 {
-	font-weight: bold;
-	padding-top: 45px;
-	font-size: 34px;
-    line-height: normal;
-}
-.a-login-signup-button {
-	border-style: round;
-	border-width: 1px;	
-	border-color: #E49E9E;
-	background: #E44545;
-	padding-left: 15px; 
-	padding-right: 15px; 
-	margin-top: 24px;
-	margin-right: 35px
-}
-.a-login-signup-button .v-nativebutton-caption {
-	color: white;
-	font-size: 26px;
-}
-.a-login-advert-3 {
-	padding-top: 108px;
-	font-size: 22px;
-    line-height: normal;
-}
-.a-login-advert-4 {
-	padding-top: 16px;
-	font-size: 22px;
-    line-height: normal;
-}
-
-/* Signup  ----------------------------------------------------------------------   */
-
-.a-signup-view {
-	padding-top: 34px;
-	padding-left: 20px;
-}
-
-.a-signup-welcome1 {
-	font-weight: bold;
-	font-size: 34px;
-    line-height: normal;
-}
-.a-signup-welcome2 {
-	font-size: 21px;
-    line-height: normal;
-}
-
-.a-signup-fields {
-	padding-top: 20px;
-	padding-left: 20px;
-}
-.a-signup-fields .v-nativebutton {
-	margin-top: 6px;
-	height: 24px;
-	border-style: outset;
-	border-width: 1px;
-	border-color: #E49E9E;
-	background: #E44545;
-}
-.a-signup-fields .v-nativebutton-caption {
-	color: white;
-	font-weight: bold;
-}
-
-
-/* Session  ----------------------------------------------------------------------   */
-
-.a-session-view {
-	background-image: url('resource/session/SessionBackground.png');
-}
-
-.a-session-top-bar {
-}
-
-.a-session-logo {
-    height: 36x;
-    border: none;
-	background: transparent;
-	padding-left: 20px;
-}
-.a-session-logo .v-nativebutton-caption {
-	font-weight: bold;
-	color: orange;
-	font-size: 32px;
-	position: relative;
-	top: -2px;
-}
-
-.a-session-user-greeting {
-	color: white;
-	padding-top: 2px;
-	padding-right: 10px;
-}
-
-.a-session-logout-button {
-	margin-right: 30px;
-}
-
-	.a-session-logout-button .v-button-caption {
-	font-weight: bold;
-	color: white;
-	padding-right: 2px;
-}
-
-.a-session-scroll-content {
-}
-
-.a-session-main-content .v-panel-content {
-	background: white;
-	border: none;
-	border-radius: 9px;
-	border-right-style: solid;
-	border-right-width: 1px;
-	border-right-color: gray;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-
-.a-session-main-content-bottom-filler {
-	background: transparent;
-}
-
-/* Invite  ----------------------------------------------------------------------   */
-
-.a-invite-view .v-panel-content {
-	background: #EBEBEB;
-	border: none;
-	border-width: 1px;
-	border-radius: 0px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	border-bottom-style: solid;
-	border-bottom-color: darkgray;
-}
-
-.a-invite-view .v-captiontext {
-	color: #404040;
-	font-size: 20px;
-	text-shadow: 1px 1px 1px white;
-	padding-bottom: 3px;
-}
-textarea.a-invite-description  {
-	font-size: 18px;
-}
- 	
-.a-invite-button {
-	height: 24px;
-	border-style: outset;
-	border-width: 1px;
-	border-color: #E49E9E;
-	background: #E44545;
-	margin-top: 6px;
-}
-.a-invite-button .v-nativebutton-caption {
-	color: white;
-	font-weight: bold;
-}
-
-
-/* Event List  ----------------------------------------------------------------------   */
-
-.a-event-list-view {
-}
-
-
-/* Event  ----------------------------------------------------------------------   */
-
-.a-event-view .v-panel-content {
-	background: white;
-	border: none;
-	border-style: solid;
-	border-width: 0px;
-	border-radius: 0px;
-	border-bottom-width: 1px;
-	border-bottom-color: lightgray;
-}
-
-.a-event-view .v-panel-content:hover {
-	background: #F0F0F0;
-}
-
-.a-event-description {
-	color: black;
-	font-size: 18px;
-    line-height: normal;
-}
-.a-event-date {
-	font-weight: bold;
-	margin-top: 2px;
-}
-.a-event-owner {
-	color: dodgerblue;
-	font-weight: bold;
-	margin-top: 1px;
-}
-.a-event-remove-button {
-	height: 16px;
-	width: 16px;
-	font-weight: bold;
-	border-style: outset;
-	border-width: 1px;
-	border-color: #E49E9E;
-	background: #E44545;
-	margin-top: 4px;
-	padding: 0px;
-}
-.a-event-remove-button .v-nativebutton-caption {
-	color: white;
-}
-

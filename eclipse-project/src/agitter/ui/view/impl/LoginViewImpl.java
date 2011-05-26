@@ -10,6 +10,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -21,8 +22,8 @@ import com.vaadin.ui.themes.BaseTheme;
 
 public class LoginViewImpl implements LoginView {
 
-	private final VerticalLayout container;
-	private final VerticalLayout loginView = new VerticalLayout();
+	private final ComponentContainer container;
+	private final CssLayout loginView = new CssLayout();
 	private final Button loginAgitterLogo = new NativeButton("agitter!");
 	private final GridLayout loginFieldsGrid = new GridLayout(3,2);
 	private final TextField emailOrUsername = new TextField("Email ou Username");
@@ -33,7 +34,7 @@ public class LoginViewImpl implements LoginView {
 	private final ComponentContainer loginRightSideContainer = new VerticalLayout();
 
 	
-	LoginViewImpl(VerticalLayout container) {
+	LoginViewImpl(ComponentContainer container) {
 		this.container = container;
 	}
 
@@ -50,12 +51,10 @@ public class LoginViewImpl implements LoginView {
 		container.removeAllComponents();
 		loginView.addStyleName("a-login-view");
 		loginView.removeAllComponents();
-		loginView.setSizeFull();
 		container.addComponent(loginView); 
 		// Main Grid
 		GridLayout loginMainGrid = new GridLayout(2,2); loginMainGrid.addStyleName("a-login-main-grid");
 		loginView.addComponent(loginMainGrid);
-		loginView.setComponentAlignment(loginMainGrid, Alignment.TOP_CENTER);
 			// Logo
 			loginAgitterLogo.addStyleName("a-login-logo");
 			loginMainGrid.addComponent(loginAgitterLogo, 0, 0);
@@ -76,7 +75,7 @@ public class LoginViewImpl implements LoginView {
 				loginFieldsGrid.addComponent(forgotMyPassword, 1, 1);
 			// Picture
 			Embedded loginPicture = new Embedded(); loginPicture.addStyleName("a-login-picture");
-			ThemeResource img = new ThemeResource("resource/login/LoginMainPicture.png");
+			ThemeResource img = new ThemeResource("login/LoginMainPicture.png");
 			loginPicture.setSource(img);
 			loginPicture.setType(Embedded.TYPE_IMAGE);
 			loginMainGrid.addComponent(loginPicture, 0, 1);

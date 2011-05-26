@@ -4,24 +4,21 @@ import agitter.ui.view.AgitterView;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SessionView;
 
-import com.vaadin.ui.Layout;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UriFragmentUtility;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView {
 
-	private VerticalLayout mainPanel = new VerticalLayout();
+	private CssLayout agitterMainwindowContent = new CssLayout();
+	private CssLayout agitterView = new CssLayout();
 	private final UriFragmentUtility fragmentUtility = new UriFragmentUtility();
 	
 	public AgitterViewImpl() {
 		this.setCaption("Agitter!");
-		this.getContent().addStyleName("a-agitter-main-window");
-		((Layout)this.getContent()).setMargin(false);    // removes the margin from the entire application
-		addComponent(fragmentUtility);
-		mainPanel.addStyleName("a-agitter-view");
-		mainPanel.setSizeFull();
-		setContent(mainPanel);
+		setContent(agitterMainwindowContent); agitterMainwindowContent.addStyleName("a-agitter-main-window");
+		agitterMainwindowContent.addComponent(fragmentUtility);
+		agitterMainwindowContent.addComponent(agitterView); agitterView.addStyleName("a-agitter-view");
 	}
 
 	@Override
@@ -32,13 +29,13 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 
 	@Override
 	public LoginView loginView() {
-		return new LoginViewImpl(mainPanel);
+		return new LoginViewImpl(agitterView);
 	}
 	
 
 	@Override
 	public SessionView showSessionView() {
-		return new SessionViewImpl(mainPanel);
+		return new SessionViewImpl(agitterView);
 	}
 
 }
