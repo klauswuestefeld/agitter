@@ -1,0 +1,58 @@
+/*  General styles for top application components and default classes definitions */
+
+.v-app {
+	background: white;
+}
+
+.v-view {
+}
+
+.a-agitter-main-window {
+	height: 100%;
+	width: 100%;
+	overflow: inherit;
+}
+.a-agitter-main-window .v-csslayout-container, .a-agitter-main-window .v-csslayout-margin {
+	height: 100%;
+	width: 100%;
+}
+
+.a-agitter-view {
+	height: 100%;
+	width: 100%;
+	overflow: inherit;
+}
+.a-agitter-view .v-csslayout-container, .a-agitter-view .v-csslayout-margin {
+	height: 100%;
+	width: 100%;
+}
+
+.v-csslayout {
+}
+/* DISABLED To make the automatic inner divs of a CSSLayout irrelevant in terms of sizing */
+._v-csslayout .v-csslayout-container, ._v-csslayout .v-csslayout-margin {
+	width: inherit;
+	height: inherit;
+}
+
+
+/* Default Classes */
+
+button.a-default-nativebutton {
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: orangered;   /* #E44545 */
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+button.a-default-logo-color, label.a-default-logo-color {
+	color: orange;
+	background: transparent;
+	border: none;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px #F5F5F5;
+}

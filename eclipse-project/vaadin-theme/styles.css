@@ -1,6 +1,9 @@
 @import "../reindeer/styles.css"; 
 
+@import "styles-general.css";
+
 @import "login/styles.css";
+
 @import "session/styles.css";
 
 /*  Vaadin defaults
@@ -34,32 +37,3 @@ html, body {
 	overflow: hidden;     <-----------
 }	
 */
-
-.v-app {
-	background: white;
-}
-
-.v-view {
-}
-
-.a-agitter-main-window {
-	height: inherit;
-	width: inherit;
-	overflow: inherit;
-}
-
-.a-agitter-view {
-	height: inherit;
-	width: inherit;
-	overflow: inherit;
-}
-
-.v-csslayout {
-}
-
-/* To make the automatic inner divs of a CSSLayout irrelevant in termos of sizing and scrolling  */
-.v-csslayout .v-csslayout-container, .v-csslayout .v-csslayout-margin {
-	width: inherit;
-	height: inherit;
-	overflow: inherit;
-}

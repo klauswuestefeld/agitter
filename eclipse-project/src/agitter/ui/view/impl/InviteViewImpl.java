@@ -2,13 +2,18 @@ package agitter.ui.view.impl;
 
 import java.util.Date;
 
+import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.InviteView;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TextArea;
 
-public class InviteViewImpl extends Panel implements InviteView {
+public class InviteViewImpl extends CssLayout implements InviteView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,20 +22,16 @@ public class InviteViewImpl extends Panel implements InviteView {
 	private NativeButton invite = new NativeButton("Agitar!");
 
 	public InviteViewImpl() {
-		setScrollable(false);
-		addStyleName(Reindeer.PANEL_LIGHT);
 		addStyleName("a-invite-view");
-		VerticalLayout content = (VerticalLayout)getContent();
-		content.setSpacing(true);
-			description.setWidth("500px");
-			description.setHeight("55px");
-			content.addComponent(description); description.addStyleName("a-invite-description");
-			date.setResolution(DateField.RESOLUTION_MIN);
-			date.setDateFormat("dd/MM/yyyy HH:mm");
-			content.addComponent(date);
-			invite.addStyleName("a-invite-button");
-			content.addComponent(invite);
-			description.focus();
+		description.setWidth("500px");
+		description.setHeight("55px");
+		addComponent(description); description.addStyleName("a-invite-description");
+		date.setResolution(DateField.RESOLUTION_MIN);
+		date.setDateFormat("dd/MM/yyyy HH:mm");
+		addComponent(date); date.addStyleName("a-invite-date");
+		addComponent(invite); invite.addStyleName("a-invite-send"); 
+		invite.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
+		description.focus();
 	}
 
 	

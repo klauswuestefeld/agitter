@@ -1,7 +1,7 @@
 /* Login  ----------------------------------------------------------------------   */
 
 .a-login-view {
-	background: white url('LoginBackground.png');
+	background: white url('LoginBackground.png') repeat-x;
 }
 
 .a-login-main-grid {
@@ -10,19 +10,14 @@
 	margin: 0 auto;
 }
 
-.a-login-logo {
+button.a-login-logo {
     height: 74px;
 	margin-left: 20px;
-	background: transparent;
-	border: none;
-}
-.a-login-logo .v-nativebutton-caption {
+	font-size: 60px;
 	position: relative;
 	top: -3px;
-	color: orange;
-	font-size: 60px;
-	font-weight: bold;
-	text-shadow: 1px 1px 0px #F5F5F5;
+}
+_button.a-login-logo .v-nativebutton-caption {
 }
 
 .a-login-fields-grid .v-gridlayout-spacing-on {
@@ -38,6 +33,8 @@
 .a-login-fields-grid .v-button-caption {
 	color: white;
 }
+
+/*
 .a-login-fields-grid .v-nativebutton {
 	height: 24px;
 	background: #E44545;
@@ -49,6 +46,7 @@
 	color: white;
 	font-weight: bold;
 }
+*/
 
 .a-login-picture {
 	width: 548px;
@@ -62,24 +60,18 @@
 	line-height: normal;
     padding-top: 45px;
 }
-.a-login-signup-button {
-	background: #E44545;
-	border-style: round;
-	border-width: 1px;	
-	border-color: #E49E9E;
+button.a-login-signup-button {
+	height: 45px;
 	padding-left: 15px; 
 	padding-right: 15px; 
 	margin-top: 24px;
-	margin-right: 35px
-}
-.a-login-signup-button .v-nativebutton-caption {
-	color: white;
+	margin-right: 35px;
 	font-size: 26px;
 }
 .a-login-advert-3 {
 	font-size: 22px;
     line-height: normal;
-	padding-top: 108px;
+	padding-top: 103px;
 }
 .a-login-advert-4 {
 	font-size: 22px;
@@ -108,15 +100,7 @@
 	padding-top: 20px;
 	padding-left: 20px;
 }
-.a-signup-fields .v-nativebutton {
-	height: 24px;
-	background: #E44545;
-	border-style: outset;
-	border-width: 1px;
-	border-color: #E49E9E;
+button.a-signup-button {
 	margin-top: 6px;
 }
-.a-signup-fields .v-nativebutton-caption {
-	color: white;
-	font-weight: bold;
-}
+

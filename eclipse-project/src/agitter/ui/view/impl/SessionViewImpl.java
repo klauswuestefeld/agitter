@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.EventListView;
 import agitter.ui.view.InviteView;
 import agitter.ui.view.SessionView;
@@ -26,7 +27,6 @@ public class SessionViewImpl implements SessionView {
 	private final CssLayout mainContent = new CssLayout();
 	private final InviteViewImpl inviteView = new InviteViewImpl();
 	private final EventListViewImpl eventList = new EventListViewImpl();
-	private final Label bottomFiller = new Label("");
 	
     public SessionViewImpl(ComponentContainer container){
     	this.container = container;
@@ -37,6 +37,7 @@ public class SessionViewImpl implements SessionView {
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
     		sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
     			sessionTopBar.addComponent(logo); logo.addStyleName("a-session-logo");
+    			logo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
     			sessionTopBar.addComponent(sessionTopBarRight); sessionTopBarRight.addStyleName("a-session-top-bar-right");
     				userGreeting.setSizeUndefined();
     				sessionTopBarRight.addComponent(userGreeting); userGreeting.addStyleName("a-session-user-greeting");
@@ -45,7 +46,6 @@ public class SessionViewImpl implements SessionView {
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
     				mainContent.addComponent(inviteView);
     				mainContent.addComponent(eventList);
-    				mainContent.addComponent(bottomFiller); bottomFiller.addStyleName("a-session-main-content-bottom-filler");
         userGreeting.setValue("Bem-vindo " + username + ".");
 	}
     

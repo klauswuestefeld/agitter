@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 
@@ -56,21 +57,21 @@ public class LoginViewImpl implements LoginView {
 		GridLayout loginMainGrid = new GridLayout(2,2); loginMainGrid.addStyleName("a-login-main-grid");
 		loginView.addComponent(loginMainGrid);
 			// Logo
-			loginAgitterLogo.addStyleName("a-login-logo");
-			loginMainGrid.addComponent(loginAgitterLogo, 0, 0);
+			loginMainGrid.addComponent(loginAgitterLogo, 0, 0); loginAgitterLogo.addStyleName("a-login-logo");
+			loginAgitterLogo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
 			loginMainGrid.setComponentAlignment(loginAgitterLogo, Alignment.MIDDLE_LEFT);
 			// Login Fields and Buttons
-			loginFieldsGrid.addStyleName("a-login-fields-grid");
 			loginFieldsGrid.setSpacing(true);
 			loginFieldsGrid.removeAllComponents();
 			loginFieldsGrid.setVisible(true);
-			loginMainGrid.addComponent(loginFieldsGrid, 1, 0);
+			loginMainGrid.addComponent(loginFieldsGrid, 1, 0); loginFieldsGrid.addStyleName("a-login-fields-grid");
 			loginMainGrid.setComponentAlignment(loginFieldsGrid, Alignment.MIDDLE_LEFT);
 				emailOrUsername.setWidth("170px");
 				loginFieldsGrid.addComponent(emailOrUsername, 0, 0);
 				password.setWidth("100%");  // To assume the same width as the forgotMyPassword button
 				loginFieldsGrid.addComponent(password, 1, 0);
-				loginFieldsGrid.addComponent(login, 2, 0);
+				loginFieldsGrid.addComponent(login, 2, 0); login.addStyleName("a-default-button");
+				login.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 				loginFieldsGrid.setComponentAlignment(login, Alignment.BOTTOM_CENTER);
 				loginFieldsGrid.addComponent(forgotMyPassword, 1, 1);
 			// Picture
@@ -90,24 +91,21 @@ public class LoginViewImpl implements LoginView {
 					label = new Label(
 							"Ainda não está agitando?"
 					);
-					label.addStyleName("a-login-advert-1");
-					loginAdvertLayout.addComponent(label);
-					signup.addStyleName("a-login-signup-button");
-					loginAdvertLayout.addComponent(signup);
+					loginAdvertLayout.addComponent(label); label.addStyleName("a-login-advert-1");
+					loginAdvertLayout.addComponent(signup); signup.addStyleName("a-login-signup-button");
+					signup.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 					loginAdvertLayout.setComponentAlignment(signup, Alignment.MIDDLE_CENTER);
 					label = new Label(
 							"Festas, saídas, jogos, churrascos, baladas,<br/> aniversários, espetáculos, qualquer coisa!"
 					);
 					label.setContentMode(Label.CONTENT_XHTML);
-					label.addStyleName("a-login-advert-3");
-					loginAdvertLayout.addComponent(label);
+					loginAdvertLayout.addComponent(label); label.addStyleName("a-login-advert-3");
 					label = new Label(
 							"Saia da internet.<br/>Vá agitar com seus amigos!"
 					);
 					label.setContentMode(Label.CONTENT_XHTML);
-					label.addStyleName("a-login-advert-4");
-					loginAdvertLayout.addComponent(label);
-					
+					loginAdvertLayout.addComponent(label); label.addStyleName("a-login-advert-4");
+										
 		login.setClickShortcut( KeyCode.ENTER );
 		
 		setupFocus();

@@ -6,10 +6,10 @@ import agitter.ui.view.EventData;
 import agitter.ui.view.EventListView;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.ProgressIndicator;
-import com.vaadin.ui.VerticalLayout;
 
-final class EventListViewImpl extends VerticalLayout implements EventListView {
+final class EventListViewImpl extends CssLayout implements EventListView {
 
 	public EventListViewImpl() {
 		addStyleName("a-event-list-view");

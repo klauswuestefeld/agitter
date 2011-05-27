@@ -51,7 +51,8 @@ public class SignupViewImpl implements SignupView {
 			signupfields.addComponent(password);
 			passwordConfirmation.setWidth("170px");
 			signupfields.addComponent(passwordConfirmation);
-			signupfields.addComponent(signup);
+			signupfields.addComponent(signup); signup.addStyleName("a-signup-button");
+			signup.addStyleName("a-default-nativebutton");
 		
 		setupFocus();
 		signup.setClickShortcut( KeyCode.ENTER );
