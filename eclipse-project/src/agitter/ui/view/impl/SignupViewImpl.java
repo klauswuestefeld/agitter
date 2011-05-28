@@ -41,12 +41,16 @@ public class SignupViewImpl implements SignupView {
 			// Signup Fields
 			CssLayout signupfields = new CssLayout();
 			signupView.addComponent(signupfields); signupfields.addStyleName("a-signup-fields");
+				email.setDebugId("email");
 				email.setSizeUndefined();
 				signupfields.addComponent(email); email.addStyleName("a-signup-email");
+				username.setDebugId("username");
 				username.setSizeUndefined();
 				signupfields.addComponent(username); username.addStyleName("a-signup-username");
+				password.setDebugId("password");
 				password.setSizeUndefined();
 				signupfields.addComponent(password); password.addStyleName("a-signup-password");
+				passwordConfirmation.setDebugId("passwordConfirmation");
 				passwordConfirmation.setSizeUndefined();
 				signupfields.addComponent(passwordConfirmation); passwordConfirmation.addStyleName("a-signup-password-confirmation");
 				signupfields.addComponent(signup); signup.addStyleName("a-signup-button");

@@ -62,14 +62,15 @@ public class LoginViewImpl implements LoginView {
 				loginAgitterLogo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
 				// Login Fields and Buttons
 				loginFields.removeAllComponents();
-				loginFields.setVisible(true);
 				topBar.addComponent(loginFields); loginFields.addStyleName("a-login-fields");
 					CssLayout wrapper = new CssLayout(); 
 					loginFields.addComponent(wrapper); wrapper.addStyleName("a-login-username");
+					emailOrUsername.setDebugId("username");
 						emailOrUsername.setSizeUndefined();
 						wrapper.addComponent(emailOrUsername);
 					wrapper = new CssLayout();
 					loginFields.addComponent(wrapper); wrapper.addStyleName("a-login-password");
+						password.setDebugId("password");
 						password.setSizeUndefined();
 						wrapper.addComponent(password);
 					loginFields.addComponent(login); login.addStyleName("a-login-button"); 
@@ -111,7 +112,7 @@ public class LoginViewImpl implements LoginView {
 	
 	@Override
 	public SignupView showSignupView() {
-		loginFields.setVisible(false);
+		topBar.removeComponent(loginFields);
 		SignupView signup = new SignupViewImpl(loginRightSideContainer);
 		signup.show();
 		return signup;
