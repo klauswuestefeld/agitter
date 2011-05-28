@@ -94,7 +94,7 @@ public class LoginViewImpl implements LoginView {
 				loginRightSideContainer.addComponent(signup); signup.addStyleName("a-login-signup-button");
 				signup.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 				label = new Label(
-						"Festas, saídas, jogos, churrascos, baladas,<br/> aniversários, espetáculos, qualquer coisa!"
+						"Festas, encontros, jogos, churrascos, baladas,<br/> aniversários, espetáculos, qualquer coisa!"
 				);
 				label.setContentMode(Label.CONTENT_XHTML);
 				loginRightSideContainer.addComponent(label); label.addStyleName("a-login-advert-3");

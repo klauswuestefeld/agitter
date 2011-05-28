@@ -9,7 +9,7 @@ public class EventsMailFormatter {
 	private static final String BODY = "Olá %USERNAME%, seus amigos estão agitando e querem você lá: <br/><br/>"
 			+"%EVENT_LIST%"
 			+"<BR/><BR/><BR/>"
-			+"<a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, baladas ou qualquer tipo de agito."
+			+"<a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito."
 			+"<BR/><BR/>Saia da Internet. Agite!   \\o/"
 			+"<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
 	//			+"<BR><BR>Para não receber mais nenhum convite clique: <a href=\"http://agitter.com\">unsubscribe</a>";
