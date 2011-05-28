@@ -30,11 +30,17 @@
 .v-csslayout {
 }
 /* DISABLED To make the automatic inner divs of a CSSLayout irrelevant in terms of sizing */
-._v-csslayout .v-csslayout-container, ._v-csslayout .v-csslayout-margin {
-	width: inherit;
-	height: inherit;
+.___v-csslayout .v-csslayout-container, .___v-csslayout .v-csslayout-margin {
+	width: 100%;
+	height: 100%;
 }
 
+/* DISABLED */
+___button {
+	overflow: visible;
+	padding-left: 6px;
+	padding-right: 6px;
+}
 
 /* Default Classes */
 

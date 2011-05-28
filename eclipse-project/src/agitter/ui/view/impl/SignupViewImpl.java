@@ -6,16 +6,16 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 public class SignupViewImpl implements SignupView {
 
 	private final ComponentContainer container;
-	private final VerticalLayout signupView = new VerticalLayout();
+	private final CssLayout signupView = new CssLayout();
 	private final TextField email = new TextField("Email");
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
@@ -33,26 +33,23 @@ public class SignupViewImpl implements SignupView {
 		
 			// Welcome messages
 			Label label;
-			label = new Label("Bem-vindo"); label.addStyleName("a-signup-welcome1");
-			signupView.addComponent(label);
-			label = new Label("Complete seus dados e comece a agitar!"); label.addStyleName("a-signup-welcome2");
-			signupView.addComponent(label);
-
+			label = new Label("Bem-vindo");
+			signupView.addComponent(label); label.addStyleName("a-signup-welcome1");
+			label = new Label("Complete seus dados e comece a agitar!");
+			signupView.addComponent(label); label.addStyleName("a-signup-welcome2");
 			// Signup Fields
-			VerticalLayout signupfields = new VerticalLayout(); signupfields.addStyleName("a-signup-fields");
-			signupfields.setSpacing(true);
-			signupView.addComponent(signupfields);
-
-			email.setWidth("170px");
-			signupfields.addComponent(email);
-			username.setWidth("170px");
-			signupfields.addComponent(username);
-			password.setWidth("170px");
-			signupfields.addComponent(password);
-			passwordConfirmation.setWidth("170px");
-			signupfields.addComponent(passwordConfirmation);
-			signupfields.addComponent(signup); signup.addStyleName("a-signup-button");
-			signup.addStyleName("a-default-nativebutton");
+			CssLayout signupfields = new CssLayout();
+			signupView.addComponent(signupfields); signupfields.addStyleName("a-signup-fields");
+				email.setSizeUndefined();
+				signupfields.addComponent(email); email.addStyleName("a-signup-email");
+				username.setSizeUndefined();
+				signupfields.addComponent(username); username.addStyleName("a-signup-username");
+				password.setSizeUndefined();
+				signupfields.addComponent(password); password.addStyleName("a-signup-password");
+				passwordConfirmation.setSizeUndefined();
+				signupfields.addComponent(passwordConfirmation); passwordConfirmation.addStyleName("a-signup-password-confirmation");
+				signupfields.addComponent(signup); signup.addStyleName("a-signup-button");
+				signup.addStyleName("a-default-nativebutton");
 		
 		setupFocus();
 		signup.setClickShortcut( KeyCode.ENTER );

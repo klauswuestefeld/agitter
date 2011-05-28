@@ -4,68 +4,85 @@
 	background: white url('LoginBackground.png') repeat-x;
 }
 
-.a-login-main-grid {
+.a-login-main-content {
 	width: 1000px;
 	background: transparent;
 	margin: 0 auto;
 }
 
+.a-login-top-bar {
+	height: 76px;
+}
+
 button.a-login-logo {
-    height: 74px;
+	float: left;
+	height: 74px;
 	margin-left: 20px;
 	font-size: 60px;
 	position: relative;
 	top: -3px;
 }
-_button.a-login-logo .v-nativebutton-caption {
+
+.a-login-fields {
+	float: right;
+	margin-top: 9px;
+	margin-right: 54px;
 }
 
-.a-login-fields-grid .v-gridlayout-spacing-on {
-	padding-top: 0px;
-	padding-left: 0px;
-	padding-right: 7px;
-	padding-bottom: 4px;
-}
-
-.a-login-fields-grid .v-captiontext {
-	color: white;
-}
-.a-login-fields-grid .v-button-caption {
+.a-login-fields .v-captiontext, .a-login-fields .v-button-caption {
 	color: white;
 }
 
-/*
-.a-login-fields-grid .v-nativebutton {
-	height: 24px;
-	background: #E44545;
-	border-style: outset;
-	border-width: 1px;	
-	border-color: #E49E9E;
+.a-login-username, .a-login-password {
+	display: inline-block;
+	zoom: 1;			/* IE6 stuff */
+	*display: inline;	/* IE6 stuff */
+	margin-right: 7px;
 }
-.a-login-fields-grid .v-nativebutton-caption {
-	color: white;
-	font-weight: bold;
+
+.a-login-username .v-textfield {
+	width: 162px;
 }
-*/
+
+.a-login-button {
+	vertical-align: bottom;
+}
+
+.a-login-forgot-password {
+	display: block;
+	margin-top: 4px;
+	margin-left: 178px;
+}
 
 .a-login-picture {
+	display: inline-block;
+	zoom: 1;			/* IE6 stuff */
+	*display: inline;	/* IE6 stuff */
 	width: 548px;
-	padding-top: 24px;
-	padding-right: 16px;
+	margin-top: 23px;
+}
+
+.a-login-rightside {
+	display: inline-block;
+	zoom: 1;			/* IE6 stuff */
+	*display: inline;	/* IE6 stuff */
+	width: 427px;
+	margin-left: 16px;
+	vertical-align: top;
 }
 
 .a-login-advert-1 {
 	font-size: 34px;
     font-weight: bold;
 	line-height: normal;
-    padding-top: 45px;
+    padding-top: 40px;
 }
 button.a-login-signup-button {
 	height: 45px;
 	padding-left: 15px; 
 	padding-right: 15px; 
 	margin-top: 24px;
-	margin-right: 35px;
+	margin-left: 106px;	
 	font-size: 26px;
 }
 .a-login-advert-3 {
@@ -82,7 +99,7 @@ button.a-login-signup-button {
 /* Signup  ----------------------------------------------------------------------   */
 
 .a-signup-view {
-	padding-top: 34px;
+	padding-top: 40px;
 	padding-left: 20px;
 }
 
@@ -97,10 +114,21 @@ button.a-login-signup-button {
 }
 
 .a-signup-fields {
-	padding-top: 20px;
-	padding-left: 20px;
+	padding-top: 10px;
+	padding-left: 20px;	
 }
+
+.a-signup-fields .v-caption {
+	margin-top: 7px;
+}
+
+.a-signup-email, .a-signup-username, .a-signup-password, .a-signup-password-confirmation { 
+	width: 180px;
+	display: block;
+}
+
 button.a-signup-button {
-	margin-top: 6px;
+	display: block;
+	margin-top: 10px;
 }
 

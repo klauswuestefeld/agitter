@@ -124,7 +124,6 @@ textarea.a-invite-description {
 	border-bottom-color: lightgray;
 	padding: 15px 18px;
 }
-
 .a-event-view:hover {
 	background: #F0F0F0;
 }
@@ -132,8 +131,13 @@ textarea.a-invite-description {
 button.a-event-remove-button {
 	float: right;
 	height: 16px;
+	max-height: 16px;
 	width: 16px;
+	max-width: 16px;
+	background: url('Delete.png') no-repeat right top;
+	border: none;
 	padding: 0px;
+	margin: 2px;
 }
 
 .a-event-description {

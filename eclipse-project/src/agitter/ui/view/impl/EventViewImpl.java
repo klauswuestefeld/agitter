@@ -16,10 +16,11 @@ public class EventViewImpl extends CssLayout {
 
 	static private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	private NativeButton removeButton = new NativeButton("X");
+	private NativeButton removeButton = new NativeButton();
 
 	public EventViewImpl(EventData event) {
 		addStyleName("a-event-view");
+		removeButton.setSizeUndefined();
 		addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
 		removeButton.addStyleName("a-default-nativebutton");
 		CssLayout texts = new CssLayout();
