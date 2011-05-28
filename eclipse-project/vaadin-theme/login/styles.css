@@ -79,10 +79,10 @@ button.a-login-logo {
 }
 button.a-login-signup-button {
 	height: 45px;
-	padding-left: 15px; 
-	padding-right: 15px; 
+	padding-left: 15px;
+	padding-right: 15px;
 	margin-top: 24px;
-	margin-left: 106px;	
+	margin-left: 100px;
 	font-size: 26px;
 }
 .a-login-advert-3 {
@@ -100,7 +100,7 @@ button.a-login-signup-button {
 
 .a-signup-view {
 	padding-top: 40px;
-	padding-left: 20px;
+	padding-left: 25px;
 }
 
 .a-signup-welcome1 {
@@ -123,12 +123,16 @@ button.a-login-signup-button {
 }
 
 .a-signup-email, .a-signup-username, .a-signup-password, .a-signup-password-confirmation { 
+	display: block;
 	width: 180px;
-	display: block;
 }
 
-button.a-signup-button {
-	display: block;
-	margin-top: 10px;
+.a-signup-button, .a-signup-cancel-button {
+	margin-top: 15px;
+	margin-right: 12px;
 }
 
+button.a-signup-cancel-button {
+	background-color: gray;
+	border-color: darkgray;
+}

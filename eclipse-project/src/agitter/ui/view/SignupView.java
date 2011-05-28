@@ -12,4 +12,6 @@ public interface SignupView {
 
 	void onSignupAttempt(Runnable action);
 
+	void onSignupCancel(Runnable action);
+
 }

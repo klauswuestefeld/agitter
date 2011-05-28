@@ -33,13 +33,13 @@ public class AuthenticationPresenter {
 			forgotMyPassword();
 		}});
 		this.loginView.onLogoClicked(new Runnable() { @Override public void run() {
-			logoClicked();
+			startLogin();
 		}});
 		this.loginView.onStartSignup(new Runnable() { @Override public void run() {
 			startSignup();
 		}});
 		
-		this.loginView.show();
+		startLogin();
 	}
 	
 	private void loginAttempt() {
@@ -69,9 +69,12 @@ public class AuthenticationPresenter {
 		signupView.onSignupAttempt(new Runnable() { @Override public void run() {
 			signupAttempt();
 		}});
+		signupView.onSignupCancel(new Runnable() { @Override public void run() {
+			startLogin();
+		}});
 	}
 
-	protected void logoClicked() {
+	private void startLogin() {
 		loginView.show();
 	}
 
