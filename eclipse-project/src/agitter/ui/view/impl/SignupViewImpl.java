@@ -20,7 +20,7 @@ public class SignupViewImpl implements SignupView {
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
-	private final NativeButton signup = new NativeButton("Cadastrar!");
+	private final NativeButton signup = new NativeButton("Cadastrar");
 	private final NativeButton cancel = new NativeButton("Voltar");
 
 	SignupViewImpl(ComponentContainer parent) {
