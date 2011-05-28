@@ -1,7 +1,10 @@
 package agitter.domain.users.tests;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import junit.framework.Assert;
 
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
@@ -82,6 +85,49 @@ public class UsersTest extends CleanTestBase {
 		_subject.findByEmail("unknown@somewhere.com");
 	}
 	
+	@Test(expected = Refusal.class)
+	public void signupWithBlankUsername() throws Refusal{
+		_subject.signup( "", "myself@email.com", "$ecret" );
+	}
+
+	@Test(expected = Refusal.class)
+	public void signupWithBlankEmail() throws Refusal{
+		_subject.signup( "myself", "", "$ecret" );
+	}
+
+	@Test(expected = Refusal.class)
+	public void signupWithBlankPassword() throws Refusal{
+		_subject.signup( "myself", "myself@email.com", "" );
+	}
+
+	@Test(expected = Refusal.class)
+	public void signupWithBlankUsernameEmailAndPassword() throws Refusal{
+		_subject.signup( "", "", "" );
+	}
+
+	@Test
+	public void signupTryingToCheat() throws Refusal{
+		final String[][] cenarios = {
+			{ null, "myself@email.com", "12345" },
+			{ " ", "myself@email.com", "12345" },
+			{ "		", "myself@email.com", "12345" },
+			{ "user", null, "12345" },
+			{ "user", " ", "12345" },
+			{ "user", "		", "12345" },
+			{ "user", "myself@email.com", null },
+			{ "user", "myself@email.com", " " },
+			{ "user", "myself@email.com", "		" },
+		};
+		for(final String[] cenario : cenarios) {
+			try {
+				_subject.signup( cenario[ 0 ], cenario[ 1 ], cenario[ 2 ] );
+				Assert.fail( "Expected Refusal trying to signup with: " + Arrays.toString( cenario ) );
+			}catch(final Refusal refusal) {
+				//expected
+			}
+		}
+	}
+
 	private void assertAna(User user) {
 		assertEquals("ana", user.username());
 		assertEquals("ana@gmail.com", user.email());

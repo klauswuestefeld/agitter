@@ -20,6 +20,7 @@ public class UsersImpl implements Users {
 
 	@Override
 	public User signup(String username, String email, String password) throws Refusal {
+		checkParameters( username, email, password );
 		checkDuplication(username, email);
 
 		UserImpl result = new UserImpl(username, email, password);
@@ -69,6 +70,22 @@ public class UsersImpl implements Users {
 		String username = userEncryptedInfo;
 		User user = this.findByUsername(username);
 		user.setInterestedInPublicEvents(false);
+	}
+
+	private void checkParameters(final String username, final String email, final String password) throws Refusal {
+		if( this.isBlank( username ) ) {
+			throw new Refusal( "Username deve ser especificado" );
+		}
+		if( this.isBlank( email ) ) {
+			throw new Refusal( "Email deve ser especificado" );
+		}
+		if( this.isBlank( password ) ) {
+			throw new Refusal( "Password deve ser especificado" );
+		}
+	}
+	
+	private boolean isBlank(final String field) {
+		return ( field == null || field.trim().isEmpty() );
 	}
 
 	private void checkDuplication(String username, String email) throws Refusal {
