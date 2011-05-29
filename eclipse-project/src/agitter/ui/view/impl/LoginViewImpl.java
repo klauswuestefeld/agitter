@@ -24,7 +24,7 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout loginView = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
 	private final CssLayout topBar = new CssLayout();
-	private final Button loginAgitterLogo = new NativeButton("agitter!");
+	private final Button loginAgitterLogo = new NativeButton();
 	private final CssLayout loginFields = new CssLayout();
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
@@ -60,6 +60,7 @@ public class LoginViewImpl implements LoginView {
 			mainContent.addComponent(topBar); topBar.addStyleName("a-login-top-bar");
 				topBar.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-login-logo");
 				loginAgitterLogo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
+				loginAgitterLogo.setSizeUndefined();
 				// Login Fields and Buttons
 				loginFields.removeAllComponents();
 				topBar.addComponent(loginFields); loginFields.addStyleName("a-login-fields");
