@@ -19,7 +19,7 @@ public class SessionViewImpl implements SessionView {
 	private final ComponentContainer container;
 	private final CssLayout sessionView = new CssLayout();
 	private final CssLayout sessionTopBar = new CssLayout();
-	private final NativeButton logo = new NativeButton("agitter!");
+	private final NativeButton logo = new NativeButton();
 	private final CssLayout sessionTopBarRight = new CssLayout();
 	private final Label userGreeting = new Label();
 	private final Button logout = logoutButton();

@@ -14,9 +14,10 @@
 
 button.a-session-logo {
 	float: left;
-	height: 42px;  
-	font-size: 32px;
-	margin-left: 5px;
+	height: 32px;
+	width: 130px;
+	background: url('SessionLogo.png') no-repeat;
+	margin: 6px 0 0 12px;
 	text-shadow: none;
 }
 

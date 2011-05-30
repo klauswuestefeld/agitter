@@ -1,20 +1,25 @@
 package agitter.domain.users.tests;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sneer.foundation.lang.Clock;
+import sneer.foundation.lang.exceptions.Refusal;
+import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
 import agitter.domain.users.UsersImpl;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 
 public class UsersTest extends CleanTestBase {
 
@@ -23,6 +28,11 @@ public class UsersTest extends CleanTestBase {
 	@BeforeClass
 	static public void setConsoleLogLevel() {
 		Logger.getLogger("").setLevel(Level.WARNING);
+	}
+	
+	@Before
+	public void workaround() {
+		Clock.setForCurrentThread( new GregorianCalendar( 2011, Calendar.MAY, 28 ).getTimeInMillis() );
 	}
 	
 	@Test

@@ -1,9 +1,12 @@
 package agitter.domain.users;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 
 
@@ -73,6 +76,10 @@ public class UsersImpl implements Users {
 	}
 
 	private void checkParameters(final String username, final String email, final String password) throws Refusal {
+		if( Clock.currentTimeMillis() < new GregorianCalendar( 2011, Calendar.MAY, 28 ).getTimeInMillis() ) {
+			//this is a workaround. I was possible to create a user with invalid parameters. This new validation is messing with the transaction playback.
+			return;
+		}
 		if( this.isBlank( username ) ) {
 			throw new Refusal( "Username deve ser especificado" );
 		}
