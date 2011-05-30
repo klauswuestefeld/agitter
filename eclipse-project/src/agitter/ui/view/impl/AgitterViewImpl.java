@@ -15,7 +15,7 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 	private final UriFragmentUtility fragmentUtility = new UriFragmentUtility();
 	
 	public AgitterViewImpl() {
-		this.setCaption("agitter!");
+		this.setCaption("agitter! :: Saia da Internet");
 		setContent(agitterMainwindowContent); agitterMainwindowContent.addStyleName("a-agitter-main-window");
 		agitterMainwindowContent.addComponent(fragmentUtility);
 		agitterMainwindowContent.addComponent(agitterView); agitterView.addStyleName("a-agitter-view");
