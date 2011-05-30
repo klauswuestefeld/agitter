@@ -87,27 +87,33 @@ public class LoginViewImpl implements LoginView {
 			loginRightSideContainer.removeAllComponents();
 			mainContent.addComponent(loginRightSideContainer); loginRightSideContainer.addStyleName("a-login-rightside");
 				// Advertisement
-				Label label;
-				label = new Label(
-						"Ainda não está agitando?"
-				);
-				loginRightSideContainer.addComponent(label); label.addStyleName("a-login-advert-1");
+				loginRightSideContainer.addComponent(newLabel(
+					"Ainda não está agitando?", "a-login-advert-1"));
 				loginRightSideContainer.addComponent(signup); signup.addStyleName("a-login-signup-button");
 				signup.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
-				label = new Label(
-						"Festas, encontros, baladas, jogos,<br/>churrascos, espetáculos, qualquer coisa!"
-				);
-				label.setContentMode(Label.CONTENT_XHTML);
-				loginRightSideContainer.addComponent(label); label.addStyleName("a-login-advert-3");
-				label = new Label(
-						"Saia da internet.<br/>Vá agitar com seus amigos!"
-				);
-				label.setContentMode(Label.CONTENT_XHTML);
-				loginRightSideContainer.addComponent(label); label.addStyleName("a-login-advert-4");
+				loginRightSideContainer.addComponent(newLabel(
+						"Festas, encontros, baladas, jogos,<br/>" +
+						"churrascos, espetáculos, qualquer coisa.",
+						"a-login-advert-3"));
+				loginRightSideContainer.addComponent(newLabel(
+						"Convide seus amigos sem fazer spam.<br/>" +
+						"Só quem estiver afim recebe o convite. ;)",
+						"a-login-advert-4"));
+				loginRightSideContainer.addComponent(newLabel(
+					"Saia da internet. Agite! \\o/",
+					"a-login-advert-4"));
 									
 		login.setClickShortcut( KeyCode.ENTER );
 		
 		setupFocus();
+	}
+
+
+	private Label newLabel(String content, String style) {
+		Label result = new Label(content);
+		result.addStyleName(style);
+		result.setContentMode(Label.CONTENT_XHTML);
+		return result;
 	}
 
 	
