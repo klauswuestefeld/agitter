@@ -1,6 +1,6 @@
 Easy Kills
 
-	Recentes - Mostrar os agitos duas horas atras pra cá. (em cinzinha deixa pro futuro)
+	Recentes - Mostrar os agitos duas horas atras pra cá.
 
 	Cross-site scripting - Evitar.
 
@@ -12,9 +12,7 @@ Easy Kills
 	Sign-up e Login
 		Validação de email (puxar do projeto antigo)
 		Validação de username (mesmas regras do twitter).
-		Email de confirmacao de cadastro. 
-		Back do Browser e botão de Cancelar pra voltar.
-		Campo de email: browser sugerir valores já preenchidos pra outros sites.
+		Email de confirmacao de cadastro.
 
 		
 "Estamos Começando a Conversar" Release
@@ -47,14 +45,15 @@ Easy Kills
 		- Tela de "Account Settings" pra preencher FullName
 		- Convidados: Auto-complete de username, fullname e grupos
 
-	Permalink para cada agito, para que possa ser linkado, tweetado, etc. Envolve lidar c a browser History no Vaadin
-
+	Permalink para cada agito, para que possa ser linkado, tweetado, etc.
+	
 	Acabamento de UI
 		Agitar (ver docs/ui/mvp)
 			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
 		Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
 			Ver docs/ui/mvp/EmailTemplate.rtf
-		Ilustração Explicativa - Falar c Petra. 
+		Ilustração Explicativa - Falar c Petra.
+		History (Back) do Browser - Fazer funcionar inclusive pro signup.
 
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
