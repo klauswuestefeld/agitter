@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Logger;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 
-
 public class UsersImpl implements Users {
-
-	private static Logger getLogger() {return Logger.getLogger(UsersImpl.class.getPackage().getName());}
 
 	private final List<User> users = new ArrayList<User>();
 
@@ -23,12 +19,16 @@ public class UsersImpl implements Users {
 
 	@Override
 	public User signup(String username, String email, String password) throws Refusal {
-		checkParameters( username, email, password );
+		checkParameters(username, email, password);
 		checkDuplication(username, email);
 
 		UserImpl result = new UserImpl(username, email, password);
 		users.add(result);
-		//getLogger().info("Signup: "+username+" - email: "+email);
+		
+		int uncommentThis;
+//import static infra.logging.LogInfra.getLogger;
+//		getLogger(this).info("Signup: " + username + " - email: " + email);
+		
 		return result;
 	}
 

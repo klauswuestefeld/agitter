@@ -1,5 +1,10 @@
 package agitter.main;
 
+import static agitter.main.JettyRunner.createServletApp;
+import static agitter.main.JettyRunner.createStaticFileSite;
+import static agitter.main.JettyRunner.runWebApps;
+import infra.processreplacer.ProcessReplacer;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,18 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import agitter.mailing.AmazonEmailSender;
-import agitter.mailing.PeriodicScheduleMailer;
-import infra.processreplacer.ProcessReplacer;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import static agitter.main.JettyRunner.*;
+import agitter.mailing.AmazonEmailSender;
+import agitter.mailing.PeriodicScheduleMailer;
 
 public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		initLogger();
-		getLogger().info("Starting server ...");
 		ProcessReplacer.start();
 
 		PrevaylerBootstrap.open(new File("prevalence"));
@@ -56,20 +58,18 @@ public class AgitterMain {
 	private static final Level INFO = Level.INFO;
 
 	static private void initLogger() {
-		Logger logger = getLogger();
+		Logger logger = Logger.getLogger("");
 		String logFilePath = "agitter.log";
 //		Logger.getLogger("").setLevel(Level.WARNING);
 		try {
 			FileHandler fh = new FileHandler(logFilePath, LOG_FILE_SIZE_LIMIT, LOG_FILE_ROTATION_COUNT, false);
 			fh.setFormatter(new SimpleFormatter());
 			logger.addHandler(fh);
-			logger.setLevel(INFO);
-		} catch(IOException ioExc) {
+		} catch (IOException ioExc) {
 			Logger.getLogger("").log(Level.SEVERE, "Error creating the log file handler!", ioExc);
-//			logger.log(Level.SEVERE, "Error creating the log file handler!", ioExc);
 		}
-
+		logger.setLevel(INFO);
+		logger.info("Log initialized");
 	}
-	private static Logger getLogger() {return Logger.getLogger("");}
 
 }
