@@ -9,7 +9,7 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 public class UsersImpl implements Users {
 
-	private static Logger getLogger() {return Logger.getLogger("agitter.domain.users");}
+	private static Logger getLogger() {return Logger.getLogger(UsersImpl.class.getPackage().getName());}
 
 	private final List<User> users = new ArrayList<User>();
 
