@@ -1,6 +1,7 @@
 *build
 *bin
 *prevalence
+*.log.*
 
 nohup.out
 
