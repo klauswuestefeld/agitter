@@ -25,7 +25,7 @@ public class UsersImpl implements Users {
 		UserImpl result = new UserImpl(username, email, password);
 		users.add(result);
 		
-		int uncommentThis;
+		int uncommentThisWhenLeoCleansLoggingFromTests;
 //import static infra.logging.LogInfra.getLogger;
 //		getLogger(this).info("Signup: " + username + " - email: " + email);
 		
