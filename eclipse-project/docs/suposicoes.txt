@@ -15,7 +15,7 @@ Easy Kills
 		Email de confirmacao de cadastro.
 
 		
-"Estamos Começando a Conversar" Release
+"Break the Vial" Release
 
 	Quem?
 		- Lista de emails convidados do Agito no espaço da direita. Xizinho em cada um p remover. Emails ficam persistidos p usar em auto-completion dos proximos agitos.
@@ -30,9 +30,6 @@ Easy Kills
 		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
 		- Unsubscribe geral do email diario.
 
-
-"Break the Vial" Release
-
 	Grupos de Contatos
 		Grupos dentro de grupos.
 
@@ -40,6 +37,16 @@ Easy Kills
 		- GMail, Yahoo, Hotmail através do SocialAuth
 		- Outros Provedores através de paste num campo grande.
 			- Achar os arroba @ e detectar os emails válidos em volta deles.
+
+	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
+		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
+
+	TimeZone do Server - Acertar no script de install.
+
+	Vaadin productionMode=true
+
+
+"Acabamento" Release
 
 	- Username e Fullname de quem agitou no Agito.
 		- Tela de "Account Settings" pra preencher FullName
@@ -54,13 +61,6 @@ Easy Kills
 			Ver docs/ui/mvp/EmailTemplate.rtf
 		Ilustração Explicativa - Falar c Petra.
 		History (Back) do Browser - Fazer funcionar inclusive pro signup.
-
-	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
-		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
-
-	TimeZone do Server - Acertar no script de install.
-
-	Vaadin productionMode=true
 
 	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
 
