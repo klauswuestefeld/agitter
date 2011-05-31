@@ -8,6 +8,8 @@ import java.util.List;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 
+import static infra.logging.LogInfra.getLogger;
+
 public class UsersImpl implements Users {
 
 	private final List<User> users = new ArrayList<User>();
@@ -24,11 +26,8 @@ public class UsersImpl implements Users {
 
 		UserImpl result = new UserImpl(username, email, password);
 		users.add(result);
-		
-		int uncommentThisWhenLeoCleansLoggingFromTests;
-//import static infra.logging.LogInfra.getLogger;
-//		getLogger(this).info("Signup: " + username + " - email: " + email);
-		
+
+		getLogger(this).info("Signup: "+username+" - email: "+email);
 		return result;
 	}
 
@@ -76,23 +75,23 @@ public class UsersImpl implements Users {
 	}
 
 	private void checkParameters(final String username, final String email, final String password) throws Refusal {
-		if( Clock.currentTimeMillis() < new GregorianCalendar( 2011, Calendar.MAY, 28 ).getTimeInMillis() ) {
+		if(Clock.currentTimeMillis() < new GregorianCalendar(2011, Calendar.MAY, 28).getTimeInMillis()) {
 			//this is a workaround. I was possible to create a user with invalid parameters. This new validation is messing with the transaction playback.
 			return;
 		}
-		if( this.isBlank( username ) ) {
-			throw new Refusal( "Username deve ser especificado" );
+		if(this.isBlank(username)) {
+			throw new Refusal("Username deve ser especificado");
 		}
-		if( this.isBlank( email ) ) {
-			throw new Refusal( "Email deve ser especificado" );
+		if(this.isBlank(email)) {
+			throw new Refusal("Email deve ser especificado");
 		}
-		if( this.isBlank( password ) ) {
-			throw new Refusal( "Password deve ser especificado" );
+		if(this.isBlank(password)) {
+			throw new Refusal("Password deve ser especificado");
 		}
 	}
-	
+
 	private boolean isBlank(final String field) {
-		return ( field == null || field.trim().isEmpty() );
+		return (field==null || field.trim().isEmpty());
 	}
 
 	private void checkDuplication(String username, String email) throws Refusal {
@@ -119,7 +118,7 @@ public class UsersImpl implements Users {
 	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
 		checkUser(user, emailOrUsername);
 		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-		//getLogger().info("Login: "+emailOrUsername);
+		getLogger(this).info("Login: "+emailOrUsername);
 		return user;
 	}
 
