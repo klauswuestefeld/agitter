@@ -97,7 +97,7 @@ public class LoginViewImpl implements LoginView {
 						"a-login-advert-3"));
 				loginRightSideContainer.addComponent(newLabel(
 						"Convide seus amigos sem fazer spam.<br/>" +
-						"Só quem estiver afim recebe o convite ;)",
+						"Só quem estiver a fim recebe o convite ;)",
 						"a-login-advert-4"));
 				loginRightSideContainer.addComponent(newLabel(
 					"Saia da internet. Agite! \\o/",
