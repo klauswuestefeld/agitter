@@ -6,7 +6,18 @@ public class PrevalentBubble {
 
 	static PrevalentSession _session;
 	
+	static String readOnlyMessage;
 	
+	synchronized
+	public static void enterReadOnlyMode(String readOnlyMessage_) {
+		readOnlyMessage = readOnlyMessage_;
+	}
+	
+	synchronized
+	public static void leaveReadOnlyMode() {
+		readOnlyMessage = null;
+	}
+
 	synchronized
 	public static <T> T wrap(PrevaylerFactory factory) {
 		if (_session != null) throw new IllegalStateException();
@@ -43,8 +54,17 @@ public class PrevalentBubble {
 		_session.waitForTransactionLogReplay();
 	}
 
-	public static Object execute(TransactionInvocation transaction) throws Exception {
+	synchronized
+	static Object execute(TransactionInvocation transaction) throws Exception {
+		if( isReadOnlyMode() ) {
+			throw new RuntimeException(readOnlyMessage);
+		}
 		return _session._prevayler.execute( transaction );
 	}
+
+	private static boolean isReadOnlyMode() {
+		return readOnlyMessage != null;
+	}
+
 
 }

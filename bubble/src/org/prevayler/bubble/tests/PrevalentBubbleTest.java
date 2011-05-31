@@ -177,4 +177,23 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		assertNotNull(_subject.module1().getItem("foo"));
 	}
 
+	@Test (timeout = 2000)
+	public void readOnlyMode() {
+		_subject.module1().set("foo");
+		
+		PrevalentBubble.enterReadOnlyMode( "System being updated..." );
+		try {
+		_subject.module1().set(null);
+		fail();
+		}catch(RuntimeException re) {
+			assertEquals( "System being updated...", re.getMessage() );
+		}
+		assertEquals( "foo", _subject.module1().get() );
+
+		PrevalentBubble.leaveReadOnlyMode();
+		_subject.module1().set(null);
+		assertEquals( null, _subject.module1().get() );
+		
+	}
+
 }
