@@ -1,6 +1,5 @@
 package org.prevayler.bubble;
 
-import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
 public class PrevalentBubble {
@@ -17,10 +16,6 @@ public class PrevalentBubble {
 	}
 
 	
-	public static Prevayler prevayler() {
-		return _session._prevayler;
-	}
-
 	
 	/** Bursts the bubble, closing Prevayler. */
 	synchronized
@@ -46,6 +41,10 @@ public class PrevalentBubble {
 
 	static void waitForTransactionLogReplay() {
 		_session.waitForTransactionLogReplay();
+	}
+
+	public static Object execute(TransactionInvocation transaction) throws Exception {
+		return _session._prevayler.execute( transaction );
 	}
 
 }

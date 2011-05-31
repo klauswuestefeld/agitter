@@ -96,7 +96,7 @@ class BubbleProxy implements InvocationHandler {
 
 	private ProducerX<Object, Exception> withPrevayler(final TransactionInvocation transaction) {
 		return new ProducerX<Object, Exception>() { @Override public Object produce() throws Exception {
-			return PrevalentBubble.prevayler().execute(transaction);
+			return PrevalentBubble.execute(transaction);
 		}};
 	}
 
