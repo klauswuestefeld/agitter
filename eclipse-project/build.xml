@@ -34,6 +34,7 @@
 			<src path="${src}"/>
 			<src path="${bubble-path}/src"/>
 			<classpath refid="agitter-classpath"/>
+			<arg value="-Xlint:unchecked"/>
 		</javac>
 
 		<!--Required for test execution with simploy.-->
