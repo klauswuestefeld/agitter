@@ -1,64 +1,70 @@
-/*  General styles for top application components and default classes definitions */
+/* Trying to make the root vaadin-generated elements as default as possible */
+
+html {
+	height: auto;
+	width: auto;
+	overflow-y: scroll;
+	overflow-x: auto;
+	margin: 0;
+	padding: 0;
+}
+
+body, .v-generated-body {
+	height: auto;
+	width: auto;
+    position: relative;
+	overflow: visible;
+    margin: 0;
+	padding: 0;
+}
 
 .v-app {
-	background: white;
+    height: auto;
 }
 
 .v-view {
-}
-
-.a-agitter-main-window {
-	height: 100%;
-	width: 100%;
-	overflow: inherit;
-}
-.a-agitter-main-window .v-csslayout-container, .a-agitter-main-window .v-csslayout-margin {
-	height: 100%;
-	width: 100%;
-}
-
-.a-agitter-view {
-	height: 100%;
-	width: 100%;
-	overflow: inherit;
-}
-.a-agitter-view .v-csslayout-container, .a-agitter-view .v-csslayout-margin {
-	height: 100%;
-	width: 100%;
+    height: auto;
+    width: auto;
+    overflow: visible;
+    margin: 0;
+    border: none;
+    outline: none;
 }
 
 .v-csslayout {
-}
-/* DISABLED To make the automatic inner divs of a CSSLayout irrelevant in terms of sizing */
-.___v-csslayout .v-csslayout-container, .___v-csslayout .v-csslayout-margin {
-	width: 100%;
-	height: 100%;
-}
-
-/* DISABLED */
-___button {
 	overflow: visible;
-	padding-left: 6px;
-	padding-right: 6px;
 }
 
-/* Default Classes */
+/*  Vaadin defaults
 
-button.a-default-nativebutton {
-	height: 24px;
-	border-style: outset;
-	border-width: 1px;
-	border-color: #E49E9E;
-	background: orangered;   /* #E44545 */
-	color: white;
-	font-size: 12px;
-	font-weight: bold;
-}
+html, body {
+	height: 100%;
+	margin: 0;
+}	
+/*
 
-button.a-default-logo-color, label.a-default-logo-color {
-	color: orange;
-	background: transparent;
-	border: none;
-	font-weight: bold;
-	text-shadow: 1px 1px 0px #F5F5F5;
+/* Reindeer defaults
+.v-generated-body {
+    width: 100%;
+    height: 1000px;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
 }
+.v-app {
+    height: 100%;
+}
+.v-view {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    outline: none;
+    margin-top: -1px;
+    border-top: 1px solid transparent;
+    position: relative;
+}
+.v-csslayout {
+	overflow: hidden;     <-----------
+}	
+*/
+

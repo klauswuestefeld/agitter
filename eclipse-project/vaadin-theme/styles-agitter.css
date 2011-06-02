@@ -1,0 +1,24 @@
+/*  General styles for top application components and default classes definitions */
+
+.v-app, .v-generated-body {
+	background: white;
+}
+
+button.a-default-nativebutton {
+	height: 24px;
+	border-style: outset;
+	border-width: 1px;
+	border-color: #E49E9E;
+	background: orangered;   /* #E44545 */
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+button.a-default-logo-color, label.a-default-logo-color {
+	color: orange;
+	background: transparent;
+	border: none;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px #F5F5F5;
+}

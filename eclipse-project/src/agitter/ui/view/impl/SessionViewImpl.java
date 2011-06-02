@@ -19,6 +19,7 @@ public class SessionViewImpl implements SessionView {
 	private final ComponentContainer container;
 	private final CssLayout sessionView = new CssLayout();
 	private final CssLayout sessionTopBar = new CssLayout();
+	private final CssLayout sessionTopBarContent = new CssLayout();
 	private final NativeButton logo = new NativeButton();
 	private final CssLayout sessionTopBarRight = new CssLayout();
 	private final Label userGreeting = new Label();
@@ -35,13 +36,14 @@ public class SessionViewImpl implements SessionView {
     public void show(String username) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
-    		sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
-    			sessionTopBar.addComponent(logo); logo.addStyleName("a-session-logo");
-    			logo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
-    			sessionTopBar.addComponent(sessionTopBarRight); sessionTopBarRight.addStyleName("a-session-top-bar-right");
-    				userGreeting.setSizeUndefined();
-    				sessionTopBarRight.addComponent(userGreeting); userGreeting.addStyleName("a-session-user-greeting");
-    				sessionTopBarRight.addComponent(logout); logout.addStyleName("a-session-logout-button");
+			sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
+				sessionTopBar.addComponent(sessionTopBarContent); sessionTopBarContent.addStyleName("a-session-top-bar-content");
+					sessionTopBarContent.addComponent(logo); logo.addStyleName("a-session-logo");
+		    			logo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
+	    			sessionTopBarContent.addComponent(sessionTopBarRight); sessionTopBarRight.addStyleName("a-session-top-bar-right");
+		    			userGreeting.setSizeUndefined();
+		    			sessionTopBarRight.addComponent(userGreeting); userGreeting.addStyleName("a-session-user-greeting");
+		    			sessionTopBarRight.addComponent(logout); logout.addStyleName("a-session-logout-button");
 			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
     				mainContent.addComponent(inviteView);

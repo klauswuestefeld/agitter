@@ -1,39 +1,9 @@
-@import "../reindeer/styles.css"; 
+@import url("../reindeer/styles.css");
 
-@import "styles-general.css";
+@import url("styles-general.css");
 
-@import "login/styles.css";
+@import url("styles-agitter.css");
 
-@import "session/styles.css";
+@import url("login/styles.css");
 
-/*  Vaadin defaults
-html, body {
-	height: 100%;
-	margin: 0;
-}
-/*
-
-/* Reindeer defaults
-.v-generated-body {
-    width: 100%;
-    height: 1000px;
-    border: 0;
-    margin: 0;
-    overflow: hidden;
-}
-.v-app {
-    height: 100%;
-}
-.v-view {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    outline: none;
-    margin-top: -1px;
-    border-top: 1px solid transparent;
-    position: relative;
-}
-.v-csslayout {
-	overflow: hidden;     <-----------
-}	
-*/
+@import url("session/styles.css");

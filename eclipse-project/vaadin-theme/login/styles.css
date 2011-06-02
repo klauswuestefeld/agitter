@@ -1,6 +1,8 @@
 /* Login  ----------------------------------------------------------------------   */
 
 .a-login-view {
+	min-height: 510px;
+	min-width: 1000px;
 	background: white url('LoginBackground.png') repeat-x;
 }
 
