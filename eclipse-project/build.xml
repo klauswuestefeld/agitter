@@ -43,7 +43,6 @@
 	</target>
 	
 	
-	
 	<target name="deploy" depends="build">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
