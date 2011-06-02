@@ -26,6 +26,7 @@
 		<pathelement location="${bin}"/>
 		<fileset dir="lib"> <include name="**/*.jar"/> </fileset>
 		<fileset dir="${bubble-path}/lib"> <include name="**/*.jar"/> </fileset>
+		<fileset dir="${bubble-path}/src/sneer/foundation/testsupport/lib"> <include name="**/*.jar"/> </fileset>
 	</path>
 
 	
@@ -43,7 +44,7 @@
 		</copy>
 	</target>
 	
-	
+
 	<target name="deploy" depends="build">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
