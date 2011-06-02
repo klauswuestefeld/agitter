@@ -5,13 +5,11 @@ import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
@@ -30,6 +28,7 @@ public class LoginViewImpl implements LoginView {
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = new NativeButton("Agitar!");
 	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
+	private final CssLayout mainPicture = new CssLayout();
 	private final CssLayout loginRightSideContainer = new CssLayout();
 	private final Button signup = new NativeButton("Cadastre-se");
 
@@ -78,11 +77,7 @@ public class LoginViewImpl implements LoginView {
 					login.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 					loginFields.addComponent(forgotMyPassword); forgotMyPassword.addStyleName("a-login-forgot-password");
 			// Picture
-			Embedded loginPicture = new Embedded(); loginPicture.addStyleName("a-login-picture");
-			ThemeResource img = new ThemeResource("login/LoginMainPicture.png");
-			loginPicture.setSource(img);
-			loginPicture.setType(Embedded.TYPE_IMAGE);
-			mainContent.addComponent(loginPicture);
+			mainContent.addComponent(mainPicture); mainPicture.addStyleName("a-login-main-picture");
 			// RightSideContainer
 			loginRightSideContainer.removeAllComponents();
 			mainContent.addComponent(loginRightSideContainer); loginRightSideContainer.addStyleName("a-login-rightside");
