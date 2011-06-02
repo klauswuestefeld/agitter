@@ -8,7 +8,6 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
-@SuppressWarnings("deprecation")
 public class CleanTestRunner extends JUnit4ClassRunner {
 
 	private Object _currentTest;
