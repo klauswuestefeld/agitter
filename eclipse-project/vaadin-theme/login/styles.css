@@ -16,17 +16,16 @@
 
 button.a-login-logo {
 	float: left;
-	height: 60px;
-	width: 216px;
+	height: 61px;
+	width: 214px;
 	background: url('LoginLogo.png') no-repeat;
-	margin: 9px 0 0 32px;
+	margin: 7px 0 0 32px;
 	padding: 0;
 }
 
 .a-login-fields {
 	float: right;
-	margin-top: 10px;
-	margin-right: 54px;
+	margin: 10px 54px 0 0;
 }
 
 .a-login-fields .v-captiontext, .a-login-fields .v-button-caption {
@@ -35,8 +34,8 @@ button.a-login-logo {
 
 .a-login-username, .a-login-password {
 	display: inline-block;
-	zoom: 1;			/* IE6 stuff */
-	*display: inline;	/* IE6 stuff */
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
 	margin-right: 7px;
 }
 
@@ -49,23 +48,23 @@ button.a-login-logo {
 }
 
 .a-login-forgot-password {
-	display: block;
+	display: block !important;  /* somehow needed !important for IE7 */
 	margin-top: 4px;
 	margin-left: 178px;
 }
 
 .a-login-picture {
 	display: inline-block;
-	zoom: 1;			/* IE6 stuff */
-	*display: inline;	/* IE6 stuff */
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
 	width: 548px;
 	margin-top: 23px;
 }
 
 .a-login-rightside {
 	display: inline-block;
-	zoom: 1;			/* IE6 stuff */
-	*display: inline;	/* IE6 stuff */
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
 	width: 427px;
 	margin-left: 16px;
 	vertical-align: top;
