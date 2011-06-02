@@ -2,7 +2,7 @@
 
 .a-session-view {
 	min-height: 100%;
-	background: #FF7022 url('SessionBackground.png') repeat-x;
+	background: #FF7022 url('SessionBackground.jpg') repeat-x;
 }
 
 .a-session-top-bar {
@@ -14,10 +14,10 @@
 
 button.a-session-logo {
 	float: left;
-	height: 32px;
-	width: 130px;
+	height: 34px;
+	width: 123px;
 	background: url('SessionLogo.png') no-repeat;
-	margin: 6px 0 0 12px;
+	margin: 5px 0 0 12px;
 	text-shadow: none;
 }
 

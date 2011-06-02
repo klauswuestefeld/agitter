@@ -16,10 +16,10 @@
 
 button.a-login-logo {
 	float: left;
-	height: 58px;
-	width: 236px;
+	height: 60px;
+	width: 216px;
 	background: url('LoginLogo.png') no-repeat;
-	margin: 10px 0 0 32px;
+	margin: 9px 0 0 32px;
 	padding: 0;
 }
 
