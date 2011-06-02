@@ -2,7 +2,7 @@
 
 .a-session-view {
 	min-height: 100%;
-	background: #FF7022 url('SessionBackground.png') repeat-x;
+	background: #FF7022 url('SessionBackground.jpg') repeat-x;
 }
 
 .a-session-top-bar {
@@ -14,10 +14,10 @@
 
 button.a-session-logo {
 	float: left;
-	height: 32px;
-	width: 130px;
+	height: 35px;
+	width: 123px;
 	background: url('SessionLogo.png') no-repeat;
-	margin: 6px 0 0 12px;
+	margin: 4px 0 0 12px;
 	text-shadow: none;
 }
 
@@ -29,8 +29,8 @@ button.a-session-logo {
 
 .a-session-user-greeting {
 	display: inline-block;
-	zoom: 1;			/* IE6 stuff */
-	*display: inline;	/* IE6 stuff */
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
 	color: white;
 	vertical-align: middle;
 	margin-top: 1px;

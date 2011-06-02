@@ -66,7 +66,7 @@ public class LoginViewImpl implements LoginView {
 				topBar.addComponent(loginFields); loginFields.addStyleName("a-login-fields");
 					CssLayout wrapper = new CssLayout(); 
 					loginFields.addComponent(wrapper); wrapper.addStyleName("a-login-username");
-					emailOrUsername.setDebugId("username");
+						emailOrUsername.setDebugId("username");
 						emailOrUsername.setSizeUndefined();
 						wrapper.addComponent(emailOrUsername);
 					wrapper = new CssLayout();
