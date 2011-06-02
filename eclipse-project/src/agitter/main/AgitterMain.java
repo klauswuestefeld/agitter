@@ -1,10 +1,5 @@
 package agitter.main;
 
-import static agitter.main.JettyRunner.createServletApp;
-import static agitter.main.JettyRunner.createStaticFileSite;
-import static agitter.main.JettyRunner.runWebApps;
-import infra.processreplacer.ProcessReplacer;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,10 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
+import infra.processreplacer.ProcessReplacer;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+import static agitter.main.JettyRunner.*;
 
 public class AgitterMain {
 
@@ -60,12 +57,11 @@ public class AgitterMain {
 	static private void initLogger() {
 		Logger logger = Logger.getLogger("");
 		String logFilePath = "agitter.log";
-//		Logger.getLogger("").setLevel(Level.WARNING);
 		try {
 			FileHandler fh = new FileHandler(logFilePath, LOG_FILE_SIZE_LIMIT, LOG_FILE_ROTATION_COUNT, false);
 			fh.setFormatter(new SimpleFormatter());
 			logger.addHandler(fh);
-		} catch (IOException ioExc) {
+		} catch(IOException ioExc) {
 			Logger.getLogger("").log(Level.SEVERE, "Error creating the log file handler!", ioExc);
 		}
 		logger.setLevel(INFO);
