@@ -41,8 +41,7 @@
 
 	<target name="deploy">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
-		<!-- fork="true" spawn="true" -->
-		<java classname="agitter.main.AgitterMain">
+		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
 			<classpath refid="classpath"/>
 		</java>
 	</target>
