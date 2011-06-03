@@ -11,17 +11,6 @@ import sneer.foundation.lang.ClosureX;
 /** Kills previous instances of this process. It connects to the ProcessReplacerPort (system property). It then listens on that port to kill itself (System.exit(0)) if it receives a connection.*/
 public class ProcessReplacer {
 
-	
-	
-	public static void main(String[] args) throws IOException {
-		ProcessReplacer.start();
-		System.out.println("started");
-		while (true) sleepOneSecond();
-	}
-	
-	
-	
-	
 	private static final int _port = Integer.parseInt(property("Port", "44111"));
 
 	
