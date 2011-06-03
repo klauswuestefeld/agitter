@@ -2,7 +2,7 @@ Easy Kills
 
 	Recentes - Mostrar os agitos duas horas atras pra cá.
 
-	Cross-site scripting - Evitar.
+	Cross-site scripting - Evitar Facinho: http://weblogs.java.net/blog/gmurray71/archive/2006/09/preventing_cros.html
 
 	URLs clicáveis na descricao do agito
 
