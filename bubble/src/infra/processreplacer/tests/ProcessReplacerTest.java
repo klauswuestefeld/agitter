@@ -1,7 +1,7 @@
 package infra.processreplacer.tests;
 
-import infra.processreplacer.ProcessReplacerNew;
-import infra.processreplacer.ProcessReplacerNew.ReplaceableProcess;
+import infra.processreplacer.ProcessReplacer;
+import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,19 +16,19 @@ public class ProcessReplacerTest extends TestWithMocks {
 	@Ignore
 	@Test
 	public void replacement() {
-		checking(new Behavior(){{
+		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToTakeOver();inSequence();
 			exactly(1).of(process1).takeOver();inSequence();
 		}});
-		new ProcessReplacerNew(process1);
+		new ProcessReplacer(process1);
 		
-		checking(new Behavior(){{
+		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToRetire();inSequence();
 			exactly(1).of(process2).prepareToTakeOver();inSequence();
 			exactly(1).of(process1).retire();inSequence();
 			exactly(1).of(process2).takeOver();inSequence();
 		}});
-		new ProcessReplacerNew(process2);
+		new ProcessReplacer(process2);
 	}
 	
 }

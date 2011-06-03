@@ -11,7 +11,7 @@ import java.util.logging.SimpleFormatter;
 
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
-import infra.processreplacer.ProcessReplacer;
+import infra.processreplacer.ProcessReplacerOld;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import static agitter.main.JettyRunner.*;
@@ -20,7 +20,7 @@ public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		initLogger();
-		ProcessReplacer.start();
+		ProcessReplacerOld.start();
 
 		PrevaylerBootstrap.open(new File("prevalence"));
 

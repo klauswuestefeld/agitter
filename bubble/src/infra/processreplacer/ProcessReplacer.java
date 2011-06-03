@@ -1,21 +1,88 @@
 package infra.processreplacer;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/** Kills previous instances of this process. It deletes the ProcessReplacer.mutex file and connects to the ProcessReplacerPort (system property). It then listens on that port to kill itself (System.exit(0)) if it receives a connection and the mutex file was deleted.*/
+import sneer.foundation.lang.Closure;
+import sneer.foundation.lang.ClosureX;
+
+/** Kills previous instances of this process. It connects to the ProcessReplacerPort (system property). It then listens on that port to kill itself (System.exit(0)) if it receives a connection.*/
 public class ProcessReplacer {
 
+	
+	
+	public static void main(String[] args) throws IOException {
+		ProcessReplacer.start();
+		System.out.println("started");
+		while (true) sleepOneSecond();
+	}
+	
+	
+	
+	
 	private static final int _port = Integer.parseInt(property("Port", "44111"));
+
+	
+	public interface ReplaceableProcess {
+		void prepareToTakeOver();
+		void takeOver();
+		void prepareToRetire();
+		void cancelRetirement();
+		void retire();
+	}
+
+
+	public ProcessReplacer(ReplaceableProcess process) {
+		this.process = process;
+		
+		try {
+			tryToTakeOver();
+		} catch (Exception e) {
+			this.process.retire();
+		}
+	}
+
+
+	private void tryToTakeOver() {
+		preparePreviousProcessToRetireIfNecessary();
+		this.process.prepareToTakeOver();
+		retirePreviousProcessIfNecessary();
+		this.process.takeOver();
+	}
+
+	
+	private final ReplaceableProcess process;
+
+	
+	private void preparePreviousProcessToRetireIfNecessary() {
+	}
+
+	
+	private void retirePreviousProcessIfNecessary() {
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	private static final int READY_TO_RETIRE = 77;
+	private static final int PLEASE_RETIRE = 88;
+
+
 
 	private static ServerSocket _serverSocket;
 	private static int _attemptCount = 0;
 	private static boolean _previousSessionKillAttempted;
 
-	private static final File _pleaseDieFile = new File(className() + ".request");
+	private static ClosureX<Exception> preparationToTakeOver;
+	private static ClosureX<Exception> preparationToDie;
+	private static Closure recovery;
 
 	
 	public static void start() throws IOException {
@@ -34,12 +101,6 @@ public class ProcessReplacer {
 	}
 
 
-	private static void deletePleaseDieFile() throws IOException {
-		if (_pleaseDieFile.exists() && !_pleaseDieFile.delete())
-			throw new IOException("Unable to delete " + _pleaseDieFile);
-	}
-
-
 	private static void killPreviousSessionIfNecessary() throws IOException {
 		while (true) {
 			try {
@@ -49,9 +110,14 @@ public class ProcessReplacer {
 				sendKillRequestIfNecessary();
 				sleepOneSecond();
 				if (_attemptCount++ == 10)
-					throw new IOException(className() + " unable to kill previous process.", be);
+					fail(be.getMessage());
 			}
 		}
+	}
+
+
+	private static void fail(String reason) throws IOException {
+		throw new IOException(className() + " unable to kill previous process. " + reason);
 	}
 
 
@@ -84,14 +150,38 @@ public class ProcessReplacer {
 	}
 
 	
-	private static void tryToAcceptRequest() throws Exception {
-		deletePleaseDieFile();
-
+	private static void tryToAcceptRequest() throws IOException {
 		Socket request = _serverSocket.accept();
+		if (isFromSameMachine(request))
+			try {
+				tryToDie(request);
+			} catch (Exception e) {
+				recovery.run();
+			}
 		request.close();
+	}
 
-		if (_pleaseDieFile.exists());
-			die();
+
+	private static boolean isFromSameMachine(Socket request) {
+		return "127.0.0.1".equals(request.getLocalAddress().getHostAddress());
+	}
+
+
+	private static void tryToDie(Socket request) throws IOException {
+		try {
+			preparationToDie.run();
+		} catch (Exception e) {
+			throw new IOException("Preparation to die failed. ", e);
+		}
+		send(request, READY_TO_RETIRE);
+		waitForMessage(request, PLEASE_RETIRE);
+		die();
+	}
+
+
+	private static void send(Socket request, int message) throws IOException {
+		request.getOutputStream().write(message);
+		request.getOutputStream().flush();
 	}
 
 
@@ -105,14 +195,29 @@ public class ProcessReplacer {
 	private static void sendKillRequestIfNecessary() throws IOException {
 		if (_previousSessionKillAttempted) return;
 		_previousSessionKillAttempted = true;
-		killPreviousSession();
+		sendKillRequest();
 	}
 
 
-	private static void killPreviousSession() throws IOException {
-		_pleaseDieFile.createNewFile();
+	private static void sendKillRequest() throws IOException {
 		Socket request = new Socket("127.0.0.1", _port);
+		waitForMessage(request, READY_TO_RETIRE);
+
+		try {
+			preparationToTakeOver.run();
+		} catch (Exception e) {
+			fail("Preparation to take over failed. " + e.getMessage());
+		}
+		
+		send(request, PLEASE_RETIRE);
 		request.close();
+	}
+
+
+	private static void waitForMessage(Socket request, int expected) throws IOException {
+		int reply = request.getInputStream().read();
+		if (reply != expected)
+			fail("Reply expected:" + expected + " Actual:" + reply);
 	}
 
 }
