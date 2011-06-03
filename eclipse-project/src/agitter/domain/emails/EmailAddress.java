@@ -1,4 +1,4 @@
-package agitter.domain.email;
+package agitter.domain.emails;
 
 import java.io.Serializable;
 

@@ -1,10 +1,10 @@
-package agitter.domain.email.tests;
+package agitter.domain.emails.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.email.AddressValidator;
+import agitter.domain.emails.AddressValidator;
 
 public class AddressValidatorTest extends Assert {
 	
