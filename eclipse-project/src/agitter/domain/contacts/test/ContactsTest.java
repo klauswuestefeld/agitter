@@ -10,18 +10,24 @@ import agitter.domain.contacts.Contacts;
 import agitter.domain.contacts.ContactsImpl;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
-import agitter.domain.users.Users;
 import agitter.domain.users.UsersImpl;
 
 
 public class ContactsTest extends CleanTestBase {
 
 	private final Contacts subject = new ContactsImpl();
-	private final Users users = new UsersImpl();
+	private final User user = jose();
+
+	private User jose() {
+		try {
+			return new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
+	}
 	
 	@Test
 	public void contactsInAlfabeticalOrder() throws Refusal {
-		User user = users.signup( "jose", "jose@gmail.com", "secret" );
 		List<EmailAddress> contacts = subject.contactsFor( user );
 		assertTrue( contacts.isEmpty() );
 		
