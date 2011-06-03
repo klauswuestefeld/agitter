@@ -11,6 +11,10 @@ public interface Contacts {
 
 	List<EmailAddress> contactsFor(User user);
 
-	void addFor(User user, EmailAddress emailAddress);
+	void addContactFor(User user, EmailAddress emailAddress);
+
+	List<Group> groupsFor(User user);
+
+	void addGroupFor(User user, String string);
 
 }
