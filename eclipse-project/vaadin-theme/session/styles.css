@@ -2,7 +2,7 @@
 
 .a-session-view {
 	min-width: 1022px;
-	background: #FF7022 url('SessionBackground.jpg') repeat-x;
+	background: #FFB234 url('SessionBackground.jpg') fixed repeat;
 	z-index: 8;
 }
 
@@ -11,9 +11,18 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 45px;
+	height: 43px;
 	z-index: 9;
-	background: #FF7022 url('SessionBackground.jpg') fixed repeat-x;
+	background-color: #303030;
+	background-image: gradient(linear,0 0,0 100%,from(#454545),to(#161616));
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#454545),to(#161616));
+	background-image: -moz-linear-gradient(#454545,#161616);
+	box-shadow: 0 1px 3px #555;
+	-webkit-box-shadow: 0 1px 3px #555;
+	-moz-box-shadow: 0 1px 3px #555;
+	zoom: 1;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#454545',endColorstr='#161616')
+			progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=180, Strength=2);
 }
 
 .a-session-top-bar-content {
@@ -74,6 +83,9 @@ button.a-session-logo {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	box-shadow: 1px 3px 3px dimgray;
+	-webkit-box-shadow: 1px 3px 3px dimgray;
+	-moz-box-shadow: 1px 3px 3px dimgray;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=135, Strength=2);
 }
 
 .a-session-main-content-bottom-filler {
@@ -107,10 +119,6 @@ textarea.a-invite-description {
 	font-size: 18px;
 	max-height: 300px;
 	max-width: 760px;
-}
-
-.a-invite-date {
-	_float: none;
 }
 
 .a-invite-send {
