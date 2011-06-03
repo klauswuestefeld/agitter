@@ -87,8 +87,7 @@ public abstract class CleanTestBase extends AssertUtils {
 		assertDoesNotExist(file);
 	}
 
-	@Before
-	public void beforeCleanTest() {
+	{
 		Clock.setForCurrentThread(1);
 		logLevelByThread.set(getDefaultLogger().getLevel());
 		getDefaultLogger().setLevel(Level.OFF);
