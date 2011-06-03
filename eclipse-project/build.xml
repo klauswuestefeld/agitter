@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<project basedir="." default="deploy" name="agitter">
+<project basedir="." default="run" name="agitter">
 
 	<path id="projects">
 		<fileset dir="." />
@@ -39,7 +39,7 @@
 	</target>
 	
 
-	<target name="deploy" depends="build">
+	<target name="deploy">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<!-- fork="true" spawn="true" -->
 		<java classname="agitter.main.AgitterMain">
@@ -48,6 +48,9 @@
 	</target>
 
 
+	<target name="run" depends="build, deploy"/>
+
+	
 	<target name="simploy" depends="deploy">
 		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
 			<classpath location="${code}"/>
