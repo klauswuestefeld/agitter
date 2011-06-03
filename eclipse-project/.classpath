@@ -2,17 +2,17 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty/javax.servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty/jetty-all-7.1.6.v20100715.jar" sourcepath="lib/jetty/jetty-all-7.1.6.v20100715-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/vaadin-6.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/email/aws-java-sdk-1.2.0.jar" sourcepath="lib/email/aws-java-sdk-1.2.0-sources.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/commons-codec-1.3/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/httpcomponents-client-4.1.1/httpclient-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/httpcomponents-client-4.1.1/httpcore-4.1.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/jackson-1.4/jackson-core-asl-1.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/stax-api-1.0.1/stax-api-1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/email/dependencies/stax-ri-1.2.0/stax-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/agitter/main/lib/jetty/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="src/agitter/main/lib/jetty/jetty-all-7.1.6.v20100715.jar" sourcepath="src/agitter/main/lib/jetty/jetty-all-7.1.6.v20100715-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/bubble"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/commons-codec-1.3/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/httpcomponents-client-4.1.1/httpclient-4.1.1.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/httpcomponents-client-4.1.1/httpcore-4.1.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/jackson-1.4/jackson-core-asl-1.4.3.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/stax-api-1.0.1/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/stax-ri-1.2.0/stax-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/agitter/mailing/lib/aws-java-sdk-1.2.0.jar" sourcepath="src/agitter/mailing/lib/aws-java-sdk-1.2.0-sources.jar"/>
+	<classpathentry kind="lib" path="src/agitter/ui/view/impl/lib/vaadin-6.5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

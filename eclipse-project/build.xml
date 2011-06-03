@@ -2,61 +2,56 @@
 
 <project basedir="." default="deploy" name="agitter">
 
-	<property name="bin" value="build/bin"/>
-	<property name="src" value="src"/>
-	<property name="bubble-path" value="../bubble"/>
-	
-	
-	<target name="clean">
-		<delete dir="build"/>
-		<mkdir dir="${bin}"/>
-	</target>
-
-	
-	<target name="copy-resources" depends="clean">
-		<copy todir="${bin}" includeemptydirs="false">
-			<fileset dir="${src}">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-	</target>
-
-	
-	<path id="agitter-classpath">
-		<pathelement location="${bin}"/>
-		<fileset dir="lib"> <include name="**/*.jar"/> </fileset>
-		<fileset dir="${bubble-path}/lib"> <include name="**/*.jar"/> </fileset>
-		<fileset dir="${bubble-path}/src/sneer/foundation/testsupport/lib"> <include name="**/*.jar"/> </fileset>
+	<path id="projects">
+		<fileset dir="." />
+		<fileset dir="../bubble"/>
 	</path>
 
 	
-	<target name="build" depends="clean, copy-resources">
-		<javac destdir="${bin}" source="1.6" target="1.6" encoding="UTF-8" debug="true" debuglevel="source,lines,vars">
-			<src path="${src}"/>
-			<src path="${bubble-path}/src"/>
-			<classpath refid="agitter-classpath"/>
-			<compilerarg value="-Xlint:unchecked"/>
-		</javac>
+	<property name="build" value="../build"/>
+	<property name="code" value="${build}/src"/>
+	
+	
+	<target name="clean">
+		<delete dir="${build}"/>
+		<mkdir dir="${build}"/>
+	</target>
 
-		<!--Required for test execution with simploy.-->
-		<copy todir="${bin}/lib">
-			<fileset dir="${bubble-path}/lib"/>
+	
+	<target name="copy" depends="clean">
+		<copy todir="${build}" includeemptydirs="false">
+			<path refid="projects" />
 		</copy>
+	</target>
+
+	
+	<path id="classpath">
+		<pathelement location="${code}"/>
+		<fileset dir="${code}"> <include name="**/*.jar"/> </fileset>
+	</path>
+
+	
+	<target name="build" depends="copy">
+		<javac source="1.6" target="1.6" encoding="UTF-8" debug="true" debuglevel="source,lines,vars">
+			<src path="${code}"/>
+			<classpath refid="classpath"/>
+		</javac>
 	</target>
 	
 
 	<target name="deploy" depends="build">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
-		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
-			<classpath refid="agitter-classpath"/>
+		<!-- fork="true" spawn="true" -->
+		<java classname="agitter.main.AgitterMain">
+			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 
 	<target name="simploy" depends="deploy">
 		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
-			<classpath location="${bin}"/>
-			<arg value="${bin}"/>
+			<classpath location="${code}"/>
+			<arg value="${code}"/>
 			<arg value="SimploySecret"/>
 		</java>
 	</target>
