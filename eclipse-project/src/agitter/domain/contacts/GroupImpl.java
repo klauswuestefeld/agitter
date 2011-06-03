@@ -1,5 +1,7 @@
 package agitter.domain.contacts;
 
+import org.prevayler.bubble.PrevalentBubble;
+
 public class GroupImpl implements Group {
 	
 	private String name;

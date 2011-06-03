@@ -17,15 +17,9 @@ import agitter.domain.users.UsersImpl;
 public class ContactsTest extends CleanTestBase {
 
 	private final Contacts subject = new ContactsImpl();
+
 	private final User user = jose();
 
-	private User jose() {
-		try {
-			return new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
-	}
 	
 	@Test
 	public void contactsInAlfabeticalOrder() throws Refusal {
@@ -42,7 +36,7 @@ public class ContactsTest extends CleanTestBase {
 	}
 	
 	@Test
-	public void groups() {
+	public void groups() throws Refusal {
 		List<Group> groups = subject.groupsFor( user );
 		assertTrue( groups.isEmpty() );
 		
@@ -51,7 +45,19 @@ public class ContactsTest extends CleanTestBase {
 		subject.addGroupFor( user, "Family" );
 		groups = subject.groupsFor( user );
 		assertEquals( "[Family, Friends, Work]", groups.toString() );
-
 	}
 	
+	@Test (expected=Refusal.class)
+	public void duplicatedGroup() throws Refusal {
+		subject.addGroupFor( user, "Friends" );
+		subject.addGroupFor( user, "FRIENDS" );
+	}
+
+	private User jose() {
+		try {
+			return new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
+	}
 }

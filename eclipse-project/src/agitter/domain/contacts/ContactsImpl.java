@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Producer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
@@ -35,8 +36,13 @@ public class ContactsImpl implements Contacts {
 	}
 	
 	@Override
-	public void addGroupFor(User user, String groupName) {
-		groupSetFor(user).add( new GroupImpl( groupName ) );
+	public Group addGroupFor(User user, String groupName) throws Refusal {
+		GroupImpl group = new GroupImpl(groupName);
+		boolean groupAdded = groupSetFor(user).add(group);
+		if(!groupAdded) 
+			throw new Refusal("Já existe um grupo chamado " + groupName);
+		
+		return group;
 	}
 	
 	@Override
