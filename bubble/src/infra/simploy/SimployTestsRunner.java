@@ -12,7 +12,7 @@ class SimployTestsRunner {
 
 
 	static void runAllTestsIn(String testsPath) throws Exception {
-		URLClassLoader loader = separateClassLoader(findJars());
+		URLClassLoader loader = separateClassLoader(findJars(testsPath));
 		Class<?> runClass = loader.loadClass(SimployTestsRun.class.getName());
 		instantiate(runClass, testsPath);
 	}
@@ -36,8 +36,8 @@ class SimployTestsRunner {
 	}
 	
 	
-	private static URL[] findJars() throws Exception {
-		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File("."), ".jar");
+	private static URL[] findJars(String classpath) throws Exception {
+		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File(classpath), ".jar");
 		printClasspath(jarPaths);
 		List<URL> result = convertToURLs(jarPaths);
 		result.add(0, myOwnPath());
