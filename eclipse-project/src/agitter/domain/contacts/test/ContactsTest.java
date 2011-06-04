@@ -64,4 +64,21 @@ public class ContactsTest extends CleanTestBase {
 		assertEquals(1, subject.allContactsFor(user).subgroups().size());
 	}
 
+	@Test
+	public void subgroupWithEmptyName() throws Refusal {
+		testInvalidSubgroupName("");
+		testInvalidSubgroupName(" ");
+		testInvalidSubgroupName("\t");
+		testInvalidSubgroupName(null);
+	}
+
+	private void testInvalidSubgroupName(String name) {
+		try {
+			subject.allContactsFor(user).addSubgroup(name);
+			fail();
+		}catch(Refusal expected) {
+		}
+	}
+	
+
 }

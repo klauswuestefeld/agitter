@@ -16,10 +16,17 @@ public class GroupImpl implements Group {
 	
 	private SortedSet<Group> subgroups = new TreeSet<Group>();
 
-	public GroupImpl(String groupName) {
+	public GroupImpl(String groupName) throws Refusal {
+		validateGroupName( groupName );
 		name = groupName;
 	}
 	
+	private void validateGroupName(String groupName) throws Refusal {
+		if( groupName == null || groupName.trim().isEmpty() ) {
+			throw new Refusal( "O nome do grupo deve ser preenchido." );
+		}
+	}
+
 	@Override
 	public List<EmailAddress> contacts() {
 		return new ArrayList<EmailAddress>(contacts);
