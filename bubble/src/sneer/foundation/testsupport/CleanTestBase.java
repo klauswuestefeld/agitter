@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import sneer.foundation.lang.Clock;
 
@@ -86,7 +87,8 @@ public abstract class CleanTestBase extends AssertUtils {
 		assertDoesNotExist(file);
 	}
 
-	{
+	@Before
+	public void beforeCleanTest() {
 		Clock.setForCurrentThread(1);
 		logLevelByThread.set(getDefaultLogger().getLevel());
 		getDefaultLogger().setLevel(Level.OFF);
