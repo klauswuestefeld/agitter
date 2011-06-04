@@ -2,6 +2,7 @@ package agitter.domain.contacts.test;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -18,46 +19,49 @@ public class ContactsTest extends CleanTestBase {
 
 	private final Contacts subject = new ContactsImpl();
 
-	private final User user = jose();
+	private User user ;
 
 	
+	@Before
+	public void initUser() throws Refusal {
+		user = new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
+	}
+
 	@Test
 	public void contactsInAlfabeticalOrder() throws Refusal {
-		List<EmailAddress> contacts = subject.contactsFor( user );
-		assertTrue( contacts.isEmpty() );
+		Group all = subject.allContactsFor( user );
+		assertTrue( all.contacts().isEmpty() );
 		
-		subject.addContactFor( user, new EmailAddress( "maria@gmail.com" ) );
-		subject.addContactFor( user, new EmailAddress( "joao@gmail.com" ) );
-		subject.addContactFor( user, new EmailAddress( "joao@gmail.com" ) );
-		subject.addContactFor( user, new EmailAddress( "joAO@gmaiL.com" ) );
-		subject.addContactFor( user, new EmailAddress( "amanda@hotmail.com" ) );
-		contacts = subject.contactsFor( user );
-		assertContents( contacts, new EmailAddress( "amanda@hotmail.com" ), new EmailAddress( "joao@gmail.com" ), new EmailAddress( "maria@gmail.com" ) );
+		all.addContact( new EmailAddress( "maria@gmail.com" ) );
+		all.addContact( new EmailAddress( "joao@gmail.com" ) );
+		all.addContact( new EmailAddress( "joao@gmail.com" ) );
+		all.addContact( new EmailAddress( "joAO@gmaiL.com" ) );
+		all.addContact( new EmailAddress( "amanda@hotmail.com" ) );
+		assertContents( all.contacts(), new EmailAddress( "amanda@hotmail.com" ), new EmailAddress( "joao@gmail.com" ), new EmailAddress( "maria@gmail.com" ) );
 	}
 	
 	@Test
-	public void groups() throws Refusal {
-		List<Group> groups = subject.groupsFor( user );
-		assertTrue( groups.isEmpty() );
+	public void subgroups() throws Refusal {
+		Group all = subject.allContactsFor( user );
 		
-		subject.addGroupFor( user, "Friends" );
-		subject.addGroupFor( user, "Work" );
-		subject.addGroupFor( user, "Family" );
-		groups = subject.groupsFor( user );
-		assertEquals( "[Family, Friends, Work]", groups.toString() );
+		all.addSubgroup("Friends");
+		all.addSubgroup("Work");
+		all.addSubgroup("Family");
+		List<Group> subgroups = all.subgroups();
+		assertEquals( "[Family, Friends, Work]", subgroups.toString() );
 	}
 	
-	@Test (expected=Refusal.class)
-	public void duplicatedGroup() throws Refusal {
-		subject.addGroupFor( user, "Friends" );
-		subject.addGroupFor( user, "FRIENDS" );
+	@Test
+	public void duplicatedSubgroup() throws Refusal {
+		subject.allContactsFor(user).addSubgroup("Friends");
+		
+		try {
+			subject.allContactsFor(user).addSubgroup("FRIENDS");
+			fail();
+		}catch(Refusal expected) {
+		}
+		
+		assertEquals(1, subject.allContactsFor(user).subgroups().size());
 	}
 
-	private User jose() {
-		try {
-			return new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
-	}
 }
