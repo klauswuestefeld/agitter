@@ -14,6 +14,8 @@ public class ProcessReplacerTest extends TestWithMocks {
 
 	@Test
 	public void replacement() {
+		System.setProperty("ProcessReplacerPort", "44444");
+		
 		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToTakeOver();inSequence();
 			exactly(1).of(process1).takeOver();inSequence();
