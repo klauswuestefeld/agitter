@@ -2,7 +2,6 @@ package spikes.email;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.Agitter;
 import agitter.domain.events.Event;
@@ -13,7 +12,7 @@ import agitter.main.PrevaylerBootstrap;
 public class BubbleTest extends CleanTestBase {
 
 	@Test
-	public void wrappedObjectPassedAsArg() throws Refusal {
+	public void wrappedObjectPassedAsArg() throws Exception {
 		PrevaylerBootstrap.open(tmpFolder());
 		Agitter agitter = PrevaylerBootstrap.agitter();
 		User ana = agitter.users().signup("ana", "ana@email.com", "abc123");

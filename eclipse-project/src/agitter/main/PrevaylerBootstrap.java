@@ -1,6 +1,7 @@
 package agitter.main;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
@@ -13,7 +14,7 @@ public class PrevaylerBootstrap {
 	private static Agitter _agitter;
 
 	synchronized
-	public static void open(File dataFolder) {
+	public static void open(File dataFolder) throws IOException, ClassNotFoundException {
 		if (_agitter != null) throw new IllegalStateException("Execution already initilized");
 		
 		_agitter = PrevalentBubble.wrap(createPrevaylerFactory(dataFolder));

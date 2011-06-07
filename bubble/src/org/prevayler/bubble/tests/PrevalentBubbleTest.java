@@ -26,7 +26,11 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		factory.configurePrevalenceDirectory(tmpFolder().getAbsolutePath());
 		factory.configureJournalSerializer(new XStreamSerializer());
 		factory.configureTransactionFiltering(false);
-		return PrevalentBubble.wrap(factory);
+		try {
+			return PrevalentBubble.wrap(factory);
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 

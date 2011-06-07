@@ -7,7 +7,6 @@ import org.prevayler.Clock;
 import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
-import sneer.foundation.lang.exceptions.NotImplementedYet;
 import sneer.foundation.util.concurrent.Latch;
 
 class PrevalentSession {
@@ -25,24 +24,18 @@ class PrevalentSession {
 		_factory = factory;
 	}
 
-	void start() {
+	void start() throws IOException, ClassNotFoundException {
 		initPrevayler();
 		setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
 		_transactionLogReplayed.open();
 	}
 	
-	private void initPrevayler() {
+	private void initPrevayler() throws IOException, ClassNotFoundException {
 		_factory.configureClock(new Clock() { @Override public Date time() {
 			return new Date(sneer.foundation.lang.Clock.currentTimeMillis());
 		}});
 
-		try {
-			_prevayler = _factory.create();
-		} catch (IOException e) {
-			throw new NotImplementedYet(e); // Fix Handle this exception.
-		} catch (ClassNotFoundException e) {
-			throw new NotImplementedYet(e); // Fix Handle this exception.
-		}
+		_prevayler = _factory.create();
 	}
 		
 	void setPrevalentSystemIfNecessary(Object system) {

@@ -1,5 +1,7 @@
 package org.prevayler.bubble;
 
+import java.io.IOException;
+
 import org.prevayler.PrevaylerFactory;
 
 public class PrevalentBubble {
@@ -19,7 +21,7 @@ public class PrevalentBubble {
 	}
 
 	synchronized
-	public static <T> T wrap(PrevaylerFactory factory) {
+	public static <T> T wrap(PrevaylerFactory factory) throws IOException, ClassNotFoundException {
 		if (_session != null) throw new IllegalStateException();
 		_session = new PrevalentSession(factory);
 		_session.start(); //_session has to be set before start() so that the setPrevalentSystemIfNecessary method can be called.
