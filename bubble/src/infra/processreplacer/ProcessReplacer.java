@@ -14,10 +14,11 @@ public class ProcessReplacer {
 
 	private static final int READY_TO_RETIRE = 77;
 	private static final int PLEASE_RETIRE = 88;
+	private static final int CANCEL_RETIREMENT = 99;
 
 	
 	public interface ReplaceableProcess {
-		void prepareToTakeOver();
+		void prepareToTakeOver() throws Exception;
 		void takeOver();
 		void prepareToRetire();
 		void cancelRetirement();
@@ -32,8 +33,19 @@ public class ProcessReplacer {
 		try {
 			tryToTakeOver();
 		} catch (Exception e) {
+			cancelPreviousProcessRetirementIfNecessary();
 			log(e, "Process replacer unable to take over. Retiring process...");
 			this.process.retire();
+		}
+	}
+
+
+	private void cancelPreviousProcessRetirementIfNecessary() {
+		if (previousProcess == null) return;
+		try {
+			sendMessage(previousProcess, CANCEL_RETIREMENT);
+		} catch (IOException e) {
+			log(e, "Exception trying to cancel retirement of previous process.");
 		}
 	}
 
@@ -49,7 +61,7 @@ public class ProcessReplacer {
 	private ServerSocket mutex;
 	
 	
-	private void tryToTakeOver() throws IOException {
+	private void tryToTakeOver() throws Exception {
 		preparePreviousProcessToRetireIfNecessary();
 		process.prepareToTakeOver();
 		retirePreviousProcessIfNecessary();
@@ -97,7 +109,7 @@ public class ProcessReplacer {
 
 
 	private void startAcceptingRetirementRequests() throws IOException {
-		new Thread() { { setDaemon(true); } @Override public void run() {
+		new Thread("ProcessReplacer ServerSocket.") { { setDaemon(true); } @Override public void run() {
 			while (!mutex.isClosed())
 				acceptRetirementRequest();
 		}}.start();
@@ -110,6 +122,7 @@ public class ProcessReplacer {
 			request = mutex.accept();
 			tryToHandleRetirementRequest(request);
 		} catch (Exception e) {
+			if (mutex.isClosed()) return;
 			log(e, "Exception handling process retirement request.");
 		} finally {
 			if (request != null)
@@ -148,7 +161,7 @@ public class ProcessReplacer {
 
 
 	public void close() {
-		try { mutex.close(); } catch (IOException e) {}
+		try { if (mutex != null) mutex.close(); } catch (IOException e) {}
 	}
 	
 	
