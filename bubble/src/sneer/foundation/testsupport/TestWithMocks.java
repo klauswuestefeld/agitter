@@ -20,7 +20,7 @@ public abstract class TestWithMocks extends CleanTestBase {
 			inSequence(defaultSequence);
 		}
 
-		protected void open(final Latch latch) {
+		protected void willOpen(final Latch latch) {
 			will(new ReturnDefaultValueAction() { @Override public Object invoke(Invocation invocation) throws Throwable {
 				latch.open();
 				return super.invoke(invocation);

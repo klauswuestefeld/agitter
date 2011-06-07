@@ -25,7 +25,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToRetire(); inSequence();
 			exactly(1).of(process2).prepareToTakeOver(); inSequence();
-			exactly(1).of(process1).retire(); open(latch);
+			exactly(1).of(process1).retire(); willOpen(latch);
 			exactly(1).of(process2).takeOver(); inSequence();
 		}});
 		ProcessReplacer pr = new ProcessReplacer(process2);
@@ -43,7 +43,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).prepareToRetire(); inSequence();
 			exactly(1).of(process2).prepareToTakeOver(); inSequence();
 				will(throwException(new RuntimeException()));
-			exactly(1).of(process1).cancelRetirement(); open(latch);
+			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
 			exactly(1).of(process2).retire();inSequence();
 		}});
 		new ProcessReplacer(process2);
