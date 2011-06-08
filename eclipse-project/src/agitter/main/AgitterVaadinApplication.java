@@ -23,11 +23,9 @@ public class AgitterVaadinApplication extends Application {
 
 		presenter = new Presenter(agitter, view);
 
-		view.addURIHandler(new URIHandler() {
-			public DownloadStream handleURI(URL context, String relativeUri) {
-				return presenter.onRestInvocation(context, relativeUri);
-			}
-		});
+		view.addURIHandler(new URIHandler() { public DownloadStream handleURI(URL context, String relativeUri) {
+			return presenter.onRestInvocation(context, relativeUri);
+		}});
 	}
 
 }
