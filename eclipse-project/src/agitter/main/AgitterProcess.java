@@ -23,6 +23,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	@Override
 	public void prepareToTakeOver() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File("prevalence"));
+//		PrevaylerBootstrap.consolidateSnapshot();
 	}
 	
 	
@@ -38,8 +39,9 @@ public class AgitterProcess implements ReplaceableProcess {
 
 
 	@Override
-	public void prepareToRetire() {
-		PrevalentBubble.enterReadOnlyMode("O Agitter está em manutenção. Tente de novodaqui a alguns minutos.");
+	public void prepareToRetire() throws IOException, ClassNotFoundException {
+		PrevalentBubble.enterReadOnlyMode("O Agitter está em modo de somente-leitura. Ele estará liberado para alterações daqui a alguns minutos.");
+		//PrevaylerBootstrap.consolidateSnapshot();
 	}
 
 	

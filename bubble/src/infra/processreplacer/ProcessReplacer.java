@@ -20,7 +20,7 @@ public class ProcessReplacer {
 	public interface ReplaceableProcess {
 		void prepareToTakeOver() throws Exception;
 		void takeOver();
-		void prepareToRetire();
+		void prepareToRetire() throws Exception;
 		void cancelRetirement();
 		void retire();
 	}
