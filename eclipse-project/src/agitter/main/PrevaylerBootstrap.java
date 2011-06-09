@@ -55,7 +55,7 @@ public class PrevaylerBootstrap {
 
 	private static void consolidateSnapshotInIsolatedClassLoader(String username) {
 		try {
-			Method method = isolatedMethod("consolidateSnapshotIsolated");
+			Method method = isolatedMethod("doConsolidateSnapshot");
 			method.setAccessible( true );
 			method.invoke( null, _dataFolder, username );
 		} catch(Exception e) {
@@ -73,14 +73,14 @@ public class PrevaylerBootstrap {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void consolidateSnapshotIsolated(final File dataFolder, final String username) throws IOException, ClassNotFoundException {
+	private static void doConsolidateSnapshot(final File dataFolder, final String username) throws IOException, ClassNotFoundException {
 		open(dataFolder);
 		try {
 			_agitter.users().loginWithUsername(username, "abc123");
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}
-		PrevalentBubble.prevayler().takeSnapshot();
+		PrevalentBubble.takeSnapshot();
 	}
 	
 	private static PrevaylerFactory createPrevaylerFactory(File prevalenceBase) {

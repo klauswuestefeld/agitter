@@ -2,7 +2,6 @@ package org.prevayler.bubble;
 
 import java.io.IOException;
 
-import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 
 public class PrevalentBubble {
@@ -43,10 +42,7 @@ public class PrevalentBubble {
 		return _session._idMap;
 	}
 	
-	public static Prevayler prevayler() {
-		return _session.prevayler();
-	}
-	
+
 	static void setPrevalentSystemIfNecessary(Object system) {
 		_session.setPrevalentSystemIfNecessary(system);
 	}
@@ -71,6 +67,10 @@ public class PrevalentBubble {
 
 	private static boolean isReadOnlyMode() {
 		return readOnlyMessage != null;
+	}
+
+	public static void takeSnapshot() throws IOException {
+		_session._prevayler.takeSnapshot();
 	}
 
 
