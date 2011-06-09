@@ -3,7 +3,6 @@ package infra.processreplacer.tests;
 import infra.processreplacer.ProcessReplacer;
 import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.testsupport.TestWithMocks;
@@ -19,7 +18,6 @@ public class ProcessReplacerTest extends TestWithMocks {
 	private final ReplaceableProcess process2 = mock("p2", ReplaceableProcess.class);
 
 	@Test (timeout = 2000)
-	@Ignore
 	public void replacement() throws Exception {
 		checkProcess1TakingOver();
 		
@@ -37,7 +35,6 @@ public class ProcessReplacerTest extends TestWithMocks {
 
 
 	@Test (timeout = 2000)
-	@Ignore
 	public void canceledReplacement() throws Exception {
 		ProcessReplacer pr = checkProcess1TakingOver();
 		
