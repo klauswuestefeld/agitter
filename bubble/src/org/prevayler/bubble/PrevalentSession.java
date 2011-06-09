@@ -15,7 +15,6 @@ class PrevalentSession {
 	private final Latch _transactionLogReplayed = new Latch();
 
 	private Object _prevalentSystem;
-	private final Latch _prevalentSystemAvailable = new Latch();
 	
 	final IdMap _idMap = new IdMap();
 	private final PrevaylerFactory _factory;
@@ -43,9 +42,7 @@ class PrevalentSession {
 		
 		if (_prevalentSystem == null) {
 			_idMap.registerFirstObject(system);
-			
 			_prevalentSystem = system;
-			_prevalentSystemAvailable.open();
 		}
 		if (system != _prevalentSystem) throw new IllegalStateException();
 	}
