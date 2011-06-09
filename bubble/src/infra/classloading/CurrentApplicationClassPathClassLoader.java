@@ -17,7 +17,7 @@ public class CurrentApplicationClassPathClassLoader extends URLClassLoader {
 	private static URL[] toUrl(String[] paths) throws MalformedURLException {
 		List<URL> ret = new ArrayList<URL>();
 		for(String path : paths) {
-			ret.add(new File(path).toURL());
+			ret.add(new File(path).toURI().toURL());
 		}
 		return ret.toArray(new URL[0]);
 	}
