@@ -3,6 +3,7 @@ package org.prevayler.bubble.tests;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
@@ -18,7 +19,7 @@ import sneer.foundation.testsupport.CleanTestBase;
 
 public class PrevalentBubbleTest extends CleanTestBase {
 	
-	private SomeApplication _subject = resetSubject();
+	private SomeApplication _subject;
 	
 	
 	private SomeApplication resetSubject() {
@@ -37,6 +38,12 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	}
 
 
+	@Before
+	public void beforePrevalentBubbleTest() {
+		_subject = resetSubject();
+	}
+
+	
 	@After
 	public void afterPrevalentBubbleTest() {
 		PrevalentBubble.pop(); //Bursts the bubble, closing Prevayler.
