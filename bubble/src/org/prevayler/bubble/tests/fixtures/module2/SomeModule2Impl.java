@@ -1,8 +1,10 @@
 package org.prevayler.bubble.tests.fixtures.module2;
 
+import java.io.Serializable;
+
 import org.prevayler.bubble.tests.fixtures.module1.SomeModule;
 
-public class SomeModule2Impl implements SomeModule2 {
+public class SomeModule2Impl implements SomeModule2, Serializable {
 
 	private int _itemCount;
 	private final SomeModule _module1;

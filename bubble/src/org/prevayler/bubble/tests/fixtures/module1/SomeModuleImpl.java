@@ -1,5 +1,6 @@
 package org.prevayler.bubble.tests.fixtures.module1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,12 @@ import org.prevayler.bubble.PrevalentBubble;
 import sneer.foundation.lang.Closure;
 import sneer.foundation.lang.Consumer;
 
-public class SomeModuleImpl implements SomeModule {
+public class SomeModuleImpl implements SomeModule, Serializable {
 
 	private static final String INITIAL_VALUE = "INITIAL_VALUE";
 
 
-	static final class ItemImpl implements Item {
+	static final class ItemImpl implements Item, Serializable {
 		private String _name;
 
 		public ItemImpl(String name) {

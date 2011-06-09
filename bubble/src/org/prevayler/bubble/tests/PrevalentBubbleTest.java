@@ -1,6 +1,9 @@
 package org.prevayler.bubble.tests;
 
+import java.io.IOException;
+
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
@@ -89,6 +92,20 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		Item item = brick.getItem("Foo");
 		brick.removeItem(item);
 		assertEquals(1, brick.itemCount());
+		
+		_subject = resetSubject();
+		assertEquals(1, _subject.module1().itemCount());
+	}
+	
+	
+	@Ignore
+	@Test (timeout = 3000)
+	public void snapshot() throws IOException {
+		SomeModule brick = _subject.module1();
+		brick.addItem("Foo");
+		PrevalentBubble.takeSnapshot();
+		brick.addItem("Bar");
+		brick.removeItem(brick.getItem("Bar"));
 		
 		_subject = resetSubject();
 		assertEquals(1, _subject.module1().itemCount());
