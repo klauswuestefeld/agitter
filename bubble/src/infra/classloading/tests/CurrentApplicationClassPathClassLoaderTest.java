@@ -4,7 +4,7 @@ package infra.classloading.tests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import infra.classloading.CurrentApplicationClassPathClassLoader;
+import infra.classloading.ClasspathClassLoader;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -30,7 +30,7 @@ public class CurrentApplicationClassPathClassLoaderTest {
 	@Test
 	public void testIsolation() throws ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, MalformedURLException {
 		assertTrue( RUNNING_INSIDE_JUNIT_FLAG );
-		final CurrentApplicationClassPathClassLoader runner = new CurrentApplicationClassPathClassLoader();
+		final ClasspathClassLoader runner = new ClasspathClassLoader();
 		
 		Class<?> isolatedCloassloaderRunnerTest = runner.loadClass( CurrentApplicationClassPathClassLoaderTest.class.getName() );
 		assertNotNull( isolatedCloassloaderRunnerTest );

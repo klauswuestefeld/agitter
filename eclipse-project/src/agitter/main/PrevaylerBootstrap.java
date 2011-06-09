@@ -1,6 +1,6 @@
 package agitter.main;
 
-import infra.classloading.CurrentApplicationClassPathClassLoader;
+import infra.classloading.ClasspathClassLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class PrevaylerBootstrap {
 	}
 	
 	private static Method getConsolidateSnapshotIsolatedMethod() throws ClassNotFoundException, MalformedURLException {
-		final CurrentApplicationClassPathClassLoader isolatedClassloader = new CurrentApplicationClassPathClassLoader();
+		final ClasspathClassLoader isolatedClassloader = new ClasspathClassLoader();
 		final Class<?> isolatedPrevaylerBootstrapClass = isolatedClassloader.loadClass(PrevaylerBootstrap.class.getName());
 		for(Method method : isolatedPrevaylerBootstrapClass.getDeclaredMethods()) {
 			if("consolidateSnapshotIsolated".equals(method.getName())) {
