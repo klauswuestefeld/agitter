@@ -50,28 +50,26 @@ public class PrevaylerBootstrap {
 			throw new IllegalStateException(e);
 		}
 		
-		consolidateSnapshotInvokeUsingReflectionWithAnIsolatedClassloader( username );
+		consolidateSnapshotInIsolatedClassLoader( username );
 	}
 
-	private static void consolidateSnapshotInvokeUsingReflectionWithAnIsolatedClassloader(final String username) {
+	private static void consolidateSnapshotInIsolatedClassLoader(String username) {
 		try {
-			final Method consolidateSnapshotIsolatedMethod = getConsolidateSnapshotIsolatedMethod();
-			consolidateSnapshotIsolatedMethod.setAccessible( true );
-			consolidateSnapshotIsolatedMethod.invoke( null, _dataFolder, username );
-		}catch(Exception e) {
+			Method method = isolatedMethod("consolidateSnapshotIsolated");
+			method.setAccessible( true );
+			method.invoke( null, _dataFolder, username );
+		} catch(Exception e) {
 			throw new IllegalStateException(e);
 		}
 	}
 	
-	private static Method getConsolidateSnapshotIsolatedMethod() throws ClassNotFoundException, MalformedURLException {
-		final ClasspathClassLoader isolatedClassloader = new ClasspathClassLoader();
-		final Class<?> isolatedPrevaylerBootstrapClass = isolatedClassloader.loadClass(PrevaylerBootstrap.class.getName());
-		for(Method method : isolatedPrevaylerBootstrapClass.getDeclaredMethods()) {
-			if("consolidateSnapshotIsolated".equals(method.getName())) {
+	private static Method isolatedMethod(String methodName) throws ClassNotFoundException, MalformedURLException {
+		final ClasspathClassLoader isolatedLoader = new ClasspathClassLoader();
+		final Class<?> isolatedClass = isolatedLoader.loadClass(PrevaylerBootstrap.class.getName());
+		for(Method method : isolatedClass.getDeclaredMethods())
+			if(methodName.equals(method.getName()))
 				return method;
-			}
-		}
-		throw new IllegalStateException( "Isolated method not found" );
+		throw new IllegalStateException( "Method " + methodName + " not found" );
 	}
 	
 	@SuppressWarnings("unused")
