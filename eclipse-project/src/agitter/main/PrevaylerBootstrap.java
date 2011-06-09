@@ -1,9 +1,12 @@
 package agitter.main;
 
+import infra.classloading.CurrentApplicationClassPathClassLoader;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 
-import org.prevayler.Prevayler;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
 import org.prevayler.foundation.serialization.XStreamSerializer;
@@ -47,16 +50,40 @@ public class PrevaylerBootstrap {
 			throw new IllegalStateException(e);
 		}
 		
-		Prevayler prevayler = createPrevaylerFactory(_dataFolder).create();
+		consolidateSnapshotInvokeUsingReflectionWithAnIsolatedClassloader( username );
+	}
+
+	private static void consolidateSnapshotInvokeUsingReflectionWithAnIsolatedClassloader(final String username) {
 		try {
-			((Agitter)prevayler.prevalentSystem()).users().loginWithUsername(username, "abc123");
+			final Method consolidateSnapshotIsolatedMethod = getConsolidateSnapshotIsolatedMethod();
+			consolidateSnapshotIsolatedMethod.setAccessible( true );
+			consolidateSnapshotIsolatedMethod.invoke( null, _dataFolder, username );
+		}catch(Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
+	
+	private static Method getConsolidateSnapshotIsolatedMethod() throws ClassNotFoundException, MalformedURLException {
+		final CurrentApplicationClassPathClassLoader isolatedClassloader = new CurrentApplicationClassPathClassLoader();
+		final Class<?> isolatedPrevaylerBootstrapClass = isolatedClassloader.loadClass(PrevaylerBootstrap.class.getName());
+		for(Method method : isolatedPrevaylerBootstrapClass.getDeclaredMethods()) {
+			if("consolidateSnapshotIsolated".equals(method.getName())) {
+				return method;
+			}
+		}
+		throw new IllegalStateException( "Isolated method not found" );
+	}
+	
+	@SuppressWarnings("unused")
+	private static void consolidateSnapshotIsolated(final File dataFolder, final String username) throws IOException, ClassNotFoundException {
+		open(dataFolder);
+		try {
+			_agitter.users().loginWithUsername(username, "abc123");
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}
-		
-		prevayler.takeSnapshot();
+		PrevalentBubble.prevayler().takeSnapshot();
 	}
-	
 	
 	private static PrevaylerFactory createPrevaylerFactory(File prevalenceBase) {
 		PrevaylerFactory factory = new PrevaylerFactory();

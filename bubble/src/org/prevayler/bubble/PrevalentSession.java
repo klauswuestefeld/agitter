@@ -56,6 +56,9 @@ class PrevalentSession {
 		return _prevalentSystem;
 	}
 
+	public Prevayler prevayler() {
+		return _prevayler;
+	}
 
 	boolean isReplayingTransactions() {
 		return !_transactionLogReplayed.isOpen();
