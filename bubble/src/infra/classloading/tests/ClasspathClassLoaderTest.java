@@ -15,7 +15,7 @@ public class ClasspathClassLoaderTest {
 	
 
 	@Test
-	public void testIsolation() throws ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, MalformedURLException {
+	public void isolation() throws ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, MalformedURLException {
 		STATIC_FLAG = true;
 
 		ClasspathClassLoader separateLoader = new ClasspathClassLoader();
