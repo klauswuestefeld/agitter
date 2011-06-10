@@ -30,7 +30,7 @@ public class ClasspathClassLoader extends URLClassLoader {
 	}
 	
 	private static String[] classpath() {
-		return System.getProperty("java.class.path").split(";");
+		return System.getProperty("java.class.path").split(File.pathSeparator);
 	}
 
 }
