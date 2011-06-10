@@ -16,7 +16,7 @@ public class AgitterImpl implements Agitter {
 	private final Events events = new EventsImpl();
 	private final Mailing mailing = new MailingImpl();
 	private final Contacts contacts = new ContactsImpl();
-
+	
 
 	@Override
 	public Events events() {
