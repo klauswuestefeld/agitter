@@ -21,9 +21,10 @@ public class PrevalentBubble {
 	}
 
 	synchronized
-	public static <T> T wrap(PrevaylerFactory factory) throws IOException, ClassNotFoundException {
+	public static <T> T wrap(Object prevalentSystem, PrevaylerFactory factory) throws IOException, ClassNotFoundException {
 		if (_session != null) throw new IllegalStateException();
-		_session = new PrevalentSession(factory);
+		
+		_session = new PrevalentSession(prevalentSystem, factory);
 		_session.start(); //_session has to be set before start() so that the setPrevalentSystemIfNecessary method can be called.
 		return (T) BubbleProxy.wrapped(_session.prevalentSystem(), null);
 	}
@@ -43,8 +44,8 @@ public class PrevalentBubble {
 	}
 	
 
-	static void setPrevalentSystemIfNecessary(Object system) {
-		_session.setPrevalentSystemIfNecessary(system);
+	static void setPrevalentSystemIfNecessary(IdMap idMap) {
+		_session.setPrevalentSystemIfNecessary(idMap);
 	}
 
 

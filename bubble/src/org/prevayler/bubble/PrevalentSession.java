@@ -11,21 +11,23 @@ import sneer.foundation.util.concurrent.Latch;
 
 class PrevalentSession {
 
+	private final PrevaylerFactory _factory;
+
 	Prevayler _prevayler;
 	private final Latch _transactionLogReplayed = new Latch();
 
 	private Object _prevalentSystem;
-	
-	final IdMap _idMap = new IdMap();
-	private final PrevaylerFactory _factory;
+	IdMap _idMap;
 
-	PrevalentSession(final PrevaylerFactory factory) {
+	
+	PrevalentSession(Object prevalentSystem, PrevaylerFactory factory) {
 		_factory = factory;
+		_factory.configurePrevalentSystem(new IdMap(prevalentSystem));
 	}
 
 	void start() throws IOException, ClassNotFoundException {
 		initPrevayler();
-		setPrevalentSystemIfNecessary(_prevayler.prevalentSystem());
+		setPrevalentSystemIfNecessary((IdMap)_prevayler.prevalentSystem());
 		_transactionLogReplayed.open();
 	}
 	
@@ -37,14 +39,12 @@ class PrevalentSession {
 		_prevayler = _factory.create();
 	}
 		
-	void setPrevalentSystemIfNecessary(Object system) {
-		if (system == null) throw new IllegalArgumentException();
-		
-		if (_prevalentSystem == null) {
-			_idMap.registerFirstObject(system);
-			_prevalentSystem = system;
-		}
-		if (system != _prevalentSystem) throw new IllegalStateException();
+	void setPrevalentSystemIfNecessary(IdMap idMap) {
+		if (_idMap != null) return;
+		if (idMap == null) throw new IllegalArgumentException();
+
+		_idMap = idMap;
+		_prevalentSystem = _idMap.unmarshal(1);
 	}
 
 

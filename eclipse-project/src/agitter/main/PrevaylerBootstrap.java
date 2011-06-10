@@ -20,20 +20,23 @@ public class PrevaylerBootstrap {
 	private static Agitter _agitter;
 	private static File _dataFolder;
 
+	
 	synchronized
 	public static void open(File dataFolder) throws IOException, ClassNotFoundException {
 		if (_agitter != null) throw new IllegalStateException("Execution already initilized");
 		
 		_dataFolder = dataFolder;
-		_agitter = PrevalentBubble.wrap(createPrevaylerFactory(dataFolder));
+		_agitter = PrevalentBubble.wrap(new AgitterImpl(), createPrevaylerFactory(dataFolder));
 	}
 
+	
 	synchronized
 	public static void close() {
 		PrevalentBubble.pop();
 		_agitter = null;
 	}
 
+	
 	synchronized
 	public static Agitter agitter() {
 		if (_agitter == null) throw new IllegalStateException("Execution not initilized");
@@ -50,10 +53,11 @@ public class PrevaylerBootstrap {
 			throw new IllegalStateException(e);
 		}
 		
-		consolidateSnapshotInIsolatedClassLoader( username );
+		consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic(username);
 	}
 
-	private static void consolidateSnapshotInIsolatedClassLoader(String username) {
+	
+	private static void consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic(String username) {
 		try {
 			Method method = isolatedMethod("doConsolidateSnapshot");
 			method.setAccessible( true );
@@ -63,14 +67,18 @@ public class PrevaylerBootstrap {
 		}
 	}
 	
+	
 	private static Method isolatedMethod(String methodName) throws ClassNotFoundException, MalformedURLException {
-		final ClasspathClassLoader isolatedLoader = new ClasspathClassLoader();
-		final Class<?> isolatedClass = isolatedLoader.loadClass(PrevaylerBootstrap.class.getName());
-		for(Method method : isolatedClass.getDeclaredMethods())
-			if(methodName.equals(method.getName()))
+		ClasspathClassLoader isolatedLoader = new ClasspathClassLoader();
+		Class<?> isolatedClass = isolatedLoader.loadClass(PrevaylerBootstrap.class.getName());
+		
+		for (Method method : isolatedClass.getDeclaredMethods())
+			if (methodName.equals(method.getName()))
 				return method;
+		
 		throw new IllegalStateException( "Method " + methodName + " not found" );
 	}
+	
 	
 	@SuppressWarnings("unused")
 	private static void doConsolidateSnapshot(final File dataFolder, final String username) throws IOException, ClassNotFoundException {
@@ -83,9 +91,9 @@ public class PrevaylerBootstrap {
 		PrevalentBubble.takeSnapshot();
 	}
 	
+	
 	private static PrevaylerFactory createPrevaylerFactory(File prevalenceBase) {
 		PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(new AgitterImpl());
 		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
 		factory.configureTransactionFiltering(false);
 //		factory.configureJournalSerializer(new XStreamSerializer()); //This line can be used once the snapshot-based process replacement is working.

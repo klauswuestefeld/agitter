@@ -25,7 +25,7 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	@Override
 	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
-		PrevalentBubble.setPrevalentSystemIfNecessary(prevalentSystem);
+		PrevalentBubble.setPrevalentSystemIfNecessary((IdMap)prevalentSystem);
 
 		Long clockState = Clock.memento();
 		Clock.setForCurrentThread(datetime.getTime());

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
@@ -25,16 +24,20 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	private SomeApplication resetSubject() {
 		if (_subject != null) PrevalentBubble.pop();
 		
-		PrevaylerFactory factory = new PrevaylerFactory();
-		factory.configurePrevalentSystem(new SomeApplicationImpl());
-		factory.configurePrevalenceDirectory(tmpFolder().getAbsolutePath());
-		factory.configureJournalSerializer(new XStreamSerializer());
-		factory.configureTransactionFiltering(false);
 		try {
-			return PrevalentBubble.wrap(factory);
+			return PrevalentBubble.wrap(new SomeApplicationImpl(), factory());
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+
+	private PrevaylerFactory factory() {
+		PrevaylerFactory factory = new PrevaylerFactory();
+		factory.configurePrevalenceDirectory(tmpFolder().getAbsolutePath());
+		factory.configureJournalSerializer(new XStreamSerializer());
+		factory.configureTransactionFiltering(false);
+		return factory;
 	}
 
 
@@ -105,8 +108,7 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	}
 	
 	
-	@Ignore
-	@Test (timeout = 3000)
+	@Test
 	public void snapshot() throws IOException {
 		SomeModule brick = _subject.module1();
 		brick.addItem("Foo");
@@ -211,9 +213,9 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		
 		PrevalentBubble.enterReadOnlyMode( "System being updated..." );
 		try {
-		_subject.module1().set(null);
-		fail();
-		}catch(RuntimeException re) {
+			_subject.module1().set(null);
+			fail();
+		} catch (RuntimeException re) {
 			assertEquals( "System being updated...", re.getMessage() );
 		}
 		assertEquals( "foo", _subject.module1().get() );

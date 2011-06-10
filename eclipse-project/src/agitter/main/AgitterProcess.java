@@ -23,7 +23,6 @@ public class AgitterProcess implements ReplaceableProcess {
 	@Override
 	public void prepareToTakeOver() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File("prevalence"));
-		//PrevaylerBootstrap.consolidateSnapshot();
 	}
 	
 	

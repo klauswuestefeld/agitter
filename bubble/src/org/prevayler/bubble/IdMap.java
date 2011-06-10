@@ -1,19 +1,22 @@
 package org.prevayler.bubble;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import sneer.foundation.lang.Immutable;
 
-public class IdMap {
+public class IdMap implements Serializable {
 	
 	private final Map<Object, Long> _idsByObject = new ConcurrentHashMap<Object, Long>();
 	private final Map<Long, Object> _objectsById = new ConcurrentHashMap<Long, Object>();
 	private long _nextId = 1;
 
 	
-	IdMap() {} //Not public
+	IdMap(Object firstObject) {
+		doRegister(firstObject);
+	}
 	
 	
 	public void register(Object object) {
@@ -114,10 +117,4 @@ public class IdMap {
 		return true;
 	}
 
-
-	void registerFirstObject(Object object) {
-		if (!_objectsById.isEmpty()) throw new IllegalStateException();
-		doRegister(object);
-	}
-	
 }
