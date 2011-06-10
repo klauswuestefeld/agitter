@@ -136,6 +136,7 @@ public class ProcessReplacer {
 		try {
 			tryToRetire(request);
 		} catch (Exception e) {
+			log(e, "Exception trying to retire. Cancelling retirement...");
 			process.cancelRetirement();
 		}
 	}

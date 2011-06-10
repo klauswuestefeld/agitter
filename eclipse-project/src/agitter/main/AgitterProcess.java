@@ -40,7 +40,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	@Override
 	public void prepareToRetire() throws IOException, ClassNotFoundException {
 		PrevalentBubble.enterReadOnlyMode("O Agitter está em modo de somente-leitura. Ele estará liberado para alterações daqui a alguns minutos.");
-		//PrevaylerBootstrap.consolidateSnapshot();
+		PrevaylerBootstrap.consolidateSnapshot();
 	}
 
 	

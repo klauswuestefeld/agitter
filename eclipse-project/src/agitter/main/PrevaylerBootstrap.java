@@ -11,7 +11,6 @@ import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
 import org.prevayler.foundation.serialization.XStreamSerializer;
 
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
 
@@ -45,23 +44,15 @@ public class PrevaylerBootstrap {
 	
 	
 	static void consolidateSnapshot() throws IOException, ClassNotFoundException {
-		String username = "Fulano" + System.currentTimeMillis();
-		try {
-			agitter().users().signup(username, username + "@gmail.com", "abc123");
-			agitter().users().loginWithUsername(username, "abc123");
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
-		
-		consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic(username);
+		consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic();
 	}
 
 	
-	private static void consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic(String username) {
+	private static void consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic() {
 		try {
 			Method method = isolatedMethod("doConsolidateSnapshot");
 			method.setAccessible( true );
-			method.invoke( null, _dataFolder, username );
+			method.invoke( null, _dataFolder);
 		} catch(Exception e) {
 			throw new IllegalStateException(e);
 		}
@@ -80,14 +71,9 @@ public class PrevaylerBootstrap {
 	}
 	
 	
-	@SuppressWarnings("unused")
-	private static void doConsolidateSnapshot(final File dataFolder, final String username) throws IOException, ClassNotFoundException {
+	@SuppressWarnings("unused") //Called with reflection in isolated classloader.
+	private static void doConsolidateSnapshot(final File dataFolder) throws IOException, ClassNotFoundException {
 		open(dataFolder);
-		try {
-			_agitter.users().loginWithUsername(username, "abc123");
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
 		PrevalentBubble.takeSnapshot();
 	}
 	
