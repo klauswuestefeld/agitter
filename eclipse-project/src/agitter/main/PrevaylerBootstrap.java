@@ -82,7 +82,7 @@ public class PrevaylerBootstrap {
 		PrevaylerFactory factory = new PrevaylerFactory();
 		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
 		factory.configureTransactionFiltering(false);
-		factory.configureJournalSerializer(new XStreamSerializer("UTF-8"));
+//		factory.configureJournalSerializer(new XStreamSerializer("UTF-8"));
 		factory.configureSnapshotSerializer(new XStreamSerializer("UTF-8"));
 		return factory;
 	}
