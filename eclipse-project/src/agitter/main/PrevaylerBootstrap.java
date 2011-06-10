@@ -82,8 +82,8 @@ public class PrevaylerBootstrap {
 		PrevaylerFactory factory = new PrevaylerFactory();
 		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
 		factory.configureTransactionFiltering(false);
-//		factory.configureJournalSerializer(new XStreamSerializer()); //This line can be used once the snapshot-based process replacement is working.
-		factory.configureSnapshotSerializer(new XStreamSerializer());
+		factory.configureJournalSerializer(new XStreamSerializer("UTF-8"));
+		factory.configureSnapshotSerializer(new XStreamSerializer("UTF-8"));
 		return factory;
 	}
 
