@@ -1,4 +1,4 @@
-package agitter.domain.contacts.test;
+package agitter.domain.contacts.tests;
 
 import java.util.List;
 
