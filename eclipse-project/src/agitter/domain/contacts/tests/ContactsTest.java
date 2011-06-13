@@ -49,6 +49,7 @@ public class ContactsTest extends CleanTestBase {
 		);
 	}
 
+	
 	@Test
 	public void multipleUsers() throws Refusal {
 		User pedro = createUser("pedro");
@@ -67,6 +68,7 @@ public class ContactsTest extends CleanTestBase {
 		assertEquals( "[Family, Friends, Work]", subgroups.toString() );
 	}
 	
+	
 	@Test
 	public void duplicatedSubgroup() throws Refusal {
 		subject.allContactsFor(jose).addSubgroup("Friends");
@@ -80,6 +82,7 @@ public class ContactsTest extends CleanTestBase {
 		assertEquals(1, subject.allContactsFor(jose).subgroups().size());
 	}
 
+	
 	@Test
 	public void subgroupWithEmptyName() throws Refusal {
 		testInvalidSubgroupName("");
@@ -88,6 +91,7 @@ public class ContactsTest extends CleanTestBase {
 		testInvalidSubgroupName(null);
 	}
 
+	
 	private void testInvalidSubgroupName(String name) {
 		try {
 			subject.allContactsFor(jose).addSubgroup(name);
@@ -96,5 +100,4 @@ public class ContactsTest extends CleanTestBase {
 		}
 	}
 	
-
 }
