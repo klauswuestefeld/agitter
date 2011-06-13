@@ -14,15 +14,11 @@ import com.vaadin.ui.NativeButton;
 
 public class EventViewImpl extends CssLayout {
 
-	static private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-	private NativeButton removeButton = new NativeButton();
+	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	public EventViewImpl(EventData event) {
 		addStyleName("a-event-view");
-		removeButton.setSizeUndefined();
-		addComponent(removeButton); removeButton.addStyleName("a-event-remove-button");
-		removeButton.addStyleName("a-default-nativebutton");
+		addNotInterestedButtonIfNecessary(event);
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
 			Label label = new Label(event.description);
@@ -31,14 +27,18 @@ public class EventViewImpl extends CssLayout {
 			texts.addComponent(label); label.addStyleName("a-event-date");
 			label = new Label(event.owner);
 			texts.addComponent(label); label.addStyleName("a-event-owner");
-		
-		onRemovePressed(event.onRemoveAction);
 	}
 
 
-	private void onRemovePressed(final Runnable action) {
-		removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			action.run();
+	private void addNotInterestedButtonIfNecessary(final EventData event) {
+		if (event.onRemoveAction == null) return;
+
+		NativeButton button = new NativeButton();
+		button.setSizeUndefined();
+		addComponent(button); button.addStyleName("a-event-remove-button");
+		button.addStyleName("a-default-nativebutton");
+		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			event.onRemoveAction.run();
 		}});
 	}
 
