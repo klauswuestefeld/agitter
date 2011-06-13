@@ -1,21 +1,15 @@
 package agitter.domain.events.tests;
 
-import agitter.domain.events.Event;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
-import agitter.domain.events.Events;
-import agitter.domain.events.EventsImpl;
+import agitter.domain.events.Event;
 import agitter.domain.users.User;
 import agitter.domain.users.UserImpl;
 
-public class EventsTest extends CleanTestBase {
+public class EventsTest extends EventsTestBase {
 
-	private final Events _subject = new EventsImpl();
-	private final User _ana = new UserImpl("Ana", "ana@gmail.com", "123x");
-	
 	@Test
 	public void addNew() throws Exception {
 		_subject.create(_ana, "Dinner at Joes", 1000);

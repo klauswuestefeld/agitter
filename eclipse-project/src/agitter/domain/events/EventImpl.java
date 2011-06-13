@@ -4,6 +4,7 @@ package agitter.domain.events;
 import java.util.HashSet;
 import java.util.Set;
 
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 public class EventImpl implements Event {
@@ -70,6 +71,12 @@ public class EventImpl implements Event {
 	
 	boolean isInterested(User user) {
 		return !notInterested.contains(user);
+	}
+
+
+	@Override
+	public void addInvitation(EmailAddress emailAddress) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
 }
