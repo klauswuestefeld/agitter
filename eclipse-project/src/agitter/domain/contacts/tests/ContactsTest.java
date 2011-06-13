@@ -19,17 +19,22 @@ public class ContactsTest extends CleanTestBase {
 
 	private final Contacts subject = new ContactsImpl();
 
-	private User user ;
+	private User jose;
 
 	
 	@Before
 	public void initUser() throws Refusal {
-		user = new UsersImpl().signup( "jose", "jose@gmail.com", "secret" );
+		jose = createUser("jose");
+	}
+
+	private User createUser(String username) throws Refusal {
+		return new UsersImpl().signup( username, username + "@gmail.com", "secret123" );
 	}
 
 	@Test
 	public void contactsInAlfabeticalOrder() throws Refusal {
-		Group all = subject.allContactsFor( user );
+		Group all = subject.allContactsFor( jose );
+		assertEquals("Todos", all.name());
 		assertTrue( all.contacts().isEmpty() );
 		
 		all.addContact( new EmailAddress( "maria@gmail.com" ) );
@@ -37,12 +42,23 @@ public class ContactsTest extends CleanTestBase {
 		all.addContact( new EmailAddress( "joao@gmail.com" ) );
 		all.addContact( new EmailAddress( "joAO@gmaiL.com" ) );
 		all.addContact( new EmailAddress( "amanda@hotmail.com" ) );
-		assertContents( all.contacts(), new EmailAddress( "amanda@hotmail.com" ), new EmailAddress( "joao@gmail.com" ), new EmailAddress( "maria@gmail.com" ) );
+		assertContents( all.contacts(),
+			new EmailAddress( "amanda@hotmail.com" ),
+			new EmailAddress( "joao@gmail.com" ),
+			new EmailAddress( "maria@gmail.com" )
+		);
+	}
+
+	@Test
+	public void multipleUsers() throws Refusal {
+		User pedro = createUser("pedro");
+		assertNotSame(subject.allContactsFor(pedro), subject.allContactsFor(jose));
 	}
 	
+	
 	@Test
-	public void subgroups() throws Refusal {
-		Group all = subject.allContactsFor( user );
+	public void subgroupsInAlfabeticalOrder() throws Refusal {
+		Group all = subject.allContactsFor( jose );
 		
 		all.addSubgroup("Friends");
 		all.addSubgroup("Work");
@@ -53,15 +69,15 @@ public class ContactsTest extends CleanTestBase {
 	
 	@Test
 	public void duplicatedSubgroup() throws Refusal {
-		subject.allContactsFor(user).addSubgroup("Friends");
+		subject.allContactsFor(jose).addSubgroup("Friends");
 		
 		try {
-			subject.allContactsFor(user).addSubgroup("FRIENDS");
+			subject.allContactsFor(jose).addSubgroup("FRIENDS");
 			fail();
 		}catch(Refusal expected) {
 		}
 		
-		assertEquals(1, subject.allContactsFor(user).subgroups().size());
+		assertEquals(1, subject.allContactsFor(jose).subgroups().size());
 	}
 
 	@Test
@@ -74,7 +90,7 @@ public class ContactsTest extends CleanTestBase {
 
 	private void testInvalidSubgroupName(String name) {
 		try {
-			subject.allContactsFor(user).addSubgroup(name);
+			subject.allContactsFor(jose).addSubgroup(name);
 			fail();
 		}catch(Refusal expected) {
 		}
