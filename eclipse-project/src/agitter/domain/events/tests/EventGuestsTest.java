@@ -2,7 +2,6 @@ package agitter.domain.events.tests;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import agitter.domain.emails.EmailAddress;
