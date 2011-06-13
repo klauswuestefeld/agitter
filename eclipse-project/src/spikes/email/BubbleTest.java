@@ -20,8 +20,9 @@ public class BubbleTest extends CleanTestBase {
 		events.create(ana, "dinner", 10);
 		Event event = events.toHappen(ana).get(0);
 		
-		event.notInterested(ana); // ana is a bubble wrapper
-		assertEquals(0, events.toHappen(ana).size());
+		User jose = agitter.users().signup("jose", "jose@email.com", "ABC123");
+		event.notInterested(jose); // jose is a bubble wrapper
+		assertEquals(0, events.toHappen(jose).size());
 		
 		PrevaylerBootstrap.close();
 	}

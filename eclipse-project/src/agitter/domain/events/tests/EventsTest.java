@@ -51,14 +51,15 @@ public class EventsTest extends EventsTestBase {
 	
 	@Test
 	public void notInterested() throws Refusal {
-		Event eventToRemove = _subject.create(_ana, "Dinner at Joes", 1000);
-		assertEquals(1, _subject.toHappen(_ana).size());
-
-		eventToRemove.notInterested(_ana);
-		assertEquals(0, _subject.toHappen(_ana).size());
+		Event event = _subject.create(_ana, "Dinner at Joes", 1000);
 
 		User jose = new UserImpl("Jose", "jose@gmail.com", "123");
 		assertEquals(1, _subject.toHappen(jose).size());
+
+		event.notInterested(jose);
+		assertEquals(0, _subject.toHappen(jose).size());
+
+		assertEquals(1, _subject.toHappen(_ana).size());
 	}
 
 }

@@ -46,6 +46,8 @@ public class EventImpl implements Event {
 	
 	@Override
 	public void notInterested(User user) {
+		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+			
 		notInterested.add(user);
 	}
 
@@ -69,7 +71,7 @@ public class EventImpl implements Event {
 	}
 
 	
-	boolean isInterested(User user) {
+	private boolean isInterested(User user) {
 		return !notInterested.contains(user);
 	}
 
@@ -77,6 +79,19 @@ public class EventImpl implements Event {
 	@Override
 	public void addInvitation(EmailAddress emailAddress) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	
+	boolean isVisibleTo(User user) {
+		if (owner().equals(user)) return true;
+		return isInvited(user) && isInterested(user);
+
+	}
+
+
+	private boolean isInvited(User user) {
+		return true;
 	}
 
 }

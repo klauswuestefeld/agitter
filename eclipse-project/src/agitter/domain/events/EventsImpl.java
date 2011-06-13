@@ -31,14 +31,13 @@ public class EventsImpl implements Events {
 
 		for(EventImpl e : _all) {
 			if (e.datetime() < currentDate) continue;
-			if (!e.isInterested(user)) continue;
+			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
 		return result;
 	}
 
-	
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if(datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
