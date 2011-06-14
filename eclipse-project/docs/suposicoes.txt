@@ -22,6 +22,12 @@ Easy Kills
 			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
 			http://loopj.com/jquery-tokeninput/
 
+	Grupos de Contatos
+		Grupos dentro de grupos.
+
+	Importação de Emails de meus Contatos
+		- GMail, Yahoo, Hotmail através do SocialAuth
+
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
 			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
@@ -29,14 +35,6 @@ Easy Kills
 	Privacidade
 		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
 		- Unsubscribe geral do email diario.
-
-	Grupos de Contatos
-		Grupos dentro de grupos.
-
-	Importação de Emails de meus Contatos
-		- GMail, Yahoo, Hotmail através do SocialAuth
-		- Outros Provedores através de paste num campo grande.
-			- Achar os arroba @ e detectar os emails válidos em volta deles.
 
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
