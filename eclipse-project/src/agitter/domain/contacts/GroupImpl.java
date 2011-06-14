@@ -66,5 +66,10 @@ public class GroupImpl implements Group {
 	public String toString() {
 		return name();
 	}
+
+	@Override
+	public boolean contains(EmailAddress mail) {
+		return contacts.contains(mail);
+	}
 	
 }

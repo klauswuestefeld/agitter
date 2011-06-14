@@ -14,9 +14,11 @@ public interface Group extends Comparable<Group> {
 	
 	List<EmailAddress> contacts();
 	void addContact(EmailAddress emailAddress);
+	boolean contains(EmailAddress mail);
 	
 	List<Group> subgroups();
 	@Transaction
 	Group addSubgroup(String name) throws Refusal;
+
 
 }

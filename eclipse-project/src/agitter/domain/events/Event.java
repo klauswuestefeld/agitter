@@ -1,5 +1,6 @@
 package agitter.domain.events;
 
+import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
@@ -8,6 +9,7 @@ public interface Event {
 	long datetime();
 	User owner();
 
+	void addInvitation(Group group);
 	void addInvitation(EmailAddress emailAddress);
 
 	void notInterested(User user);
