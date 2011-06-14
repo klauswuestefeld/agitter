@@ -2,13 +2,14 @@ package agitter.ui.presenter;
 
 import java.net.URL;
 
+import sneer.foundation.lang.Consumer;
 import agitter.domain.Agitter;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.SessionView;
+
 import com.vaadin.terminal.DownloadStream;
-import sneer.foundation.lang.Consumer;
 
 public class Presenter {
 
@@ -23,16 +24,17 @@ public class Presenter {
 		openAuthentication();
 	}
 
+	
 	public DownloadStream onRestInvocation(URL context, String relativeUri) {
 		String[] uri = relativeUri.split("/");
 		if(uri.length==0) { return null; }
 
 		String command = uri[0];
-		if("logout".equals(command)) { onLogout().run(); }
 		if("unsubscribe".equals(command)) { onUnsubscribe(uri); }
 		return null;
 	}
 
+	
 	private Consumer<User> onAuthenticate() {
 		return new Consumer<User>() {
 			@Override
@@ -44,19 +46,19 @@ public class Presenter {
 		};
 	}
 
+	
 	private Runnable onLogout() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				openAuthentication();
-			}
-		};
+		return new Runnable() { @Override public void run() {
+			openAuthentication();
+		}};
 	}
+	
 
 	private void openAuthentication() {
 		new AuthenticationPresenter(_agitter.users(), _view.loginView(), onAuthenticate(), warningDisplayer());
 	}
 
+	
 	private void onUnsubscribe(String[] uri) {
 		if(uri.length<2) {  return; }
 		String userEncryptedInfo = uri[1];
@@ -70,13 +72,11 @@ public class Presenter {
 		}
 	}
 
+	
 	private Consumer<String> warningDisplayer() {
-		return new Consumer<String>() {
-			@Override
-			public void consume(String message) {
-				_view.showWarningMessage(message);
-			}
-		};
+		return new Consumer<String>() { @Override public void consume(String message) {
+			_view.showWarningMessage(message);
+		}};
 	}
 
 }
