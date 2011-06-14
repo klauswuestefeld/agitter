@@ -5,6 +5,7 @@ import java.net.URL;
 import agitter.domain.Agitter;
 import agitter.ui.presenter.Presenter;
 import agitter.ui.view.impl.AgitterViewImpl;
+
 import com.vaadin.Application;
 import com.vaadin.terminal.DownloadStream;
 import com.vaadin.terminal.URIHandler;
