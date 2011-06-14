@@ -2,6 +2,7 @@ package agitter.main;
 
 import java.net.URL;
 
+import vaadinutils.SessionUrlParameters;
 import agitter.domain.Agitter;
 import agitter.ui.presenter.Presenter;
 import agitter.ui.view.impl.AgitterViewImpl;
@@ -27,6 +28,8 @@ public class AgitterVaadinApplication extends Application {
 		view.addURIHandler(new URIHandler() { public DownloadStream handleURI(URL context, String relativeUri) {
 			return presenter.onRestInvocation(context, relativeUri);
 		}});
+		
+		SessionUrlParameters.handleForMainWindow(view);
 	}
 
 }
