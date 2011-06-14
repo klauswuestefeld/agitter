@@ -1,4 +1,5 @@
-package agitter.ui.view.impl;
+package vaadinutils;
+
 
 import com.vaadin.ui.Component;
 

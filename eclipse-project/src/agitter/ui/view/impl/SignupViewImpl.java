@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import vaadinutils.VaadinUtils;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.event.ShortcutAction.KeyCode;

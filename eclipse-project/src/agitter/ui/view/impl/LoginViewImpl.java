@@ -1,5 +1,6 @@
 package agitter.ui.view.impl;
 
+import vaadinutils.VaadinUtils;
 import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.LoginView;
 import agitter.ui.view.SignupView;
