@@ -3,6 +3,7 @@ package agitter.domain.events.tests;
 
 import org.junit.Test;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Comment;
 import agitter.domain.events.Comments;
@@ -22,9 +23,11 @@ public class CommentsTest extends EventsTestBase {
 	@Test
 	public void chat() throws Refusal {
 		final Event partyEvent = _subject.create(_ana, "Barbecue at home", 1000);
+		Clock.setForCurrentThread( 10 );
 		
 		Comment joseComment = comments.commentOn(partyEvent, _jose, "Cool! Need help?");
 		assertEquals(_jose, joseComment.owner());
+		assertEquals(10, joseComment.creationDatetime());
 		assertEquals("Cool! Need help?", joseComment.comment());
 		
 		Comment anaComment = comments.commentOn(partyEvent, _ana, "No, just bring your favorite beverages!");
