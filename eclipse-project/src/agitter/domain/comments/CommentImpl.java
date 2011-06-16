@@ -1,5 +1,5 @@
 
-package agitter.domain.events;
+package agitter.domain.comments;
 
 import agitter.domain.users.User;
 
@@ -7,12 +7,12 @@ public class CommentImpl implements Comment {
 	
 	private final User owner;
 	private final long creationDatetime;
-	private final String comment;
+	private final String text;
 
-	public CommentImpl(User owner, long creationDatetime, String comment) {
+	public CommentImpl(User owner, long creationDatetime, String text) {
 		this.owner = owner;
 		this.creationDatetime = creationDatetime;
-		this.comment = comment;
+		this.text = text;
 	}
 	
 	@Override
@@ -26,8 +26,14 @@ public class CommentImpl implements Comment {
 	}
 	
 	@Override
-	public String comment() {
-		return comment;
+	public String text() {
+		return text;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return text();
 	}
 
 }

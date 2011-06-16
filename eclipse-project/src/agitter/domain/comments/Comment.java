@@ -1,5 +1,5 @@
 
-package agitter.domain.events;
+package agitter.domain.comments;
 
 import agitter.domain.users.User;
 
@@ -9,6 +9,6 @@ public interface Comment {
 	
 	long creationDatetime();
 
-	String comment();
+	String text();
 
 }

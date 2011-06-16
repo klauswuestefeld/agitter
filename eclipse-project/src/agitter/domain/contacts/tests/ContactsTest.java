@@ -13,7 +13,7 @@ import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.UserImpl;
-
+import static infra.util.ToString.*;
 
 public class ContactsTest extends CleanTestBase {
 
@@ -55,7 +55,6 @@ public class ContactsTest extends CleanTestBase {
 	
 	@Test
 	public void groupsInAlfabeticalOrder() throws Refusal {
-		
 		createGroup(josesContacts, "Friends");
 		createGroup(josesContacts, "Work");
 		createGroup(josesContacts, "Family");
@@ -111,10 +110,7 @@ public class ContactsTest extends CleanTestBase {
 	
 	public static Group createGroup(ContactsOfAUser contactsOfAUser, String groupName) throws Refusal {
 		contactsOfAUser.createGroup(groupName);
-		for (Group g : contactsOfAUser.groups())
-			if (g.name().equals(groupName))
-				return g;
-		throw new IllegalStateException("Group not found: " + groupName);
+		return findToString(contactsOfAUser.groups(), groupName);
 	}
 	
 

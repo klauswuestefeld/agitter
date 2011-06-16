@@ -11,12 +11,25 @@ public class ToString {
 	}};
 
 
-	public static boolean containsToString(List<?> collection, Object toCompare) {
+	public static boolean containsToString(Iterable<?> iterable, Object toCompare) {
+		return searchToString(iterable, toCompare) != null;
+	}
+
+
+	public static <T> T findToString(Iterable<T> iterable, Object toCompare) {
+		T result = searchToString(iterable, toCompare);
+		if (result == null)
+			throw new IllegalStateException("'" + toCompare + "' not found serching by all elements toString()");
+		return result;
+	}
+
+
+	private static <T> T searchToString(Iterable<T> iterable, Object toCompare) {
 		String toString = toCompare.toString();
-		for (Object obj : collection)
+		for (T obj : iterable)
 			if (obj.toString().equalsIgnoreCase(toString ))
-				return true;
-		return false;
+				return obj;
+		return null;
 	}
 
 
