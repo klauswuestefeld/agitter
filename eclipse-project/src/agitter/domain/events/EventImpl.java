@@ -2,6 +2,7 @@ package agitter.domain.events;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -14,13 +15,16 @@ public class EventImpl implements Event {
 	public static boolean PRIVATE_EVENTS_ON = false;
 	
 
-	public EventImpl(User owner, String description, long datetime) {
-		if(null==owner) { throw new IllegalArgumentException("user can not be null"); }
-		if(datetime==0L) { throw new IllegalArgumentException("Data do agito deve ser preenchida."); }
-		if(null==description) { throw new IllegalArgumentException("description can not be null"); }
+	public EventImpl(User owner, String description, long datetime, List<String> invitations) throws Refusal {
+		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
+		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
+		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
+		if(null==invitations) { throw new IllegalArgumentException("invitations cannot be null"); }
 		_owner = owner;
 		_description = description;
 		_datetime = datetime;
+		for (String string : invitations)
+			addInvitation(new EmailAddress(string));
 	}
 
 	

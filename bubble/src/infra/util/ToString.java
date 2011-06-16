@@ -1,5 +1,6 @@
 package infra.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,6 +36,15 @@ public class ToString {
 
 	static public void sortIgnoreCase(List<?> list) {
 		Collections.sort(list, IGNORE_CASE);
+	}
+
+
+	public static List<String> toString(Iterable<?> iterable) {
+		List<String> result = new ArrayList<String>();
+		for (Object obj : iterable)
+			result.add(obj.toString());
+		return result ;
+		
 	}
 
 }

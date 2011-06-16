@@ -1,25 +1,37 @@
 package agitter.ui.view.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.InviteView;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.AbstractSelect.Filtering;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
 
 public class InviteViewImpl extends CssLayout implements InviteView {
 
 	private static final long serialVersionUID = 1L;
 
-	private TextArea description = new TextArea("Qual é o agito?");
-	private PopupDateField date = new PopupDateField("Quando?");
-	private NativeButton invite = new NativeButton("Agitar!");
+	private final TextArea description = new TextArea("Qual é o agito?");
+	private final PopupDateField date = new PopupDateField("Quando?");
+	private final NativeButton invite = new NativeButton("Agitar!");
+	private final ComboBox nextInvitation = new ComboBox("Quem você quer convidar?");
+	private final VerticalLayout invitations = new VerticalLayout();
 
 	public InviteViewImpl() {
 		addStyleName("a-invite-view");
@@ -31,6 +43,27 @@ public class InviteViewImpl extends CssLayout implements InviteView {
 		addComponent(date); date.addStyleName("a-invite-date");
 		addComponent(invite); invite.addStyleName("a-invite-send"); 
 		invite.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
+		
+        nextInvitation.setNewItemsAllowed(true);
+        nextInvitation.setFilteringMode(Filtering.FILTERINGMODE_CONTAINS);
+        nextInvitation.setImmediate(true);
+        nextInvitation.setNullSelectionAllowed(false);
+        nextInvitation.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
+        	String value = event.getProperty().toString();
+			if(value==null) return;
+        	
+        	InviteViewImpl.this.getWindow().showNotification("> " + value);
+			Button invitationButton = new Button(value);
+			invitationButton.addListener(new ClickListener() {  @Override public void buttonClick(ClickEvent event) {
+				invitations.removeComponent(event.getButton());	
+			}});
+			invitations.addComponent(invitationButton);
+			nextInvitation.setValue(null);
+		}});
+
+		addComponent(nextInvitation);
+		addComponent(invitations);
+		
 		description.focus();
 	}
 
@@ -38,6 +71,13 @@ public class InviteViewImpl extends CssLayout implements InviteView {
 	@Override
 	public String getEventDescription() {
 		return (String)description.getValue();
+	}
+
+
+	@Override
+	public void setContacts(List<String> contacts) {
+		for (String c : contacts)
+			nextInvitation.addItem(c);
 	}
 
 
@@ -63,6 +103,19 @@ public class InviteViewImpl extends CssLayout implements InviteView {
 		description.setInputPrompt("Descrição do agito...");
 		date.setValue(null);
 		date.setInputPrompt("Data do agito...");
+		invitations.removeAllComponents();
+	}
+
+
+	@Override
+	public List<String> invitations() {
+		List<String> result = new ArrayList<String>();
+		Iterator<Component> it = invitations.getComponentIterator();
+		while (it.hasNext()) {
+			Component component = (Component) it.next();
+			result.add(component.getCaption());			
+		}
+		return result;
 	}
 
 }

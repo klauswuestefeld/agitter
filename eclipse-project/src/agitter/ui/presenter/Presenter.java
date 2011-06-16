@@ -40,7 +40,7 @@ public class Presenter {
 			@Override
 			public void consume(User user) {
 				SessionView sessionView = _view.showSessionView();
-				new SessionPresenter(_agitter.events(), user, sessionView, onLogout(), warningDisplayer());
+				new SessionPresenter(user, _agitter.contacts().contactsOf(user), _agitter.events(), sessionView, warningDisplayer(), onLogout());
 				warningDisplayer().consume("Por enquanto, todos os agitos são públicos entao, pra não fazer spam, crie apenas agitos de software: dojos, horaextra, congressos, cursos, palestras, webcasts, etc. Valeu!");
 			}
 		};

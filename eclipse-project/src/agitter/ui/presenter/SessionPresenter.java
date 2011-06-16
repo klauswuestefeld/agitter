@@ -1,11 +1,15 @@
 package agitter.ui.presenter;
 
+import infra.util.ToString;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
@@ -16,8 +20,9 @@ import agitter.ui.view.SessionView;
 
 public class SessionPresenter {
 
-	private final Events _events;
 	private final User _user;
+	private final ContactsOfAUser _contacts;
+	private final Events _events;
 	private final SessionView _view;
 	private final Consumer<String> _warningDisplayer;
 
@@ -25,9 +30,10 @@ public class SessionPresenter {
 	private final HandleToAvoidLeaks _handle;
 
 
-	public SessionPresenter(Events events, User user, SessionView view, Runnable onLogout, Consumer<String> errorDisplayer) {
-		_events = events;
+	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, SessionView view, Consumer<String> errorDisplayer, Runnable onLogout) {
 		_user = user;
+		_contacts = contacts;
+		_events = events;
 		_view = view;
 		_warningDisplayer = errorDisplayer;
 
@@ -35,7 +41,7 @@ public class SessionPresenter {
 		
 		_view.show(_user.username()); 
 
-		inviteView().clearFields();
+		resetView();
 		inviteView().onInvite(new Runnable() { @Override public void run() {
 			invite();
 		}});
@@ -45,18 +51,35 @@ public class SessionPresenter {
 		}});
 	}
 
+	private void resetView() {
+		inviteView().clearFields();
+		inviteView().setContacts(contacts());
+	}
+
+	private List<String> contacts() {
+		return ToString.toString(_contacts.all());
+	}
+
 	private void invite() {
 		String description = inviteView().getEventDescription();
 		Date datetime = inviteView().getDatetime();
+		List<String> invitations = inviteView().invitations();
 		try {
 			validate(datetime);
-			_events.create(_user, description, datetime.getTime());
+			int convertInvitationsToEmailAddressList;
+			_events.create(_user, description, datetime.getTime(), invitations);
+			addContacts(invitations);
 		} catch(Refusal e) {
 			_warningDisplayer.consume(e.getMessage());
 			return;
 		}
 		refreshEventList();
-		inviteView().clearFields();
+		resetView();
+	}
+
+	private void addContacts(List<String> invitations) throws Refusal {
+		for (String string : invitations)
+			_contacts.addContact(new EmailAddress(string));
 	}
 
 
