@@ -14,12 +14,18 @@ public class ContactsImpl implements Contacts {
 		return new ContactsOfAUserImpl();
 	}};
 
-	private final CacheMap<User, ContactsOfAUser> contactsByUser = CacheMap.newInstance();
+	private CacheMap<User, ContactsOfAUser> contactsByUser = CacheMap.newInstance();
 
 	
 	@Override
 	public ContactsOfAUser contactsOf(User user) {
-		return contactsByUser.get(user, NEW_CONTACTS_OF_A_USER);
+		return contactsByUser().get(user, NEW_CONTACTS_OF_A_USER);
+	}
+
+
+	private CacheMap<User, ContactsOfAUser> contactsByUser() {
+		if (contactsByUser == null) contactsByUser = CacheMap.newInstance(); //Redundant because of schema evolution.
+		return contactsByUser;
 	}
 
 }
