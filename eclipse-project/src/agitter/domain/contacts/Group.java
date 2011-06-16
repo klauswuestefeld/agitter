@@ -3,22 +3,17 @@ package agitter.domain.contacts;
 
 import java.util.List;
 
-import org.prevayler.bubble.Transaction;
-
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
 
-public interface Group extends Comparable<Group> {
+public interface Group {
 
 	String name();
 	
-	List<EmailAddress> contacts();
-	void addContact(EmailAddress emailAddress);
-	boolean contains(EmailAddress mail);
-	
-	List<Group> subgroups();
-	@Transaction
-	Group addSubgroup(String name) throws Refusal;
+	List<EmailAddress> immediateContacts();
+	List<Group> immediateSubgroups();
+	void addSubgroup(Group subgroup);
+	void removeSubgroup(Group subgroup);
 
+	boolean deepContains(EmailAddress mail);
 
 }

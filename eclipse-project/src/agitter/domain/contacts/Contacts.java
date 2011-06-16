@@ -6,6 +6,6 @@ import agitter.domain.users.User;
 
 public interface Contacts {
 
-	Group allContactsFor(User user);
+	ContactsOfAUser contactsOf(User user);
 
 }

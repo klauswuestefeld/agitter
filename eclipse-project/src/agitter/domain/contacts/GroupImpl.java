@@ -1,9 +1,10 @@
 package agitter.domain.contacts;
 
+import static infra.util.Collections.copy;
+import static infra.util.ToString.sortIgnoreCase;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
@@ -12,54 +13,38 @@ public class GroupImpl implements Group {
 	
 	private String name;
 	
-	private SortedSet<EmailAddress> contacts = new TreeSet<EmailAddress>();
+	private List<EmailAddress> members = new ArrayList<EmailAddress>();
 	
-	private SortedSet<Group> subgroups = new TreeSet<Group>();
+	private List<Group> subgroups = new ArrayList<Group>();
 
+	
 	public GroupImpl(String groupName) throws Refusal {
-		validateGroupName( groupName );
-		name = groupName;
+		setName(groupName);
 	}
 	
 	private void validateGroupName(String groupName) throws Refusal {
-		if( groupName == null || groupName.trim().isEmpty() ) {
+		if( groupName == null || groupName.trim().isEmpty() )
 			throw new Refusal( "O nome do grupo deve ser preenchido." );
-		}
 	}
 
 	@Override
-	public List<EmailAddress> contacts() {
-		return new ArrayList<EmailAddress>(contacts);
+	public List<EmailAddress> immediateContacts() {
+		return copy(members);
+	}
+	
+	void addContact(EmailAddress emailAddress) {
+		members.add(emailAddress);
+		sortIgnoreCase(members);
 	}
 	
 	@Override
-	public void addContact(EmailAddress emailAddress) {
-		contacts.add(emailAddress);
+	public List<Group> immediateSubgroups() {
+		return copy(subgroups);
 	}
-	
-	@Override
-	public List<Group> subgroups() {
-		return new ArrayList<Group>( subgroups );
-	}
-	
-	@Override
-	public Group addSubgroup(String subGroupName) throws Refusal {
-		GroupImpl subgroup = new GroupImpl(subGroupName);
-		boolean subgroupAdded = subgroups.add(subgroup);
-		if(!subgroupAdded) 
-			throw new Refusal("Já existe um grupo chamado " + subGroupName);
-
-		return subgroup;
-	}
-	
+		
 	@Override
 	public String name() {
 		return name;
-	}
-
-	@Override
-	public int compareTo(Group other) {
-		return name().compareToIgnoreCase( other.name() );
 	}
 
 	@Override
@@ -68,8 +53,27 @@ public class GroupImpl implements Group {
 	}
 
 	@Override
-	public boolean contains(EmailAddress mail) {
-		return contacts.contains(mail);
+	public boolean deepContains(EmailAddress mail) {
+		if (members.contains(mail)) return true;
+		for (Group subgroup : subgroups)
+			if (subgroup.deepContains(mail))
+				return true;
+		return false;
+	}
+
+	void setName(String newName) throws Refusal {
+		validateGroupName(newName);
+		name = newName;
+	}
+
+	@Override
+	public void addSubgroup(Group subgroup) {
+		subgroups.add(subgroup);
+	}
+
+	@Override
+	public void removeSubgroup(Group subgroup) {
+		subgroups.remove(subgroup);
 	}
 	
 }

@@ -93,7 +93,7 @@ public class EventImpl implements Event {
 
 	private boolean groupInvitationsContain(EmailAddress mail) {
 		for (Group group : groupInvitations)
-			if (group.contains(mail))
+			if (group.deepContains(mail))
 				return true;
 		return false;
 	}

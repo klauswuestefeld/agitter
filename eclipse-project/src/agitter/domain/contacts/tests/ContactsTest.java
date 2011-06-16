@@ -2,47 +2,43 @@ package agitter.domain.contacts.tests;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.contacts.Contacts;
 import agitter.domain.contacts.ContactsImpl;
+import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
-import agitter.domain.users.UsersImpl;
+import agitter.domain.users.UserImpl;
 
 
 public class ContactsTest extends CleanTestBase {
 
 	private final Contacts subject = new ContactsImpl();
 
-	private User jose;
+	private final User jose = createUser("jose");
+	private final ContactsOfAUser josesContacts = subject.contactsOf(jose);
 
 	
-	@Before
-	public void initUser() throws Refusal {
-		jose = createUser("jose");
+	private User createUser(String username) {
+		return new UserImpl(username, username + "@gmail.com", "secret123");
 	}
 
-	private User createUser(String username) throws Refusal {
-		return new UsersImpl().signup( username, username + "@gmail.com", "secret123" );
-	}
-
+	
 	@Test
 	public void contactsInAlfabeticalOrder() throws Refusal {
-		Group all = subject.allContactsFor( jose );
-		assertEquals("Todos", all.name());
-		assertTrue( all.contacts().isEmpty() );
+		ContactsOfAUser josesContacts = subject.contactsOf(jose);
+		assertTrue(josesContacts.all().isEmpty());
 		
-		all.addContact( new EmailAddress( "maria@gmail.com" ) );
-		all.addContact( new EmailAddress( "joao@gmail.com" ) );
-		all.addContact( new EmailAddress( "joao@gmail.com" ) );
-		all.addContact( new EmailAddress( "joAO@gmaiL.com" ) );
-		all.addContact( new EmailAddress( "amanda@hotmail.com" ) );
-		assertContents( all.contacts(),
+		josesContacts.addContact(new EmailAddress( "maria@gmail.com" ) );
+		josesContacts.addContact(new EmailAddress( "joao@gmail.com" ) );
+		josesContacts.addContact(new EmailAddress( "joao@gmail.com" ) );
+		josesContacts.addContact(new EmailAddress( "joAO@gmaiL.com" ) );
+		josesContacts.addContact(new EmailAddress( "amanda@hotmail.com" ) );
+		assertContents( josesContacts.all(),
 			new EmailAddress( "amanda@hotmail.com" ),
 			new EmailAddress( "joao@gmail.com" ),
 			new EmailAddress( "maria@gmail.com" )
@@ -53,51 +49,60 @@ public class ContactsTest extends CleanTestBase {
 	@Test
 	public void multipleUsers() throws Refusal {
 		User pedro = createUser("pedro");
-		assertNotSame(subject.allContactsFor(pedro), subject.allContactsFor(jose));
+		assertNotSame(subject.contactsOf(pedro), subject.contactsOf(jose));
 	}
 	
 	
 	@Test
-	public void subgroupsInAlfabeticalOrder() throws Refusal {
-		Group all = subject.allContactsFor( jose );
+	public void groupsInAlfabeticalOrder() throws Refusal {
 		
-		all.addSubgroup("Friends");
-		all.addSubgroup("Work");
-		all.addSubgroup("Family");
-		List<Group> subgroups = all.subgroups();
-		assertEquals( "[Family, Friends, Work]", subgroups.toString() );
+		createGroup(josesContacts, "Friends");
+		createGroup(josesContacts, "Work");
+		createGroup(josesContacts, "Family");
+		List<Group> groups = josesContacts.groups();
+		assertEquals( "[Family, Friends, Work]", groups.toString() );
 	}
 	
 	
 	@Test
 	public void duplicatedSubgroup() throws Refusal {
-		subject.allContactsFor(jose).addSubgroup("Friends");
+		createGroup(josesContacts, "Friends");
 		
 		try {
-			subject.allContactsFor(jose).addSubgroup("FRIENDS");
+			createGroup(josesContacts, "FRIENDS");
 			fail();
 		}catch(Refusal expected) {
 		}
 		
-		assertEquals(1, subject.allContactsFor(jose).subgroups().size());
+		assertEquals(1, josesContacts.groups().size());
 	}
 
 	
 	@Test
 	public void subgroupWithEmptyName() throws Refusal {
-		testInvalidSubgroupName("");
-		testInvalidSubgroupName(" ");
-		testInvalidSubgroupName("\t");
-		testInvalidSubgroupName(null);
+		testInvalidGroupName("");
+		testInvalidGroupName(" ");
+		testInvalidGroupName("\t");
+		testInvalidGroupName(null);
 	}
 
 	
-	private void testInvalidSubgroupName(String name) {
+	private void testInvalidGroupName(String name) {
 		try {
-			subject.allContactsFor(jose).addSubgroup(name);
+			createGroup(josesContacts, name);
 			fail();
 		}catch(Refusal expected) {
 		}
 	}
 	
+	
+	public static Group createGroup(ContactsOfAUser contactsOfAUser, String groupName) throws Refusal {
+		contactsOfAUser.createGroup(groupName);
+		for (Group g : contactsOfAUser.groups())
+			if (g.name().equals(groupName))
+				return g;
+		throw new IllegalStateException("Group not found: " + groupName);
+	}
+	
+
 }
