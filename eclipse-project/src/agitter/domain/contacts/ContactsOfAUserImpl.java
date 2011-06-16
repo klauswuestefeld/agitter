@@ -32,7 +32,9 @@ public class ContactsOfAUserImpl implements ContactsOfAUser {
 	
 	@Override
 	public void deleteContactAndRemoveFromAllGroups(EmailAddress contact) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+		all.remove(contact);
+		for (Group group : groups)
+			removeContactFrom(group, contact);
 	}
 
 	
@@ -53,22 +55,22 @@ public class ContactsOfAUserImpl implements ContactsOfAUser {
 
 	
 	@Override
+	public void renameGroup(Group group, String newName) throws Refusal {
+		((GroupImpl)group).setName(newName);
+		sortIgnoreCase(groups);
+	}
+
+
+	@Override
 	public void addContactTo(Group group, EmailAddress contact) {
 		addContact(contact);
-		((GroupImpl)group).addContact(contact);
+		((GroupImpl)group).addMember(contact);
 	}
 
 	
 	@Override
 	public void removeContactFrom(Group group, EmailAddress contact) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	
-	@Override
-	public void renameGroup(Group group, String newName) throws Refusal {
-		((GroupImpl)group).setName(newName);
-		sortIgnoreCase(groups);
+		((GroupImpl)group).removeMember(contact);
 	}
 
 }

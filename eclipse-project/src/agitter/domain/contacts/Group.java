@@ -9,7 +9,7 @@ public interface Group {
 
 	String name();
 	
-	List<EmailAddress> immediateContacts();
+	List<EmailAddress> immediateMembers();
 	List<Group> immediateSubgroups();
 	void addSubgroup(Group subgroup);
 	void removeSubgroup(Group subgroup);

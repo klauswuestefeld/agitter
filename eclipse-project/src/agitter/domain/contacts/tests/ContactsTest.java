@@ -88,7 +88,6 @@ public class ContactsTest extends CleanTestBase {
 		assertFalse(a.deepContains(new EmailAddress("foo@foo.com")));
 		josesContacts.addContactTo(b, new EmailAddress("foo@foo.com"));
 		assertTrue(a.deepContains(new EmailAddress("foo@foo.com")));
-		
 	}
 
 	

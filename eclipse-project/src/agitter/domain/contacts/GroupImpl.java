@@ -21,24 +21,41 @@ public class GroupImpl implements Group {
 	}
 
 	
-	private void validateGroupName(String groupName) throws Refusal {
-		if( groupName == null || groupName.trim().isEmpty() )
-			throw new Refusal( "O nome do grupo deve ser preenchido." );
+	@Override
+	public String toString() {
+		return name();
 	}
 
-	
+
 	@Override
-	public List<EmailAddress> immediateContacts() {
+	public String name() {
+		return name;
+	}
+
+
+	void setName(String newName) throws Refusal {
+		validateGroupName(newName);
+		name = newName;
+	}
+
+
+	@Override
+	public List<EmailAddress> immediateMembers() {
 		return copy(members);
 	}
 	
 	
-	void addContact(EmailAddress emailAddress) {
-		members.add(emailAddress);
+	void addMember(EmailAddress member) {
+		members.add(member);
 		sortIgnoreCase(members);
 	}
 	
 	
+	void removeMember(EmailAddress member) {
+		members.remove(member);
+	}
+
+
 	@Override
 	public List<Group> immediateSubgroups() {
 		return copy(subgroups);
@@ -46,17 +63,18 @@ public class GroupImpl implements Group {
 	
 	
 	@Override
-	public String name() {
-		return name;
+	public void addSubgroup(Group subgroup) {
+		subgroups.add(subgroup);
+		sortIgnoreCase(subgroups);
 	}
 
-	
+
 	@Override
-	public String toString() {
-		return name();
+	public void removeSubgroup(Group subgroup) {
+		subgroups.remove(subgroup);
 	}
 
-	
+
 	@Override
 	public boolean deepContains(EmailAddress mail) {
 		ArrayList<Group> visited = new ArrayList<Group>();
@@ -75,22 +93,9 @@ public class GroupImpl implements Group {
 	}
 
 
-	void setName(String newName) throws Refusal {
-		validateGroupName(newName);
-		name = newName;
-	}
-
-	
-	@Override
-	public void addSubgroup(Group subgroup) {
-		subgroups.add(subgroup);
-		sortIgnoreCase(subgroups);
-	}
-
-	
-	@Override
-	public void removeSubgroup(Group subgroup) {
-		subgroups.remove(subgroup);
+	private void validateGroupName(String groupName) throws Refusal {
+		if( groupName == null || groupName.trim().isEmpty() )
+			throw new Refusal( "O nome do grupo deve ser preenchido." );
 	}
 	
 }
