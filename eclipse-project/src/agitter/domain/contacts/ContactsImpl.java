@@ -14,7 +14,7 @@ public class ContactsImpl implements Contacts {
 		return new ContactsOfAUserImpl();
 	}};
 
-	private CacheMap<User, ContactsOfAUser> contactsByUser = CacheMap.newInstance();
+	private final CacheMap<User, ContactsOfAUser> contactsByUser = CacheMap.newInstance();
 
 	
 	@Override
