@@ -79,6 +79,20 @@ public class ContactsTest extends CleanTestBase {
 
 	
 	@Test
+	public void subgroupCycle() throws Refusal {
+		Group a = createGroup(josesContacts, "GroupA");
+		Group b = createGroup(josesContacts, "GroupB");
+		a.addSubgroup(b);
+		b.addSubgroup(a);
+		
+		assertFalse(a.deepContains(new EmailAddress("foo@foo.com")));
+		josesContacts.addContactTo(b, new EmailAddress("foo@foo.com"));
+		assertTrue(a.deepContains(new EmailAddress("foo@foo.com")));
+		
+	}
+
+	
+	@Test
 	public void subgroupWithEmptyName() throws Refusal {
 		testInvalidGroupName("");
 		testInvalidGroupName(" ");
