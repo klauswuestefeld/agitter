@@ -21,24 +21,24 @@ public class CommentsTest extends EventsTestBase {
 	
 	@Test
 	public void newEventHasNoComments() throws Refusal {
-		final Event partyEvent = _subject.create(_ana, "Party at home", 1000);
-		assertTrue(comments.commentsFor(partyEvent).isEmpty());
+		Event party = _subject.create(_ana, "Party at home", 1000);
+		assertTrue(comments.commentsFor(party).isEmpty());
 	}
 	
 	
 	@Test
 	public void chat() throws Refusal {
-		final Event partyEvent = _subject.create(_ana, "Barbecue at home", 1000);
+		Event party = _subject.create(_ana, "Barbecue at home", 1000);
 		Clock.setForCurrentThread( 10 );
 		
-		Comment joseComment = commentOn(partyEvent, _jose, "Cool! Need help?");
+		Comment joseComment = commentOn(party, _jose, "Cool! Need help?");
 		assertEquals(_jose, joseComment.owner());
 		assertEquals(10, joseComment.creationDatetime());
 		assertEquals("Cool! Need help?", joseComment.text());
 		
-		Comment anaComment = commentOn(partyEvent, _ana, "No, just bring your favorite beverages!");
+		Comment anaComment = commentOn(party, _ana, "No, just bring your favorite beverages!");
 
-		assertContents(comments.commentsFor(partyEvent), joseComment, anaComment);
+		assertContents(comments.commentsFor(party), joseComment, anaComment);
 	}
 
 	
