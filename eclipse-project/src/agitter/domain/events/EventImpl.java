@@ -15,16 +15,16 @@ public class EventImpl implements Event {
 	public static boolean PRIVATE_EVENTS_ON = false;
 	
 
-	public EventImpl(User owner, String description, long datetime, List<String> invitations) throws Refusal {
+	public EventImpl(User owner, String description, long datetime, List<EmailAddress> invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
-		if(null==invitations) { throw new IllegalArgumentException("invitations cannot be null"); }
+		if(null==invitees) { throw new IllegalArgumentException("invitations cannot be null"); }
 		_owner = owner;
 		_description = description;
 		_datetime = datetime;
-		for (String string : invitations)
-			addInvitation(new EmailAddress(string));
+		for (EmailAddress email : invitees)
+			addInvitee(email);
 	}
 
 	
@@ -63,7 +63,7 @@ public class EventImpl implements Event {
 
 
 	@Override
-	public void addInvitation(EmailAddress emailAddress) {
+	public void addInvitee(EmailAddress emailAddress) {
 		emailInvitations.add(emailAddress);
 	}
 

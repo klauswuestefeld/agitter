@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 public class EventsImpl implements Events {
@@ -23,9 +24,9 @@ public class EventsImpl implements Events {
 	
 	
 	@Override
-	public Event create(User user, String description, long datetime, List<String> invitations) throws Refusal {
+	public Event create(User user, String description, long datetime, List<EmailAddress> invitees) throws Refusal {
 		assertIsInTheFuture(datetime);
-		EventImpl event = new EventImpl(user, description, datetime, invitations);
+		EventImpl event = new EventImpl(user, description, datetime, invitees);
 		_all.add(event);
 		return event;
 	}

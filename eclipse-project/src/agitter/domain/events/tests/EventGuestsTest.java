@@ -35,7 +35,7 @@ public class EventGuestsTest extends EventsTestBase {
 	public void emailInvitation() throws Exception {
 		Event event = _subject.create(_ana, "Dinner at Joes", 1000);
 		assertTrue(_subject.toHappen(_jose).isEmpty());
-		event.addInvitation(new EmailAddress("jose@email.com"));
+		event.addInvitee(new EmailAddress("jose@email.com"));
 		assertFalse(_subject.toHappen(_jose).isEmpty());
 		assertFalse(_subject.toHappen(_ana).isEmpty());
 	}

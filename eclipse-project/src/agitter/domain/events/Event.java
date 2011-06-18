@@ -10,7 +10,7 @@ public interface Event {
 	User owner();
 
 	void addInvitation(Group group);
-	void addInvitation(EmailAddress emailAddress);
+	void addInvitee(EmailAddress emailAddress);
 
 	void notInterested(User user);
 }

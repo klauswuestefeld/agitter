@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Predicate;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
@@ -41,50 +43,85 @@ public class SessionPresenter {
 		
 		_view.show(_user.username()); 
 
-		resetView();
-		inviteView().onInvite(new Runnable() { @Override public void run() {
-			invite();
-		}});
+		resetInviteView();
 
 		_handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
 			refreshEventList();
 		}});
 	}
 
-	private void resetView() {
-		inviteView().clearFields();
-		inviteView().setContacts(contacts());
+	
+	private void resetInviteView() {
+		inviteView().reset(contacts(), newInviteeValidator(), new Runnable() { @Override public void run() {
+			invite();
+		}});
 	}
 
+	
+	private Predicate<String> newInviteeValidator() {
+		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
+			if (newInvitee == null) return false;
+			try {
+				AddressValidator.validateEmail(newInvitee);
+			} catch (Refusal r) {
+				_warningDisplayer.consume(r.getMessage());
+				return false;
+			}
+			return true;
+		}};
+	}
+
+	
 	private List<String> contacts() {
 		return ToString.toString(_contacts.all());
 	}
 
+	
 	private void invite() {
-		String description = inviteView().getEventDescription();
-		Date datetime = inviteView().getDatetime();
-		List<String> invitations = inviteView().invitations();
+		String description = inviteView().eventDescription();
+		Date datetime = inviteView().datetime();
+		List<String> inviteeStrings = inviteView().invitees();
+		List<EmailAddress> invitees = toAddresses(inviteeStrings);
 		try {
 			validate(datetime);
-			int convertInvitationsToEmailAddressList;
-			_events.create(_user, description, datetime.getTime(), invitations);
-			addContacts(invitations);
+			_events.create(_user, description, datetime.getTime(), invitees);
 		} catch(Refusal e) {
 			_warningDisplayer.consume(e.getMessage());
 			return;
 		}
+		invitees.removeAll(_contacts.all());
+		addNewContactsIfAny(invitees);
+		
 		refreshEventList();
-		resetView();
+		resetInviteView();
 	}
 
-	private void addContacts(List<String> invitations) throws Refusal {
-		for (String string : invitations)
-			_contacts.addContact(new EmailAddress(string));
+	
+	private void addNewContactsIfAny(List<EmailAddress> newContacts) {
+		for (EmailAddress contact : newContacts)
+			_contacts.addContact(contact);
+	}
+
+	
+	private List<EmailAddress> toAddresses(List<String> inviteeStrings) {
+		List<EmailAddress> result = new ArrayList<EmailAddress>();
+		for (String string : inviteeStrings)
+			result.add(toAddress(string));
+		return result;
+	}
+
+	
+	private EmailAddress toAddress(String validString) {
+		try {
+			return new EmailAddress(validString);
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 
 	private void validate(Date datetime) throws Refusal {
-		if(datetime==null) { throw new Refusal("Data do agito deve ser preenchida."); }
+		if (datetime == null) throw new Refusal("Data do agito deve ser preenchida.");
 	}
 
 
@@ -124,4 +161,3 @@ public class SessionPresenter {
 	}
 
 }
-
