@@ -46,8 +46,8 @@ public class SessionViewImpl implements SessionView {
 		    			sessionTopBarRight.addComponent(logout); logout.addStyleName("a-session-logout-button");
 			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
-    				mainContent.addComponent(inviteView);
     				mainContent.addComponent(eventList);
+    				mainContent.addComponent(inviteView);
         userGreeting.setValue("Bem-vindo " + username + ".");
 	}
     
