@@ -19,11 +19,11 @@ body, .v-generated-body {
 }
 
 .v-app {
-    height: auto;
+	height: auto;
 }
 
 .v-view {
-    height: auto;
+	height: auto;
     width: auto;
     overflow: visible;
     margin: 0;

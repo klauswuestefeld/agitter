@@ -22,10 +22,13 @@ public class EventViewImpl extends CssLayout {
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
 			Label label = new Label(event.description);
+			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
 			label = new Label(dateFormat.format(new Date(event.datetime)));
+			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-date");
 			label = new Label(event.owner);
+			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-owner");
 	}
 

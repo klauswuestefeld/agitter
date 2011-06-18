@@ -1,9 +1,8 @@
 /* Session  -------------------------------------------------------------------   */
 
 .a-session-view {
-	min-width: 1022px;
 	background: #FFB234 url('SessionBackground.jpg') fixed repeat;
-	z-index: 8;
+	z-index: 5;
 }
 
 .a-session-top-bar {
@@ -26,7 +25,7 @@
 }
 
 .a-session-top-bar-content {
-	max-width: 1088px;
+	max-width: 952px;
 	margin: 0 auto;
 	padding: 0px 45px 0px 42px;
 }
@@ -66,45 +65,38 @@ button.a-session-logo {
 }
 
 .a-session-main-content-wrapper {
-	min-width: 950px;
-	max-width: 1100px;
+	width: 952px;
 	margin: 0 auto;
-	padding: 67px 36px 0px 36px;
+	padding: 62px 30px 0px 30px;
 }
 
 .a-session-main-content {
-	min-height: 1080px;
-	background: white;
+	background: #F0F0F0;
 	border: none;
-	border-radius: 8px;
+	border-radius: 7px;
 	border-right-style: solid;
 	border-right-width: 1px;
 	border-right-color: dimgray;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
-	box-shadow: 1px 3px 3px dimgray;
-	-webkit-box-shadow: 1px 3px 3px dimgray;
-	-moz-box-shadow: 1px 3px 3px dimgray;
+	box-shadow: 1px 2px 3px dimgray;
+	-webkit-box-shadow: 1px 2px 3px dimgray;
+	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=135, Strength=2);
+	margin: 0;
 }
 
-.a-session-main-content-bottom-filler {
-	background: white;
-}
 
 /* Invite  ----------------------------------------------------------------------   */
 
 .a-invite-view {
-	background: #EBEBEB;
-	border: none;
-	border-width: 1px;
-	border-radius: 0px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	border-bottom-style: solid;
-	border-bottom-color: darkgray;
-	box-shadow: 0px 0px 2px lightgray;
-	padding: 6px 18px 16px;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	overflow: hidden;
+	vertical-align: top;
+	border-top-right-radius: 7px;
+	padding: 6px 0px 16px 18px;
 }
 
 .a-invite-view .v-captiontext {
@@ -116,35 +108,93 @@ button.a-session-logo {
 }
 
 textarea.a-invite-description {
-	font-size: 18px;
+	width: 430px;
+	height: 50px;
+	min-height: 50px;
 	max-height: 300px;
-	max-width: 760px;
+	resize: vertical;
+	font-size: 18px;
+}
+
+.v-caption-a-invite-next-invitation {
+	clear: both;
+}
+
+.a-invite-next-invitation {
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+}
+
+.a-invite-next-invitation .v-filterselect-input {
+	width: 260px;
 }
 
 .a-invite-send {
-	margin-left: 15px;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	vertical-align: top;
+	margin-left: 16px;
+}
+
+.a-invite-invitations {
+	width: 430px;
+	margin-top: 15px;
+}
+
+button.a-invite-invited {
+	height: 23px;
+	display: inline-block;
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgray;
+	border-radius: 5px;
+	background: white;
+	color: #505050;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+	margin: 0 5px 5px 0;
+}
+
+button.a-invite-invited:hover {
+	background: dimgray;
+	color: white;
 }
 
 
 /* Event List  -----------------------------------------------------------------   */
 
 .a-event-list-view {
+	min-height: 1200px;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	overflow: hidden;
+	background: white;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	box-shadow: 1px 2px 3px dimgray;
+	-webkit-box-shadow: 1px 2px 3px dimgray;
+	-moz-box-shadow: 1px 2px 3px dimgray;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
+	z-index: 6;
 }
 
 
 /* Event  ----------------------------------------------------------------------   */
 
 .a-event-view {
+	width: 446px;    /*  + 16px for the X button  */
 	border: none;
-	border-style: solid;
-	border-width: 0px;
-	border-radius: 0px;
+	border-bottom-style: solid;
 	border-bottom-width: 1px;
-	border-bottom-color: lightgray;
-	padding: 15px 18px;
+	border-bottom-color: #C8C8C8;
+	padding: 12px 14px;
 }
 .a-event-view:hover {
-	background: #F0F0F0;
+	background: #F7F7F7;
 }
 
 button.a-event-remove-button {
@@ -156,12 +206,15 @@ button.a-event-remove-button {
 	background: url('Delete.png') no-repeat right top;
 	border: none;
 	padding: 0px;
-	margin: 2px;
+	margin: 0px;
 }
 
 .a-event-description {
+	width: 430px;
+	min-height: 25px;
 	font-size: 18px;
     line-height: normal;
+    white-space: pre-wrap;
 }
 .a-event-date {
 	margin-top: 4px;
