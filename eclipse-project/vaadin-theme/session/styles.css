@@ -25,9 +25,9 @@
 }
 
 .a-session-top-bar-content {
-	max-width: 952px;
+	max-width: 945px;
 	margin: 0 auto;
-	padding: 0px 45px 0px 42px;
+	padding: 0px 30px 0px 30px;
 }
 
 button.a-session-logo {
@@ -35,14 +35,16 @@ button.a-session-logo {
 	height: 35px;
 	width: 123px;
 	background: url('SessionLogo.png') no-repeat;
-	margin: 4px 0 0 12px;
+	margin-top: 4px;
+	margin-left: 20px;
 	text-shadow: none;
+	
 }
 
 .a-session-top-bar-right {
 	float: right;
 	margin-top: 12px;
-	margin-right: 12px;
+	margin-right: 20px;
 }
 
 .a-session-user-greeting {
@@ -65,7 +67,7 @@ button.a-session-logo {
 }
 
 .a-session-main-content-wrapper {
-	width: 952px;
+	width: 945px;
 	margin: 0 auto;
 	padding: 62px 30px 0px 30px;
 }
@@ -144,22 +146,25 @@ textarea.a-invite-description {
 }
 
 button.a-invite-invited {
-	height: 23px;
+	height: 24px;
 	display: inline-block;
 	border-style: solid;
 	border-width: 1px;
-	border-color: lightgray;
-	border-radius: 5px;
-	background: white;
-	color: #505050;
+	border-color: #B0B0B0;
+	border-top-right-radius: 11px;
+	border-bottom-right-radius: 11px;
+	background: white url('InvitedRemove.png') no-repeat center right;
+	color: #303030;
 	font-size: 12px;
 	font-weight: normal;
 	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+	padding-right: 20px;
 	margin: 0 5px 5px 0;
 }
 
 button.a-invite-invited:hover {
-	background: dimgray;
+	background: gray url('InvitedRemove.png') no-repeat center right;
+	border-color: dimgray;
 	color: white;
 }
 
@@ -179,6 +184,7 @@ button.a-invite-invited:hover {
 	-webkit-box-shadow: 1px 2px 3px dimgray;
 	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
+	padding-top: 2px;
 	z-index: 6;
 }
 
@@ -186,12 +192,12 @@ button.a-invite-invited:hover {
 /* Event  ----------------------------------------------------------------------   */
 
 .a-event-view {
-	width: 446px;    /*  + 16px for the X button  */
+	width: 450px;    /*  430 + 16 the X button + 4 separation */
 	border: none;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: #C8C8C8;
-	padding: 12px 14px;
+	padding: 7px 8px 8px 12px;
 }
 .a-event-view:hover {
 	background: #F7F7F7;
@@ -203,10 +209,14 @@ button.a-event-remove-button {
 	max-height: 16px;
 	width: 16px;
 	max-width: 16px;
-	background: url('Delete.png') no-repeat right top;
+	background: url('EventNotInterested.png') no-repeat center center;
 	border: none;
 	padding: 0px;
 	margin: 0px;
+}
+
+button.a-event-remove-button:hover {
+	background: url('EventNotInterestedHover.png') no-repeat center center;
 }
 
 .a-event-description {
