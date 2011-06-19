@@ -1,6 +1,7 @@
 package agitter.ui.view.impl;
 
 import vaadinutils.VaadinUtils;
+import agitter.ui.view.AgitterTheme;
 import agitter.ui.view.SignupView;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -21,8 +22,8 @@ public class SignupViewImpl implements SignupView {
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
-	private final NativeButton signup = new NativeButton("Cadastrar");
-	private final NativeButton cancel = new NativeButton("Voltar");
+	private final NativeButton signup = AgitterTheme.createDefaultNativeButton("Cadastrar");
+	private final NativeButton cancel = AgitterTheme.createDefaultNativeButton("Voltar");
 
 	SignupViewImpl(ComponentContainer parent) {
 		this.container = parent;
@@ -55,9 +56,7 @@ public class SignupViewImpl implements SignupView {
 				passwordConfirmation.setSizeUndefined();
 				signupfields.addComponent(passwordConfirmation); passwordConfirmation.addStyleName("a-signup-password-confirmation");
 				signupfields.addComponent(signup); signup.addStyleName("a-signup-button");
-				signup.addStyleName("a-default-nativebutton");
 				signupfields.addComponent(cancel); cancel.addStyleName("a-signup-cancel-button");
-				cancel.addStyleName("a-default-nativebutton");
 		
 		setupFocus();
 		signup.setClickShortcut( KeyCode.ENTER );

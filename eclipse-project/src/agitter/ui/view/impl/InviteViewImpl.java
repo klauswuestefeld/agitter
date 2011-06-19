@@ -26,7 +26,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	private final TextArea description = new TextArea("Qual é o agito?");
 	private final PopupDateField date = new PopupDateField("Quando?");
-	private final NativeButton invite = new NativeButton("Agitar!");
+	private final NativeButton invite = AgitterTheme.createDefaultNativeButton("Agitar!");
 	private final ComboBox nextInvitation = new ComboBox("Quem você quer convidar?");
 	private final CssLayout invitations = new CssLayout();
 
@@ -58,7 +58,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		nextInvitation.setWidth("245px");  // Impossible to set via CSS
         addComponent(nextInvitation); nextInvitation.addStyleName("a-invite-next-invitation");
 		addComponent(invite); invite.addStyleName("a-invite-send");
-		invite.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 
         addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 		

@@ -184,7 +184,6 @@ button.a-invite-invited:hover {
 	-webkit-box-shadow: 1px 2px 3px dimgray;
 	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
-	padding-top: 2px;
 	z-index: 6;
 }
 
@@ -197,7 +196,7 @@ button.a-invite-invited:hover {
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: #C8C8C8;
-	padding: 7px 8px 8px 12px;
+	padding: 8px 8px 8px 12px;
 }
 .a-event-view:hover {
 	background: #F7F7F7;

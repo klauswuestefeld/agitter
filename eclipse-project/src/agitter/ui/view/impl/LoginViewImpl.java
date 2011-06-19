@@ -27,11 +27,11 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout loginFields = new CssLayout();
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
-	private final Button login = new NativeButton("Agitar!");
+	private final Button login = AgitterTheme.createDefaultNativeButton("Agitar!");
 	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
 	private final CssLayout mainPicture = new CssLayout();
 	private final CssLayout loginRightSideContainer = new CssLayout();
-	private final Button signup = new NativeButton("Cadastre-se");
+	private final Button signup = AgitterTheme.createDefaultNativeButton("Cadastre-se");
 
 	
 	LoginViewImpl(ComponentContainer container) {
@@ -75,7 +75,6 @@ public class LoginViewImpl implements LoginView {
 						password.setSizeUndefined();
 						wrapper.addComponent(password);
 					loginFields.addComponent(login); login.addStyleName("a-login-button"); 
-					login.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 					loginFields.addComponent(forgotMyPassword); forgotMyPassword.addStyleName("a-login-forgot-password");
 			// Picture
 			mainContent.addComponent(mainPicture); mainPicture.addStyleName("a-login-main-picture");
@@ -86,7 +85,6 @@ public class LoginViewImpl implements LoginView {
 				loginRightSideContainer.addComponent(newLabel(
 					"Ainda não está agitando?", "a-login-advert-1"));
 				loginRightSideContainer.addComponent(signup); signup.addStyleName("a-login-signup-button");
-				signup.addStyleName(AgitterTheme.DEFAULT_NATIVE_BUTTON_CLASS);
 				loginRightSideContainer.addComponent(newLabel(
 						"Festas, encontros, baladas, jogos,<br/>" +
 						"churrascos, espetáculos, qualquer coisa.",
