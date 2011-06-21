@@ -11,9 +11,6 @@ import agitter.domain.users.User;
 
 public class EventImpl implements Event {
 
-	public static boolean PRIVATE_EVENTS_ON = false;
-	
-
 	public EventImpl(User owner, String description, long datetime, EmailAddress... invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
@@ -87,9 +84,7 @@ public class EventImpl implements Event {
 
 
 	private boolean isInvited(User user) {
-		if(! PRIVATE_EVENTS_ON) return true;
-		EmailAddress mail = mail(user);
-
+		EmailAddress mail = mailAddress(user);
 		return emailInvitations.contains(mail) || groupInvitationsContain(mail);
 	}
 
@@ -102,7 +97,7 @@ public class EventImpl implements Event {
 	}
 
 
-	private EmailAddress mail(User user) {
+	private EmailAddress mailAddress(User user) {
 		try {
 			return new EmailAddress(user.email());
 		} catch (Refusal e) {

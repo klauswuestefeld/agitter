@@ -2,8 +2,6 @@ package agitter.domain.events.tests;
 
 import static agitter.domain.contacts.tests.ContactsTest.createGroup;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import agitter.domain.contacts.Contacts;
@@ -12,21 +10,9 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
-import agitter.domain.events.EventImpl;
 import agitter.domain.users.User;
 
 public class EventGuestsTest extends EventsTestBase {
-	
-	@BeforeClass
-	public static void beforeEventsGests() {
-		EventImpl.PRIVATE_EVENTS_ON = true;
-	}
-	
-	@AfterClass
-	public static void afterEventsGests() {
-		EventImpl.PRIVATE_EVENTS_ON = false;
-	}
-	
 	
 	private final Contacts contacts = new ContactsImpl();
 

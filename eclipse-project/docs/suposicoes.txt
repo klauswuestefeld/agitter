@@ -17,13 +17,6 @@ Easy Kills
 		
 "Break the Vial" Release
 
--	Quem?
--		- Lista de emails convidados do Agito no espaço da direita. Xizinho em cada um p remover. Emails ficam persistidos p usar em auto-completion dos proximos agitos.
--			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
--			http://loopj.com/jquery-tokeninput/
-
-	Agitos Privados - Tirar o flag.
-	
 	Grupos de Contatos
 		Grupos dentro de grupos.
 

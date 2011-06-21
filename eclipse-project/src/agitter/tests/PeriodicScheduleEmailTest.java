@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.mailing.PeriodicScheduleMailer;
 import agitter.mailing.tests.EmailSenderMock;
@@ -35,7 +36,7 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 
 		agitter.events().create(klaus, "event1", startTime+10L);
 		agitter.events().create(klaus, "event2", startTime+11L);
-		agitter.events().create(leo, "churras", startTime+11L);
+		agitter.events().create(leo, "churras", startTime+11L, new EmailAddress("klaus@email.com"));
 		agitter.events().create(klaus, "event3", startTime+12L);
 		agitter.events().create(klaus, "event4", startTime+13L);
 		agitter.events().create(klaus, "eventNextDay", startTime+13L+ONE_DAY);

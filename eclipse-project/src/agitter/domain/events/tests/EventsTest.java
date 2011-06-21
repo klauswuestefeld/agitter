@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
 import agitter.domain.users.UserImpl;
@@ -51,7 +52,7 @@ public class EventsTest extends EventsTestBase {
 	
 	@Test
 	public void notInterested() throws Refusal {
-		Event event = _subject.create(_ana, "Dinner at Joes", 1000);
+		Event event = _subject.create(_ana, "Dinner at Joes", 1000, new EmailAddress("jose@gmail.com"));
 
 		User jose = new UserImpl("Jose", "jose@gmail.com", "123");
 		assertEquals(1, _subject.toHappen(jose).size());
