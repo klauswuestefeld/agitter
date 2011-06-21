@@ -10,10 +10,8 @@ import agitter.domain.users.User;
 
 public interface Events {
 
-	@Transaction @Deprecated //Fix the tests to use the new version with invitations below.
-	Event create(User user, String description, long datetime) throws Refusal;
 	@Transaction
-	Event create(User user, String description, long datetime, List<EmailAddress> invitees) throws Refusal;
+	Event create(User user, String description, long datetime, EmailAddress... invitees) throws Refusal;
 
 	List<Event> toHappen(User user);
 

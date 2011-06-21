@@ -1,7 +1,6 @@
 package agitter.domain.events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,13 +17,7 @@ public class EventsImpl implements Events {
 	private SortedSet<EventImpl> _all = new TreeSet<EventImpl>(new EventComparator());
 
 	@Override
-	public Event create(User user, String description, long datetime) throws Refusal {
-		return create(user, description, datetime, Collections.EMPTY_LIST);
-	}
-	
-	
-	@Override
-	public Event create(User user, String description, long datetime, List<EmailAddress> invitees) throws Refusal {
+	public Event create(User user, String description, long datetime, EmailAddress... invitees) throws Refusal {
 		assertIsInTheFuture(datetime);
 		EventImpl event = new EventImpl(user, description, datetime, invitees);
 		_all.add(event);

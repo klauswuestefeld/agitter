@@ -81,7 +81,7 @@ public class SessionPresenter {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
 		List<String> inviteeStrings = inviteView().invitees();
-		List<EmailAddress> invitees = toAddresses(inviteeStrings);
+		EmailAddress[] invitees = toAddresses(inviteeStrings);
 		try {
 			validate(datetime);
 			_events.create(_user, description, datetime.getTime(), invitees);
@@ -89,7 +89,6 @@ public class SessionPresenter {
 			_warningDisplayer.consume(e.getMessage());
 			return;
 		}
-		invitees.removeAll(_contacts.all());
 		addNewContactsIfAny(invitees);
 		
 		refreshEventList();
@@ -97,16 +96,18 @@ public class SessionPresenter {
 	}
 
 	
-	private void addNewContactsIfAny(List<EmailAddress> newContacts) {
-		for (EmailAddress contact : newContacts)
-			_contacts.addContact(contact);
+	private void addNewContactsIfAny(EmailAddress[] invitees) {
+		List<EmailAddress> existing = _contacts.all();
+		for (EmailAddress contact : invitees)
+			if (!existing.contains(contact))
+				_contacts.addContact(contact);
 	}
 
 	
-	private List<EmailAddress> toAddresses(List<String> inviteeStrings) {
-		List<EmailAddress> result = new ArrayList<EmailAddress>();
-		for (String string : inviteeStrings)
-			result.add(toAddress(string));
+	private EmailAddress[] toAddresses(List<String> inviteeStrings) {
+		EmailAddress[] result = new EmailAddress[inviteeStrings.size()];
+		for (int i = 0; i < result.length; i++)
+			result[i] = toAddress(inviteeStrings.get(i));
 		return result;
 	}
 

@@ -2,7 +2,6 @@ package agitter.domain.events;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -15,7 +14,7 @@ public class EventImpl implements Event {
 	public static boolean PRIVATE_EVENTS_ON = false;
 	
 
-	public EventImpl(User owner, String description, long datetime, List<EmailAddress> invitees) throws Refusal {
+	public EventImpl(User owner, String description, long datetime, EmailAddress... invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
