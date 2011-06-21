@@ -17,16 +17,28 @@ Easy Kills
 		
 "Break the Vial" Release
 
-	Quem?
-		- Lista de emails convidados do Agito no espaço da direita. Xizinho em cada um p remover. Emails ficam persistidos p usar em auto-completion dos proximos agitos.
-			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
-			http://loopj.com/jquery-tokeninput/
+-	Quem?
+-		- Lista de emails convidados do Agito no espaço da direita. Xizinho em cada um p remover. Emails ficam persistidos p usar em auto-completion dos proximos agitos.
+-			http://stackoverflow.com/questions/1191807/facebook-style-jquery-autocomplete-plugin
+-			http://loopj.com/jquery-tokeninput/
 
+	Agitos Privados - Tirar o flag.
+	
 	Grupos de Contatos
 		Grupos dentro de grupos.
 
+	Lixinho para excluir o agito
+
+	Visualização do Agito
+
+----- Lançar
+
 	Importação de Emails de meus Contatos
 		- GMail, Yahoo, Hotmail através do SocialAuth
+
+	Edição de agito
+
+	Comments
 
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
@@ -35,6 +47,9 @@ Easy Kills
 	Privacidade
 		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
 		- Unsubscribe geral do email diario.
+
+	Agitos Ignorados
+		- Botao no agito de recuparar no lugar onde ficava o X
 
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
