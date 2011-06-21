@@ -40,8 +40,8 @@ public class EventImpl implements Event {
 	final private long _datetime;
 	final private User _owner;
 	
-	final private Set<Group> groupInvitations = new HashSet<Group>();
-	final private Set<EmailAddress> emailInvitations = new HashSet<EmailAddress>();
+	private Set<Group> groupInvitations = new HashSet<Group>();
+	private Set<EmailAddress> emailInvitations = new HashSet<EmailAddress>();
 	
 	final private Set<User> notInterested = new HashSet<User>();
 
@@ -66,13 +66,13 @@ public class EventImpl implements Event {
 	
 	@Override
 	public void addInvitees(Group group) {
-		groupInvitations.add(group);
+		groupInvitations().add(group);
 	}
 
 
 	@Override
 	public void addInvitee(EmailAddress emailAddress) {
-		emailInvitations.add(emailAddress);
+		emailInvitations().add(emailAddress);
 	}
 
 
@@ -97,12 +97,12 @@ public class EventImpl implements Event {
 
 	private boolean isInvited(User user) {
 		EmailAddress mail = mailAddress(user);
-		return emailInvitations.contains(mail) || groupInvitationsContain(mail);
+		return emailInvitations().contains(mail) || groupInvitationsContain(mail);
 	}
 
 
 	private boolean groupInvitationsContain(EmailAddress mail) {
-		for (Group group : groupInvitations)
+		for (Group group : groupInvitations())
 			if (group.deepContains(mail))
 				return true;
 		return false;
@@ -136,6 +136,19 @@ public class EventImpl implements Event {
 		return result;
 	}
 
+	
+	synchronized
+	private Set<EmailAddress> emailInvitations() {
+		if (emailInvitations==null) emailInvitations = new HashSet<EmailAddress>();
+		return emailInvitations;
+	}
+
+	
+	synchronized
+	private Set<Group> groupInvitations() {
+		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
+		return groupInvitations;
+	}
 	
 
 }
