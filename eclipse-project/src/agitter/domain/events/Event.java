@@ -9,7 +9,7 @@ public interface Event {
 	long datetime();
 	User owner();
 
-	void addInvitation(Group group);
+	void addInvitees(Group group);
 	void addInvitee(EmailAddress emailAddress);
 
 	void notInterested(User user);

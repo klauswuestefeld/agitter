@@ -4,22 +4,24 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import sneer.foundation.lang.Clock;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
 import agitter.domain.emails.EmailAddress;
+import agitter.domain.events.Event;
+import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
 import agitter.mailing.PeriodicScheduleMailer;
 import agitter.mailing.tests.EmailSenderMock;
-import org.junit.Before;
-import org.junit.Test;
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 
-public class PeriodicScheduleEmailTest extends CleanTestBase {
+public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	private static final long ONE_DAY = 1000*60*60*24;
-	private final Agitter agitter = new AgitterImpl();
+	public final Agitter agitter = new AgitterImpl();
 	private final long startTime = fourOClockToday();
 
 
@@ -34,12 +36,12 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		User leo = signup("leo");
 		User klaus = signup("klaus");
 
-		agitter.events().create(klaus, "event1", startTime+10L);
-		agitter.events().create(klaus, "event2", startTime+11L);
-		agitter.events().create(leo, "churras", startTime+11L, new EmailAddress("klaus@email.com"));
-		agitter.events().create(klaus, "event3", startTime+12L);
-		agitter.events().create(klaus, "event4", startTime+13L);
-		agitter.events().create(klaus, "eventNextDay", startTime+13L+ONE_DAY);
+		createEvent(klaus, "event1", startTime+10L);
+		createEvent(klaus, "event2", startTime+11L);
+		createEvent(leo, "churras", startTime+11L, new EmailAddress("klaus@email.com"));
+		createEvent(klaus, "event3", startTime+12L);
+		createEvent(klaus, "event4", startTime+13L);
+		createEvent(klaus, "eventNextDay", startTime+13L+ONE_DAY);
 
 		Clock.setForCurrentThread(startTime+11);
 
@@ -52,11 +54,18 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 		assertEquals(body, mock.body());
 	}
 
+
+	@Override
+	protected Event createEvent(User owner, String description, long startTime, EmailAddress... invitees) throws Refusal {
+		return super.createEvent(agitter.events(), owner, description, startTime, invitees);
+	}
+
+
 	@Test
 	public void onlyOnceADay() throws Refusal, IOException {
 		User leo = signup("leo");
-		agitter.events().create(leo, "eventToday", startTime+11L);
-		agitter.events().create(leo, "eventTomorrow", startTime+11L+ONE_DAY);
+		createEvent(leo, "eventToday", startTime+11L);
+		createEvent(leo, "eventTomorrow", startTime+11L+ONE_DAY);
 
 		long tooEarly = startTime-10;
 		Clock.setForCurrentThread(tooEarly);
@@ -73,8 +82,8 @@ public class PeriodicScheduleEmailTest extends CleanTestBase {
 	@Test
 	public void notInterestedInPublicEvents() throws Refusal, IOException {
 		User leo = signup("leo");
-		agitter.events().create(leo, "eventToday", startTime+11L);
-		agitter.events().create(leo, "eventTomorrow", startTime+11L+ONE_DAY);
+		createEvent(leo, "eventToday", startTime+11L);
+		createEvent(leo, "eventTomorrow", startTime+11L+ONE_DAY);
 
 		Clock.setForCurrentThread(startTime);
 		assertNotNull(sendEmailsAndCaptureLast().to());

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
@@ -17,9 +18,9 @@ public class EventsImpl implements Events {
 	private SortedSet<EventImpl> _all = new TreeSet<EventImpl>(new EventComparator());
 
 	@Override
-	public Event create(User user, String description, long datetime, EmailAddress... invitees) throws Refusal {
+	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<EmailAddress> inviteeEmails) throws Refusal {
 		assertIsInTheFuture(datetime);
-		EventImpl event = new EventImpl(user, description, datetime, invitees);
+		EventImpl event = new EventImpl(user, description, datetime, inviteeGroups, inviteeEmails);
 		_all.add(event);
 		return event;
 	}
@@ -43,5 +44,7 @@ public class EventsImpl implements Events {
 		if(datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
 	}
+
+
 
 }

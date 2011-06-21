@@ -3,6 +3,7 @@ package agitter.ui.presenter;
 import infra.util.ToString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,14 +82,15 @@ public class SessionPresenter {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
 		List<String> inviteeStrings = inviteView().invitees();
-		EmailAddress[] invitees = toAddresses(inviteeStrings);
+		List<EmailAddress> invitees = toAddresses(inviteeStrings);
 		try {
 			validate(datetime);
-			_events.create(_user, description, datetime.getTime(), invitees);
+			_events.create(_user, description, datetime.getTime(), Collections.EMPTY_LIST, invitees);
 		} catch(Refusal e) {
 			_warningDisplayer.consume(e.getMessage());
 			return;
 		}
+		invitees.removeAll(_contacts.all());
 		addNewContactsIfAny(invitees);
 		
 		refreshEventList();
@@ -96,18 +98,16 @@ public class SessionPresenter {
 	}
 
 	
-	private void addNewContactsIfAny(EmailAddress[] invitees) {
-		List<EmailAddress> existing = _contacts.all();
+	private void addNewContactsIfAny(List<EmailAddress> invitees) {
 		for (EmailAddress contact : invitees)
-			if (!existing.contains(contact))
-				_contacts.addContact(contact);
+			_contacts.addContact(contact);
 	}
 
 	
-	private EmailAddress[] toAddresses(List<String> inviteeStrings) {
-		EmailAddress[] result = new EmailAddress[inviteeStrings.size()];
-		for (int i = 0; i < result.length; i++)
-			result[i] = toAddress(inviteeStrings.get(i));
+	private List<EmailAddress> toAddresses(List<String> inviteeStrings) {
+		List<EmailAddress> result = new ArrayList<EmailAddress>(inviteeStrings.size());
+		for (String string : inviteeStrings)
+			result.add(toAddress(string));
 		return result;
 	}
 

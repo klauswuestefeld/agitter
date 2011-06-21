@@ -21,14 +21,14 @@ public class CommentsTest extends EventsTestBase {
 	
 	@Test
 	public void newEventHasNoComments() throws Refusal {
-		Event party = _subject.create(_ana, "Party at home", 1000);
+		Event party = createEvent(_ana, "Party at home", 1000);
 		assertTrue(comments.commentsFor(party).isEmpty());
 	}
 	
 	
 	@Test
 	public void chat() throws Refusal {
-		Event party = _subject.create(_ana, "Barbecue at home", 1000);
+		Event party = createEvent(_ana, "Barbecue at home", 1000);
 		Clock.setForCurrentThread( 10 );
 		
 		Comment joseComment = commentOn(party, _jose, "Cool! Need help?");

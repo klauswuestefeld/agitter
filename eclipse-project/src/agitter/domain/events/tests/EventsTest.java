@@ -13,7 +13,7 @@ public class EventsTest extends EventsTestBase {
 
 	@Test
 	public void addNew() throws Exception {
-		_subject.create(_ana, "Dinner at Joes", 1000);
+		createEvent(_ana, "Dinner at Joes", 1000);
 		assertEquals(1, _subject.toHappen(_ana).size());
 		Event event = _subject.toHappen(_ana).iterator().next();
 		assertEquals("Dinner at Joes", event.description());
@@ -23,9 +23,9 @@ public class EventsTest extends EventsTestBase {
 	
 	@Test
 	public void toHappen() throws Refusal {
-		Event firstEvent = _subject.create(_ana, "D1", 11);
-		Event secondEvent = _subject.create(_ana, "D2", 12);
-		Event thirdEvent = _subject.create(_ana, "D3", 13);
+		Event firstEvent = createEvent(_ana, "D1", 11);
+		Event secondEvent = createEvent(_ana, "D2", 12);
+		Event thirdEvent = createEvent(_ana, "D3", 13);
 
 		Clock.setForCurrentThread(11);
 		assertEquals(3, _subject.toHappen(_ana).size());
@@ -52,7 +52,7 @@ public class EventsTest extends EventsTestBase {
 	
 	@Test
 	public void notInterested() throws Refusal {
-		Event event = _subject.create(_ana, "Dinner at Joes", 1000, new EmailAddress("jose@gmail.com"));
+		Event event = createEvent(_ana, "Dinner at Joes", 1000, new EmailAddress("jose@gmail.com"));
 
 		User jose = new UserImpl("Jose", "jose@gmail.com", "123");
 		assertEquals(1, _subject.toHappen(jose).size());
