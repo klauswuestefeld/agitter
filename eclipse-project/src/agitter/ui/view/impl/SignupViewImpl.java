@@ -25,8 +25,8 @@ public class SignupViewImpl implements SignupView {
 	private final NativeButton signup = AgitterTheme.createDefaultNativeButton("Cadastrar");
 	private final NativeButton cancel = AgitterTheme.createDefaultNativeButton("Voltar");
 
-	SignupViewImpl(ComponentContainer parent) {
-		this.container = parent;
+	SignupViewImpl(ComponentContainer container) {
+		this.container = container;
 	}
 
 	@Override

@@ -127,13 +127,13 @@ public class SessionPresenter {
 
 
 	private InviteView inviteView() {
-		return _view.inviteView();
+		return _view.eventsView().inviteView();
 	}
 
 
 	synchronized
 	private void refreshEventList() {
-		_view.eventListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		_view.eventsView().eventListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
 

@@ -1,8 +1,9 @@
 package agitter.ui.view.impl;
 
+import vaadinutils.SessionUrlParameters;
 import agitter.ui.view.AgitterTheme;
-import agitter.ui.view.EventListView;
-import agitter.ui.view.InviteView;
+import agitter.ui.view.ContactsView;
+import agitter.ui.view.EventsView;
 import agitter.ui.view.SessionView;
 
 import com.vaadin.ui.Button;
@@ -21,15 +22,17 @@ public class SessionViewImpl implements SessionView {
 	private final CssLayout sessionTopBar = new CssLayout();
 	private final CssLayout sessionTopBarContent = new CssLayout();
 	private final NativeButton logo = new NativeButton();
-	private final CssLayout sessionTopBarRight = new CssLayout();
-	private final Label userGreeting = new Label();
-	private final Button logout = logoutButton();
+	private final CssLayout mainMenu = new CssLayout();
+	private final Button events = linkButton("Agitos");
+	private final Button contacts = linkButton("Galera");
+	private final Label account = new Label();
+	private final Button logout = linkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
-	private final InviteViewImpl inviteView = new InviteViewImpl();
-	private final EventListViewImpl eventList = new EventListViewImpl();
+	private final EventsView eventsView = new EventsViewImpl(mainContent);
+	private final ContactsView contactsView = new ContactsViewImpl(mainContent);
 	
-    public SessionViewImpl(ComponentContainer container){
+    public SessionViewImpl(ComponentContainer container) {
     	this.container = container;
     }
     	
@@ -40,33 +43,24 @@ public class SessionViewImpl implements SessionView {
 				sessionTopBar.addComponent(sessionTopBarContent); sessionTopBarContent.addStyleName("a-session-top-bar-content");
 					sessionTopBarContent.addComponent(logo); logo.addStyleName("a-session-logo");
 		    			logo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
-	    			sessionTopBarContent.addComponent(sessionTopBarRight); sessionTopBarRight.addStyleName("a-session-top-bar-right");
-		    			userGreeting.setSizeUndefined();
-		    			sessionTopBarRight.addComponent(userGreeting); userGreeting.addStyleName("a-session-user-greeting");
-		    			sessionTopBarRight.addComponent(logout); logout.addStyleName("a-session-logout-button");
+	    			sessionTopBarContent.addComponent(mainMenu); mainMenu.addStyleName("a-session-top-bar-right");
+	    				if (SessionUrlParameters.isParameterSet(mainMenu, "groups")) {
+	    					mainMenu.addComponent(events); mainMenu.addComponent(new Label("  "));
+	    					mainMenu.addComponent(contacts); mainMenu.addComponent(new Label("  "));
+	    				}
+		    			account.setSizeUndefined();
+		    			mainMenu.addComponent(account); account.addStyleName("a-session-user-greeting");
+		    			mainMenu.addComponent(logout); logout.addStyleName("a-session-logout-button");
 			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
-    				mainContent.addComponent(eventList);
-    				mainContent.addComponent(inviteView);
-        userGreeting.setValue("Bem-vindo " + username + ".");
+
+    	account.setValue(username);
 	}
     
-	private Button logoutButton() {
-        Button b = new Button("Sair");
+	private Button linkButton(String caption) {
+        Button b = new Button(caption);
         b.setStyleName(BaseTheme.BUTTON_LINK);
         return b;
-	}
-
-
-	@Override
-	public InviteView inviteView() {
-		return inviteView;
-	}
-
-	
-	@Override
-	public EventListView eventListView() {
-		return eventList;
 	}
 
 
@@ -77,5 +71,29 @@ public class SessionViewImpl implements SessionView {
 		}});
 	}
 
+	@Override
+	public void onEventsMenu(final Runnable onEventsMenu) {
+		events.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			onEventsMenu.run();
+		}});
+	}
+
+	@Override
+	public void onContactsMenu(final Runnable onContactsMenu) {
+		contacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			onContactsMenu.run();
+		}});
+	}
+
+	@Override
+	public EventsView eventsView() {
+		return eventsView;
+	}
+
+	@Override
+	public ContactsView showContactsView() {
+		contactsView.show();
+		return contactsView;
+	}
 
 }
