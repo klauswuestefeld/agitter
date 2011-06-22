@@ -1,10 +1,9 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.session.events;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import agitter.ui.view.EventData;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

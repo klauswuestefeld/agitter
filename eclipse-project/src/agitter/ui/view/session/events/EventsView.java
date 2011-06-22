@@ -1,4 +1,4 @@
-package agitter.ui.view;
+package agitter.ui.view.session.events;
 
 public interface EventsView {
 

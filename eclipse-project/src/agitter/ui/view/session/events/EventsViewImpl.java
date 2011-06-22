@@ -1,8 +1,5 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.session.events;
 
-import agitter.ui.view.EventListView;
-import agitter.ui.view.EventsView;
-import agitter.ui.view.InviteView;
 
 import com.vaadin.ui.ComponentContainer;
 

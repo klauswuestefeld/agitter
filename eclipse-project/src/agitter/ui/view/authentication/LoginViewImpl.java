@@ -1,9 +1,7 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.authentication;
 
 import vaadinutils.VaadinUtils;
-import agitter.ui.view.AgitterTheme;
-import agitter.ui.view.LoginView;
-import agitter.ui.view.SignupView;
+import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
@@ -27,14 +25,14 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout loginFields = new CssLayout();
 	private final TextField emailOrUsername = new TextField("Email ou Username");
 	private final PasswordField password = new PasswordField("Senha");
-	private final Button login = AgitterTheme.createDefaultNativeButton("Agitar!");
+	private final Button login = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
 	private final CssLayout mainPicture = new CssLayout();
 	private final CssLayout loginRightSideContainer = new CssLayout();
-	private final Button signup = AgitterTheme.createDefaultNativeButton("Cadastre-se");
+	private final Button signup = AgitterVaadinUtils.createDefaultNativeButton("Cadastre-se");
 
 	
-	LoginViewImpl(ComponentContainer container) {
+	public LoginViewImpl(ComponentContainer container) {
 		this.container = container;
 	}
 
@@ -59,7 +57,7 @@ public class LoginViewImpl implements LoginView {
 			topBar.removeAllComponents();
 			mainContent.addComponent(topBar); topBar.addStyleName("a-login-top-bar");
 				topBar.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-login-logo");
-				loginAgitterLogo.addStyleName(AgitterTheme.DEFAULT_LOGO_COLOR_CLASS);
+				loginAgitterLogo.addStyleName(AgitterVaadinUtils.DEFAULT_LOGO_COLOR_CLASS);
 				loginAgitterLogo.setSizeUndefined();
 				// Login Fields and Buttons
 				loginFields.removeAllComponents();

@@ -1,4 +1,4 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.session.events;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.Predicate;
-import agitter.ui.view.AgitterTheme;
-import agitter.ui.view.InviteView;
+import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -26,7 +25,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	private final TextArea description = new TextArea("Qual é o agito?");
 	private final PopupDateField date = new PopupDateField("Quando?");
-	private final NativeButton invite = AgitterTheme.createDefaultNativeButton("Agitar!");
+	private final NativeButton invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final ComboBox nextInvitation = new ComboBox("Quem você quer convidar?");
 	private final CssLayout invitations = new CssLayout();
 

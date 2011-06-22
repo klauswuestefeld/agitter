@@ -1,6 +1,5 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.session.contacts;
 
-import agitter.ui.view.ContactsView;
 
 import com.vaadin.ui.ComponentContainer;
 

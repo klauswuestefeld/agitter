@@ -1,9 +1,7 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.session.events;
 
 import java.util.List;
 
-import agitter.ui.view.EventData;
-import agitter.ui.view.EventListView;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;

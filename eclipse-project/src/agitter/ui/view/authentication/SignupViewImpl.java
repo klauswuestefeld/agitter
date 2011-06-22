@@ -1,8 +1,7 @@
-package agitter.ui.view.impl;
+package agitter.ui.view.authentication;
 
 import vaadinutils.VaadinUtils;
-import agitter.ui.view.AgitterTheme;
-import agitter.ui.view.SignupView;
+import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button.ClickEvent;
@@ -22,8 +21,8 @@ public class SignupViewImpl implements SignupView {
 	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
-	private final NativeButton signup = AgitterTheme.createDefaultNativeButton("Cadastrar");
-	private final NativeButton cancel = AgitterTheme.createDefaultNativeButton("Voltar");
+	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Cadastrar");
+	private final NativeButton cancel = AgitterVaadinUtils.createDefaultNativeButton("Voltar");
 
 	SignupViewImpl(ComponentContainer container) {
 		this.container = container;

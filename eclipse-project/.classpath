@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/stax-api-1.0.1/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="src/agitter/mailing/lib/dependencies/stax-ri-1.2.0/stax-1.2.0.jar"/>
 	<classpathentry kind="lib" path="src/agitter/mailing/lib/aws-java-sdk-1.2.0.jar" sourcepath="src/agitter/mailing/lib/aws-java-sdk-1.2.0-sources.jar"/>
-	<classpathentry kind="lib" path="src/agitter/ui/view/impl/lib/vaadin-6.5.4.jar"/>
+	<classpathentry kind="lib" path="src/agitter/ui/view/lib/vaadin-6.5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

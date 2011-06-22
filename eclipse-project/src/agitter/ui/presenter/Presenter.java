@@ -7,7 +7,7 @@ import agitter.domain.Agitter;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.ui.view.AgitterView;
-import agitter.ui.view.SessionView;
+import agitter.ui.view.session.SessionView;
 
 import com.vaadin.terminal.DownloadStream;
 

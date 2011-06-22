@@ -9,8 +9,8 @@ import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
 import agitter.mailing.ForgotPasswordMailDispatcher;
-import agitter.ui.view.LoginView;
-import agitter.ui.view.SignupView;
+import agitter.ui.view.authentication.LoginView;
+import agitter.ui.view.authentication.SignupView;
 
 public class AuthenticationPresenter {
 

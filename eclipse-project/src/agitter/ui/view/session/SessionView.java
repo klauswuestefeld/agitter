@@ -1,4 +1,7 @@
-package agitter.ui.view;
+package agitter.ui.view.session;
+
+import agitter.ui.view.session.contacts.ContactsView;
+import agitter.ui.view.session.events.EventsView;
 
 public interface SessionView {
 

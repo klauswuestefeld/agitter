@@ -17,9 +17,9 @@ import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
-import agitter.ui.view.EventData;
-import agitter.ui.view.InviteView;
-import agitter.ui.view.SessionView;
+import agitter.ui.view.session.SessionView;
+import agitter.ui.view.session.events.EventData;
+import agitter.ui.view.session.events.InviteView;
 
 public class SessionPresenter {
 
