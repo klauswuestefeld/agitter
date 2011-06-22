@@ -7,10 +7,11 @@ public interface SessionView {
 
 	void show(String username);
 
-	@Deprecated
 	EventsView eventsView();
-	EventsView showEventsView();
-	ContactsView showContactsView();
+	void showEventsView();
+
+	ContactsView contactsView();
+	void showContactsView();
 	
 	void onLogout(Runnable onLogout);
 	void onEventsMenu(Runnable onEventsMenu);
