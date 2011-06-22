@@ -41,6 +41,8 @@ public class SessionPresenter {
 		_warningDisplayer = errorDisplayer;
 
 		_view.onLogout(onLogout);
+		_view.onContactsMenu(onContactsMenu());
+		_view.onEventsMenu(onEventsMenu());
 		
 		_view.show(_user.username()); 
 
@@ -52,6 +54,20 @@ public class SessionPresenter {
 	}
 
 	
+	private Runnable onContactsMenu() {
+		return new Runnable() {  @Override public void run() {
+			_view.showContactsView();
+		} };
+	}
+
+	
+	private Runnable onEventsMenu() {
+		return new Runnable() {  @Override public void run() {
+			_view.showEventsView();
+		} };
+	}
+
+
 	private void resetInviteView() {
 		inviteView().reset(contacts(), newInviteeValidator(), new Runnable() { @Override public void run() {
 			invite();

@@ -86,15 +86,24 @@ public class SessionViewImpl implements SessionView {
 		}});
 	}
 
+	
 	@Override
 	public EventsView eventsView() {
 		return eventsView;
 	}
 
+	
 	@Override
 	public ContactsView showContactsView() {
 		contactsView.show();
 		return contactsView;
+	}
+
+	
+	@Override
+	public EventsView showEventsView() {
+		eventsView.show();
+		return eventsView;
 	}
 
 }

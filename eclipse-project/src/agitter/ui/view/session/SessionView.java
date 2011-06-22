@@ -5,14 +5,16 @@ import agitter.ui.view.session.events.EventsView;
 
 public interface SessionView {
 
-	EventsView eventsView();
-
 	void show(String username);
-	
+
+	@Deprecated
+	EventsView eventsView();
+	EventsView showEventsView();
 	ContactsView showContactsView();
 	
 	void onLogout(Runnable onLogout);
 	void onEventsMenu(Runnable onEventsMenu);
 	void onContactsMenu(Runnable onContactsMenu);
+
 
 }

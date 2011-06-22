@@ -12,6 +12,12 @@ public class EventsViewImpl implements EventsView {
 
 	public EventsViewImpl(ComponentContainer container) {
 		this.container = container;
+		show();
+	}
+
+
+	@Override
+	public void show() {
 		this.container.addComponent(eventList);
 		this.container.addComponent(inviteView);
 	}
