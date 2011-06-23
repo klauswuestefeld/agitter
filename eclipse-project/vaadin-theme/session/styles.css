@@ -26,6 +26,7 @@
 
 .a-session-top-bar-content {
 	max-width: 945px;
+	min-width: 460px;
 	margin: 0 auto;
 	padding: 0px 30px 0px 30px;
 }
@@ -43,27 +44,42 @@ button.a-session-logo {
 
 .a-session-top-bar-right {
 	float: right;
-	margin-top: 12px;
+	margin-top: 15px;
 	margin-right: 20px;
 }
 
-.a-session-user-greeting {
+.a-session-menu-default {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
+	color: #CACACA;
+	font-size: 13px;
+	vertical-align: text-bottom;
+	line-height: normal;
+}
+.a-session-menu-default .v-button-caption {
+	color: #CACACA;
+	font-size: 13px;
+	text-decoration: none;
+}
+.a-session-menu-default:hover .v-button-caption {
 	color: white;
-	vertical-align: middle;
-	margin-top: 1px;
-	margin-right: 10px;
+	text-decoration: underline;
+}
+.a-session-menu-active .v-button-caption {
+	color: white;
+	font-weight: bold;
 }
 
-.a-session-logout-button {
-	display: inline-block;
-	vertical-align: middle;
+.a-session-menu-events {
+	margin-right: 15px;
 }
-.a-session-logout-button .v-button-caption {
-	font-weight: bold;
-	color: white;
+.a-session-menu-contacts {
+	margin-right: 60px;
+}
+.a-session-menu-user-separator {
+	margin-left: 8px;
+	margin-right: 8px;
 }
 
 .a-session-main-content-wrapper {

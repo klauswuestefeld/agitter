@@ -10,11 +10,11 @@ import agitter.ui.view.session.events.EventsViewImpl;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
-import com.vaadin.ui.themes.BaseTheme;
 
 public class SessionViewImpl implements SessionView {
 
@@ -24,19 +24,23 @@ public class SessionViewImpl implements SessionView {
 	private final CssLayout sessionTopBarContent = new CssLayout();
 	private final NativeButton logo = new NativeButton();
 	private final CssLayout mainMenu = new CssLayout();
-	private final Button events = linkButton("Agitos");
-	private final Button contacts = linkButton("Galera");
-	private final Label account = new Label();
-	private final Button logout = linkButton("Sair");
+	private final Button events = AgitterVaadinUtils.createLinkButton("Agitos");
+	private final Button contacts = AgitterVaadinUtils.createLinkButton("Galera");
+	private final Label account = AgitterVaadinUtils.createLabel("");
+	private final Label accountSeparator = AgitterVaadinUtils.createLabel("-");
+	private final Button logout = AgitterVaadinUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
 	private final EventsView eventsView = new EventsViewImpl(mainContent);
 	private final ContactsView contactsView = new ContactsViewImpl(mainContent);
-	
+
+	private static final String MENU_DEFAULT_STYLE = "a-session-menu-default";
+	private static final String MENU_ACTIVE_STYLE = "a-session-menu-active";
+
     public SessionViewImpl(ComponentContainer container) {
     	this.container = container;
     }
-    	
+
     public void show(String username) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
@@ -46,24 +50,31 @@ public class SessionViewImpl implements SessionView {
 		    			logo.addStyleName(AgitterVaadinUtils.DEFAULT_LOGO_COLOR_CLASS);
 	    			sessionTopBarContent.addComponent(mainMenu); mainMenu.addStyleName("a-session-top-bar-right");
 	    				if (SessionUrlParameters.isParameterSet(mainMenu, "groups")) {
-	    					mainMenu.addComponent(events); mainMenu.addComponent(new Label("  "));
-	    					mainMenu.addComponent(contacts); mainMenu.addComponent(new Label("  "));
+	    					mainMenu.addComponent(events);  events.addStyleName("a-session-menu-events");
+	    					events.addStyleName(MENU_DEFAULT_STYLE);
+	    					mainMenu.addComponent(contacts); contacts.addStyleName("a-session-menu-contacts");
+	    					contacts.addStyleName(MENU_DEFAULT_STYLE);
 	    				}
-		    			account.setSizeUndefined();
-		    			mainMenu.addComponent(account); account.addStyleName("a-session-user-greeting");
-		    			mainMenu.addComponent(logout); logout.addStyleName("a-session-logout-button");
+		    			mainMenu.addComponent(account); account.addStyleName("a-session-menu-user");
+		    			account.addStyleName(MENU_DEFAULT_STYLE);
+		    			mainMenu.addComponent(accountSeparator); accountSeparator.addStyleName("a-session-menu-user-separator");
+		    			accountSeparator.addStyleName(MENU_DEFAULT_STYLE);
+		    			mainMenu.addComponent(logout); logout.addStyleName("a-session-menu-logout");
+		    			logout.addStyleName(MENU_DEFAULT_STYLE);
 			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
 
     	account.setValue(username);
 	}
-    
-	private Button linkButton(String caption) {
-        Button b = new Button(caption);
-        b.setStyleName(BaseTheme.BUTTON_LINK);
-        return b;
-	}
 
+    private void deactivateAllMenuOptions() {
+    	events.removeStyleName(MENU_ACTIVE_STYLE);
+    	contacts.removeStyleName(MENU_ACTIVE_STYLE);
+    }
+
+    private void activateMenuOption(Component option) {
+    	option.addStyleName(MENU_ACTIVE_STYLE);
+    }
 
 	@Override
 	public void onLogout(final Runnable onLogout) {
@@ -86,11 +97,19 @@ public class SessionViewImpl implements SessionView {
 		}});
 	}
 
-	
+
 	@Override public EventsView eventsView() { return eventsView; }
-	@Override public void showEventsView() { eventsView.show(); }
+	@Override public void showEventsView() {
+		deactivateAllMenuOptions();
+		activateMenuOption(events);
+		eventsView.show();
+	}
 
 	@Override public ContactsView contactsView() { return contactsView; }  
-	@Override public void showContactsView() { contactsView.show(); }
+	@Override public void showContactsView() {
+		deactivateAllMenuOptions();
+		activateMenuOption(contacts);
+		contactsView.show();
+	}
 
 }

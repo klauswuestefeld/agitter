@@ -12,7 +12,6 @@ public class EventsViewImpl implements EventsView {
 
 	public EventsViewImpl(ComponentContainer container) {
 		this.container = container;
-		show();
 	}
 
 

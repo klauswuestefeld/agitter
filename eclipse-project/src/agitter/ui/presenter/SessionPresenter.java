@@ -21,6 +21,7 @@ public class SessionPresenter {
 		view.onEventsMenu(onEventsMenu());
 		
 		view.show(user.username()); 
+		view.showEventsView();
 
 	}
 
