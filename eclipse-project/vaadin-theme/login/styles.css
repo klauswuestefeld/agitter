@@ -21,8 +21,9 @@ button.a-login-logo {
 	height: 61px;
 	width: 214px;
 	background: url('LoginLogo.png') no-repeat;
-	margin: 7px 0 0 32px;
 	padding: 0;
+	margin: 7px 0 0 32px;
+	border: none;
 }
 
 .a-login-fields {

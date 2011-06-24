@@ -36,10 +36,10 @@ button.a-session-logo {
 	height: 35px;
 	width: 123px;
 	background: url('SessionLogo.png') no-repeat;
+	padding: 0;
 	margin-top: 4px;
 	margin-left: 20px;
-	text-shadow: none;
-	
+	border: none;
 }
 
 .a-session-top-bar-right {

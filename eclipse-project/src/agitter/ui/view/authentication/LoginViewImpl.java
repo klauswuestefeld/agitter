@@ -57,7 +57,6 @@ public class LoginViewImpl implements LoginView {
 			topBar.removeAllComponents();
 			mainContent.addComponent(topBar); topBar.addStyleName("a-login-top-bar");
 				topBar.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-login-logo");
-				loginAgitterLogo.addStyleName(AgitterVaadinUtils.DEFAULT_LOGO_COLOR_CLASS);
 				loginAgitterLogo.setSizeUndefined();
 				// Login Fields and Buttons
 				loginFields.removeAllComponents();

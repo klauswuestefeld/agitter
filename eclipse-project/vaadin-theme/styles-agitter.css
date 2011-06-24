@@ -14,13 +14,4 @@ button.a-default-nativebutton {
 	font-size: 12px;
 	font-weight: bold;
 	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
-	_padding: 2px 6px;
-}
-
-
-button.a-default-logo-color, label.a-default-logo-color {
-	color: orange;
-	background: transparent;
-	border: none;
-	font-weight: bold;
 }

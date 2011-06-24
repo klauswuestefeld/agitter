@@ -47,7 +47,6 @@ public class SessionViewImpl implements SessionView {
 			sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
 				sessionTopBar.addComponent(sessionTopBarContent); sessionTopBarContent.addStyleName("a-session-top-bar-content");
 					sessionTopBarContent.addComponent(logo); logo.addStyleName("a-session-logo");
-		    			logo.addStyleName(AgitterVaadinUtils.DEFAULT_LOGO_COLOR_CLASS);
 	    			sessionTopBarContent.addComponent(mainMenu); mainMenu.addStyleName("a-session-top-bar-right");
 	    				if (SessionUrlParameters.isParameterSet(mainMenu, "groups")) {
 	    					mainMenu.addComponent(events);  events.addStyleName("a-session-menu-events");

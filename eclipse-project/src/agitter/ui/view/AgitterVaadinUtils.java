@@ -7,7 +7,6 @@ import com.vaadin.ui.themes.BaseTheme;
 
 public class AgitterVaadinUtils {
 
-	public static final String DEFAULT_LOGO_COLOR_CLASS = "a-default-logo-color";
 	public static final String DEFAULT_NATIVE_BUTTON_CLASS = "a-default-nativebutton";
 
 	public static NativeButton createDefaultNativeButton(String text) {
