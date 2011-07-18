@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 
 public class ProcessReplacer {
@@ -73,7 +74,8 @@ public class ProcessReplacer {
 	private void preparePreviousProcessToRetireIfNecessary() throws IOException {
 		try {
 			tryToAquireMutex();
-		} catch (BindException be) {
+		} catch (SocketException be) {
+			if(! (be instanceof BindException))  LogInfra.getLogger(this).warning("This environment is not throwing the expected BindException. It's throwing: " + be.getClass() );
 			previousProcess = new Socket("127.0.0.1", _port);
 			waitForMessage(previousProcess, READY_TO_RETIRE);
 		}
@@ -88,7 +90,8 @@ public class ProcessReplacer {
 		while (mutex == null)
 			try {
 				tryToAquireMutex();
-			} catch (BindException be) {
+			} catch (SocketException be) {
+				if(! (be instanceof BindException))  LogInfra.getLogger(this).warning("This environment is not throwing the expected BindException. It's throwing: " + be.getClass() );
 				waitOneSecond();
 				if (attemptCount++ > 20)
 					fail("Unable to aquire server socket after asking previous process to retire (tried " + attemptCount + " times).");
@@ -126,7 +129,7 @@ public class ProcessReplacer {
 			log(e, "Exception handling process retirement request.");
 		} finally {
 			if (request != null)
-				try { request.close(); } catch (IOException e) { }
+				try { request.close(); } catch (IOException e) { LogInfra.getLogger(this).warning(e.getMessage()); }
 		}
 	}
 	
@@ -162,7 +165,7 @@ public class ProcessReplacer {
 
 
 	public void close() {
-		try { if (mutex != null) mutex.close(); } catch (IOException e) {}
+		try { if (mutex != null) mutex.close(); } catch (IOException e) { LogInfra.getLogger(this).warning(e.getMessage()); }
 	}
 	
 	

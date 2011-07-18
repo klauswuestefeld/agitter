@@ -3,8 +3,10 @@ package agitter.main;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.servlet.Servlet;
 
@@ -46,7 +48,8 @@ public class JettyRunner {
 			new ServerSocket(port).close();
 			System.out.println("Port available: " + port);
 			return true;
-		} catch (BindException e) {
+		} catch (SocketException e) {
+			if(! (e instanceof BindException))  Logger.getLogger(JettyRunner.class.getPackage().getName()).warning("This environment is not throwing the expected BindException. It's throwing: "+e.getClass());
 			System.out.println("\n\n===== PORT NOT AVAILABLE: " + port);
 			return false;
 		}
