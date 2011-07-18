@@ -26,12 +26,10 @@ public class Presenter {
 
 	
 	public DownloadStream onRestInvocation(URL context, String relativeUri) {
-		System.out.println(relativeUri);
 		String[] uri = relativeUri.split("/");
 		if(uri.length==0) { return null; }
 
 		String command = uri[0];
-		System.out.println(command);
 
 		if ("contactsDemo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
@@ -40,10 +38,11 @@ public class Presenter {
 
 	
 	private void onContactsDemo() {
+
 		SessionView sessionView = _view.showSessionView();
 		sessionView.show("DemoUser");
 		sessionView.showContactsView();
-		//new ContactsDemoPresenter(_view.showSessionView().contactsView());
+		new ContactsDemoPresenter(sessionView.contactsView());
 	}
 
 

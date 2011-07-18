@@ -1,5 +1,6 @@
 package agitter.ui.view.session;
 
+import com.vaadin.ui.*;
 import vaadinutils.SessionUrlParameters;
 import agitter.ui.view.AgitterVaadinUtils;
 import agitter.ui.view.session.contacts.ContactsView;
@@ -7,14 +8,8 @@ import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.EventsViewImpl;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeButton;
 
 public class SessionViewImpl implements SessionView {
 
@@ -41,6 +36,7 @@ public class SessionViewImpl implements SessionView {
     	this.container = container;
     }
 
+    @Override
     public void show(String username) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
@@ -66,14 +62,6 @@ public class SessionViewImpl implements SessionView {
     	account.setValue(username);
 	}
 
-    private void deactivateAllMenuOptions() {
-    	events.removeStyleName(MENU_ACTIVE_STYLE);
-    	contacts.removeStyleName(MENU_ACTIVE_STYLE);
-    }
-
-    private void activateMenuOption(Component option) {
-    	option.addStyleName(MENU_ACTIVE_STYLE);
-    }
 
 	@Override
 	public void onLogout(final Runnable onLogout) {
@@ -99,16 +87,21 @@ public class SessionViewImpl implements SessionView {
 
 	@Override public EventsView eventsView() { return eventsView; }
 	@Override public void showEventsView() {
-		deactivateAllMenuOptions();
-		activateMenuOption(events);
+		highlightMenuItem(events);
 		eventsView.show();
 	}
 
 	@Override public ContactsView contactsView() { return contactsView; }  
 	@Override public void showContactsView() {
-		deactivateAllMenuOptions();
-		activateMenuOption(contacts);
+		highlightMenuItem(contacts);
 		contactsView.show();
+	}
+
+	private void highlightMenuItem(Component menuItem) {
+		events.removeStyleName(MENU_ACTIVE_STYLE);
+		contacts.removeStyleName(MENU_ACTIVE_STYLE);
+
+		menuItem.addStyleName(MENU_ACTIVE_STYLE);
 	}
 
 }
