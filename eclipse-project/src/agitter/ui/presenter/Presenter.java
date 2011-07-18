@@ -26,23 +26,32 @@ public class Presenter {
 
 	
 	public DownloadStream onRestInvocation(URL context, String relativeUri) {
+		System.out.println(relativeUri);
 		String[] uri = relativeUri.split("/");
 		if(uri.length==0) { return null; }
 
 		String command = uri[0];
-		if("unsubscribe".equals(command)) { onUnsubscribe(uri); }
+		System.out.println(command);
+
+		if ("contactsDemo".equals(command)) { onContactsDemo(); }
+		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
 		return null;
 	}
 
 	
+	private void onContactsDemo() {
+		SessionView sessionView = _view.showSessionView();
+		sessionView.show("DemoUser");
+		sessionView.showContactsView();
+		//new ContactsDemoPresenter(_view.showSessionView().contactsView());
+	}
+
+
 	private Consumer<User> onAuthenticate() {
-		return new Consumer<User>() {
-			@Override
-			public void consume(User user) {
-				SessionView sessionView = _view.showSessionView();
-				new SessionPresenter(user, _agitter.contacts().contactsOf(user), _agitter.events(), sessionView, warningDisplayer(), onLogout());
-			}
-		};
+		return new Consumer<User>() { @Override public void consume(User user) {
+			SessionView sessionView = _view.showSessionView();
+			new SessionPresenter(user, _agitter.contacts().contactsOf(user), _agitter.events(), sessionView, warningDisplayer(), onLogout());
+		}};
 	}
 
 	

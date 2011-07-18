@@ -23,13 +23,14 @@ public class AgitterVaadinApplication extends Application {
 		AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
 
+		SessionUrlParameters.handleForMainWindow(view);
+
 		presenter = new Presenter(agitter, view);
 
 		view.addURIHandler(new URIHandler() { public DownloadStream handleURI(URL context, String relativeUri) {
 			return presenter.onRestInvocation(context, relativeUri);
 		}});
 		
-		SessionUrlParameters.handleForMainWindow(view);
 	}
 
 }

@@ -4,63 +4,43 @@ import java.util.Arrays;
 import java.util.List;
 
 import agitter.ui.view.AgitterVaadinUtils;
-import com.vaadin.data.Property;
-import com.vaadin.ui.*;
+
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class GroupListViewImpl extends VerticalLayout implements GroupListView {
 
-	private static final List<String> groups = Arrays.asList(new String[]{"Amigos", "Familia", "Facul", "Trabalho"});
-	private static final List<String> friends = Arrays.asList(new String[]{"klaus", "leo@email.com", "Maria", "Jose"});
+	private static final List<String> groupNames = Arrays.asList(new String[]{"Amigos", "Familia", "Facul", "Trabalho"});
 
-	private ListSelect groupsSelect = new ListSelect("Grupos", groups);
+	private VerticalLayout groups = new VerticalLayout();
 	private final TextField newGroup = new TextField("Adicionar Grupo");
-	private final NativeButton addGroup = AgitterVaadinUtils.createDefaultNativeButton("+");
-	private final NativeButton removeGroup = AgitterVaadinUtils.createDefaultNativeButton("-");
+	private final NativeButton addGroup = button("+");
 
-	private ListSelect friendsSelect = new ListSelect("Amigos", friends);
-	private final TextField newFriend = new TextField("Adicionar Amigo");
-	private final NativeButton addFriend = AgitterVaadinUtils.createDefaultNativeButton("+");
-	private final NativeButton removeFriend = AgitterVaadinUtils.createDefaultNativeButton("-");
+
+	private NativeButton button(String caption) {
+		return AgitterVaadinUtils.createDefaultNativeButton(caption);
+	}
+
 
 	public GroupListViewImpl() {
-		groupsSelect.setInvalidAllowed(false);
-		groupsSelect.setNullSelectionAllowed(false);
-		groupsSelect.setImmediate(true);
-		groupsSelect.addListener(new Property.ValueChangeListener() {
-			@Override
-			public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-				GroupListViewImpl.this.getWindow().showNotification("SELECIONADO: "+valueChangeEvent.getProperty());
-			}
-		});
+		groups.addListener(new LayoutClickListener(){  @Override public void layoutClick(LayoutClickEvent event) {
+			System.out.println(((Label)event.getClickedComponent()).getValue());
+		}});
 
-		friendsSelect.setInvalidAllowed(false);
-		friendsSelect.setNullSelectionAllowed(false);
-		friendsSelect.setImmediate(true);
-		friendsSelect.addListener(new Property.ValueChangeListener() {
-			@Override
-			public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-				GroupListViewImpl.this.getWindow().showNotification("SELECIONADO: "+valueChangeEvent.getProperty());
-			}
-		});
+		for (String group : groupNames) {
+			HorizontalLayout line = new HorizontalLayout();
+			line.addComponent(new Label(group));
+			line.addComponent(button("X"));
+			groups.addComponent(line);
+		}
 
-		HorizontalLayout panel = new HorizontalLayout();
-		addComponent(panel);
-		VerticalLayout direita = new VerticalLayout();
-		VerticalLayout esquerda = new VerticalLayout();
-
-		direita.addComponent(groupsSelect);
-		direita.addComponent(newGroup);
-		direita.addComponent(addGroup);
-		direita.addComponent(removeGroup);
-		panel.addComponent(direita);
-
-		esquerda.addComponent(friendsSelect);
-		esquerda.addComponent(newFriend);
-		esquerda.addComponent(addFriend);
-		esquerda.addComponent(removeFriend);
-		panel.addComponent(esquerda);
-
-
-
+		addComponent(newGroup);
+		addComponent(addGroup);
+		addComponent(groups);
 	}
 }
