@@ -2,6 +2,7 @@ package agitter.ui.view.session.contacts;
 
 
 import agitter.ui.view.AgitterVaadinUtils;
+
 import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
 

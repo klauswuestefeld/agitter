@@ -28,6 +28,7 @@ public class EventsPresenter {
 	private final Events events;
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
+	private InviteView inviteView;
 	
 	@SuppressWarnings("unused")	private final HandleToAvoidLeaks handle;
 
@@ -47,9 +48,7 @@ public class EventsPresenter {
 	}
 
 	private void resetInviteView() {
-		inviteView().reset(contacts(), newInviteeValidator(), new Runnable() { @Override public void run() {
-			invite();
-		}});
+		inviteView().reset(contacts());
 	}
 
 	
@@ -121,7 +120,11 @@ public class EventsPresenter {
 
 
 	private InviteView inviteView() {
-		return view.inviteView();
+		if (inviteView == null)
+			inviteView = view.initInviteView(newInviteeValidator(), new Runnable() { @Override public void run() {
+				invite();
+			}});
+		return inviteView;
 	}
 
 

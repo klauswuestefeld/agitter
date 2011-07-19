@@ -2,7 +2,7 @@ package agitter.ui.view.session;
 
 import com.vaadin.ui.*;
 import vaadinutils.SessionUrlParameters;
-import agitter.ui.view.AgitterVaadinUtils;
+import vaadinutils.VaadinUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
@@ -19,11 +19,11 @@ public class SessionViewImpl implements SessionView {
 	private final CssLayout sessionTopBarContent = new CssLayout();
 	private final NativeButton logo = new NativeButton();
 	private final CssLayout mainMenu = new CssLayout();
-	private final Button events = AgitterVaadinUtils.createLinkButton("Agitos");
-	private final Button contacts = AgitterVaadinUtils.createLinkButton("Galera");
-	private final Label account = AgitterVaadinUtils.createLabel("");
-	private final Label accountSeparator = AgitterVaadinUtils.createLabel("-");
-	private final Button logout = AgitterVaadinUtils.createLinkButton("Sair");
+	private final Button events = VaadinUtils.createLinkButton("Agitos");
+	private final Button contacts = VaadinUtils.createLinkButton("Galera");
+	private final Label account = VaadinUtils.createLabel("");
+	private final Label accountSeparator = VaadinUtils.createLabel("-");
+	private final Button logout = VaadinUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
 	private final EventsView eventsView = new EventsViewImpl(mainContent);

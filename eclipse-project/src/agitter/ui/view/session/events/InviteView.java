@@ -3,12 +3,10 @@ package agitter.ui.view.session.events;
 import java.util.Date;
 import java.util.List;
 
-import sneer.foundation.lang.Predicate;
-
 
 public interface InviteView {
 
-	void reset(List<String> inviteesToChoose, Predicate<String> newInviteeValidator, Runnable onInvite);
+	void reset(List<String> inviteesToChoose);
 
 	String eventDescription();
 	Date datetime();

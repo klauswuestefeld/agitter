@@ -1,13 +1,15 @@
 package agitter.ui.view.session.events;
 
 
+import sneer.foundation.lang.Predicate;
+
 import com.vaadin.ui.ComponentContainer;
 
 public class EventsViewImpl implements EventsView {
 
 	private final ComponentContainer container;
-	private final InviteViewImpl inviteView = new InviteViewImpl();
 	private final EventListViewImpl eventList = new EventListViewImpl();
+	private InviteViewImpl inviteView;
 
 
 	public EventsViewImpl(ComponentContainer container) {
@@ -22,16 +24,18 @@ public class EventsViewImpl implements EventsView {
 		container.addComponent(inviteView);
 	}
 
-
-	@Override
-	public InviteView inviteView() {
-		return inviteView;
-	}
-
 	
 	@Override
 	public EventListView eventListView() {
 		return eventList;
+	}
+
+
+	@Override
+	public InviteView initInviteView(Predicate<String> newInviteeValidator, Runnable onInvite) {
+		if (inviteView != null) throw new IllegalStateException();
+		inviteView = new InviteViewImpl(newInviteeValidator, onInvite);
+		return inviteView;
 	}
 
 

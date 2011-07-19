@@ -134,17 +134,17 @@ textarea.a-invite-description {
 	font-size: 18px;
 }
 
-.v-caption-a-invite-next-invitation {
+.v-caption-a-invite-next-invitee {
 	clear: both;
 }
 
-.a-invite-next-invitation {
+.a-invite-next-invitee {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
 }
 
-.a-invite-next-invitation .v-filterselect-input {
+.a-invite-next-invitee .v-filterselect-input {
 	width: 260px;
 }
 
