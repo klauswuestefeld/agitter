@@ -3,7 +3,7 @@ package agitter.ui.presenter;
 
 public class Credential {
 	
-	private static String EMAIL_SYMBOL = "@";
+	private static final String EMAIL_SYMBOL = "@";
 
 	private final String emailOrUsername;
 	private final String password;

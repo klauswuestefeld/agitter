@@ -49,8 +49,4 @@ public class RemovableElementList extends VerticalLayout {
 		return label;
 	}
 
-//	private NativeButton button(String caption) {
-//		return AgitterVaadinUtils.createDefaultNativeButton(caption);
-//	}
-
 }

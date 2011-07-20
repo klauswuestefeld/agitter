@@ -1,15 +1,10 @@
 package agitter.ui.presenter;
 
-import infra.util.ToString;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Predicate;
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
@@ -20,6 +15,10 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventData;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.InviteView;
+import infra.util.ToString;
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Predicate;
+import sneer.foundation.lang.exceptions.Refusal;
 
 public class EventsPresenter {
 
@@ -29,9 +28,9 @@ public class EventsPresenter {
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
 	private InviteView inviteView;
-	
-	@SuppressWarnings("unused")	private final HandleToAvoidLeaks handle;
 
+	@SuppressWarnings("unused")
+	private final HandleToAvoidLeaks handle;
 
 	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
@@ -51,13 +50,12 @@ public class EventsPresenter {
 		inviteView().reset(contacts());
 	}
 
-	
 	private Predicate<String> newInviteeValidator() {
 		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
-			if (newInvitee == null) return false;
+			if(newInvitee==null) { return false; }
 			try {
 				AddressValidator.validateEmail(newInvitee);
-			} catch (Refusal r) {
+			} catch(Refusal r) {
 				warningDisplayer.consume(r.getMessage());
 				return false;
 			}
@@ -65,12 +63,10 @@ public class EventsPresenter {
 		}};
 	}
 
-	
 	private List<String> contacts() {
 		return ToString.toString(contacts.all());
 	}
 
-	
 	private void invite() {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
@@ -85,73 +81,61 @@ public class EventsPresenter {
 		}
 		invitees.removeAll(contacts.all());
 		addNewContactsIfAny(invitees);
-		
+
 		refreshEventList();
 		resetInviteView();
 	}
 
-	
+
 	private void addNewContactsIfAny(List<EmailAddress> invitees) {
-		for (EmailAddress contact : invitees)
-			contacts.addContact(contact);
+		for(EmailAddress contact : invitees) { contacts.addContact(contact); }
 	}
 
-	
+
 	private List<EmailAddress> toAddresses(List<String> inviteeStrings) {
 		List<EmailAddress> result = new ArrayList<EmailAddress>(inviteeStrings.size());
-		for (String string : inviteeStrings)
-			result.add(toAddress(string));
+		for(String string : inviteeStrings) { result.add(toAddress(string)); }
 		return result;
 	}
 
-	
 	private EmailAddress toAddress(String validString) {
 		try {
 			return new EmailAddress(validString);
-		} catch (Refusal e) {
+		} catch(Refusal e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-
 	private void validate(Date datetime) throws Refusal {
-		if (datetime == null) throw new Refusal("Data do agito deve ser preenchida.");
+		if(datetime==null) { throw new Refusal("Data do agito deve ser preenchida."); }
 	}
 
-
 	private InviteView inviteView() {
-		if (inviteView == null)
+		if(inviteView==null) {
 			inviteView = view.initInviteView(newInviteeValidator(), new Runnable() { @Override public void run() {
 				invite();
 			}});
+		}
 		return inviteView;
 	}
 
-
-	synchronized
-	private void refreshEventList() {
+	synchronized private void refreshEventList() {
 		view.eventListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
-
 
 	private List<EventData> eventsToHappen() {
 		List<EventData> result = new ArrayList<EventData>();
 		List<Event> toHappen = events.toHappen(user);
 		for(Event event : toHappen) {
-			result.add(new EventData(
-				event.description(),
-				event.datetime(),
-				event.owner().username(),
-				removeAction(event)
-			));
+			result.add(new EventData(event.description(), event.datetime(), event.owner().username(), removeAction(event)));
 		}
 		return result;
 	}
 
 
 	private Runnable removeAction(final Event event) {
-		if (event.owner().equals(user)) return null;
-		
+		if(event.owner().equals(user)) { return null; }
+
 		return new Runnable() { @Override public void run() {
 			event.notInterested(user);
 			refreshEventList();

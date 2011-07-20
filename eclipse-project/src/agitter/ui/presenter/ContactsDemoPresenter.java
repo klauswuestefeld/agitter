@@ -8,8 +8,8 @@ import sneer.foundation.lang.Consumer;
 
 public class ContactsDemoPresenter {
 
-	private static final List<String> groupNames = Arrays.asList(new String[]{"Amigos", "Familia", "Faculdade", "Trabalho"});
-	private static final List<String> memberNames = Arrays.asList(new String[]{"ana@gmail.com", "bob@yahoo.com.br", "carla@hotmail.com"});
+	private static final List<String> groupNames = Arrays.asList("Amigos", "Familia", "Faculdade", "Trabalho");
+	private static final List<String> memberNames = Arrays.asList("ana@gmail.com", "bob@yahoo.com.br", "carla@hotmail.com");
 
 	public ContactsDemoPresenter(ContactsView contactsView) {
 		contactsView.setGroupSelectionListener(new Consumer<String>() {@Override public void consume(String value) {

@@ -18,16 +18,21 @@ public class ContactsViewImpl implements ContactsView {
 	private final TextField newMember = new TextField("Adicionar Membro");
 	private final NativeButton addMember = AgitterVaadinUtils.createDefaultNativeButton("+");
 
-	private Button.ClickListener addGroupListener = new Button.ClickListener() { @Override public void buttonClick(Button.ClickEvent clickEvent) {
-		groupList.addElement((String) newGroup.getValue());
-	}};
-	private Button.ClickListener addMemberListener = new Button.ClickListener() { @Override public void buttonClick(Button.ClickEvent clickEvent) {
-		memberList.addElement((String) newMember.getValue());
-	}};
-
 	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;
+		Button.ClickListener addGroupListener = new Button.ClickListener() {
+			@Override
+			public void buttonClick(Button.ClickEvent clickEvent) {
+				groupList.addElement((String) newGroup.getValue());
+			}
+		};
 		addGroup.addListener(addGroupListener);
+		Button.ClickListener addMemberListener = new Button.ClickListener() {
+			@Override
+			public void buttonClick(Button.ClickEvent clickEvent) {
+				memberList.addElement((String) newMember.getValue());
+			}
+		};
 		addMember.addListener(addMemberListener);
 	}
 
