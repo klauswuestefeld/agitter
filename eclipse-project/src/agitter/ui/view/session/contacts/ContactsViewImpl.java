@@ -1,10 +1,13 @@
 package agitter.ui.view.session.contacts;
 
 
+import java.util.List;
+
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
+import vaadinutils.AutoCompleteChoosePanel;
 
 public class ContactsViewImpl implements ContactsView {
 
@@ -13,10 +16,9 @@ public class ContactsViewImpl implements ContactsView {
 	private final RemovableElementList memberList = new RemovableElementList();
 
 	private final TextField newGroup = new TextField("Novo Grupo");
-	private final NativeButton addGroup = AgitterVaadinUtils.createDefaultNativeButton("+");
+	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultNativeButton("+");
 
-	private final TextField newMember = new TextField("Adicionar Membro");
-	private final NativeButton addMember = AgitterVaadinUtils.createDefaultNativeButton("+");
+	private final AutoCompleteChoosePanel newMember = new AutoCompleteChoosePanel("Adicionar Membro");
 
 	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;
@@ -26,14 +28,9 @@ public class ContactsViewImpl implements ContactsView {
 				groupList.addElement((String) newGroup.getValue());
 			}
 		};
-		addGroup.addListener(addGroupListener);
-		Button.ClickListener addMemberListener = new Button.ClickListener() {
-			@Override
-			public void buttonClick(Button.ClickEvent clickEvent) {
-				memberList.addElement((String) newMember.getValue());
-			}
-		};
-		addMember.addListener(addMemberListener);
+		addGroupButton.addListener(addGroupListener);
+
+
 	}
 
 	@Override
@@ -42,18 +39,22 @@ public class ContactsViewImpl implements ContactsView {
 
 		Layout groups = new VerticalLayout();
 		groups.addComponent(newGroup);
-		groups.addComponent(addGroup);
+		groups.addComponent(addGroupButton);
 		groups.addComponent(groupList);
 		
 		Layout members = new VerticalLayout();
 		members.addComponent(newMember);
-		members.addComponent(addMember);
 		members.addComponent(memberList);
 
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.addComponent(groups);
 		layout.addComponent(members);
 		container.addComponent(layout);
+	}
+
+	@Override
+	public void setMembersToChoose(List<String> membersToChoose) {
+		newMember.setChoices(membersToChoose);
 	}
 
 	@Override

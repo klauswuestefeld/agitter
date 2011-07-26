@@ -22,6 +22,7 @@ public class ContactsDemoPresenter {
 			System.err.println("MEMBER REMOVED: " + value);
 		}});
 
+		contactsView.setMembersToChoose(memberNames);
 		for(String g : groupNames) contactsView.addGroup(g);
 		for(String m : memberNames) contactsView.addMember(m);
 
