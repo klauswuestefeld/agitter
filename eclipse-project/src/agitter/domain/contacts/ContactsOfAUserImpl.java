@@ -45,19 +45,31 @@ public class ContactsOfAUserImpl implements ContactsOfAUser {
 
 
 	@Override
-	public void createGroup(String groupName) throws Refusal {
+	public Group createGroup(String groupName) throws Refusal {
 		GroupImpl newGroup = new GroupImpl(groupName);
 		if (containsToString(groups(), newGroup))
 			throw new Refusal("Já existe um grupo chamado " + groupName + ".");
 		groups.add(newGroup);
 		sortIgnoreCase(groups);
+		return newGroup;
 	}
-
-	
 	@Override
 	public void renameGroup(Group group, String newName) throws Refusal {
 		((GroupImpl)group).setName(newName);
 		sortIgnoreCase(groups);
+	}
+	@Override
+	public void deleteGroupAndRemoveFromAllContainingGroups(Group contained) {
+		groups.remove(contained);
+		for (Group containing : groups)
+			containing.removeSubgroup(contained);
+	}
+	@Override
+	public Group groupGivenName(String name) {
+		for(Group g : groups)
+			if(g.name().equals(name))
+				return g;
+		return null;
 	}
 
 

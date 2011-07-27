@@ -64,7 +64,7 @@ public class EventsPresenter {
 	}
 
 	private List<String> contacts() {
-		return ToString.toString(contacts.all());
+		return ToString.toStrings(contacts.all());
 	}
 
 	private void invite() {

@@ -15,7 +15,7 @@ public class GroupImpl implements Group {
 	private List<EmailAddress> members = new ArrayList<EmailAddress>();
 	private List<Group> subgroups = new ArrayList<Group>();
 
-	
+
 	public GroupImpl(String groupName) throws Refusal {
 		setName(groupName);
 	}

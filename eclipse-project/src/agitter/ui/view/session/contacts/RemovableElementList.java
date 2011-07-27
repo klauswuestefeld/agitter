@@ -43,6 +43,10 @@ public class RemovableElementList extends VerticalLayout {
 		removeListener = listener;
 	}
 
+	public void removeAllElements() {
+		elements.removeAllComponents();
+	}
+
 	private Label newLabel(String cap, Consumer<String> listener) {
 		Label label = new Label(cap);
 		label.setData(listener);

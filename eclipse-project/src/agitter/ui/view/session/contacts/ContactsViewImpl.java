@@ -17,20 +17,16 @@ public class ContactsViewImpl implements ContactsView {
 
 	private final TextField newGroup = new TextField("Novo Grupo");
 	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultNativeButton("+");
+	private Consumer<String> newGroupConsumer;
 
 	private final AutoCompleteChoosePanel newMember = new AutoCompleteChoosePanel("Adicionar Membro");
 
 	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;
-		Button.ClickListener addGroupListener = new Button.ClickListener() {
-			@Override
-			public void buttonClick(Button.ClickEvent clickEvent) {
-				groupList.addElement((String) newGroup.getValue());
-			}
-		};
+		Button.ClickListener addGroupListener = new Button.ClickListener() { @Override public void buttonClick(Button.ClickEvent clickEvent) {
+			newGroupConsumer.consume((String) newGroup.getValue());
+		}};
 		addGroupButton.addListener(addGroupListener);
-
-
 	}
 
 	@Override
@@ -65,7 +61,10 @@ public class ContactsViewImpl implements ContactsView {
 	public void addMember(String memberName) {
 		memberList.addElement(memberName);
 	}
-	
+	@Override
+	public void setGroupCreateListener(Consumer<String> consumer) {
+		newGroupConsumer = consumer;
+	}
 	@Override
 	public void setGroupSelectionListener(Consumer<String> consumer) {
 		groupList.setSelectionListener(consumer);
@@ -75,8 +74,16 @@ public class ContactsViewImpl implements ContactsView {
 		groupList.setRemoveListener(consumer);
 	}
 	@Override
+	public void clearGroups() {
+		groupList.removeAllElements();
+	}
+	@Override
 	public void setMemberRemoveListener(Consumer<String> consumer) {
 		memberList.setRemoveListener(consumer);
+	}
+	@Override
+	public void clearMembers() {
+		memberList.removeAllElements();
 	}
 
 }

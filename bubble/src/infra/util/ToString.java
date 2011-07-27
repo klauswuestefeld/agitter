@@ -39,7 +39,7 @@ public class ToString {
 	}
 
 
-	public static List<String> toString(Iterable<?> iterable) {
+	public static List<String> toStrings(Iterable<?> iterable) {
 		List<String> result = new ArrayList<String>();
 		for (Object obj : iterable)
 			result.add(obj.toString());
