@@ -4,6 +4,9 @@
 	background: white;
 }
 
+
+/*  General style for Agitter Buttons */
+
 button.a-default-nativebutton {
 	height: 24px;
 	border-style: outset;
@@ -14,4 +17,16 @@ button.a-default-nativebutton {
 	font-size: 12px;
 	font-weight: bold;
 	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+}
+
+
+/*  Styles for the AutoCompleteChooser component */
+
+.a-auto-complete-chooser-choice {
+	display: inline-block;
+}
+
+.a-auto-complete-chooser-add {
+	vertical-align: top;
+	margin-left: 6px;
 }

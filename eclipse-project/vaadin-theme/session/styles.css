@@ -134,26 +134,21 @@ textarea.a-invite-description {
 	font-size: 18px;
 }
 
-.v-caption-a-invite-next-invitee {
-	clear: both;
+.a-invite-date {
+	float: none;
 }
 
 .a-invite-next-invitee {
 	display: inline-block;
-	zoom: 1;			/* IE stuff */
-	*display: inline;	/* IE stuff */
 }
 
 .a-invite-next-invitee .v-filterselect-input {
-	width: 260px;
+	width: 180px;
 }
 
 .a-invite-send {
-	display: inline-block;
-	zoom: 1;			/* IE stuff */
-	*display: inline;	/* IE stuff */
-	vertical-align: top;
-	margin-left: 16px;
+	float: right;
+	margin-top: 35px;
 }
 
 .a-invite-invitations {
@@ -189,6 +184,7 @@ button.a-invite-invited:hover {
 
 .a-event-list-view {
 	min-height: 1200px;
+	min-width: 470px;
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */

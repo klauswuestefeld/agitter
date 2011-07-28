@@ -7,7 +7,7 @@ import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
-import vaadinutils.AutoCompleteChoosePanel;
+import vaadinutils.AutoCompleteChooser;
 
 public class ContactsViewImpl implements ContactsView {
 
@@ -19,7 +19,7 @@ public class ContactsViewImpl implements ContactsView {
 	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultNativeButton("+");
 	private Consumer<String> newGroupConsumer;
 
-	private final AutoCompleteChoosePanel newMember = new AutoCompleteChoosePanel("Adicionar Membro");
+	private final AutoCompleteChooser newMember = new AutoCompleteChooser("Adicionar Membro");
 
 	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;

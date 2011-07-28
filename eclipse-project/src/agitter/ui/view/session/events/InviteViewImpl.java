@@ -11,13 +11,13 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
-import vaadinutils.AutoCompleteChoosePanel;
+import vaadinutils.AutoCompleteChooser;
 
 class InviteViewImpl extends CssLayout implements InviteView {
 
 	private final TextArea description = new TextArea("Qual é o agito?");
 	private final PopupDateField date = new PopupDateField("Quando?");
-	private final AutoCompleteChoosePanel nextInvitee = new AutoCompleteChoosePanel("Quem você quer convidar?");
+	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser("Quem você quer convidar?");
 	private final CssLayout invitations = new CssLayout();
 
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
@@ -41,12 +41,10 @@ class InviteViewImpl extends CssLayout implements InviteView {
 			onNextInvitee(invitee);
 		}});
 
-		addComponent(nextInvitee);
-		addComponent(invite);
-		invite.addStyleName("a-invite-send");
+		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
+		addComponent(invite); invite.addStyleName("a-invite-send");
 
-		addComponent(invitations);
-		invitations.addStyleName("a-invite-invitations");
+		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 
 		description.focus();
 	}
