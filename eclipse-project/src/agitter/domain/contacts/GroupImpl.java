@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.HTMLInputFilter;
 import agitter.domain.emails.EmailAddress;
 
 public class GroupImpl implements Group {
@@ -35,7 +36,9 @@ public class GroupImpl implements Group {
 
 	void setName(String newName) throws Refusal {
 		validateGroupName(newName);
-		name = newName;
+		String filtered = HTMLInputFilter.filterXSS(newName);
+		validateGroupName(filtered);
+		name = filtered;
 	}
 
 
