@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import agitter.domain.emails.AddressValidator;
+
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 
@@ -85,6 +87,7 @@ public class UsersImpl implements Users {
 		if(this.isBlank(email)) {
 			throw new Refusal("Email deve ser especificado");
 		}
+		AddressValidator.validateEmail(email);
 		if(this.isBlank(password)) {
 			throw new Refusal("Password deve ser especificado");
 		}

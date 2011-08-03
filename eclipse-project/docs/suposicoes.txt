@@ -1,4 +1,4 @@
-Easy Kills
+﻿Easy Kills
 
 	Recentes - Mostrar os agitos duas horas atras pra cá.
 
@@ -6,11 +6,7 @@ Easy Kills
 
 	URLs clicáveis na descricao do agito
 
-
-"Finish What We Started" Release
-
 	Sign-up e Login
-		Validação de email (puxar do projeto antigo)
 		Validação de username (mesmas regras do twitter).
 		Email de confirmacao de cadastro.
 
@@ -24,10 +20,10 @@ Easy Kills
 
 	Visualização do Agito
 
------ Lançar
-
 	Importação de Emails de meus Contatos
 		- GMail, Yahoo, Hotmail através do SocialAuth
+
+----- Lançar
 
 	Edição de agito
 
@@ -36,6 +32,8 @@ Easy Kills
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
 			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
+
+	Unificação de emails. Permitir vários emails para um mesmo user.
 
 	Privacidade
 		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
