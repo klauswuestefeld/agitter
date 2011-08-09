@@ -3,16 +3,18 @@ package agitter.ui.view.session.contacts;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.*;
+
 import sneer.foundation.lang.Consumer;
 
-public class RemovableElementList extends VerticalLayout {
+public class RemovableElementList extends CssLayout {
 
-	private VerticalLayout elements = new VerticalLayout();
+	private CssLayout elements = new CssLayout();
 
 	private Consumer<String> selectionListener;
 	private Consumer<String> removeListener;
 
 	public RemovableElementList() {
+		addStyleName("a-remov-elem-list");
 		elements.addListener(new LayoutClickListener() {
 			@SuppressWarnings({"unchecked"})
 			@Override
@@ -20,18 +22,21 @@ public class RemovableElementList extends VerticalLayout {
 				Consumer<String> listener = (Consumer<String>) ((AbstractComponent) event.getClickedComponent()).getData();
 
 				if(listener==null) return;
-				HorizontalLayout line = (HorizontalLayout)event.getChildComponent();
-				listener.consume(line.getComponent(0).toString());
+				CssLayout element = (CssLayout)event.getChildComponent();
+				Component comp = element.getComponentIterator().next();  // get the first component, which is the group name label
+				listener.consume(comp.toString());
 			}
 		});
 		addComponent(elements);
 	}
 
 	public void addElement(String element) {
-		HorizontalLayout line = new HorizontalLayout();
-		line.addComponent(newLabel(element, selectionListener));
-		line.addComponent(newLabel(" _X_ ", removeListener));
-		elements.addComponent(line);
+		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
+		Label newElemCaption = newElementLabel(element, selectionListener);
+		elemLine.addComponent(newElemCaption); newElemCaption.addStyleName("a-remov-elem-list-element-caption");
+		Label newElemRemove = newElementLabel("X", removeListener);
+		elemLine.addComponent(newElemRemove); newElemRemove.addStyleName("a-remov-elem-list-element-remove-button");
+		elements.addComponent(elemLine);
 	}
 
 	public void setSelectionListener(Consumer<String> listener) {
@@ -47,8 +52,9 @@ public class RemovableElementList extends VerticalLayout {
 		elements.removeAllComponents();
 	}
 
-	private Label newLabel(String cap, Consumer<String> listener) {
-		Label label = new Label(cap);
+	private Label newElementLabel(String caption, Consumer<String> listener) {
+		Label label = new Label(caption);
+		label.setSizeUndefined();
 		label.setData(listener);
 		return label;
 	}

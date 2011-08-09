@@ -8,6 +8,7 @@ import agitter.ui.view.AgitterVaadinUtils;
 import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
 import vaadinutils.AutoCompleteChooser;
+import vaadinutils.VaadinUtils;
 
 public class ContactsViewImpl implements ContactsView {
 
@@ -15,11 +16,11 @@ public class ContactsViewImpl implements ContactsView {
 	private final RemovableElementList groupList = new RemovableElementList();
 	private final RemovableElementList memberList = new RemovableElementList();
 
-	private final TextField newGroup = new TextField("Novo Grupo");
-	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultNativeButton("+");
+	private final TextField newGroup = new TextField();
+	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultAddButton();
 	private Consumer<String> newGroupConsumer;
 
-	private final AutoCompleteChooser newMember = new AutoCompleteChooser("Adicionar Membro");
+	private final AutoCompleteChooser newMember = new AutoCompleteChooser(null);
 
 	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;
@@ -33,19 +34,27 @@ public class ContactsViewImpl implements ContactsView {
 	public void show() {
 		container.removeAllComponents();
 
-		Layout groups = new VerticalLayout();
-		groups.addComponent(newGroup);
-		groups.addComponent(addGroupButton);
-		groups.addComponent(groupList);
+		CssLayout contactsView = new CssLayout();
+		container.addComponent(contactsView); contactsView.addStyleName("a-contacts-view");
 		
-		Layout members = new VerticalLayout();
-		members.addComponent(newMember);
-		members.addComponent(memberList);
+		CssLayout groups = new CssLayout(); groups.addStyleName("a-contacts-groups");
+		Label groupsCaption = VaadinUtils.createLabel("Grupos");
+		groups.addComponent(groupsCaption); groupsCaption.addStyleName("a-contacts-groups-caption");
+		groups.addComponent(newGroup); newGroup.addStyleName("a-contacts-groups-new");
+		groups.addComponent(addGroupButton); addGroupButton.addStyleName("a-contacts-groups-new-add");
+		groups.addComponent(groupList); groupList.addStyleName("a-contacts-groups-list");
+		
+		CssLayout members = new CssLayout(); members.addStyleName("a-contacts-members");
+		Label membersCaption = VaadinUtils.createLabel("Membros");
+		members.addComponent(membersCaption); membersCaption.addStyleName("a-contacts-members-caption");
+		members.addComponent(newMember); newMember.addStyleName("a-contacts-members-new");
+		members.addComponent(memberList); memberList.addStyleName("a-contacts-members-list");
 
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.addComponent(groups);
-		layout.addComponent(members);
-		container.addComponent(layout);
+		contactsView.addComponent(groups);
+		contactsView.addComponent(members);
+		
+		newGroup.setInputPrompt("Novo Grupo");
+		newMember.setInputPrompt("Adicionar Membro");
 	}
 
 	@Override

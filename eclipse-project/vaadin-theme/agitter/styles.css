@@ -19,6 +19,15 @@ button.a-default-nativebutton {
 	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
 }
 
+button.a-default-add-button {
+	background: url('AddButton.png') no-repeat center center;
+	width: 24px;
+	height: 24px;
+	vertical-align: top;
+	margin-left: 6px;
+	border-style: none;
+}
+
 
 /*  Styles for the AutoCompleteChooser component */
 
@@ -26,7 +35,15 @@ button.a-default-nativebutton {
 	display: inline-block;
 }
 
-.a-auto-complete-chooser-add {
-	vertical-align: top;
-	margin-left: 6px;
+
+/*  Styles for the RemovableElementList component */
+
+.a-remov-elem-list-element-caption {
+	display: inline-block;
 }
+
+.a-remov-elem-list-element-remove-button {
+	display: inline-block;
+}
+
+

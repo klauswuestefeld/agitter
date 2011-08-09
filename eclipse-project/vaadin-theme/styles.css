@@ -2,7 +2,7 @@
 
 @import url("styles-general.css");
 
-@import url("styles-agitter.css");
+@import url("agitter/styles.css");
 
 @import url("login/styles.css");
 

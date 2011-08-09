@@ -105,6 +105,72 @@ button.a-session-logo {
 }
 
 
+/* Event List  -----------------------------------------------------------------   */
+
+.a-event-list-view {
+	min-height: 1200px;
+	min-width: 470px;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	overflow: hidden;
+	background: white;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	box-shadow: 1px 2px 3px dimgray;
+	-webkit-box-shadow: 1px 2px 3px dimgray;
+	-moz-box-shadow: 1px 2px 3px dimgray;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
+	z-index: 6;
+}
+
+
+/* Event  ----------------------------------------------------------------------   */
+
+.a-event-view {
+	width: 450px;    /*  430 + 16 the X button + 4 separation */
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #C8C8C8;
+	padding: 8px 8px 8px 12px;
+}
+.a-event-view:hover {
+	background: #F7F7F7;
+}
+
+button.a-event-remove-button {
+	float: right;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	background: url('EventNotInterested.png') no-repeat center center;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+button.a-event-remove-button:hover {
+	background: url('EventNotInterestedHover.png') no-repeat center center;
+}
+
+.a-event-description {
+	width: 430px;
+	min-height: 25px;
+	font-size: 18px;
+    line-height: normal;
+    white-space: pre-wrap;
+}
+.a-event-date {
+	margin-top: 4px;
+}
+.a-event-owner {
+	color: dodgerblue;
+	font-weight: bold;
+}
+
+
 /* Invite  ----------------------------------------------------------------------   */
 
 .a-invite-view {
@@ -180,11 +246,19 @@ button.a-invite-invited:hover {
 }
 
 
-/* Event List  -----------------------------------------------------------------   */
+/* Contacts  ----------------------------------------------------------------------   */
 
-.a-event-list-view {
+.a-contacts-groups-caption, .a-contacts-members-caption {
+	color: #505050;
+	font-size: 24px;
+	text-shadow: 1px 1px 1px white;
+	margin-bottom: 14px;
+}
+
+
+.a-contacts-groups {
 	min-height: 1200px;
-	min-width: 470px;
+	min-width: 380px;
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
@@ -196,51 +270,29 @@ button.a-invite-invited:hover {
 	-webkit-box-shadow: 1px 2px 3px dimgray;
 	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
+	padding: 18px 0px 18px 18px;
 	z-index: 6;
 }
 
-
-/* Event  ----------------------------------------------------------------------   */
-
-.a-event-view {
-	width: 450px;    /*  430 + 16 the X button + 4 separation */
-	border: none;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: #C8C8C8;
-	padding: 8px 8px 8px 12px;
-}
-.a-event-view:hover {
-	background: #F7F7F7;
+.a-contacts-groups-new {
+	width: 200px;
+	margin-bottom: 20px;
 }
 
-button.a-event-remove-button {
-	float: right;
-	height: 16px;
-	max-height: 16px;
-	width: 16px;
-	max-width: 16px;
-	background: url('EventNotInterested.png') no-repeat center center;
-	border: none;
-	padding: 0px;
-	margin: 0px;
+.a-contacts-members {
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	overflow: hidden;
+	vertical-align: top;
+	border-top-right-radius: 7px;
+	padding: 18px 0px 18px 18px;
 }
 
-button.a-event-remove-button:hover {
-	background: url('EventNotInterestedHover.png') no-repeat center center;
+.a-contacts-members-new {
+	margin-bottom: 20px;
+}
+.a-contacts-members-new .v-filterselect-input {
+	width: 250px;
 }
 
-.a-event-description {
-	width: 430px;
-	min-height: 25px;
-	font-size: 18px;
-    line-height: normal;
-    white-space: pre-wrap;
-}
-.a-event-date {
-	margin-top: 4px;
-}
-.a-event-owner {
-	color: dodgerblue;
-	font-weight: bold;
-}
