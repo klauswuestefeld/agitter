@@ -17,6 +17,10 @@ public class AddressValidatorTest extends Assert {
 		
 		try { AddressValidator.validateEmail("altieres"); fail(); } catch (Refusal expected) { }
 		try { AddressValidator.validateEmail("altieres@asd"); fail(); } catch (Refusal expected) { }
+		try { AddressValidator.validateEmail("alti<eres@gmail.com"); fail(); } catch (Refusal expected) { }
+		try { AddressValidator.validateEmail("<altieres@gmail.com>"); fail(); } catch (Refusal expected) { }
+		try { AddressValidator.validateEmail("altiere()s@gmail.com"); fail(); } catch (Refusal expected) { }
+		try { AddressValidator.validateEmail("\"Fulano\"<altieres@gmail.com>"); fail(); } catch (Refusal expected) { }
 	}
 	
 }
