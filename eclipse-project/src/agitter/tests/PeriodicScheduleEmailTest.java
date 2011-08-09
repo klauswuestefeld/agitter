@@ -55,6 +55,18 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 
+	@Test
+	public void xssAttackFiltering() throws Refusal, IOException {
+		User leo = signup("leo");
+
+		createEvent(leo, "<script>", startTime+11L, new EmailAddress("fulano@email.com"));
+		Clock.setForCurrentThread(startTime+11);
+
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		assertTrue(mock.body().contains("leo - script"));
+	}
+
+	
 	@Override
 	protected Event createEvent(User owner, String description, long startTime, EmailAddress... invitees) throws Refusal {
 		return super.createEvent(agitter.events(), owner, description, startTime, invitees);

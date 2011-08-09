@@ -1,26 +1,15 @@
 package utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class XssAttackSanitizer {
 
-	static {
-		HTMLInputFilter.ALWAYS_MAKE_TAGS = false;
+	public static String ultraConservativeFilter(String string) {
+		return replaceAllWhitespacesWithSpace(string)
+			.replaceAll("[^ , _ \\. \\- \\s a-z A-Z 0-9 áéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõñÃÕÑàèìòùÀÈÌÒÙçÇ]", "");
 	}
-	private static final HTMLInputFilter HTML_INPUT_FILTER = new HTMLInputFilter();
 
-	public static String filterXSS(String html) {
-//		return HTML_INPUT_FILTER.filter(html);
-
-		
-//		try {
-//			return URLEncoder.encode(html, "UTF-8");
-//		} catch (UnsupportedEncodingException e) {
-//			throw new IllegalStateException(e);
-//		}
-		
-		return html;
+	private static String replaceAllWhitespacesWithSpace(String string) {
+		return string.replaceAll("\\s", " ");
 	}
 
 }

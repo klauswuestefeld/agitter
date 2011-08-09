@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import utils.XssAttackSanitizer;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
@@ -18,7 +17,7 @@ public class EventImpl implements Event {
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 		_owner = owner;
-		_description = XssAttackSanitizer.filterXSS(description);
+		_description = description;
 		_datetime = datetime;
 		addGroupInviteesIfAny(inviteeGroups);
 		addEmailInviteesIfAny(inviteeEmails);

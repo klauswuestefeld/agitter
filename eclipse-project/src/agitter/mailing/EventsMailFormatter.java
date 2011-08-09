@@ -1,5 +1,7 @@
 package agitter.mailing;
 
+import static utils.XssAttackSanitizer.ultraConservativeFilter;
+
 import java.util.List;
 
 import agitter.domain.events.Event;
@@ -25,9 +27,9 @@ public class EventsMailFormatter {
 		for(Event e : events) {
 			if (result.length() != 0)
 				result.append("<BR/><BR/>");
-			result.append(e.owner().fullName());
+			result.append(ultraConservativeFilter(e.owner().fullName()));
 			result.append(" - ");
-			result.append(e.description());
+			result.append(ultraConservativeFilter(e.description()));
 		}
 		return result.toString();
 	}
