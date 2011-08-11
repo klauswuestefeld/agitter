@@ -70,7 +70,7 @@ public class UsersImpl implements Users {
 
 	@Override
 	public void unsubscribe(String userEncryptedInfo) throws UserNotFound {
-		//TODO - Implement decrypt
+		//TODO - Implement crypto
 		String username = userEncryptedInfo;
 		User user = this.findByUsername(username);
 		user.setInterestedInPublicEvents(false);

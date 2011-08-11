@@ -4,13 +4,10 @@ import static infra.logging.LogInfra.getLogger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import sneer.foundation.lang.Clock;
 import agitter.domain.Agitter;
-import agitter.domain.emails.EmailAddress;
-import agitter.domain.emails.EmailDestination;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
 
@@ -56,16 +53,6 @@ public class PeriodicScheduleMailer {
 		if(!agitter.mailing().shouldSendScheduleNow()) { return; }
 		agitter.mailing().markScheduleSent();
 
-		oldImplementation();
-		//newImplementation();
-	}
-
-	@SuppressWarnings("unused")
-	private void newImplementation() {
-		Map<EmailDestination,List<Event>> toHappen = agitter.events().emailsAndItsEventsToHappenIn24Hours();
-	}
-
-	private void oldImplementation() {
 		for(User user : agitter.users().all()) { sendEventsToHappenIn24Hours(user); }
 	}
 

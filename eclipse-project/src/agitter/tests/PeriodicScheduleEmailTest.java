@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -55,7 +56,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void sendingEmailsToUnregisteredUsers() throws Refusal, IOException {
 		User matias = signup("matias");
 		EmailAddress klausEmail = new EmailAddress("klaus@email.com");

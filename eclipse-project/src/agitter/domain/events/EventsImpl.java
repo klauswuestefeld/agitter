@@ -2,7 +2,6 @@ package agitter.domain.events;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -10,7 +9,6 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
-import agitter.domain.emails.EmailDestination;
 import agitter.domain.users.User;
 
 public class EventsImpl implements Events {
@@ -42,16 +40,6 @@ public class EventsImpl implements Events {
 		return result;
 	}
 	
-	@Override
-	public Map<EmailDestination, List<Event>> emailsAndItsEventsToHappenIn24Hours() {
-		final long currentDate = Clock.currentTimeMillis();
-		final long next24HoursDate = currentDate + 1000*60*60*24;
-		for(EventImpl e: _all) {
-			if (e.datetime() < currentDate) continue;
-			if (e.datetime() > next24HoursDate) continue;
-		}
-		return null;
-	}
 
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if(datetime < Clock.currentTimeMillis())
