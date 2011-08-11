@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -54,7 +55,26 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		assertEquals(body, mock.body());
 	}
 
+	@Test
+	@Ignore
+	public void sendingEmailsToUnregisteredUsers() throws Refusal, IOException {
+		User matias = signup("matias");
+		EmailAddress klausEmail = new EmailAddress("klaus@email.com");
+		createEvent(matias, "event1", startTime+10L);
+		createEvent(matias, "churras", startTime+11L, klausEmail);
+		createEvent(matias, "eventNextDay", startTime+13L+ONE_DAY, klausEmail);
 
+		Clock.setForCurrentThread(startTime+10);
+
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
+
+		assertEquals("klaus@email.com", mock.to());
+		assertEquals("Agitos da Semana", mock.subject());
+		final String body =
+				"Olá klaus@email.com, seus amigos estão agitando e querem você lá: <br/><br/>matias - event1<BR/><BR/>matias - churras<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
+		assertEquals(body, mock.body());
+	}
+	
 	@Test
 	public void xssAttackFiltering() throws Refusal, IOException {
 		User leo = signup("leo");
