@@ -1,10 +1,17 @@
 package agitter.ui.presenter;
 
+import static agitter.domain.emails.EmailAddress.mail;
+import infra.util.ToString;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.Predicate;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
@@ -15,10 +22,6 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventData;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.InviteView;
-import infra.util.ToString;
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Predicate;
-import sneer.foundation.lang.exceptions.Refusal;
 
 public class EventsPresenter {
 
@@ -31,11 +34,13 @@ public class EventsPresenter {
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
+	private final Functor<EmailAddress, User> userSearch;
 
-	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, EventsView eventsView, Consumer<String> warningDisplayer) {
+	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
+		this.userSearch = userSearch;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
 
@@ -70,8 +75,7 @@ public class EventsPresenter {
 	private void invite() {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
-		List<String> inviteeStrings = inviteView().invitees();
-		List<EmailAddress> invitees = toAddresses(inviteeStrings);
+		List<User> invitees = toUsers(inviteView().invitees());
 		try {
 			validate(datetime);
 			events.create(user, description, datetime.getTime(), Collections.EMPTY_LIST, invitees);
@@ -87,20 +91,21 @@ public class EventsPresenter {
 	}
 
 
-	private void addNewContactsIfAny(List<EmailAddress> invitees) {
-		for(EmailAddress contact : invitees) { contacts.addContact(contact); }
+	private void addNewContactsIfAny(List<User> invitees) {
+		for(User contact : invitees) { contacts.addContact(contact); }
 	}
 
 
-	private List<EmailAddress> toAddresses(List<String> inviteeStrings) {
-		List<EmailAddress> result = new ArrayList<EmailAddress>(inviteeStrings.size());
-		for(String string : inviteeStrings) { result.add(toAddress(string)); }
+	private List<User> toUsers(List<String> validEmails) {
+		List<User> result = new ArrayList<User>(validEmails.size());
+		for(String email : validEmails)
+			result.add(userSearch.evaluate(toAddress(email)));
 		return result;
 	}
 
-	private EmailAddress toAddress(String validString) {
+	private EmailAddress toAddress(String validEmail) {
 		try {
-			return new EmailAddress(validString);
+			return mail(validEmail);
 		} catch(Refusal e) {
 			throw new IllegalStateException(e);
 		}

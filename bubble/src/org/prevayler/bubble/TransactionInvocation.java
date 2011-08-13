@@ -53,16 +53,8 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 
 	private Object produceAndRegister() throws Exception {
 		Object result = super.produce();
-		registerIfNecessary(result);
+		PrevalentBubble.idMap().registerIfNecessary(result);
 		return result;
 	}
 
-
-	private static void registerIfNecessary(Object object) {
-		if (!PrevalentBubble.idMap().requiresRegistration(object)) return;
-		if (PrevalentBubble.idMap().isRegistered(object)) return;
-		PrevalentBubble.idMap().register(object);
-	}
-
-	
 }

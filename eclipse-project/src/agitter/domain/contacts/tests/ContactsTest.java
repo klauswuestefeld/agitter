@@ -1,30 +1,28 @@
 package agitter.domain.contacts.tests;
 
+import static infra.util.ToString.findToString;
+
 import java.util.List;
 
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.contacts.Contacts;
-import agitter.domain.contacts.ContactsImpl;
+import agitter.domain.contacts.ContactsImpl2;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
-import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
-import agitter.domain.users.UserImpl;
-import static infra.util.ToString.*;
+import agitter.domain.users.tests.UsersTestBase;
 
-public class ContactsTest extends CleanTestBase {
+public class ContactsTest extends UsersTestBase {
 
-	private final Contacts subject = new ContactsImpl();
-
+	private final Contacts subject = new ContactsImpl2();
 	private final User jose = createUser("jose");
 	private final ContactsOfAUser josesContacts = subject.contactsOf(jose);
 
 	
 	private User createUser(String username) {
-		return new UserImpl(username, username + "@gmail.com", "secret123");
+		return user(username, username + "@gmail.com", "secret123");
 	}
 
 	
@@ -33,19 +31,19 @@ public class ContactsTest extends CleanTestBase {
 		ContactsOfAUser josesContacts = subject.contactsOf(jose);
 		assertTrue(josesContacts.all().isEmpty());
 		
-		josesContacts.addContact(new EmailAddress( "maria@gmail.com" ) );
-		josesContacts.addContact(new EmailAddress( "joao@gmail.com" ) );
-		josesContacts.addContact(new EmailAddress( "joao@gmail.com" ) );
-		josesContacts.addContact(new EmailAddress( "joAO@gmaiL.com" ) );
-		josesContacts.addContact(new EmailAddress( "amanda@hotmail.com" ) );
+		josesContacts.addContact(user("maria@gmail.com"));
+		josesContacts.addContact(user("joao@gmail.com"));
+		josesContacts.addContact(user("joao@gmail.com"));
+		josesContacts.addContact(user("joAO@gmaiL.com"));
+		josesContacts.addContact(user("amanda@hotmail.com"));
 		assertContents( josesContacts.all(),
-			new EmailAddress( "amanda@hotmail.com" ),
-			new EmailAddress( "joao@gmail.com" ),
-			new EmailAddress( "maria@gmail.com" )
+			user("amanda@hotmail.com"),
+			user("joao@gmail.com"),
+			user("maria@gmail.com")
 		);
 	}
 
-	
+
 	@Test
 	public void multipleUsers() throws Refusal {
 		User pedro = createUser("pedro");
@@ -84,9 +82,9 @@ public class ContactsTest extends CleanTestBase {
 		a.addSubgroup(b);
 		b.addSubgroup(a);
 		
-		assertFalse(a.deepContains(new EmailAddress("foo@foo.com")));
-		josesContacts.addContactTo(b, new EmailAddress("foo@foo.com"));
-		assertTrue(a.deepContains(new EmailAddress("foo@foo.com")));
+		assertFalse(a.deepContains(user("foo@foo.com")));
+		josesContacts.addContactTo(b, user("foo@foo.com"));
+		assertTrue(a.deepContains(user("foo@foo.com")));
 	}
 
 	

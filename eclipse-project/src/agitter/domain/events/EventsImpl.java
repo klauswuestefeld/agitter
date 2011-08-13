@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
-import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 public class EventsImpl implements Events {
@@ -18,9 +17,9 @@ public class EventsImpl implements Events {
 	private SortedSet<EventImpl> _all = new TreeSet<EventImpl>(new EventComparator());
 
 	@Override
-	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<EmailAddress> inviteeEmails) throws Refusal {
+	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		assertIsInTheFuture(datetime);
-		EventImpl event = new EventImpl(user, description, datetime, inviteeGroups, inviteeEmails);
+		EventImpl event = new EventImpl(user, description, datetime, inviteeGroups, invitees);
 		_all.add(event);
 		return event;
 	}

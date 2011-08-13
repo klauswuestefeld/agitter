@@ -5,6 +5,7 @@ import java.util.List;
 import org.prevayler.bubble.Transaction;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.emails.EmailAddress;
 
 public interface Users {
 
@@ -14,13 +15,18 @@ public interface Users {
 	List<User> all();
 
 	@Transaction
-	User signup(String username, String email, String password) throws Refusal;
+	User signup(String username, EmailAddress email, String password) throws Refusal;
+	@Transaction /** Use searchByEmail before calling this to test if it is necessary and avoid a transaction. Returns existing user or creates a new one with that email address. */
+	User produce(EmailAddress email);
 	void unsubscribe(String userEncryptedInfo) throws UserNotFound;
 
 	User loginWithUsername(String username, String password) throws UserNotFound, InvalidPassword;
-	User loginWithEmail(String email, String password) throws UserNotFound, InvalidPassword;
+	User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword;
 	User findByUsername(String username) throws UserNotFound;
-	User findByEmail(String email) throws UserNotFound;
+	User findByEmail(EmailAddress email) throws UserNotFound;
+	User searchByEmail(EmailAddress email);
+
 	String userEncyptedInfo(User user);
+
 
 }

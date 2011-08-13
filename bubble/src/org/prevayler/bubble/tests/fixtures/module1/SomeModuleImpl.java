@@ -1,7 +1,9 @@
 package org.prevayler.bubble.tests.fixtures.module1;
 
 import java.io.Serializable;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.prevayler.bubble.PrevalentBubble;
@@ -100,11 +102,25 @@ public class SomeModuleImpl implements SomeModule, Serializable {
 
 	@Override
 	public Closure removerFor(final Item item) {
+		if (Proxy.isProxyClass(item.getClass())) throw new IllegalStateException();
 		return new Closure() { @Override public void run() {
 			if (!_items.contains(item))
 				throw new IllegalStateException();
 			removeItem(item);
 		}};
+	}
+
+
+	@Override
+	public Closure removerFor(Collection<Item> collectionWithSingleItem) {
+		return removerFor(collectionWithSingleItem.toArray(new Item[0]));
+	}
+
+
+	@Override
+	public Closure removerFor(Item[] arrayWithSingleItem) {
+		if (arrayWithSingleItem.length != 1) throw new IllegalStateException();
+		return removerFor(arrayWithSingleItem[0]);
 	}
 	
 }

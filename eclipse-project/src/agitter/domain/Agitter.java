@@ -15,5 +15,9 @@ public interface Agitter {
 	Comments comments();
 	
 	Mailing mailing();
+	
+	
+	//---------------------------------------
+	void migrateSchemaIfNecessary();
 
 }

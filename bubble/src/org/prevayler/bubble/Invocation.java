@@ -12,7 +12,8 @@ class Invocation implements ProducerX<Object, Exception>, Serializable {
 		_targetProducer = targetProducer;
 		_method = method.getName();
 		_argsTypes = method.getParameterTypes();
-		_args = marshal(args);
+		_args = args;
+		PrevalentBubble.idMap().marshal(_args);
 	}
 
 
@@ -50,9 +51,5 @@ class Invocation implements ProducerX<Object, Exception>, Serializable {
 	}
 
 	
-	static private Object[] marshal(Object[] args) {
-		return PrevalentBubble.idMap().marshal(args);
-	}
-
 	private static final long serialVersionUID = 1L;
 }

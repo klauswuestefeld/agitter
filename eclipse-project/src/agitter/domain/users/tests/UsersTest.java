@@ -1,24 +1,26 @@
 package agitter.domain.users.tests;
 
+import static agitter.domain.emails.EmailAddress.mail;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import sneer.foundation.lang.Clock;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
-import agitter.domain.users.UsersImpl;
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 
-public class UsersTest extends CleanTestBase {
+public class UsersTest extends UsersTestBase {
 
-	private final Users _subject = new UsersImpl();
+	private final Users subject = users;
 
 	@Before
 	public void workaround() {
@@ -34,75 +36,65 @@ public class UsersTest extends CleanTestBase {
 	@Test
 	public void loginWithUsername() throws Refusal {
 		signUpAna();
-		User user = _subject.loginWithUsername("ana", "ana123");
+		User user = subject.loginWithUsername("ana", "ana123");
 		assertAna(user);
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void loginWithUnknownUserName() throws Refusal {
-		_subject.loginWithUsername("unknown_username", "irrelevant");
+		subject.loginWithUsername("unknown_username", "irrelevant");
 	}
 
 	@Test(expected = InvalidPassword.class)
 	public void loginWithInvalidPassword() throws Refusal {
 		signUpAna();
-		_subject.loginWithUsername("ana", "ana000");
+		subject.loginWithUsername("ana", "ana000");
 	}
 
 	@Test
 	public void loginWithEmail() throws Refusal {
 		signUpAna();
-		User user = _subject.loginWithEmail("ana@gmail.com", "ana123");
+		User user = subject.loginWithEmail(mail("ana@gmail.com"), "ana123");
 		assertAna(user);
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void loginWithUnknownEmail() throws Refusal {
-		_subject.loginWithEmail("unknown_email@somewhere.com", "irrelevant");
+		subject.loginWithEmail(mail("unknown_email@somewhere.com"), "irrelevant");
 	}
 
 	@Test
 	public void findUserByUsername() throws Refusal {
 		signUpAna();
-		User user = _subject.findByUsername("ana");
-		assertEquals("ana@gmail.com", user.email());
+		User user = subject.findByUsername("ana");
+		assertEquals("ana@gmail.com", user.email().toString());
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void findUserByUsernameWithNoResults() throws Refusal {
-		_subject.findByUsername("unknown");
+		subject.findByUsername("unknown");
 	}
 
 	@Test
 	public void findUserByEmail() throws Refusal {
 		signUpAna();
-		User user = _subject.findByEmail("ana@gmail.com");
+		User user = subject.findByEmail(mail("ana@gmail.com"));
 		assertEquals("ana", user.username());
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void findUserByEmailWithNoResults() throws Refusal {
-		_subject.findByEmail("unknown@somewhere.com");
+		subject.findByEmail(mail("unknown@somewhere.com"));
 	}
 
 	@Test(expected = Refusal.class)
 	public void signupWithBlankUsername() throws Refusal {
-		_subject.signup("", "myself@email.com", "$ecret");
-	}
-
-	@Test(expected = Refusal.class)
-	public void signupWithBlankEmail() throws Refusal {
-		_subject.signup("myself", "", "$ecret");
+		subject.signup("", mail("myself@email.com"), "$ecret");
 	}
 
 	@Test(expected = Refusal.class)
 	public void signupWithBlankPassword() throws Refusal {
-		_subject.signup("myself", "myself@email.com", "");
-	}
-
-	@Test(expected = Refusal.class)
-	public void signupWithBlankUsernameEmailAndPassword() throws Refusal {
-		_subject.signup("", "", "");
+		subject.signup("myself", mail("myself@email.com"), "");
 	}
 
 	@Test
@@ -111,7 +103,6 @@ public class UsersTest extends CleanTestBase {
 				{null, "myself@email.com", "12345"},
 				{" ", "myself@email.com", "12345"},
 				{"		", "myself@email.com", "12345"},
-				{"user", null, "12345"},
 				{"user", " ", "12345"},
 				{"user", "		", "12345"},
 				{"user", "myself@email.com", null},
@@ -120,7 +111,7 @@ public class UsersTest extends CleanTestBase {
 		};
 		for(final String[] cenario : cenarios) {
 			try {
-				_subject.signup(cenario[0], cenario[1], cenario[2]);
+				subject.signup(cenario[0], mail(cenario[1]), cenario[2]);
 				Assert.fail("Expected Refusal trying to signup with: "+Arrays.toString(cenario));
 			} catch(final Refusal refusal) {
 				//expected
@@ -130,7 +121,7 @@ public class UsersTest extends CleanTestBase {
 
 	private void assertAna(User user) {
 		assertEquals("ana", user.username());
-		assertEquals("ana@gmail.com", user.email());
+		assertEquals("ana@gmail.com", user.email().toString());
 	}
 
 
@@ -143,10 +134,8 @@ public class UsersTest extends CleanTestBase {
 		assertEquals(username, user.username());
 	}
 
-	private User signUp(String username, String email, String password)
-			throws Refusal {
-		User user = _subject.signup(username, email, password);
-		return user;
+	private User signUp(String username, String email, String password) throws Refusal {
+		return subject.signup(username, mail(email), password);
 	}
 
 }

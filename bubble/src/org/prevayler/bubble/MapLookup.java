@@ -8,7 +8,7 @@ import sneer.foundation.lang.Producer;
 class MapLookup implements Producer<Object>, Serializable {
 	
 	MapLookup(Object delegate) {
-		_id = PrevalentBubble.idMap().marshal(delegate);
+		_id = PrevalentBubble.idMap().idFor(delegate);
 	}
 
 

@@ -18,10 +18,16 @@ package agitter.mailing;
 import java.io.IOException;
 import java.util.Arrays;
 
+import agitter.domain.emails.EmailAddress;
+
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
-import com.amazonaws.services.simpleemail.model.*;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Content;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
 //TODO: Please, refactor all this!
 public class ForgotPasswordMailDispatcher {
@@ -36,7 +42,7 @@ public class ForgotPasswordMailDispatcher {
 		+ "<a href=\"http://agitter.com\">Agitter</a><br /><br />"
 		+ "Bons agitos,<br />Equipe Agitter.";
 
-	public static void send(String emailTo, String username, String password) throws IOException {
+	public static void send(EmailAddress emailTo, String username, String password) throws IOException {
 
 		PropertiesCredentials credentials = new PropertiesCredentials(
 				ForgotPasswordMailDispatcher.class
@@ -44,7 +50,7 @@ public class ForgotPasswordMailDispatcher {
 		
 		AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient(credentials);		
 
-		Destination destination = new Destination(Arrays.asList(emailTo));
+		Destination destination = new Destination(Arrays.asList(emailTo.toString()));
 		Content subject = new Content(SUBJECT);
 		String mailText = BODY.replaceAll("%USERNAME%", username).replaceAll("%PASSWORD%", password);
 		Body body = new Body().withHtml(new Content(mailText));

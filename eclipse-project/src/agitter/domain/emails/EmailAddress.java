@@ -7,10 +7,15 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 public class EmailAddress extends Immutable implements Comparable<EmailAddress>, Serializable {
 
+	public static EmailAddress mail(String email) throws Refusal {
+		return new EmailAddress(email);
+	}
+
+
 	private final String emailAddress;
 
 	
-	public EmailAddress(String emailAddress) throws Refusal {
+	private EmailAddress(String emailAddress) throws Refusal {
 		AddressValidator.validateEmail(emailAddress);
 		this.emailAddress = emailAddress.toLowerCase();
 	}

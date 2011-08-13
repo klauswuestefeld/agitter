@@ -1,9 +1,11 @@
 package org.prevayler.bubble.tests;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
@@ -190,6 +192,36 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		_subject.module1().addItem("bar");
 		Item item = _subject.module1().getItem("foo"); 
 		Closure remover = _subject.module1().removerFor(item);
+		remover.run();
+
+		_subject = resetSubject();
+		assertEquals(1, _subject.module1().itemCount());
+		assertNotNull(_subject.module1().getItem("bar"));
+	}
+
+	
+	@Ignore
+	@Test (timeout = 3000)
+	public void invocationPathWithArgsAsCollection() {
+		int unignoreThisTest;
+		_subject.module1().addItem("foo"); //Registers it.
+		_subject.module1().addItem("bar");
+		Item item = _subject.module1().getItem("foo"); 
+		Closure remover = _subject.module1().removerFor(Arrays.asList(item));
+		remover.run();
+
+		_subject = resetSubject();
+		assertEquals(1, _subject.module1().itemCount());
+		assertNotNull(_subject.module1().getItem("bar"));
+	}
+
+	
+	@Test //(timeout = 3000)
+	public void invocationPathWithArgsAsArray() {
+		_subject.module1().addItem("foo"); //Registers it.
+		_subject.module1().addItem("bar");
+		Item item = _subject.module1().getItem("foo"); 
+		Closure remover = _subject.module1().removerFor(new Item[]{item});
 		remover.run();
 
 		_subject = resetSubject();

@@ -1,5 +1,7 @@
 package agitter.tests;
 
+import static agitter.domain.emails.EmailAddress.mail;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -12,7 +14,6 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
-import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
@@ -39,7 +40,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 		createEvent(klaus, "event1", startTime+10L);
 		createEvent(klaus, "event2", startTime+11L);
-		createEvent(leo, "churras", startTime+11L, new EmailAddress("klaus@email.com"));
+		createEvent(leo, "churras", startTime+11L, klaus);
 		createEvent(klaus, "event3", startTime+12L);
 		createEvent(klaus, "event4", startTime+13L);
 		createEvent(klaus, "eventNextDay", startTime+13L+ONE_DAY);
@@ -48,7 +49,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
-		assertEquals("klaus@email.com", mock.to());
+		assertEquals("klaus@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
 		final String body =
 				"Olá klaus, seus amigos estão agitando e querem você lá: <br/><br/>leo - churras<BR/><BR/>klaus - event2<BR/><BR/>klaus - event3<BR/><BR/>klaus - event4<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
@@ -59,10 +60,10 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	@Ignore
 	public void sendingEmailsToUnregisteredUsers() throws Refusal, IOException {
 		User matias = signup("matias");
-		EmailAddress klausEmail = new EmailAddress("klaus@email.com");
+		User klaus = user("klaus@email.com");
 		createEvent(matias, "event1", startTime+10L);
-		createEvent(matias, "churras", startTime+11L, klausEmail);
-		createEvent(matias, "eventNextDay", startTime+13L+ONE_DAY, klausEmail);
+		createEvent(matias, "churras", startTime+11L, klaus);
+		createEvent(matias, "eventNextDay", startTime+13L+ONE_DAY, klaus);
 
 		Clock.setForCurrentThread(startTime+10);
 
@@ -78,7 +79,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	public void xssAttackFiltering() throws Refusal, IOException {
 		User leo = signup("leo");
 
-		createEvent(leo, "<script>", startTime+11L, new EmailAddress("fulano@email.com"));
+		createEvent(leo, "<script>", startTime+11L, user("fulano@email.com"));
 		Clock.setForCurrentThread(startTime+11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
@@ -92,7 +93,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	
 	@Override
-	protected Event createEvent(User owner, String description, long startTime, EmailAddress... invitees) throws Refusal {
+	protected Event createEvent(User owner, String description, long startTime, User... invitees) throws Refusal {
 		return super.createEvent(agitter.events(), owner, description, startTime, invitees);
 	}
 
@@ -143,7 +144,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 	private User signup(String username) throws Refusal {
-		return agitter.users().signup(username, username+"@email.com", "123");
+		return agitter.users().signup(username, mail(username+"@email.com"), "123");
 	}
 }
 

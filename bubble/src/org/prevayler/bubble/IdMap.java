@@ -1,11 +1,13 @@
 package org.prevayler.bubble;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import sneer.foundation.lang.Immutable;
+import sneer.foundation.lang.exceptions.NotImplementedYet;
 
 public class IdMap implements Serializable {
 	
@@ -48,34 +50,59 @@ public class IdMap implements Serializable {
 	}
 
 	
-	Object[] marshal(Object[] array) {
-		if (array == null)
-			return null;
+	void marshal(Object[] array) {
+		if (array == null) return;
 		
-		Object[] result = new Object[array.length]; 
-		for (int i = 0; i < result.length; i++)
-			result[i] = marshalIfNecessary(array[i]);
-		return result;
+		for (int i = 0; i < array.length; i++)
+			array[i] = marshalIfNecessary(array[i]);
 	}
 	
 	
 	private Object marshalIfNecessary(Object object) {
 		if (object == null) return null;
+		if (object.getClass().isArray()) return marshalArrayIfNecessary(object);
+		if (object instanceof Collection) return marshalCollectionIfNecessary((Collection<?>)object);
 		
-		Long id = _idsByObject.get(object);
-		if (id != null)
-			return new OID(id);
+		if (Immutable.isImmutable(object.getClass()))
+			return object;
 		
-		if (requiresRegistration(object))
-			throw new IllegalStateException("Mutable object " + object + " should have been registered in prevalence map.");
-		return object;
+		return new OID(idFor(object));
 	}
 
 
-	long marshal(Object object) {
+	private Object marshalCollectionIfNecessary(Collection<?> collection) {
+		throw new NotImplementedYet();
+	}
+
+
+	private Object marshalArrayIfNecessary(Object array) {
+		Class<?> type = array.getClass().getComponentType();
+		if (Immutable.isImmutable(type))
+			return array;
+		
+		if (type == Object.class) {
+			marshal((Object[]) array);
+			return array;
+		}
+		
+		return marshallTypedArray(array, type);
+	}
+
+
+	private Object marshallTypedArray(Object array, Class<?> type) {
+		Object[] copy = new Object[Array.getLength(array)];
+		for (int i = 0; i < copy.length; i++) {
+			Object element = Array.get(array, i);
+			copy[i] = marshalIfNecessary(element);			
+		}
+		return new MarshalledArray(type, copy);
+	}
+
+
+	long idFor(Object object) {
 		Long result = _idsByObject.get(object);
 		if (result == null)
-			throw new IllegalStateException("Id not found for object: " + object);
+			throw new IllegalStateException("Mutable object " + object + " should have been registered in prevalence map.");
 		return result;
 	}
 	
@@ -94,10 +121,20 @@ public class IdMap implements Serializable {
 	Object unmarshal(Object object) {
 		return object instanceof OID
 			? unmarshal(((OID)object)._id)
-			: object;
+			: object instanceof MarshalledArray
+				? unmarshalTypedArray((MarshalledArray)object)
+				: object;
 	}
 
 	
+	private Object unmarshalTypedArray(MarshalledArray array) {
+		Object result = Array.newInstance(array.type, array.elements.length);
+		for (int i = 0; i < array.elements.length; i++)
+			Array.set(result, i, unmarshal(array.elements[i]));
+		return result;		
+	}
+
+
 	Object unmarshal(long id) {
 		Object result = _objectsById.get(id);
 		if (result == null)
@@ -106,15 +143,12 @@ public class IdMap implements Serializable {
 	}
 
 
-	boolean requiresRegistration(Object object) {
-		if (object == null) return false;
-
-		Class<?> type = object.getClass();
-		if (type.isArray()) return false;
-		if (Collection.class.isAssignableFrom(type)) return false;
-		if (Immutable.isImmutable(type)) return false;
-		
-		return true;
+	public void registerIfNecessary(Object object) {
+		if (object == null) return;
+		if (Immutable.isImmutable(object.getClass())) return;
+		if (PrevalentBubble.idMap().isRegistered(object)) return;
+		PrevalentBubble.idMap().register(object);
 	}
+
 
 }

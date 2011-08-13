@@ -1,7 +1,9 @@
 package agitter.ui.presenter;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Functor;
 import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.view.session.SessionView;
@@ -11,10 +13,10 @@ public class SessionPresenter {
 	private final SessionView view;
 
 
-	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
+	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
 		this.view = view;
 
-		new EventsPresenter(user, contacts, events, view.eventsView(), warningDisplayer);
+		new EventsPresenter(user, contacts, events, userSearch, view.eventsView(), warningDisplayer);
 		new ContactsPresenter(contacts, view.contactsView(), warningDisplayer);
 
 		view.onLogout(onLogout);

@@ -3,10 +3,16 @@ package agitter.mailing;
 import java.io.IOException;
 import java.util.Arrays;
 
+import agitter.domain.emails.EmailAddress;
+
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
-import com.amazonaws.services.simpleemail.model.*;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Content;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
 public class AmazonEmailSender implements EmailSender {
 
@@ -19,8 +25,8 @@ public class AmazonEmailSender implements EmailSender {
 	}
 
 	@Override
-	public void send(String to, String subject, String body) {
-		Destination destination = new Destination(Arrays.asList(to));
+	public void send(EmailAddress to, String subject, String body) {
+		Destination destination = new Destination(Arrays.asList(to.toString()));
 		Content contentSubject = new Content(subject);
 		Body contentBody = new Body().withHtml(new Content(body));
 		Message message = new Message(contentSubject, contentBody);

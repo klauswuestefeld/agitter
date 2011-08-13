@@ -1,13 +1,13 @@
 package agitter.ui.presenter;
 
+import static agitter.domain.emails.EmailAddress.mail;
+
 import java.io.IOException;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
-import agitter.domain.users.Users.InvalidPassword;
-import agitter.domain.users.Users.UserNotFound;
 import agitter.mailing.ForgotPasswordMailDispatcher;
 import agitter.ui.view.authentication.LoginView;
 import agitter.ui.view.authentication.SignupView;
@@ -51,14 +51,11 @@ public class AuthenticationPresenter {
 		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
 			user = credential.isEmailProvided()
-				? users.loginWithEmail(credential.email(), credential.password())
+				? users.loginWithEmail(mail(credential.email()), credential.password())
 				: users.loginWithUsername(credential.username(), credential.password());
 			
-		} catch (InvalidPassword e) {
+		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
-			return;
-		} catch (UserNotFound e) {
-			warningDisplayer.consume( e.getMessage() );
 			return;
 		}
 		onAuthenticate.consume(user);
@@ -87,9 +84,9 @@ public class AuthenticationPresenter {
 		try{
 			Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 			user = credential.isEmailProvided()
-			? users.findByEmail(credential.email())
+			? users.findByEmail(mail(credential.email()))
 			: users.findByUsername(credential.username());
-		} catch(UserNotFound e){
+		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
@@ -128,7 +125,7 @@ public class AuthenticationPresenter {
 		
 		User user;
 		try {
-			user = users.signup(signupView.username(), signupView.email(), signupView.password());
+			user = users.signup(signupView.username(), mail(signupView.email()), signupView.password());
 			onAuthenticate.consume(user);
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());

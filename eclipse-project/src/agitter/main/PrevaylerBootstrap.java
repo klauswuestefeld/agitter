@@ -26,6 +26,7 @@ public class PrevaylerBootstrap {
 		
 		_dataFolder = dataFolder;
 		_agitter = PrevalentBubble.wrap(new AgitterImpl(), createPrevaylerFactory(dataFolder));
+		_agitter.migrateSchemaIfNecessary();
 	}
 
 	
@@ -38,7 +39,7 @@ public class PrevaylerBootstrap {
 	
 	synchronized
 	public static Agitter agitter() {
-		if (_agitter == null) throw new IllegalStateException("Execution not initilized");
+		if (_agitter == null) throw new IllegalStateException("Agitter not initialized");
 		return _agitter;
 	}
 	

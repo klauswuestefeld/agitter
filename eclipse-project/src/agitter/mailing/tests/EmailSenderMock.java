@@ -3,22 +3,23 @@
  */
 package agitter.mailing.tests;
 
+import agitter.domain.emails.EmailAddress;
 import agitter.mailing.EmailSender;
 
 public class EmailSenderMock implements EmailSender {
 
-	private String to;
+	private EmailAddress to;
 	private String subject;
 	private String body;
 
 	@Override
-	public void send(String to, String subject, String body) {
+	public void send(EmailAddress to, String subject, String body) {
 		this.to = to;
 		this.subject = subject;
 		this.body = body;
 	}
 
-	public String to() {
+	public EmailAddress to() {
 		return to;
 	}
 	public String subject() {

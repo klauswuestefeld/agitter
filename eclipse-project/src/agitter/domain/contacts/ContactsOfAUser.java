@@ -3,22 +3,23 @@ package agitter.domain.contacts;
 import java.util.List;
 
 import org.prevayler.bubble.Transaction;
+
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.emails.EmailAddress;
+import agitter.domain.users.User;
 
 public interface ContactsOfAUser {
 
-	List<EmailAddress> all();
-	void addContact(EmailAddress contact);
-	void deleteContactAndRemoveFromAllGroups(EmailAddress contact);
+	List<User> all();
+	void addContact(User contact);
+	void deleteContactAndRemoveFromAllGroups(User contact);
 
 	List<Group> groups();
 	@Transaction
 	Group createGroup(String groupName) throws Refusal;
 	void renameGroup(Group group, String newName) throws Refusal;
 	void deleteGroupAndRemoveFromAllContainingGroups(Group group);
-	void addContactTo(Group group, EmailAddress contact);
-	void removeContactFrom(Group group, EmailAddress contact);
+	void addContactTo(Group group, User contact);
+	void removeContactFrom(Group group, User contact);
 
 	Group groupGivenName(String name);
 }

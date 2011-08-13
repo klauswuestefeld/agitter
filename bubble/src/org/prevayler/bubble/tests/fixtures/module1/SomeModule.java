@@ -1,5 +1,7 @@
 package org.prevayler.bubble.tests.fixtures.module1;
 
+import java.util.Collection;
+
 import org.prevayler.bubble.Transaction;
 
 import sneer.foundation.lang.Closure;
@@ -21,4 +23,6 @@ public interface SomeModule {
 	Consumer<String> itemAdder_Idempotent();
 	
 	Closure removerFor(Item item);
+	Closure removerFor(Collection<Item> collectionWithSingleItem);
+	Closure removerFor(Item[] arrayWithSingleItem);
 }
