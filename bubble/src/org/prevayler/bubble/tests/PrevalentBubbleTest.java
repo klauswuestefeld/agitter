@@ -200,13 +200,11 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	}
 
 	
-	@Ignore
 	@Test (timeout = 3000)
 	public void invocationPathWithArgsAsCollection() {
-		int unignoreThisTest;
 		_subject.module1().addItem("foo"); //Registers it.
 		_subject.module1().addItem("bar");
-		Item item = _subject.module1().getItem("foo"); 
+		Item item = _subject.module1().getItem("foo");
 		Closure remover = _subject.module1().removerFor(Arrays.asList(item));
 		remover.run();
 

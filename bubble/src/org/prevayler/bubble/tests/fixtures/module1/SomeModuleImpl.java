@@ -19,7 +19,7 @@ public class SomeModuleImpl implements SomeModule, Serializable {
 	static final class ItemImpl implements Item, Serializable {
 		private String _name;
 
-		public ItemImpl(String name) {
+		ItemImpl(String name) {
 			_name = name;
 		}
 
@@ -113,7 +113,7 @@ public class SomeModuleImpl implements SomeModule, Serializable {
 
 	@Override
 	public Closure removerFor(Collection<Item> collectionWithSingleItem) {
-		return removerFor(collectionWithSingleItem.toArray(new Item[0]));
+		return removerFor(collectionWithSingleItem.iterator().next());
 	}
 
 

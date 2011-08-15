@@ -2,7 +2,9 @@ package org.prevayler.bubble;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -71,9 +73,15 @@ public class IdMap implements Serializable {
 
 
 	private Object marshalCollectionIfNecessary(Collection<?> collection) {
-		throw new NotImplementedYet();
+		if(!(collection instanceof List)) { throw new NotImplementedYet(); }
+		List<Object> original = (List<Object>) collection;
+		ArrayList<Object> result = new ArrayList<Object>(original.size());
+		for(Object element : original) {
+			Object marshaled = marshalIfNecessary(element);
+			result.add(marshaled);
+		}
+		return result;
 	}
-
 
 	private Object marshalArrayIfNecessary(Object array) {
 		Class<?> type = array.getClass().getComponentType();
@@ -119,14 +127,25 @@ public class IdMap implements Serializable {
 
 	
 	Object unmarshal(Object object) {
-		return object instanceof OID
-			? unmarshal(((OID)object)._id)
-			: object instanceof MarshalledArray
-				? unmarshalTypedArray((MarshalledArray)object)
-				: object;
+		if (object == null) return object;
+		if(object instanceof OID) return unmarshal(((OID) object)._id);
+		if(object instanceof MarshalledArray) return unmarshalTypedArray((MarshalledArray) object);
+		if(object instanceof Collection) return  unmarshalCollection((Collection) object);
+		if (!Immutable.isImmutable(object.getClass())) throw new IllegalStateException("Mutable " + object.getClass() + " should have been marshaled.");
+		return object;
 	}
 
-	
+
+	private Object unmarshalCollection(Collection collection) {
+		if(!(collection instanceof List)) throw new NotImplementedYet();
+		List list = (List) collection;
+		List<Object> result = new ArrayList<Object>(list.size());
+		for(Object element : list)
+			result.add(unmarshal(element));
+		return result;
+	}
+
+
 	private Object unmarshalTypedArray(MarshalledArray array) {
 		Object result = Array.newInstance(array.type, array.elements.length);
 		for (int i = 0; i < array.elements.length; i++)
