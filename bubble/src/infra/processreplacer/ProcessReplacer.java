@@ -167,9 +167,10 @@ public class ProcessReplacer {
 	public void close() {
 		try { if (mutex != null) mutex.close(); } catch (IOException e) { LogInfra.getLogger(this).warning(e.getMessage()); }
 	}
-	
+
 	
 	private static void checkFromSameMachine(Socket request) throws IOException {
+		int checkIfSecurityIsOK;
 		if (!"127.0.0.1".equals(request.getLocalAddress().getHostAddress()))
 			throw new IOException("Retirement request received from external machine.");
 	}
