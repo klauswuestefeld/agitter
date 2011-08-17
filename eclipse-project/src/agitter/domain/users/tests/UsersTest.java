@@ -20,7 +20,7 @@ import agitter.domain.users.Users.UserNotFound;
 
 public class UsersTest extends UsersTestBase {
 
-	private final Users subject = users;
+	private final Users subject = agitter.users();
 
 	@Before
 	public void workaround() {

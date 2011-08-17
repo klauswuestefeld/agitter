@@ -91,7 +91,7 @@ public class PeriodicScheduleMailer {
 	}
 
 	private void sendTo(User u, List<Event> toSend) {
-		String body = formatter.format(u.username(), toSend);
+		String body = formatter.format(toSend);
 		sender.send(u.email(), SUBJECT, body);
 	}
 
