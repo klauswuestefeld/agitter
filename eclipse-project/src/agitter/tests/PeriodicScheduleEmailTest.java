@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;

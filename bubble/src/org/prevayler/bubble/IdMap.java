@@ -130,15 +130,15 @@ public class IdMap implements Serializable {
 		if (object == null) return object;
 		if(object instanceof OID) return unmarshal(((OID) object)._id);
 		if(object instanceof MarshalledArray) return unmarshalTypedArray((MarshalledArray) object);
-		if(object instanceof Collection) return  unmarshalCollection((Collection) object);
+		if(object instanceof Collection) return  unmarshalCollection((Collection<?>) object);
 		if (!Immutable.isImmutable(object.getClass())) throw new IllegalStateException("Mutable " + object.getClass() + " should have been marshaled.");
 		return object;
 	}
 
 
-	private Object unmarshalCollection(Collection collection) {
+	private Object unmarshalCollection(Collection<?> collection) {
 		if(!(collection instanceof List)) throw new NotImplementedYet();
-		List list = (List) collection;
+		List<?> list = (List<?>) collection;
 		List<Object> result = new ArrayList<Object>(list.size());
 		for(Object element : list)
 			result.add(unmarshal(element));

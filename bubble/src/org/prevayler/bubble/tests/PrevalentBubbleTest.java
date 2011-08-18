@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
