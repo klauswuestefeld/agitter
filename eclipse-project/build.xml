@@ -7,8 +7,11 @@
 		<fileset dir="../bubble"/>
 	</path>
 
+	<tstamp>
+		<format property="build"
+		pattern="'../build'yyyy-MM-dd_HH-mm-ss" />
+	</tstamp>
 	
-	<property name="build" value="../build"/>
 	<property name="code" value="${build}/src"/>
 	
 	
