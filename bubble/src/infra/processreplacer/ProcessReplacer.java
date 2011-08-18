@@ -170,9 +170,15 @@ public class ProcessReplacer {
 
 	
 	private static void checkFromSameMachine(Socket request) throws IOException {
-		int checkIfSecurityIsOK;
-		if (!"127.0.0.1".equals(request.getLocalAddress().getHostAddress()))
+		if (!isFromSameMachine(request))
 			throw new IOException("Retirement request received from external machine.");
+	}
+
+
+	private static boolean isFromSameMachine(Socket request) {
+		if (!"127.0.0.1".equals(request.getLocalAddress().getHostAddress())) return false;
+		if (!request.getRemoteSocketAddress().toString().startsWith("/127.0.0.1:")) return false;
+		return true;
 	}
 	
 	
