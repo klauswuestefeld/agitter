@@ -32,8 +32,9 @@ class SimployCore {
 
 
 	private static void tryToBuild() {
-		if (!pullNewVersion())
-			return;
+		int uncomment;
+//		if (!pullNewVersion())
+//			return;
 		
 		_lastBuildDate = new Date();
 		_lastBuildStatus = "IN PROGRESS...";
