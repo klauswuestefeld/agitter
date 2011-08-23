@@ -13,8 +13,8 @@ import vaadinutils.VaadinUtils;
 public class ContactsViewImpl implements ContactsView {
 
 	private final ComponentContainer container;
-	private final RemovableElementList groupList = new RemovableElementList();
-	private final RemovableElementList memberList = new RemovableElementList();
+	private final SelectableRemovableElementList groupList = new SelectableRemovableElementList();
+	private final SelectableRemovableElementList memberList = new SelectableRemovableElementList();
 
 	private final TextField newGroup = new TextField();
 	private final NativeButton addGroupButton = AgitterVaadinUtils.createDefaultAddButton();
@@ -73,6 +73,10 @@ public class ContactsViewImpl implements ContactsView {
 	@Override
 	public void setGroupCreateListener(Consumer<String> consumer) {
 		newGroupConsumer = consumer;
+	}
+	@Override
+	public void setGroupSelected(String groupName) {
+		groupList.selectElement(groupName);
 	}
 	@Override
 	public void setGroupSelectionListener(Consumer<String> consumer) {

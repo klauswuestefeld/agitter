@@ -10,6 +10,7 @@ public interface ContactsView {
 
 	void addGroup(String groupName);
 	void setGroupCreateListener(Consumer<String> consumer);
+	void setGroupSelected(String groupName);
 	void setGroupSelectionListener(Consumer<String> consumer);
 	void setGroupRemoveListener(Consumer<String> consumer);
 	void clearGroups();

@@ -8,11 +8,12 @@ import sneer.foundation.lang.Consumer;
 
 public class ContactsDemoPresenter {
 
-	private static final List<String> groupNames = Arrays.asList("Amigos", "Familia", "Faculdade", "Trabalho");
-	private static final List<String> memberNames = Arrays.asList("ana@gmail.com", "bob@yahoo.com.br", "carla@hotmail.com");
+	private static final List<String> groupNames = Arrays.asList("Todos", "Amigos", "Familia", "Faculdade", "Trabalho");
+	private static final List<String> memberNames = Arrays.asList("ana@gmail.com", "bob@yahoo.com.br", "carla@hotmail.com", "mario@nuintendo.com");
 
-	public ContactsDemoPresenter(ContactsView contactsView) {
+	public ContactsDemoPresenter(final ContactsView contactsView) {
 		contactsView.setGroupSelectionListener(new Consumer<String>() {@Override public void consume(String value) {
+			contactsView.setGroupSelected(value);
 			System.err.println("GROUP SELECTED: " + value);
 		}});
 		contactsView.setGroupRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
@@ -25,6 +26,8 @@ public class ContactsDemoPresenter {
 		contactsView.setMembersToChoose(memberNames);
 		for(String g : groupNames) contactsView.addGroup(g);
 		for(String m : memberNames) contactsView.addMember(m);
+		
+		contactsView.setGroupSelected("Todos");
 
 	}
 

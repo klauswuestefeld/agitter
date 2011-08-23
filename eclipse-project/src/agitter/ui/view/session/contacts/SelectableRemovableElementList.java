@@ -1,42 +1,49 @@
 package agitter.ui.view.session.contacts;
 
+import java.util.Iterator;
+
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.*;
 
 import sneer.foundation.lang.Consumer;
 
-public class RemovableElementList extends CssLayout {
-
-	private CssLayout elements = new CssLayout();
+public class SelectableRemovableElementList extends CssLayout {
 
 	private Consumer<String> selectionListener;
 	private Consumer<String> removeListener;
 
-	public RemovableElementList() {
+	public SelectableRemovableElementList() {
 		addStyleName("a-remov-elem-list");
-		elements.addListener(new LayoutClickListener() {
-			@SuppressWarnings({"unchecked"})
+		addListener(new LayoutClickListener() {
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
 				Consumer<String> listener = (Consumer<String>) ((AbstractComponent) event.getClickedComponent()).getData();
-
 				if(listener==null) return;
-				CssLayout element = (CssLayout)event.getChildComponent();
-				Component comp = element.getComponentIterator().next();  // get the first component, which is the group name label
-				listener.consume(comp.toString());
+				CssLayout elemLine = (CssLayout)event.getChildComponent();
+				listener.consume(getElementStringForElementLine(elemLine));
 			}
 		});
-		addComponent(elements);
 	}
 
 	public void addElement(String element) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
 		Label newElemCaption = newElementLabel(element, selectionListener);
 		elemLine.addComponent(newElemCaption); newElemCaption.addStyleName("a-remov-elem-list-element-caption");
-		Label newElemRemove = newElementLabel("X", removeListener);
+		Label newElemRemove = newElementLabel(null, removeListener);
 		elemLine.addComponent(newElemRemove); newElemRemove.addStyleName("a-remov-elem-list-element-remove-button");
-		elements.addComponent(elemLine);
+		addComponent(elemLine);
+	}
+
+	public void selectElement(String element) {
+		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
+			ComponentContainer elemLine = (ComponentContainer) it.next();
+			String eachElement = getElementStringForElementLine(elemLine);
+			if (eachElement.toString().equals(element))
+				elemLine.addStyleName("a-remov-elem-list-element-selected");
+			else
+				elemLine.removeStyleName("a-remov-elem-list-element-selected");
+		}
 	}
 
 	public void setSelectionListener(Consumer<String> listener) {
@@ -49,7 +56,7 @@ public class RemovableElementList extends CssLayout {
 	}
 
 	public void removeAllElements() {
-		elements.removeAllComponents();
+		removeAllComponents();
 	}
 
 	private Label newElementLabel(String caption, Consumer<String> listener) {
@@ -59,4 +66,8 @@ public class RemovableElementList extends CssLayout {
 		return label;
 	}
 
+	private String getElementStringForElementLine(ComponentContainer elemLine) {
+		Component comp = elemLine.getComponentIterator().next();  // get the first component, which is the caption label
+		return comp.toString();
+	}
 }

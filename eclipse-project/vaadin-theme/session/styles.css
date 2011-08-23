@@ -250,7 +250,7 @@ button.a-invite-invited:hover {
 
 .a-contacts-groups-caption, .a-contacts-members-caption {
 	color: #505050;
-	font-size: 24px;
+	font-size: 25px;
 	text-shadow: 1px 1px 1px white;
 	margin-bottom: 14px;
 }
@@ -276,7 +276,7 @@ button.a-invite-invited:hover {
 
 .a-contacts-groups-new {
 	width: 200px;
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 }
 
 .a-contacts-members {
@@ -294,5 +294,49 @@ button.a-invite-invited:hover {
 }
 .a-contacts-members-new .v-filterselect-input {
 	width: 250px;
+}
+
+.a-contacts-groups-list .a-remov-elem-list-element-caption {
+	color: #454545;
+	font-size: 17px;
+	margin: 5px 0 5px 8px;
+}
+
+.a-contacts-groups-list .a-remov-elem-list-element:hover {
+	background: #F3F3F3;
+}
+
+.a-contacts-groups-list .a-remov-elem-list-element-remove-button {
+	visibility: hidden; 
+	float: right;
+	background: url('../agitter/TrashButtonNew16.png') no-repeat center center;
+	width: 16px;
+	height: 16px;
+	vertical-align: top;
+	border-style: none;
+	margin: 6px 10px;
+}
+
+.a-contacts-groups-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button {
+	visibility: visible; 
+}
+
+.a-contacts-groups-list .a-remov-elem-list-element-selected, .a-contacts-groups-list .a-remov-elem-list-element-selected:hover  {
+	font-weight: bold; 
+	background: lightgray;
+}
+	
+.a-contacts-members-list .a-remov-elem-list-element-remove-button {
+	visibility: hidden; 
+	background: url('../agitter/XButton9.png') no-repeat center center;
+	width: 16px;
+	height: 16px;
+	vertical-align: top;
+	border-style: none;
+	margin: 1px 0 0 5px;
+}
+
+.a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button {
+	visibility: visible; 
 }
 
