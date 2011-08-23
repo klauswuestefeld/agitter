@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class SimployTestsRunner {
+public class SimployTestsRunner {
 
 
-	static void runAllTestsIn(String testsPath) throws Exception {
+	public static void runAllTestsIn(String testsPath) throws Exception {
 		URLClassLoader loader = separateClassLoader(findJars(testsPath));
 		Class<?> runClass = loader.loadClass(SimployTestsRun.class.getName());
 		instantiate(runClass, testsPath);

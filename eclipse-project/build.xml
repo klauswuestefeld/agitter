@@ -7,10 +7,13 @@
 		<fileset dir="../bubble"/>
 	</path>
 
+	<!--
 	<tstamp>
 		<format property="build"
 		pattern="'../build'yyyy-MM-dd_HH-mm-ss" />
 	</tstamp>
+	-->
+	<property name="build" value="../build"/>
 	
 	<property name="code" value="${build}/src"/>
 	
@@ -53,7 +56,6 @@
 	<target name="run" depends="build, deploy"/>
 
 
-	<!--
 	<target name="simploy" depends="run">
 		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
 			<classpath location="${code}"/>
@@ -61,6 +63,5 @@
 			<arg value="SimploySecret"/>
 		</java>
 	</target>
-	-->
 	
 </project>
