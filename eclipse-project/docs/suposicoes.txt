@@ -1,4 +1,6 @@
-﻿	Sign-up e Login
+﻿	Schema Evolution + Continuous Deploy
+	
+	Sign-up e Login
 		Validação de username (mesmas regras do twitter).
 			Usar mesma regra para nomes de Grupos. (futuramente os grupos serão públicos)
 		Email de confirmacao de cadastro.
