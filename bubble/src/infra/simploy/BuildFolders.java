@@ -21,6 +21,16 @@ public class BuildFolders {
 	}
 
 	
+	public File lastSuccessfulBuildFolder() {
+		File[] builds = buildsRootFolder.listFiles();
+		Arrays.sort(builds);
+		for (int i = builds.length - 1; i >= 0; i--)
+			if (new File(builds[i], "build-ok-flag").exists())
+				return builds[i];
+		return null;
+	}
+	
+	
 	public File createNewBuildFolder() throws IOException {
 		File result = new File(buildsRootFolder, "build-" + timestamp());
 		if (!result.mkdirs()) throw new IOException("Unable to create folder: " + result);
@@ -31,16 +41,6 @@ public class BuildFolders {
 	public void markAsSuccessful(File build) throws IOException {
 		if (!build.getParentFile().equals(buildsRootFolder)) throw new IllegalArgumentException("Folder " + build + " must be inside builds root folder(" + buildsRootFolder + ")");
 		new File(build, "build-ok-flag").createNewFile();
-	}
-	
-	
-	public File lastSuccessfulBuildFolder() {
-		File[] builds = buildsRootFolder.listFiles();
-		Arrays.sort(builds);
-		for (int i = builds.length - 1; i >= 0; i--)
-			if (new File(builds[i], "build-ok-flag").exists())
-				return builds[i];
-		return null;
 	}
 	
 	
