@@ -1,4 +1,4 @@
-package infra.simploy;
+package infra.simploy.old;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,7 +54,7 @@ class SimployHttpServer {
 			socket.close();
 		}
 		new Thread() { @Override public void run() {
-			SimployCore.build();
+			SimployCore.deploy();
 		}}.start();
 	}
 

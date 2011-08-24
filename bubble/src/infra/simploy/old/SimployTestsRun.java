@@ -1,4 +1,4 @@
-package infra.simploy;
+package infra.simploy.old;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 
-class SimployTestsRun {
+public class SimployTestsRun {
 
 	private static final int DOT_CLASS = ".class".length();
 
@@ -33,6 +33,7 @@ class SimployTestsRun {
 	
 	private RunListener failureListener() {
 		return new RunListener() {
+			
 			@Override
 			public void testStarted(Description description) throws Exception {
 				System.out.println(description);

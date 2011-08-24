@@ -1,4 +1,4 @@
-package infra.simploy;
+package infra.simploy.old;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -7,7 +7,7 @@ import java.util.Date;
 
 class SimployCore {
 
-	static String _testsFolder;
+	static String deployCommand;
 
 	static final PrintStream SYSOUT = System.out;
 	private static StringBuffer _outputsBeingCaptured;
@@ -21,20 +21,19 @@ class SimployCore {
 	
 	
 	synchronized
-	static	void build() {
+	static	void deploy() {
 		startCapturingOutputs();
 		try {
-			tryToBuild();
+			tryToDeploy();
 		} finally {
 			stopCapturingOutputs();
 		}
 	}
 
 
-	private static void tryToBuild() {
-		int uncomment;
-//		if (!pullNewVersion())
-//			return;
+	private static void tryToDeploy() {
+		if (!pullNewVersion())
+			return;
 		
 		_lastBuildDate = new Date();
 		_lastBuildStatus = "IN PROGRESS...";
@@ -66,8 +65,8 @@ class SimployCore {
 
 	private static void compileTestDeploy() throws Exception {
 		exec("ant build");
-		SimployTestsRunner.runAllTestsIn(_testsFolder);
-		exec("ant deploy");
+//		SimployTestsRunner.runAllTestsIn(_testsFolder);
+//		exec("ant deploy");
 	}
 	
 	
