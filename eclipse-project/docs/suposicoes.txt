@@ -1,5 +1,22 @@
 ﻿	Schema Evolution + Continuous Deploy
-	
+		
+		Find last good build
+			"ant run" in build folder
+				
+		Loop every 5 mins and wait for Hook URL
+			if pull has no changes, continue;
+			generate new build folder
+			"ant build" passing folder
+			"ant prepare-to-run" inside folder
+				run tests and if they pass
+				migrate snapshot
+				println "build ready to run" for success or use exit(-1) for error
+			if "build ready to run" captured or exitCode == 0
+				mark build as good
+				"ant run" in build folder
+		
+		Note: capture out and err of everything for report.
+			
 	Sign-up e Login
 		Validação de username (mesmas regras do twitter).
 			Usar mesma regra para nomes de Grupos. (futuramente os grupos serão públicos)

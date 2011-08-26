@@ -2,15 +2,21 @@ package agitter.domain.users.tests;
 
 import static agitter.domain.emails.EmailAddress.mail;
 
-import agitter.domain.Agitter;
-import agitter.domain.AgitterImpl;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
+import agitter.domain.Agitter;
+import agitter.domain.AgitterImpl;
 import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 
 public abstract class UsersTestBase extends CleanTestBase {
 
+	{
+		Logger.getLogger("").setLevel(Level.OFF);
+	}
 	public final Agitter agitter = new AgitterImpl();
 
 	protected User user(String email) throws Refusal {
