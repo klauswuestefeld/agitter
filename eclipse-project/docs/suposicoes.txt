@@ -25,7 +25,7 @@
 	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
 	Grupos de Contatos
-		Arrumar UI design
+		Arrumar UI design - Verificar IE
 
 	Importação de Emails de meus Contatos através do SocialAuth
 		Hotmail

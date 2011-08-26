@@ -91,6 +91,7 @@ public class Presenter {
 		}};
 	}
 
+	
 	private Functor<EmailAddress, User> userSearch() {
 		return new Functor<EmailAddress, User>() {  @Override public User evaluate(EmailAddress email) {
 			return UserUtils.produce(agitter.users(), email);

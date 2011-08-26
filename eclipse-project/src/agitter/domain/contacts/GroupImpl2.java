@@ -46,6 +46,7 @@ public class GroupImpl2 implements Group {
 	
 	
 	void addMember(User member) {
+		if (members.contains(member)) return;
 		members.add(member);
 		sortIgnoreCase(members);
 	}
@@ -64,6 +65,8 @@ public class GroupImpl2 implements Group {
 	
 	@Override
 	public void addSubgroup(Group subgroup) {
+		if (subgroup == this) return;
+		if (subgroups.contains(subgroup)) return;
 		subgroups.add(subgroup);
 		sortIgnoreCase(subgroups);
 	}

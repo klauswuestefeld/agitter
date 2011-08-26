@@ -3,8 +3,8 @@ package agitter.ui.presenter;
 import java.util.Arrays;
 import java.util.List;
 
-import agitter.ui.view.session.contacts.ContactsView;
 import sneer.foundation.lang.Consumer;
+import agitter.ui.view.session.contacts.ContactsView;
 
 public class ContactsDemoPresenter {
 
@@ -24,8 +24,8 @@ public class ContactsDemoPresenter {
 		}});
 
 		contactsView.setMembersToChoose(memberNames);
-		for(String g : groupNames) contactsView.addGroup(g);
-		for(String m : memberNames) contactsView.addMember(m);
+		contactsView.setGroups(groupNames);
+		contactsView.setMembers(memberNames);
 		
 		contactsView.setGroupSelected("Todos");
 

@@ -17,7 +17,7 @@ public class SessionPresenter {
 		this.view = view;
 
 		new EventsPresenter(user, contacts, events, userSearch, view.eventsView(), warningDisplayer);
-		new ContactsPresenter(contacts, view.contactsView(), warningDisplayer);
+		new ContactsPresenter(contacts, view.contactsView(), userSearch, warningDisplayer);
 
 		view.onLogout(onLogout);
 		view.onContactsMenu(onContactsMenu());

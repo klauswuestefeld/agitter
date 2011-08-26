@@ -327,7 +327,7 @@ button.a-invite-invited:hover {
 }
 	
 .a-contacts-members-list .a-remov-elem-list-element-remove-button {
-	visibility: hidden; 
+	visibility: hidden;
 	background: url('../agitter/XButton9.png') no-repeat center center;
 	width: 16px;
 	height: 16px;
@@ -336,7 +336,7 @@ button.a-invite-invited:hover {
 	margin: 1px 0 0 5px;
 }
 
-.a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button {
-	visibility: visible; 
+.a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
+	visibility: visible;
 }
 

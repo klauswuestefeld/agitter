@@ -10,8 +10,13 @@ public class AddressValidator {
 
 	
 	public static void validateEmail(String candidate) throws Refusal {
-		if (!candidate.matches(EMAIL_VALIDATION_REGEX))
+		if (!isValidEmail(candidate))
 			throw new Refusal("Email inválido: " + candidate);
+	}
+
+
+	public static boolean isValidEmail(String candidate) {
+		return candidate.matches(EMAIL_VALIDATION_REGEX);
 	}
 	
 }
