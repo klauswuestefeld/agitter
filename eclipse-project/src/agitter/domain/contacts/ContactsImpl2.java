@@ -1,5 +1,7 @@
 package agitter.domain.contacts;
 
+import java.util.List;
+
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Producer;
 import agitter.domain.emails.EmailAddress;
@@ -19,7 +21,12 @@ public class ContactsImpl2 implements Contacts {
 		for (User user : old.contactsByUser.keySet()) {
 			ContactsOfAUserImpl oldContactsOfAUser = (ContactsOfAUserImpl) old.contactsByUser.get(user);
 			ContactsOfAUser newContactsOfAUser = contactsOf(user);
-			for (EmailAddress oldContact : oldContactsOfAUser.all)
+			final List<EmailAddress> allContacts = oldContactsOfAUser.all;
+			if (allContacts == null) {
+				System.out.println("User without contacts.");
+				continue;
+			}
+			for (EmailAddress oldContact : allContacts)
 				newContactsOfAUser.addContact(user(oldContact, users));
 		}
 	}
