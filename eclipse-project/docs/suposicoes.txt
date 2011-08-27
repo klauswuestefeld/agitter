@@ -17,15 +17,13 @@
 		
 		Note: capture out and err of everything for report.
 			
+	Grupos de Contatos
+		Arrumar UI design - Verificar IE
+
 	Sign-up e Login
 		Validação de username (mesmas regras do twitter).
 			Usar mesma regra para nomes de Grupos. (futuramente os grupos serão públicos)
 		Email de confirmacao de cadastro.
-
-	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
-
-	Grupos de Contatos
-		Arrumar UI design - Verificar IE
 
 	Importação de Emails de meus Contatos através do SocialAuth
 		Hotmail
@@ -38,6 +36,8 @@
 		Edição de agito
 		Visualização do Agito
 		Recentes - Mostrar os agitos duas horas atras pra cá.
+
+	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
