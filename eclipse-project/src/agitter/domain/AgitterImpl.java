@@ -43,6 +43,8 @@ public class AgitterImpl implements Agitter {
 	@Override
 	public void migrateSchemaIfNecessary() {
 		if (contacts2 != null) return;
+		
+		((UsersImpl)users).migrate();
 		contacts2 = new ContactsImpl2((agitter.domain.contacts.ContactsImpl)contacts, users);
 		events2 = new EventsImpl2();
 	}

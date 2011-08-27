@@ -24,15 +24,15 @@ public class UsersImpl implements Users {
 		checkParameters(username, email, password);
 		checkDuplication(username, email);
 
-		UserImpl2 result = createUser(username, email, password);
+		UserImpl result = createUser(username, email, password);
 
 		getLogger(this).info("Signup: "+username+" - email: "+email);
 		return result;
 	}
 
 	
-	private UserImpl2 createUser(String username, EmailAddress email, String password) {
-		UserImpl2 result = new UserImpl2(username, email, password);
+	private UserImpl createUser(String username, EmailAddress email, String password) {
+		UserImpl result = new UserImpl(username, email, password);
 		users.add(result);
 		return result;
 	}
@@ -146,8 +146,14 @@ public class UsersImpl implements Users {
 	}
 
 	
-	private UserImpl2 createInvitedUser(EmailAddress email) {
+	private UserImpl createInvitedUser(EmailAddress email) {
 		return createUser(null, email, null);
+	}
+
+
+	public void migrate() {
+		for (User user : users)
+			((UserImpl)user).migrate();
 	}
 
 }
