@@ -14,7 +14,7 @@ public class EventImpl implements Event {
 	final private long _datetime;
 	final private User _owner;
 	
-	private Set<Group> groupInvitees = new HashSet<Group>();
+	private Set<Group> groupInvitations = new HashSet<Group>();
 	private Set<User> invitees = new HashSet<User>();
 	
 	final private Set<User> notInterested = new HashSet<User>();
@@ -122,8 +122,8 @@ public class EventImpl implements Event {
 	
 	synchronized
 	private Set<Group> groupInvitees() {
-		if (groupInvitees==null) groupInvitees = new HashSet<Group>();
-		return groupInvitees;
+		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
+		return groupInvitations;
 	}
 	
 }
