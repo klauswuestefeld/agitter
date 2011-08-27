@@ -71,7 +71,9 @@ public class UserImpl implements User {
 
 	@Override
 	public int hashCode() {
-		return email.hashCode();
+		return email == null
+			? _email.hashCode()
+			: email.hashCode();
 	}
 
 
