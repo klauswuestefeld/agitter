@@ -19,7 +19,7 @@ public class ContactsImpl2 implements Contacts {
 		for (User user : old.contactsByUser.keySet()) {
 			ContactsOfAUserImpl oldContactsOfAUser = (ContactsOfAUserImpl) old.contactsByUser.get(user);
 			ContactsOfAUser newContactsOfAUser = contactsOf(user);
-			if (newContactsOfAUser == null) {
+			if (newContactsOfAUser == null || oldContactsOfAUser.all == null) {
 				System.out.println("User without contacts.");
 				continue;
 			}
