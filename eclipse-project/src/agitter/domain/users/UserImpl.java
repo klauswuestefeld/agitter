@@ -91,7 +91,12 @@ public class UserImpl implements User {
 		try {
 			email = EmailAddress.mail(_email);
 		} catch (Refusal e) {
-			throw new IllegalStateException(e);
+			try {
+				System.out.println("Usuario: " + _username + " com email bichado: " + _email);
+				email = EmailAddress.mail("foo" + System.nanoTime() + "@mail.com");
+			} catch (Refusal e1) {
+				throw new IllegalStateException(e1);
+			}
 		}
 		password = _password;
 		username = _username;
