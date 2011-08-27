@@ -10,6 +10,9 @@ import sneer.foundation.lang.Clock;
 
 public class BuildFolders {
 
+	private static final String OK_FLAG = "build-ok-flag";
+
+
 	private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
 	
@@ -25,7 +28,7 @@ public class BuildFolders {
 		File[] builds = buildsRootFolder.listFiles();
 		Arrays.sort(builds);
 		for (int i = builds.length - 1; i >= 0; i--)
-			if (new File(builds[i], "build-ok-flag").exists())
+			if (new File(builds[i], OK_FLAG).exists())
 				return builds[i];
 		return null;
 	}
@@ -40,7 +43,7 @@ public class BuildFolders {
 	
 	public void markAsSuccessful(File build) throws IOException {
 		if (!build.getParentFile().equals(buildsRootFolder)) throw new IllegalArgumentException("Folder " + build + " must be inside builds root folder(" + buildsRootFolder + ")");
-		new File(build, "build-ok-flag").createNewFile();
+		new File(build, OK_FLAG).createNewFile();
 	}
 	
 	

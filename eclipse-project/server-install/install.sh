@@ -44,8 +44,8 @@ echo ----------------------
 install_dir=$PWD
 mkdir /agitter/git_repositories
 cd    /agitter/git_repositories
-git clone git@github.com:teamware/agitos.git
-git clone git@github.com:bihaiko/sneer.git
+git clone git@github.com:klauswuestefeld/agitter.git
+git clone git@github.com:klauswuestefeld/sneer.git
 cd $install_dir
 
 echo ----------------------
