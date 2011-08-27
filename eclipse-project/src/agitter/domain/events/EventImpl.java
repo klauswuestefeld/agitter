@@ -1,5 +1,6 @@
 package agitter.domain.events;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import agitter.domain.contacts.Group;
@@ -7,15 +8,16 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 @Deprecated
+@SuppressWarnings("unused")
 public class EventImpl implements Event {
 	String _description;
 	long _datetime;
 	User _owner;
 	
-	Set<Group> groupInvitations;
-	Set<EmailAddress> emailInvitations;
+	private Set<Group> groupInvitations = new HashSet<Group>();
+	private Set<EmailAddress> emailInvitations = new HashSet<EmailAddress>();
 	
-	Set<User> notInterested;
+	final private Set<User> notInterested = new HashSet<User>();
 
 	
 	@Override
