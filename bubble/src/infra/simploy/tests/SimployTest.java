@@ -1,11 +1,15 @@
 package infra.simploy.tests;
 
 import org.junit.Ignore;
+import org.junit.Test;
 
 import sneer.foundation.testsupport.TestWithMocks;
 
 @Ignore
 public class SimployTest extends TestWithMocks {
+	
+	@Test public void placeHolder() {}
+	
 //
 //	private static final File ROOT = new File("builds");
 //
