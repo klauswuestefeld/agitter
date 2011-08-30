@@ -40,9 +40,9 @@ public class BuildDeployerImpl implements BuildDeployer {
 
 	private void tryToDeployNewBuild() throws Exception {
 		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder);
-		CommandRunner.exec("ant build -Dbuild-dir=" + newBuild);
+		CommandRunner.exec("ant build -Dbuild=" + newBuild);
 		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
-		CommandRunner.execIn("ant run -Dbuild-dir=" + newBuild + ";last-good-build=" + lastGoodBuild(), newBuild);
+		CommandRunner.execIn("ant run -Dbuild=" + newBuild + ";last-good-build=" + lastGoodBuild(), newBuild);
 	}
 
 }
