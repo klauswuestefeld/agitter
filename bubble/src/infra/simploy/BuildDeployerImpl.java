@@ -1,7 +1,6 @@
 package infra.simploy;
 
 import infra.simploy.SimployMainLoop.BuildDeployer;
-import infra.simploy.old.SimployTestsRunner;
 
 import java.io.File;
 
