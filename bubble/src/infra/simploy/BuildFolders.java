@@ -16,7 +16,7 @@ public class BuildFolders {
 	private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
 	
-	public static File lastSuccessfulBuildFolder(File buildsRootFolder) {
+	public static File findLastSuccessfulBuildFolderIn(File buildsRootFolder) {
 		File[] builds = buildsRootFolder.listFiles();
 		Arrays.sort(builds);
 		for (int i = builds.length - 1; i >= 0; i--)
@@ -26,7 +26,7 @@ public class BuildFolders {
 	}
 	
 	
-	public static File createNewBuildFolder(File buildsRootFolder) throws IOException {
+	public static File createNewBuildFolderIn(File buildsRootFolder) throws IOException {
 		File result = new File(buildsRootFolder, "build-" + timestamp());
 		if (!result.mkdirs()) throw new IOException("Unable to create folder: " + result);
 		return result;

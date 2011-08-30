@@ -8,7 +8,6 @@
 	</path>
 
 	
-	<property name="build" value="../build"/>
 	<property name="code" value="${build}/src"/>
 	
 	
@@ -39,7 +38,8 @@
 	</target>
 	
 
-	<target name="deploy">
+	
+	<target name="run">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
 			<sysproperty key="last-good-build" value="${last-good-build}" /> <!-- Must be passed in to ant as a -D system arg. Passed along so Agitter can access data from the previous build. -->
@@ -47,8 +47,6 @@
 		</java>
 	</target>
 
-
-	<target name="run" depends="build, deploy"/>
 
 <!--
 	<target name="simploy" depends="run">

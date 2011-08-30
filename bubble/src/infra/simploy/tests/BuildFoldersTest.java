@@ -17,13 +17,13 @@ public class BuildFoldersTest extends CleanTestBase {
 
 	@Test
 	public void noBuildFolders() {
-		assertNull(BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
+		assertNull(BuildFolders.findLastSuccessfulBuildFolderIn(tmpFolder()));
 	}
 	
 	
 	@Test
 	public void buildFolderCreation() throws Exception {
-		File build = BuildFolders.createNewBuildFolder(tmpFolder());
+		File build = BuildFolders.createNewBuildFolderIn(tmpFolder());
 		assertEquals(tmpFolder(), build.getParentFile());
 		assertTrue(build.isDirectory());
 	}
@@ -32,7 +32,7 @@ public class BuildFoldersTest extends CleanTestBase {
 	@Test
 	public void buildFolderName() throws Exception {
 		setClock("2011-12-31_23-59-59");
-		File build = BuildFolders.createNewBuildFolder(tmpFolder());
+		File build = BuildFolders.createNewBuildFolderIn(tmpFolder());
 		assertEquals("build-2011-12-31_23-59-59", build.getName());
 	}
 
@@ -43,19 +43,19 @@ public class BuildFoldersTest extends CleanTestBase {
 		File build1 = createBuild(10000);
 		createBuild(20000);
 		
-		assertNull(BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
+		assertNull(BuildFolders.findLastSuccessfulBuildFolderIn(tmpFolder()));
 		
 		BuildFolders.markAsSuccessful(build1);
-		assertEquals(build1, BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
+		assertEquals(build1, BuildFolders.findLastSuccessfulBuildFolderIn(tmpFolder()));
 		
 		BuildFolders.markAsSuccessful(build3);
-		assertEquals(build3, BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
+		assertEquals(build3, BuildFolders.findLastSuccessfulBuildFolderIn(tmpFolder()));
 	}
 
 
 	private File createBuild(int stamp) throws IOException {
 		Clock.setForCurrentThread(stamp);
-		return BuildFolders.createNewBuildFolder(tmpFolder());
+		return BuildFolders.createNewBuildFolderIn(tmpFolder());
 	}
 	
 	
