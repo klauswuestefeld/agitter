@@ -1,21 +1,23 @@
 ﻿	Schema Evolution + Continuous Deploy
-		
+
 		Find last good build
 			if found: "ant run" in build folder
 			if not found: generate build (see below)
-				
+
 		Loop every 5 mins and wait for Hook URL
 			if pull has no changes, continue;
 			generate new build folder
-			"ant build" passing folder
+			"ant build" passing build folder as arg to ant
 			run tests and if they pass
-			(fork) "ant run" inside folder passing lastGoodBuild folder
+			"ant run" inside folder passing lastGoodBuild folder
+				(forked VM)
 				Coordinate via process replacer
 					migrate snapshot from lastGoodBuild - check snapshot is new
 				Generate build_ok_flag of build_failed_flag containing log.
 					If fail, exit.
-			wait for build ok or failed flag 
-			
+			wait for build ok or failed flag
+				block forever until flag is created
+
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE
 

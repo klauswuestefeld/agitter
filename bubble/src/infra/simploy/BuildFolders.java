@@ -16,15 +16,7 @@ public class BuildFolders {
 	private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
 	
-	private final File buildsRootFolder;
-
-	
-	public BuildFolders(File buildsRootFolder) {
-		this.buildsRootFolder = buildsRootFolder;
-	}
-
-	
-	public File lastSuccessfulBuildFolder() {
+	public static File lastSuccessfulBuildFolder(File buildsRootFolder) {
 		File[] builds = buildsRootFolder.listFiles();
 		Arrays.sort(builds);
 		for (int i = builds.length - 1; i >= 0; i--)
@@ -34,22 +26,20 @@ public class BuildFolders {
 	}
 	
 	
-	public File createNewBuildFolder() throws IOException {
+	public static File createNewBuildFolder(File buildsRootFolder) throws IOException {
 		File result = new File(buildsRootFolder, "build-" + timestamp());
 		if (!result.mkdirs()) throw new IOException("Unable to create folder: " + result);
 		return result;
 	}
 
 	
-	public void markAsSuccessful(File build) throws IOException {
-		if (!build.getParentFile().equals(buildsRootFolder)) throw new IllegalArgumentException("Folder " + build + " must be inside builds root folder(" + buildsRootFolder + ")");
+	public static void markAsSuccessful(File build) throws IOException {
 		new File(build, OK_FLAG).createNewFile();
 	}
 	
 	
-	private String timestamp() {
-		String timestamp = FORMAT.format(new Date(Clock.currentTimeMillis()));
-		return timestamp;
+	private static String timestamp() {
+		return FORMAT.format(new Date(Clock.currentTimeMillis()));
 	}
 
 }

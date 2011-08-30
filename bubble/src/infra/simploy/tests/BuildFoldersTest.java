@@ -15,18 +15,15 @@ import sneer.foundation.testsupport.CleanTestBase;
 
 public class BuildFoldersTest extends CleanTestBase {
 
-	private final BuildFolders subject = new BuildFolders(tmpFolder());
-
-	
 	@Test
 	public void noBuildFolders() {
-		assertNull(subject.lastSuccessfulBuildFolder());
+		assertNull(BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
 	}
 	
 	
 	@Test
 	public void buildFolderCreation() throws Exception {
-		File build = subject.createNewBuildFolder();
+		File build = BuildFolders.createNewBuildFolder(tmpFolder());
 		assertEquals(tmpFolder(), build.getParentFile());
 		assertTrue(build.isDirectory());
 	}
@@ -35,7 +32,7 @@ public class BuildFoldersTest extends CleanTestBase {
 	@Test
 	public void buildFolderName() throws Exception {
 		setClock("2011-12-31_23-59-59");
-		File build = subject.createNewBuildFolder();
+		File build = BuildFolders.createNewBuildFolder(tmpFolder());
 		assertEquals("build-2011-12-31_23-59-59", build.getName());
 	}
 
@@ -46,19 +43,19 @@ public class BuildFoldersTest extends CleanTestBase {
 		File build1 = createBuild(10000);
 		createBuild(20000);
 		
-		assertNull(subject.lastSuccessfulBuildFolder());
+		assertNull(BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
 		
-		subject.markAsSuccessful(build1);
-		assertEquals(build1, subject.lastSuccessfulBuildFolder());
+		BuildFolders.markAsSuccessful(build1);
+		assertEquals(build1, BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
 		
-		subject.markAsSuccessful(build3);
-		assertEquals(build3, subject.lastSuccessfulBuildFolder());
+		BuildFolders.markAsSuccessful(build3);
+		assertEquals(build3, BuildFolders.lastSuccessfulBuildFolder(tmpFolder()));
 	}
 
 
 	private File createBuild(int stamp) throws IOException {
 		Clock.setForCurrentThread(stamp);
-		return subject.createNewBuildFolder();
+		return BuildFolders.createNewBuildFolder(tmpFolder());
 	}
 	
 	
