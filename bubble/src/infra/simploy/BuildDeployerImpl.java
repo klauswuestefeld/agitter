@@ -38,10 +38,10 @@ public class BuildDeployerImpl implements BuildDeployer {
 
 
 	private void tryToDeployNewBuild() throws Exception {
-		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder);
-		CommandRunner.exec("ant build -Dbuild=" + newBuild);
+		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder).getCanonicalFile();
+		CommandRunner.exec("C:\\apache-ant-1.8.2\\bin\\ant.bat build -Dbuild=" + newBuild);
 		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
-		CommandRunner.execIn("ant run -Dbuild=" + newBuild + ";last-good-build=" + lastGoodBuild(), newBuild);
+		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " -Dlast-good-build=" + lastGoodBuild(), newBuild);
 	}
 
 }

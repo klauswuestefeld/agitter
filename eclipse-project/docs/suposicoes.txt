@@ -13,7 +13,7 @@
 				(forked VM)
 				Coordinate via process replacer
 					migrate snapshot from lastGoodBuild - check snapshot is new
-				Generate build_ok_flag of build_failed_flag containing log.
+				Generate build_ok_flag or build_failed_flag containing log.
 					If fail, exit.
 			wait for build ok or failed flag
 				block forever until flag is created
