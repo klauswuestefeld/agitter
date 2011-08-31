@@ -222,14 +222,19 @@ textarea.a-invite-description {
 	margin: 15px 0 0 8px;
 }
 
+.a-invite-invitations .a-remov-elem-list-element-caption {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
 .a-invite-invitations .a-remov-elem-list-element-remove-button {
 	visibility: hidden;
-	background: url('../agitter/RemoveButton12.png') no-repeat center center;
+	background: url('../agitter/RemoveButton14.png') no-repeat center center;
 	width: 16px;
 	height: 16px;
 	vertical-align: top;
 	border-style: none;
-	margin-left: 5px;
+	margin: 2px 0 0 5px;
 }
 
 .a-invite-invitations .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
@@ -290,8 +295,8 @@ textarea.a-invite-description {
 
 .a-contacts-groups-list .a-remov-elem-list-element-caption {
 	color: #454545;
-	font-size: 17px;
-	margin: 5px 0 5px 8px;
+	font-size: 20px;
+	margin: 6px 0 6px 9px;
 }
 
 .a-contacts-groups-list .a-remov-elem-list-element:hover {
@@ -322,14 +327,19 @@ textarea.a-invite-description {
 	margin-left: 8px;
 }
 
+.a-contacts-members-list .a-remov-elem-list-element-caption {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
 .a-contacts-members-list .a-remov-elem-list-element-remove-button {
 	visibility: hidden;
-	background: url('../agitter/RemoveButton12.png') no-repeat center center;
+	background: url('../agitter/RemoveButton14.png') no-repeat center center;
 	width: 16px;
 	height: 16px;
 	vertical-align: top;
 	border-style: none;
-	margin-left: 5px;
+	margin: 2px 0 0 5px;
 }
 
 .a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
