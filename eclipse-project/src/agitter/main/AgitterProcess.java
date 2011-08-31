@@ -5,9 +5,11 @@ import static agitter.main.JettyRunner.createStaticFileSite;
 import static agitter.main.JettyRunner.runWebApps;
 import infra.logging.LogInfra;
 import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
+import infra.simploy.BuildFolders;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,10 +24,15 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	@Override
 	public void prepareToTakeOver() throws IOException, ClassNotFoundException {
-		PrevaylerBootstrap.open(new File("prevalence"));
+		try {
+			PrevaylerBootstrap.open(new File("prevalence"));
+			BuildFolders.markAsSuccessful(localFolder());
+		} catch (Exception e) {
+			BuildFolders.markAsFailed(localFolder());
+		}
 	}
-	
-	
+
+
 	@Override
 	public void takeOver() {
 		startMailing();
@@ -93,4 +100,14 @@ public class AgitterProcess implements ReplaceableProcess {
 		LogInfra.getLogger(this).log(Level.SEVERE, message, e);
 	}
 
+	
+	private File localFolder() {
+		try {
+			return new File(getClass().getResource(".").toURI());
+		} catch (URISyntaxException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
 }
+

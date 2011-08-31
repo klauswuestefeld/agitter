@@ -3,6 +3,7 @@ package infra.simploy;
 import infra.simploy.SimployMainLoop.BuildDeployer;
 
 import java.io.File;
+import java.io.IOException;
 
 public class BuildDeployerImpl implements BuildDeployer {
 
@@ -16,13 +17,13 @@ public class BuildDeployerImpl implements BuildDeployer {
 	
 	@Override
 	public void deployLastGoodBuild() {
-		File lastGoodBuild = lastGoodBuild();
-		if (lastGoodBuild == null) return;
+//		File lastGoodBuild = lastGoodBuild();
+//		if (lastGoodBuild == null) return;
 		
 	}
 
 
-	private File lastGoodBuild() {
+	private File lastGoodBuild() throws IOException {
 		return BuildFolders.findLastSuccessfulBuildFolderIn(buildsRootFolder);
 	}
 
@@ -38,10 +39,15 @@ public class BuildDeployerImpl implements BuildDeployer {
 
 
 	private void tryToDeployNewBuild() throws Exception {
-		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder).getCanonicalFile();
+		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder);
+		
 		CommandRunner.exec("C:\\apache-ant-1.8.2\\bin\\ant.bat build -Dbuild=" + newBuild);
+		
 		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
+		
 		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " -Dlast-good-build=" + lastGoodBuild(), newBuild);
+		
+		System.out.println("Result: " + BuildFolders.waitForResult(newBuild));
 	}
 
 }

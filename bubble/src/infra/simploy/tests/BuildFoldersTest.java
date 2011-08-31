@@ -16,7 +16,7 @@ import sneer.foundation.testsupport.CleanTestBase;
 public class BuildFoldersTest extends CleanTestBase {
 
 	@Test
-	public void noBuildFolders() {
+	public void noBuildFolders() throws IOException {
 		assertNull(BuildFolders.findLastSuccessfulBuildFolderIn(tmpFolder()));
 	}
 	
@@ -34,6 +34,28 @@ public class BuildFoldersTest extends CleanTestBase {
 		setClock("2011-12-31_23-59-59");
 		File build = BuildFolders.createNewBuildFolderIn(tmpFolder());
 		assertEquals("build-2011-12-31_23-59-59", build.getName());
+	}
+
+	
+	@Test (timeout = 2000)
+	public void waitForBuildResult() throws Exception {
+		File build = BuildFolders.createNewBuildFolderIn(new File(tmpFolder(), "1"));
+		BuildFolders.markAsSuccessful(build);
+		assertTrue(BuildFolders.waitForResult(build));
+
+		File build2 = BuildFolders.createNewBuildFolderIn(new File(tmpFolder(), "2"));
+		BuildFolders.markAsFailed(build2);
+		assertFalse(BuildFolders.waitForResult(build2));
+	}
+
+	
+	@Test (timeout = 2000)
+	public void waitForBuildResultWithDeepStructure() throws Exception {
+		File build = BuildFolders.createNewBuildFolderIn(tmpFolder());
+		File deepFolder = new File(build, "deep/project/structure");
+		deepFolder.mkdirs();
+		BuildFolders.markAsSuccessful(deepFolder);
+		assertTrue(BuildFolders.waitForResult(build));
 	}
 
 	
