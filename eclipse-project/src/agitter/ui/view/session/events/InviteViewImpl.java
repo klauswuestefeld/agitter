@@ -1,24 +1,28 @@
 package agitter.ui.view.session.events;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import agitter.ui.view.AgitterVaadinUtils;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.*;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
+import agitter.ui.view.AgitterVaadinUtils;
+import agitter.ui.view.session.contacts.SelectableRemovableElementList;
+
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TextArea;
 
 class InviteViewImpl extends CssLayout implements InviteView {
 
 	private final TextArea description = new TextArea("Qual é o agito?");
 	private final PopupDateField date = new PopupDateField("Quando?");
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser("Quem você quer convidar?");
-	private final CssLayout invitations = new CssLayout();
+	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
 		NativeButton invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
@@ -44,6 +48,9 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
 		addComponent(invite); invite.addStyleName("a-invite-send");
 
+		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
+			onInviteeRemoved(value);
+		}});
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 
 		description.focus();
@@ -51,15 +58,15 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 
 	private void onNextInvitee(String invitee) {
-		NativeButton invitationRemover = new NativeButton(invitee);
-		invitationRemover.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			invitations.removeComponent(event.getButton());
-		}});
-		invitations.addComponent(invitationRemover);
-		invitationRemover.addStyleName("a-invite-invited");
+		invitations.addElement(invitee);
 	}
 
+	
+	private void onInviteeRemoved(String invitee) {
+		invitations.removeEement(invitee);
+	}
 
+	
 	@Override
 	public String eventDescription() {
 		return (String) description.getValue();
@@ -87,15 +94,12 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		date.setValue(null);
 		date.setInputPrompt("Data do agito...");
 		nextInvitee.setInputPrompt("Email...");
-		invitations.removeAllComponents();
+		invitations.removeAllElements();
 	}
 
 	@Override
 	public List<String> invitees() {
-		List<String> result = new ArrayList<String>();
-		Iterator<Component> it = invitations.getComponentIterator();
-		while(it.hasNext()) { result.add(it.next().getCaption()); }
-		return result;
+		return invitations.getElements();
 	}
 
 }

@@ -1,6 +1,8 @@
 package agitter.ui.view.session.contacts;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -13,17 +15,19 @@ public class SelectableRemovableElementList extends CssLayout {
 	private Consumer<String> selectionListener;
 	private Consumer<String> removeListener;
 
+	private static String REMOVE_BUTTON = "REM_BUTTON";
+
 	public SelectableRemovableElementList() {
 		addStyleName("a-remov-elem-list");
 		addListener(new LayoutClickListener() {
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
-				AbstractComponent component = (AbstractComponent) event.getClickedComponent();
-				if (component == null) return;
-				Consumer<String> listener = (Consumer<String>)component.getData();
-				if (listener == null) return;
-				CssLayout elemLine = (CssLayout)event.getChildComponent();
-				listener.consume(getElementStringForElementLine(elemLine));
+				String element = getElementStringForElementLine((CssLayout)event.getChildComponent());
+				if (((AbstractComponent)event.getClickedComponent()).getData() == REMOVE_BUTTON) {
+					if (removeListener != null) removeListener.consume(element);
+				} else {
+					if (selectionListener != null) selectionListener.consume(element);
+				}
 			}
 		});
 	}
@@ -41,21 +45,44 @@ public class SelectableRemovableElementList extends CssLayout {
 	
 	private void addElement(String element, boolean removable) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
-		Label newElemCaption = newElementLabel(element, selectionListener);
+		Label newElemCaption = newElementCaptionLabel(element);
 		elemLine.addComponent(newElemCaption); newElemCaption.addStyleName("a-remov-elem-list-element-caption");
 		if (removable) {
-			Label newElemRemove = newElementLabel(null, removeListener);
+			Label newElemRemove = newElementRemoveLabel();
 			elemLine.addComponent(newElemRemove); newElemRemove.addStyleName("a-remov-elem-list-element-remove-button");
 		}
 		addComponent(elemLine);
 	}
 
 	
+	public void removeEement(String element) {
+		List<Component> linesToRemove = new ArrayList<Component>();
+		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
+			ComponentContainer elemLine = (ComponentContainer) it.next();
+			if (getElementStringForElementLine(elemLine).equals(element))
+					linesToRemove.add(elemLine);
+		}
+		for (Iterator<Component> it = linesToRemove.iterator(); it.hasNext();) {
+			Component line = (Component) it.next();
+			removeComponent(line);
+		}
+	}
+
+
+	public List<String> getElements() {
+		List<String> result = new ArrayList<String>();
+		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
+			ComponentContainer elemLine = (ComponentContainer) it.next();
+			result.add(getElementStringForElementLine(elemLine));
+		}
+		return result;
+	}
+
 	public void selectElement(String element) {
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
 			ComponentContainer elemLine = (ComponentContainer) it.next();
 			String eachElement = getElementStringForElementLine(elemLine);
-			if (eachElement.toString().equals(element))
+			if (eachElement.equals(element))
 				elemLine.addStyleName("a-remov-elem-list-element-selected");
 			else
 				elemLine.removeStyleName("a-remov-elem-list-element-selected");
@@ -80,11 +107,17 @@ public class SelectableRemovableElementList extends CssLayout {
 	}
 
 	
-	private Label newElementLabel(String caption, Consumer<String> listener) {
+	private Label newElementCaptionLabel(String caption) {
 		Label label = new Label(caption);
 		label.setSizeUndefined();
-		label.setData(listener);
 		return label;
+	}
+
+	
+	private Label newElementRemoveLabel() {
+		Label rem = newElementCaptionLabel(null);
+		rem.setData(REMOVE_BUTTON);
+		return rem;
 	}
 
 	
