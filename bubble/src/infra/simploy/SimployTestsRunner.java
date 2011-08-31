@@ -39,6 +39,7 @@ public class SimployTestsRunner {
 	private static URL[] findJars(String classpath) throws Exception {
 		List<String> jarPaths = SimployFileUtils.fileNamesEndingWith(new File(classpath), ".jar");
 		printClasspath(jarPaths);
+		jarPaths.add(classpath);
 		List<URL> result = convertToURLs(jarPaths);
 		result.add(0, myOwnPath());
 		return result.toArray(new URL[result.size()]);
