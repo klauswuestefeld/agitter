@@ -19,8 +19,8 @@ public class ProcessReplacer {
 
 	
 	public interface ReplaceableProcess {
-		void prepareToTakeOver() throws Exception;
-		void takeOver();
+		void prepareToRun() throws Exception;
+		void run();
 		void prepareToRetire() throws Exception;
 		void cancelRetirement();
 		void retire();
@@ -64,10 +64,10 @@ public class ProcessReplacer {
 	
 	private void tryToTakeOver() throws Exception {
 		preparePreviousProcessToRetireIfNecessary();
-		process.prepareToTakeOver();
+		process.prepareToRun();
 		retirePreviousProcessIfNecessary();
 		startAcceptingRetirementRequests();
-		process.takeOver();
+		process.run();
 	}
 
 	

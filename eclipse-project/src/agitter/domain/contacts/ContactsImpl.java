@@ -3,7 +3,7 @@ package agitter.domain.contacts;
 import sneer.foundation.lang.CacheMap;
 import agitter.domain.users.User;
 
-@Deprecated
+@Deprecated //2011-08-30
 public class ContactsImpl implements Contacts {
 	
 	@SuppressWarnings("unused")

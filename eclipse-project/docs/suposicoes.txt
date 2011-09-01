@@ -2,21 +2,13 @@
 
 		Find last good build
 			if found: "ant run" in build folder
-			if not found: generate build (see below)
+			if not found: generate build
 
 		Loop every 5 mins and wait for Hook URL
 			if pull has no changes, continue;
-			generate new build folder
-			"ant build" passing build folder as arg to ant
-			run tests and if they pass
-			"ant run" inside folder passing lastGoodBuild folder
-				(forked VM)
-				Coordinate via process replacer
-					migrate snapshot from lastGoodBuild - check snapshot is new
-				Generate build_ok_flag or build_failed_flag containing log.
-					If fail, exit.
-			wait for build ok or failed flag
-				block forever until flag is created
+				deploy new build (done)
+		
+		HTTP Reports
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE

@@ -17,12 +17,13 @@ public class AgitterImpl implements Agitter {
 	@Deprecated //2011-08-12
 	private final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
 	@SuppressWarnings("unused")
-	@Deprecated //2011-08-27
-	private final transient Events events = new EventsImpl2();
+	@Deprecated //2011-08-27, transient 2011-08-30
+	private final transient Events events = null;
 
 	private final Users users = new UsersImpl();
 	private Contacts contacts2;
-	private Events events2;
+	private Events events2 = new EventsImpl2();
+
 	private final Comments comments = new CommentsImpl();
 	private final Mailing mailing = new MailingImpl();
 	
@@ -46,7 +47,6 @@ public class AgitterImpl implements Agitter {
 		
 		((UsersImpl)users).migrate();
 		contacts2 = new ContactsImpl2((agitter.domain.contacts.ContactsImpl)contacts, users);
-		events2 = new EventsImpl2();
 	}
 	
 }

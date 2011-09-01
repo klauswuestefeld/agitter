@@ -26,7 +26,6 @@ public class PrevaylerBootstrap {
 		
 		_dataFolder = dataFolder;
 		_agitter = PrevalentBubble.wrap(new AgitterImpl(), createPrevaylerFactory(dataFolder));
-		_agitter.migrateSchemaIfNecessary();
 	}
 
 	
@@ -72,7 +71,7 @@ public class PrevaylerBootstrap {
 	}
 	
 	
-	@SuppressWarnings("unused") //Called with reflection in isolated classloader.
+	@SuppressWarnings("unused") //Called with reflection in isolated classloader because bubble is static (idMap) and to avoid concurrency with queries that do lazy eval and change the object graph.
 	private static void doConsolidateSnapshot(final File dataFolder) throws IOException, ClassNotFoundException {
 		open(dataFolder);
 		PrevalentBubble.takeSnapshot();

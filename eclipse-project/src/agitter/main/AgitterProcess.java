@@ -8,8 +8,11 @@ import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 import infra.simploy.BuildFolders;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,24 +20,77 @@ import java.util.logging.Level;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
+import sneer.foundation.lang.Clock;
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
 
 public class AgitterProcess implements ReplaceableProcess {
 
+	private static final String PREVALENCE_DIR = "prevalence";
+
+	private final long startupTime = Clock.currentTimeMillis();
+	
+
 	@Override
-	public void prepareToTakeOver() throws IOException, ClassNotFoundException {
+	public void prepareToRun() throws Exception {
 		try {
-			PrevaylerBootstrap.open(new File("prevalence"));
+			String previousGoodBuild = System.getProperty("previous-good-build");
+			LogInfra.getLogger(this).info("Previous Good Build: " + previousGoodBuild);
+			if (previousGoodBuild != null)
+				bringSnapshotFrom(previousGoodBuild);
+				
+			PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
+			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
+			
 			BuildFolders.markAsSuccessful(localFolder());
+			
 		} catch (Exception e) {
-			BuildFolders.markAsFailed(localFolder());
+			LogInfra.getLogger(this).log(Level.SEVERE, "Preparing to run", e);
+			BuildFolders.markAsFailed(localFolder(), e);
+			throw e;
 		}
 	}
 
 
+	private void bringSnapshotFrom(String previousGoodBuildPath) throws IOException {
+		File from = lastSnapshotFrom(previousGoodBuildPath);
+		File to = new File(PREVALENCE_DIR, from.getName());
+
+		assertSnapshotIsRecent(from);
+		
+		to.getParentFile().mkdirs();
+		if (!from.renameTo(to))
+			throw new IOException("Unable to rename " + from +  " to " + to);
+	}
+
+
+	private void assertSnapshotIsRecent(File snapshot) {
+		long snapshotTime = snapshot.lastModified();
+		if (snapshotTime < startupTime)
+			throw new IllegalStateException("Snapshot time (" + format(snapshotTime) + ") is older than Agitter startup time (" + format(startupTime) + "). Snapshot: " + snapshot);
+	}
+
+
+	private String format(long time) {
+		return new Date(time).toString();
+	}
+
+
+	private File lastSnapshotFrom(String previousGoodBuildPath) {
+		File lastPrevalence = new File(previousGoodBuildPath, PREVALENCE_DIR);
+		File[] files = lastPrevalence.listFiles(new FilenameFilter(){  @Override public boolean accept(File dir, String name) {
+			return name.endsWith("snapshot");
+		}});
+		
+		if (files.length == 0) throw new IllegalStateException("No snapshots found in " + previousGoodBuildPath);
+		
+		Arrays.sort(files);
+		return files[files.length - 1];
+	}
+
+
 	@Override
-	public void takeOver() {
+	public void run() {
 		startMailing();
 		try {
 			runWebApps(vaadinThemes(), vaadin());

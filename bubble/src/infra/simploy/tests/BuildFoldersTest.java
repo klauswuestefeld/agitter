@@ -41,11 +41,11 @@ public class BuildFoldersTest extends CleanTestBase {
 	public void waitForBuildResult() throws Exception {
 		File build = BuildFolders.createNewBuildFolderIn(new File(tmpFolder(), "1"));
 		BuildFolders.markAsSuccessful(build);
-		assertTrue(BuildFolders.waitForResult(build));
+		assertTrue(BuildFolders.waitForResult(build).contains(":)"));
 
 		File build2 = BuildFolders.createNewBuildFolderIn(new File(tmpFolder(), "2"));
-		BuildFolders.markAsFailed(build2);
-		assertFalse(BuildFolders.waitForResult(build2));
+		BuildFolders.markAsFailed(build2, new Exception());
+		assertTrue(BuildFolders.waitForResult(build2).contains("Exception"));
 	}
 
 	
@@ -55,7 +55,7 @@ public class BuildFoldersTest extends CleanTestBase {
 		File deepFolder = new File(build, "deep/project/structure");
 		deepFolder.mkdirs();
 		BuildFolders.markAsSuccessful(deepFolder);
-		assertTrue(BuildFolders.waitForResult(build));
+		assertTrue(BuildFolders.waitForResult(build).contains(":)"));
 	}
 
 	

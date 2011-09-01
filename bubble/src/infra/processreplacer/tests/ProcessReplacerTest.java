@@ -24,9 +24,9 @@ public class ProcessReplacerTest extends TestWithMocks {
 		final Latch latch = new Latch();
 		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToRetire(); inSequence();
-			exactly(1).of(process2).prepareToTakeOver(); inSequence();
+			exactly(1).of(process2).prepareToRun(); inSequence();
 			exactly(1).of(process1).retire(); willOpen(latch);
-			exactly(1).of(process2).takeOver(); inSequence();
+			exactly(1).of(process2).run(); inSequence();
 		}});
 		ProcessReplacer pr = new ProcessReplacer(process2);
 		latch.waitTillOpen();
@@ -41,8 +41,8 @@ public class ProcessReplacerTest extends TestWithMocks {
 		final Latch latch = new Latch();
 		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToRetire(); inSequence();
-			exactly(1).of(process2).prepareToTakeOver(); inSequence();
-				will(throwException(new RuntimeException()));
+			exactly(1).of(process2).prepareToRun(); inSequence();
+				will(throwException(new Exception()));
 			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
 			exactly(1).of(process2).retire();inSequence();
 		}});
@@ -54,8 +54,8 @@ public class ProcessReplacerTest extends TestWithMocks {
 	
 	private ProcessReplacer checkProcess1TakingOver() throws Exception {
 		checking(new Expectations(){{
-			exactly(1).of(process1).prepareToTakeOver();inSequence();
-			exactly(1).of(process1).takeOver();inSequence();
+			exactly(1).of(process1).prepareToRun();inSequence();
+			exactly(1).of(process1).run();inSequence();
 		}});
 		return new ProcessReplacer(process1);
 	}

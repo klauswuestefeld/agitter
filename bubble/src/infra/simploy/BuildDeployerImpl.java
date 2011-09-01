@@ -45,9 +45,17 @@ public class BuildDeployerImpl implements BuildDeployer {
 		
 		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
 		
-		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " -Dlast-good-build=" + lastGoodBuild(), newBuild);
+		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " " + previousGoodBuildArg(), newBuild);
 		
 		System.out.println("Result: " + BuildFolders.waitForResult(newBuild));
+	}
+
+
+	private String previousGoodBuildArg() throws IOException {
+		File result = lastGoodBuild();
+		return result == null
+			? ""
+			: "-Dprevious-good-build=" + result.getAbsolutePath();
 	}
 
 }

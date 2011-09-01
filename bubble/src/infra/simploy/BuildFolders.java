@@ -1,7 +1,11 @@
 package infra.simploy;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,16 +40,25 @@ public class BuildFolders {
 
 	
 	public static void markAsSuccessful(File build) throws IOException {
-		markBuild(build, OK_FLAG);
+		markBuild(build, OK_FLAG, "This build was successful. :)");
 	}
-	public static void markAsFailed(File build) throws IOException {
-		markBuild(build, FAILED_FLAG);
+	public static void markAsFailed(File build, Exception exception) throws IOException {
+		markBuild(build, FAILED_FLAG, stackTrace(exception));
 	}
 
-	private static void markBuild(File folder, String flag) throws IOException {
-		while (!folder.getName().startsWith(BUILD_PREFIX))
-			folder = folder.getParentFile();
-		new File(folder, flag).createNewFile();
+	
+	private static void markBuild(File folder, String flag, String message) throws IOException {
+		File build = navigateToBuildFolder(folder);
+		FileOutputStream out = new FileOutputStream(new File(build, flag));
+		out.write(message.getBytes());
+		out.close();
+	}
+
+
+	private static File navigateToBuildFolder(File folderInBuild) {
+		while (!folderInBuild.getName().startsWith(BUILD_PREFIX))
+			folderInBuild = folderInBuild.getParentFile();
+		return folderInBuild;
 	}
 	
 	
@@ -54,14 +67,32 @@ public class BuildFolders {
 	}
 
 
-	public static boolean waitForResult(File buildFolder) throws Exception {
+	public static String waitForResult(File buildFolder) throws Exception {
 		File ok = new File(buildFolder, OK_FLAG);
 		File failed = new File(buildFolder, FAILED_FLAG);
 		while (true) {
-			if (ok.exists()) return true;
-			if (failed.exists()) return false;
+			if (ok.exists()) return read(ok);
+			if (failed.exists()) return read(failed);
 			Thread.sleep(20);
 		}
+	}
+
+	
+	private static String read(File file) throws IOException {
+		byte[] buffer = new byte[(int)file.length()];
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		raf.readFully(buffer);
+		raf.close();
+		return new String(buffer);
+	}
+
+
+	private static String stackTrace(Exception exception) {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		PrintWriter writer = new PrintWriter(buffer);
+		exception.printStackTrace(writer);
+		writer.flush();
+		return buffer.toString();
 	}
 
 }
