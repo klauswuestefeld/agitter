@@ -17,9 +17,14 @@ public class BuildDeployerImpl implements BuildDeployer {
 	
 	@Override
 	public void deployLastGoodBuild() {
-//		File lastGoodBuild = lastGoodBuild();
-//		if (lastGoodBuild == null) return;
-		
+		try {
+			File lastGoodBuild = lastGoodBuild();
+			if (lastGoodBuild != null)
+				run(lastGoodBuild, "");
+		} catch (Exception e) {
+			int reportThisException;
+			e.printStackTrace();
+		}
 	}
 
 
@@ -33,6 +38,7 @@ public class BuildDeployerImpl implements BuildDeployer {
 		try {
 			tryToDeployNewBuild();
 		} catch (Exception e) {
+			int reportThisException;
 			e.printStackTrace();
 		}
 	}
@@ -45,17 +51,21 @@ public class BuildDeployerImpl implements BuildDeployer {
 		
 		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
 		
-		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " " + previousGoodBuildArg(), newBuild);
+		run(newBuild, previousGoodBuildArg());
 		
 		System.out.println("Result: " + BuildFolders.waitForResult(newBuild));
 	}
 
 
+	private void run(File newBuild, String previousElectedBuildArg) throws Exception {
+		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " " + previousElectedBuildArg, newBuild);
+	}
+
+
 	private String previousGoodBuildArg() throws IOException {
 		File result = lastGoodBuild();
-		return result == null
-			? ""
-			: "-Dprevious-good-build=" + result.getAbsolutePath();
+		if (result == null) throw new IllegalStateException("Previous elected build not found.");
+		return "-Dprevious-elected-build=" + result.getAbsolutePath();
 	}
 
 }

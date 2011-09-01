@@ -29,23 +29,33 @@ public class AgitterProcess implements ReplaceableProcess {
 	private static final String PREVALENCE_DIR = "prevalence";
 
 	private final long startupTime = Clock.currentTimeMillis();
+	private String previousElectedBuild;
 	
 
 	@Override
 	public void prepareToRun() throws Exception {
+		previousElectedBuild = System.getProperty("previous-elected-build");
+		LogInfra.getLogger(this).info("Previous Elected Build: " + previousElectedBuild);
+		
+		if (previousElectedBuild == null)
+			prepareToRunAsElectedBuild();
+		else
+			prepareToRunAsCandidateBuild();
+	}
+
+
+	private void prepareToRunAsElectedBuild() throws IOException, ClassNotFoundException {
+		PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
+	}
+
+
+	private void prepareToRunAsCandidateBuild() throws Exception {
 		try {
-			String previousGoodBuild = System.getProperty("previous-good-build");
-			LogInfra.getLogger(this).info("Previous Good Build: " + previousGoodBuild);
-			if (previousGoodBuild != null)
-				bringSnapshotFrom(previousGoodBuild);
-				
-			PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
+			bringSnapshotFrom(previousElectedBuild);
+			prepareToRunAsElectedBuild();
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
-			
 			BuildFolders.markAsSuccessful(localFolder());
-			
 		} catch (Exception e) {
-			LogInfra.getLogger(this).log(Level.SEVERE, "Preparing to run", e);
 			BuildFolders.markAsFailed(localFolder(), e);
 			throw e;
 		}
