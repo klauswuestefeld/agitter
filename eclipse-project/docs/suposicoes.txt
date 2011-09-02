@@ -1,10 +1,5 @@
 ﻿	Schema Evolution + Continuous Deploy
-
-		DeploymentTrigger.waitFor()
-			5 mins passed or Hook URL called
-				if pull has changes, return.
-		
-		HTTP Reports
+		fix git pull stdOut capture
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE

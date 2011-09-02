@@ -1,27 +1,20 @@
 package infra.simploy;
 
-import infra.simploy.SimployMainLoop.DeploymentTrigger;
-
 import java.io.File;
+import java.io.IOException;
 
 public class Simploy {
 
-	public static void main(String[] args) {
-		new SimployMainLoop(new BuildDeployerImpl(new File("../builds")), new DeploymentTrigger() {
-			
-			private boolean firstTime = true;
+	public static void main(String[] args) throws IOException {
+		TriggerImpl trigger = new TriggerImpl();
+		MonitoredDeployer deployer = new MonitoredDeployer(
+			new BuildDeployerImpl(new File("../builds")));
+		Reporter reporter = new Reporter(trigger, deployer);
 
-			@Override
-			public void waitFor() {
-				if (firstTime) {
-					firstTime = false;
-					System.out.println("TRIGGER DISPARANDO");
-					return;
-				}
-				System.out.println("TRIGGER SAINDO");
-				System.exit(0);
-			}
-		});
+		String password = args[0];
+		new SimployHttpServer(password, trigger, reporter);
+		
+		new SimployMainLoop(deployer, trigger);
 	}
 	
 }

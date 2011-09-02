@@ -24,7 +24,6 @@ public class BuildDeployerImpl implements BuildDeployer {
 			else
 				tryToDeployNewBuild();
 		} catch (Exception e) {
-			int reportThisException;
 			e.printStackTrace();
 		}
 	}
@@ -35,7 +34,6 @@ public class BuildDeployerImpl implements BuildDeployer {
 		try {
 			tryToDeployNewBuild();
 		} catch (Exception e) {
-			int reportThisException;
 			e.printStackTrace();
 		}
 	}
