@@ -15,8 +15,8 @@ import sneer.foundation.lang.Clock;
 public class BuildFolders {
 
 	private static final String BUILD_PREFIX = "build-";
-	private static final String OK_FLAG = "build-ok-flag";
-	private static final String FAILED_FLAG = "build-failed-flag";
+	private static final String OK_FLAG = "BUILD-OK-FLAG";
+	private static final String FAILED_FLAG = "BUILD-FAILED-FLAG";
 
 
 	private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
@@ -47,27 +47,8 @@ public class BuildFolders {
 	}
 
 	
-	private static void markBuild(File folder, String flag, String message) throws IOException {
-		File build = navigateToBuildFolder(folder);
-		FileOutputStream out = new FileOutputStream(new File(build, flag));
-		out.write(message.getBytes());
-		out.close();
-	}
-
-
-	private static File navigateToBuildFolder(File folderInBuild) {
-		while (!folderInBuild.getName().startsWith(BUILD_PREFIX))
-			folderInBuild = folderInBuild.getParentFile();
-		return folderInBuild;
-	}
-	
-	
-	private static String timestamp() {
-		return FORMAT.format(new Date(Clock.currentTimeMillis()));
-	}
-
-
 	public static String waitForResult(File buildFolder) throws Exception {
+		checkValidFolder(buildFolder);
 		File ok = new File(buildFolder, OK_FLAG);
 		File failed = new File(buildFolder, FAILED_FLAG);
 		while (true) {
@@ -78,6 +59,32 @@ public class BuildFolders {
 	}
 
 	
+	private static void markBuild(File build, String flag, String message) throws IOException {
+		checkValidFolder(build);
+		checkUnmarked(build);
+		FileOutputStream out = new FileOutputStream(new File(build, flag));
+		out.write(message.getBytes());
+		out.close();
+	}
+
+
+	private static void checkValidFolder(File build) {
+		if (!build.getName().startsWith(BUILD_PREFIX))
+			throw new IllegalArgumentException();
+	}
+
+
+	private static void checkUnmarked(File build) {
+		if (new File(build, OK_FLAG).exists() || new File(build, FAILED_FLAG).exists())
+			throw new IllegalStateException("Build had already been marked as ok or bad: " + build);
+	}
+
+
+	private static String timestamp() {
+		return FORMAT.format(new Date(Clock.currentTimeMillis()));
+	}
+
+
 	private static String read(File file) throws IOException {
 		byte[] buffer = new byte[(int)file.length()];
 		RandomAccessFile raf = new RandomAccessFile(file, "r");

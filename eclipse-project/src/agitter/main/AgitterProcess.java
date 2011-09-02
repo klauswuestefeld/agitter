@@ -10,7 +10,6 @@ import infra.simploy.BuildFolders;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,45 +28,55 @@ public class AgitterProcess implements ReplaceableProcess {
 	private static final String PREVALENCE_DIR = "prevalence";
 
 	private final long startupTime = Clock.currentTimeMillis();
-	private String previousElectedBuild;
 	
 
 	@Override
 	public void prepareToRun() throws Exception {
-		previousElectedBuild = System.getProperty("previous-elected-build");
-		LogInfra.getLogger(this).info("Previous Elected Build: " + previousElectedBuild);
-		
-		if (previousElectedBuild == null)
-			prepareToRunAsElectedBuild();
+		if (isSuccessfulBuild())
+			prepareToRunAsSuccessfulBuild();
 		else
 			prepareToRunAsCandidateBuild();
 	}
 
 
-	private void prepareToRunAsElectedBuild() throws IOException, ClassNotFoundException {
+	private boolean isSuccessfulBuild() throws IOException {
+		return workingFolder().equals(lastSuccessfulBuild());
+	}
+
+
+	private File lastSuccessfulBuild() throws IOException {
+		return BuildFolders.findLastSuccessfulBuildFolderIn(workingFolder().getParentFile());
+	}
+
+
+	private void prepareToRunAsSuccessfulBuild() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
 	}
 
 
 	private void prepareToRunAsCandidateBuild() throws Exception {
 		try {
-			bringSnapshotFrom(previousElectedBuild);
-			prepareToRunAsElectedBuild();
+			bringSnapshotFromPreviousGoodBuildIfNecessary();
+			prepareToRunAsSuccessfulBuild();
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
-			BuildFolders.markAsSuccessful(localFolder());
+			BuildFolders.markAsSuccessful(workingFolder());
 		} catch (Exception e) {
-			BuildFolders.markAsFailed(localFolder(), e);
+			BuildFolders.markAsFailed(workingFolder(), e);
 			throw e;
 		}
 	}
 
 
-	private void bringSnapshotFrom(String previousGoodBuildPath) throws IOException {
-		File from = lastSnapshotFrom(previousGoodBuildPath);
+	private void bringSnapshotFromPreviousGoodBuildIfNecessary() throws IOException {
+		File previousBuild = lastSuccessfulBuild();
+		if (previousBuild == null) return; //This is the first build.
+		
+		File from = lastSnapshotFrom(previousBuild);
 		File to = new File(PREVALENCE_DIR, from.getName());
 
 		assertSnapshotIsRecent(from);
 		
+		LogInfra.getLogger(this).info("SNAPSHOT - Moving from " + from + " to " + to);
 		to.getParentFile().mkdirs();
 		if (!from.renameTo(to))
 			throw new IOException("Unable to rename " + from +  " to " + to);
@@ -77,7 +86,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	private void assertSnapshotIsRecent(File snapshot) {
 		long snapshotTime = snapshot.lastModified();
 		if (snapshotTime < startupTime)
-			throw new IllegalStateException("Snapshot time (" + format(snapshotTime) + ") is older than Agitter startup time (" + format(startupTime) + "). Snapshot: " + snapshot);
+			throw new IllegalStateException("Previous build did not generate new snapshot (it might not be running). Snapshot time (" + format(snapshotTime) + ") is older than this build startup time (" + format(startupTime) + "). Snapshot: " + snapshot);
 	}
 
 
@@ -86,16 +95,16 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 
-	private File lastSnapshotFrom(String previousGoodBuildPath) {
-		File lastPrevalence = new File(previousGoodBuildPath, PREVALENCE_DIR);
-		File[] files = lastPrevalence.listFiles(new FilenameFilter(){  @Override public boolean accept(File dir, String name) {
+	private File lastSnapshotFrom(File previousBuild) {
+		File previousPrevalence = new File(previousBuild, PREVALENCE_DIR);
+		File[] snaps = previousPrevalence.listFiles(new FilenameFilter(){  @Override public boolean accept(File dir, String name) {
 			return name.endsWith("snapshot");
 		}});
 		
-		if (files.length == 0) throw new IllegalStateException("No snapshots found in " + previousGoodBuildPath);
+		if (snaps.length == 0) throw new IllegalStateException("No snapshots found in " + previousBuild);
 		
-		Arrays.sort(files);
-		return files[files.length - 1];
+		Arrays.sort(snaps);
+		return snaps[snaps.length - 1];
 	}
 
 
@@ -167,12 +176,8 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 	
-	private File localFolder() {
-		try {
-			return new File(getClass().getResource(".").toURI());
-		} catch (URISyntaxException e) {
-			throw new IllegalStateException(e);
-		}
+	private File workingFolder() throws IOException {
+		return new File(".").getCanonicalFile();
 	}
 
 }

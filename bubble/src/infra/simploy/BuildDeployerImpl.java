@@ -16,20 +16,17 @@ public class BuildDeployerImpl implements BuildDeployer {
 	
 	
 	@Override
-	public void deployLastGoodBuild() {
+	public void deployGoodBuild() {
 		try {
-			File lastGoodBuild = lastGoodBuild();
-			if (lastGoodBuild != null)
-				run(lastGoodBuild, "");
+			File goodBuild = lastGoodBuild();
+			if (goodBuild != null)
+				run(goodBuild);
+			else
+				tryToDeployNewBuild();
 		} catch (Exception e) {
 			int reportThisException;
 			e.printStackTrace();
 		}
-	}
-
-
-	private File lastGoodBuild() throws IOException {
-		return BuildFolders.findLastSuccessfulBuildFolderIn(buildsRootFolder);
 	}
 
 	
@@ -47,25 +44,36 @@ public class BuildDeployerImpl implements BuildDeployer {
 	private void tryToDeployNewBuild() throws Exception {
 		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder);
 		
-		CommandRunner.exec("C:\\apache-ant-1.8.2\\bin\\ant.bat build -Dbuild=" + newBuild);
-		
-		SimployTestsRunner.runAllTestsIn(newBuild + "/src");
-		
-		run(newBuild, previousGoodBuildArg());
+		generate(newBuild);
+		runAllTestsIn(newBuild);
+		run(newBuild);
 		
 		System.out.println("Result: " + BuildFolders.waitForResult(newBuild));
 	}
 
 
-	private void run(File newBuild, String previousElectedBuildArg) throws Exception {
-		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild + " " + previousElectedBuildArg, newBuild);
+	private void runAllTestsIn(File newBuild) throws Exception {
+		try {
+			SimployTestsRunner.runAllTestsIn(newBuild + "/src");
+		} catch (Exception e) {
+			BuildFolders.markAsFailed(newBuild, e);
+			throw e;
+		}
 	}
 
 
-	private String previousGoodBuildArg() throws IOException {
-		File result = lastGoodBuild();
-		if (result == null) throw new IllegalStateException("Previous elected build not found.");
-		return "-Dprevious-elected-build=" + result.getAbsolutePath();
+	private void generate(File newBuild) throws Exception {
+		CommandRunner.exec("C:\\apache-ant-1.8.2\\bin\\ant.bat build -Dbuild=" + newBuild);
+	}
+
+
+	private void run(File newBuild) throws Exception {
+		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild, newBuild);
+	}
+
+	
+	private File lastGoodBuild() throws IOException {
+		return BuildFolders.findLastSuccessfulBuildFolderIn(buildsRootFolder);
 	}
 
 }

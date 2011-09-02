@@ -42,7 +42,6 @@
 	<target name="run">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
-			<sysproperty key="previous-elected-build" value="${previous-elected-build}" /> <!-- Must be passed in to ant as a -D system arg. Passed along so Agitter can access data from the previous build. -->
 			<classpath refid="classpath"/>
 		</java>
 	</target>

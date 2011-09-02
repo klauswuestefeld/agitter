@@ -1,12 +1,8 @@
 ﻿	Schema Evolution + Continuous Deploy
 
-		Find last good build
-			if found: "ant run" in build folder
-			if not found: generate build
-
-		Loop every 5 mins and wait for Hook URL
-			if pull has no changes, continue;
-				deploy new build (done)
+		DeploymentTrigger.waitFor()
+			5 mins passed or Hook URL called
+				if pull has changes, return.
 		
 		HTTP Reports
 

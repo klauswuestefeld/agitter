@@ -14,20 +14,20 @@ public class SimployTestsRun {
 
 	private static final int DOT_CLASS = ".class".length();
 
-	private final String _testsFolderPath;
-	private boolean _someTestFailed = false;
+	private final String testsFolderPath;
+	private Throwable firstTestFailure;
 
 	
 	public SimployTestsRun(String testsFolder) {
-		_testsFolderPath = testsFolder;
+		testsFolderPath = testsFolder;
 		
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(failureListener());
 		
 		junit.run(findTestClasses());
 		
-		if (_someTestFailed)
-			throw new RuntimeException("Some test failed.");
+		if (firstTestFailure != null)
+			throw new RuntimeException("Some tests failed. This is the first failure.", firstTestFailure);
 	}
 
 	
@@ -41,7 +41,7 @@ public class SimployTestsRun {
 
 			@Override
 			public void testFailure(Failure failure) {
-				_someTestFailed = true;
+				firstTestFailure = failure.getException();
 				System.out.println("FAILED\n");
 				System.out.println(failure.getTrace());
 			}
@@ -66,7 +66,7 @@ public class SimployTestsRun {
 
 	
 	private File testsFolder() throws Exception {
-		File result = new File(_testsFolderPath);
+		File result = new File(testsFolderPath);
 		if (!result.exists() || !result.isDirectory()) throw new Exception("Tests root folder not found or not a folder: " + result);
 		return result;
 	}

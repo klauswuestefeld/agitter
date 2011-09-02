@@ -4,7 +4,7 @@ package infra.simploy;
 public class SimployMainLoop {
 
 	public interface BuildDeployer {
-		void deployLastGoodBuild();
+		void deployGoodBuild();
 		void deployNewBuild();
 	}
 
@@ -14,7 +14,7 @@ public class SimployMainLoop {
 	
 	
 	public SimployMainLoop(BuildDeployer deployer, DeploymentTrigger trigger) {
-		deployer.deployLastGoodBuild();
+		deployer.deployGoodBuild();
 		while (true) {
 			trigger.waitFor();
 			deployer.deployNewBuild();

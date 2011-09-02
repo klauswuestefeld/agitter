@@ -49,16 +49,6 @@ public class BuildFoldersTest extends CleanTestBase {
 	}
 
 	
-	@Test (timeout = 2000)
-	public void waitForBuildResultWithDeepStructure() throws Exception {
-		File build = BuildFolders.createNewBuildFolderIn(tmpFolder());
-		File deepFolder = new File(build, "deep/project/structure");
-		deepFolder.mkdirs();
-		BuildFolders.markAsSuccessful(deepFolder);
-		assertTrue(BuildFolders.waitForResult(build).contains(":)"));
-	}
-
-	
 	@Test
 	public void lastSuccessfulBuildFolderInAlfabeticalOrder() throws Exception {
 		File build3 = createBuild(30000);
