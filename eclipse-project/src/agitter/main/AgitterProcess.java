@@ -91,7 +91,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 
 	private String format(long time) {
-		return new Date(time).toString();
+		return time + " -> " + new Date(time).toString();
 	}
 
 
