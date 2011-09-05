@@ -53,7 +53,7 @@ public class BuildFolders {
 		File failed = new File(buildFolder, FAILED_FLAG);
 		while (true) {
 			if (ok.exists()) return read(ok);
-			if (failed.exists()) return read(failed);
+			if (failed.exists()) throw new Exception(read(failed));
 			Thread.sleep(20);
 		}
 	}
