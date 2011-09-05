@@ -8,7 +8,7 @@ public class Simploy {
 	public static void main(String[] args) throws IOException {
 		TriggerImpl trigger = new TriggerImpl();
 		MonitoredDeployer deployer = new MonitoredDeployer(
-			new BuildDeployerImpl(new File("../builds")));
+			new BuildDeployerImpl(new File("../producao")));
 		Reporter reporter = new Reporter(trigger, deployer);
 
 		String password = args[0];
