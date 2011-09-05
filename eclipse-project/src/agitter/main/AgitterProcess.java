@@ -27,7 +27,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private static final String PREVALENCE_DIR = "prevalence";
 
-	private final long startupTime = Clock.currentTimeMillis();
+	private final long startupTime = filesystemPrecision(Clock.currentTimeMillis());
 	
 
 	@Override
@@ -178,6 +178,11 @@ public class AgitterProcess implements ReplaceableProcess {
 	
 	private File workingFolder() throws IOException {
 		return new File(".").getCanonicalFile();
+	}
+
+	
+	private static long filesystemPrecision(long millis) {
+		return (millis / 2000) * 2000;
 	}
 
 }
