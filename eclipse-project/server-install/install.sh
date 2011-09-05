@@ -16,7 +16,7 @@ echo ----------------------
 echo Ant...
 echo ----------------------
 # Simply using "apt-get install ant" would bring the openjdk as a dependency so we wget.
-wget http://www.apache.org/dist/ant/ant-current-bin.zip
+wget http://archive.apache.org/dist/ant/ant-current-bin.zip
 mv ant* ant.zip
 unzip ant.zip
 rm ant.zip
@@ -46,6 +46,7 @@ mkdir /agitter/git_repositories
 cd    /agitter/git_repositories
 git clone git@github.com:klauswuestefeld/agitter.git
 git clone git@github.com:klauswuestefeld/sneer.git
+mkdir /producao
 cd $install_dir
 
 echo ----------------------
