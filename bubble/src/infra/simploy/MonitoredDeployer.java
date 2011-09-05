@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 
+import sneer.foundation.lang.ClosureX;
+
 class MonitoredDeployer implements BuildDeployer {
 
 	private static final PrintStream SYSOUT = System.out;
 	
-	private final BuildDeployer delegate;
+	private final BuildDeployerImpl delegate;
 	private StringBuffer outputsBeingCaptured;
 
 	private Date latestBuildDate;
@@ -23,14 +25,14 @@ class MonitoredDeployer implements BuildDeployer {
 	private Date latestSuccessDate;
 
 	
-	MonitoredDeployer(BuildDeployer delegate) {
+	MonitoredDeployer(BuildDeployerImpl delegate) {
 		this.delegate = delegate;
 	}
 	
 	
 	@Override
 	public void deployGoodBuild() {
-		monitor(new Runnable(){  @Override public void run() {
+		monitor(new ClosureX<Exception>() { @Override public void run() throws Exception {
 			delegate.deployGoodBuild();
 		}});
 	}
@@ -38,12 +40,12 @@ class MonitoredDeployer implements BuildDeployer {
 	
 	@Override
 	public void deployNewBuild() {
-		monitor(new Runnable(){  @Override public void run() {
+		monitor(new ClosureX<Exception>() { @Override public void run() throws Exception {
 			delegate.deployNewBuild();
 		}});
 	}
 
-	private void monitor(Runnable deployment) {
+	private void monitor(ClosureX<Exception> deployment) {
 		startCapturingOutputs();
 
 		latestBuildDate = new Date();

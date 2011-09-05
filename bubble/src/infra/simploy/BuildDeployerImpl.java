@@ -1,45 +1,28 @@
 package infra.simploy;
 
-import infra.simploy.SimployMainLoop.BuildDeployer;
-
 import java.io.File;
 import java.io.IOException;
 
-public class BuildDeployerImpl implements BuildDeployer {
+public class BuildDeployerImpl {
 
 	private final File buildsRootFolder;
 
 	
-	public BuildDeployerImpl(File buildsRootFolder) {
+	BuildDeployerImpl(File buildsRootFolder) {
 		this.buildsRootFolder = buildsRootFolder;
 	}
 	
 	
-	@Override
-	public void deployGoodBuild() {
-		try {
-			File goodBuild = lastGoodBuild();
-			if (goodBuild != null)
-				run(goodBuild);
-			else
-				tryToDeployNewBuild();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	void deployGoodBuild() throws Exception {
+		File goodBuild = lastGoodBuild();
+		if (goodBuild != null)
+			run(goodBuild);
+		else
+			deployNewBuild();
 	}
 
 	
-	@Override
-	public void deployNewBuild() {
-		try {
-			tryToDeployNewBuild();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	private void tryToDeployNewBuild() throws Exception {
+	void deployNewBuild() throws Exception {
 		File newBuild = BuildFolders.createNewBuildFolderIn(buildsRootFolder);
 		
 		generate(newBuild);
