@@ -44,8 +44,13 @@ public class BuildFoldersTest extends CleanTestBase {
 		assertTrue(BuildFolders.waitForResult(build).contains(":)"));
 
 		File build2 = BuildFolders.createNewBuildFolderIn(new File(tmpFolder(), "2"));
-		BuildFolders.markAsFailed(build2, new Exception());
-		assertTrue(BuildFolders.waitForResult(build2).contains("Exception"));
+		BuildFolders.markAsFailed(build2, new Exception(":("));
+		try {
+			BuildFolders.waitForResult(build2);
+			fail();
+		} catch (Exception expected) {
+			assertTrue(expected.getMessage().contains(":("));
+		}
 	}
 
 	
