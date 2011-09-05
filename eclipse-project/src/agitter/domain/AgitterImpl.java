@@ -22,7 +22,7 @@ public class AgitterImpl implements Agitter {
 
 	private final Users users = new UsersImpl();
 	private Contacts contacts2;
-	private Events events2 = new EventsImpl2();
+	private Events events2;
 
 	private final Comments comments = new CommentsImpl();
 	private final Mailing mailing = new MailingImpl();
@@ -43,6 +43,9 @@ public class AgitterImpl implements Agitter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void migrateSchemaIfNecessary() {
+		if (events2 == null)
+			events2 = new EventsImpl2();
+		
 		if (contacts2 != null) return;
 		
 		((UsersImpl)users).migrate();
