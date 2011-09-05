@@ -47,14 +47,11 @@
 	</target>
 
 
-<!--
-	<target name="simploy" depends="run">
+	<target name="simploy" depends="build">
 		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
 			<classpath location="${code}"/>
-			<arg value="${code}"/>
 			<arg value="SimploySecret"/>
 		</java>
 	</target>
--->
 	
 </project>

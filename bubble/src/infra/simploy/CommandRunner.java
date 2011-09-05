@@ -18,8 +18,9 @@ class CommandRunner {
 		if (process.waitFor() != 0)
 			throw new Exception("Command failed: " + command);
 		
+		String result = stdOut.finishCapturing();
 		System.out.println("\n");
-		return stdOut.result();
+		return result;
 	}
 
 

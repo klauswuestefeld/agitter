@@ -8,15 +8,16 @@ import sneer.foundation.util.concurrent.Latch;
 public class StdOutCapturer extends Thread {
 
 	private final InputStream inputStream;
-	private final Latch finished;
-
-	private String result;
+	private final Latch captured = new Latch();
+	private volatile boolean finishing = false;
+	private boolean lastChance = false;
+	
+	private String result = "";
 	private Exception exception;
 
 	
 	public StdOutCapturer(Process process) {
 		this.inputStream = process.getInputStream();
-		this.finished = new Latch();
 		setDaemon(true);
 		start();
 	}
@@ -24,32 +25,47 @@ public class StdOutCapturer extends Thread {
 	
 	@Override
 	public void run() {
-		result  = "";
-		
 		try {
 			tryToCapture();
 		} catch (Exception e) {
 			exception = e;
+		} finally {
+			captured.open();
 		}
 
 	}
 
 	private void tryToCapture() throws IOException, InterruptedException {
 		while (true) {
-			while (inputStream.available() == 0) {
-				if (finished.isOpen()) return;
-				Thread.sleep(20); //Avoid busy wait.
+			if (inputStream.available() != 0) {
+				if (readByteWasLast()) return;
+			} else {
+				if (doneWaiting()) return;
 			}
-			int read = inputStream.read();
-			if (read == -1) return;
-			result += (char)read;
-			System.out.print((char)read);
 		}
 	}
 
+
+	private boolean doneWaiting() throws InterruptedException {
+		if (lastChance) return true;
+		Thread.sleep(100); //Avoid busy wait.
+		if (finishing) lastChance = true;
+		return false;
+	}
+
+
+	private boolean readByteWasLast() throws IOException {
+		int read = inputStream.read();
+		if (read == -1) return true;
+		result += (char)read;
+		System.out.print((char)read);
+		return false;
+	}
+
 	
-	public String result() throws Exception {
-		finished.open();
+	public String finishCapturing() throws Exception {
+		finishing = true;
+		captured.waitTillOpen();
 		if (exception != null)
 			throw exception;
 		return result;

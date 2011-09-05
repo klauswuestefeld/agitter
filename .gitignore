@@ -2,6 +2,7 @@
 *bin
 *prevalence
 *.log.*
+simploy-build
 
 nohup.out
 
