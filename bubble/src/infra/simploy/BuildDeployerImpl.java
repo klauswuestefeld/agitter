@@ -61,12 +61,12 @@ public class BuildDeployerImpl implements BuildDeployer {
 
 
 	private void generate(File newBuild) throws Exception {
-		CommandRunner.exec("C:\\apache-ant-1.8.2\\bin\\ant.bat build -Dbuild=" + newBuild);
+		CommandRunner.exec("ant build -Dbuild=" + newBuild);
 	}
 
 
 	private void run(File newBuild) throws Exception {
-		CommandRunner.execIn("C:\\apache-ant-1.8.2\\bin\\ant.bat run -Dbuild=" + newBuild, newBuild);
+		CommandRunner.execIn("ant run -Dbuild=" + newBuild, newBuild);
 	}
 
 	
