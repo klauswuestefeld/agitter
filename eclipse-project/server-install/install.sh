@@ -46,7 +46,6 @@ mkdir /agitter/git_repositories
 cd    /agitter/git_repositories
 git clone git@github.com:klauswuestefeld/agitter.git
 git clone git@github.com:klauswuestefeld/sneer.git
-mkdir /producao
 cd $install_dir
 
 echo ----------------------
