@@ -23,7 +23,7 @@ public class BubbleTest extends CleanTestBase {
 	public void wrappedObjectPassedAsArg() throws Exception {
 		PrevaylerBootstrap.open(tmpFolder());
 		agitter = PrevaylerBootstrap.agitter();
-		User ana = agitter.users().signup("ana", mail("ana@email.com"), "abc123");
+		User ana = agitter.users().signup(mail("ana@email.com"), "abc123");
 		Events events = agitter.events();
 		events.create(ana, "dinner", 10, Collections.EMPTY_LIST, Arrays.asList(jose()));
 		Event event = events.toHappen(ana).get(0);

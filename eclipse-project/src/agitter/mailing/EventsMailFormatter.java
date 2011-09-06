@@ -27,7 +27,7 @@ public class EventsMailFormatter {
 		for(Event e : events) {
 			if (result.length() != 0)
 				result.append("<BR/><BR/>");
-			result.append(ultraConservativeFilter(e.owner().fullName()));
+			result.append(ultraConservativeFilter(e.owner().screenName()));
 			result.append(" - ");
 			result.append(ultraConservativeFilter(e.description()));
 		}

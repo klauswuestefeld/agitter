@@ -48,7 +48,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
 		final String body =
-				"Seus amigos estão agitando e querem você lá: <br/><br/>leo - churras<BR/><BR/>klaus - event2<BR/><BR/>klaus - event3<BR/><BR/>klaus - event4<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
+				"Seus amigos estão agitando e querem você lá: <br/><br/>leo@email.com - churras<BR/><BR/>klaus@email.com - event2<BR/><BR/>klaus@email.com - event3<BR/><BR/>klaus@email.com - event4<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
 		assertEquals(body, mock.body());
 	}
 
@@ -62,7 +62,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
 		assertEquals("klaus@email.com", mock.to().toString());
-		assertFragment("matias - churras", mock.body());
+		assertFragment("matias@email.com - churras", mock.body());
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		Clock.setForCurrentThread(startTime+11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
-		assertFragment("leo - script", mock.body());
+		assertFragment("leo@email.com - script", mock.body());
 	}
 
 
@@ -134,7 +134,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 	private User signup(String username) throws Refusal {
-		return agitter.users().signup(username, mail(username+"@email.com"), "123");
+		return agitter.users().signup(mail(username+"@email.com"), "123");
 	}
 }
 

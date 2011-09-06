@@ -14,15 +14,12 @@ import agitter.domain.users.UsersImpl;
 
 public class AgitterImpl implements Agitter {
 
-	@Deprecated //2011-08-12
-	private final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
-	@SuppressWarnings("unused")
-	@Deprecated //2011-08-27, transient 2011-08-30
-	private final transient Events events = null;
+	@Deprecated //2011-08-12 Transient 2011-09-06
+	private transient final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
 
 	private final Users users = new UsersImpl();
-	private Contacts contacts2;
-	private Events events2;
+	private Contacts contacts2 = new ContactsImpl2();
+	private Events events2 = new EventsImpl2();
 
 	private final Comments comments = new CommentsImpl();
 	private final Mailing mailing = new MailingImpl();
@@ -43,13 +40,7 @@ public class AgitterImpl implements Agitter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void migrateSchemaIfNecessary() {
-		if (events2 == null)
-			events2 = new EventsImpl2();
-		
-		if (contacts2 != null) return;
-		
-		((UsersImpl)users).migrate();
-		contacts2 = new ContactsImpl2((agitter.domain.contacts.ContactsImpl)contacts, users);
+		//Migration code goes here
 	}
 	
 }

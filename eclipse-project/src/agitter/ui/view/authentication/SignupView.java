@@ -5,7 +5,6 @@ public interface SignupView {
 
 	void show();
 
-	String username();
 	String email();
 	String password();
 	String passwordConfirmation();

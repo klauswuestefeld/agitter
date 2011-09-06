@@ -18,7 +18,6 @@ public class SignupViewImpl implements SignupView {
 	private final ComponentContainer container;
 	private final CssLayout signupView = new CssLayout();
 	private final TextField email = new TextField("Email");
-	private final TextField username = new TextField("Username");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
 	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Cadastrar");
@@ -45,9 +44,6 @@ public class SignupViewImpl implements SignupView {
 				email.setDebugId("email");
 				email.setSizeUndefined();
 				signupfields.addComponent(email); email.addStyleName("a-signup-email");
-				username.setDebugId("username");
-				username.setSizeUndefined();
-				signupfields.addComponent(username); username.addStyleName("a-signup-username");
 				password.setDebugId("password");
 				password.setSizeUndefined();
 				signupfields.addComponent(password); password.addStyleName("a-signup-password");
@@ -63,21 +59,11 @@ public class SignupViewImpl implements SignupView {
 
 	
 	private void setupFocus() {
-		VaadinUtils.focusOrder(email, username, password, passwordConfirmation, signup);
-		
-		String emailValue = (String)email.getValue();
-		if (emailValue != null && !emailValue.isEmpty())
-			username.focus();
-		else
-			email.focus();
+		VaadinUtils.focusOrder(email, password, passwordConfirmation, signup);
+		email.focus();
 	}
 
 	
-	@Override
-	public String username() {
-		return (String)username.getValue();
-	}
-
 	@Override
 	public String email() {
 		return (String)email.getValue();

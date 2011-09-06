@@ -4,9 +4,8 @@ import agitter.domain.emails.EmailAddress;
 
 public interface User {
 
-	public String username();
 	public EmailAddress email();
-	public String fullName();
+	public String screenName();
 
 	public String password();
 	public boolean isPassword(String attempt);

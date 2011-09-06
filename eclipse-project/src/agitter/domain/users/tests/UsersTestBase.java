@@ -25,7 +25,7 @@ public abstract class UsersTestBase extends CleanTestBase {
 
 	protected User user(String username, String email, String password) {
 		try {
-			return agitter.users().signup(username, mail(email), password);
+			return agitter.users().signup(mail(email), password);
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}

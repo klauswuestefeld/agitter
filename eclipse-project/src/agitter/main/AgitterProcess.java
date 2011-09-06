@@ -32,7 +32,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	@Override
 	public void prepareToRun() throws Exception {
-		if (isSuccessfulBuild())
+		if (isSuccessfulBuild() || isDevelopmentMode())
 			prepareToRunAsSuccessfulBuild();
 		else
 			prepareToRunAsCandidateBuild();
@@ -185,5 +185,8 @@ public class AgitterProcess implements ReplaceableProcess {
 		return (millis / 2000) * 2000;
 	}
 
+	public boolean isDevelopmentMode() throws IOException {
+		return !BuildFolders.isBuild(workingFolder());
+	}
 }
 

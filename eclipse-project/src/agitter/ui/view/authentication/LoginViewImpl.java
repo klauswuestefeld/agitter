@@ -23,7 +23,7 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout topBar = new CssLayout();
 	private final Button loginAgitterLogo = new NativeButton();
 	private final CssLayout loginFields = new CssLayout();
-	private final TextField emailOrUsername = new TextField("Email ou Username");
+	private final TextField emailOrUsername = new TextField("Email");
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button login = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final Button forgotMyPassword = linkButton("Esqueci minha senha");
@@ -118,7 +118,7 @@ public class LoginViewImpl implements LoginView {
 
 	
 	@Override
-	public String emailOrUsername() {
+	public String email() {
 		return (String)emailOrUsername.getValue();
 	}
 

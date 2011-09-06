@@ -4,6 +4,7 @@ import static agitter.domain.emails.EmailAddress.mail;
 
 import java.io.IOException;
 
+import infra.logging.LogInfra;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
@@ -44,16 +45,8 @@ public class AuthenticationPresenter {
 	
 	private void loginAttempt() {
 		User user;
-		//TODO: QuickFix. Parece que cadastraram um usuário sem username e por isso pode logar sem digitar nada. 
-		if( this.isBlank( loginView.emailOrUsername() ) ) {
-			return;
-		}
-		Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
 		try {
-			user = credential.isEmailProvided()
-				? users.loginWithEmail(mail(credential.email()), credential.password())
-				: users.loginWithUsername(credential.username(), credential.password());
-			
+			user = users.loginWithEmail(mail(loginView.email()), loginView.password());
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
@@ -76,26 +69,25 @@ public class AuthenticationPresenter {
 	}
 
 	private void forgotMyPassword() {
-		if (loginView.emailOrUsername() == null || loginView.emailOrUsername().trim().length() == 0){
-			warningDisplayer.consume("Preencha seu email ou username.");
+		if (loginView.email() == null || loginView.email().trim().length() == 0){
+			warningDisplayer.consume("Preencha seu email.");
 			return;
 		}
 		User user;
 		try{
-			Credential credential = new Credential(loginView.emailOrUsername(), loginView.password());
-			user = credential.isEmailProvided()
-			? users.findByEmail(mail(credential.email()))
-			: users.findByUsername(credential.username());
+			user = users.findByEmail(mail(loginView.email()));
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
 		try {
-			ForgotPasswordMailDispatcher.send(user.email(), user.username(), user.password());
-			warningDisplayer.consume("E-mail enviado com sucesso!");
+			ForgotPasswordMailDispatcher.send(user.email(), user.password());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			warningDisplayer.consume("Não foi possível enviar seu email, por favor entre em contato com a equipe do Agitter.");
+			LogInfra.getLogger(this).severe("Erro enviando senha para usuario: " + user.email() + " - " + e.getMessage());
+			return;
 		}
+		warningDisplayer.consume("E-mail enviado com sucesso!");
 	}
 
 	private boolean isBlank(final String value) {
@@ -105,11 +97,6 @@ public class AuthenticationPresenter {
 	private void signupAttempt() {
 		if( this.isBlank( signupView.email() ) ) {
 			warningDisplayer.consume("Campo email deve ser especificado");
-			return;			
-		}
-		
-		if( this.isBlank( signupView.username() ) ) {
-			warningDisplayer.consume("Campo username deve ser especificado");
 			return;			
 		}
 		
@@ -125,7 +112,7 @@ public class AuthenticationPresenter {
 		
 		User user;
 		try {
-			user = users.signup(signupView.username(), mail(signupView.email()), signupView.password());
+			user = users.signup(mail(signupView.email()), signupView.password());
 			onAuthenticate.consume(user);
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());

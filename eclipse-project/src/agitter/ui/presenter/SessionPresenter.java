@@ -23,7 +23,7 @@ public class SessionPresenter {
 		view.onContactsMenu(onContactsMenu());
 		view.onEventsMenu(onEventsMenu());
 		
-		view.show(user.username()); 
+		view.show(user.screenName());
 		view.showEventsView();
 
 	}

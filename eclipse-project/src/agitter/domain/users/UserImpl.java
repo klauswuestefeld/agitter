@@ -6,25 +6,19 @@ import agitter.domain.emails.EmailAddress;
 
 public class UserImpl implements User {
 
-	private String _username;
-	private String _email;
-	private String _password;
+	//Made transient on 2011-09-06
+	private transient String _username;
+	private transient String username;
+	private transient String _email;
+	private transient String _password;
 
-	private String username;
 	private EmailAddress email;
 	private String password;
 	private boolean isInterestedInPublicEvents = true;
 
-	public UserImpl(String username, EmailAddress email, String password) {
-		this.username = username;
+	public UserImpl(EmailAddress email, String password) {
 		this.email = email;
 		this.password = password;
-	}
-
-
-	@Override
-	public String username() {
-		return username;
 	}
 
 
@@ -46,8 +40,8 @@ public class UserImpl implements User {
 	}
 
 	@Override
-	public String fullName() {
-		return username();
+	public String screenName() {
+		return email().toString();
 	}
 
 	@Override
@@ -63,9 +57,7 @@ public class UserImpl implements User {
 
 	@Override
 	public String toString() {
-		return username == null
-			? email.toString()
-			: username;
+		return email.toString();
 	}
 
 

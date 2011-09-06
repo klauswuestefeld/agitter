@@ -36,13 +36,11 @@ public class ForgotPasswordMailDispatcher {
 	private static final String FROM_NAME = "Agitter";
 	private static final String SUBJECT = "Lembrete de Senha";
 	private static final String BODY = "Você solicitou que nós enviássemos sua senha.<br />"
-		+ "Seus dados são:<br />"
-		+ "Usuário: %USERNAME% <br/>"
-		+ "Senha: %PASSWORD% <br/><br/>"
+		+ "Sua senha é: %PASSWORD% <br/><br/>"
 		+ "<a href=\"http://agitter.com\">Agitter</a><br /><br />"
 		+ "Bons agitos,<br />Equipe Agitter.";
 
-	public static void send(EmailAddress emailTo, String username, String password) throws IOException {
+	public static void send(EmailAddress emailTo, String password) throws IOException {
 
 		PropertiesCredentials credentials = new PropertiesCredentials(
 				ForgotPasswordMailDispatcher.class
@@ -52,7 +50,7 @@ public class ForgotPasswordMailDispatcher {
 
 		Destination destination = new Destination(Arrays.asList(emailTo.toString()));
 		Content subject = new Content(SUBJECT);
-		String mailText = BODY.replaceAll("%USERNAME%", username).replaceAll("%PASSWORD%", password);
+		String mailText = BODY.replaceAll("%PASSWORD%", password);
 		Body body = new Body().withHtml(new Content(mailText));
 		Message message = new Message(subject, body);
 		service.sendEmail(new SendEmailRequest(from(), destination, message));

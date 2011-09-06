@@ -12,7 +12,7 @@ public class PersistenceTest extends CleanTestBase {
 	@Test
 	public void persistence() throws Exception {
 		PrevaylerBootstrap.open(tmpFolder());
-		PrevaylerBootstrap.agitter().users().signup("ana", mail("ana@gmail.com"), "ana123");
+		PrevaylerBootstrap.agitter().users().signup(mail("ana@gmail.com"), "ana123");
 		PrevaylerBootstrap.close();
 
 		PrevaylerBootstrap.open(tmpFolder());

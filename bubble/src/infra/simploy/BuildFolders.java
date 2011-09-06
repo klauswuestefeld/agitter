@@ -58,7 +58,10 @@ public class BuildFolders {
 		}
 	}
 
-	
+	public static boolean isBuild(File folder) {
+		return folder.getName().startsWith(BUILD_PREFIX);
+	}
+
 	private static void markBuild(File build, String flag, String message) throws IOException {
 		checkValidFolder(build);
 		checkUnmarked(build);
@@ -69,7 +72,7 @@ public class BuildFolders {
 
 
 	private static void checkValidFolder(File build) {
-		if (!build.getName().startsWith(BUILD_PREFIX))
+		if (!isBuild(build))
 			throw new IllegalArgumentException();
 	}
 

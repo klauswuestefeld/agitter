@@ -7,7 +7,7 @@ public interface LoginView {
 	void show();
 	SignupView showSignupView();
 
-	String emailOrUsername();
+	String email();
 	String password();
 	
 	void onLoginAttempt(Runnable loginAction);

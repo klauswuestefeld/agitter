@@ -20,43 +20,28 @@ public class UsersImpl implements Users {
 
 	
 	@Override
-	public User signup(String username, EmailAddress email, String password) throws Refusal {
-		checkParameters(username, email, password);
-		checkDuplication(username, email);
+	public User signup(EmailAddress email, String password) throws Refusal {
+		checkParameters(email, password);
+		checkDuplication(email);
 
-		UserImpl result = createUser(username, email, password);
+		UserImpl result = createUser(email, password);
 
-		getLogger(this).info("Signup: "+username+" - email: "+email);
+		getLogger(this).info("Signup: "+email);
 		return result;
 	}
 
 	
-	private UserImpl createUser(String username, EmailAddress email, String password) {
-		UserImpl result = new UserImpl(username, email, password);
+	private UserImpl createUser(EmailAddress email, String password) {
+		UserImpl result = new UserImpl(email, password);
 		users.add(result);
 		return result;
 	}
 
 	
 	@Override
-	public User loginWithUsername(String username, String password) throws UserNotFound, InvalidPassword {
-		User user = searchByUsername(username);
-		return login(user, username, password);
-	}
-
-
-	@Override
 	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword {
 		User user = searchByEmail(email);
 		return login(user, email.toString(), password);
-	}
-
-
-	@Override
-	public User findByUsername(String username) throws UserNotFound {
-		User user = searchByUsername(username);
-		checkUser(user, username);
-		return user;
 	}
 
 
@@ -70,21 +55,35 @@ public class UsersImpl implements Users {
 
 	@Override
 	public String userEncyptedInfo(User user) {
-		return user.username();//TODO - Implement encryption
+		return user.email().toString();//TODO - Implement encryption
 	}
 
 	
 	@Override
 	public void unsubscribe(String userEncryptedInfo) throws UserNotFound {
 		//TODO - Implement crypto
-		String username = userEncryptedInfo;
-		User user = this.findByUsername(username);
+		User user = this.findByEmail(mail(userEncryptedInfo));
 		user.setInterestedInPublicEvents(false);
 	}
 
-	
-	private void checkParameters(final String username, final EmailAddress email, final String password) throws Refusal {
-		checkNotBlank("Username", username);
+
+	@Override
+	public User searchByEmail(EmailAddress email) {
+		for(User candidate : users) { if(candidate.email().equals(email)) { return candidate; } }
+		return null;
+	}
+
+
+	@Override
+	public User produce(EmailAddress email) {
+		User user = searchByEmail(email);
+		return user == null
+			? createInvitedUser(email)
+			: user;
+	}
+
+
+	private void checkParameters(EmailAddress email, String password) throws Refusal {
 		checkNotBlank("Email", email);
 		checkNotBlank("Senha", password);
 	}
@@ -101,11 +100,9 @@ public class UsersImpl implements Users {
 	}
 
 	
-	private void checkDuplication(String username, EmailAddress email) throws Refusal {
-		if(searchByUsername(username)!=null) {
-			throw new Refusal("Já existe usuário cadastrado com este username: "+username);
-		}
-		if(searchByEmail(email)!=null) { throw new Refusal("Já existe usuário cadastrado com este email: "+email); }
+	private void checkDuplication(EmailAddress email) throws Refusal {
+		if(searchByEmail(email)!=null)
+			throw new Refusal("Já existe usuário cadastrado com este email: "+email);
 	}
 
 	
@@ -113,47 +110,26 @@ public class UsersImpl implements Users {
 		if (user==null) { throw new UserNotFound("Usuário não encontrado: " + credential); }
 	}
 
-	
-	@Override
-	public User searchByEmail(EmailAddress email) {
-		for(User candidate : users) { if(candidate.email().equals(email)) { return candidate; } }
-		return null;
-	}
 
-	
-	private User searchByUsername(String username) {
-		for(User candidate : users)
-			if(username.equals(candidate.username()))
-				return candidate;
-		return null;
-	}
-
-	
-	private User login(User user, String emailOrUsername, String passwordAttempt) throws UserNotFound, InvalidPassword {
-		checkUser(user, emailOrUsername);
+	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword {
+		checkUser(user, email);
 		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-		getLogger(this).info("Login: "+emailOrUsername);
+		getLogger(this).info("Login: "+email);
 		return user;
 	}
 
 	
-	@Override
-	public User produce(EmailAddress email) {
-		User user = searchByEmail(email);
-		return user == null
-			? createInvitedUser(email)
-			: user;
-	}
-
-	
 	private UserImpl createInvitedUser(EmailAddress email) {
-		return createUser(null, email, null);
+		return createUser(email, null);
 	}
 
 
-	public void migrate() {
-		for (User user : users)
-			((UserImpl)user).migrate();
+	private EmailAddress mail(String email) throws UserNotFound {
+		try {
+			return EmailAddress.mail(email);
+		} catch(Refusal refusal) {
+			throw new UserNotFound("Usuário não encontrado: " + email);
+		}
 	}
 
 }
