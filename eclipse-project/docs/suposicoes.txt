@@ -1,12 +1,17 @@
-﻿	Schema Evolution + Continuous Deploy
+﻿	Continuous Deploy
+		Staging environment (homologacao)
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE
+		Validação de grupos (mesmas regras do username do twitter).
 
-	Sign-up e Login
-		Validação de username (mesmas regras do twitter).
-			Usar mesma regra para nomes de Grupos. (futuramente os grupos serão públicos)
-		Email de confirmacao de cadastro.
+	Sign-up
+		Só permitir signup apos confirmacao do email.
+			Workflow:
+				1 - Usuario preenche email e senhas.
+				2 - Recebe email com link de confirmacao.
+				3 - Link de confirmacao confirma a criacao do usuario.
+
 
 	Importação de Emails de meus Contatos através do SocialAuth
 		Hotmail
