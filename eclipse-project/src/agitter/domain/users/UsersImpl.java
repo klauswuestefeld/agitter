@@ -5,6 +5,7 @@ import static infra.logging.LogInfra.getLogger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
@@ -133,8 +134,14 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	static int count =1;
 	public void removeInvalids() {
 		getLogger(this).info("Removing invalid users...");
+		try{
+			throw new RuntimeException();
+		}catch(Exception e) {
+			getLogger(this).log(Level.SEVERE, "checking stack " + count++, e);
+		}
 		for(Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
 			UserImpl user = (UserImpl)iterator.next();
 			if(!user.fixEmailIfNecessary()) {
