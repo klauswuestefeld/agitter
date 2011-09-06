@@ -95,6 +95,13 @@ public class UserImpl implements User {
 		username = _username;
 	}
 
-	
-	
+	public boolean fixEmailIfNecessary() {
+		if(email!=null) return true;
+		try {
+			email = EmailAddress.mail(_email);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 }

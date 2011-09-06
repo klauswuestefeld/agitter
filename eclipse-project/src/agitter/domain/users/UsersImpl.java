@@ -3,6 +3,7 @@ package agitter.domain.users;
 import static infra.logging.LogInfra.getLogger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -132,4 +133,16 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	public void removeInvalids() {
+		getLogger(this).info("Removing invalid users...");
+		for(Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
+			UserImpl user = (UserImpl)iterator.next();
+			if(!user.fixEmailIfNecessary()) {
+				System.err.println("Removing USER: " + user);
+				getLogger(this).info("Removing user: " + user);
+				iterator.remove();
+			}
+		}
+		getLogger(this).info("Done removing invalid users.");
+	}
 }
