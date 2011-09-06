@@ -134,22 +134,4 @@ public class UsersImpl implements Users {
 		}
 	}
 
-	static int count =1;
-	public void removeInvalids() {
-		getLogger(this).info("Removing invalid users...");
-		try{
-			throw new RuntimeException();
-		}catch(Exception e) {
-			getLogger(this).log(Level.SEVERE, "checking stack " + count++, e);
-		}
-		for(Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
-			UserImpl user = (UserImpl)iterator.next();
-			if(!user.fixEmailIfNecessary()) {
-				System.err.println("Removing USER: " + user);
-				getLogger(this).info("Removing user: " + user);
-				iterator.remove();
-			}
-		}
-		getLogger(this).info("Done removing invalid users.");
-	}
 }

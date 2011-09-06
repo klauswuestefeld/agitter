@@ -43,7 +43,6 @@ public class AgitterImpl implements Agitter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void migrateSchemaIfNecessary() {
-		((UsersImpl)users).removeInvalids();
 		//Migration code goes here
 	}
 	

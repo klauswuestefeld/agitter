@@ -6,13 +6,6 @@ import agitter.domain.emails.EmailAddress;
 
 public class UserImpl implements User {
 
-	//Made transient on 2011-09-06
-	private transient String _username;
-	private transient String _email;
-	private transient String _password;
-
-	private transient String username;
-
 	private EmailAddress email;
 	private String password;
 	private boolean isInterestedInPublicEvents = true;
@@ -61,47 +54,4 @@ public class UserImpl implements User {
 		return email.toString();
 	}
 
-
-	@Override
-	public int hashCode() {
-		return email == null
-			? _email.hashCode()
-			: email.hashCode();
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		return obj instanceof User
-			? email.equals(((User)obj).email())
-			: false;
-	}
-
-
-	public void migrate() {
-		try {
-			email = EmailAddress.mail(_email);
-		} catch (Refusal e) {
-			try {
-				System.out.println("Usuario: " + _username + " com email bichado: " + _email);
-				email = EmailAddress.mail("foo" + System.nanoTime() + "@mail.com");
-			} catch (Refusal e1) {
-				throw new IllegalStateException(e1);
-			}
-		}
-		password = _password;
-		username = _username;
-	}
-
-	public boolean fixEmailIfNecessary() {
-		if(email!=null) return true;
-		try {
-			email = EmailAddress.mail(_email);
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
 }
