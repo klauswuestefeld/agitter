@@ -1,7 +1,5 @@
 package agitter.domain;
 
-import java.util.List;
-
 import agitter.domain.comments.Comments;
 import agitter.domain.comments.CommentsImpl;
 import agitter.domain.contacts.Contacts;
@@ -10,7 +8,6 @@ import agitter.domain.events.Events;
 import agitter.domain.events.EventsImpl2;
 import agitter.domain.mailing.Mailing;
 import agitter.domain.mailing.MailingImpl;
-import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.UsersImpl;
 
