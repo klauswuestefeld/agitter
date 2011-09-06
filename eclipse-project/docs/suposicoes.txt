@@ -1,5 +1,4 @@
 ﻿	Schema Evolution + Continuous Deploy
-		fix git pull stdOut capture
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE
