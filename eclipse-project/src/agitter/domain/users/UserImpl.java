@@ -8,9 +8,10 @@ public class UserImpl implements User {
 
 	//Made transient on 2011-09-06
 	private transient String _username;
-	private transient String username;
 	private transient String _email;
 	private transient String _password;
+
+	private transient String username;
 
 	private EmailAddress email;
 	private String password;
