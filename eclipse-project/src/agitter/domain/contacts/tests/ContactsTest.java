@@ -89,11 +89,14 @@ public class ContactsTest extends UsersTestBase {
 
 	
 	@Test
-	public void subgroupWithEmptyName() throws Refusal {
+	public void groupWithInvalidName() throws Refusal {
 		testInvalidGroupName("");
 		testInvalidGroupName(" ");
 		testInvalidGroupName("\t");
 		testInvalidGroupName(null);
+		testInvalidGroupName("abc@c");
+		testInvalidGroupName("abcc<");
+		testInvalidGroupName("abcc!");
 	}
 
 	

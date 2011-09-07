@@ -8,6 +8,7 @@ import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
+import utils.XssAttackSanitizer;
 
 public class GroupImpl2 implements Group {
 	
@@ -98,7 +99,9 @@ public class GroupImpl2 implements Group {
 
 	private void validateGroupName(String groupName) throws Refusal {
 		if( groupName == null || groupName.trim().isEmpty() )
-			throw new Refusal( "O nome do grupo deve ser preenchido." );
+			throw new Refusal("O nome do grupo deve ser preenchido.");
+		if(!XssAttackSanitizer.ultraConservativeFilter(groupName).equals(groupName) || groupName.contains("@"))
+			throw new Refusal("O nome do grupo deve possuir somente letras e números.");
 	}
 	
 }
