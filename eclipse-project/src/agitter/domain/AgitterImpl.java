@@ -14,6 +14,7 @@ import agitter.domain.users.UsersImpl;
 
 public class AgitterImpl implements Agitter {
 
+	@SuppressWarnings("unused")
 	@Deprecated //2011-08-12 Transient 2011-09-06
 	private transient final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
 
@@ -37,7 +38,6 @@ public class AgitterImpl implements Agitter {
 	}
 	
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void migrateSchemaIfNecessary() {
 		//Migration code goes here

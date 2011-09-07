@@ -3,9 +3,7 @@ package agitter.domain.users;
 import static infra.logging.LogInfra.getLogger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
