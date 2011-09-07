@@ -3,7 +3,6 @@
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE
-		Validação de grupos (mesmas regras do username do twitter).
 
 	Sign-up
 		Só permitir signup apos confirmacao do email.
