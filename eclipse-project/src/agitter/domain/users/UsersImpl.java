@@ -12,6 +12,7 @@ import agitter.domain.emails.EmailAddress;
 
 public class UsersImpl implements Users {
 
+	private static final String MSG_USUARIO_INATIVO = "Usuário ainda não foi ativado. Verifique em sua caixa de email o link de ativação.";
 	private final List<User> users = new ArrayList<User>();
 
 	
@@ -24,19 +25,15 @@ public class UsersImpl implements Users {
 	@Override
 	public User signup(EmailAddress email, String password) throws Refusal {
 		checkParameters(email, password);
-		checkDuplication(email);
+		checkDuplicationAndSendActivationEmailIfInactive(email);
 
-		UserImpl result = createUser(email, password);
+		UserImpl user = createUser(email, password);
 
 		getLogger(this).info("Signup: "+email);
 
-		try {
-			ActivationMailDispatcher.send(email, result.activationCode().toString());
-		} catch(IOException e) {
-			getLogger(this).warning("Error sending activation code: " + e.getMessage());
-		}
+		sendActivationMail(user);
 
-		return result;
+		return user;
 	}
 
 	@Override
@@ -117,9 +114,14 @@ public class UsersImpl implements Users {
 	}
 
 	
-	private void checkDuplication(EmailAddress email) throws Refusal {
-		if(searchByEmail(email)!=null)
-			throw new Refusal("Já existe usuário cadastrado com este email: "+email);
+	private void checkDuplicationAndSendActivationEmailIfInactive(EmailAddress email) throws Refusal {
+		User user = searchByEmail(email);
+		if(user==null) return;
+		if(!user.isActive()) {
+			sendActivationMail(user);
+			throw new Refusal(MSG_USUARIO_INATIVO);
+		}
+		throw new Refusal("Já existe usuário cadastrado com este email: "+email);
 	}
 
 	
@@ -131,7 +133,7 @@ public class UsersImpl implements Users {
 	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUser(user, email);
 		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-		if(!user.isActive()) { throw new UserNotActive("Usuário ainda não ativo. Verifique em sua caixa de email o link de ativação."); }
+		if(!user.isActive()) { throw new UserNotActive(MSG_USUARIO_INATIVO); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
@@ -151,4 +153,11 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	private void sendActivationMail(User user) {
+		try {
+			ActivationMailDispatcher.send(user.email(), user.activationCode().toString());
+		} catch(IOException e) {
+			getLogger(this).warning("Error sending activation code: " + e.getMessage());
+		}
+	}
 }
