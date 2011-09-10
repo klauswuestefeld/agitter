@@ -2,9 +2,11 @@ package agitter.domain.users;
 
 import static infra.logging.LogInfra.getLogger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import agitter.mailing.ActivationMailDispatcher;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
 
@@ -27,15 +29,22 @@ public class UsersImpl implements Users {
 		UserImpl result = createUser(email, password);
 
 		getLogger(this).info("Signup: "+email);
+
+		try {
+			ActivationMailDispatcher.send(email, result.activationCode().toString());
+		} catch(IOException e) {
+			getLogger(this).warning("Error sending activation code: " + e.getMessage());
+		}
+
 		return result;
 	}
 
 	@Override
-	public void activate(EmailAddress email, Long activationCode) throws Refusal {
-		User user = searchByEmail(email);
-		checkUser(user, email.toString());
-		if(!user.activationCode().equals(activationCode))
-			throw new Refusal("Invalid activation code: " + activationCode);
+	public void activate(String email, String activationCode) throws Refusal {
+		User user = searchByEmail(mail(email));
+		checkUser(user, email);
+		if(!user.activationCode().toString().equals(activationCode))
+			throw new Refusal("Código de ativação inválido: " + activationCode);
 		user.activate();
 	}
 
@@ -61,10 +70,10 @@ public class UsersImpl implements Users {
 	}
 
 
-	@Override
-	public String userEncyptedInfo(User user) {
-		return user.email().toString();//TODO - Implement encryption
-	}
+//	@Override
+//	public String userEncyptedInfo(User user) {
+//		return user.email().toString();//TODO - Implement encryption
+//	}
 
 	
 	@Override
