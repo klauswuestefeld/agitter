@@ -151,11 +151,4 @@ public class UsersImpl implements Users {
 		}
 	}
 
-	@Override
-	public void activateAllUsers() {
-		final List<User> all = all();
-		for(User u : all) {
-			u.activate();
-		}
-	}
 }

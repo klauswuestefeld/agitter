@@ -41,7 +41,6 @@ public class AgitterImpl implements Agitter {
 	@Override
 	public void migrateSchemaIfNecessary() {
 		//Migration code goes here
-		users().activateAllUsers();
 	}
 	
 }

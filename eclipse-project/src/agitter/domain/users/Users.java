@@ -28,7 +28,4 @@ public interface Users {
 
 	void unsubscribe(String userEncryptedInfo) throws UserNotFound;
 
-	@Transaction
-	void activateAllUsers(); //MigrationCode
-
 }
