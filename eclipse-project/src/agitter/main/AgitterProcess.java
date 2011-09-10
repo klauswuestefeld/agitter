@@ -3,6 +3,8 @@ package agitter.main;
 import static agitter.main.JettyRunner.createServletApp;
 import static agitter.main.JettyRunner.createStaticFileSite;
 import static agitter.main.JettyRunner.runWebApps;
+
+import agitter.mailing.ActivationMailDispatcher;
 import infra.logging.LogInfra;
 import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 import infra.simploy.BuildFolders;
@@ -51,6 +53,8 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private void prepareToRunAsSuccessfulBuild() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
+		ActivationMailDispatcher.isTESTMODE = false; //TODO - Remover isso daqui depois que implementar direito o test support
+
 	}
 
 
