@@ -17,6 +17,7 @@ import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
+import agitter.domain.users.Users.UserNotActive;
 
 public class UsersTest extends UsersTestBase {
 
@@ -39,6 +40,13 @@ public class UsersTest extends UsersTestBase {
 		signUpAna();
 		subject.loginWithEmail(mail("ana@gmail.com"), "ana000");
 	}
+
+	@Test(expected = UserNotActive.class)
+	public void loginWithoutActivation() throws Refusal {
+		subject.signup(mail("ana@gmail.com"), "ana123");
+		subject.loginWithEmail(mail("ana@gmail.com"), "ana123");
+	}
+
 
 	@Test
 	public void loginWithEmail() throws Refusal {
@@ -94,7 +102,8 @@ public class UsersTest extends UsersTestBase {
 
 
 	private void signUpAna() throws Refusal {
-		signUp("ana@gmail.com", "ana123");
+		User ana = signUp("ana@gmail.com", "ana123");
+		ana.activate();
 	}
 
 	private void assertSignUp(String email, String password) throws Refusal {

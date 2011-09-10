@@ -30,7 +30,15 @@ public class UsersImpl implements Users {
 		return result;
 	}
 
-	
+	@Override
+	public void activate(EmailAddress email, Long activationCode) throws Refusal {
+		User user = searchByEmail(email);
+		checkUser(user, email.toString());
+		if(!user.activationCode().equals(activationCode))
+			throw new Refusal("Invalid activation code: " + activationCode);
+		user.activate();
+	}
+
 	private UserImpl createUser(EmailAddress email, String password) {
 		UserImpl result = new UserImpl(email, password);
 		users.add(result);
@@ -39,7 +47,7 @@ public class UsersImpl implements Users {
 
 	
 	@Override
-	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword {
+	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword, UserNotActive {
 		User user = searchByEmail(email);
 		return login(user, email.toString(), password);
 	}
@@ -111,9 +119,10 @@ public class UsersImpl implements Users {
 	}
 
 
-	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword {
+	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUser(user, email);
-		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
+		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
+		if(!user.isActive()) { throw new UserNotActive("Usuário ainda não ativo. Verifique em sua caixa de email o link de ativação."); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
@@ -124,6 +133,7 @@ public class UsersImpl implements Users {
 	}
 
 
+	@SuppressWarnings({"UnusedCatchParameter"})
 	private EmailAddress mail(String email) throws UserNotFound {
 		try {
 			return EmailAddress.mail(email);
@@ -132,4 +142,11 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	@Override
+	public void activateAllUsers() {
+		final List<User> all = all();
+		for(User u : all) {
+			u.activate();
+		}
+	}
 }
