@@ -1,12 +1,7 @@
 package agitter.main;
 
 import java.io.IOException;
-import java.net.BindException;
-import java.net.ServerSocket;
-import java.net.SocketException;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.Servlet;
 
@@ -27,10 +22,8 @@ public class JettyRunner {
 
 
 	private static int port() throws IOException {
-		String property = System.getProperty("agitter.port");
-		return property != null
-			? Integer.parseInt(property)
-			: firstAvailablePort(80, 8888);
+		String property = System.getProperty("agitter.port", "8888");
+		return Integer.parseInt(property);
 	}
 
 
@@ -41,28 +34,6 @@ public class JettyRunner {
 		return collection;
 	}
 
-	
-	private static int firstAvailablePort(int... ports) throws IOException {
-		for (int port : ports)
-			if (isAvailable(port))
-				return port;
-
-		throw new IOException("No ports available: " + Arrays.asList(ports));
-	}
-
-
-	private static boolean isAvailable(int port) throws IOException {
-		try {
-			new ServerSocket(port).close();
-			System.out.println("Port available: " + port);
-			return true;
-		} catch (SocketException e) {
-			if(! (e instanceof BindException))  Logger.getLogger(JettyRunner.class.getPackage().getName()).warning("This environment is not throwing the expected BindException. It's throwing: "+e.getClass());
-			System.out.println("\n\n===== PORT NOT AVAILABLE: " + port);
-			return false;
-		}
-	}
-	
 	
 	public static WebAppContext createStaticFileSite(String resourceBase, String contextPath) {
 		WebAppContext result = createWebApp(resourceBase);
