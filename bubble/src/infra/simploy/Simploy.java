@@ -1,27 +1,20 @@
 package infra.simploy;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Simploy {
 
 	public static void main(String[] args) throws IOException {
-		TriggerImpl trigger = new TriggerImpl();
-		MonitoredDeployer deployer = new MonitoredDeployer(
-			new BuildDeployerImpl(folder("../producao")));
-		Reporter reporter = new Reporter(trigger, deployer);
+		startSimploy("homologacao", 8888, args[0], new FiveMinuteTrigger());
+		startSimploy("producao", 80, args[0], new DailyTrigger());
+	}
 
-		String password = args[0];
-		new SimployHttpServer(password, trigger, reporter);
-		
+
+	private static void startSimploy(String folder, int port, String password, Trigger trigger) throws IOException {
+		Deployer deployer = new Deployer(folder, port);
+		Reporter reporter = new Reporter(trigger, deployer);
+		new SimployHttpServer(port + 1, password, trigger, reporter);
 		new SimployMainLoop(deployer, trigger);
 	}
 
-	
-	private static File folder(String path) {
-		File result = new File(path);
-		if (!result.exists() && !result.mkdir()) throw new IllegalStateException("Unable to create folder " + result.getAbsolutePath());
-		return result;
-	}
-	
 }

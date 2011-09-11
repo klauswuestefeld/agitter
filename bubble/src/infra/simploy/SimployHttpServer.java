@@ -11,25 +11,24 @@ class SimployHttpServer {
 
 	private static final PrintStream SYSOUT = System.out;
 
-	private static final int TCP_PORT = 44321;
-	private static final int REQUEST_TIMEOUT = 1000 * 3;
+	private static final int REQUEST_TIMEOUT = 1000 * 2;
 	private static final String REPLY_HEADER =
 		"HTTP/1.1 200 OK\r\n" +
 		"Content-Type: text/plain\r\n" +
 		"\r\n";
 
 	private final String password;
-	private final TriggerImpl deployTrigger;
+	private final Trigger deployTrigger;
 	private final Reporter reporter;
 	private final ServerSocket serverSocket;
 	
-	public SimployHttpServer(String password, TriggerImpl deployTrigger, Reporter reporter) throws IOException {
+	public SimployHttpServer(int port, String password, Trigger deployTrigger, Reporter reporter) throws IOException {
 		this.password = password;
 		this.deployTrigger = deployTrigger;
 		this.reporter = reporter;
-		this.serverSocket = new ServerSocket(TCP_PORT);
+		this.serverSocket = new ServerSocket(port);
 		
-		SYSOUT.println("Listening for requests on port " + TCP_PORT);
+		SYSOUT.println("Listening for requests on port " + port);
 		
 		new Thread() { @Override public void run() {
 			while (true)
@@ -58,7 +57,7 @@ class SimployHttpServer {
 		} finally {
 			socket.close();
 		}
-		deployTrigger.urlHookReceived();
+		deployTrigger.deployRequestReceived();
 	}
 
 

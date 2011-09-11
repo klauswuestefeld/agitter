@@ -1,5 +1,7 @@
 #!/bin/sh
 mkdir /agitter
+mkdir /agitter/homologacao
+mkdir /agitter/producao
 
 echo ----------------------
 echo Java...

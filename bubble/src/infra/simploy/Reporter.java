@@ -2,17 +2,17 @@ package infra.simploy;
 
 class Reporter {
 
-	private final TriggerImpl trigger;
-	private final MonitoredDeployer deployer;
+	private final Trigger trigger;
+	private final Deployer deployer;
 
-	public Reporter(TriggerImpl trigger, MonitoredDeployer deployer) {
+	public Reporter(Trigger trigger, Deployer deployer) {
 		this.trigger = trigger;
 		this.deployer = deployer;
 	}
 
 	String report() {
 		return
-			trigger.gitPullStatus() +
+			trigger.status() +
 			deployer.status();
 	}
 

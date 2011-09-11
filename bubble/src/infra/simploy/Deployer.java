@@ -1,6 +1,5 @@
 package infra.simploy;
 
-import infra.simploy.SimployMainLoop.BuildDeployer;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -9,11 +8,11 @@ import java.util.Date;
 
 import sneer.foundation.lang.ClosureX;
 
-class MonitoredDeployer implements BuildDeployer {
+class Deployer {
 
 	private static final PrintStream SYSOUT = System.out;
 	
-	private final BuildDeployerImpl delegate;
+	private final DeployerWorker delegate;
 	private StringBuffer outputsBeingCaptured;
 
 	private Date latestBuildDate;
@@ -25,21 +24,19 @@ class MonitoredDeployer implements BuildDeployer {
 	private Date latestSuccessDate;
 
 	
-	MonitoredDeployer(BuildDeployerImpl delegate) {
-		this.delegate = delegate;
+	Deployer(String buildsRootFolder, int port) {
+		this.delegate = new DeployerWorker(buildsRootFolder, port);
 	}
 	
 	
-	@Override
-	public void deployGoodBuild() {
+	void deployGoodBuild() {
 		monitor(new ClosureX<Exception>() { @Override public void run() throws Exception {
 			delegate.deployGoodBuild();
 		}});
 	}
 
 	
-	@Override
-	public void deployNewBuild() {
+	void deployNewBuild() {
 		monitor(new ClosureX<Exception>() { @Override public void run() throws Exception {
 			delegate.deployNewBuild();
 		}});

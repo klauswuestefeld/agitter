@@ -3,13 +3,15 @@ package infra.simploy;
 import java.io.File;
 import java.io.IOException;
 
-public class BuildDeployerImpl {
+public class DeployerWorker {
 
 	private final File buildsRootFolder;
+	private final int port;
 
 	
-	BuildDeployerImpl(File buildsRootFolder) {
-		this.buildsRootFolder = buildsRootFolder;
+	DeployerWorker(String buildsRootFolder, int port) {
+		this.buildsRootFolder = findSiblingFolderOnParents(buildsRootFolder);
+		this.port = port;
 	}
 	
 	
@@ -49,12 +51,36 @@ public class BuildDeployerImpl {
 
 
 	private void run(File newBuild) throws Exception {
-		CommandRunner.execIn("ant run -Dbuild=" + newBuild, newBuild);
+		CommandRunner.execIn("ant run -Dbuild=" + newBuild + " -Dagitter.port=" + port, newBuild);
 	}
 
-	
+
 	private File lastGoodBuild() throws IOException {
 		return BuildFolders.findLastSuccessfulBuildFolderIn(buildsRootFolder);
 	}
+
+	
+	private static File findSiblingFolderOnParents(String siblingFolder) {
+		File result;
+		File current;
+		try {
+			current = new File(".").getCanonicalFile();
+			result = findSiblingFolderOnParents(current, siblingFolder);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+		if (result == null) throw new IllegalStateException(siblingFolder + " subfolder not found in any parent folders of " + current);
+		return result;
+	}
+
+
+	private static File findSiblingFolderOnParents(File folder, String sibling) {
+		if (folder == null) return null;
+		return new File(folder, sibling).exists()
+			? new File(folder, sibling)
+			: findSiblingFolderOnParents(folder.getParentFile(), sibling);
+	}
+
+
 
 }

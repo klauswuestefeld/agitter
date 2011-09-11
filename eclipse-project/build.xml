@@ -42,6 +42,7 @@
 	<target name="run">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
+			<sysproperty key="agitter.port" value="${agitter.port}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>

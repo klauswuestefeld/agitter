@@ -18,11 +18,19 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class JettyRunner {
 
 	public static void runWebApps(WebAppContext... webApps) throws Exception {
-		Server server = new Server(firstAvailablePort(80, 8888));
+		Server server = new Server(port());
 		server.setHandler(collect(webApps));
 		server.start();
 
 		server.join();
+	}
+
+
+	private static int port() throws IOException {
+		String property = System.getProperty("agitter.port");
+		return property != null
+			? Integer.parseInt(property)
+			: firstAvailablePort(80, 8888);
 	}
 
 
