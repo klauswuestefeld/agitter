@@ -22,7 +22,7 @@ public class JettyRunner {
 
 
 	private static int port() throws IOException {
-		String property = System.getProperty("agitter.port", "8888");
+		String property = System.getProperty("http.port", "8888");
 		return Integer.parseInt(property);
 	}
 

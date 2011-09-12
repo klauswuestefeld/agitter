@@ -42,14 +42,15 @@
 	<target name="run">
 		<echo message="  >  >  >  RUNNING AGITTER IN SEPARATE VM..."/>
 		<java fork="true" spawn="true" classname="agitter.main.AgitterMain">
-			<sysproperty key="agitter.port" value="${agitter.port}"/>
+			<sysproperty key="http.port" value="${http.port}"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
 
 
 	<target name="simploy" depends="build">
-		<java fork="true" spawn="true" classname="infra.simploy.Simploy">
+		<!-- <java fork="true" spawn="true" classname="infra.simploy.Simploy"> -->
+		<java classname="infra.simploy.Simploy">
 			<classpath location="${code}"/>
 			<arg value="SimploySecret"/>
 		</java>
