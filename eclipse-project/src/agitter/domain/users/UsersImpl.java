@@ -2,13 +2,11 @@ package agitter.domain.users;
 
 import static infra.logging.LogInfra.getLogger;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
-import agitter.mailing.ActivationMailDispatcher;
 
 public class UsersImpl implements Users {
 
@@ -153,10 +151,10 @@ public class UsersImpl implements Users {
 	}
 
 	private void sendActivationMail(User user) {
-		try {
-			ActivationMailDispatcher.send(user.email(), user.activationCode().toString());
-		} catch(IOException e) {
-			getLogger(this).warning("Error sending activation code: " + e.getMessage());
-		}
+//		try {
+//			ActivationMailDispatcher.send(user.email(), user.activationCode().toString());
+//		} catch(IOException e) {
+//			getLogger(this).warning("Error sending activation code: " + e.getMessage());
+//		}
 	}
 }

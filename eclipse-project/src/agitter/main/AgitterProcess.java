@@ -3,8 +3,6 @@ package agitter.main;
 import static agitter.main.JettyRunner.createServletApp;
 import static agitter.main.JettyRunner.createStaticFileSite;
 import static agitter.main.JettyRunner.runWebApps;
-
-import agitter.mailing.ActivationMailDispatcher;
 import infra.logging.LogInfra;
 import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 import infra.simploy.BuildFolders;
@@ -22,6 +20,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
+import agitter.mailing.ActivationMailDispatcher;
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
 
@@ -29,7 +28,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private static final String PREVALENCE_DIR = "prevalence";
 
-	private final long startupTime = filesystemPrecision(Clock.currentTimeMillis());
+	private final long startupTime = Clock.currentTimeMillis();
 	
 
 	@Override
@@ -89,7 +88,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private void assertSnapshotIsRecent(File snapshot) {
 		long snapshotTime = snapshot.lastModified();
-		if (snapshotTime < startupTime)
+		if (snapshotTime < filesystemPrecision(startupTime))
 			throw new IllegalStateException("Previous build did not generate new snapshot (it might not be running). Snapshot time (" + format(snapshotTime) + ") is older than this build startup time (" + format(startupTime) + "). Snapshot: " + snapshot);
 	}
 
@@ -116,7 +115,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	public void run() {
 		startMailing();
 		try {
-			runWebApps(vaadinThemes(), vaadin());
+			runWebApps(port(), vaadinThemes(), vaadin());
 		} catch (Exception e) {
 			log(e, "Unable to start Vaadin web app.");
 		}
@@ -180,7 +179,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 	
-	private File workingFolder() throws IOException {
+	private static File workingFolder() throws IOException {
 		return new File(".").getCanonicalFile();
 	}
 
@@ -189,8 +188,14 @@ public class AgitterProcess implements ReplaceableProcess {
 		return (millis / 2000) * 2000;
 	}
 
-	public boolean isDevelopmentMode() throws IOException {
+	private static boolean isDevelopmentMode() throws IOException {
 		return !BuildFolders.isBuild(workingFolder());
 	}
+	
+	static int port() throws IOException {
+		String property = System.getProperty("http.port", "8888");
+		return Integer.parseInt(property);
+	}
+
 }
 

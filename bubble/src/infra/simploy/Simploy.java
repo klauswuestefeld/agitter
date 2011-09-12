@@ -7,7 +7,10 @@ public class Simploy {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		startSimploy("homologacao", 8888, args[0], new FiveMinuteTrigger());
 		startSimploy("producao", 80, args[0], new DailyTrigger());
-		Thread.sleep(7000);
+		
+		int deleteThis;
+		while (true)
+			Thread.sleep(7000);
 	}
 
 
@@ -15,9 +18,9 @@ public class Simploy {
 		final Deployer deployer = new Deployer(folder, port);
 		Reporter reporter = new Reporter(trigger, deployer);
 		new SimployHttpServer(port + 1, password, trigger, reporter);
-		new Thread(){@Override public void run() {
+		new Thread("Simploy - " + folder) { @Override public void run() {
 			new SimployMainLoop(deployer, trigger);
 		}}.start();
 	}
-
+	
 }

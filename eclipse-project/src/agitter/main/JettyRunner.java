@@ -1,6 +1,5 @@
 package agitter.main;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.Servlet;
@@ -12,18 +11,12 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 public class JettyRunner {
 
-	public static void runWebApps(WebAppContext... webApps) throws Exception {
-		Server server = new Server(port());
+	public static void runWebApps(int port, WebAppContext... webApps) throws Exception {
+		Server server = new Server(port);
 		server.setHandler(collect(webApps));
 		server.start();
 
 		server.join();
-	}
-
-
-	private static int port() throws IOException {
-		String property = System.getProperty("http.port", "8888");
-		return Integer.parseInt(property);
 	}
 
 

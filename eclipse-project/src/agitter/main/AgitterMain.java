@@ -1,5 +1,6 @@
 package agitter.main;
 
+import static agitter.main.AgitterProcess.port;
 import infra.processreplacer.ProcessReplacer;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class AgitterMain {
 
 	public static void main(String[] args) throws Exception {
 		initLogger();
-		new ProcessReplacer(new AgitterProcess());
+		new ProcessReplacer(new AgitterProcess(), port() - 1);
 	}
 
 	

@@ -11,12 +11,10 @@ import java.util.logging.Level;
 
 public class ProcessReplacer {
 
-	private static final int _port = Integer.parseInt(property("Port", "44111"));
-
 	private static final int READY_TO_RETIRE = 77;
 	private static final int PLEASE_RETIRE = 88;
 	private static final int CANCEL_RETIREMENT = 99;
-
+	
 	
 	public interface ReplaceableProcess {
 		void prepareToRun() throws Exception;
@@ -28,8 +26,9 @@ public class ProcessReplacer {
 
 
 	/** Retires previous ReplaceableProcess instances. It connects to the ProcessReplacerPort (system property). It then listens on that port to retire process if it receives a connection.*/
-	public ProcessReplacer(ReplaceableProcess process) {
+	public ProcessReplacer(ReplaceableProcess process, int port) {
 		this.process = process;
+		this.port = port;
 		
 		try {
 			tryToTakeOver();
@@ -40,6 +39,13 @@ public class ProcessReplacer {
 		}
 	}
 
+	private final ReplaceableProcess process;
+	private final int port;
+
+	private Socket previousProcess;
+	private ServerSocket mutex;
+	
+	
 
 	private void cancelPreviousProcessRetirementIfNecessary() {
 		if (previousProcess == null) return;
@@ -56,12 +62,6 @@ public class ProcessReplacer {
 	}
 
 
-	private final ReplaceableProcess process;
-
-	private Socket previousProcess;
-	private ServerSocket mutex;
-	
-	
 	private void tryToTakeOver() throws Exception {
 		preparePreviousProcessToRetireIfNecessary();
 		process.prepareToRun();
@@ -76,7 +76,7 @@ public class ProcessReplacer {
 			tryToAquireMutex();
 		} catch (SocketException be) {
 			if(! (be instanceof BindException))  LogInfra.getLogger(this).warning("This environment is not throwing the expected BindException. It's throwing: " + be.getClass() );
-			previousProcess = new Socket("127.0.0.1", _port);
+			previousProcess = new Socket("127.0.0.1", port);
 			waitForMessage(previousProcess, READY_TO_RETIRE);
 		}
 	}
@@ -100,7 +100,7 @@ public class ProcessReplacer {
 
 	
 	private void tryToAquireMutex() throws IOException {
-		mutex = new ServerSocket(_port);
+		mutex = new ServerSocket(port);
 	}
 	
 	
@@ -197,12 +197,6 @@ public class ProcessReplacer {
 
 	private static void fail(String reason) throws IOException {
 		throw new IOException(className() + " unable to replace previous process. " + reason);
-	}
-	
-	
-	private static String property(String property, String defaultValue) {
-		String key = className() + property;
-		return System.getProperty(key, defaultValue);
 	}
 	
 	

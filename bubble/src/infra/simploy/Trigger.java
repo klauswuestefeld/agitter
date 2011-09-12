@@ -1,5 +1,6 @@
 package infra.simploy;
 
+
 abstract class Trigger {
 		
 		private int _gitPullFailures = 0;

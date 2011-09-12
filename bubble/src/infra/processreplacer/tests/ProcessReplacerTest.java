@@ -28,7 +28,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).retire(); willOpen(latch);
 			exactly(1).of(process2).run(); inSequence();
 		}});
-		ProcessReplacer pr = new ProcessReplacer(process2);
+		ProcessReplacer pr = new ProcessReplacer(process2, 1234);
 		latch.waitTillOpen();
 		pr.close();
 	}
@@ -46,7 +46,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
 			exactly(1).of(process2).retire();inSequence();
 		}});
-		new ProcessReplacer(process2);
+		new ProcessReplacer(process2, 1234);
 		latch.waitTillOpen();
 		pr.close();
 	}
@@ -57,7 +57,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).prepareToRun();inSequence();
 			exactly(1).of(process1).run();inSequence();
 		}});
-		return new ProcessReplacer(process1);
+		return new ProcessReplacer(process1, 1234);
 	}
 
 }
