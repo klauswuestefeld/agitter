@@ -8,9 +8,14 @@ public interface User {
 	public String screenName();
 
 	public String password();
-	public boolean isPassword(String attempt);
+	public boolean isPasswordCorrect(String passwordAttempt);
 
 	public boolean isInterestedInPublicEvents();
 	public void setInterestedInPublicEvents(boolean interested);
+
+	boolean isActive();
+	Long activationCode();
+
+	void activate();
 
 }

@@ -5,6 +5,7 @@ import static agitter.domain.emails.EmailAddress.mail;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import agitter.mailing.ActivationMailDispatcher;
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.Agitter;
@@ -15,6 +16,7 @@ import agitter.domain.users.UserUtils;
 public abstract class UsersTestBase extends CleanTestBase {
 
 	{
+		ActivationMailDispatcher.isTESTMODE = true; //TODO: Implement test support
 		Logger.getLogger("").setLevel(Level.OFF);
 	}
 	public final Agitter agitter = new AgitterImpl();

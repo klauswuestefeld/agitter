@@ -1,6 +1,7 @@
 package agitter.ui.presenter;
 
 import java.net.URL;
+import java.util.Map;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -13,6 +14,7 @@ import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
 import com.vaadin.terminal.DownloadStream;
+import sneer.foundation.lang.exceptions.Refusal;
 
 public class Presenter {
 
@@ -30,7 +32,7 @@ public class Presenter {
 	}
 
 	
-	public DownloadStream onRestInvocation(URL context, String relativeUri) {
+	public DownloadStream onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 		String[] uri = relativeUri.split("/");
 		if(uri.length==0) { return null; }
 
@@ -38,10 +40,11 @@ public class Presenter {
 
 		if ("contactsDemo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
+		if ("activation".endsWith(command)) { onActivate(params); }
 		return null;
 	}
 
-	
+
 	private void onContactsDemo() {
 
 		SessionView sessionView = view.showSessionView();
@@ -70,7 +73,19 @@ public class Presenter {
 		new AuthenticationPresenter(agitter.users(), view.loginView(), onAuthenticate(), warningDisplayer());
 	}
 
-	
+	private void onActivate(Map<String, String[]> params) {
+		try {
+			String email = params.get("email")[0];
+			String activationCode = params.get("code")[0];
+
+			this.agitter.users().activate(email, activationCode);
+		}catch(NullPointerException npe) {
+			//Invalid Activation call
+		} catch(Refusal refusal) {
+			warningDisplayer().consume(refusal.getMessage());
+		}
+	}
+
 	private void onUnsubscribe(String[] uri) {
 		if(uri.length<2) {  return; }
 		String userEncryptedInfo = uri[1];

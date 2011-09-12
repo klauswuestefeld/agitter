@@ -2,14 +2,17 @@ package agitter.domain.users;
 
 import static infra.logging.LogInfra.getLogger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import agitter.mailing.ActivationMailDispatcher;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
 
 public class UsersImpl implements Users {
 
+	private static final String MSG_USUARIO_INATIVO = "Usuário ainda não foi ativado. Verifique em sua caixa de email o link de ativação.";
 	private final List<User> users = new ArrayList<User>();
 
 	
@@ -22,15 +25,26 @@ public class UsersImpl implements Users {
 	@Override
 	public User signup(EmailAddress email, String password) throws Refusal {
 		checkParameters(email, password);
-		checkDuplication(email);
+		checkDuplicationAndSendActivationEmailIfInactive(email);
 
-		UserImpl result = createUser(email, password);
+		UserImpl user = createUser(email, password);
 
 		getLogger(this).info("Signup: "+email);
-		return result;
+
+		sendActivationMail(user);
+
+		return user;
 	}
 
-	
+	@Override
+	public void activate(String email, String activationCode) throws Refusal {
+		User user = searchByEmail(mail(email));
+		checkUser(user, email);
+		if(!user.activationCode().toString().equals(activationCode))
+			throw new Refusal("Código de ativação inválido: " + activationCode);
+		user.activate();
+	}
+
 	private UserImpl createUser(EmailAddress email, String password) {
 		UserImpl result = new UserImpl(email, password);
 		users.add(result);
@@ -39,7 +53,7 @@ public class UsersImpl implements Users {
 
 	
 	@Override
-	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword {
+	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword, UserNotActive {
 		User user = searchByEmail(email);
 		return login(user, email.toString(), password);
 	}
@@ -53,10 +67,10 @@ public class UsersImpl implements Users {
 	}
 
 
-	@Override
-	public String userEncyptedInfo(User user) {
-		return user.email().toString();//TODO - Implement encryption
-	}
+//	@Override
+//	public String userEncyptedInfo(User user) {
+//		return user.email().toString();//TODO - Implement encryption
+//	}
 
 	
 	@Override
@@ -100,9 +114,14 @@ public class UsersImpl implements Users {
 	}
 
 	
-	private void checkDuplication(EmailAddress email) throws Refusal {
-		if(searchByEmail(email)!=null)
-			throw new Refusal("Já existe usuário cadastrado com este email: "+email);
+	private void checkDuplicationAndSendActivationEmailIfInactive(EmailAddress email) throws Refusal {
+		User user = searchByEmail(email);
+		if(user==null) return;
+		if(!user.isActive()) {
+			sendActivationMail(user);
+			throw new Refusal(MSG_USUARIO_INATIVO);
+		}
+		throw new Refusal("Já existe usuário cadastrado com este email: "+email);
 	}
 
 	
@@ -111,9 +130,10 @@ public class UsersImpl implements Users {
 	}
 
 
-	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword {
+	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUser(user, email);
-		if(!user.isPassword(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
+		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
+		if(!user.isActive()) { throw new UserNotActive(MSG_USUARIO_INATIVO); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
@@ -124,6 +144,7 @@ public class UsersImpl implements Users {
 	}
 
 
+	@SuppressWarnings({"UnusedCatchParameter"})
 	private EmailAddress mail(String email) throws UserNotFound {
 		try {
 			return EmailAddress.mail(email);
@@ -132,4 +153,11 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	private void sendActivationMail(User user) {
+		try {
+			ActivationMailDispatcher.send(user.email(), user.activationCode().toString());
+		} catch(IOException e) {
+			getLogger(this).warning("Error sending activation code: " + e.getMessage());
+		}
+	}
 }

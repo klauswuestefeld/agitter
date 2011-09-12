@@ -113,7 +113,8 @@ public class AuthenticationPresenter {
 		User user;
 		try {
 			user = users.signup(mail(signupView.email()), signupView.password());
-			onAuthenticate.consume(user);
+			startLogin();
+			warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 		}
