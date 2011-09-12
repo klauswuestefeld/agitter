@@ -3,4 +3,4 @@
 . /etc/init.d/agitter_env_variables.sh
 
 cd /agitter/git_repositories/agitter/eclipse-project
-ant -Dbuild=../simploy-build simploy
+ant -Dbuild=/agitter/simploy-build simploy
