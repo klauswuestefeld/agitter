@@ -46,12 +46,13 @@ public class DeployerWorker {
 
 
 	private void generate(File newBuild) throws Exception {
+		//To test on Klaus's Windows machine: c:\\apache-ant-1.8.2\\bin\\ant.bat
 		CommandRunner.exec("ant build -Dbuild=" + newBuild);
 	}
 
 
 	private void run(File newBuild) throws Exception {
-		CommandRunner.execIn("ant run -Dbuild=" + newBuild + " -Dagitter.port=" + port, newBuild);
+		CommandRunner.execIn("ant run -Dbuild=" + newBuild + " -Dhttp.port=" + port, newBuild);
 	}
 
 
