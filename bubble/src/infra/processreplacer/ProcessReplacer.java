@@ -25,7 +25,7 @@ public class ProcessReplacer {
 	}
 
 
-	/** Retires previous ReplaceableProcess instances. It connects to the ProcessReplacerPort (system property). It then listens on that port to retire process if it receives a connection.*/
+	/** Retires previous ReplaceableProcess instances. It connects to port and then listens on that port to retire process if it receives a connection.*/
 	public ProcessReplacer(ReplaceableProcess process, int port) {
 		this.process = process;
 		this.port = port;

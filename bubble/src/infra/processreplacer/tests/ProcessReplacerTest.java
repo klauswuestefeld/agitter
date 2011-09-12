@@ -10,13 +10,12 @@ import sneer.foundation.util.concurrent.Latch;
 
 public class ProcessReplacerTest extends TestWithMocks {
 
-	{
-		System.setProperty("ProcessReplacerPort", "44444");
-	}
-	
+	private static final int PORT = randomizePortToAvoidClashesWithOtherVMsRunningTests();
+
 	private final ReplaceableProcess process1 = mock("p1", ReplaceableProcess.class);
 	private final ReplaceableProcess process2 = mock("p2", ReplaceableProcess.class);
 
+	
 	@Test (timeout = 2000)
 	public void replacement() throws Exception {
 		checkProcess1TakingOver();
@@ -28,7 +27,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).retire(); willOpen(latch);
 			exactly(1).of(process2).run(); inSequence();
 		}});
-		ProcessReplacer pr = new ProcessReplacer(process2, 1234);
+		ProcessReplacer pr = new ProcessReplacer(process2, PORT);
 		latch.waitTillOpen();
 		pr.close();
 	}
@@ -46,7 +45,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
 			exactly(1).of(process2).retire();inSequence();
 		}});
-		new ProcessReplacer(process2, 1234);
+		new ProcessReplacer(process2, PORT);
 		latch.waitTillOpen();
 		pr.close();
 	}
@@ -57,7 +56,12 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process1).prepareToRun();inSequence();
 			exactly(1).of(process1).run();inSequence();
 		}});
-		return new ProcessReplacer(process1, 1234);
+		return new ProcessReplacer(process1, PORT);
+	}
+	
+	
+	private static int randomizePortToAvoidClashesWithOtherVMsRunningTests() {
+		return 10000 + (int)(System.nanoTime() % 40000);
 	}
 
 }
