@@ -2,6 +2,7 @@
 	Staging environment (homologacao)
 
 	Grupos de Contatos
+		Validar nomes de grupos com a mesma regra dos usernames do twitter (nao meramente usando o Ultra Conservative XSS Sanitizer). Esses grupos logo poderao ser publicos e precisaram de nomes referenciavels na web.
 		Arrumar UI design - Verificar IE
 
 	Sign-up

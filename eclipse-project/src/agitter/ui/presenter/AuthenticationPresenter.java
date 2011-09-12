@@ -1,10 +1,10 @@
 package agitter.ui.presenter;
 
 import static agitter.domain.emails.EmailAddress.mail;
+import infra.logging.LogInfra;
 
 import java.io.IOException;
 
-import infra.logging.LogInfra;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
@@ -110,9 +110,8 @@ public class AuthenticationPresenter {
 			return;
 		}
 		
-		User user;
 		try {
-			user = users.signup(mail(signupView.email()), signupView.password());
+			users.signup(mail(signupView.email()), signupView.password());
 			startLogin();
 			warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
 		} catch (Refusal e) {

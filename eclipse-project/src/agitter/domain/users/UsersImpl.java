@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import agitter.mailing.ActivationMailDispatcher;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
+import agitter.mailing.ActivationMailDispatcher;
 
 public class UsersImpl implements Users {
 
@@ -144,7 +144,6 @@ public class UsersImpl implements Users {
 	}
 
 
-	@SuppressWarnings({"UnusedCatchParameter"})
 	private EmailAddress mail(String email) throws UserNotFound {
 		try {
 			return EmailAddress.mail(email);

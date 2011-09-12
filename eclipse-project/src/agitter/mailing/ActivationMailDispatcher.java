@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import agitter.domain.emails.EmailAddress;
+
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
-import com.amazonaws.services.simpleemail.model.*;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Content;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
-//TODO: Please, refactor all this!
+//TODO: Tem VÁRIAS duplicações aqui com outras classes.
 public class ActivationMailDispatcher {
 
 	public static boolean isTESTMODE = false; //TODO - Implementar test support
