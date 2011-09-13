@@ -11,6 +11,12 @@ public class DailyTrigger extends Trigger {
 
 
 	@Override
+	synchronized
+	void waitFor() {
+		waitQuietly(millisToWait());
+	}
+	
+	
 	public long millisToWait() {
 		long now = Clock.currentTimeMillis();
 		GregorianCalendar when = new GregorianCalendar();
@@ -21,6 +27,22 @@ public class DailyTrigger extends Trigger {
 		when.set(Calendar.MINUTE, 0);
 		when.set(Calendar.SECOND, 0);
 		return when.getTime().getTime() - Clock.currentTimeMillis();
+	}
+
+
+	@Override
+	String status() {
+		return "(No pulls are being made by this Simploy. Trusting pulls are being made by someone else.)\n"
+			+ timeUntilNextBuild();
+	}
+
+
+	private String timeUntilNextBuild() {
+		long millis = millisToWait();
+		long seconds = millis / 1000;
+		long minutes = seconds / 60;
+		long hours = minutes / 60;
+		return hours + "h " + (minutes % 60) + "min " + (seconds % 60) + "sec to next build.\n";
 	}
 	
 }
