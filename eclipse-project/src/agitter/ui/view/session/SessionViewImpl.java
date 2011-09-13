@@ -1,15 +1,19 @@
 package agitter.ui.view.session;
 
-import com.vaadin.ui.*;
-import vaadinutils.SessionUrlParameters;
 import vaadinutils.VaadinUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.EventsViewImpl;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 
 public class SessionViewImpl implements SessionView {
 
@@ -44,12 +48,10 @@ public class SessionViewImpl implements SessionView {
 				sessionTopBar.addComponent(sessionTopBarContent); sessionTopBarContent.addStyleName("a-session-top-bar-content");
 					sessionTopBarContent.addComponent(logo); logo.addStyleName("a-session-logo");
 	    			sessionTopBarContent.addComponent(mainMenu); mainMenu.addStyleName("a-session-top-bar-right");
-	    				if (SessionUrlParameters.isParameterSet(mainMenu, "groups")) {
-	    					mainMenu.addComponent(events);  events.addStyleName("a-session-menu-events");
-	    					events.addStyleName(MENU_DEFAULT_STYLE);
-	    					mainMenu.addComponent(contacts); contacts.addStyleName("a-session-menu-contacts");
-	    					contacts.addStyleName(MENU_DEFAULT_STYLE);
-	    				}
+    					mainMenu.addComponent(events);  events.addStyleName("a-session-menu-events");
+    					events.addStyleName(MENU_DEFAULT_STYLE);
+    					mainMenu.addComponent(contacts); contacts.addStyleName("a-session-menu-contacts");
+    					contacts.addStyleName(MENU_DEFAULT_STYLE);
 		    			mainMenu.addComponent(account); account.addStyleName("a-session-menu-user");
 		    			account.addStyleName(MENU_DEFAULT_STYLE);
 		    			mainMenu.addComponent(accountSeparator); accountSeparator.addStyleName("a-session-menu-user-separator");
