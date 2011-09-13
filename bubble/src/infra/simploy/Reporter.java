@@ -12,8 +12,8 @@ class Reporter {
 
 	String report() {
 		return
-			trigger.status() +
-			deployer.status();
+			deployer.status() + "\n" +
+			trigger.status();
 	}
 
 }
