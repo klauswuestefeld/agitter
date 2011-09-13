@@ -3,7 +3,6 @@ package agitter.main;
 import java.net.URL;
 import java.util.Map;
 
-import com.vaadin.terminal.ParameterHandler;
 import vaadinutils.SessionUrlParameters;
 import agitter.domain.Agitter;
 import agitter.ui.presenter.Presenter;
@@ -11,6 +10,7 @@ import agitter.ui.view.AgitterViewImpl;
 
 import com.vaadin.Application;
 import com.vaadin.terminal.DownloadStream;
+import com.vaadin.terminal.ParameterHandler;
 import com.vaadin.terminal.URIHandler;
 
 public class AgitterVaadinApplication extends Application {
@@ -36,11 +36,6 @@ public class AgitterVaadinApplication extends Application {
 	}
 
 	private class RestHandler implements ParameterHandler, URIHandler {
-
-		//TODO: Acho que tem um bug de concorrencia aqui. O Vaadin chama um de cada vez:
-		// handleParameters e depois handleURI
-		//Se tiver muito uso pode chamar fora de ordem e pode ser que passe o parametro de uma chamada para outra.
-		//see: http://vaadin.com/book/-/page/advanced.resources.html
 
 		Map<String, String[]> params;
 
