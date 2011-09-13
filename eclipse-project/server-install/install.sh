@@ -54,7 +54,12 @@ echo ----------------------
 echo Init Script
 echo ----------------------
 cat agitter_env_variables.sh >> /etc/profile
-
 cp agitter*.sh /etc/init.d/
 chmod +x /etc/init.d/agitter*.sh
 update-rc.d agitter_boot.sh defaults 80
+
+echo ----------------------
+echo Timezone
+echo ----------------------
+echo "America/Sao_Paulo" > /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata
