@@ -29,19 +29,9 @@ public class UsersImpl implements Users {
 
 		getLogger(this).info("Signup: "+email);
 
-		sendActivationMail(user);
-
 		return user;
 	}
 
-	@Override
-	public void activate(String email, String activationCode) throws Refusal {
-		User user = searchByEmail(mail(email));
-		checkUser(user, email);
-		if(!user.activationCode().toString().equals(activationCode))
-			throw new Refusal("Código de ativação inválido: " + activationCode);
-		user.activate();
-	}
 
 	private UserImpl createUser(EmailAddress email, String password) {
 		UserImpl result = new UserImpl(email, password);
@@ -114,11 +104,7 @@ public class UsersImpl implements Users {
 	
 	private void checkDuplicationAndSendActivationEmailIfInactive(EmailAddress email) throws Refusal {
 		User user = searchByEmail(email);
-		if(user==null) return;
-		if(!user.isActive()) {
-			sendActivationMail(user);
-			throw new Refusal(MSG_USUARIO_INATIVO);
-		}
+		if (user==null) return;
 		throw new Refusal("Já existe usuário cadastrado com este email: "+email);
 	}
 
@@ -150,11 +136,4 @@ public class UsersImpl implements Users {
 		}
 	}
 
-	private void sendActivationMail(User user) {
-//		try {
-//			ActivationMailDispatcher.send(user.email(), user.activationCode().toString());
-//		} catch(IOException e) {
-//			getLogger(this).warning("Error sending activation code: " + e.getMessage());
-//		}
-	}
 }

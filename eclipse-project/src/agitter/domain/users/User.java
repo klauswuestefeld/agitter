@@ -14,8 +14,5 @@ public interface User {
 	public void setInterestedInPublicEvents(boolean interested);
 
 	boolean isActive();
-	Long activationCode();
-
-	void activate();
 
 }

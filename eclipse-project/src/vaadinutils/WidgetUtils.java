@@ -6,7 +6,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.BaseTheme;
 
-public class VaadinUtils {
+public class WidgetUtils {
 
 	static public void focusOrder(Component.Focusable... components) {
 		for(int i = 0; i < components.length; ++i)

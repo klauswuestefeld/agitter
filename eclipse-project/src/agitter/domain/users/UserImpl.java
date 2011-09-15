@@ -10,8 +10,8 @@ public class UserImpl implements User {
 	private EmailAddress email;
 	private String password;
 	private boolean isInterestedInPublicEvents = true;
-	private boolean isActive = false;
-	private Long activationCode = new Random().nextLong();
+	@SuppressWarnings("unused") @Deprecated transient private boolean isActive = false; //Transient in 2011-09-14
+	@SuppressWarnings("unused") @Deprecated transient private Long activationCode = new Random().nextLong(); //Transient in 2011-09-14
 
 	public UserImpl(EmailAddress email, String password) {
 		this.email = email;
@@ -59,17 +59,7 @@ public class UserImpl implements User {
 
 	@Override
 	public boolean isActive() {
-		return isActive;
+		return password != null;
 	}
 
-	@Override
-	public Long activationCode() {
-		return activationCode;
-	}
-
-	@Override
-	public void activate() {
-		isActive = true;
-	}
-	
 }

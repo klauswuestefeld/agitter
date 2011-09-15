@@ -17,7 +17,6 @@ public interface Users {
 
 	@Transaction
 	User signup(EmailAddress email, String password) throws Refusal;
-	void activate(String email, String activationCode) throws Refusal;
 
 	@Transaction /** Use searchByEmail before calling this to test if it is necessary and avoid a transaction. Returns existing user or creates a new one with that email address. */
 	User produce(EmailAddress email);

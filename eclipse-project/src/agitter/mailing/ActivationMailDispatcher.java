@@ -24,11 +24,13 @@ public class ActivationMailDispatcher {
 	private static final String FROM_NAME = "Agitter";
 	private static final String SUBJECT = "Ativação de conta no Agitter";
 	private static final String BODY = "Bem vindo ao Agitter. Para ativar sua conta clique no link abaixo:<br/><br/>"
-		+ "<a href=\"http://agitter.com/activation/?email=%EMAIL%&code=%CODE%\">http://agitter.com/activation/?email=%EMAIL%&code=%CODE%</a><br/><br/><br/>"
+		+ "<a href=\"http://agitter.com/activate?email=%EMAIL%&code=%CODE%\">http://agitter.com/activation/?email=%EMAIL%&code=%CODE%</a><br/><br/><br/>"
 		+ "<a href=\"http://agitter.com\">Agitter</a><br /><br />"
 		+ "Bons agitos,<br />Equipe Agitter.";
 
 	public static void send(EmailAddress emailTo, String activationCode) throws IOException {
+		System.out.println("Enviando...1");
+		
 		if(isTESTMODE) return;
 
 		PropertiesCredentials credentials = new PropertiesCredentials(
@@ -42,7 +44,9 @@ public class ActivationMailDispatcher {
 		String mailText = BODY.replaceAll("%EMAIL%", emailTo.toString()).replaceAll("%CODE%", activationCode);
 		Body body = new Body().withHtml(new Content(mailText));
 		Message message = new Message(subject, body);
+		System.out.println("Enviando...");
 		service.sendEmail(new SendEmailRequest(from(), destination, message));
+		System.out.println("Enviado.");
 	}		
 	
 	private static String from() {

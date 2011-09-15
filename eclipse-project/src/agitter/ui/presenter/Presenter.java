@@ -5,6 +5,7 @@ import java.util.Map;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
@@ -14,7 +15,6 @@ import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
 import com.vaadin.terminal.DownloadStream;
-import sneer.foundation.lang.exceptions.Refusal;
 
 public class Presenter {
 
@@ -31,7 +31,6 @@ public class Presenter {
 		openAuthentication();
 	}
 
-	
 	public DownloadStream onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 		String[] uri = relativeUri.split("/");
 		if(uri.length==0) { return null; }
@@ -40,7 +39,7 @@ public class Presenter {
 
 		if ("contactsDemo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
-		if ("activation".endsWith(command)) { onActivate(params); }
+		if ("activate".equals(command)) { onActivate(params); }
 		return null;
 	}
 
@@ -78,7 +77,7 @@ public class Presenter {
 			String email = params.get("email")[0];
 			String activationCode = params.get("code")[0];
 
-			this.agitter.users().activate(email, activationCode);
+			this.agitter.users().signup(EmailAddress.mail(email), activationCode);
 		}catch(NullPointerException npe) {
 			//Invalid Activation call
 		} catch(Refusal refusal) {

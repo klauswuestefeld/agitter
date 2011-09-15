@@ -6,7 +6,7 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
-import vaadinutils.VaadinUtils;
+import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -53,14 +53,14 @@ public class ContactsViewImpl implements ContactsView {
 		container.addComponent(contactsView); contactsView.addStyleName("a-contacts-view");
 
 		CssLayout groups = new CssLayout(); groups.addStyleName("a-contacts-groups");
-		Label groupsCaption = VaadinUtils.createLabel("Grupos");
+		Label groupsCaption = WidgetUtils.createLabel("Grupos");
 		groups.addComponent(groupsCaption); groupsCaption.addStyleName("a-contacts-groups-caption");
 		groups.addComponent(newGroup); newGroup.addStyleName("a-contacts-groups-new");
 		groups.addComponent(ignored); ignored.addStyleName("a-contacts-groups-new-add");
 		groups.addComponent(groupList); groupList.addStyleName("a-contacts-groups-list");
 		
 		CssLayout members = new CssLayout(); members.addStyleName("a-contacts-members");
-		Label membersCaption = VaadinUtils.createLabel("Membros");
+		Label membersCaption = WidgetUtils.createLabel("Membros");
 		members.addComponent(membersCaption); membersCaption.addStyleName("a-contacts-members-caption");
 		members.addComponent(newMember); newMember.addStyleName("a-contacts-members-new");
 		members.addComponent(memberList); memberList.addStyleName("a-contacts-members-list");

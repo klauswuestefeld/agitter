@@ -1,6 +1,6 @@
 package agitter.ui.view.authentication;
 
-import vaadinutils.VaadinUtils;
+import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -162,7 +162,7 @@ public class LoginViewImpl implements LoginView {
 
 	
 	private void setupFocus() {
-		VaadinUtils.focusOrder(emailOrUsername, password, login, forgotMyPassword, signup);
+		WidgetUtils.focusOrder(emailOrUsername, password, login, forgotMyPassword, signup);
 		emailOrUsername.focus();
 	}
 

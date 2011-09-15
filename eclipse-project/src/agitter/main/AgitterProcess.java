@@ -20,7 +20,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
-import agitter.mailing.ActivationMailDispatcher;
 import agitter.mailing.AmazonEmailSender;
 import agitter.mailing.PeriodicScheduleMailer;
 
@@ -52,8 +51,6 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private void prepareToRunAsSuccessfulBuild() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
-		ActivationMailDispatcher.isTESTMODE = false; //TODO - Remover isso daqui depois que implementar direito o test support
-
 	}
 
 
