@@ -7,8 +7,6 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 public class EmailAddress extends Immutable implements Comparable<EmailAddress>, Serializable {
 
-	g
-	
 	public static EmailAddress email(String email) throws Refusal {
 		return new EmailAddress(email);
 	}
