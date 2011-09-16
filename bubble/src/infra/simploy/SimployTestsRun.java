@@ -41,7 +41,7 @@ public class SimployTestsRun {
 
 			@Override
 			public void testFailure(Failure failure) {
-				firstTestFailure = failure.getException();
+				if (firstTestFailure == null) firstTestFailure = failure.getException();
 				System.out.println("FAILED\n");
 				System.out.println(failure.getTrace());
 			}

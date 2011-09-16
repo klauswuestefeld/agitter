@@ -22,7 +22,7 @@ public class PrevalentBubble {
 
 	synchronized
 	public static <T> T wrap(Object prevalentSystem, PrevaylerFactory factory) throws IOException, ClassNotFoundException {
-		if (_session != null) throw new IllegalStateException();
+		if (_session != null) throw new IllegalStateException("Prevalent Bubble session was already active (maybe not cleaned from previous session).");
 		
 		_session = new PrevalentSession(prevalentSystem, factory);
 		_session.start(); //_session has to be set before start() so that the setPrevalentSystemIfNecessary method can be called.
