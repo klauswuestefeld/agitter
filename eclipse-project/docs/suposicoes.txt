@@ -3,12 +3,7 @@
 		Arrumar UI design - Verificar IE
 
 	Sign-up
-		Só permitir signup apos confirmacao do email.
-			Workflow:
-				1 - Usuario preenche email e senhas.
-				2 - Recebe email com link de confirmacao.
-				3 - Link de confirmacao confirma a criacao do usuario.
-
+		Hash pra garantir autenticidade do link.
 
 	Importação de Emails de meus Contatos através do SocialAuth
 		Hotmail
