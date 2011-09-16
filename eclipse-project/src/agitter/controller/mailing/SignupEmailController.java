@@ -8,6 +8,7 @@ import java.util.Map;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.controller.RestRequest;
 import agitter.domain.emails.EmailAddress;
+import agitter.domain.users.User;
 import agitter.domain.users.Users;
 
 public class SignupEmailController {
@@ -39,11 +40,11 @@ public class SignupEmailController {
 	}
 
 	
-	public void onRestInvocation(Map<String, String[]> params) throws Refusal {
+	public User onRestInvocation(Map<String, String[]> params) throws Refusal {
 		EmailAddress email = email(params.get("email")[0]);
 		String password = passwordsByEmail.get(email);
 		if (password == null) throw new Refusal("Código de ativação expirado. Tente novamente.");
-		users.signup(email, password);
+		return users.signup(email, password);
 	}
 	
 }

@@ -10,7 +10,6 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.ForgotPasswordMailSender;
 import agitter.controller.mailing.SignupEmailController;
-import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.ui.view.authentication.LoginView;
@@ -26,6 +25,7 @@ public class AuthenticationPresenter {
 	private final SignupEmailController signups;
 	private SignupView signupView;
 
+	
 	public AuthenticationPresenter(Users users, LoginView loginView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer) {
 		this.users = users;
 		this.loginView = loginView;
@@ -50,6 +50,7 @@ public class AuthenticationPresenter {
 		startLogin();
 	}
 	
+	
 	private void loginAttempt() {
 		User user;
 		try {
@@ -61,6 +62,7 @@ public class AuthenticationPresenter {
 		onAuthenticate.consume(user);
 	}
 
+	
 	private void startSignup() {
 		signupView = loginView.showSignupView();
 		signupView.onSignupAttempt(new Runnable() { @Override public void run() {
@@ -71,10 +73,12 @@ public class AuthenticationPresenter {
 		}});
 	}
 
+	
 	private void startLogin() {
 		loginView.show();
 	}
 
+	
 	private void forgotMyPassword() {
 		try {
 			tryToSendPassword();
@@ -85,6 +89,7 @@ public class AuthenticationPresenter {
 		warningDisplayer.consume("E-mail enviado com sucesso!");
 	}
 
+	
 	private void tryToSendPassword() throws Refusal {
 		User user = users.findByEmail(email(loginView.email()));
 		try {
@@ -95,41 +100,34 @@ public class AuthenticationPresenter {
 		}
 	}
 
-	private boolean isBlank(final String value) {
-		return value == null || value.trim().equals( "" );
-	}
 	
 	private void signupAttempt() {
-		EmailAddress email;
 		try {
-			email = email(signupView.email());
+			trySignup();
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
-			return;
 		}
-		
-		if( this.isBlank( signupView.email() ) ) {
-			warningDisplayer.consume("Campo email deve ser especificado");
-			return;			
-		}
-		
-		if( this.isBlank( signupView.password() ) ) {
-			warningDisplayer.consume("Campo senha deve ser especificado");
-			return;			
-		}
-
-		if (!isPasswordConfirmed()) {
-			warningDisplayer.consume("Senha e confirmação devem ser iguais.");
-			return;
-		}
-		
-		signups.initiateSignup(email, signupView.password());
-		startLogin();
-		warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
 	}
+
+	
+	private void trySignup() throws Refusal {
+		if (this.isBlank(signupView.password())) throw new Refusal("Preencha a senha.");
+		if (!isPasswordConfirmed()) throw new Refusal("Senha e confirmação devem ser iguais.");
+		signups.initiateSignup(email(signupView.email()), signupView.password());
+		startLogin();
+		warningDisplayer.consume("Mandamos um email de confirmação pra você. (Verifique também na sua caixa de SPAM)");
+	}
+
 
 	private boolean isPasswordConfirmed() {
 		return signupView.password().equals(signupView.passwordConfirmation());
 	}
+
 	
+	private boolean isBlank(final String value) {
+		return value == null || value.trim().equals( "" );
+	}
+
 }
+
+

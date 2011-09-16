@@ -35,6 +35,7 @@ public class Presenter {
 		
 		openAuthentication();
 	}
+	
 
 	public DownloadStream onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 		try {
@@ -48,6 +49,7 @@ public class Presenter {
 		return null;
 	}
 
+	
 	private void tryRestInvocation(String relativeUri, Map<String, String[]> params) throws Refusal {
 		String[] uri = relativeUri.split("/");
 		if (uri.length == 0) return;
@@ -56,7 +58,7 @@ public class Presenter {
 
 		if ("contactsDemo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
-		if ("signup".equals(command)) { onSignup(params); }
+		if ("signup".equals(command)) { onRestSignup(params); }
 	}
 
 
@@ -88,13 +90,15 @@ public class Presenter {
 	}
 
 	
-	private void onSignup(Map<String, String[]> params) throws Refusal {
-		controller.signups().onRestInvocation(params);
+	private void onRestSignup(Map<String, String[]> params) throws Refusal {
+		User user = controller.signups().onRestInvocation(params);
+		onAuthenticate().consume(user);
 	}
 
 	
 	private void onUnsubscribe(String[] uri) {
-		if(uri.length<2) {  return; }
+		if (uri.length < 2) return;
+		
 		String userEncryptedInfo = uri[1];
 		//TODO - Criar um presenter com uma telinha de info da unsubscribe
 		//TODO - Acho que o unsubscribe deveria ter uma tela de login para confirmar o unsubscribe, ai nao precisava nem ter crypto na url
