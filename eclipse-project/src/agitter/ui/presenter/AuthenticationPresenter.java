@@ -115,7 +115,7 @@ public class AuthenticationPresenter {
 		if (!isPasswordConfirmed()) throw new Refusal("Senha e confirmação devem ser iguais.");
 		signups.initiateSignup(email(signupView.email()), signupView.password());
 		startLogin();
-		warningDisplayer.consume("Mandamos um email de confirmação pra você. (Verifique também na sua caixa de SPAM)");
+		warningDisplayer.consume("Um Email de confirmação foi enviado pra você. (Verifique também na sua caixa de SPAM)");
 	}
 
 

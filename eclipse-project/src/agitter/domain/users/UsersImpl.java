@@ -23,10 +23,11 @@ public class UsersImpl implements Users {
 	@Override
 	public User signup(EmailAddress email, String password) throws Refusal {
 		checkParameters(email, password);
-		checkDuplicationAndSendActivationEmailIfInactive(email);
+		checkDuplicateSignup(email);
 
-		UserImpl user = createUser(email, password);
-
+		UserImpl user = (UserImpl)produce(email);
+		user.setPassword(password);
+		
 		getLogger(this).info("Signup: "+email);
 
 		return user;
@@ -102,9 +103,10 @@ public class UsersImpl implements Users {
 	}
 
 	
-	private void checkDuplicationAndSendActivationEmailIfInactive(EmailAddress email) throws Refusal {
+	private void checkDuplicateSignup(EmailAddress email) throws Refusal {
 		User user = searchByEmail(email);
 		if (user==null) return;
+		if (!user.hasSignedUp()) return;
 		throw new Refusal("Já existe usuário cadastrado com este email: "+email);
 	}
 

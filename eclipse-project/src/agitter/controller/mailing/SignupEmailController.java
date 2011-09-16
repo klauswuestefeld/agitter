@@ -1,7 +1,5 @@
 package agitter.controller.mailing;
 
-import static agitter.domain.emails.EmailAddress.email;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,19 +30,21 @@ public class SignupEmailController {
 	}
 
 	
-	public void initiateSignup(EmailAddress mail, String password) {
-		passwordsByEmail.put(mail, password);
-		RestRequest uri = new SignupURI(mail);
-		String body = BODY.replaceAll("%REQUEST%", uri.asRelativeURI());
-		emailSender.send(mail, SUBJECT, body);
+	public void initiateSignup(EmailAddress email, String password) throws Refusal {
+		User user = users.searchByEmail(email);
+		if (user != null && user.hasSignedUp()) throw new Refusal("Já existe um usuário cadastrado com este email: " + email);
+		passwordsByEmail.put(email, password);
+		RestRequest req = new SignupRequest(email);
+		String body = BODY.replaceAll("%REQUEST%", req.asSecureURI());
+		emailSender.send(email, SUBJECT, body);
 	}
 
 	
 	public User onRestInvocation(Map<String, String[]> params) throws Refusal {
-		EmailAddress email = email(params.get("email")[0]);
-		String password = passwordsByEmail.get(email);
+		SignupRequest req = SignupRequest.unmarshal(params);
+		String password = passwordsByEmail.remove(req.email());
 		if (password == null) throw new Refusal("Código de ativação expirado. Tente novamente.");
-		return users.signup(email, password);
+		return users.signup(req.email(), password);
 	}
 	
 }

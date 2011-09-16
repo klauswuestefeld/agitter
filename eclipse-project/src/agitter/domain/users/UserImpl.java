@@ -62,4 +62,9 @@ public class UserImpl implements User {
 		return password != null;
 	}
 
+
+	void setPassword(String password) {
+		this.password = password;
+	}
+
 }
