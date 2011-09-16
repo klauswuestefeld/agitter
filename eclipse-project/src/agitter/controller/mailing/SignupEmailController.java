@@ -31,20 +31,26 @@ public class SignupEmailController {
 
 	
 	public void initiateSignup(EmailAddress email, String password) throws Refusal {
-		User user = users.searchByEmail(email);
-		if (user != null && user.hasSignedUp()) throw new Refusal("Já existe um usuário cadastrado com este email: " + email);
+		checkDuplicatedSignup(email);
 		passwordsByEmail.put(email, password);
 		RestRequest req = new SignupRequest(email);
 		String body = BODY.replaceAll("%REQUEST%", req.asSecureURI());
 		emailSender.send(email, SUBJECT, body);
 	}
 
-	
+
 	public User onRestInvocation(Map<String, String[]> params) throws Refusal {
 		SignupRequest req = SignupRequest.unmarshal(params);
+		checkDuplicatedSignup(req.email());
 		String password = passwordsByEmail.remove(req.email());
-		if (password == null) throw new Refusal("Código de ativação expirado. Tente novamente.");
+		if (password == null) throw new Refusal("Código de ativação expirado. Faça seu cadastro novamente.");
 		return users.signup(req.email(), password);
+	}
+
+	
+	private void checkDuplicatedSignup(EmailAddress email) throws Refusal {
+		User user = users.searchByEmail(email);
+		if (user != null && user.hasSignedUp()) throw new Refusal("Já existe um usuário cadastrado com este email: " + email);
 	}
 	
 }

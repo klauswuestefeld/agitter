@@ -18,7 +18,7 @@ public class SignupRequest extends RestRequest {
 
 	public static SignupRequest unmarshal(Map<String, String[]> params) throws Refusal {
 		SignupRequest result = new SignupRequest(email(params));
-		result.validade(params);
+		result.validate(params);
 		return result;
 	}
 

@@ -67,8 +67,9 @@ public abstract class RestRequest {
 	}
 
 
-	protected void validade(Map<String, String[]> params) throws Refusal {
-		if (!securityCode().equals(params.get("code")[0]))
+	protected void validate(Map<String, String[]> params) throws Refusal {
+		String[] code = params.get("code");
+		if (code == null || code.length != 1 || !securityCode().equals(code[0]))
 			throw new Refusal("Requisição inválida.");
 	}
 	
