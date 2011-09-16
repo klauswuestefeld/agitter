@@ -20,7 +20,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
-import agitter.ui.mailing.PeriodicScheduleMailer;
+import agitter.controller.Controller;
 
 import com.vaadin.Application;
 
@@ -111,12 +111,18 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	@Override
 	public void run() {
-		startMailing();
+		startController();
 		try {
 			runWebApps(port(), vaadinThemes(), vaadin());
 		} catch (Exception e) {
 			log(e, "Unable to start Vaadin web app.");
 		}
+	}
+
+
+	private void startController() {
+		@SuppressWarnings("unused")
+		Controller started = Controller.CONTROLLER;
 	}
 
 
@@ -157,16 +163,6 @@ public class AgitterProcess implements ReplaceableProcess {
 		Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("application", vaadinApp.getName());
 		return initParams;
-	}
-
-
-	private void startMailing() {
-		try {
-			PeriodicScheduleMailer.start(PrevaylerBootstrap.agitter());
-		} catch (IOException e) {
-			log(e, "Mailing start failed.");
-			return;
-		}
 	}
 
 

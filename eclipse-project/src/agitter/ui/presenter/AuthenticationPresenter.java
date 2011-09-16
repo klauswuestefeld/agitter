@@ -7,10 +7,12 @@ import java.io.IOException;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.controller.mailing.EmailSender;
+import agitter.controller.mailing.ForgotPasswordMailSender;
+import agitter.controller.mailing.SignupEmailController;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
-import agitter.ui.mailing.AmazonMailSender;
-import agitter.ui.mailing.ForgotPasswordMailSender;
 import agitter.ui.view.authentication.LoginView;
 import agitter.ui.view.authentication.SignupView;
 
@@ -20,12 +22,16 @@ public class AuthenticationPresenter {
 	private final LoginView loginView;
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
+	private final EmailSender emailSender;
+	private final SignupEmailController signups;
 	private SignupView signupView;
 
-	public AuthenticationPresenter(Users users, LoginView loginView, Consumer<User> onAuthenticate, Consumer<String> warningDisplayer) {
+	public AuthenticationPresenter(Users users, LoginView loginView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer) {
 		this.users = users;
 		this.loginView = loginView;
 		this.onAuthenticate = onAuthenticate;
+		this.signups = signups;
+		this.emailSender = emailSender;
 		this.warningDisplayer = warningDisplayer;
 
 		this.loginView.onLoginAttempt(
@@ -82,7 +88,7 @@ public class AuthenticationPresenter {
 	private void tryToSendPassword() throws Refusal {
 		User user = users.findByEmail(email(loginView.email()));
 		try {
-			ForgotPasswordMailSender.send(AmazonMailSender.singleton(), user.email(), user.password());
+			ForgotPasswordMailSender.send(emailSender, user.email(), user.password());
 		} catch (IOException e) {
 			LogInfra.getLogger(this).severe("Erro enviando senha para usuario: " + user.email() + " - " + e.getMessage());
 			throw new Refusal("Não foi possível enviar seu email. Tente novamente mais tarde.");
@@ -94,6 +100,14 @@ public class AuthenticationPresenter {
 	}
 	
 	private void signupAttempt() {
+		EmailAddress email;
+		try {
+			email = email(signupView.email());
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+			return;
+		}
+		
 		if( this.isBlank( signupView.email() ) ) {
 			warningDisplayer.consume("Campo email deve ser especificado");
 			return;			
@@ -109,7 +123,7 @@ public class AuthenticationPresenter {
 			return;
 		}
 		
-		int sendAuthMail;
+		signups.initiateSignup(email, signupView.password());
 		startLogin();
 		warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
 	}

@@ -11,11 +11,11 @@ import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.controller.mailing.PeriodicScheduleMailer;
+import agitter.controller.mailing.tests.EmailSenderMock;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
-import agitter.ui.mailing.PeriodicScheduleMailer;
-import agitter.ui.mailing.tests.MailSenderMock;
 
 public class PeriodicScheduleEmailTest extends EventsTestBase {
 
@@ -43,7 +43,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 		Clock.setForCurrentThread(startTime+11);
 
-		MailSenderMock mock = sendEmailsAndCaptureLast();
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
@@ -59,7 +59,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(matias, "churras", startTime+11L, user("klaus@email.com"));
 		Clock.setForCurrentThread(startTime+10);
 
-		MailSenderMock mock = sendEmailsAndCaptureLast();
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertFragment("matias@email.com - churras", mock.body());
@@ -72,7 +72,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(leo, "<script>", startTime+11L, user("fulano@email.com"));
 		Clock.setForCurrentThread(startTime+11);
 
-		MailSenderMock mock = sendEmailsAndCaptureLast();
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
 		assertFragment("leo@email.com - script", mock.body());
 	}
 
@@ -126,8 +126,8 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
 	}
 
-	private MailSenderMock sendEmailsAndCaptureLast() {
-		MailSenderMock emailSenderMock = new MailSenderMock();
+	private EmailSenderMock sendEmailsAndCaptureLast() {
+		EmailSenderMock emailSenderMock = new EmailSenderMock();
 		PeriodicScheduleMailer daemon = new PeriodicScheduleMailer(agitter, emailSenderMock);
 		daemon.sendEventsToHappenIn24Hours();
 		return emailSenderMock;

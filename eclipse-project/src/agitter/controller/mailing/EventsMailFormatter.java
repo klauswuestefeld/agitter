@@ -1,4 +1,4 @@
-package agitter.ui.mailing;
+package agitter.controller.mailing;
 
 import static utils.XssAttackSanitizer.ultraConservativeFilter;
 

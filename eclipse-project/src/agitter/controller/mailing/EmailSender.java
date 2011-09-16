@@ -1,8 +1,8 @@
-package agitter.ui.mailing;
+package agitter.controller.mailing;
 
 import agitter.domain.emails.EmailAddress;
 
-public interface MailSender {
+public interface EmailSender {
 
 	public void send(EmailAddress to, String subject, String body);
 

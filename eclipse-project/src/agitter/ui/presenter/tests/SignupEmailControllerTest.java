@@ -5,25 +5,23 @@ import static agitter.domain.emails.EmailAddress.email;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.testsupport.TestWithMocks;
+import agitter.controller.mailing.SignupEmailController;
+import agitter.controller.mailing.tests.EmailSenderMock;
 import agitter.domain.users.Users;
-import agitter.ui.mailing.tests.MailSenderMock;
-import agitter.ui.presenter.SignupMailController;
 
-public class SignupMailControllerTest extends TestWithMocks {
+public class SignupEmailControllerTest extends TestWithMocks {
 
-	private final MailSenderMock sender = new MailSenderMock();
+	private final EmailSenderMock sender = new EmailSenderMock();
 	private final Users users = mock(Users.class);
 	
-	private final SignupMailController subject = new SignupMailController(sender, users);
+	private final SignupEmailController subject = new SignupEmailController(sender, users);
 	
 	
-	@Ignore
 	@Test (timeout = 2000)
-	public void signupViaMail() throws Exception {
+	public void signupViaEmail() throws Exception {
 		checking(new Expectations(){{
 			exactly(1).of(users).signup(email("ana@mail.com"), "password123"); inSequence();
 		}});

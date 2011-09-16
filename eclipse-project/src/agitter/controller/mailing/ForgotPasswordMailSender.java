@@ -1,4 +1,4 @@
-package agitter.ui.mailing;
+package agitter.controller.mailing;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class ForgotPasswordMailSender {
 		"Bons agitos,<br />Equipe Agitter.";
 
 	
-	public static void send(MailSender sender, EmailAddress to, String password) throws IOException {
+	public static void send(EmailSender sender, EmailAddress to, String password) throws IOException {
 		String body = BODY.replaceAll("%PASSWORD%", password);
 		sender.send(to, SUBJECT, body);
 	}

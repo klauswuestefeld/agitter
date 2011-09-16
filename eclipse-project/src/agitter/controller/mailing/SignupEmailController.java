@@ -1,15 +1,16 @@
-package agitter.ui.presenter;
+package agitter.controller.mailing;
 
 import static agitter.domain.emails.EmailAddress.email;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.controller.RestRequest;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.Users;
-import agitter.ui.mailing.MailSender;
 
-public class SignupMailController {
+public class SignupEmailController {
 
 	private static final String SUBJECT = "Ative sua Conta";
 	private static final String LINK = "http://agitter.com/%REQUEST%";
@@ -19,25 +20,30 @@ public class SignupMailController {
 		+ "Bons agitos,<br />Equipe Agitter.";
 	
 	
-	private final MailSender mailSender;
+	private final Map<EmailAddress, String> passwordsByEmail = new HashMap<EmailAddress, String>();
+	private final EmailSender emailSender;
 	private final Users users;
 
 	
-	public SignupMailController(MailSender mailSender, Users users) {
-		this.mailSender = mailSender;
+	public SignupEmailController(EmailSender emailSender, Users users) {
+		this.emailSender = emailSender;
 		this.users = users;
 	}
 
+	
 	public void initiateSignup(EmailAddress mail, String password) {
+		passwordsByEmail.put(mail, password);
 		RestRequest uri = new SignupURI(mail);
 		String body = BODY.replaceAll("%REQUEST%", uri.asRelativeURI());
-		mailSender.send(mail, SUBJECT, body);
+		emailSender.send(mail, SUBJECT, body);
 	}
 
+	
 	public void onRestInvocation(Map<String, String[]> params) throws Refusal {
 		EmailAddress email = email(params.get("email")[0]);
-		int recoverPassword;
-		users.signup(email, "password");
+		String password = passwordsByEmail.get(email);
+		if (password == null) throw new Refusal("Código de ativação expirado. Tente novamente.");
+		users.signup(email, password);
 	}
 	
 }

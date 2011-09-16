@@ -1,4 +1,4 @@
-package agitter.ui.presenter;
+package agitter.controller;
 
 
 public abstract class RestRequest {
