@@ -58,7 +58,7 @@ public class UserImpl implements User {
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean hasSignedUp() {
 		return password != null;
 	}
 

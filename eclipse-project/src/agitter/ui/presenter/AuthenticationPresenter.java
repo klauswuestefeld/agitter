@@ -1,6 +1,6 @@
 package agitter.ui.presenter;
 
-import static agitter.domain.emails.EmailAddress.mail;
+import static agitter.domain.emails.EmailAddress.email;
 import infra.logging.LogInfra;
 
 import java.io.IOException;
@@ -9,7 +9,8 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
-import agitter.mailing.ForgotPasswordMailDispatcher;
+import agitter.ui.mailing.AmazonMailSender;
+import agitter.ui.mailing.ForgotPasswordMailSender;
 import agitter.ui.view.authentication.LoginView;
 import agitter.ui.view.authentication.SignupView;
 
@@ -46,7 +47,7 @@ public class AuthenticationPresenter {
 	private void loginAttempt() {
 		User user;
 		try {
-			user = users.loginWithEmail(mail(loginView.email()), loginView.password());
+			user = users.loginWithEmail(email(loginView.email()), loginView.password());
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
@@ -69,25 +70,23 @@ public class AuthenticationPresenter {
 	}
 
 	private void forgotMyPassword() {
-		if (loginView.email() == null || loginView.email().trim().length() == 0){
-			warningDisplayer.consume("Preencha seu email.");
-			return;
-		}
-		User user;
-		try{
-			user = users.findByEmail(mail(loginView.email()));
+		try {
+			tryToSendPassword();
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
-		try {
-			ForgotPasswordMailDispatcher.send(user.email(), user.password());
-		} catch (IOException e) {
-			warningDisplayer.consume("Não foi possível enviar seu email, por favor entre em contato com a equipe do Agitter.");
-			LogInfra.getLogger(this).severe("Erro enviando senha para usuario: " + user.email() + " - " + e.getMessage());
-			return;
-		}
 		warningDisplayer.consume("E-mail enviado com sucesso!");
+	}
+
+	private void tryToSendPassword() throws Refusal {
+		User user = users.findByEmail(email(loginView.email()));
+		try {
+			ForgotPasswordMailSender.send(AmazonMailSender.singleton(), user.email(), user.password());
+		} catch (IOException e) {
+			LogInfra.getLogger(this).severe("Erro enviando senha para usuario: " + user.email() + " - " + e.getMessage());
+			throw new Refusal("Não foi possível enviar seu email. Tente novamente mais tarde.");
+		}
 	}
 
 	private boolean isBlank(final String value) {
@@ -110,13 +109,9 @@ public class AuthenticationPresenter {
 			return;
 		}
 		
-		try {
-			users.signup(mail(signupView.email()), signupView.password());
-			startLogin();
-			warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
-		} catch (Refusal e) {
-			warningDisplayer.consume(e.getMessage());
-		}
+		int sendAuthMail;
+		startLogin();
+		warningDisplayer.consume("Cadastro realizado com sucesso! Verifique sua caixa de email para ativar sua conta no Agitter.");
 	}
 
 	private boolean isPasswordConfirmed() {

@@ -20,8 +20,9 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
-import agitter.mailing.AmazonEmailSender;
-import agitter.mailing.PeriodicScheduleMailer;
+import agitter.ui.mailing.PeriodicScheduleMailer;
+
+import com.vaadin.Application;
 
 public class AgitterProcess implements ReplaceableProcess {
 
@@ -152,7 +153,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 
-	private static Map<String, String> initWith(Class<AgitterVaadinApplication> vaadinApp) {
+	private static Map<String, String> initWith(Class<? extends Application> vaadinApp) {
 		Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("application", vaadinApp.getName());
 		return initParams;
@@ -160,14 +161,12 @@ public class AgitterProcess implements ReplaceableProcess {
 
 
 	private void startMailing() {
-		AmazonEmailSender sender;
 		try {
-			sender = new AmazonEmailSender();
+			PeriodicScheduleMailer.start(PrevaylerBootstrap.agitter());
 		} catch (IOException e) {
 			log(e, "Mailing start failed.");
 			return;
 		}
-		PeriodicScheduleMailer.start(PrevaylerBootstrap.agitter(), sender);
 	}
 
 

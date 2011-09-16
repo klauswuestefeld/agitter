@@ -1,7 +1,8 @@
-package agitter.mailing;
+package agitter.ui.mailing;
 
 import static infra.logging.LogInfra.getLogger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,8 +17,8 @@ public class PeriodicScheduleMailer {
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
-	public static void start(Agitter agitter, AmazonEmailSender amazonEmailSender) {
-		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, amazonEmailSender);
+	public static void start(Agitter agitter) throws IOException {
+		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, AmazonMailSender.singleton());
 		new Thread() {
 			{setDaemon(true); }
 			@Override
@@ -38,12 +39,12 @@ public class PeriodicScheduleMailer {
 		}
 	}
 
-	private final EmailSender sender;
+	private final MailSender sender;
 	private final Agitter agitter;
 
 	private EventsMailFormatter formatter = new EventsMailFormatter();
 
-	public PeriodicScheduleMailer(Agitter agitter, EmailSender sender) {
+	public PeriodicScheduleMailer(Agitter agitter, MailSender sender) {
 		this.sender = sender;
 		this.agitter = agitter;
 	}

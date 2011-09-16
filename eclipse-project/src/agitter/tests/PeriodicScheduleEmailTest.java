@@ -1,6 +1,6 @@
 package agitter.tests;
 
-import static agitter.domain.emails.EmailAddress.mail;
+import static agitter.domain.emails.EmailAddress.email;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -14,8 +14,8 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
-import agitter.mailing.PeriodicScheduleMailer;
-import agitter.mailing.tests.EmailSenderMock;
+import agitter.ui.mailing.PeriodicScheduleMailer;
+import agitter.ui.mailing.tests.MailSenderMock;
 
 public class PeriodicScheduleEmailTest extends EventsTestBase {
 
@@ -43,7 +43,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 		Clock.setForCurrentThread(startTime+11);
 
-		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		MailSenderMock mock = sendEmailsAndCaptureLast();
 
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
@@ -59,7 +59,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(matias, "churras", startTime+11L, user("klaus@email.com"));
 		Clock.setForCurrentThread(startTime+10);
 
-		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		MailSenderMock mock = sendEmailsAndCaptureLast();
 
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertFragment("matias@email.com - churras", mock.body());
@@ -72,7 +72,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(leo, "<script>", startTime+11L, user("fulano@email.com"));
 		Clock.setForCurrentThread(startTime+11);
 
-		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		MailSenderMock mock = sendEmailsAndCaptureLast();
 		assertFragment("leo@email.com - script", mock.body());
 	}
 
@@ -126,15 +126,15 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
 	}
 
-	private EmailSenderMock sendEmailsAndCaptureLast() {
-		EmailSenderMock emailSenderMock = new EmailSenderMock();
+	private MailSenderMock sendEmailsAndCaptureLast() {
+		MailSenderMock emailSenderMock = new MailSenderMock();
 		PeriodicScheduleMailer daemon = new PeriodicScheduleMailer(agitter, emailSenderMock);
 		daemon.sendEventsToHappenIn24Hours();
 		return emailSenderMock;
 	}
 
 	private User signup(String username) throws Refusal {
-		return agitter.users().signup(mail(username+"@email.com"), "123");
+		return agitter.users().signup(email(username+"@email.com"), "123");
 	}
 }
 

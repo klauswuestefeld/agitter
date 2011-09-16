@@ -117,7 +117,7 @@ public class UsersImpl implements Users {
 	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUser(user, email);
 		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-		if(!user.isActive()) { throw new UserNotActive(MSG_USUARIO_INATIVO); }
+		if(!user.hasSignedUp()) { throw new UserNotActive(MSG_USUARIO_INATIVO); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
@@ -130,7 +130,7 @@ public class UsersImpl implements Users {
 
 	private EmailAddress mail(String email) throws UserNotFound {
 		try {
-			return EmailAddress.mail(email);
+			return EmailAddress.email(email);
 		} catch(Refusal refusal) {
 			throw new UserNotFound("Usuário não encontrado: " + email);
 		}

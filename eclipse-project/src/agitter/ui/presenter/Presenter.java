@@ -39,7 +39,7 @@ public class Presenter {
 
 		if ("contactsDemo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
-		if ("activate".equals(command)) { onActivate(params); }
+		if ("signup".equals(command)) { onActivate(params); }
 		return null;
 	}
 
@@ -76,8 +76,8 @@ public class Presenter {
 		try {
 			String email = params.get("email")[0];
 			String activationCode = params.get("code")[0];
-
-			this.agitter.users().signup(EmailAddress.mail(email), activationCode);
+			int recoverKeptPassword_and_Email;
+			agitter.users().signup(EmailAddress.email("email"), "password");
 		}catch(NullPointerException npe) {
 			//Invalid Activation call
 		} catch(Refusal refusal) {

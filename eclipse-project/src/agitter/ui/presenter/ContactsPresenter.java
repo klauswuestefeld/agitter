@@ -199,7 +199,7 @@ public class ContactsPresenter {
 	
 	private User produceUser(String value) {
 		try {
-			return userSearch.evaluate(EmailAddress.mail(value));
+			return userSearch.evaluate(EmailAddress.email(value));
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}

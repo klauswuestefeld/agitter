@@ -1,6 +1,6 @@
 package agitter.ui.presenter;
 
-import static agitter.domain.emails.EmailAddress.mail;
+import static agitter.domain.emails.EmailAddress.email;
 import infra.util.ToString;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class EventsPresenter {
 
 	private EmailAddress toAddress(String validEmail) {
 		try {
-			return mail(validEmail);
+			return email(validEmail);
 		} catch(Refusal e) {
 			throw new IllegalStateException(e);
 		}

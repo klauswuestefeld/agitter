@@ -1,6 +1,6 @@
-package spikes.email;
+package agitter.tests;
 
-import static agitter.domain.emails.EmailAddress.mail;
+import static agitter.domain.emails.EmailAddress.email;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,12 +23,12 @@ public class BubbleTest extends CleanTestBase {
 	public void wrappedObjectPassedAsArg() throws Exception {
 		PrevaylerBootstrap.open(tmpFolder());
 		agitter = PrevaylerBootstrap.agitter();
-		User ana = agitter.users().signup(mail("ana@email.com"), "abc123");
+		User ana = agitter.users().signup(email("ana@email.com"), "abc123");
 		Events events = agitter.events();
 		events.create(ana, "dinner", 10, Collections.EMPTY_LIST, Arrays.asList(jose()));
 		Event event = events.toHappen(ana).get(0);
 		
-		User jose = agitter.users().searchByEmail(mail("jose@email.com"));
+		User jose = agitter.users().searchByEmail(email("jose@email.com"));
 		assertEquals(1, events.toHappen(jose).size());
 		event.notInterested(jose); // jose is a bubble wrapper
 		assertEquals(0, events.toHappen(jose).size());
@@ -38,7 +38,7 @@ public class BubbleTest extends CleanTestBase {
 
 	
 	private User jose() throws Refusal {
-		return agitter.users().produce(mail("jose@email.com"));
+		return agitter.users().produce(email("jose@email.com"));
 	}
 	
 }

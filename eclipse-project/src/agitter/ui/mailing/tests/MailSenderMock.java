@@ -1,9 +1,9 @@
-package agitter.mailing.tests;
+package agitter.ui.mailing.tests;
 
 import agitter.domain.emails.EmailAddress;
-import agitter.mailing.EmailSender;
+import agitter.ui.mailing.MailSender;
 
-public class EmailSenderMock implements EmailSender {
+public class MailSenderMock implements MailSender {
 
 	private EmailAddress to;
 	private String subject;

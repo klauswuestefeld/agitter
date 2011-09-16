@@ -10,6 +10,8 @@ public class AddressValidator {
 
 	
 	public static void validateEmail(String candidate) throws Refusal {
+		if (candidate == null || candidate.trim().length() == 0)
+			throw new Refusal("Email deve ser preenchido.");
 		if (!isValidEmail(candidate))
 			throw new Refusal("Email inválido: " + candidate);
 	}

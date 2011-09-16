@@ -1,7 +1,7 @@
-package agitter.mailing;
+package agitter.ui.mailing;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 
 import agitter.domain.emails.EmailAddress;
 
@@ -14,22 +14,29 @@ import com.amazonaws.services.simpleemail.model.Destination;
 import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
-public class AmazonEmailSender implements EmailSender {
+public class AmazonMailSender implements MailSender {
 
 	private static final String FROM = "Agitter<no-reply@agitter.com>";
+	private static MailSender instance;
 
 	private final AmazonSimpleEmailService service;
 
-	public AmazonEmailSender() throws IOException {
+	public static MailSender singleton() throws IOException {
+		if (instance == null) instance = new AmazonMailSender();
+		return instance;
+	}
+
+	private AmazonMailSender() throws IOException {
 		service = new AmazonSimpleEmailServiceClient(new PropertiesCredentials(EventsMailFormatter.class.getResourceAsStream("AwsCredentials.properties")));
 	}
 
 	@Override
 	public void send(EmailAddress to, String subject, String body) {
-		Destination destination = new Destination(Arrays.asList(to.toString()));
+		Destination destination = new Destination(Collections.singletonList(to.toString()));
 		Content contentSubject = new Content(subject);
 		Body contentBody = new Body().withHtml(new Content(body));
 		Message message = new Message(contentSubject, contentBody);
 		service.sendEmail(new SendEmailRequest(FROM, destination, message)); //TODO - Check send results
 	}
+
 }

@@ -1,6 +1,6 @@
 package agitter.domain.users.tests;
 
-import static agitter.domain.emails.EmailAddress.mail;
+import static agitter.domain.emails.EmailAddress.email;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,37 +37,37 @@ public class UsersTest extends UsersTestBase {
 	@Test(expected = InvalidPassword.class)
 	public void loginWithInvalidPassword() throws Refusal {
 		signUpAna();
-		subject.loginWithEmail(mail("ana@gmail.com"), "ana000");
+		subject.loginWithEmail(email("ana@gmail.com"), "ana000");
 	}
 
 
 	@Test
 	public void loginWithEmail() throws Refusal {
 		signUpAna();
-		User user = subject.loginWithEmail(mail("ana@gmail.com"), "ana123");
+		User user = subject.loginWithEmail(email("ana@gmail.com"), "ana123");
 		assertAna(user);
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void loginWithUnknownEmail() throws Refusal {
-		subject.loginWithEmail(mail("unknown_email@somewhere.com"), "irrelevant");
+		subject.loginWithEmail(email("unknown_email@somewhere.com"), "irrelevant");
 	}
 
 	@Test
 	public void findUserByEmail() throws Refusal {
 		signUpAna();
-		User user = subject.findByEmail(mail("ana@gmail.com"));
+		User user = subject.findByEmail(email("ana@gmail.com"));
 		assertEquals("ana@gmail.com", user.email().toString());
 	}
 
 	@Test(expected = UserNotFound.class)
 	public void findUserByEmailWithNoResults() throws Refusal {
-		subject.findByEmail(mail("unknown@somewhere.com"));
+		subject.findByEmail(email("unknown@somewhere.com"));
 	}
 
 	@Test(expected = Refusal.class)
 	public void signupWithBlankPassword() throws Refusal {
-		subject.signup(mail("myself@email.com"), "");
+		subject.signup(email("myself@email.com"), "");
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class UsersTest extends UsersTestBase {
 		};
 		for(final String[] cenario : cenarios) {
 			try {
-				subject.signup(mail(cenario[0]), cenario[1]);
+				subject.signup(email(cenario[0]), cenario[1]);
 				Assert.fail("Expected Refusal trying to signup with: "+Arrays.toString(cenario));
 			} catch(final Refusal refusal) {
 				//expected
@@ -104,7 +104,7 @@ public class UsersTest extends UsersTestBase {
 	}
 
 	private User signUp(String email, String password) throws Refusal {
-		return subject.signup(mail(email), password);
+		return subject.signup(email(email), password);
 	}
 
 }
