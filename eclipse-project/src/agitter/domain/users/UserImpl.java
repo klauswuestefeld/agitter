@@ -27,7 +27,7 @@ public class UserImpl implements User {
 
 	@Override
 	public boolean isPasswordCorrect(String passwordAttempt) {
-		return password.equals(passwordAttempt);
+		return hasSignedUp() && password.equals(passwordAttempt);
 	}
 
 
