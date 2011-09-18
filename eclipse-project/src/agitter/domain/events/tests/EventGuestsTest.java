@@ -47,7 +47,7 @@ public class EventGuestsTest extends EventsTestBase {
 		ContactsOfAUser anasContacts = contacts.contactsOf(ana);
 		Group family = createGroup(anasContacts, "Family");
 		Group friends = createGroup(anasContacts, "Friends");
-		Group best = createGroup(anasContacts, "Best Friends");
+		Group best = createGroup(anasContacts, "Best_Friends");
 		friends.addSubgroup(best);
 		anasContacts.addContactTo(best, user("jose@email.com"));
 		

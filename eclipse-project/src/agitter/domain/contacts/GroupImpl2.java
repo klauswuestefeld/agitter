@@ -8,10 +8,10 @@ import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
-import utils.XssAttackSanitizer;
 
 public class GroupImpl2 implements Group {
 	
+	private static final String TWITTER_USERNAME_RULE = "^[a-zA-Z0-9_]{1,15}$";
 	private String name;
 	private List<User> members = new ArrayList<User>();
 	private List<Group> subgroups = new ArrayList<Group>();
@@ -100,8 +100,8 @@ public class GroupImpl2 implements Group {
 	private void validateGroupName(String groupName) throws Refusal {
 		if( groupName == null || groupName.trim().isEmpty() )
 			throw new Refusal("O nome do grupo deve ser preenchido.");
-		if(!XssAttackSanitizer.ultraConservativeFilter(groupName).equals(groupName) || groupName.contains("@"))
-			throw new Refusal("O nome do grupo deve possuir somente letras e números.");
+		if (!groupName.matches(TWITTER_USERNAME_RULE))
+			throw new Refusal("O nome do grupo deve possuir somente letras, números e underlines. Deve ter 15 caracteres no máximo.");
 	}
 	
 }
