@@ -8,6 +8,9 @@ import agitter.domain.events.Event;
 
 public class EventsTest extends EventsTestBase {
 
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+
+	
 	@Test
 	public void addNew() throws Exception {
 		createEvent(ana, "Dinner at Joes", 1000);
@@ -19,28 +22,27 @@ public class EventsTest extends EventsTestBase {
 	
 	
 	@Test
-	public void toHappen() throws Refusal {
+	public void toHappenSinceTwoHoursAgo() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		Clock.setForCurrentThread(11);
 		assertEquals(3, subject.toHappen(ana).size());
 		assertTrue(subject.toHappen(ana).contains(firstEvent));
 		assertTrue(subject.toHappen(ana).contains(secondEvent));
 		assertTrue(subject.toHappen(ana).contains(thirdEvent));
 
-		Clock.setForCurrentThread(12);
+		Clock.setForCurrentThread(TWO_HOURS + 12);
 		assertEquals(2, subject.toHappen(ana).size());
 		assertFalse(subject.toHappen(ana).contains(firstEvent));
 		assertTrue(subject.toHappen(ana).contains(secondEvent));
 		assertTrue(subject.toHappen(ana).contains(thirdEvent));
 		
-		Clock.setForCurrentThread(13);
+		Clock.setForCurrentThread(TWO_HOURS + 13);
 		assertEquals(1, subject.toHappen(ana).size());
 		assertTrue(subject.toHappen(ana).contains(thirdEvent));
 
-		Clock.setForCurrentThread(14);
+		Clock.setForCurrentThread(TWO_HOURS + 14);
 		assertTrue(subject.toHappen(ana).isEmpty());
 
 

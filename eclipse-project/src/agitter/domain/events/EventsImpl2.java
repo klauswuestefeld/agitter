@@ -14,8 +14,9 @@ public class EventsImpl2 implements Events {
 
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 
-	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 
+	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
 	
 
 	@Override
@@ -30,10 +31,10 @@ public class EventsImpl2 implements Events {
 	@Override
 	public List<Event> toHappen(User user) {
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SHOW);
-		final long currentDate = Clock.currentTimeMillis();
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
 
 		for(EventImpl2 e : _all) {
-			if (e.datetime() < currentDate) continue;
+			if (e.datetime() < twoHoursAgo) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;

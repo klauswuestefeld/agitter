@@ -8,18 +8,19 @@
 
 	CRUD do Agito
 		Visualização do Agito selecionado
+			URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 		Edição de agito
 		Lixinho para excluir o agito - Em vez do "x" na lista, qdo for o próprio dono do agito.
-			Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
-		Recentes - Mostrar os agitos duas horas atras pra cá.
 
-	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
 			* Criptografar o email do cara com criptografia simétrica (Blowfish Cipher) já fornecida pela própria JRE. A senha fica hardcoded.
+
+	Undo Deleção de Agito
+		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
 
 	Comments
 
