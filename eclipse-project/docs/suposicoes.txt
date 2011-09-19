@@ -15,8 +15,12 @@
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
+	Privacidade
+		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+		- Unsubscribe geral do email diario.
+
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
-		Processar os requests no Vaadin: mainWindow.addURIHandler(...); Pode simplesmente abrir a tela de agitos com o cara já autenticado* e mostrar numa window com um close pro cara fechar: "Você só vai receber emails de agitos aos quais for convidado.".
+		Abrir a tela de agitos com o cara já autenticado.
 
 	Undo Deleção de Agito
 		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
@@ -25,24 +29,18 @@
 
 	Unificação de emails. Permitir vários emails para um mesmo user.
 
-	Privacidade
-		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
-		- Unsubscribe geral do email diario.
-
-	Agitos Ignorados
+	Lista de Agitos Ignorados
 		- Botao no agito de recuparar no lugar onde ficava o X
 
 	Pingdom - Vai monitorar nosso serviço e reportar problemas por email, twitter e SMS. Falar c Klaus q já fez pro simploy.
 		http://agitter.com/check - Fazer um servlet q executa uma transacao na aplicacao e retorna um erro caso algo nao esteja ok.
-
-	TimeZone do Server - Acertar no script de install.
 
 	Vaadin productionMode=true
 
 
 "Acabamento" Release
 
-	- Username e Fullname de quem agitou no Agito.
+	- Fullname de quem agitou no Agito.
 		- Tela de "Account Settings" pra preencher FullName
 		- Convidados: Auto-complete de username, fullname e grupos
 
