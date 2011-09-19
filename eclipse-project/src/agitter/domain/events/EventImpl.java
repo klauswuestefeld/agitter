@@ -48,4 +48,5 @@ public class EventImpl implements Event {
 	public void notInterested(User user) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
+
 }

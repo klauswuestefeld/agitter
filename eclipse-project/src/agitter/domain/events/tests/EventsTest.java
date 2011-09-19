@@ -57,8 +57,19 @@ public class EventsTest extends EventsTestBase {
 
 		event.notInterested(jose);
 		assertEquals(0, subject.toHappen(jose).size());
-
 		assertEquals(1, subject.toHappen(ana).size());
+	}
+
+	
+	@Test
+	public void deletion() throws Refusal {
+		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);
+
+		assertTrue(subject.isDeletableBy(event, ana));
+		assertFalse(subject.isDeletableBy(event, jose));
+		subject.delete(event, ana);
+		assertEquals(0, subject.toHappen(ana).size());
+		assertEquals(0, subject.toHappen(jose).size());
 	}
 
 }

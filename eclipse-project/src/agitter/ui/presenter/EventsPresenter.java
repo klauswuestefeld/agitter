@@ -131,18 +131,24 @@ public class EventsPresenter {
 	private List<EventData> eventsToHappen() {
 		List<EventData> result = new ArrayList<EventData>();
 		List<Event> toHappen = events.toHappen(user);
-		for(Event event : toHappen) {
-			result.add(new EventData(event.description(), event.datetime(), event.owner().screenName(), removeAction(event)));
-		}
+		for(Event event : toHappen)
+			result.add(new EventData(event.description(), event.datetime(), event.owner().screenName(), isDeletable(event), removeAction(event)));
 		return result;
+	}
+
+	
+	private boolean isDeletable(Event event) {
+		return events.isDeletableBy(event, user);
 	}
 
 
 	private Runnable removeAction(final Event event) {
-		if(event.owner().equals(user)) { return null; }
-
 		return new Runnable() { @Override public void run() {
-			event.notInterested(user);
+			if (isDeletable(event))
+				events.delete(event, user);
+			else
+				event.notInterested(user);
+			
 			refreshEventList();
 		}};
 	}

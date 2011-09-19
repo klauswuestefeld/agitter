@@ -7,7 +7,7 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
-@Deprecated
+@Deprecated //Before 18/09/2011
 public class EventsImpl implements Events {
 
 	SortedSet<EventImpl> _all;
@@ -22,6 +22,16 @@ public class EventsImpl implements Events {
 
 	@Override
 	public List<Event> toHappen(User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public boolean isDeletableBy(Event event, User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public void delete(Event event, User user) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

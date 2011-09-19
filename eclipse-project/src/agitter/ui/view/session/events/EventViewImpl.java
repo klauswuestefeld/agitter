@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
@@ -17,7 +16,7 @@ public class EventViewImpl extends CssLayout {
 
 	public EventViewImpl(EventData event) {
 		addStyleName("a-event-view");
-		addNotInterestedButtonIfNecessary(event);
+		addRemovalButton(event);
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
 			Label label = new Label(event.description);
@@ -32,12 +31,18 @@ public class EventViewImpl extends CssLayout {
 	}
 
 
-	private void addNotInterestedButtonIfNecessary(final EventData event) {
-		if (event.onRemoveAction == null) return;
+	private void addRemovalButton(EventData event) {
+		String style = event.isDeletable
+			? "a-event-delete-button"
+			: "a-event-remove-button";
+		addRemovalButton(event, style);
+	}
 
+
+	private void addRemovalButton(final EventData event, String style) {
 		NativeButton button = new NativeButton();
 		button.setSizeUndefined();
-		addComponent(button); button.addStyleName("a-event-remove-button");
+		addComponent(button); button.addStyleName(style);
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			event.onRemoveAction.run();
