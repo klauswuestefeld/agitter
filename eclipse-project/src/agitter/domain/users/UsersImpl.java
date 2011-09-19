@@ -10,7 +10,6 @@ import agitter.domain.emails.EmailAddress;
 
 public class UsersImpl implements Users {
 
-	private static final String MSG_USUARIO_INATIVO = "Usuário ainda não foi ativado. Verifique em sua caixa de email o link de ativação.";
 	private final List<User> users = new ArrayList<User>();
 
 	
@@ -112,14 +111,15 @@ public class UsersImpl implements Users {
 
 	
 	private void checkUser(User user, String credential) throws UserNotFound {
-		if (user==null) { throw new UserNotFound("Usuário não encontrado: " + credential); }
+		if (user == null)
+			throw new UserNotFound("Usuário não encontrado: " + credential);
 	}
 
 
 	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUser(user, email);
+		if(!user.hasSignedUp()) { throw new UserNotActive("Usuário não encontrado: " + email); }
 		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
-		if(!user.hasSignedUp()) { throw new UserNotActive(MSG_USUARIO_INATIVO); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
