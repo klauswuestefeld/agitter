@@ -92,6 +92,7 @@ public class AuthenticationPresenter {
 	
 	private void tryToSendPassword() throws Refusal {
 		User user = users.findByEmail(email(loginView.email()));
+		if (!user.hasSignedUp()) throw new Refusal("Usuário não cadastrado.");
 		try {
 			ForgotPasswordMailSender.send(emailSender, user.email(), user.password());
 		} catch (IOException e) {
