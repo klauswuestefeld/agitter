@@ -1,4 +1,6 @@
-﻿	Grupos de Contatos
+﻿	Tela de Entrada Nova
+
+	Grupos de Contatos
 		Arrumar UI design - Verificar IE
 
 	Importação de Emails de meus Contatos através do SocialAuth
