@@ -16,6 +16,7 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
+import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -23,6 +24,7 @@ import com.vaadin.terminal.DownloadStream;
 
 public class Presenter {
 
+	private static final EmailAddress DEMO_USER_EMAIL = EmailAddress.certain("demo@demo.com");
 	private final Controller controller;
 	private final AgitterView view;
 	private final Functor<EmailAddress, User> userSearch;
@@ -56,7 +58,8 @@ public class Presenter {
 
 		String command = uri[0];
 
-		if ("contactsDemo".equals(command)) { onContactsDemo(); }
+		if ("demo".equals(command)) { onDemo(); }
+		if ("contacts-demo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
 		if ("signup".equals(command)) { onRestSignup(params); }
 	}
@@ -64,9 +67,32 @@ public class Presenter {
 
 	private void onContactsDemo() {
 		SessionView sessionView = view.showSessionView();
-		sessionView.show("DemoUser");
+		sessionView.show("username@mail.com");
 		sessionView.showContactsView();
-		new ContactsDemoPresenter(sessionView.contactsView());
+		new ContactsDemo(sessionView.contactsView());
+	}
+
+
+	private void onDemo() {
+		onAuthenticate().consume(demoUser());
+	}
+
+
+	private User demoUser() {
+		try {
+			return domain().users().findByEmail(DEMO_USER_EMAIL);
+		} catch (UserNotFound ignored) {
+			return createDemoUser();
+		}
+	}
+
+
+	private User createDemoUser() {
+		try {
+			return domain().users().signup(DEMO_USER_EMAIL, "demoPassword");
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 
