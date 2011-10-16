@@ -16,7 +16,6 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
-import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -24,7 +23,6 @@ import com.vaadin.terminal.DownloadStream;
 
 public class Presenter {
 
-	private static final EmailAddress DEMO_USER_EMAIL = EmailAddress.certain("demo@demo.com");
 	private final Controller controller;
 	private final AgitterView view;
 	private final Functor<EmailAddress, User> userSearch;
@@ -74,25 +72,7 @@ public class Presenter {
 
 
 	private void onDemo() {
-		onAuthenticate().consume(demoUser());
-	}
-
-
-	private User demoUser() {
-		try {
-			return domain().users().findByEmail(DEMO_USER_EMAIL);
-		} catch (UserNotFound ignored) {
-			return createDemoUser();
-		}
-	}
-
-
-	private User createDemoUser() {
-		try {
-			return domain().users().signup(DEMO_USER_EMAIL, "demoPassword");
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
+		onAuthenticate().consume(new DemoPreparation(domain()).user());
 	}
 
 
