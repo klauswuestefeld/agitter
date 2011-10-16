@@ -21,7 +21,6 @@ public class EventsImpl2 implements Events {
 
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
-		assertIsInTheFuture(datetime);
 		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
 		_all.add(event);
 		return event;
@@ -42,12 +41,6 @@ public class EventsImpl2 implements Events {
 		return result;
 	}
 	
-
-	private void assertIsInTheFuture(long datetime) throws Refusal {
-		if(datetime < Clock.currentTimeMillis())
-			throw new Refusal("Novos eventos devem ser criados com data futura.");
-	}
-
 
 	@Override
 	public boolean isDeletableBy(Event event, User user) {

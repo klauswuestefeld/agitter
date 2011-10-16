@@ -4,15 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
-	final private String _description;
-	final private long _datetime;
 	final private User _owner;
+	private String _description;
+	private long _datetime;
 	
 	private Set<Group> groupInvitations = new HashSet<Group>();
 	private Set<User> invitees = new HashSet<User>();
@@ -25,10 +26,16 @@ public class EventImpl2 implements Event {
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 		_owner = owner;
-		_description = description;
-		_datetime = datetime;
+		setDescription(description);
+		setDatetime(datetime);
 		groupInvitees().addAll(inviteeGroups);
 		invitees().addAll(invitees);
+	}
+
+	
+	@Override
+	public User owner() {
+		return _owner;
 	}
 
 	
@@ -45,22 +52,23 @@ public class EventImpl2 implements Event {
 
 	
 	@Override
-	public User owner() {
-		return _owner;
+	public void setDescription(String newDescription) {
+		_description = newDescription;
 	}
 
+
+	@Override
+	public void setDatetime(long newDatetime) throws Refusal {
+		assertIsInTheFuture(newDatetime);
+		_datetime = newDatetime;
+	}
+
+
+	@Override public void addInvitee(User user) { invitees().add(user); }
+	@Override public void addInvitees(Group group) { groupInvitees().add(group); }
+	@Override public void removeInvitee(User user) {  invitees().remove(user); }
+	@Override public void removeInvitees(Group group) { groupInvitees().remove(group); }
 	
-	@Override
-	public void addInvitees(Group group) {
-		groupInvitees().add(group);
-	}
-
-
-	@Override
-	public void addInvitee(User user) {
-		invitees().add(user);
-	}
-
 
 	@Override
 	public void notInterested(User user) {
@@ -94,25 +102,6 @@ public class EventImpl2 implements Event {
 	}
 
 
-	@Override
-	public boolean equals(Object o) {
-		if(this==o) { return true; }
-		if(o==null || getClass()!=o.getClass()) { return false; }
-
-		EventImpl2 agito = (EventImpl2) o;
-
-		return _datetime==agito._datetime && _description.equals(agito._description);
-	}
-
-	
-	@Override
-	public int hashCode() {
-		int result = (int) _datetime;
-		result = 31*result+_description.hashCode();
-		return result;
-	}
-
-	
 	synchronized
 	private Set<User> invitees() {
 		if (invitees==null) invitees = new HashSet<User>();
@@ -125,5 +114,11 @@ public class EventImpl2 implements Event {
 		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
 		return groupInvitations;
 	}
+
 	
+	private void assertIsInTheFuture(long datetime) throws Refusal {
+		if (datetime < Clock.currentTimeMillis())
+			throw new Refusal("Novos eventos devem ser criados com data futura.");
+	}
+
 }

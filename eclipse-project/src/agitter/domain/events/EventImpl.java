@@ -49,4 +49,24 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+	@Override
+	public void setDescription(String newDescription) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public void setDatetime(long newDatetime) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public void removeInvitees(Group group) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public void removeInvitee(User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }
