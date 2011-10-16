@@ -42,7 +42,7 @@ public class Presenter {
 			tryRestInvocation(relativeUri, params);
 		} catch (FriendlyException e) {
 			warn(e.getMessage());
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			LogInfra.getLogger(this).log(Level.SEVERE, "Rest error. Context: " + context + " relativeUri: " + relativeUri, e);
 			warn("Erro processando requisição.");
 		}
