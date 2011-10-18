@@ -132,7 +132,7 @@ public class EventsPresenter {
 		List<EventData> result = new ArrayList<EventData>();
 		List<Event> toHappen = events.toHappen(user);
 		for(Event event : toHappen)
-			result.add(new EventData(event.description(), event.datetime(), event.owner().screenName(), isDeletable(event), removeAction(event)));
+			result.add(new EventData(event.id(), event.description(), event.datetime(), event.owner().screenName(), isDeletable(event), removeAction(event)));
 		return result;
 	}
 

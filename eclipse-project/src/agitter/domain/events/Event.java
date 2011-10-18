@@ -5,11 +5,14 @@ import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
 public interface Event {
+
+	long id();
+
+	User owner();
+
 	String description();
 	void setDescription(String newDescription);
 	long datetime();
-	void setDatetime(long newDatetime) throws Refusal;
-	User owner();
 
 	void addInvitees(Group group);
 	void removeInvitees(Group group);

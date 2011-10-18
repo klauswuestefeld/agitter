@@ -19,9 +19,17 @@ public class EventsImpl implements Events {
 			List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
+	@Override
+	public void setEventTime(Event event, long newTime) throws Refusal {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
 
 	@Override
 	public List<Event> toHappen(User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+	@Override
+	public Event findById(long id) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

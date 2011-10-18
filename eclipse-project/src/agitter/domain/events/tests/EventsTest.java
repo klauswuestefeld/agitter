@@ -20,7 +20,35 @@ public class EventsTest extends EventsTestBase {
 		assertEquals(1000, event.datetime());
 	}
 	
-	
+//	@Test
+//	public void ids() throws Exception {
+//		createEvent(ana, "Dinner at Joes", 1000);
+//		createEvent(ana, "Dinner at Joes2", 1001);
+//		createEvent(ana, "Dinner at Klaus", 1002);
+//
+//		subject.
+//
+//
+//		assertEquals("Dinner at Joes", event.description());
+//		assertEquals(1000, event.datetime());
+//		assertEquals(0, event.id());
+//	}
+
+	@Test
+	public void changingEventTime() throws Refusal {
+		Event firstEvent = createEvent(ana, "D1", 11);
+		Event secondEvent = createEvent(ana, "D2", 12);
+		Event thirdEvent = createEvent(ana, "D3", 13);
+
+		subject.setEventTime(secondEvent, 14);
+
+		assertEquals(3, subject.toHappen(ana).size());
+		assertSame(firstEvent, subject.toHappen(ana).get(0));
+		assertSame(thirdEvent, subject.toHappen(ana).get(1));
+		assertSame(secondEvent, subject.toHappen(ana).get(2));		
+
+	}
+
 	@Test
 	public void toHappenSinceTwoHoursAgo() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
@@ -28,9 +56,9 @@ public class EventsTest extends EventsTestBase {
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
 		assertEquals(3, subject.toHappen(ana).size());
-		assertTrue(subject.toHappen(ana).contains(firstEvent));
-		assertTrue(subject.toHappen(ana).contains(secondEvent));
-		assertTrue(subject.toHappen(ana).contains(thirdEvent));
+		assertSame(firstEvent, subject.toHappen(ana).get(0));
+		assertSame(secondEvent, subject.toHappen(ana).get(1));
+		assertSame(thirdEvent, subject.toHappen(ana).get(2));
 
 		Clock.setForCurrentThread(TWO_HOURS + 12);
 		assertEquals(2, subject.toHappen(ana).size());

@@ -17,15 +17,26 @@ public class EventsImpl2 implements Events {
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
-	
+
+	private long nextId = 0L;
 
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
-		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
+		EventImpl2 event = new EventImpl2(nextId++, user, description, datetime, inviteeGroups, invitees);
 		_all.add(event);
 		return event;
 	}
 
+	@Override
+	public void setEventTime(Event event, long newTime) throws Refusal {
+		EventImpl2 casted = (EventImpl2) event;
+		if (!_all.remove(casted)) throw new IllegalStateException();
+		try {
+			casted.setDatetime(newTime);
+		} finally {
+			_all.add(casted);
+		}
+	}
 
 	@Override
 	public List<Event> toHappen(User user) {
@@ -40,7 +51,13 @@ public class EventsImpl2 implements Events {
 		}
 		return result;
 	}
-	
+
+	@Override
+	public Event findById(long id) {
+
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
 
 	@Override
 	public boolean isDeletableBy(Event event, User user) {
@@ -54,7 +71,6 @@ public class EventsImpl2 implements Events {
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
 	}
-
 
 
 }

@@ -11,6 +11,7 @@ import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
+	final private long id;
 	final private User _owner;
 	private String _description;
 	private long _datetime;
@@ -21,10 +22,11 @@ public class EventImpl2 implements Event {
 	final private Set<User> notInterested = new HashSet<User>();
 	
 	
-	public EventImpl2(User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
+	public EventImpl2(long id, User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
+		this.id = id;
 		_owner = owner;
 		setDescription(description);
 		setDatetime(datetime);
@@ -32,7 +34,11 @@ public class EventImpl2 implements Event {
 		invitees().addAll(invitees);
 	}
 
-	
+
+	@Override
+	public long id() {
+		return id;
+	}
 	@Override
 	public User owner() {
 		return _owner;
@@ -57,8 +63,7 @@ public class EventImpl2 implements Event {
 	}
 
 
-	@Override
-	public void setDatetime(long newDatetime) throws Refusal {
+	void setDatetime(long newDatetime) throws Refusal {
 		assertIsInTheFuture(newDatetime);
 		_datetime = newDatetime;
 	}
