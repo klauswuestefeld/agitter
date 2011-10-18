@@ -19,6 +19,6 @@ public interface Events {
 	void delete(Event event, User user);
 
 	List<Event> toHappen(User user);
-	Event findById(long id);
+	Event searchById(long id);
 
 }

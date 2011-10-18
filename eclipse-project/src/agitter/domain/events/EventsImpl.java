@@ -29,7 +29,7 @@ public class EventsImpl implements Events {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 	@Override
-	public Event findById(long id) {
+	public Event searchById(long id) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

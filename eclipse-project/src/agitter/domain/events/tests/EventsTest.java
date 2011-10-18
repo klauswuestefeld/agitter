@@ -20,19 +20,14 @@ public class EventsTest extends EventsTestBase {
 		assertEquals(1000, event.datetime());
 	}
 	
-//	@Test
-//	public void ids() throws Exception {
-//		createEvent(ana, "Dinner at Joes", 1000);
-//		createEvent(ana, "Dinner at Joes2", 1001);
-//		createEvent(ana, "Dinner at Klaus", 1002);
-//
-//		subject.
-//
-//
-//		assertEquals("Dinner at Joes", event.description());
-//		assertEquals(1000, event.datetime());
-//		assertEquals(0, event.id());
-//	}
+	@Test
+	public void ids() throws Exception {
+		Event e1 = createEvent(ana, "Dinner at Joes", 1000);
+		Event e2 = createEvent(ana, "Dinner at Klaus", 1002);
+
+		assertSame(e1, subject.searchById(e1.id()));
+		assertSame(e2, subject.searchById(e2.id()));
+	}
 
 	@Test
 	public void changingEventTime() throws Refusal {

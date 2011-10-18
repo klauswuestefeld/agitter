@@ -53,9 +53,11 @@ public class EventsImpl2 implements Events {
 	}
 
 	@Override
-	public Event findById(long id) {
+	public Event searchById(long id) {
+		for(Event e : _all)
+			if(e.id()==id) return e;
 
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return null;
 	}
 
 
