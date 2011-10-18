@@ -14,6 +14,8 @@ public class EventViewImpl extends CssLayout {
 
 	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
+	private long eventId;
+
 	public EventViewImpl(EventData event) {
 		addStyleName("a-event-view");
 		addRemovalButton(event);
@@ -28,8 +30,12 @@ public class EventViewImpl extends CssLayout {
 			label = new Label(event.owner);
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-owner");
+		eventId = event.id;
 	}
 
+	public long getEventId() {
+		return this.eventId;
+	}
 
 	private void addRemovalButton(EventData event) {
 		String style = event.isDeletable

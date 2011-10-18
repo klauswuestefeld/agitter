@@ -15,7 +15,7 @@ public class SelectableRemovableElementList extends CssLayout {
 	private Consumer<String> selectionListener;
 	private Consumer<String> removeListener;
 
-	private static String REMOVE_BUTTON = "REM_BUTTON";
+	private final static String REMOVE_BUTTON = "REM_BUTTON";
 
 	public SelectableRemovableElementList() {
 		addStyleName("a-remov-elem-list");

@@ -1,5 +1,6 @@
 package agitter.ui.view.session.events;
 
+import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 
 public interface EventsView {
@@ -7,6 +8,6 @@ public interface EventsView {
 	void show();
 
 	InviteView initInviteView(Predicate<String> newInviteeValidator, Runnable onInvite);
-	EventListView eventListView();
+	EventListView initEventListView(Consumer<Long> selectedEventIdListener);
 
 }

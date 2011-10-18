@@ -1,6 +1,7 @@
 package agitter.ui.view.session.events;
 
 
+import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 
 import com.vaadin.ui.ComponentContainer;
@@ -8,7 +9,7 @@ import com.vaadin.ui.ComponentContainer;
 public class EventsViewImpl implements EventsView {
 
 	private final ComponentContainer container;
-	private final EventListViewImpl eventList = new EventListViewImpl();
+	private EventListViewImpl eventList;
 	private InviteViewImpl inviteView;
 
 
@@ -24,9 +25,10 @@ public class EventsViewImpl implements EventsView {
 		container.addComponent(inviteView);
 	}
 
-	
 	@Override
-	public EventListView eventListView() {
+	public EventListView initEventListView(Consumer<Long> selectedEventIdListener) {
+		if(eventList!=null) throw new IllegalStateException();
+		eventList = new EventListViewImpl(selectedEventIdListener);
 		return eventList;
 	}
 

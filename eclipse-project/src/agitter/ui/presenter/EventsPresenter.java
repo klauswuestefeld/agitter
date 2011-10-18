@@ -1,6 +1,8 @@
 package agitter.ui.presenter;
 
 import static agitter.domain.emails.EmailAddress.email;
+
+import agitter.ui.view.session.events.EventListView;
 import infra.util.ToString;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class EventsPresenter {
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
 	private InviteView inviteView;
+	private EventListView eventListView;
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
@@ -125,7 +128,19 @@ public class EventsPresenter {
 	}
 
 	synchronized private void refreshEventList() {
-		view.eventListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+	}
+
+	private EventListView eventsListView() {
+		if(eventListView==null) {
+			eventListView = view.initEventListView(new Consumer<Long>() {
+				@Override
+				public void consume(Long value) {
+					System.err.println("ID SELECIONADO: " + value);
+				}
+			});
+		}
+		return eventListView;
 	}
 
 	private List<EventData> eventsToHappen() {
