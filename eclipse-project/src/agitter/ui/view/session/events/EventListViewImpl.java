@@ -11,20 +11,14 @@ import sneer.foundation.lang.Consumer;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
-	private final Consumer<Long> selectedEventIdListener;
-
 	public EventListViewImpl(final Consumer<Long> selectedEventIdListener) {
 		addStyleName("a-event-list-view");
-		this.selectedEventIdListener = selectedEventIdListener;
-		this.addListener(new LayoutEvents.LayoutClickListener() {
-			@Override
-			public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
-				EventViewImpl childComponent = (EventViewImpl) layoutClickEvent.getChildComponent();
-				if(childComponent==null) return;
-				Long id = (Long) childComponent.getEventId();
-				selectedEventIdListener.consume(id);
-			}
-		});
+		this.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
+			EventViewImpl childComponent = (EventViewImpl) layoutClickEvent.getChildComponent();
+			if(childComponent==null) return;
+			Long id = childComponent.getEventId();
+			selectedEventIdListener.consume(id);
+		}});
 	}
 
 	@Override
