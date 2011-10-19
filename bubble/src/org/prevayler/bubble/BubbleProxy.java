@@ -56,7 +56,10 @@ class BubbleProxy implements InvocationHandler {
 		if (object == null) return object;
 		
 		Class<?> type = object.getClass();
-		if (type.isArray()) throwNotImplementedYet("array");
+		if (type.isArray()) {
+			wrapArrayElementsIfNecessary((Object[])object);
+			return object;
+		}
 		if (List.class.isAssignableFrom(type)) {
 			wrapListElementsIfNecessary((List<Object>)object);
 			return object;
@@ -74,6 +77,14 @@ class BubbleProxy implements InvocationHandler {
 		for (int i = 0; i < list.size(); i++) {
 			Object obj = list.get(i);
 			list.set(i, wrapIfNecessary(obj, null)); //null means no path. Mutable objects in collections must be registered. 
+		}
+	}
+
+
+	private void wrapArrayElementsIfNecessary(Object[] array) {
+		for (int i = 0; i < array.length; i++) {
+			Object obj = array[i];
+			array[i] = wrapIfNecessary(obj, null); //null means no path. Mutable objects in collections must be registered. 
 		}
 	}
 
