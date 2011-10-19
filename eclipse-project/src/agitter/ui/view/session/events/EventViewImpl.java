@@ -33,7 +33,7 @@ public class EventViewImpl extends CssLayout {
 		eventId = event.id;
 	}
 
-	public long getEventId() {
+	public long eventId() {
 		return this.eventId;
 	}
 
