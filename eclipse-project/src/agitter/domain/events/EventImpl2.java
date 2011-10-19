@@ -11,7 +11,10 @@ import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
-	private long id; //Make final after migration in production. 2011-10-19
+	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
+
+	private static final User[] USER_ARRAY_TYPE = new User[0];
+	private static final Group[] GROUP_ARRAY_TYPE = new Group[0];
 	final private User _owner;
 	private String _description;
 	private long _datetime;
@@ -22,23 +25,18 @@ public class EventImpl2 implements Event {
 	final private Set<User> notInterested = new HashSet<User>();
 	
 	
-	public EventImpl2(long id, User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
+	public EventImpl2(User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
 		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
-		this.id = id;
 		_owner = owner;
 		setDescription(description);
 		setDatetime(datetime);
-		groupInvitees().addAll(inviteeGroups);
-		invitees().addAll(invitees);
+		actualGroupInvitees().addAll(inviteeGroups);
+		actualInvitees().addAll(invitees);
 	}
 
 
-	@Override
-	public long id() {
-		return id;
-	}
 	@Override
 	public User owner() {
 		return _owner;
@@ -69,10 +67,36 @@ public class EventImpl2 implements Event {
 	}
 
 
-	@Override public void addInvitee(User user) { invitees().add(user); }
-	@Override public void addInvitees(Group group) { groupInvitees().add(group); }
-	@Override public void removeInvitee(User user) {  invitees().remove(user); }
-	@Override public void removeInvitees(Group group) { groupInvitees().remove(group); }
+	@Override
+	synchronized
+	public User[] invitees() {
+		return actualInvitees().toArray(USER_ARRAY_TYPE);
+	}
+
+
+	private Set<User> actualInvitees() {
+		if (invitees==null) invitees = new HashSet<User>();
+		return invitees;
+	}
+
+	
+	@Override
+	synchronized
+	public Group[] groupInvitees() {
+		return actualGroupInvitees().toArray(GROUP_ARRAY_TYPE);
+	}
+
+
+	private Set<Group> actualGroupInvitees() {
+		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
+		return groupInvitations;
+	}
+
+	
+	@Override public void addInvitee(User user) { actualInvitees().add(user); }
+	@Override public void addInvitees(Group group) { actualGroupInvitees().add(group); }
+	@Override public void removeInvitee(User user) {  actualInvitees().remove(user); }
+	@Override public void removeInvitees(Group group) { actualGroupInvitees().remove(group); }
 	
 
 	@Override
@@ -95,32 +119,18 @@ public class EventImpl2 implements Event {
 
 
 	private boolean isInvited(User user) {
-		return invitees().contains(user) || groupInvitationsContain(user);
+		return actualInvitees().contains(user) || groupInvitationsContain(user);
 	}
 
 
 	private boolean groupInvitationsContain(User user) {
-		for (Group group : groupInvitees())
+		for (Group group : actualGroupInvitees())
 			if (group.deepContains(user))
 				return true;
 		return false;
 	}
 
 
-	synchronized
-	private Set<User> invitees() {
-		if (invitees==null) invitees = new HashSet<User>();
-		return invitees;
-	}
-
-	
-	synchronized
-	private Set<Group> groupInvitees() {
-		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
-		return groupInvitations;
-	}
-
-	
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");

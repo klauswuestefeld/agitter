@@ -15,14 +15,13 @@ public class EventsImpl2 implements Events {
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 
+	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
-
-	private long nextId = 1L;
 
 	
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
-		EventImpl2 event = new EventImpl2(nextId++, user, description, datetime, inviteeGroups, invitees);
+		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
 		_all.add(event);
 		return event;
 	}
@@ -56,15 +55,6 @@ public class EventsImpl2 implements Events {
 
 	
 	@Override
-	public Event searchById(long id) {
-		for (Event e : _all)
-			if (e.id() == id) return e;
-
-		return null;
-	}
-
-
-	@Override
 	public boolean isDeletableBy(Event event, User user) {
 		return event.owner() == user;
 	}
@@ -75,12 +65,6 @@ public class EventsImpl2 implements Events {
 		if (!isDeletableBy(event, user))
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
-	}
-
-
-	public void populateIdsIfNecessary() {
-		for (EventImpl2 e : _all)
-			if (e.id() == 0) e.populateId(nextId++);
 	}
 
 }

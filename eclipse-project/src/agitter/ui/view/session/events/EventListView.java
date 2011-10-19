@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface EventListView {
 
-	void refresh(List<EventValues> events, int millisToNextRefresh);
+	void refresh(List<EventVO> events, int millisToNextRefresh);
 
 }

@@ -81,8 +81,7 @@ public class ContactsViewImpl implements ContactsView {
 	public void setGroups(List<String> groupNames) {
 		groupList.removeAllElements();
 		groupList.addElementUnremovable(ALL);
-		for (String group : groupNames)
-			groupList.addElement(group);
+		groupList.addElements(groupNames);
 	}
 	
 	@Override
@@ -120,8 +119,7 @@ public class ContactsViewImpl implements ContactsView {
 	@Override
 	public void setMembers(List<String> memberNames) {
 		memberList.removeAllElements();
-		for (String member : memberNames)
-			memberList.addElement(member);
+		memberList.addElements(memberNames);
 	}
 
 	@Override

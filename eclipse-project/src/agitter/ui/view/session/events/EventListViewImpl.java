@@ -27,11 +27,11 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 
 	
 	@Override
-	public void refresh(List<EventValues> events, int millisToNextRefresh) {
+	public void refresh(List<EventVO> events, int millisToNextRefresh) {
 		removeAllComponents();
 		addComponent(createPoller(millisToNextRefresh));
 
-		for (EventValues eventData : events)
+		for (EventVO eventData : events)
 			addComponent(new EventViewImpl(eventData, removedEventListener));
 	}
 

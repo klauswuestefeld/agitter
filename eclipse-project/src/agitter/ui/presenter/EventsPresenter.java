@@ -1,9 +1,12 @@
 package agitter.ui.presenter;
 
 import static agitter.domain.emails.EmailAddress.email;
+import static infra.util.ToString.sortIgnoreCase;
+import static infra.util.ToString.toStrings;
 import infra.util.ToString;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +23,7 @@ import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
-import agitter.ui.view.session.events.EventValues;
+import agitter.ui.view.session.events.EventVO;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.InviteView;
 
@@ -153,15 +156,31 @@ public class EventsPresenter {
 
 	
 	private void onEventSelected(Event event) {
-		System.out.println(event);
+		inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
 	}
 
 	
-	private List<EventValues> eventsToHappen() {
-		List<EventValues> result = new ArrayList<EventValues>();
+	private List<String> sortedInviteesOf(Event event) {
+		List<String> result = new ArrayList<String>();
+
+		String[] groups = toStrings(event.groupInvitees());
+		result.addAll(Arrays.asList(groups));
+		sortIgnoreCase(result);
+		
+		String[] users = toStrings(event.invitees());
+		List<String> userList = Arrays.asList(users);
+		sortIgnoreCase(userList);
+		result.addAll(userList);
+		
+		return result;
+	}
+
+
+	private List<EventVO> eventsToHappen() {
+		List<EventVO> result = new ArrayList<EventVO>();
 		List<Event> toHappen = events.toHappen(user);
 		for (Event event : toHappen)
-			result.add(new EventValues(event, event.description(), event.datetime(), event.owner().screenName(), isDeletable(event)));
+			result.add(new EventVO(event, event.description(), event.datetime(), event.owner().screenName(), isDeletable(event)));
 		return result;
 	}
 

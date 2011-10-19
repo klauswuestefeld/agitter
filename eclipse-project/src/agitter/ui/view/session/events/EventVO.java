@@ -1,7 +1,7 @@
 package agitter.ui.view.session.events;
 
 
-public class EventValues {
+public class EventVO {
 
 	public final Object eventObject;
 	public final String description;
@@ -9,7 +9,7 @@ public class EventValues {
 	public final String owner;
 	public final boolean isDeletable;
 
-	public EventValues(Object eventObject, String description, long datetime, String owner, boolean isDeletable) {
+	public EventVO(Object eventObject, String description, long datetime, String owner, boolean isDeletable) {
 		this.eventObject = eventObject;
 		this.description = description;
 		this.datetime = datetime;

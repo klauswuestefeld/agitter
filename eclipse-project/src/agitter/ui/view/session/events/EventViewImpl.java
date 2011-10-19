@@ -17,7 +17,7 @@ public class EventViewImpl extends CssLayout {
 	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	private final Consumer<Object> removedEventListener;
 
-	public EventViewImpl(EventValues eventValues, Consumer<Object> removedEventListener) {
+	public EventViewImpl(EventVO eventValues, Consumer<Object> removedEventListener) {
 		this.removedEventListener = removedEventListener;
 		setData(eventValues.eventObject);
 		addStyleName("a-event-view");
@@ -35,7 +35,7 @@ public class EventViewImpl extends CssLayout {
 			texts.addComponent(label); label.addStyleName("a-event-owner");
 	}
 
-	private void addRemovalButton(EventValues event) {
+	private void addRemovalButton(EventVO event) {
 		String style = event.isDeletable
 			? "a-event-delete-button"
 			: "a-event-remove-button";
@@ -43,7 +43,7 @@ public class EventViewImpl extends CssLayout {
 	}
 
 
-	private void addRemovalButton(final EventValues eventValues, String style) {
+	private void addRemovalButton(final EventVO eventValues, String style) {
 		NativeButton button = new NativeButton();
 		button.setSizeUndefined();
 		addComponent(button); button.addStyleName(style);

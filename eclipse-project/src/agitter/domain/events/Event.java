@@ -5,18 +5,20 @@ import agitter.domain.users.User;
 
 public interface Event {
 
-	long id();
-
 	User owner();
 
 	String description();
 	void setDescription(String newDescription);
 	long datetime();
 
-	void addInvitees(Group group);
-	void removeInvitees(Group group);
+	User[] invitees();
 	void addInvitee(User user);
 	void removeInvitee(User user);
+	Group[] groupInvitees();
+	void addInvitees(Group group);
+	void removeInvitees(Group group);
 
 	void notInterested(User user);
+
+
 }
