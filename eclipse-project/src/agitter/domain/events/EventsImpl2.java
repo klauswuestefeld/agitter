@@ -17,7 +17,7 @@ public class EventsImpl2 implements Events {
 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
 
-	private long nextId = 0L;
+	private long nextId = 1L;
 
 	
 	@Override
@@ -57,8 +57,8 @@ public class EventsImpl2 implements Events {
 	
 	@Override
 	public Event searchById(long id) {
-		for(Event e : _all)
-			if(e.id()==id) return e;
+		for (Event e : _all)
+			if (e.id() == id) return e;
 
 		return null;
 	}
@@ -75,6 +75,12 @@ public class EventsImpl2 implements Events {
 		if (!isDeletableBy(event, user))
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
+	}
+
+
+	public void populateIdsIfNecessary() {
+		for (EventImpl2 e : _all)
+			if (e.id() == 0) e.populateId(nextId++);
 	}
 
 }

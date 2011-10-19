@@ -11,7 +11,7 @@ import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
-	final private long id;
+	private long id; //Make final after migration in production. 2011-10-19
 	final private User _owner;
 	private String _description;
 	private long _datetime;
@@ -124,6 +124,11 @@ public class EventImpl2 implements Event {
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
+	}
+
+
+	void populateId(long id) {
+		this.id = id;
 	}
 
 }
