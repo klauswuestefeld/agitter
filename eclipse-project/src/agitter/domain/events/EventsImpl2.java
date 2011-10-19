@@ -13,13 +13,13 @@ import agitter.domain.users.User;
 public class EventsImpl2 implements Events {
 
 	private static final int MAX_EVENTS_TO_SHOW = 40;
-
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
 
 	private long nextId = 0L;
 
+	
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		EventImpl2 event = new EventImpl2(nextId++, user, description, datetime, inviteeGroups, invitees);
@@ -27,16 +27,18 @@ public class EventsImpl2 implements Events {
 		return event;
 	}
 
+	
 	@Override
 	public void setEventTime(Event event, long newTime) throws Refusal {
 		EventImpl2 casted = (EventImpl2) event;
-		if (!_all.remove(casted)) throw new IllegalStateException();
+		boolean wasThere = _all.remove(casted); //Event could have been deleted.
 		try {
 			casted.setDatetime(newTime);
 		} finally {
-			_all.add(casted);
+			if (wasThere) _all.add(casted);
 		}
 	}
+
 
 	@Override
 	public List<Event> toHappen(User user) {
@@ -52,6 +54,7 @@ public class EventsImpl2 implements Events {
 		return result;
 	}
 
+	
 	@Override
 	public Event searchById(long id) {
 		for(Event e : _all)
@@ -73,6 +76,5 @@ public class EventsImpl2 implements Events {
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
 	}
-
 
 }
