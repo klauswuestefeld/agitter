@@ -8,6 +8,6 @@ public interface EventsView {
 	void show();
 
 	InviteView initInviteView(Predicate<String> newInviteeValidator, Runnable onInvite);
-	EventListView initEventListView(Consumer<Long> selectedEventIdListener);
+	EventListView initEventListView(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener);
 
 }

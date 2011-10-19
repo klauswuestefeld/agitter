@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sneer.foundation.lang.Consumer;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
@@ -13,31 +15,27 @@ import com.vaadin.ui.NativeButton;
 public class EventViewImpl extends CssLayout {
 
 	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private final Consumer<Object> removedEventListener;
 
-	private long eventId;
-
-	public EventViewImpl(EventData event) {
+	public EventViewImpl(EventValues eventValues, Consumer<Object> removedEventListener) {
+		this.removedEventListener = removedEventListener;
+		setData(eventValues.eventObject);
 		addStyleName("a-event-view");
-		addRemovalButton(event);
+		addRemovalButton(eventValues);
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
-			Label label = new Label(event.description);
+			Label label = new Label(eventValues.description);
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
-			label = new Label(dateFormat.format(new Date(event.datetime)));
+			label = new Label(dateFormat.format(new Date(eventValues.datetime)));
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-date");
-			label = new Label(event.owner);
+			label = new Label(eventValues.owner);
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-owner");
-		eventId = event.id;
 	}
 
-	public long eventId() {
-		return this.eventId;
-	}
-
-	private void addRemovalButton(EventData event) {
+	private void addRemovalButton(EventValues event) {
 		String style = event.isDeletable
 			? "a-event-delete-button"
 			: "a-event-remove-button";
@@ -45,14 +43,19 @@ public class EventViewImpl extends CssLayout {
 	}
 
 
-	private void addRemovalButton(final EventData event, String style) {
+	private void addRemovalButton(final EventValues eventValues, String style) {
 		NativeButton button = new NativeButton();
 		button.setSizeUndefined();
 		addComponent(button); button.addStyleName(style);
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			event.onRemoveAction.run();
+			removedEventListener.consume(eventValues.eventObject);
 		}});
+	}
+
+	
+	Object getEventObject() {
+		return getData();
 	}
 
 }

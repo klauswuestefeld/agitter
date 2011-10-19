@@ -1,8 +1,6 @@
 package agitter.ui.presenter;
 
 import static agitter.domain.emails.EmailAddress.email;
-
-import agitter.ui.view.session.events.EventListView;
 import infra.util.ToString;
 
 import java.util.ArrayList;
@@ -21,7 +19,8 @@ import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
-import agitter.ui.view.session.events.EventData;
+import agitter.ui.view.session.events.EventListView;
+import agitter.ui.view.session.events.EventValues;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.InviteView;
 
@@ -39,6 +38,7 @@ public class EventsPresenter {
 	private final HandleToAvoidLeaks handle;
 	private final Functor<EmailAddress, User> userSearch;
 
+	
 	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
 		this.contacts = contacts;
@@ -54,10 +54,12 @@ public class EventsPresenter {
 		}});
 	}
 
+	
 	private void resetInviteView() {
 		inviteView().reset(contacts());
 	}
 
+	
 	private Predicate<String> newInviteeValidator() {
 		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
 			if(newInvitee==null) { return false; }
@@ -71,10 +73,12 @@ public class EventsPresenter {
 		}};
 	}
 
+	
 	private List<String> contacts() {
 		return ToString.toStrings(contacts.all());
 	}
 
+	
 	private void invite() {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
@@ -106,6 +110,7 @@ public class EventsPresenter {
 		return result;
 	}
 
+	
 	private EmailAddress toAddress(String validEmail) {
 		try {
 			return email(validEmail);
@@ -114,40 +119,49 @@ public class EventsPresenter {
 		}
 	}
 
+	
 	private void validate(Date datetime) throws Refusal {
 		if(datetime==null) { throw new Refusal("Data do agito deve ser preenchida."); }
 	}
 
+	
 	private InviteView inviteView() {
-		if(inviteView==null) {
+		if (inviteView == null)
 			inviteView = view.initInviteView(newInviteeValidator(), new Runnable() { @Override public void run() {
 				invite();
 			}});
-		}
+
 		return inviteView;
 	}
 
+	
 	synchronized private void refreshEventList() {
 		eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
+	
 	private EventListView eventsListView() {
-		if(eventListView==null) {
-			eventListView = view.initEventListView(new Consumer<Long>() {
-				@Override
-				public void consume(Long value) {
-					System.err.println("ID SELECIONADO: " + value);
-				}
-			});
-		}
+		if (eventListView == null)
+			eventListView = view.initEventListView(new Consumer<Object>() { @Override public void consume(Object event) {
+				onEventSelected((Event)event);
+			}}, new Consumer<Object>() { @Override public void consume(Object event) {
+				onEventRemoved((Event)event);
+			}});
+
 		return eventListView;
 	}
 
-	private List<EventData> eventsToHappen() {
-		List<EventData> result = new ArrayList<EventData>();
+	
+	private void onEventSelected(Event event) {
+		System.out.println(event);
+	}
+
+	
+	private List<EventValues> eventsToHappen() {
+		List<EventValues> result = new ArrayList<EventValues>();
 		List<Event> toHappen = events.toHappen(user);
-		for(Event event : toHappen)
-			result.add(new EventData(event.id(), event.description(), event.datetime(), event.owner().screenName(), isDeletable(event), removeAction(event)));
+		for (Event event : toHappen)
+			result.add(new EventValues(event, event.description(), event.datetime(), event.owner().screenName(), isDeletable(event)));
 		return result;
 	}
 
@@ -157,15 +171,12 @@ public class EventsPresenter {
 	}
 
 
-	private Runnable removeAction(final Event event) {
-		return new Runnable() { @Override public void run() {
-			if (isDeletable(event))
-				events.delete(event, user);
-			else
-				event.notInterested(user);
-			
-			refreshEventList();
-		}};
+	private void onEventRemoved(Event event) {
+		if (isDeletable(event))
+			events.delete(event, user);
+		else
+			event.notInterested(user);
+		refreshEventList();
 	}
 
 }

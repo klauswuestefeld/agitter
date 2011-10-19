@@ -26,9 +26,9 @@ public class EventsViewImpl implements EventsView {
 	}
 
 	@Override
-	public EventListView initEventListView(Consumer<Long> selectedEventIdListener) {
-		if(eventList!=null) throw new IllegalStateException();
-		eventList = new EventListViewImpl(selectedEventIdListener);
+	public EventListView initEventListView(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
+		if (eventList != null) throw new IllegalStateException();
+		eventList = new EventListViewImpl(selectedEventListener, removedEventListener);
 		return eventList;
 	}
 

@@ -12,11 +12,13 @@ import com.vaadin.ui.ProgressIndicator;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
-	private final Consumer<Long> selectedEventIdListener;
+	private final Consumer<Object> selectedEventListener;
+	private final Consumer<Object> removedEventListener;
 
 
-	EventListViewImpl(final Consumer<Long> selectedEventIdListener) {
-		this.selectedEventIdListener = selectedEventIdListener;
+	EventListViewImpl(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
+		this.selectedEventListener = selectedEventListener;
+		this.removedEventListener = removedEventListener;
 		this.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
 			onEventSelected(layoutClickEvent);
 		}});
@@ -25,11 +27,12 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 
 	
 	@Override
-	public void refresh(List<EventData> events, int millisToNextRefresh) {
+	public void refresh(List<EventValues> events, int millisToNextRefresh) {
 		removeAllComponents();
 		addComponent(createPoller(millisToNextRefresh));
 
-		for(EventData eventData : events) addComponent(new EventViewImpl(eventData));
+		for (EventValues eventData : events)
+			addComponent(new EventViewImpl(eventData, removedEventListener));
 	}
 
 	
@@ -45,8 +48,8 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
 		EventViewImpl eventView = (EventViewImpl) layoutClickEvent.getChildComponent();
 		if (eventView == null) return;
-		Long id = eventView.eventId();
-		selectedEventIdListener.consume(id);
+		Object eventObject = eventView.getEventObject();
+		selectedEventListener.consume(eventObject);
 	}
 	
 }
