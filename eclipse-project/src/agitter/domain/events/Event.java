@@ -1,6 +1,5 @@
 package agitter.domain.events;
 
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 

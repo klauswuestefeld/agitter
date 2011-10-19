@@ -2,12 +2,12 @@ package agitter.ui.view.session.events;
 
 import java.util.List;
 
+import sneer.foundation.lang.Consumer;
+
 import com.vaadin.event.LayoutEvents;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.ProgressIndicator;
-import sneer.foundation.lang.Consumer;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
