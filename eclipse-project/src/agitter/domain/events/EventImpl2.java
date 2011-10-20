@@ -132,8 +132,20 @@ public class EventImpl2 implements Event {
 		_description = newDescription;
 		_datetime = newDatetime;
 
-		actualGroupInvitees().addAll(newInviteeGroups);
+		setGroupInvitees(newInviteeGroups);
+		setInvitees(newInvitees);
+	}
+
+
+	private void setInvitees(List<User> newInvitees) {
+		actualInvitees().clear();
 		actualInvitees().addAll(newInvitees);
+	}
+
+
+	private void setGroupInvitees(List<Group> newInviteeGroups) {
+		actualGroupInvitees().clear();
+		actualGroupInvitees().addAll(newInviteeGroups);
 	}
 
 }
