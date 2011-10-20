@@ -22,6 +22,8 @@ public class EventsImpl2 implements Events {
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
+		if (_all.contains(event))
+			throw new Refusal("Já existe um agito seu na mesma data com a mesma descrição.");
 		_all.add(event);
 		return event;
 	}
