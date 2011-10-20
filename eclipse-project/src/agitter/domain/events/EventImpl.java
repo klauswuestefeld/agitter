@@ -57,11 +57,6 @@ public class EventImpl implements Event {
 	}
 
 	@Override
-	public void setDescription(String newDescription) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	@Override
 	public void removeInvitees(Group group) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}

@@ -27,13 +27,8 @@ public class EventImpl2 implements Event {
 	
 	public EventImpl2(User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
-		if(datetime==0L) { throw new Refusal("Data do agito deve ser preenchida."); }
-		if(null==description) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 		_owner = owner;
-		setDescription(description);
-		setDatetime(datetime);
-		actualGroupInvitees().addAll(inviteeGroups);
-		actualInvitees().addAll(invitees);
+		edit(description, datetime, inviteeGroups, invitees);
 	}
 
 
@@ -52,18 +47,6 @@ public class EventImpl2 implements Event {
 	@Override
 	public long datetime() {
 		return _datetime;
-	}
-
-	
-	@Override
-	public void setDescription(String newDescription) {
-		_description = newDescription;
-	}
-
-
-	void setDatetime(long newDatetime) throws Refusal {
-		assertIsInTheFuture(newDatetime);
-		_datetime = newDatetime;
 	}
 
 
@@ -139,6 +122,18 @@ public class EventImpl2 implements Event {
 
 	void populateId(long id) {
 		this.id = id;
+	}
+
+
+	void edit(String newDescription, long newDatetime, List<Group> newInviteeGroups, List<User> newInvitees) throws Refusal {
+		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
+		assertIsInTheFuture(newDatetime);
+
+		_description = newDescription;
+		_datetime = newDatetime;
+
+		actualGroupInvitees().addAll(newInviteeGroups);
+		actualInvitees().addAll(newInvitees);
 	}
 
 }

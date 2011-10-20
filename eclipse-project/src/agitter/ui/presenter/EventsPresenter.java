@@ -40,6 +40,7 @@ public class EventsPresenter {
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
 	private final Functor<EmailAddress, User> userSearch;
+	private Event eventBeingEdited;
 
 	
 	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, EventsView eventsView, Consumer<String> warningDisplayer) {
@@ -60,6 +61,7 @@ public class EventsPresenter {
 	
 	private void resetInviteView() {
 		inviteView().reset(contacts());
+		eventBeingEdited = null;
 	}
 
 	
@@ -86,10 +88,10 @@ public class EventsPresenter {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
 		List<User> invitees = toUsers(inviteView().invitees());
+		
 		try {
-			validate(datetime);
-			events.create(user, description, datetime.getTime(), Collections.EMPTY_LIST, invitees);
-		} catch(Refusal e) {
+			invite(description, datetime, invitees);
+		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
@@ -98,6 +100,16 @@ public class EventsPresenter {
 
 		refreshEventList();
 		resetInviteView();
+	}
+
+
+	private void invite(String description, Date datetime, List<User> invitees) throws Refusal {
+		if (datetime == null) throw new Refusal("Data do Agito deve ser preenchida.");
+			
+		if (eventBeingEdited == null)
+			events.create(user, description, datetime.getTime(), Collections.EMPTY_LIST, invitees);
+		else
+			events.edit(eventBeingEdited, description, datetime.getTime(), invitees);
 	}
 
 
@@ -120,11 +132,6 @@ public class EventsPresenter {
 		} catch(Refusal e) {
 			throw new IllegalStateException(e);
 		}
-	}
-
-	
-	private void validate(Date datetime) throws Refusal {
-		if(datetime==null) { throw new Refusal("Data do agito deve ser preenchida."); }
 	}
 
 	
@@ -156,6 +163,7 @@ public class EventsPresenter {
 
 	
 	private void onEventSelected(Event event) {
+		eventBeingEdited = event;
 		inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
 	}
 
@@ -195,7 +203,9 @@ public class EventsPresenter {
 			events.delete(event, user);
 		else
 			event.notInterested(user);
+		
 		refreshEventList();
+		resetInviteView();
 	}
 
 }

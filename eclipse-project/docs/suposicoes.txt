@@ -8,10 +8,10 @@
 		GMail
 		Yahoo
 
+
 	CRUD do Agito
-		Visualização do Agito selecionado
-			URLs clicáveis na descricao do agito (Nao são clicáveis no email)
-		Edição de agito
+		Grupos - Convidar grupos além de emails.
+		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 		CSS do lixinho para excluir o agito criado pelo próprio usuário (style usado: "a-event-delete-button")
 
 

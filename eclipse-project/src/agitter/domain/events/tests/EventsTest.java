@@ -1,5 +1,7 @@
 package agitter.domain.events.tests;
 
+import java.util.Collections;
+
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -27,7 +29,7 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		subject.setEventTime(secondEvent, 14);
+		subject.edit(secondEvent, "D2", 14, Collections.EMPTY_LIST);
 
 		assertEquals(3, subject.toHappen(ana).size());
 		assertSame(firstEvent, subject.toHappen(ana).get(0));
@@ -67,7 +69,6 @@ public class EventsTest extends EventsTestBase {
 	@Test
 	public void notInterested() throws Refusal {
 		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);
-
 		assertEquals(1, subject.toHappen(jose).size());
 
 		event.notInterested(jose);

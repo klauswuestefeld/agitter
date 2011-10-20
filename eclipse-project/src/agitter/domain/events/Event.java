@@ -8,7 +8,6 @@ public interface Event {
 	User owner();
 
 	String description();
-	void setDescription(String newDescription);
 	long datetime();
 
 	User[] invitees();
