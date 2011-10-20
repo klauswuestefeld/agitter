@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import sneer.foundation.lang.Producer;
 
-
+//Refactor: OID and MapLookup both only have an id field.
 class MapLookup implements Producer<Object>, Serializable {
 	
 	MapLookup(Object delegate) {
@@ -12,7 +12,7 @@ class MapLookup implements Producer<Object>, Serializable {
 	}
 
 
-	private final long _id;
+	final long _id;
 	
 
 	@Override
@@ -21,4 +21,5 @@ class MapLookup implements Producer<Object>, Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
+
 }

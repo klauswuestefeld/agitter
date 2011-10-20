@@ -123,4 +123,9 @@ class BubbleProxy implements InvocationHandler {
 		return PrevalentBubble.idMap().isRegistered(object);
 	}
 
+
+	long id() {
+		return ((MapLookup)_invocationPath)._id;		
+	}
+
 }

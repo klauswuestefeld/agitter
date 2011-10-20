@@ -94,7 +94,7 @@ public class EventsPresenter {
 			return;
 		}
 		invitees.removeAll(contacts.all());
-		addNewContactsIfAny(invitees);
+		addNewContactsIfAny(invitees); //Refactor: Move this responsibility to Events.create(...).
 
 		refreshEventList();
 		resetInviteView();

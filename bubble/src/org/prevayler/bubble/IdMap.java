@@ -2,6 +2,7 @@ package org.prevayler.bubble;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,8 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import sneer.foundation.lang.Immutable;
 import sneer.foundation.lang.exceptions.NotImplementedYet;
 
+import com.google.common.collect.MapMaker;
+
 public class IdMap implements Serializable {
 	
+	private Map<Object, Long> idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
+	private Map<Long, Object> objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
 	private final Map<Object, Long> _idsByObject = new ConcurrentHashMap<Object, Long>();
 	private final Map<Long, Object> _objectsById = new ConcurrentHashMap<Long, Object>();
 	private long _nextId = 1;
@@ -32,17 +37,17 @@ public class IdMap implements Serializable {
 	private void doRegister(Object object) {
 		if (object == null) throw new IllegalArgumentException();
 		
-		if (_idsByObject.containsKey(object))
+		if (getIdsByObject().containsKey(object))
 			throw new IllegalStateException("Object already registered in prevalence map: " + object);
 		
 		long id = _nextId++;
-		_idsByObject.put(object, id);
-		_objectsById.put(id, object);
+		getIdsByObject().put(object, id);
+		getObjectsById().put(id, object);
 	}
 
 	
 	public boolean isRegistered(Object object) {
-		return _idsByObject.containsKey(object);
+		return getIdsByObject().containsKey(object);
 	}
 
 	
@@ -62,13 +67,24 @@ public class IdMap implements Serializable {
 	
 	private Object marshalIfNecessary(Object object) {
 		if (object == null) return null;
+		
+		if (Proxy.isProxyClass(object.getClass()))
+			return new OID(idForProxy(object));
+		
 		if (object.getClass().isArray()) return marshalArrayIfNecessary(object);
 		if (object instanceof Collection) return marshalCollectionIfNecessary((Collection<?>)object);
 		
 		if (Immutable.isImmutable(object.getClass()))
 			return object;
 		
-		return new OID(idFor(object));
+		throw new UnsupportedOperationException("Unable to marshal " + object.getClass());
+//		return new OID(idFor(object));
+	}
+
+
+	private long idForProxy(Object proxy) {
+		BubbleProxy bubble = (BubbleProxy)Proxy.getInvocationHandler(proxy);
+		return bubble.id();
 	}
 
 
@@ -108,7 +124,7 @@ public class IdMap implements Serializable {
 
 
 	long idFor(Object object) {
-		Long result = _idsByObject.get(object);
+		Long result = getIdsByObject().get(object);
 		if (result == null)
 			throw new IllegalStateException("Mutable object " + object + " should have been registered in prevalence map.");
 		return result;
@@ -155,7 +171,7 @@ public class IdMap implements Serializable {
 
 
 	Object unmarshal(long id) {
-		Object result = _objectsById.get(id);
+		Object result = getObjectsById().get(id);
 		if (result == null)
 			throw new IllegalStateException("Object not found for id: " + id);
 		return result;
@@ -170,4 +186,27 @@ public class IdMap implements Serializable {
 	}
 
 
+	private Map<Object, Long> getIdsByObject() {
+		migrateIfNecessary();
+		return idsByObject;
+	}
+
+
+	private Map<Long, Object> getObjectsById() {
+		migrateIfNecessary();
+		return objectsById;
+	}
+
+
+	private void migrateIfNecessary() {
+		if (idsByObject != null) return;
+		
+		idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
+		objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
+		idsByObject.putAll(_idsByObject);
+		objectsById.putAll(_objectsById);
+		_idsByObject.clear();
+		_objectsById.clear();
+	}
+	
 }
