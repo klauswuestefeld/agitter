@@ -44,7 +44,14 @@ public class PrevaylerBootstrap {
 	
 	
 	static void consolidateSnapshot() throws IOException, ClassNotFoundException {
+		eliminateWeakReferencesIfAny();
 		consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic();
+	}
+
+
+	private static void eliminateWeakReferencesIfAny() {
+		//Bubble IdMap, for example, uses weak references that do not have to be serialized.
+		System.gc();
 	}
 
 	
