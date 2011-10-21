@@ -13,8 +13,6 @@ public class EventImpl2 implements Event {
 	
 	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
 
-	private static final User[] USER_ARRAY_TYPE = new User[0];
-	private static final Group[] GROUP_ARRAY_TYPE = new Group[0];
 	final private User _owner;
 	private String _description;
 	private long _datetime;
@@ -53,7 +51,7 @@ public class EventImpl2 implements Event {
 	@Override
 	synchronized
 	public User[] invitees() {
-		return actualInvitees().toArray(USER_ARRAY_TYPE);
+		return actualInvitees().toArray(new User[actualInvitees().size()]);
 	}
 
 
@@ -66,7 +64,7 @@ public class EventImpl2 implements Event {
 	@Override
 	synchronized
 	public Group[] groupInvitees() {
-		return actualGroupInvitees().toArray(GROUP_ARRAY_TYPE);
+		return actualGroupInvitees().toArray(new Group[actualGroupInvitees().size()]);
 	}
 
 
@@ -117,11 +115,6 @@ public class EventImpl2 implements Event {
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis())
 			throw new Refusal("Novos eventos devem ser criados com data futura.");
-	}
-
-
-	void populateId(long id) {
-		this.id = id;
 	}
 
 
