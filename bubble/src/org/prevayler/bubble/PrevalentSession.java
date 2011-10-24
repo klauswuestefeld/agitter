@@ -50,6 +50,7 @@ class PrevalentSession {
 
 	public Object prevalentSystem() {
 		waitForTransactionLogReplay();
+		if(_prevalentSystem == null) throw new IllegalStateException("prevalentSystem should not be null");
 		return _prevalentSystem;
 	}
 
