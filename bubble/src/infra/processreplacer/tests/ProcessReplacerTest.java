@@ -43,7 +43,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process2).prepareToRun(); inSequence();
 				will(throwException(new Exception()));
 			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
-			exactly(1).of(process2).retire();inSequence();
+			exactly(1).of(process2).forgetAboutRunning();inSequence();
 		}});
 		new ProcessReplacer(process2, PORT);
 		latch.waitTillOpen();
