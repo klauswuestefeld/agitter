@@ -36,6 +36,7 @@ public class IdMap implements Serializable {
 
 	private void doRegister(Object object) {
 		if (object == null) throw new IllegalArgumentException();
+		if (Proxy.isProxyClass(object.getClass())) throw new IllegalArgumentException();//OPTIMIZE - this can be removed in the future
 		
 		if (getIdsByObject().containsKey(object))
 			throw new IllegalStateException("Object already registered in prevalence map: " + object);
