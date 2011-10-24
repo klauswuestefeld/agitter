@@ -10,6 +10,7 @@
 
 
 	CRUD do Agito
+		Criar Agito - Botão acima da lista de agitos.
 		Grupos - Convidar grupos além de emails.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 		CSS do lixinho para excluir o agito criado pelo próprio usuário (style usado: "a-event-delete-button")

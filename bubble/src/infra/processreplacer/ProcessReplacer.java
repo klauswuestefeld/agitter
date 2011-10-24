@@ -17,6 +17,7 @@ public class ProcessReplacer {
 	
 	
 	public interface ReplaceableProcess {
+		void forgetAboutRunning();
 		void prepareToRun() throws Exception;
 		void run();
 		void prepareToRetire() throws Exception;
@@ -34,8 +35,8 @@ public class ProcessReplacer {
 			tryToTakeOver();
 		} catch (Exception e) {
 			cancelPreviousProcessRetirementIfNecessary();
-			log(e, "Process replacer unable to take over. Retiring process...");
-			this.process.retire();
+			log(e, "Process replacer unable to take over. This process will not be run.");
+			this.process.forgetAboutRunning();
 		}
 	}
 

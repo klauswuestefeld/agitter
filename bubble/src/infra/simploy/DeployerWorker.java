@@ -31,7 +31,8 @@ public class DeployerWorker {
 		runAllTestsIn(newBuild);
 		run(newBuild);
 		
-		System.out.println("Result: " + BuildFolders.waitForResult(newBuild));
+		System.out.println("Waiting for build result flag file.");
+		BuildFolders.waitForResult(newBuild);
 	}
 
 

@@ -43,7 +43,10 @@ public class BuildFolders {
 		markBuild(build, OK_FLAG, "This build was successful. :)");
 	}
 	public static void markAsFailed(File build, Exception exception) throws IOException {
-		markBuild(build, FAILED_FLAG, stackTrace(exception));
+		markAsFailed(build, stackTrace(exception));
+	}
+	public static void markAsFailed(File build, String message) throws IOException {
+		markBuild(build, FAILED_FLAG, message);
 	}
 
 	
@@ -104,5 +107,7 @@ public class BuildFolders {
 		writer.flush();
 		return buffer.toString();
 	}
+
+
 
 }

@@ -32,6 +32,17 @@ public class AgitterProcess implements ReplaceableProcess {
 	
 
 	@Override
+	public void forgetAboutRunning() {
+		try {
+			BuildFolders.markAsFailed(workingFolder(), "Unable to retire previous process.");
+		} catch (IOException e) {
+			log(e, e.getMessage());
+		}
+		System.exit(0);
+	}
+
+	
+	@Override
 	public void prepareToRun() throws Exception {
 		if (isSuccessfulBuild() || isDevelopmentMode())
 			prepareToRunAsSuccessfulBuild();
