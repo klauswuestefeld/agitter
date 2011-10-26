@@ -1,4 +1,6 @@
-﻿	Tela de Entrada Nova
+﻿	BUG: Não permitir edição de agitos dos outros
+	
+	Tela de Entrada Nova
 
 	Grupos de Contatos
 		Arrumar UI design - Verificar IE

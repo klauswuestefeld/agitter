@@ -16,6 +16,7 @@ import com.google.common.collect.MapMaker;
 
 public class IdMap implements Serializable {
 	
+	private Object refToAvoidGc;
 	private Map<Object, Long> idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
 	private Map<Long, Object> objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
 	private final Map<Object, Long> _idsByObject = new ConcurrentHashMap<Object, Long>();
@@ -24,6 +25,7 @@ public class IdMap implements Serializable {
 
 	
 	IdMap(Object firstObject) {
+		this.refToAvoidGc = firstObject;
 		doRegister(firstObject);
 	}
 	
@@ -200,8 +202,12 @@ public class IdMap implements Serializable {
 
 
 	private void migrateIfNecessary() {
-		if (idsByObject != null) return;
+		if (refToAvoidGc != null) return;
+		Object first = unmarshal(1);
+		if (first == null) throw new IllegalStateException("First object lost. Garbage collection was too fast. :~(");
+		refToAvoidGc = first;
 		
+		if (idsByObject != null) return;
 		idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
 		objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
 		idsByObject.putAll(_idsByObject);
