@@ -70,7 +70,9 @@ public class AgitterProcess implements ReplaceableProcess {
 		try {
 			bringSnapshotFromPreviousGoodBuildIfNecessary();
 			prepareToRunAsSuccessfulBuild();
+			LogInfra.getLogger(this).info("Migrating...");
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
+			LogInfra.getLogger(this).info("Migration done.");
 			BuildFolders.markAsSuccessful(workingFolder());
 		} catch (Exception e) {
 			BuildFolders.markAsFailed(workingFolder(), e);
