@@ -88,10 +88,11 @@ public class AgitterProcess implements ReplaceableProcess {
 
 		assertSnapshotIsRecent(from);
 		
-		LogInfra.getLogger(this).info("SNAPSHOT - Moving from " + from + " to " + to);
+		LogInfra.getLogger(this).info("SNAPSHOT - Moving from " + from + " to " + to + "...");
 		to.getParentFile().mkdirs();
 		if (!from.renameTo(to))
 			throw new IOException("Unable to rename " + from +  " to " + to);
+		LogInfra.getLogger(this).info("SNAPSHOT - Moved.");
 	}
 
 

@@ -1,5 +1,7 @@
 package org.prevayler.bubble;
 
+import infra.logging.LogInfra;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -26,9 +28,15 @@ class PrevalentSession {
 	}
 
 	void start() throws IOException, ClassNotFoundException {
+		log("Prevayler init...");
 		initPrevayler();
+		log("Prevayler init done.");
 		setPrevalentSystemIfNecessary((IdMap)_prevayler.prevalentSystem());
 		_transactionLogReplayed.open();
+	}
+
+	private void log(String msg) {
+		LogInfra.getLogger(this).info(msg);
 	}
 	
 	private void initPrevayler() throws IOException, ClassNotFoundException {
