@@ -204,7 +204,7 @@ public class IdMap implements Serializable {
 	private void migrateIfNecessary() {
 		if (refToAvoidGc != null) return;
 		Object first = unmarshal(1);
-		if (first == null) throw new IllegalStateException("First object lost. Garbage collection was too fast. :~(");
+		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
 		
 		if (idsByObject != null) return;

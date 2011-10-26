@@ -197,7 +197,7 @@ public class ProcessReplacer {
 
 
 	private static void fail(String reason) throws IOException {
-		throw new IOException(className() + " unable to replace previous process. " + reason);
+		throw new IOException(className() + " failed. " + reason);
 	}
 	
 	
