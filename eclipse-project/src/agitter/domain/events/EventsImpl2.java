@@ -1,7 +1,6 @@
 package agitter.domain.events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -31,11 +30,11 @@ public class EventsImpl2 implements Events {
 
 	
 	@Override
-	public void edit(Event event, String newDescription, long newDatetime, List<User> newInvitees) throws Refusal {
+	public void edit(Event event, String newDescription, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal {
 		EventImpl2 casted = (EventImpl2) event;
 		boolean wasThere = _all.remove(casted); //Event could have been deleted.
 		try {
-			casted.edit(newDescription, newDatetime, Collections.EMPTY_LIST, newInvitees);
+			casted.edit(newDescription, newDatetime, inviteeGroups, newInvitees);
 		} finally {
 			if (wasThere) _all.add(casted);
 		}

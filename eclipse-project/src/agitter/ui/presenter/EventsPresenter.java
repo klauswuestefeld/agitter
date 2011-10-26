@@ -7,15 +7,16 @@ import infra.util.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
@@ -69,7 +70,10 @@ public class EventsPresenter {
 		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
 			if(newInvitee==null) { return false; }
 			try {
-				AddressValidator.validateEmail(newInvitee);
+				Group group = contacts.groupGivenName(newInvitee);
+				if(group == null){
+					AddressValidator.validateEmail(newInvitee);
+				}
 			} catch(Refusal r) {
 				warningDisplayer.consume(r.getMessage());
 				return false;
@@ -80,17 +84,20 @@ public class EventsPresenter {
 
 	
 	private List<String> contacts() {
-		return ToString.toStrings(contacts.all());
+		List<String> contactsAndGroups = ToString.toStrings(contacts.all());
+		contactsAndGroups.addAll(ToString.toStrings(contacts.groups()));
+		return contactsAndGroups;
 	}
 
 	
 	private void invite() {
 		String description = inviteView().eventDescription();
 		Date datetime = inviteView().datetime();
-		List<User> invitees = toUsers(inviteView().invitees());
-		
+		Pair<List<Group>, List<User>> usersAndGroups = toGroupsAndUsers(inviteView().invitees());
+		List<Group> inviteeGroups = usersAndGroups.a;
+		List<User> invitees = usersAndGroups.b;
 		try {
-			invite(description, datetime, invitees);
+			invite(description, datetime, inviteeGroups, invitees);
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
@@ -103,13 +110,13 @@ public class EventsPresenter {
 	}
 
 
-	private void invite(String description, Date datetime, List<User> invitees) throws Refusal {
+	private void invite(String description, Date datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		if (datetime == null) throw new Refusal("Data do Agito deve ser preenchida.");
 			
 		if (eventBeingEdited == null)
-			events.create(user, description, datetime.getTime(), Collections.EMPTY_LIST, invitees);
+			events.create(user, description, datetime.getTime(), inviteeGroups, invitees);
 		else
-			events.edit(eventBeingEdited, description, datetime.getTime(), invitees);
+			events.edit(eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
 	}
 
 
@@ -118,11 +125,19 @@ public class EventsPresenter {
 	}
 
 
-	private List<User> toUsers(List<String> validEmails) {
-		List<User> result = new ArrayList<User>(validEmails.size());
-		for(String email : validEmails)
-			result.add(userSearch.evaluate(toAddress(email)));
-		return result;
+	private Pair<List<Group>, List<User>> toGroupsAndUsers(List<String> validEmailOrGroup) {
+		List<User> users = new ArrayList<User>();
+		List<Group> groups = new ArrayList<Group>();
+		for(String emailOrGroup : validEmailOrGroup) {
+			Group group = contacts.groupGivenName(emailOrGroup);
+			if( group != null ) {
+				groups.add(group);
+			}else {
+				users.add(userSearch.evaluate(toAddress(emailOrGroup)));
+			}
+			
+		}
+		return new Pair<List<Group>, List<User>>(groups, users);
 	}
 
 	

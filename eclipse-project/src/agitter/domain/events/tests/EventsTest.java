@@ -1,12 +1,16 @@
 package agitter.domain.events.tests;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
+import agitter.domain.users.User;
 
 public class EventsTest extends EventsTestBase {
 
@@ -29,7 +33,7 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		subject.edit(secondEvent, "D2", 14, Collections.EMPTY_LIST);
+		subject.edit(secondEvent, "D2", 14, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
 
 		assertEquals(3, subject.toHappen(ana).size());
 		assertSame(firstEvent, subject.toHappen(ana).get(0));
@@ -38,6 +42,27 @@ public class EventsTest extends EventsTestBase {
 
 	}
 
+
+	@Test
+	public void createAndEditEventWithGroups() throws Refusal {
+		ContactsOfAUser contacts = agitter.contacts().contactsOf( ana );
+		Group work = contacts.createGroup( "work" );
+		
+		Event event =  subject.create(ana, "Churras", 12, Arrays.asList( new Group[]{work}), Collections.EMPTY_LIST );
+		assertContents(Arrays.asList(event.groupInvitees()),work);
+		assertContents(Arrays.asList(event.invitees()));
+
+		Group friends = contacts.createGroup( "friends" );
+		subject.edit(event, "Churras", 12, Arrays.asList( new Group[]{work,friends}), Arrays.asList(new User[]{jose}));
+		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
+		assertContents(Arrays.asList(event.invitees()),jose);
+		
+		subject.edit(event, "Churras", 12, Arrays.asList( new Group[]{friends}), Arrays.asList(new User[]{jose}));
+		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
+		assertContents(Arrays.asList(event.invitees()),jose);
+	}
+
+	
 	@Test
 	public void toHappenSinceTwoHoursAgo() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
