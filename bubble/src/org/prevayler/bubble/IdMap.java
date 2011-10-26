@@ -205,21 +205,22 @@ public class IdMap implements Serializable {
 
 
 	private void migrateIfNecessary() {
+		if (idsByObject == null) {
+			idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
+			objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
+			idsByObject.putAll(_idsByObject);
+			objectsById.putAll(_objectsById);
+			_idsByObject.clear();
+			_objectsById.clear();
+		}
+
 		if (refToAvoidGc != null) return;
 		LogInfra.getLogger(this).log(Level.INFO, "a");
-		Object first = unmarshal(1);
+		Object first = objectsById.get(1);
 		LogInfra.getLogger(this).log(Level.INFO, "b");
 		LogInfra.getLogger(this).log(Level.SEVERE, "First object lost. Garbage collection was too fast. :~(");
 		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
-		
-		if (idsByObject != null) return;
-		idsByObject = new MapMaker().weakKeys().concurrencyLevel(1).makeMap(); //Make final after migration;
-		objectsById = new MapMaker().weakValues().concurrencyLevel(1).makeMap(); //Make final after migration;
-		idsByObject.putAll(_idsByObject);
-		objectsById.putAll(_objectsById);
-		_idsByObject.clear();
-		_objectsById.clear();
 	}
 	
 }
