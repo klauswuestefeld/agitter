@@ -18,9 +18,9 @@ public class ProcessReplacer {
 	
 	public interface ReplaceableProcess {
 		void forgetAboutRunning();
-		void prepareToRun() throws Exception;
+		void prepareToRun() throws Throwable;
 		void run();
-		void prepareToRetire() throws Exception;
+		void prepareToRetire() throws Throwable;
 		void cancelRetirement();
 		void retire();
 	}
@@ -33,7 +33,7 @@ public class ProcessReplacer {
 		
 		try {
 			tryToTakeOver();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			cancelPreviousProcessRetirementIfNecessary();
 			log(e, "Process replacer unable to take over. This process will not be run.");
 			this.process.forgetAboutRunning();
@@ -58,12 +58,12 @@ public class ProcessReplacer {
 	}
 
 
-	private void log(Exception e, String message) {
-		LogInfra.getLogger(this).log(Level.SEVERE, message, e);
+	private void log(Throwable t, String message) {
+		LogInfra.getLogger(this).log(Level.SEVERE, message, t);
 	}
 
 
-	private void tryToTakeOver() throws Exception {
+	private void tryToTakeOver() throws Throwable {
 		preparePreviousProcessToRetireIfNecessary();
 		process.prepareToRun();
 		retirePreviousProcessIfNecessary();
@@ -149,7 +149,7 @@ public class ProcessReplacer {
 	private void tryToRetire(Socket request) throws IOException {
 		try {
 			process.prepareToRetire();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new IOException("Preparation to retire failed. ", e);
 		}
 		sendMessage(request, READY_TO_RETIRE);

@@ -43,7 +43,7 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	
 	@Override
-	public void prepareToRun() throws Exception {
+	public void prepareToRun() throws Throwable {
 		if (isSuccessfulBuild() || isDevelopmentMode())
 			prepareToRunAsSuccessfulBuild();
 		else
@@ -66,7 +66,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 
-	private void prepareToRunAsCandidateBuild() throws Exception {
+	private void prepareToRunAsCandidateBuild() throws Throwable {
 		try {
 			bringSnapshotFromPreviousGoodBuildIfNecessary();
 			LogInfra.getLogger(this).info("Running as successful build");
@@ -75,9 +75,9 @@ public class AgitterProcess implements ReplaceableProcess {
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
 			LogInfra.getLogger(this).info("Marking as successful");
 			BuildFolders.markAsSuccessful(workingFolder());
-		} catch (Exception e) {
-			BuildFolders.markAsFailed(workingFolder(), e);
-			throw e;
+		} catch (Throwable t) {
+			BuildFolders.markAsFailed(workingFolder(), t);
+			throw t;
 		}
 	}
 

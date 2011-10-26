@@ -206,7 +206,9 @@ public class IdMap implements Serializable {
 
 	private void migrateIfNecessary() {
 		if (refToAvoidGc != null) return;
+		LogInfra.getLogger(this).log(Level.INFO, "a");
 		Object first = unmarshal(1);
+		LogInfra.getLogger(this).log(Level.INFO, "b");
 		LogInfra.getLogger(this).log(Level.SEVERE, "First object lost. Garbage collection was too fast. :~(");
 		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
