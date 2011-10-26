@@ -30,8 +30,10 @@ class PrevalentSession {
 	void start() throws IOException, ClassNotFoundException {
 		log("Prevayler init");
 		initPrevayler();
+		log("Getting idMap");
+		IdMap idMap = (IdMap)_prevayler.prevalentSystem();
 		log("Setting prevalent system");
-		setPrevalentSystemIfNecessary((IdMap)_prevayler.prevalentSystem());
+		setPrevalentSystemIfNecessary(idMap);
 		log("Prevalent system set");
 		_transactionLogReplayed.open();
 	}
@@ -50,11 +52,15 @@ class PrevalentSession {
 		
 	void setPrevalentSystemIfNecessary(IdMap idMap) {
 		if (_idMap != null) return;
+		log("1");
 		if (idMap == null) throw new IllegalArgumentException();
+		log("2");
 
 		_idMap = idMap;
 		Object sys = _idMap.unmarshal(1);
+		log("3");
 		if (sys == null) throw new IllegalStateException("prevalentSystem should not be null.");
+		log("4");
 		_prevalentSystem = sys;
 	}
 
