@@ -217,7 +217,7 @@ public class IdMap implements Serializable {
 		for (Long id : objectsById.keySet()) {
 			LogInfra.getLogger(this).info(id + " " + objectsById.get(id).getClass());
 		}
-		Object first = objectsById.get(1);
+		Object first = objectsById.get(1L);
 		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
 	}
