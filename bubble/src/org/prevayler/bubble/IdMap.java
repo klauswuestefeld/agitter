@@ -1,7 +1,5 @@
 package org.prevayler.bubble;
 
-import infra.logging.LogInfra;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
@@ -10,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 import sneer.foundation.lang.Immutable;
 import sneer.foundation.lang.exceptions.NotImplementedYet;
@@ -215,10 +212,7 @@ public class IdMap implements Serializable {
 		}
 
 		if (refToAvoidGc != null) return;
-		LogInfra.getLogger(this).log(Level.INFO, "a");
 		Object first = objectsById.get(1);
-		LogInfra.getLogger(this).log(Level.INFO, "b");
-		LogInfra.getLogger(this).log(Level.SEVERE, "First object lost. Garbage collection was too fast. :~(");
 		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
 	}
