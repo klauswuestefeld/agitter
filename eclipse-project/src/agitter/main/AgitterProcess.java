@@ -69,10 +69,11 @@ public class AgitterProcess implements ReplaceableProcess {
 	private void prepareToRunAsCandidateBuild() throws Exception {
 		try {
 			bringSnapshotFromPreviousGoodBuildIfNecessary();
+			LogInfra.getLogger(this).info("Running as successful build");
 			prepareToRunAsSuccessfulBuild();
-			LogInfra.getLogger(this).info("Migrating...");
+			LogInfra.getLogger(this).info("Migrating");
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
-			LogInfra.getLogger(this).info("Migration done.");
+			LogInfra.getLogger(this).info("Marking as successful");
 			BuildFolders.markAsSuccessful(workingFolder());
 		} catch (Exception e) {
 			BuildFolders.markAsFailed(workingFolder(), e);
