@@ -28,10 +28,11 @@ class PrevalentSession {
 	}
 
 	void start() throws IOException, ClassNotFoundException {
-		log("Prevayler init...");
+		log("Prevayler init");
 		initPrevayler();
-		log("Prevayler init done.");
+		log("Setting prevalent system");
 		setPrevalentSystemIfNecessary((IdMap)_prevayler.prevalentSystem());
+		log("Prevalent system set");
 		_transactionLogReplayed.open();
 	}
 
