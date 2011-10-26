@@ -4,7 +4,7 @@ import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
-import agitter.ui.view.session.events.EventsViewImpl;
+import agitter.ui.view.session.events.EventsViewImplOld;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -30,7 +30,7 @@ public class SessionViewImpl implements SessionView {
 	private final Button logout = WidgetUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
-	private final EventsView eventsView = new EventsViewImpl(mainContent);
+	private final EventsView eventsView = new EventsViewImplOld(mainContent);
 	private final ContactsView contactsView = new ContactsViewImpl(mainContent);
 
 	private static final String MENU_DEFAULT_STYLE = "a-session-menu-default";
