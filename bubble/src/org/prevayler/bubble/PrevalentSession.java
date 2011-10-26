@@ -44,9 +44,9 @@ class PrevalentSession {
 		if (idMap == null) throw new IllegalArgumentException();
 
 		_idMap = idMap;
-		Object prevalentSystem = _idMap.unmarshal(1);
-		if (prevalentSystem == null) throw new IllegalStateException("prevalentSystem should not be null.");
-		_prevalentSystem = prevalentSystem;
+		Object sys = _idMap.unmarshal(1);
+		if (sys == null) throw new IllegalStateException("prevalentSystem should not be null.");
+		_prevalentSystem = sys;
 	}
 
 
