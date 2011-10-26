@@ -14,6 +14,16 @@ import agitter.domain.users.UsersImpl;
 
 public class AgitterImpl implements Agitter {
 
+	static private AgitterImpl refToAvoidGc;
+
+
+	private Object readResolve() {
+		if (refToAvoidGc != null) throw new IllegalStateException();
+		  refToAvoidGc = this;
+		  return this;
+	 }
+
+	  
 	@SuppressWarnings("unused")
 	@Deprecated //2011-08-12 Transient 2011-09-06
 	private transient final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
