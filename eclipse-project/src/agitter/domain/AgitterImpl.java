@@ -18,10 +18,9 @@ public class AgitterImpl implements Agitter {
 
 
 	private Object readResolve() {
-		throw new RuntimeException();
-//		if (refToAvoidGc != null) throw new IllegalStateException();
-//		  refToAvoidGc = this;
-//		  return this;
+		if (refToAvoidGc != null) throw new IllegalStateException();
+		  refToAvoidGc = this;
+		  return this;
 	 }
 
 	  

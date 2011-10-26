@@ -1,5 +1,7 @@
 package org.prevayler.bubble;
 
+import infra.logging.LogInfra;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Proxy;
@@ -212,6 +214,9 @@ public class IdMap implements Serializable {
 		}
 
 		if (refToAvoidGc != null) return;
+		for (Long id : objectsById.keySet()) {
+			LogInfra.getLogger(this).info(id + " " + objectsById.get(id).getClass());
+		}
 		Object first = objectsById.get(1);
 		if (first == null) throw new Error("First object lost. Garbage collection was too fast. :~(");
 		refToAvoidGc = first;
