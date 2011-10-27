@@ -65,7 +65,7 @@ public class Presenter {
 
 	private void onContactsDemo() {
 		SessionView sessionView = view.showSessionView();
-		sessionView.show("username@mail.com");
+		sessionView.init(new ContactsDemoNeeds());
 		sessionView.showContactsView();
 		new ContactsDemo(sessionView.contactsView());
 	}

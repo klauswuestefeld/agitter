@@ -5,8 +5,11 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
 
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.VerticalLayout;
 
 public class EventsViewImpl implements EventsView {
@@ -14,6 +17,7 @@ public class EventsViewImpl implements EventsView {
 	private final ComponentContainer container;
 	private EventListViewImpl eventList;
 	private InviteViewImpl inviteView;
+	private Runnable onNewEvent;
 
 
 	public EventsViewImpl(ComponentContainer container) {
@@ -26,7 +30,7 @@ public class EventsViewImpl implements EventsView {
 		container.removeAllComponents();
 		
 		ComponentContainer leftSide = new VerticalLayout();
-		leftSide.addComponent(AgitterVaadinUtils.createDefaultNativeButton("Agitar!"));
+		leftSide.addComponent(createNewEventButton());
 		leftSide.addComponent(eventList);
 
 		ComponentContainer peccinPleaseRemoveMe = new HorizontalLayout();
@@ -34,6 +38,15 @@ public class EventsViewImpl implements EventsView {
 		peccinPleaseRemoveMe.addComponent(inviteView);
 
 		container.addComponent(peccinPleaseRemoveMe);
+	}
+
+
+	private NativeButton createNewEventButton() {
+		NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+		result.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			if (onNewEvent != null) onNewEvent.run();
+		}});
+		return result;
 	}
 
 	@Override
@@ -51,5 +64,11 @@ public class EventsViewImpl implements EventsView {
 		return inviteView;
 	}
 
+
+	@Override
+	public void onNewEvent(Runnable onNewEvent) {
+		if (this.onNewEvent != null) throw new IllegalStateException();
+		this.onNewEvent = onNewEvent;
+	}
 
 }

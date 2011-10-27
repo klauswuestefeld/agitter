@@ -46,7 +46,7 @@ public class SessionViewImpl implements SessionView {
 
     
     @Override
-    public void show(String username) {
+    public void init(Needs needs) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
 			sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
@@ -66,31 +66,22 @@ public class SessionViewImpl implements SessionView {
 			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
     			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
 
-    	account.setValue(username);
+    	account.setValue(needs.userScreenName());
+
+    	initListeners(needs);
 	}
 
 
-	@Override
-	public void onLogout(final Runnable onLogout) {
+	private void initListeners(final Needs needs) {
 		logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			onLogout.run();
-		}});
-	}
-
-	
-	@Override
-	public void onEventsMenu(final Runnable onEventsMenu) {
-		events.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			onEventsMenu.run();
-		}});
-	}
-
-	
-	@Override
-	public void onContactsMenu(final Runnable onContactsMenu) {
-		contacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			onContactsMenu.run();
-		}});
+    		needs.onLogout();
+    	}});
+    	events.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+    		needs.onEventsMenu();
+    	}});
+    	contacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+    		needs.onContactsMenu();
+    	}});
 	}
 
 

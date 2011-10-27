@@ -41,4 +41,10 @@ public class EventsViewImplOld implements EventsView {
 	}
 
 
+	@Override
+	public void onNewEvent(Runnable onNewEvent) {
+		throw new UnsupportedOperationException();
+	}
+
+
 }
