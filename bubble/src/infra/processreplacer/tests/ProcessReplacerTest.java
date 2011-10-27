@@ -17,7 +17,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 
 	
 	@Test (timeout = 2000)
-	public void replacement() throws Exception {
+	public void replacement() throws Throwable {
 		checkProcess1TakingOver();
 		
 		final Latch latch = new Latch();
@@ -34,7 +34,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 
 
 	@Test (timeout = 2000)
-	public void canceledReplacement() throws Exception {
+	public void canceledReplacement() throws Throwable {
 		ProcessReplacer pr = checkProcess1TakingOver();
 		
 		final Latch latch = new Latch();
@@ -43,7 +43,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 			exactly(1).of(process2).prepareToRun(); inSequence();
 				will(throwException(new Exception()));
 			exactly(1).of(process1).cancelRetirement(); willOpen(latch);
-			exactly(1).of(process2).retire();inSequence();
+			exactly(1).of(process2).forgetAboutRunning();inSequence();
 		}});
 		new ProcessReplacer(process2, PORT);
 		latch.waitTillOpen();
@@ -51,7 +51,7 @@ public class ProcessReplacerTest extends TestWithMocks {
 	}
 
 	
-	private ProcessReplacer checkProcess1TakingOver() throws Exception {
+	private ProcessReplacer checkProcess1TakingOver() throws Throwable {
 		checking(new Expectations(){{
 			exactly(1).of(process1).prepareToRun();inSequence();
 			exactly(1).of(process1).run();inSequence();

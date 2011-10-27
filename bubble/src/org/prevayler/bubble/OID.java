@@ -2,6 +2,7 @@ package org.prevayler.bubble;
 
 import java.io.Serializable;
 
+//Refactor: OID and MapLookup both only have an id field.
 class OID implements Serializable {
 
 	final long _id;

@@ -4,12 +4,20 @@ import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
 public interface Event {
-	String description();
-	long datetime();
+
 	User owner();
 
-	void addInvitees(Group group);
+	String description();
+	long datetime();
+
+	User[] invitees();
 	void addInvitee(User user);
+	void removeInvitee(User user);
+	Group[] groupInvitees();
+	void addInvitees(Group group);
+	void removeInvitees(Group group);
 
 	void notInterested(User user);
+
+
 }

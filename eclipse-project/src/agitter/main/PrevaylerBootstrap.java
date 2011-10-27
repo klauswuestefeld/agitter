@@ -20,8 +20,7 @@ public class PrevaylerBootstrap {
 	private static File _dataFolder;
 
 	
-	synchronized
-	public static void open(File dataFolder) throws IOException, ClassNotFoundException {
+	synchronized public static void open(File dataFolder) throws IOException, ClassNotFoundException {
 		if (_agitter != null) throw new IllegalStateException("Execution already initilized");
 		
 		_dataFolder = dataFolder;
@@ -29,15 +28,13 @@ public class PrevaylerBootstrap {
 	}
 
 	
-	synchronized
-	public static void close() {
+	synchronized public static void close() {
 		PrevalentBubble.pop();
 		_agitter = null;
 	}
 
 	
-	synchronized
-	public static Agitter agitter() {
+	synchronized public static Agitter agitter() {
 		if (_agitter == null) throw new IllegalStateException("Agitter not initialized");
 		return _agitter;
 	}
@@ -47,7 +44,7 @@ public class PrevaylerBootstrap {
 		consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic();
 	}
 
-	
+
 	private static void consolidateSnapshotInIsolatedClassLoaderBecauseBubbleIsStatic() {
 		try {
 			Method method = isolatedMethod("doConsolidateSnapshot");

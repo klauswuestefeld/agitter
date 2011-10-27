@@ -42,8 +42,11 @@ public class BuildFolders {
 	public static void markAsSuccessful(File build) throws IOException {
 		markBuild(build, OK_FLAG, "This build was successful. :)");
 	}
-	public static void markAsFailed(File build, Exception exception) throws IOException {
-		markBuild(build, FAILED_FLAG, stackTrace(exception));
+	public static void markAsFailed(File build, Throwable t) throws IOException {
+		markAsFailed(build, stackTrace(t));
+	}
+	public static void markAsFailed(File build, String message) throws IOException {
+		markBuild(build, FAILED_FLAG, message);
 	}
 
 	
@@ -97,12 +100,14 @@ public class BuildFolders {
 	}
 
 
-	private static String stackTrace(Exception exception) {
+	private static String stackTrace(Throwable t) {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		PrintWriter writer = new PrintWriter(buffer);
-		exception.printStackTrace(writer);
+		t.printStackTrace(writer);
 		writer.flush();
 		return buffer.toString();
 	}
+
+
 
 }

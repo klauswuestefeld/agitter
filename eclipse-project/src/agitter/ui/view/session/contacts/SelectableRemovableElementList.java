@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import sneer.foundation.lang.Consumer;
+
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.ui.*;
-
-import sneer.foundation.lang.Consumer;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 
 public class SelectableRemovableElementList extends CssLayout {
 
 	private Consumer<String> selectionListener;
 	private Consumer<String> removeListener;
 
-	private static String REMOVE_BUTTON = "REM_BUTTON";
+	private final static String REMOVE_BUTTON = "REM_BUTTON";
 
 	public SelectableRemovableElementList() {
 		addStyleName("a-remov-elem-list");
@@ -32,7 +36,7 @@ public class SelectableRemovableElementList extends CssLayout {
 		});
 	}
 
-	
+
 	public void addElement(String element) {
 		addElement(element, true);
 	}
@@ -40,6 +44,12 @@ public class SelectableRemovableElementList extends CssLayout {
 
 	public void addElementUnremovable(String element) {
 		addElement(element, false);
+	}
+	
+	
+	public void addElements(Iterable<String> elements) {
+		for (String string : elements)
+			addElement(string);
 	}
 
 	

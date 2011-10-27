@@ -1,4 +1,4 @@
-package agitter.ui.presenter.tests;
+package agitter.controller.mailing.tests;
 
 import static agitter.domain.emails.EmailAddress.email;
 
@@ -10,7 +10,6 @@ import org.junit.Test;
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.TestWithMocks;
 import agitter.controller.mailing.SignupEmailController;
-import agitter.controller.mailing.tests.EmailSenderMock;
 import agitter.domain.users.Users;
 
 public class SignupEmailControllerTest extends TestWithMocks {

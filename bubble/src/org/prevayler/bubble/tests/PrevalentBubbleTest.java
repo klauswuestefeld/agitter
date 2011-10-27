@@ -123,7 +123,7 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	
 	
 	@Test (timeout = 3000)
-	public void objectsReturnedFromTransactionsAreAutomaticallyRegistered() {
+	public void objectsReturnedFromTransactionsAreRegistered() {
 		SomeModule brick = _subject.module1();
 		Item foo = brick.addItemAndReturnIt_AnnotatedAsTransaction("Foo");
 		brick.addItem("Bar");
@@ -175,13 +175,6 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		
 		_subject = resetSubject();
 		assertNotNull(_subject.module1().getItem("Bar"));
-	}
-
-	
-	@Test (timeout = 3000)
-	public void objectsReturnedByTransactionsAreRegistered() {
-		Item item = _subject.module1().addItemAndReturnIt_AnnotatedAsTransaction("Foo");
-		assertTrue("Item should be registered.", PrevalentBubble.idMap().isRegistered(item));
 	}
 
 	

@@ -2,26 +2,40 @@ package agitter.ui.view.session.events;
 
 import java.util.List;
 
+import sneer.foundation.lang.Consumer;
 
+import com.vaadin.event.LayoutEvents;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.ProgressIndicator;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
-	public EventListViewImpl() {
+	private final Consumer<Object> selectedEventListener;
+	private final Consumer<Object> removedEventListener;
+
+
+	EventListViewImpl(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
+		this.selectedEventListener = selectedEventListener;
+		this.removedEventListener = removedEventListener;
+		this.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
+			onEventSelected(layoutClickEvent);
+		}});
 		addStyleName("a-event-list-view");
 	}
+
 	
 	@Override
-	public void refresh(List<EventData> events, int millisToNextRefresh) {
+	public void refresh(List<EventVO> events, int millisToNextRefresh) {
 		removeAllComponents();
 		addComponent(createPoller(millisToNextRefresh));
-		
-		for (EventData eventData : events)
-			addComponent(new EventViewImpl(eventData));
+
+		for (EventVO eventData : events)
+			addComponent(new EventViewImpl(eventData, removedEventListener));
 	}
 
+	
 	private Component createPoller(int millisToNextRefresh) {
 		ProgressIndicator result = new ProgressIndicator();
 		result.setPollingInterval(millisToNextRefresh);
@@ -30,4 +44,12 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		return result;
 	}
 
+	
+	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
+		EventViewImpl eventView = (EventViewImpl) layoutClickEvent.getChildComponent();
+		if (eventView == null) return;
+		Object eventObject = eventView.getEventObject();
+		selectedEventListener.consume(eventObject);
+	}
+	
 }

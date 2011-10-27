@@ -10,6 +10,13 @@ public class EmailAddress extends Immutable implements Comparable<EmailAddress>,
 	public static EmailAddress email(String email) throws Refusal {
 		return new EmailAddress(email);
 	}
+	public static EmailAddress certain(String email) {
+		try {
+			return email(email);
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
 
 	private final String emailAddress;

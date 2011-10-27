@@ -27,9 +27,11 @@ class PrevalentSession {
 
 	void start() throws IOException, ClassNotFoundException {
 		initPrevayler();
-		setPrevalentSystemIfNecessary((IdMap)_prevayler.prevalentSystem());
+		IdMap idMap = (IdMap)_prevayler.prevalentSystem();
+		setPrevalentSystemIfNecessary(idMap);
 		_transactionLogReplayed.open();
 	}
+
 	
 	private void initPrevayler() throws IOException, ClassNotFoundException {
 		_factory.configureClock(new Clock() { @Override public Date time() {
@@ -44,12 +46,15 @@ class PrevalentSession {
 		if (idMap == null) throw new IllegalArgumentException();
 
 		_idMap = idMap;
-		_prevalentSystem = _idMap.unmarshal(1);
+		Object sys = _idMap.unmarshal(1);
+		if (sys == null) throw new IllegalStateException("prevalentSystem should not be null.");
+		_prevalentSystem = sys;
 	}
 
 
 	public Object prevalentSystem() {
 		waitForTransactionLogReplay();
+		if(_prevalentSystem == null) throw new IllegalStateException("prevalentSystem should not be null");
 		return _prevalentSystem;
 	}
 

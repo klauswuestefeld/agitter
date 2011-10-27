@@ -32,7 +32,18 @@ public class AgitterProcess implements ReplaceableProcess {
 	
 
 	@Override
-	public void prepareToRun() throws Exception {
+	public void forgetAboutRunning() {
+		try {
+			BuildFolders.markAsFailed(workingFolder(), "Unable to retire previous process.");
+		} catch (IOException e) {
+			log(e, e.getMessage());
+		}
+		System.exit(0);
+	}
+
+	
+	@Override
+	public void prepareToRun() throws Throwable {
 		if (isSuccessfulBuild() || isDevelopmentMode())
 			prepareToRunAsSuccessfulBuild();
 		else
@@ -55,15 +66,18 @@ public class AgitterProcess implements ReplaceableProcess {
 	}
 
 
-	private void prepareToRunAsCandidateBuild() throws Exception {
+	private void prepareToRunAsCandidateBuild() throws Throwable {
 		try {
 			bringSnapshotFromPreviousGoodBuildIfNecessary();
+			LogInfra.getLogger(this).info("Running as successful build");
 			prepareToRunAsSuccessfulBuild();
+			LogInfra.getLogger(this).info("Migrating");
 			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
+			LogInfra.getLogger(this).info("Marking as successful");
 			BuildFolders.markAsSuccessful(workingFolder());
-		} catch (Exception e) {
-			BuildFolders.markAsFailed(workingFolder(), e);
-			throw e;
+		} catch (Throwable t) {
+			BuildFolders.markAsFailed(workingFolder(), t);
+			throw t;
 		}
 	}
 
@@ -77,10 +91,11 @@ public class AgitterProcess implements ReplaceableProcess {
 
 		assertSnapshotIsRecent(from);
 		
-		LogInfra.getLogger(this).info("SNAPSHOT - Moving from " + from + " to " + to);
+		LogInfra.getLogger(this).info("SNAPSHOT - Moving from " + from + " to " + to + "...");
 		to.getParentFile().mkdirs();
 		if (!from.renameTo(to))
 			throw new IOException("Unable to rename " + from +  " to " + to);
+		LogInfra.getLogger(this).info("SNAPSHOT - Moved.");
 	}
 
 

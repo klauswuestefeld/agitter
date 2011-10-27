@@ -44,7 +44,14 @@ public class ToString {
 		for (Object obj : iterable)
 			result.add(obj.toString());
 		return result ;
-		
+	}
+
+	
+	public static String[] toStrings(Object[] array) {
+		String[] result = new String[array.length];
+		for (int i = 0; i < result.length; i++)
+			result[i] = array[i].toString();
+		return result;
 	}
 
 }

@@ -42,7 +42,7 @@ public class Presenter {
 			tryRestInvocation(relativeUri, params);
 		} catch (FriendlyException e) {
 			warn(e.getMessage());
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			LogInfra.getLogger(this).log(Level.SEVERE, "Rest error. Context: " + context + " relativeUri: " + relativeUri, e);
 			warn("Erro processando requisição.");
 		}
@@ -56,7 +56,8 @@ public class Presenter {
 
 		String command = uri[0];
 
-		if ("contactsDemo".equals(command)) { onContactsDemo(); }
+		if ("demo".equals(command)) { onDemo(); }
+		if ("contacts-demo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
 		if ("signup".equals(command)) { onRestSignup(params); }
 	}
@@ -64,9 +65,14 @@ public class Presenter {
 
 	private void onContactsDemo() {
 		SessionView sessionView = view.showSessionView();
-		sessionView.show("DemoUser");
+		sessionView.show("username@mail.com");
 		sessionView.showContactsView();
-		new ContactsDemoPresenter(sessionView.contactsView());
+		new ContactsDemo(sessionView.contactsView());
+	}
+
+
+	private void onDemo() {
+		onAuthenticate().consume(new DemoPreparation(domain()).user());
 	}
 
 

@@ -13,18 +13,31 @@ import agitter.domain.users.User;
 public class EventsImpl2 implements Events {
 
 	private static final int MAX_EVENTS_TO_SHOW = 40;
-
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 
+	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
-	
 
+	
 	@Override
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
-		assertIsInTheFuture(datetime);
 		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
+		if (_all.contains(event))
+			throw new Refusal("Já existe um agito seu na mesma data com a mesma descrição.");
 		_all.add(event);
 		return event;
+	}
+
+	
+	@Override
+	public void edit(Event event, String newDescription, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal {
+		EventImpl2 casted = (EventImpl2) event;
+		boolean wasThere = _all.remove(casted); //Event could have been deleted.
+		try {
+			casted.edit(newDescription, newDatetime, inviteeGroups, newInvitees);
+		} finally {
+			if (wasThere) _all.add(casted);
+		}
 	}
 
 
@@ -41,14 +54,8 @@ public class EventsImpl2 implements Events {
 		}
 		return result;
 	}
+
 	
-
-	private void assertIsInTheFuture(long datetime) throws Refusal {
-		if(datetime < Clock.currentTimeMillis())
-			throw new Refusal("Novos eventos devem ser criados com data futura.");
-	}
-
-
 	@Override
 	public boolean isDeletableBy(Event event, User user) {
 		return event.owner() == user;
@@ -61,7 +68,5 @@ public class EventsImpl2 implements Events {
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
 	}
-
-
 
 }

@@ -102,4 +102,13 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		return invitations.getElements();
 	}
 
+
+	@Override
+	public void display(String description, Date datetime, List<String> invitees) {
+		this.description.setValue(description);
+		this.date.setValue(datetime);
+		invitations.removeAllElements();
+		invitations.addElements(invitees);
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import vaadinutils.RestUtils;
 import vaadinutils.RestUtils.RestHandler;
+import vaadinutils.SessionUrlParameters;
 import agitter.ui.presenter.Presenter;
 import agitter.ui.view.AgitterViewImpl;
 
@@ -21,6 +22,8 @@ public class AgitterVaadinApplication extends Application {
 		setTheme("agitter");
 		AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
+
+		SessionUrlParameters.handleForMainWindow(view);
 
 		presenter = new Presenter(CONTROLLER, view);
 		RestUtils.addRestHandler(view, new RestHandler() { @Override public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
