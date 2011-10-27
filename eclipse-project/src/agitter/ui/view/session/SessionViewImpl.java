@@ -1,9 +1,11 @@
 package agitter.ui.view.session;
 
+import vaadinutils.SessionUrlParameters;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
+import agitter.ui.view.session.events.EventsViewImpl;
 import agitter.ui.view.session.events.EventsViewImplOld;
 
 import com.vaadin.ui.Button;
@@ -30,16 +32,19 @@ public class SessionViewImpl implements SessionView {
 	private final Button logout = WidgetUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
-	private final EventsView eventsView = new EventsViewImplOld(mainContent);
+	private EventsView eventsView;
+
 	private final ContactsView contactsView = new ContactsViewImpl(mainContent);
 
 	private static final String MENU_DEFAULT_STYLE = "a-session-menu-default";
 	private static final String MENU_ACTIVE_STYLE = "a-session-menu-active";
 
+	
     public SessionViewImpl(ComponentContainer container) {
     	this.container = container;
     }
 
+    
     @Override
     public void show(String username) {
         container.removeAllComponents();
@@ -72,6 +77,7 @@ public class SessionViewImpl implements SessionView {
 		}});
 	}
 
+	
 	@Override
 	public void onEventsMenu(final Runnable onEventsMenu) {
 		events.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -79,6 +85,7 @@ public class SessionViewImpl implements SessionView {
 		}});
 	}
 
+	
 	@Override
 	public void onContactsMenu(final Runnable onContactsMenu) {
 		contacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -87,23 +94,36 @@ public class SessionViewImpl implements SessionView {
 	}
 
 
-	@Override public EventsView eventsView() { return eventsView; }
+	@Override public EventsView eventsView() {
+		if (eventsView == null)
+			eventsView = createEventView();
+		return eventsView;
+	}
 	@Override public void showEventsView() {
 		highlightMenuItem(events);
-		eventsView.show();
+		eventsView().show();
 	}
 
+	
 	@Override public ContactsView contactsView() { return contactsView; }  
 	@Override public void showContactsView() {
 		highlightMenuItem(contacts);
 		contactsView.show();
 	}
 
+	
 	private void highlightMenuItem(Component menuItem) {
 		events.removeStyleName(MENU_ACTIVE_STYLE);
 		contacts.removeStyleName(MENU_ACTIVE_STYLE);
 
 		menuItem.addStyleName(MENU_ACTIVE_STYLE);
+	}
+
+	
+	private EventsView createEventView() {
+		return SessionUrlParameters.isParameterSet(container, "new-events-screen")
+			? new EventsViewImpl(container)
+			: new EventsViewImplOld(mainContent);
 	}
 
 }

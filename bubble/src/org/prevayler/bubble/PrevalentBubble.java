@@ -1,7 +1,5 @@
 package org.prevayler.bubble;
 
-import infra.logging.LogInfra;
-
 import java.io.IOException;
 
 import org.prevayler.PrevaylerFactory;
@@ -28,7 +26,6 @@ public class PrevalentBubble {
 		
 		_session = new PrevalentSession(prevalentSystem, factory);
 		_session.start(); //_session has to be set before start() so that the setPrevalentSystemIfNecessary method can be called.
-		LogInfra.getLogger(PrevalentBubble.class).info("Wrapping prevalent system");
 		return (T) BubbleProxy.wrapped(_session.prevalentSystem(), null);
 	}
 

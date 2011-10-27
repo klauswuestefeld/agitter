@@ -3,8 +3,11 @@ package agitter.ui.view.session.events;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
+import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 public class EventsViewImpl implements EventsView {
 
@@ -21,8 +24,16 @@ public class EventsViewImpl implements EventsView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		container.addComponent(eventList);
-		container.addComponent(inviteView);
+		
+		ComponentContainer leftSide = new VerticalLayout();
+		leftSide.addComponent(AgitterVaadinUtils.createDefaultNativeButton("Agitar!"));
+		leftSide.addComponent(eventList);
+
+		ComponentContainer peccinPleaseRemoveMe = new HorizontalLayout();
+		peccinPleaseRemoveMe.addComponent(leftSide);
+		peccinPleaseRemoveMe.addComponent(inviteView);
+
+		container.addComponent(peccinPleaseRemoveMe);
 	}
 
 	@Override
