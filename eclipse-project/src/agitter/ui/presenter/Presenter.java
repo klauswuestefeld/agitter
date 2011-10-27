@@ -86,7 +86,7 @@ public class Presenter {
 	
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(domain().users(), view.loginView(), onAuthenticate(), controller.signups(), controller.emailSender(), warningDisplayer());
+		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), warningDisplayer());
 	}
 
 	

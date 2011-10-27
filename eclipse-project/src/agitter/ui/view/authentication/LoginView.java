@@ -1,18 +1,14 @@
 package agitter.ui.view.authentication;
 
 
-
 public interface LoginView {
 
-	void show();
-	SignupView showSignupView();
-
-	String email();
 	String password();
-	
-	void onLoginAttempt(Runnable loginAction);
+	boolean keepMeLoggedIn();
+
+	void onLoginAttempt(Runnable action);
 	void onForgotMyPassword(Runnable action);
-	void onLogoClicked(Runnable action);
-	void onStartSignup(Runnable action);
+
+	void onCancel(Runnable action);
 
 }

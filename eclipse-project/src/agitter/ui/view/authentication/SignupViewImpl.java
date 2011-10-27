@@ -11,13 +11,11 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
 
 public class SignupViewImpl implements SignupView {
 
 	private final ComponentContainer container;
 	private final CssLayout signupView = new CssLayout();
-	private final TextField email = new TextField("Email");
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
 	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Cadastrar");
@@ -27,8 +25,7 @@ public class SignupViewImpl implements SignupView {
 		this.container = container;
 	}
 
-	@Override
-	public void show() {
+	void show() {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
@@ -41,9 +38,6 @@ public class SignupViewImpl implements SignupView {
 			// Signup Fields
 			CssLayout signupfields = new CssLayout();
 			signupView.addComponent(signupfields); signupfields.addStyleName("a-signup-fields");
-				email.setDebugId("email");
-				email.setSizeUndefined();
-				signupfields.addComponent(email); email.addStyleName("a-signup-email");
 				password.setDebugId("password");
 				password.setSizeUndefined();
 				signupfields.addComponent(password); password.addStyleName("a-signup-password");
@@ -59,14 +53,8 @@ public class SignupViewImpl implements SignupView {
 
 	
 	private void setupFocus() {
-		WidgetUtils.focusOrder(email, password, passwordConfirmation, signup);
-		email.focus();
-	}
-
-	
-	@Override
-	public String email() {
-		return (String)email.getValue();
+		WidgetUtils.focusOrder(password, passwordConfirmation, signup);
+		password.focus();
 	}
 
 	@Override
@@ -87,7 +75,7 @@ public class SignupViewImpl implements SignupView {
 	}
 
 	@Override
-	public void onSignupCancel(final Runnable runnable) {
+	public void onCancel(final Runnable runnable) {
 		cancel.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			runnable.run();
 		}});

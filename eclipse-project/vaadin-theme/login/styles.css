@@ -1,22 +1,21 @@
 /* Login  ----------------------------------------------------------------------   */
 
-.a-login-view {
-	min-height: 510px;
+.a-auth-view {
 	min-width: 1000px;
-	background: white url('LoginBackground.png') repeat-x;
 }
 
-.a-login-main-content {
-	width: 1000px;
+.a-auth-main-content {
+	/* width: 1000px; */
 	background: transparent;
 	margin: 0 auto;
 }
 
-.a-login-top-bar {
-	height: 76px;
+.a-auth-top-bar {
+	height: 60px;
+	background: white url('LoginTopbarBackground.png') repeat-x;
 }
 
-button.a-login-logo {
+button.a-auth-logo {
 	float: left;
 	height: 61px;
 	width: 214px;
@@ -26,47 +25,41 @@ button.a-login-logo {
 	border: none;
 }
 
-.a-login-fields {
+.a-auth-fields {
 	float: right;
 	margin: 10px 60px 0 0;
 }
 
-.a-login-fields .v-captiontext, .a-login-fields .v-button-caption {
+.a-auth-fields .v-captiontext, .a-auth-fields .v-button-caption {
 	color: white;
 }
 
-.a-login-username, .a-login-password {
+.a-auth-email {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
 	margin-right: 7px;
+	width: 190px;
 }
 
-.a-login-username .v-textfield {
-	width: 162px;
-}
-
-.a-login-button {
+.a-auth-enter-button {
 	vertical-align: bottom;
 }
 
-.a-login-forgot-password {
-	display: block !important;  /* somehow needed !important for IE7 */
-	margin-top: 4px;
-	margin-left: 178px;
+.a-auth-main-picture {
+	/* display: inline-block; */
+	/* zoom: 1;  */			/* IE stuff */
+	/* display: inline; */	/* IE stuff */
+	/* height: 366px; */
+	/* width: 548px; */
+	/* margin-top: 23px; */
+	background: url('LoginMainBackground.jpg');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	min-height: 1200px;
 }
 
-.a-login-main-picture {
-	display: inline-block;
-	zoom: 1;			/* IE stuff */
-	*display: inline;	/* IE stuff */
-	height: 366px;
-	width: 548px;
-	background: url('LoginMainPicture.jpg');
-	margin-top: 23px;
-}
-
-.a-login-rightside {
+.a-auth-rightside {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
@@ -75,13 +68,13 @@ button.a-login-logo {
 	vertical-align: top;
 }
 
-.a-login-advert-1 {
+.a-auth-advert-1 {
 	font-size: 34px;
     font-weight: bold;
 	line-height: normal;
     padding-top: 40px;
 }
-button.a-login-signup-button {
+button.a-auth-signup-button {
 	height: 45px;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -89,16 +82,62 @@ button.a-login-signup-button {
 	margin-left: 100px;
 	font-size: 26px;
 }
-.a-login-advert-3 {
+.a-auth-advert-3 {
 	font-size: 22px;
     line-height: normal;
 	padding-top: 70px;
 }
-.a-login-advert-4 {
+.a-auth-advert-4 {
 	font-size: 22px;
     line-height: normal;
 	padding-top: 16px;
 }
+
+
+/* Login  ----------------------------------------------------------------------   */
+
+.a-login-view {
+	padding-top: 40px;
+	padding-left: 25px;
+}
+
+.a-login-welcome1 {
+	font-size: 34px;
+	font-weight: bold;
+    line-height: normal;
+}
+
+.a-login-fields {
+	padding-top: 10px;
+	padding-left: 20px;	
+}
+
+.a-login-fields .v-caption {
+	margin-top: 7px;
+}
+
+.a-login-password { 
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	width: 180px;
+}
+
+.a-login-button, .a-login-cancel-button {
+	margin-left: 10px;
+	vertical-align: bottom;
+}
+
+button.a-login-cancel-button {
+	background-color: gray;
+	border-color: darkgray;
+}
+
+.a-login-forgot-password {
+	display: block !important;  /* somehow needed !important for IE7 */
+	margin-top: 7px;
+}
+
 
 /* Signup  ----------------------------------------------------------------------   */
 

@@ -10,51 +10,63 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.ForgotPasswordMailSender;
 import agitter.controller.mailing.SignupEmailController;
+import agitter.domain.emails.AddressValidator;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
+import agitter.ui.view.authentication.AuthenticationView;
 import agitter.ui.view.authentication.LoginView;
 import agitter.ui.view.authentication.SignupView;
 
 public class AuthenticationPresenter {
 
 	private final Users users;
-	private final LoginView loginView;
+	private final AuthenticationView authenticationView;
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
 	private final EmailSender emailSender;
 	private final SignupEmailController signups;
 	private SignupView signupView;
+	private LoginView loginView;
 
 	
-	public AuthenticationPresenter(Users users, LoginView loginView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer) {
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer) {
 		this.users = users;
-		this.loginView = loginView;
+		this.authenticationView = authenticationView;
 		this.onAuthenticate = onAuthenticate;
 		this.signups = signups;
 		this.emailSender = emailSender;
 		this.warningDisplayer = warningDisplayer;
-
-		this.loginView.onLoginAttempt(
-			new Runnable() { @Override public void run() { loginAttempt(); }}
-		);
-		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
-			forgotMyPassword();
+		this.authenticationView.onEnterAttempt( new Runnable() { @Override public void run() {
+			enterAttempt(); 
 		}});
-		this.loginView.onLogoClicked(new Runnable() { @Override public void run() {
-			startLogin();
-		}});
-		this.loginView.onStartSignup(new Runnable() { @Override public void run() {
-			startSignup();
+		this.authenticationView.onLogoClicked(new Runnable() { @Override public void run() {
+			startAuthentication();
 		}});
 		
-		startLogin();
+		startAuthentication();
 	}
 	
 	
+	private void enterAttempt() {
+		String email = authenticationView.email();
+		User user = null;
+		try {
+			AddressValidator.validateEmail(email);
+			user = users.searchByEmail(email(email));
+			if (user != null && user.hasSignedUp())		// TODO Codigo duplicado em SignupEmailController.checkDuplicatedSignup()
+				startLogin();
+			else
+				startSignup();
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+		}
+	}
+
+
 	private void loginAttempt() {
 		User user;
 		try {
-			user = users.loginWithEmail(email(loginView.email()), loginView.password());
+			user = users.loginWithEmail(email(authenticationView.email()), loginView.password());
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;
@@ -63,21 +75,36 @@ public class AuthenticationPresenter {
 	}
 
 	
+	private void startAuthentication() {
+		authenticationView.show();
+	}
+
+
 	private void startSignup() {
-		signupView = loginView.showSignupView();
+		signupView = authenticationView.showSignupView();
 		signupView.onSignupAttempt(new Runnable() { @Override public void run() {
 			signupAttempt();
 		}});
-		signupView.onSignupCancel(new Runnable() { @Override public void run() {
-			startLogin();
+		signupView.onCancel(new Runnable() { @Override public void run() {
+			startAuthentication();
 		}});
 	}
 
 	
 	private void startLogin() {
-		loginView.show();
+		loginView = authenticationView.showLoginView();
+		this.loginView.onLoginAttempt( new Runnable() { @Override public void run() { 
+			loginAttempt();
+		}});
+		this.loginView.onForgotMyPassword(new Runnable() { @Override public void run() {
+			forgotMyPassword();
+		}});
+		loginView.onCancel(new Runnable() { @Override public void run() {
+			startAuthentication();
+		}});
 	}
 
+	
 	
 	private void forgotMyPassword() {
 		try {
@@ -91,7 +118,7 @@ public class AuthenticationPresenter {
 
 	
 	private void tryToSendPassword() throws Refusal {
-		User user = users.findByEmail(email(loginView.email()));
+		User user = users.findByEmail(email(authenticationView.email()));
 		if (!user.hasSignedUp()) throw new Refusal("Usuário não cadastrado.");
 		try {
 			ForgotPasswordMailSender.send(emailSender, user.email(), user.password());
@@ -114,8 +141,8 @@ public class AuthenticationPresenter {
 	private void trySignup() throws Refusal {
 		if (this.isBlank(signupView.password())) throw new Refusal("Preencha a senha.");
 		if (!isPasswordConfirmed()) throw new Refusal("Senha e confirmação devem ser iguais.");
-		signups.initiateSignup(email(signupView.email()), signupView.password());
-		startLogin();
+		signups.initiateSignup(email(authenticationView.email()), signupView.password());
+		startAuthentication();
 		warningDisplayer.consume("Um Email de confirmação foi enviado pra você. (Verifique também na sua caixa de SPAM)");
 	}
 

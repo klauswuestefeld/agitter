@@ -1,7 +1,7 @@
 package agitter.ui.view;
 
-import agitter.ui.view.authentication.LoginView;
-import agitter.ui.view.authentication.LoginViewImpl;
+import agitter.ui.view.authentication.AuthenticationView;
+import agitter.ui.view.authentication.AuthenticationViewImpl;
 import agitter.ui.view.session.SessionView;
 import agitter.ui.view.session.SessionViewImpl;
 
@@ -30,8 +30,8 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 
 
 	@Override
-	public LoginView loginView() {
-		return new LoginViewImpl(agitterView);
+	public AuthenticationView authenticationView() {
+		return new AuthenticationViewImpl(agitterView);
 	}
 	
 
