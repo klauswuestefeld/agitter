@@ -139,20 +139,29 @@ button.a-session-logo {
 	background: #F7F7F7;
 }
 
-button.a-event-remove-button {
+button.a-event-remove-button, button.a-event-delete-button {
 	float: right;
 	height: 16px;
 	max-height: 16px;
 	width: 16px;
 	max-width: 16px;
-	background: url('EventNotInterested.png') no-repeat center center;
 	border: none;
 	padding: 0px;
 	margin: 0px;
 }
 
+button.a-event-remove-button {
+	background: url('EventNotInterested.png') no-repeat center center;
+}
 button.a-event-remove-button:hover {
 	background: url('EventNotInterestedHover.png') no-repeat center center;
+}
+
+button.a-event-delete-button {
+	background: url('EventDelete.png') no-repeat center center;
+}
+button.a-event-delete-button:hover {
+	background: url('EventDeleteHover.png') no-repeat center center;
 }
 
 .a-event-description {

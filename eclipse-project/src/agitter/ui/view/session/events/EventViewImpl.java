@@ -6,6 +6,7 @@ import java.util.Date;
 
 import sneer.foundation.lang.Consumer;
 
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
@@ -39,11 +40,16 @@ public class EventViewImpl extends CssLayout {
 		String style = event.isDeletable
 			? "a-event-delete-button"
 			: "a-event-remove-button";
-		addRemovalButton(event, style);
+		Button button = addRemovalButton(event, style);
+		button.setDescription(
+			event.isDeletable
+			? "Remover o Agito"
+			: "Não estou interessado"
+		);
 	}
 
 
-	private void addRemovalButton(final EventVO eventValues, String style) {
+	private Button addRemovalButton(final EventVO eventValues, String style) {
 		NativeButton button = new NativeButton();
 		button.setSizeUndefined();
 		addComponent(button); button.addStyleName(style);
@@ -51,6 +57,7 @@ public class EventViewImpl extends CssLayout {
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			removedEventListener.consume(eventValues.eventObject);
 		}});
+		return button;
 	}
 
 	

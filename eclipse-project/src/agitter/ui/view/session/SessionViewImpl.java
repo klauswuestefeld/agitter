@@ -122,7 +122,7 @@ public class SessionViewImpl implements SessionView {
 	
 	private EventsView createEventView() {
 		return SessionUrlParameters.isParameterSet(container, "new-events-screen")
-			? new EventsViewImpl(container)
+			? new EventsViewImpl(mainContent)
 			: new EventsViewImplOld(mainContent);
 	}
 

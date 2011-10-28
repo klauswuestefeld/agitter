@@ -1,40 +1,45 @@
 /* Login  ----------------------------------------------------------------------   */
 
 .a-auth-view {
-	min-width: 1000px;
 }
 
-.a-auth-main-content {
-	/* width: 1000px; */
+.a-auth-topbar {
+	height: 78px;
+	background: orange url('LoginTopbarBackground.png') repeat-x;
+}
+
+.a-auth-topbar-content {
+	min-width: 900px;
+	max-width: 1280px;
 	background: transparent;
 	margin: 0 auto;
 }
 
-.a-auth-top-bar {
-	height: 60px;
-	background: white url('LoginTopbarBackground.png') repeat-x;
-}
-
-button.a-auth-logo {
+button.a-auth-topbar-logo {
 	float: left;
 	height: 61px;
 	width: 214px;
 	background: url('LoginLogo.png') no-repeat;
 	padding: 0;
-	margin: 7px 0 0 32px;
+	margin: 7px 0 0 45px;
 	border: none;
 }
 
-.a-auth-fields {
+.a-auth-topbar-fields {
 	float: right;
-	margin: 10px 60px 0 0;
+	margin: 16px 50px 0 0;
 }
 
-.a-auth-fields .v-captiontext, .a-auth-fields .v-button-caption {
+.a-auth-topbar-fields .v-captiontext, .a-auth-topbar-fields .v-button-caption {
 	color: white;
 }
 
-.a-auth-email {
+.a-auth-topbar-fields .v-disabled {
+	opacity: .6;
+	filter: alpha(opacity = 70);
+}
+
+.a-auth-topbar-email {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
@@ -42,78 +47,48 @@ button.a-auth-logo {
 	width: 190px;
 }
 
-.a-auth-enter-button {
+.a-auth-topbar-enter-button {
 	vertical-align: bottom;
 }
 
-.a-auth-main-picture {
-	/* display: inline-block; */
-	/* zoom: 1;  */			/* IE stuff */
-	/* display: inline; */	/* IE stuff */
-	/* height: 366px; */
-	/* width: 548px; */
-	/* margin-top: 23px; */
+.a-auth-main {
 	background: url('LoginMainBackground.jpg');
-	background-size: 100%;
-	background-repeat: no-repeat;
-	min-height: 1200px;
+	__background-size: 1350px;
+	background-position: center top;
+	background-repeat: repeat-x;
+	min-height: 670px;
 }
 
-.a-auth-rightside {
-	display: inline-block;
-	zoom: 1;			/* IE stuff */
-	*display: inline;	/* IE stuff */
-	width: 427px;
-	margin-left: 16px;
-	vertical-align: top;
-}
-
-.a-auth-advert-1 {
-	font-size: 34px;
-    font-weight: bold;
-	line-height: normal;
-    padding-top: 40px;
-}
-button.a-auth-signup-button {
-	height: 45px;
-	padding-left: 15px;
-	padding-right: 15px;
-	margin-top: 24px;
-	margin-left: 100px;
-	font-size: 26px;
-}
-.a-auth-advert-3 {
-	font-size: 22px;
-    line-height: normal;
-	padding-top: 70px;
-}
-.a-auth-advert-4 {
-	font-size: 22px;
-    line-height: normal;
-	padding-top: 16px;
+.a-auth-main-content {
+	min-width: 900px;
+	max-width: 1280px;
+	margin: 0 auto;
 }
 
 
 /* Login  ----------------------------------------------------------------------   */
 
 .a-login-view {
-	padding-top: 40px;
-	padding-left: 25px;
+	padding: 16px 20px 20px 20px;
+	margin: 20px 30px;
+	float: right;
+	background: white;
+	border-radius: 6px;
+	box-shadow: 3px 3px 12px #444;
+	-webkit-box-shadow: 3px 3px 12px #444;
+	-moz-box-shadow: 3px 3px 12px #444;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=135, Strength=5);
+	
 }
 
 .a-login-welcome1 {
-	font-size: 34px;
+	font-size: 24px;
 	font-weight: bold;
     line-height: normal;
 }
 
 .a-login-fields {
-	padding-top: 10px;
-	padding-left: 20px;	
-}
-
-.a-login-fields .v-caption {
-	margin-top: 7px;
+	padding: 6px 0 0 4px;	
 }
 
 .a-login-password { 
@@ -142,17 +117,23 @@ button.a-login-cancel-button {
 /* Signup  ----------------------------------------------------------------------   */
 
 .a-signup-view {
-	padding-top: 40px;
-	padding-left: 25px;
+	padding: 16px 23px 20px 23px;
+	margin: 20px 30px;
+	float: right;
+	background: white;
+	border-radius: 6px;
+	box-shadow: 3px 3px 12px #444;
+	-webkit-box-shadow: 3px 3px 12px #444;
+	-moz-box-shadow: 3px 3px 12px #444;
 }
 
 .a-signup-welcome1 {
-	font-size: 34px;
+	font-size: 26px;
 	font-weight: bold;
     line-height: normal;
 }
 .a-signup-welcome2 {
-	font-size: 21px;
+	font-size: 18px;
     line-height: normal;
 }
 
@@ -165,7 +146,7 @@ button.a-login-cancel-button {
 	margin-top: 7px;
 }
 
-.a-signup-email, .a-signup-username, .a-signup-password, .a-signup-password-confirmation { 
+.a-signup-password, .a-signup-password-confirmation { 
 	display: block;
 	width: 180px;
 }

@@ -9,7 +9,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextField;
 
@@ -17,14 +16,14 @@ public class AuthenticationViewImpl implements AuthenticationView {
 
 	private final ComponentContainer container;
 	private final CssLayout loginView = new CssLayout();
-	private final CssLayout mainContent = new CssLayout();
+	private final CssLayout topBarContent = new CssLayout();
 	private final CssLayout topBar = new CssLayout();
 	private final Button loginAgitterLogo = new NativeButton();
 	private final CssLayout loginFields = new CssLayout();
-	private final TextField email = new TextField("Email");
-	private final Button enter = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
-	private final CssLayout mainPicture = new CssLayout();
-	private final CssLayout loginRightSideContainer = new CssLayout();
+	private final TextField email = new TextField("Digite seu Email");
+	private final Button enter = AgitterVaadinUtils.createDefaultNativeButton("Entrar");
+	private final CssLayout main = new CssLayout();
+	private final CssLayout mainContent = new CssLayout();
 
 	
 	public AuthenticationViewImpl(ComponentContainer container) {
@@ -38,40 +37,28 @@ public class AuthenticationViewImpl implements AuthenticationView {
 		loginView.addStyleName("a-auth-view");
 		loginView.removeAllComponents();
 		container.addComponent(loginView); 
-		// Main Content
-		mainContent.removeAllComponents();
-		loginView.addComponent(mainContent); mainContent.addStyleName("a-auth-main-content");
 			// Top Bar
 			topBar.removeAllComponents();
-			mainContent.addComponent(topBar); topBar.addStyleName("a-auth-top-bar");
-				topBar.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-auth-logo");
+			loginView.addComponent(topBar); topBar.addStyleName("a-auth-topbar");
+			topBarContent.removeAllComponents();
+			topBar.addComponent(topBarContent); topBarContent.addStyleName("a-auth-topbar-content");
+				topBarContent.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-auth-topbar-logo");
 				loginAgitterLogo.setSizeUndefined();
 				// Login Fields and Buttons
 				loginFields.removeAllComponents();
-				topBar.addComponent(loginFields); loginFields.addStyleName("a-auth-fields");
-					loginFields.addComponent(email); email.addStyleName("a-auth-email");
+				topBarContent.addComponent(loginFields); loginFields.addStyleName("a-auth-topbar-fields");
+					loginFields.addComponent(email); email.addStyleName("a-auth-topbar-email");
+						email.setEnabled(true);
 						email.setDebugId("email");
+						email.setInputPrompt("Digite seu Email");
 						email.setSizeUndefined();
-					loginFields.addComponent(enter); enter.addStyleName("a-auth-enter-button"); 
-			// Picture
-			mainContent.addComponent(mainPicture); mainPicture.addStyleName("a-auth-main-picture");
-			// RightSideContainer
-			loginRightSideContainer.removeAllComponents();
-			mainPicture.addComponent(loginRightSideContainer); loginRightSideContainer.addStyleName("a-auth-rightside");
-				// Advertisement
-				loginRightSideContainer.addComponent(newLabel(
-					"Ainda não está agitando?", "a-auth-advert-1"));
-				loginRightSideContainer.addComponent(newLabel(
-						"Festas, encontros, baladas, jogos,<br/>" +
-						"churrascos, espetáculos, qualquer coisa.",
-						"a-auth-advert-3"));
-				loginRightSideContainer.addComponent(newLabel(
-						"Convide seus amigos sem fazer spam.<br/>" +
-						"Só quem estiver a fim recebe o convite ;)",
-						"a-auth-advert-4"));
-				loginRightSideContainer.addComponent(newLabel(
-					"Saia da internet. Agite! \\o/",
-					"a-auth-advert-4"));
+					loginFields.addComponent(enter); enter.addStyleName("a-auth-topbar-enter-button");
+						enter.setEnabled(true);
+
+			// Main content
+			loginView.addComponent(main); main.addStyleName("a-auth-main");
+				mainContent.removeAllComponents();
+				main.addComponent(mainContent); mainContent.addStyleName("a-auth-main-content");
 									
 		enter.setClickShortcut( KeyCode.ENTER );
 		
@@ -79,18 +66,11 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	}
 
 
-	private Label newLabel(String content, String style) {
-		Label result = new Label(content);
-		result.addStyleName(style);
-		result.setContentMode(Label.CONTENT_XHTML);
-		return result;
-	}
-
-	
 	@Override
 	public LoginView showLoginView() {
-		topBar.removeComponent(loginFields);
-		LoginViewImpl login = new LoginViewImpl(loginRightSideContainer);
+		email.setEnabled(false);
+		enter.setEnabled(false);
+		LoginViewImpl login = new LoginViewImpl(mainContent);
 		login.show();
 		return login;
 	}
@@ -98,8 +78,9 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	
 	@Override
 	public SignupView showSignupView() {
-		topBar.removeComponent(loginFields);
-		SignupViewImpl signup = new SignupViewImpl(loginRightSideContainer);
+		email.setEnabled(false);
+		enter.setEnabled(false);
+		SignupViewImpl signup = new SignupViewImpl(mainContent);
 		signup.show();
 		return signup;
 	}

@@ -30,10 +30,9 @@ public class SignupViewImpl implements SignupView {
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
 			// Welcome messages
-			Label label;
-			label = new Label("Bem-vindo");
+			Label label = WidgetUtils.createLabel("Bem-vindo");
 			signupView.addComponent(label); label.addStyleName("a-signup-welcome1");
-			label = new Label("Complete seus dados e comece a agitar!");
+			label = WidgetUtils.createLabel("Escolha uma senha e comece a agitar!");
 			signupView.addComponent(label); label.addStyleName("a-signup-welcome2");
 			// Signup Fields
 			CssLayout signupfields = new CssLayout();

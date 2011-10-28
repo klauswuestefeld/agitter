@@ -33,8 +33,7 @@ public class LoginViewImpl implements LoginView {
 		container.addComponent(loginView); loginView.addStyleName("a-login-view");
 		
 			// Welcome messages
-			Label label;
-			label = new Label("Bem-vindo");
+			Label label = WidgetUtils.createLabel("Bem-vindo!");
 			loginView.addComponent(label); label.addStyleName("a-login-welcome1");
 			// Signup Fields
 			CssLayout loginfields = new CssLayout();
