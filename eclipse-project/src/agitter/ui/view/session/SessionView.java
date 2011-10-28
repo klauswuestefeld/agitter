@@ -4,18 +4,20 @@ import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.events.EventsView;
 
 public interface SessionView {
-
-	void show(String username);
-
+	
+	public interface Needs {
+		String userScreenName();
+		void onLogout();
+		void onEventsMenu();
+		void onContactsMenu();
+	}
+	
+	void init(Needs needs);
+	
 	EventsView eventsView();
 	void showEventsView();
 
 	ContactsView contactsView();
 	void showContactsView();
-	
-	void onLogout(Runnable onLogout);
-	void onEventsMenu(Runnable onEventsMenu);
-	void onContactsMenu(Runnable onContactsMenu);
-
 
 }
