@@ -10,7 +10,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PasswordField;
 
@@ -33,8 +32,8 @@ public class LoginViewImpl implements LoginView {
 		container.addComponent(loginView); loginView.addStyleName("a-login-view");
 		
 			// Welcome messages
-			Label label = WidgetUtils.createLabel("Bem-vindo!");
-			loginView.addComponent(label); label.addStyleName("a-login-welcome1");
+//			Label label = WidgetUtils.createLabel("Bem-vindo!");
+//			loginView.addComponent(label); label.addStyleName("a-login-welcome1");
 			// Signup Fields
 			CssLayout loginfields = new CssLayout();
 			loginView.addComponent(loginfields); loginfields.addStyleName("a-login-fields");

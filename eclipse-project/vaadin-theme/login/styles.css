@@ -21,7 +21,7 @@ button.a-auth-topbar-logo {
 	width: 214px;
 	background: url('LoginLogo.png') no-repeat;
 	padding: 0;
-	margin: 7px 0 0 45px;
+	margin: 7px 0 0 35px;
 	border: none;
 }
 
@@ -69,7 +69,7 @@ button.a-auth-topbar-logo {
 /* Login  ----------------------------------------------------------------------   */
 
 .a-login-view {
-	padding: 16px 20px 20px 20px;
+	padding: 13px 20px 18px 20px;
 	margin: 20px 30px;
 	float: right;
 	background: white;
@@ -88,7 +88,6 @@ button.a-auth-topbar-logo {
 }
 
 .a-login-fields {
-	padding: 6px 0 0 4px;	
 }
 
 .a-login-password { 
@@ -96,6 +95,11 @@ button.a-auth-topbar-logo {
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
 	width: 180px;
+}
+
+.a-login-fields .v-captiontext {
+	font-size: 18px;
+	margin-bottom: 2px;
 }
 
 .a-login-button, .a-login-cancel-button {
