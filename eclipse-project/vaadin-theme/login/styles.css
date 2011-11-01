@@ -25,15 +25,56 @@ button.a-auth-topbar-logo {
 	border: none;
 }
 
-.a-auth-topbar-fields {
-	float: right;
-	margin: 16px 50px 0 0;
-}
-
-.a-auth-topbar-fields .v-captiontext, .a-auth-topbar-fields .v-button-caption {
+.a-auth-topbar .v-captiontext, .a-auth-topbar .v-button-caption, .a-auth-topbar .v-label {
 	color: white;
 }
 
+.a-auth-topbar-right {
+	float: right;
+}
+
+.a-auth-topbar-social {
+	margin: 16px 70px 0 0;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	vertical-align: top;
+}
+.a-auth-topbar-social .v-disabled {
+	opacity: .6;
+	filter: alpha(opacity = 70);
+}
+
+.a-auth-topbar-social-button {
+	height: 24px;
+	width: 24px;
+	margin: 0 7px 0 0;
+	padding: 0;
+	border: none;
+}
+.a-auth-topbar-social-facebook {
+	background: url('../agitter/FacebookButton24.png') no-repeat;''
+}
+.a-auth-topbar-social-twitter {
+	background: url('../agitter/TwitterButton24.png') no-repeat;
+}
+.a-auth-topbar-social-google {
+	background: url('../agitter/GoogleButton24.png') no-repeat;
+}
+.a-auth-topbar-social-windows {
+	background: url('../agitter/WindowsButton24.png') no-repeat;
+}
+.a-auth-topbar-social-yahoo {
+	background: url('../agitter/YahooButton24.png') no-repeat;
+}
+
+.a-auth-topbar-fields {
+	margin: 16px 50px 0 0;
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	vertical-align: top;
+}
 .a-auth-topbar-fields .v-disabled {
 	opacity: .6;
 	filter: alpha(opacity = 70);
