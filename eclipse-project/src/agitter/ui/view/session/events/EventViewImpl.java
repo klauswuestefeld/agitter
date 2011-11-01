@@ -44,7 +44,7 @@ public class EventViewImpl extends CssLayout {
 		button.setDescription(
 			event.isDeletable
 			? "Remover o Agito"
-			: "Não estou interessado"
+			: "Fica pra próxima"
 		);
 	}
 

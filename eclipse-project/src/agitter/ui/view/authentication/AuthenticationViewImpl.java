@@ -53,16 +53,16 @@ public class AuthenticationViewImpl implements AuthenticationView {
 					CssLayout socialButtons = new CssLayout();
 					topBarRight.addComponent(socialButtons); socialButtons.addStyleName("a-auth-topbar-social");
 						socialButtons.addComponent(socialLabel); socialLabel.addStyleName("a-auth-topbar-social-label");
-						socialButtons.addComponent(facebook); facebook.addStyleName("a-auth-topbar-social-button"); facebook.addStyleName("a-auth-topbar-social-facebook");
-						facebook.setDescription("Facebook: Em breve!");
-						socialButtons.addComponent(twitter); twitter.addStyleName("a-auth-topbar-social-button"); twitter.addStyleName("a-auth-topbar-social-twitter");
-						twitter.setDescription("Twitter: Em breve!");
 						socialButtons.addComponent(google); google.addStyleName("a-auth-topbar-social-button"); google.addStyleName("a-auth-topbar-social-google");
 						google.setDescription("Google: Em breve!");
 						socialButtons.addComponent(windows); windows.addStyleName("a-auth-topbar-social-button"); windows.addStyleName("a-auth-topbar-social-windows");
 						windows.setDescription("WindowsLive: Em breve!");
 						socialButtons.addComponent(yahoo); yahoo.addStyleName("a-auth-topbar-social-button"); yahoo.addStyleName("a-auth-topbar-social-yahoo");
 						yahoo.setDescription("Yahoo: Em breve!");
+						socialButtons.addComponent(facebook); facebook.addStyleName("a-auth-topbar-social-button"); facebook.addStyleName("a-auth-topbar-social-facebook");
+						facebook.setDescription("Facebook: Em breve!");
+						socialButtons.addComponent(twitter); twitter.addStyleName("a-auth-topbar-social-button"); twitter.addStyleName("a-auth-topbar-social-twitter");
+						twitter.setDescription("Twitter: Em breve!");
 					// Login Fields and Buttons
 					CssLayout loginFields = new CssLayout();
 					topBarRight.addComponent(loginFields); loginFields.addStyleName("a-auth-topbar-fields");
@@ -79,7 +79,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 				main.addComponent(mainContent); mainContent.addStyleName("a-auth-main-content");
 									
 		setLoginOptionsEnablement(true);
-		enter.setClickShortcut( KeyCode.ENTER );
+		enter.setClickShortcut(KeyCode.ENTER);
 		
 		setupFocus();
 	}
