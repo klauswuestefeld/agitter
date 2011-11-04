@@ -1,7 +1,7 @@
 package agitter.uiold.view.session.events;
 
 
-import agitter.ui.view.AgitterVaadinUtils;
+import agitter.uiold.view.AgitterVaadinUtils;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;

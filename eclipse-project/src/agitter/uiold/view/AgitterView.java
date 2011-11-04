@@ -1,7 +1,7 @@
 package agitter.uiold.view;
 
-import agitter.ui.view.authentication.AuthenticationView;
-import agitter.ui.view.session.SessionView;
+import agitter.uiold.view.authentication.AuthenticationView;
+import agitter.uiold.view.session.SessionView;
 
 
 public interface AgitterView {

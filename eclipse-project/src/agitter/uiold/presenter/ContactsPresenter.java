@@ -9,7 +9,7 @@ import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
-import agitter.ui.view.session.contacts.ContactsView;
+import agitter.uiold.view.session.contacts.ContactsView;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Predicate;

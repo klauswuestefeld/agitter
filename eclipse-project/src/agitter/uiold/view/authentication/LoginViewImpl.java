@@ -1,6 +1,6 @@
 package agitter.uiold.view.authentication;
 
-import agitter.ui.view.AgitterVaadinUtils;
+import agitter.uiold.view.AgitterVaadinUtils;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;

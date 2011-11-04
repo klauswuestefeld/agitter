@@ -3,8 +3,8 @@ package agitter.uiold.view.session.events;
 import java.util.Date;
 import java.util.List;
 
-import agitter.ui.view.AgitterVaadinUtils;
-import agitter.ui.view.session.contacts.SelectableRemovableElementList;
+import agitter.uiold.view.AgitterVaadinUtils;
+import agitter.uiold.view.session.contacts.SelectableRemovableElementList;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.*;

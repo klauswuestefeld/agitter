@@ -4,8 +4,8 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
-import agitter.ui.view.session.SessionView;
-import agitter.ui.view.session.SessionView.Needs;
+import agitter.uiold.view.session.SessionView;
+import agitter.uiold.view.session.SessionView.Needs;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 

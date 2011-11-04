@@ -1,10 +1,10 @@
 package agitter.uiold.view.session;
 
-import agitter.ui.view.session.contacts.ContactsView;
-import agitter.ui.view.session.contacts.ContactsViewImpl;
-import agitter.ui.view.session.events.EventsView;
-import agitter.ui.view.session.events.EventsViewImpl;
-import agitter.ui.view.session.events.EventsViewImplOld;
+import agitter.uiold.view.session.contacts.ContactsView;
+import agitter.uiold.view.session.contacts.ContactsViewImpl;
+import agitter.uiold.view.session.events.EventsView;
+import agitter.uiold.view.session.events.EventsViewImpl;
+import agitter.uiold.view.session.events.EventsViewImplOld;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

@@ -1,6 +1,6 @@
 package agitter.uiold.presenter;
 
-import agitter.ui.view.session.SessionView.Needs;
+import agitter.uiold.view.session.SessionView.Needs;
 
 
 class ContactsDemoNeeds implements Needs {

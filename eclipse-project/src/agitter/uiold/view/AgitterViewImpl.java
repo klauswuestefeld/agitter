@@ -1,9 +1,9 @@
 package agitter.uiold.view;
 
-import agitter.ui.view.authentication.AuthenticationView;
-import agitter.ui.view.authentication.AuthenticationViewImpl;
-import agitter.ui.view.session.SessionView;
-import agitter.ui.view.session.SessionViewImpl;
+import agitter.uiold.view.authentication.AuthenticationView;
+import agitter.uiold.view.authentication.AuthenticationViewImpl;
+import agitter.uiold.view.session.SessionView;
+import agitter.uiold.view.session.SessionViewImpl;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.Window;

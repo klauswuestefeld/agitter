@@ -3,7 +3,7 @@ package agitter.uiold.presenter;
 import java.util.Arrays;
 import java.util.List;
 
-import agitter.ui.view.session.contacts.ContactsView;
+import agitter.uiold.view.session.contacts.ContactsView;
 import sneer.foundation.lang.Consumer;
 
 public class ContactsDemo {

@@ -3,7 +3,7 @@ package agitter.uiold.view.session.contacts;
 
 import java.util.List;
 
-import agitter.ui.view.AgitterVaadinUtils;
+import agitter.uiold.view.AgitterVaadinUtils;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.*;
