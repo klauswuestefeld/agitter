@@ -20,13 +20,14 @@ public class AgitterVaadinApplication extends Application {
 	@Override
 	public void init() {
 		setTheme("agitter");
-		AgitterViewImpl view = new AgitterViewImpl();
+		final AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
 
 		SessionUrlParameters.handleForMainWindow(view);
 
-		presenter = new Presenter(CONTROLLER, view);
 		RestUtils.addRestHandler(view, new RestHandler() { @Override public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
+			if (presenter == null)
+				presenter = new Presenter(CONTROLLER, view);
 			presenter.onRestInvocation(context, relativeUri, params);
 		}});
 	}
