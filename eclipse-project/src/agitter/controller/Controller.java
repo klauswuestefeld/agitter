@@ -9,6 +9,7 @@ import agitter.controller.mailing.AmazonEmailSender;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.PeriodicScheduleMailer;
 import agitter.controller.mailing.SignupEmailController;
+import agitter.controller.oauth.OAuth;
 import agitter.domain.Agitter;
 import agitter.main.PrevaylerBootstrap;
 
@@ -20,6 +21,7 @@ public class Controller {
 	private final Agitter domain = PrevaylerBootstrap.agitter();
 	private final EmailSender emailSender = initEmailing();
 	private final SignupEmailController signups = new SignupEmailController(emailSender, domain.users());
+	private final OAuth oAuth = new OAuth(domain.users());
 	
 	
 	public Agitter domain() {
@@ -36,7 +38,12 @@ public class Controller {
 		return emailSender;
 	}
 
-	
+
+	public OAuth oAuth() {
+		return oAuth;
+	}
+
+
 	private EmailSender initEmailing() {
 		try {
 			AmazonEmailSender sender = new AmazonEmailSender();

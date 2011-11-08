@@ -18,7 +18,8 @@ public interface Users {
 	@Transaction
 	User signup(EmailAddress email, String password) throws Refusal;
 
-	@Transaction /** Use searchByEmail before calling this to test if it is necessary and avoid a transaction. Returns existing user or creates a new one with that email address. */
+	/** Use searchByEmail before calling this to test if it is necessary and avoid a transaction. Returns existing user or creates a new one with that email address. */
+	@Transaction 
 	User produce(EmailAddress email);
 
 	User loginWithEmail(EmailAddress email, String password) throws UserNotActive, UserNotFound, InvalidPassword;

@@ -3,15 +3,10 @@ package agitter.ui.presenter;
 import infra.logging.LogInfra;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
 import javax.servlet.http.HttpSession;
-
-import org.brickred.socialauth.AuthProvider;
-import org.brickred.socialauth.Profile;
-import org.brickred.socialauth.SocialAuthManager;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -104,7 +99,7 @@ public class Presenter {
 	
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), warningDisplayer(), httpSession, context);
+		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), controller.oAuth(), warningDisplayer(), httpSession, context);
 	}
 
 	
@@ -115,35 +110,15 @@ public class Presenter {
 
 	
 	private void onOAuthSignin(Map<String, String[]> params) throws Refusal {
-		// get the auth provider manager from session
-		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
-
-		// call connect method of manager which returns the provider object.
-		// Pass request parameter map while calling connect method.
-		Map<String, String> paramsMap = new HashMap<String, String>();
-		for (String name : params.keySet()) {
-			paramsMap.put(name, params.get(name)[0]);
-		}
-		
-		AuthProvider provider = null;
-		Profile profile;
 		try {
-			provider = manager.connect(paramsMap);
-			System.out.println("Provider: " + provider);
-			System.out.println("ProviderClass: " + provider.getClass());
-	
-			// get profile
-			profile = provider.getUserProfile();
+			User user = controller.oAuth().signinCallback(params, httpSession);
+			onAuthenticate().consume(user);
 		} catch (Exception e) {
-			LogInfra.getLogger(this).log(Level.SEVERE, "Erro no retorno do SocialAuth. Provider: " + provider + "\n" + e.getMessage());
 			throw new Refusal("Erro de autenticação na rede social.");
 		}
-	
-		User user = userProducer().evaluate(EmailAddress.email(profile.getEmail()));
-		onAuthenticate().consume(user);
 	}
 
-	
+
 	private void onUnsubscribe(String[] uri) {
 		if (uri.length < 2) return;
 		
