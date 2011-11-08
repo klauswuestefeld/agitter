@@ -23,12 +23,12 @@ public class ContactsPresenter {
 	private final ContactsView view;
 	private final Consumer<String> warningDisplayer;
 	private Group groupSelected;
-	private final Functor<EmailAddress, User> userSearch;
+	private final Functor<EmailAddress, User> userProducer;
 	
-	public ContactsPresenter(final ContactsOfAUser contacts, final ContactsView view, Functor<EmailAddress, User> userSearch, final Consumer<String> warningDisplayer) {
+	public ContactsPresenter(final ContactsOfAUser contacts, final ContactsView view, Functor<EmailAddress, User> userProducer, final Consumer<String> warningDisplayer) {
 		this.contacts = contacts;
 		this.view = view;
-		this.userSearch = userSearch;
+		this.userProducer = userProducer;
 		this.warningDisplayer = warningDisplayer;
 		view.setGroupCreateListener(new Consumer<String>() { @Override public void consume(String value) {
 			onGroupCreate(value);
@@ -199,7 +199,7 @@ public class ContactsPresenter {
 	
 	private User produceUser(String value) {
 		try {
-			return userSearch.evaluate(EmailAddress.email(value));
+			return userProducer.evaluate(EmailAddress.email(value));
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}

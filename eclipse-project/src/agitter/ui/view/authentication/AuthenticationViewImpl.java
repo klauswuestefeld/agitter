@@ -4,6 +4,7 @@ import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -125,6 +126,20 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	}
 
 	
+	@Override
+	public void onGoogleSignin(final Runnable action) {
+		google.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			action.run();
+		}});
+	}
+
+	
+	@Override
+	public void redirectTo(String url) {
+		container.getWindow().open(new ExternalResource(url));
+	}
+
+
 	private void setLoginOptionsEnablement(boolean enabled) {
 		emailLabel.setEnabled(enabled);
 		email.setEnabled(enabled);
@@ -142,6 +157,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 		WidgetUtils.focusOrder(email, enter);
 		email.focus();
 	}
+
 
 }
 

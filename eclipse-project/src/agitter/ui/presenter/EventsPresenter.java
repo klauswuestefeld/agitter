@@ -40,15 +40,15 @@ public class EventsPresenter {
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
-	private final Functor<EmailAddress, User> userSearch;
+	private final Functor<EmailAddress, User> userProducer;
 	private Event eventBeingEdited;
 
 	
-	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, EventsView eventsView, Consumer<String> warningDisplayer) {
+	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
-		this.userSearch = userSearch;
+		this.userProducer = userProducer;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
 
@@ -133,7 +133,7 @@ public class EventsPresenter {
 			if( group != null ) {
 				groups.add(group);
 			}else {
-				users.add(userSearch.evaluate(toAddress(emailOrGroup)));
+				users.add(userProducer.evaluate(toAddress(emailOrGroup)));
 			}
 			
 		}

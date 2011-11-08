@@ -3,8 +3,15 @@ package agitter.ui.presenter;
 import infra.logging.LogInfra;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+
+import javax.servlet.http.HttpSession;
+
+import org.brickred.socialauth.AuthProvider;
+import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.SocialAuthManager;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -25,13 +32,17 @@ public class Presenter {
 
 	private final Controller controller;
 	private final AgitterView view;
-	private final Functor<EmailAddress, User> userSearch;
+	private final Functor<EmailAddress, User> userProducer;
+	private final HttpSession httpSession;
+	private final URL context;
 
 
-	public Presenter(Controller controller, AgitterView view) {
+	public Presenter(Controller controller, AgitterView view, HttpSession httpSession, URL context) {
 		this.controller = controller;
 		this.view = view;
-		userSearch = userSearch();
+		this.httpSession = httpSession;
+		this.context = context;
+		userProducer = userProducer();
 		
 		openAuthentication();
 	}
@@ -60,6 +71,7 @@ public class Presenter {
 		if ("contacts-demo".equals(command)) { onContactsDemo(); }
 		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
 		if ("signup".equals(command)) { onRestSignup(params); }
+		if ("oauth".equals(command)) { onOAuthSignin(params); }
 	}
 
 
@@ -79,7 +91,7 @@ public class Presenter {
 	private Consumer<User> onAuthenticate() {
 		return new Consumer<User>() { @Override public void consume(User user) {
 			SessionView sessionView = view.showSessionView();
-			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), userSearch, sessionView, warningDisplayer(), onLogout());
+			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), userProducer, sessionView, warningDisplayer(), onLogout());
 		}};
 	}
 
@@ -92,12 +104,42 @@ public class Presenter {
 	
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), warningDisplayer());
+		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), warningDisplayer(), httpSession, context);
 	}
 
 	
 	private void onRestSignup(Map<String, String[]> params) throws Refusal {
 		User user = controller.signups().onRestInvocation(params);
+		onAuthenticate().consume(user);
+	}
+
+	
+	private void onOAuthSignin(Map<String, String[]> params) throws Refusal {
+		// get the auth provider manager from session
+		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
+
+		// call connect method of manager which returns the provider object.
+		// Pass request parameter map while calling connect method.
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		for (String name : params.keySet()) {
+			paramsMap.put(name, params.get(name)[0]);
+		}
+		
+		AuthProvider provider = null;
+		Profile profile;
+		try {
+			provider = manager.connect(paramsMap);
+			System.out.println("Provider: " + provider);
+			System.out.println("ProviderClass: " + provider.getClass());
+	
+			// get profile
+			profile = provider.getUserProfile();
+		} catch (Exception e) {
+			LogInfra.getLogger(this).log(Level.SEVERE, "Erro no retorno do SocialAuth. Provider: " + provider + "\n" + e.getMessage());
+			throw new Refusal("Erro de autenticação na rede social.");
+		}
+	
+		User user = userProducer().evaluate(EmailAddress.email(profile.getEmail()));
 		onAuthenticate().consume(user);
 	}
 
@@ -124,7 +166,7 @@ public class Presenter {
 	}
 
 	
-	private Functor<EmailAddress, User> userSearch() {
+	private Functor<EmailAddress, User> userProducer() {
 		return new Functor<EmailAddress, User>() {  @Override public User evaluate(EmailAddress email) {
 			return UserUtils.produce(domain().users(), email);
 		}};

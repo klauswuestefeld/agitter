@@ -1,6 +1,6 @@
 package agitter.ui.view.session;
 
-import vaadinutils.SessionUrlParameters;
+import vaadinutils.SessionUtils;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
@@ -112,7 +112,7 @@ public class SessionViewImpl implements SessionView {
 
 	
 	private EventsView createEventView() {
-		return SessionUrlParameters.isParameterSet(container, "new-events-screen")
+		return SessionUtils.isParameterSet(container, "new-events-screen")
 			? new EventsViewImpl(mainContent)
 			: new EventsViewImplOld(mainContent);
 	}

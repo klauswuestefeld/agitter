@@ -9,17 +9,17 @@ import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 
-public class SessionUrlParameters implements ParameterHandler {
+public class SessionUtils implements ParameterHandler {
 	
-	private static final String KEY = SessionUrlParameters.class.getSimpleName();
+	private static final String KEY = SessionUtils.class.getSimpleName();
 
 	private final HttpSession session;
 
 	
 	public static void handleForMainWindow(Window mainWindow) {
-		new SessionUrlParameters(mainWindow);
+		new SessionUtils(mainWindow);
 	}
-	private SessionUrlParameters(Window mainWindow) {
+	private SessionUtils(Window mainWindow) {
 		session = getHttpSession(mainWindow);
 		mainWindow.addParameterHandler(this);
 	}
@@ -46,7 +46,7 @@ public class SessionUrlParameters implements ParameterHandler {
 	}
 
 	
-	static private HttpSession getHttpSession(Component component) {
+	public static HttpSession getHttpSession(Component component) {
 		return ((WebApplicationContext)component.getApplication().getContext()).getHttpSession();
 	}
 	

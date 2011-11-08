@@ -16,13 +16,13 @@ public class SessionPresenter implements Needs {
 	private final String userScreenName;
 
 
-	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userSearch, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
+	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
 		this.view = view;
 		this.onLogout = onLogout;
 		this.userScreenName = user.screenName();
 
-		new EventsPresenter(user, contacts, events, userSearch, view.eventsView(), warningDisplayer);
-		new ContactsPresenter(contacts, view.contactsView(), userSearch, warningDisplayer);
+		new EventsPresenter(user, contacts, events, userProducer, view.eventsView(), warningDisplayer);
+		new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 
 		view.init(this);
 		view.showEventsView();

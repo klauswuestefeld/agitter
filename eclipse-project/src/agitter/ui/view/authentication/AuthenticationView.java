@@ -2,6 +2,7 @@ package agitter.ui.view.authentication;
 
 
 
+
 public interface AuthenticationView {
 
 	void show();
@@ -13,4 +14,7 @@ public interface AuthenticationView {
 	void onEnterAttempt(Runnable loginAction);
 	void onLogoClicked(Runnable action);
 
+	void onGoogleSignin(Runnable action);
+	void redirectTo(String string);
+	
 }

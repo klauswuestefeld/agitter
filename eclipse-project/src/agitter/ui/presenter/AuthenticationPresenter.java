@@ -4,6 +4,12 @@ import static agitter.domain.emails.EmailAddress.email;
 import infra.logging.LogInfra;
 
 import java.io.IOException;
+import java.net.URL;
+
+import javax.servlet.http.HttpSession;
+
+import org.brickred.socialauth.SocialAuthConfig;
+import org.brickred.socialauth.SocialAuthManager;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
@@ -27,20 +33,27 @@ public class AuthenticationPresenter {
 	private final SignupEmailController signups;
 	private SignupView signupView;
 	private LoginView loginView;
+	private final HttpSession httpSession;
+	private final URL context;
 
 	
-	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer) {
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, Consumer<String> warningDisplayer, HttpSession httpSession, URL context) {
 		this.users = users;
 		this.authenticationView = authenticationView;
 		this.onAuthenticate = onAuthenticate;
 		this.signups = signups;
 		this.emailSender = emailSender;
 		this.warningDisplayer = warningDisplayer;
+		this.httpSession = httpSession;
+		this.context = context;
+		this.authenticationView.onLogoClicked(new Runnable() { @Override public void run() {
+			startAuthentication();
+		}});
 		this.authenticationView.onEnterAttempt( new Runnable() { @Override public void run() {
 			enterAttempt(); 
 		}});
-		this.authenticationView.onLogoClicked(new Runnable() { @Override public void run() {
-			startAuthentication();
+		this.authenticationView.onGoogleSignin(new Runnable() { @Override public void run() {
+			googleSigninAttempt(); 
 		}});
 		
 		startAuthentication();
@@ -72,6 +85,38 @@ public class AuthenticationPresenter {
 			return;
 		}
 		onAuthenticate.consume(user);
+	}
+
+	
+	private void googleSigninAttempt() {
+		SocialAuthConfig config = SocialAuthConfig.getDefault();
+		try {
+			String providerId = "google";
+
+			//load configuration. By default load the configuration from oauth_consumer.properties. 
+			//You can also pass input stream, properties object or properties file name.
+			config.load();
+
+			//Create an instance of SocialAuthManager and set config
+			SocialAuthManager manager = new SocialAuthManager();
+			manager.setSocialAuthConfig(config);
+			
+			//URL of YOUR application which will be called after authentication
+			String successUrl = context.toString() + "/oauth";
+			
+			// get Provider URL to which you should redirect for authentication.
+			// id can have values "facebook", "twitter", "yahoo" etc. or the OpenID URL
+			String url = manager.getAuthenticationUrl(providerId, successUrl);
+			
+			// Store in session
+			httpSession.setAttribute("authManager", manager);
+	
+			authenticationView.redirectTo(url);
+
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar rede social.");
+			LogInfra.getLogger(this).severe("Erro de SocialAuth: " + e.getMessage());
+		}
 	}
 
 	
