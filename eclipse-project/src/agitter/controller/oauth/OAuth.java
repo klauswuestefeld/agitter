@@ -4,56 +4,54 @@ import infra.logging.LogInfra;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 import javax.servlet.http.HttpSession;
 
 import org.brickred.socialauth.AuthProvider;
+import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
 
+import sneer.foundation.lang.Functor;
+import agitter.controller.oauth.contactsimport.ContactsImport;
+import agitter.domain.contacts.Contacts;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
-import agitter.domain.users.UserUtils;
-import agitter.domain.users.Users;
 
 public class OAuth {
 
-	private final Users users;
+	private final Functor<EmailAddress, User> userProducer;
+	private final Contacts contacts;
 
-	public OAuth(Users users) {
-		this.users = users;
+	
+	public OAuth(Functor<EmailAddress, User> userProducer, Contacts contacts) {
+		this.userProducer = userProducer;
+		this.contacts = contacts;
 	}
 
+	
 	public String googleSigninURL(URL context, HttpSession httpSession) throws Exception {
-		String providerId = "google";
-		return signinURL(context, httpSession, providerId);
+		return signinURL(context, httpSession, "google");
 	}
-	
 	public String windowsSigninURL(URL context, HttpSession httpSession) throws Exception {
-		String providerId = "hotmail";
-		return signinURL(context, httpSession, providerId);
+		return signinURL(context, httpSession, "hotmail");
 	}
-
 	public String yahooSigninURL(URL context, HttpSession httpSession) throws Exception {
-		String providerId = "yahoo";
-		return signinURL(context, httpSession, providerId);
+		return signinURL(context, httpSession, "yahoo");
 	}
-	
 	public String facebookSigninURL(URL context, HttpSession httpSession) throws Exception {
-		String providerId = "facebook";
-		return signinURL(context, httpSession, providerId);
+		return signinURL(context, httpSession, "facebook");
+	}
+	public String twitterSigninURL(URL context, HttpSession httpSession) throws Exception {
+		return signinURL(context, httpSession, "twitter");
 	}
 	
-	public String twitterSigninURL(URL context, HttpSession httpSession) throws Exception {
-		String providerId = "twitter";
-		return signinURL(context, httpSession, providerId);
-	}
 	
 	private String signinURL(URL context, HttpSession httpSession, String providerId) throws Exception {
-		
 		SocialAuthConfig config = SocialAuthConfig.getDefault();
 		try {
 			config.load();
@@ -73,13 +71,13 @@ public class OAuth {
 		}
 	}	
 
+	
 	public User signinCallback(Map<String, String[]> params, HttpSession httpSession) throws Exception {
 		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
 	
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		for (String name : params.keySet()) {
+		for (String name : params.keySet())
 			paramsMap.put(name, params.get(name)[0]);
-		}
 		
 		AuthProvider provider = null;
 		Profile profile;
@@ -94,7 +92,24 @@ public class OAuth {
 			throw e;
 		}
 	
-		return UserUtils.produce(users, EmailAddress.email(profile.getEmail()));
+		User user = userProducer.evaluate(EmailAddress.email(profile.getEmail()));
+		startContactImport(provider, user);
+		return user;
+	}
+
+
+	private void startContactImport(AuthProvider provider, User user) {
+		List<Contact> candidates;
+		try {
+			candidates = provider.getContactList();
+		} catch (Exception e) {
+			LogInfra.getLogger(this).severe("Erro importando contatos via SocialAuth. Provider: " + provider + "\n" + e.getMessage());
+			return;
+		}
+		
+		if (candidates.isEmpty()) return;
+		new ContactsImport(contacts.contactsOf(user), candidates, userProducer)
+			.start(); //Optimize: use a thread pool instead of starting tons of threads.
 	}
 
 }

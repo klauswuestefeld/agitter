@@ -7,9 +7,8 @@
 		Arrumar UI design - Verificar IE
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
-		GMail
-		Hotmail
-		Yahoo
+		Fazer botao pra importação/atualizaçao separada do login.
+		N fazer importacao de contatos do twitter e facebook.
 
 	CRUD do Agito
 		Criar Agito - Botão acima da lista de agitos.

@@ -13,7 +13,7 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 
-public class ContactsImport {
+public class ContactsImport extends Thread {
 
 	private final ContactsOfAUser container;
 	private final Iterable<Contact> candidatesToImport;
@@ -26,10 +26,10 @@ public class ContactsImport {
 		this.candidatesToImport = candidatesToImport;
 		this.userProducer = userProducer;
 		this.existing = container.all();
-		run();
 	}
 	
-	private void run() {
+	@Override
+	public void run() {
 		for (Contact candidate : candidatesToImport)
 			importIfNecessary(candidate);
 	}

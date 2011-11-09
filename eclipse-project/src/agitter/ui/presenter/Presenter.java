@@ -27,9 +27,9 @@ public class Presenter {
 
 	private final Controller controller;
 	private final AgitterView view;
-	private final Functor<EmailAddress, User> userProducer = UserUtils.userProducer(domain().users());
 	private final HttpSession httpSession;
 	private final URL context;
+	private final Functor<EmailAddress, User> userProducer;
 
 
 	public Presenter(Controller controller, AgitterView view, HttpSession httpSession, URL context) {
@@ -37,6 +37,7 @@ public class Presenter {
 		this.view = view;
 		this.httpSession = httpSession;
 		this.context = context;
+		this.userProducer = UserUtils.userProducer(domain().users());
 		
 		openAuthentication();
 	}

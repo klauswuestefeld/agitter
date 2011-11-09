@@ -5,12 +5,16 @@ import infra.logging.LogInfra;
 import java.io.IOException;
 import java.util.logging.Level;
 
+import sneer.foundation.lang.Functor;
 import agitter.controller.mailing.AmazonEmailSender;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.PeriodicScheduleMailer;
 import agitter.controller.mailing.SignupEmailController;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.Agitter;
+import agitter.domain.emails.EmailAddress;
+import agitter.domain.users.User;
+import agitter.domain.users.UserUtils;
 import agitter.main.PrevaylerBootstrap;
 
 public class Controller {
@@ -21,7 +25,7 @@ public class Controller {
 	private final Agitter domain = PrevaylerBootstrap.agitter();
 	private final EmailSender emailSender = initEmailing();
 	private final SignupEmailController signups = new SignupEmailController(emailSender, domain.users());
-	private final OAuth oAuth = new OAuth(domain.users());
+	private final OAuth oAuth = new OAuth(userProducer(), domain.contacts());
 	
 	
 	public Agitter domain() {
@@ -60,4 +64,8 @@ public class Controller {
 		LogInfra.getLogger(this).log(Level.SEVERE, message, e);
 	}
 
+	
+	private Functor<EmailAddress, User> userProducer() {
+		return UserUtils.userProducer(domain.users());
+	}
 }
