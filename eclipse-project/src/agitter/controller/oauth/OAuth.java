@@ -32,13 +32,27 @@ public class OAuth {
 		return signinURL(context, httpSession, providerId);
 	}
 	
+	public String windowsSigninURL(URL context, HttpSession httpSession) throws Exception {
+		String providerId = "hotmail";
+		return signinURL(context, httpSession, providerId);
+	}
+
+	public String yahooSigninURL(URL context, HttpSession httpSession) throws Exception {
+		String providerId = "yahoo";
+		return signinURL(context, httpSession, providerId);
+	}
+	
 	public String facebookSigninURL(URL context, HttpSession httpSession) throws Exception {
 		String providerId = "facebook";
 		return signinURL(context, httpSession, providerId);
 	}
-
-	private String signinURL(URL context, HttpSession httpSession,
-			String providerId) throws Exception {
+	
+	public String twitterSigninURL(URL context, HttpSession httpSession) throws Exception {
+		String providerId = "twitter";
+		return signinURL(context, httpSession, providerId);
+	}
+	
+	private String signinURL(URL context, HttpSession httpSession, String providerId) throws Exception {
 		
 		SocialAuthConfig config = SocialAuthConfig.getDefault();
 		try {
@@ -47,7 +61,7 @@ public class OAuth {
 			SocialAuthManager manager = new SocialAuthManager();
 			manager.setSocialAuthConfig(config);
 			
-			String callbackUrl = context.toString() + "/oauth";
+			String callbackUrl = context.toString() + "oauth";
 			String result = manager.getAuthenticationUrl(providerId, callbackUrl);
 
 			httpSession.setAttribute("authManager", manager);

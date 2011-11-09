@@ -15,7 +15,11 @@ public interface AuthenticationView {
 	void onLogoClicked(Runnable action);
 
 	void onGoogleSignin(Runnable action);
+	void onWindowsSignin(Runnable action);
+	void onYahooSignin(Runnable action);
 	void onFacebookSignin(Runnable action);
+	void onTwitterSignin(Runnable action);
+
 	void redirectTo(String string);
 	
 }

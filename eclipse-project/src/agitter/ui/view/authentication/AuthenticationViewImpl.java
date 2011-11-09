@@ -55,13 +55,9 @@ public class AuthenticationViewImpl implements AuthenticationView {
 					topBarRight.addComponent(socialButtons); socialButtons.addStyleName("a-auth-topbar-social");
 						socialButtons.addComponent(socialLabel); socialLabel.addStyleName("a-auth-topbar-social-label");
 						socialButtons.addComponent(google); google.addStyleName("a-auth-topbar-social-button"); google.addStyleName("a-auth-topbar-social-google");
-						google.setDescription("Google: Em breve!");
 						socialButtons.addComponent(windows); windows.addStyleName("a-auth-topbar-social-button"); windows.addStyleName("a-auth-topbar-social-windows");
-						windows.setDescription("WindowsLive: Em breve!");
 						socialButtons.addComponent(yahoo); yahoo.addStyleName("a-auth-topbar-social-button"); yahoo.addStyleName("a-auth-topbar-social-yahoo");
-						yahoo.setDescription("Yahoo: Em breve!");
 						socialButtons.addComponent(facebook); facebook.addStyleName("a-auth-topbar-social-button"); facebook.addStyleName("a-auth-topbar-social-facebook");
-						facebook.setDescription("Facebook: Em breve!");
 						socialButtons.addComponent(twitter); twitter.addStyleName("a-auth-topbar-social-button"); twitter.addStyleName("a-auth-topbar-social-twitter");
 						twitter.setDescription("Twitter: Em breve!");
 					// Login Fields and Buttons
@@ -133,11 +129,37 @@ public class AuthenticationViewImpl implements AuthenticationView {
 		}});
 	}
 	
+	
+	@Override
+	public void onWindowsSignin(final Runnable action) {
+		windows.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			action.run();
+		}});
+	}
+	
+	
+	@Override
+	public void onYahooSignin(final Runnable action) {
+		yahoo.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			action.run();
+		}});
+	}
+	
+	
 	@Override
 	public void onFacebookSignin(final Runnable action) {
 		facebook.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			action.run();
 		}});
+	}	
+
+	
+	@Override
+	public void onTwitterSignin(final Runnable action) {
+//		TODO Resolver a questão do email pelo Twitter		
+//		twitter.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+//			action.run();
+//		}});
 	}	
 
 	

@@ -56,8 +56,17 @@ public class AuthenticationPresenter {
 		this.authenticationView.onGoogleSignin(new Runnable() { @Override public void run() {
 			googleSigninAttempt(); 
 		}});
+		this.authenticationView.onWindowsSignin(new Runnable() { @Override public void run() {
+			windowsSigninAttempt(); 
+		}});
+		this.authenticationView.onYahooSignin(new Runnable() { @Override public void run() {
+			yahooSigninAttempt(); 
+		}});
 		this.authenticationView.onFacebookSignin(new Runnable() { @Override public void run() {
 			facebookSigninAttempt(); 
+		}});
+		this.authenticationView.onTwitterSignin(new Runnable() { @Override public void run() {
+			twitterSigninAttempt(); 
 		}});
 		
 		startAuthentication();
@@ -101,9 +110,40 @@ public class AuthenticationPresenter {
 		}
 	}
 	
+	
+	private void windowsSigninAttempt() {
+		try{
+			String url = oAuth.windowsSigninURL(context, httpSession);
+			authenticationView.redirectTo(url);
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar o Google.");
+		}
+	}
+	
+	
+	private void yahooSigninAttempt() {
+		try{
+			String url = oAuth.yahooSigninURL(context, httpSession);
+			authenticationView.redirectTo(url);
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar o Google.");
+		}
+	}
+	
+	
 	private void facebookSigninAttempt() {
 		try{
 			String url = oAuth.facebookSigninURL(context, httpSession);
+			authenticationView.redirectTo(url);
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar o Facebook.");
+		}
+	}
+
+	
+	private void twitterSigninAttempt() {
+		try{
+			String url = oAuth.twitterSigninURL(context, httpSession);
 			authenticationView.redirectTo(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Facebook.");
