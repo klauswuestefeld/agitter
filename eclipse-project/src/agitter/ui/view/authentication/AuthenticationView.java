@@ -15,6 +15,7 @@ public interface AuthenticationView {
 	void onLogoClicked(Runnable action);
 
 	void onGoogleSignin(Runnable action);
+	void onFacebookSignin(Runnable action);
 	void redirectTo(String string);
 	
 }

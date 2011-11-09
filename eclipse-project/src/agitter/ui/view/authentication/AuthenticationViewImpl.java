@@ -132,6 +132,13 @@ public class AuthenticationViewImpl implements AuthenticationView {
 			action.run();
 		}});
 	}
+	
+	@Override
+	public void onFacebookSignin(final Runnable action) {
+		facebook.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			action.run();
+		}});
+	}	
 
 	
 	@Override

@@ -29,6 +29,17 @@ public class OAuth {
 
 	public String googleSigninURL(URL context, HttpSession httpSession) throws Exception {
 		String providerId = "google";
+		return signinURL(context, httpSession, providerId);
+	}
+	
+	public String facebookSigninURL(URL context, HttpSession httpSession) throws Exception {
+		String providerId = "facebook";
+		return signinURL(context, httpSession, providerId);
+	}
+
+	private String signinURL(URL context, HttpSession httpSession,
+			String providerId) throws Exception {
+		
 		SocialAuthConfig config = SocialAuthConfig.getDefault();
 		try {
 			config.load();
@@ -46,7 +57,7 @@ public class OAuth {
 			LogInfra.getLogger(this).severe("Erro de SocialAuth: " + e.getMessage());
 			throw e;
 		}
-	}
+	}	
 
 	public User signinCallback(Map<String, String[]> params, HttpSession httpSession) throws Exception {
 		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");

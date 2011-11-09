@@ -56,6 +56,9 @@ public class AuthenticationPresenter {
 		this.authenticationView.onGoogleSignin(new Runnable() { @Override public void run() {
 			googleSigninAttempt(); 
 		}});
+		this.authenticationView.onFacebookSignin(new Runnable() { @Override public void run() {
+			facebookSigninAttempt(); 
+		}});
 		
 		startAuthentication();
 	}
@@ -95,6 +98,15 @@ public class AuthenticationPresenter {
 			authenticationView.redirectTo(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Google.");
+		}
+	}
+	
+	private void facebookSigninAttempt() {
+		try{
+			String url = oAuth.facebookSigninURL(context, httpSession);
+			authenticationView.redirectTo(url);
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar o Facebook.");
 		}
 	}
 
