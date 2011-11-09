@@ -116,7 +116,7 @@ public class AuthenticationPresenter {
 			String url = oAuth.windowsSigninURL(context, httpSession);
 			authenticationView.redirectTo(url);
 		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Google.");
+			warningDisplayer.consume("Erro ao acessar o WindowsLive.");
 		}
 	}
 	
@@ -126,7 +126,7 @@ public class AuthenticationPresenter {
 			String url = oAuth.yahooSigninURL(context, httpSession);
 			authenticationView.redirectTo(url);
 		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Google.");
+			warningDisplayer.consume("Erro ao acessar o Yahoo.");
 		}
 	}
 	
@@ -146,7 +146,7 @@ public class AuthenticationPresenter {
 			String url = oAuth.twitterSigninURL(context, httpSession);
 			authenticationView.redirectTo(url);
 		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Facebook.");
+			warningDisplayer.consume("Erro ao acessar o Twitter.");
 		}
 	}
 
