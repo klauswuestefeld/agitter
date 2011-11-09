@@ -57,14 +57,14 @@ public class EventsImpl2 implements Events {
 
 	
 	@Override
-	public boolean isDeletableBy(Event event, User user) {
+	public boolean isEditableBy(Event event, User user) {
 		return event.owner() == user;
 	}
 
 
 	@Override
 	public void delete(Event event, User user) {
-		if (!isDeletableBy(event, user))
+		if (!isEditableBy(event, user))
 			throw new IllegalArgumentException("Evento não deletável por este usuário.");
 		_all.remove(event);
 	}

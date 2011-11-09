@@ -178,8 +178,10 @@ public class EventsPresenter {
 
 	
 	private void onEventSelected(Event event) {
-		eventBeingEdited = event;
-		inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
+		if(events.isEditableBy(event, user)){
+			eventBeingEdited = event;
+			inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
+		}
 	}
 
 	
@@ -209,7 +211,7 @@ public class EventsPresenter {
 
 	
 	private boolean isDeletable(Event event) {
-		return events.isDeletableBy(event, user);
+		return events.isEditableBy(event, user);
 	}
 
 
