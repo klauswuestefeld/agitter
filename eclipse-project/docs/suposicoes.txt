@@ -1,5 +1,4 @@
-﻿	BUG: Não permitir edição de agitos dos outros
-	
+﻿
 	Tela de Entrada Nova
 		Imagem larga
 
@@ -11,7 +10,6 @@
 		N fazer importacao de contatos do twitter e facebook.
 
 	CRUD do Agito
-		Criar Agito - Botão acima da lista de agitos.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
 
