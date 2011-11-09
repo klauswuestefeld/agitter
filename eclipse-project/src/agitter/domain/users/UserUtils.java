@@ -1,5 +1,6 @@
 package agitter.domain.users;
 
+import sneer.foundation.lang.Functor;
 import agitter.domain.emails.EmailAddress;
 
 public class UserUtils {
@@ -9,6 +10,13 @@ public class UserUtils {
 		return user == null
 			? users.produce(email)
 			: user;
+	}
+
+	
+	public static Functor<EmailAddress, User> userProducer(final Users users) { //Optimize return always the same functor for the same Users.
+		return new Functor<EmailAddress, User>() {  @Override public User evaluate(EmailAddress email) {
+			return produce(users, email);
+		}};
 	}
 
 }

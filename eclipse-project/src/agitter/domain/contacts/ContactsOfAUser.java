@@ -20,6 +20,6 @@ public interface ContactsOfAUser {
 	void deleteGroupAndRemoveFromAllContainingGroups(Group group);
 	void addContactTo(Group group, User contact);
 	void removeContactFrom(Group group, User contact);
-
 	Group groupGivenName(String name);
+	
 }

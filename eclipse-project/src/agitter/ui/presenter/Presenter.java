@@ -27,7 +27,7 @@ public class Presenter {
 
 	private final Controller controller;
 	private final AgitterView view;
-	private final Functor<EmailAddress, User> userProducer;
+	private final Functor<EmailAddress, User> userProducer = UserUtils.userProducer(domain().users());
 	private final HttpSession httpSession;
 	private final URL context;
 
@@ -37,7 +37,6 @@ public class Presenter {
 		this.view = view;
 		this.httpSession = httpSession;
 		this.context = context;
-		userProducer = userProducer();
 		
 		openAuthentication();
 	}
@@ -137,13 +136,6 @@ public class Presenter {
 	private Consumer<String> warningDisplayer() {
 		return new Consumer<String>() { @Override public void consume(String message) {
 			warn(message);
-		}};
-	}
-
-	
-	private Functor<EmailAddress, User> userProducer() {
-		return new Functor<EmailAddress, User>() {  @Override public User evaluate(EmailAddress email) {
-			return UserUtils.produce(domain().users(), email);
 		}};
 	}
 
