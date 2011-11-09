@@ -226,6 +226,11 @@ textarea.a-invite-description {
 	margin-top: 35px;
 }
 
+.a-invite-new {
+	float: right;
+	margin-top: 0px;
+}
+
 .a-invite-invitations {
 	width: 430px;
 	margin: 15px 0 0 8px;
