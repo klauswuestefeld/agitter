@@ -30,12 +30,9 @@ class InviteViewImpl extends CssLayout implements InviteView {
 			onInvite.run();
 		}});
 		NativeButton newEvent = AgitterVaadinUtils.createDefaultNativeButton("Novo!");
-		newEvent.addListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent ignored) {
-				reset();
-			}
-		});
+		newEvent.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			reset();
+		}});
 		addComponent(newEvent); newEvent.addStyleName("a-invite-new");
 		addStyleName("a-invite-view");
 		description.setSizeUndefined();
