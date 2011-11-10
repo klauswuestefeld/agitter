@@ -85,8 +85,8 @@ public class EventsPresenter {
 
 	
 	private List<String> contacts() {
-		List<String> contactsAndGroups = ToString.toStrings(contacts.all());
-		contactsAndGroups.addAll(ToString.toStrings(contacts.groups()));
+		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
+		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
 		return contactsAndGroups;
 	}
 
