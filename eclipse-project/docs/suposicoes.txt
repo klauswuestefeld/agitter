@@ -1,16 +1,13 @@
-﻿
-	Tela de Entrada Nova
-		Imagem larga
+﻿	CRUD do Agito
+		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
-	Grupos de Contatos
-		Arrumar UI design - Verificar IE
+	Tela de Entrada Nova - Imagem larga
+
+	Grupos de Contatos - Arrumar CSS no IE
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		Fazer botao pra importação/atualizaçao separada do login.
 		N fazer importacao de contatos do twitter e facebook.
-
-	CRUD do Agito
-		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
