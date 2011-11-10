@@ -73,12 +73,6 @@ public class EventImpl2 implements Event {
 		return groupInvitations;
 	}
 
-	
-	@Override public void addInvitee(User user) { actualInvitees().add(user); }
-	@Override public void addInvitees(Group group) { actualGroupInvitees().add(group); }
-	@Override public void removeInvitee(User user) {  actualInvitees().remove(user); }
-	@Override public void removeInvitees(Group group) { actualGroupInvitees().remove(group); }
-	
 
 	@Override
 	public void notInterested(User user) {

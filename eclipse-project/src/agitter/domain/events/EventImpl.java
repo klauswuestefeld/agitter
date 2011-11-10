@@ -42,29 +42,10 @@ public class EventImpl implements Event {
 	}
 
 	@Override
-	public void addInvitees(Group group) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	@Override
-	public void addInvitee(User user) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	@Override
 	public void notInterested(User user) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
-	public void removeInvitees(Group group) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	@Override
-	public void removeInvitee(User user) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
 	@Override
 	public Group[] groupInvitees() {
 		return new Group[0];  //To change body of implemented methods use File | Settings | File Templates.

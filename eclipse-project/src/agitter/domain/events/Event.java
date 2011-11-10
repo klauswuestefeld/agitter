@@ -11,11 +11,7 @@ public interface Event {
 	long datetime();
 
 	User[] invitees();
-	void addInvitee(User user);
-	void removeInvitee(User user);
 	Group[] groupInvitees();
-	void addInvitees(Group group);
-	void removeInvitees(Group group);
 
 	void notInterested(User user);
 
