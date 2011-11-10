@@ -61,7 +61,8 @@ public class EventsPresenter {
 
 	
 	private void resetInviteView() {
-		inviteView().reset(contacts());
+		inviteView().reset();
+		refreshContactsToChoose();
 		eventBeingEdited = null;
 	}
 
@@ -223,6 +224,11 @@ public class EventsPresenter {
 		
 		refreshEventList();
 		resetInviteView();
+	}
+
+
+	void refreshContactsToChoose() {
+		inviteView().refreshInviteesToChoose(contacts());
 	}
 
 }

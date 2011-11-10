@@ -14,6 +14,7 @@ public class SessionPresenter implements Needs {
 	private final SessionView view;
 	private final Runnable onLogout;
 	private final String userScreenName;
+	private final EventsPresenter eventsPresenter;
 
 
 	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
@@ -21,7 +22,7 @@ public class SessionPresenter implements Needs {
 		this.onLogout = onLogout;
 		this.userScreenName = user.screenName();
 
-		new EventsPresenter(user, contacts, events, userProducer, view.eventsView(), warningDisplayer);
+		eventsPresenter = new EventsPresenter(user, contacts, events, userProducer, view.eventsView(), warningDisplayer);
 		new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 
 		view.init(this);
@@ -44,6 +45,7 @@ public class SessionPresenter implements Needs {
 	@Override
 	public void onEventsMenu() {
 		view.showEventsView();
+		eventsPresenter.refreshContactsToChoose();
 	}
 
 

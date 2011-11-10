@@ -26,17 +26,14 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
 		NativeButton invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
-		invite.addListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent ignored) {
-				onInvite.run();
-			}
-		});
+		invite.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			onInvite.run();
+		}});
 		NativeButton newEvent = AgitterVaadinUtils.createDefaultNativeButton("Novo!");
 		newEvent.addListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent ignored) {
-				clearFields();
+				reset();
 			}
 		});
 		addComponent(newEvent); newEvent.addStyleName("a-invite-new");
@@ -82,8 +79,19 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 
 	@Override
-	public void reset(List<String> inviteesToChoose) {
-		clearFields();
+	public void reset() {
+		description.setValue(null);
+		description.setNullRepresentation("");
+		description.setInputPrompt("Descrição do agito...");
+		date.setValue(null);
+		date.setInputPrompt("Data do agito...");
+		nextInvitee.setInputPrompt("Email...");
+		invitations.removeAllElements();
+	}
+
+
+	@Override
+	public void refreshInviteesToChoose(List<String> inviteesToChoose) {
 		nextInvitee.setChoices(inviteesToChoose);
 	}
 
@@ -94,16 +102,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		return result==null ? null : (Date) result;
 	}
 
-
-	private void clearFields() {
-		description.setValue(null);
-		description.setNullRepresentation("");
-		description.setInputPrompt("Descrição do agito...");
-		date.setValue(null);
-		date.setInputPrompt("Data do agito...");
-		nextInvitee.setInputPrompt("Email...");
-		invitations.removeAllElements();
-	}
 
 	@Override
 	public List<String> invitees() {

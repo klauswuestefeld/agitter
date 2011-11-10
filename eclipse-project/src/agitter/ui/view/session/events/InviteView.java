@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface InviteView {
 
-	void reset(List<String> inviteesToChoose);
+	void reset();
+	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void display(String description, Date datetime, List<String> invitees);
 
 	String eventDescription();
