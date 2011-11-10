@@ -1,7 +1,7 @@
 ﻿	BUG - Visualização de Agitos de outras pessoas n está funcionando.
 	
 	BUG - Grupo com muitos membros nao aparece. Paginar? Outra solução?
-	 
+	
 	CRUD do Agito
 		Botao de Novo Agito (foi movido pra cima da lista de agitos)
 			Fazê-lo como CSSLayout contendo um Label, não como button.
