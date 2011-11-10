@@ -5,7 +5,6 @@
 	
 	CRUD do Agito
 		Botao de Novo Agito (foi movido pra cima da lista de agitos)
-			Fazê-lo como CSSLayout contendo um Label, não como button.
 			Iniciar tela com campos hidden. Dar hide nos campos qdo agito q estiver sendo visualizado for removido da lista (botaozinho de X ou lixinho).
 		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
