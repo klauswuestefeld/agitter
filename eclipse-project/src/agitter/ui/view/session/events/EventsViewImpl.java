@@ -42,7 +42,7 @@ public class EventsViewImpl implements EventsView {
 
 
 	private NativeButton createNewEventButton() {
-		NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+		NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Criar Novo Agito");
 		result.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			if (onNewEvent != null) onNewEvent.run();
 		}});
