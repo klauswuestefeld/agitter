@@ -13,7 +13,7 @@ public interface Events {
 	@Transaction
 	Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal;
 
-	void edit(Event event, String description, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal;
+	void edit(User user, Event event, String description, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal;
 	
 	boolean isEditableBy(Event event, User user);
 	void delete(Event event, User user);

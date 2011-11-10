@@ -30,7 +30,8 @@ public class EventsImpl2 implements Events {
 
 	
 	@Override
-	public void edit(Event event, String newDescription, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal {
+	public void edit(User user, Event event, String newDescription, long newDatetime, List<Group> inviteeGroups, List<User> newInvitees) throws Refusal {
+		if (!isEditableBy(event, user)) throw new IllegalStateException("Event not editable by this user.");
 		EventImpl2 casted = (EventImpl2) event;
 		boolean wasThere = _all.remove(casted); //Event could have been deleted.
 		try {

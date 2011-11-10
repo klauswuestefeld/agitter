@@ -33,7 +33,7 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		subject.edit(secondEvent, "D2", 14, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+		subject.edit(ana, secondEvent, "D2", 14, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
 
 		assertEquals(3, subject.toHappen(ana).size());
 		assertSame(firstEvent, subject.toHappen(ana).get(0));
@@ -53,11 +53,11 @@ public class EventsTest extends EventsTestBase {
 		assertContents(Arrays.asList(event.invitees()));
 
 		Group friends = contacts.createGroup( "friends" );
-		subject.edit(event, "Churras", 12, Arrays.asList( new Group[]{work,friends}), Arrays.asList(new User[]{jose}));
+		subject.edit(ana, event, "Churras", 12, Arrays.asList( new Group[]{work,friends}), Arrays.asList(new User[]{jose}));
 		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
 		assertContents(Arrays.asList(event.invitees()),jose);
 		
-		subject.edit(event, "Churras", 12, Arrays.asList( new Group[]{friends}), Arrays.asList(new User[]{jose}));
+		subject.edit(ana, event, "Churras", 12, Arrays.asList( new Group[]{friends}), Arrays.asList(new User[]{jose}));
 		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
 		assertContents(Arrays.asList(event.invitees()),jose);
 	}

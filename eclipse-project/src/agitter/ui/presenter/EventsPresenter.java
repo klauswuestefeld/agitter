@@ -117,7 +117,7 @@ public class EventsPresenter {
 		if (eventBeingEdited == null)
 			events.create(user, description, datetime.getTime(), inviteeGroups, invitees);
 		else
-			events.edit(eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
+			events.edit(user, eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
 	}
 
 
