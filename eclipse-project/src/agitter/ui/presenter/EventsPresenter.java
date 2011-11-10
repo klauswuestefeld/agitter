@@ -57,6 +57,10 @@ public class EventsPresenter {
 		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
 			refreshEventList();
 		}});
+		
+		this.view.onNewEvent(new Runnable() {public void run() {
+			resetInviteView();
+		}});
 	}
 
 	

@@ -3,13 +3,17 @@ package agitter.ui.view.session.events;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
-import agitter.ui.view.AgitterVaadinUtils;
 
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Component.Event;
+import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class EventsViewImpl implements EventsView {
@@ -41,12 +45,17 @@ public class EventsViewImpl implements EventsView {
 	}
 
 
-	private NativeButton createNewEventButton() {
-		NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Criar Novo Agito");
-		result.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+	private Component createNewEventButton() {
+		//NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+		Label newEventLabel = new Label("Agitar!");
+		CssLayout newEventLayout = new CssLayout();
+		
+		newEventLayout.addComponent(newEventLabel);
+		newEventLayout.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
 			if (onNewEvent != null) onNewEvent.run();
 		}});
-		return result;
+		
+		return newEventLayout;
 	}
 
 	@Override
