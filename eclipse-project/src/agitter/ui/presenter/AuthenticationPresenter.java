@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.servlet.http.HttpSession;
 
-
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.controller.mailing.EmailSender;
@@ -31,13 +30,14 @@ public class AuthenticationPresenter {
 	private final EmailSender emailSender;
 	private final SignupEmailController signups;
 	private final OAuth oAuth;
-	private SignupView signupView;
-	private LoginView loginView;
 	private final HttpSession httpSession;
 	private final URL context;
+	private final Consumer<String> urlRedirector;
+	private SignupView signupView;
+	private LoginView loginView;
 	
 	
-	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, HttpSession httpSession, URL context) {
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, HttpSession httpSession, URL context, Consumer<String> urlRedirector) {
 		this.users = users;
 		this.authenticationView = authenticationView;
 		this.onAuthenticate = onAuthenticate;
@@ -47,6 +47,7 @@ public class AuthenticationPresenter {
 		this.warningDisplayer = warningDisplayer;
 		this.httpSession = httpSession;
 		this.context = context;
+		this.urlRedirector = urlRedirector;
 		this.authenticationView.onLogoClicked(new Runnable() { @Override public void run() {
 			startAuthentication();
 		}});
@@ -104,7 +105,7 @@ public class AuthenticationPresenter {
 	private void googleSigninAttempt() {
 		try{
 			String url = oAuth.googleSigninURL(context, httpSession);
-			authenticationView.redirectTo(url);
+			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Google.");
 		}
@@ -114,7 +115,7 @@ public class AuthenticationPresenter {
 	private void windowsSigninAttempt() {
 		try{
 			String url = oAuth.windowsSigninURL(context, httpSession);
-			authenticationView.redirectTo(url);
+			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o WindowsLive.");
 		}
@@ -124,7 +125,7 @@ public class AuthenticationPresenter {
 	private void yahooSigninAttempt() {
 		try{
 			String url = oAuth.yahooSigninURL(context, httpSession);
-			authenticationView.redirectTo(url);
+			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Yahoo.");
 		}
@@ -134,7 +135,7 @@ public class AuthenticationPresenter {
 	private void facebookSigninAttempt() {
 		try{
 			String url = oAuth.facebookSigninURL(context, httpSession);
-			authenticationView.redirectTo(url);
+			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Facebook.");
 		}
@@ -144,7 +145,7 @@ public class AuthenticationPresenter {
 	private void twitterSigninAttempt() {
 		try{
 			String url = oAuth.twitterSigninURL(context, httpSession);
-			authenticationView.redirectTo(url);
+			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Twitter.");
 		}

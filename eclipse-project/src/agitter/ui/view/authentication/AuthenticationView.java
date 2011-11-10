@@ -20,6 +20,4 @@ public interface AuthenticationView {
 	void onFacebookSignin(Runnable action);
 	void onTwitterSignin(Runnable action);
 
-	void redirectTo(String string);
-	
 }

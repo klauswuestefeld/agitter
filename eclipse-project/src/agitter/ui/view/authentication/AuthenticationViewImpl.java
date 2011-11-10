@@ -4,7 +4,6 @@ import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -59,6 +58,10 @@ public class AuthenticationViewImpl implements AuthenticationView {
 						socialButtons.addComponent(yahoo); yahoo.addStyleName("a-auth-topbar-social-button"); yahoo.addStyleName("a-auth-topbar-social-yahoo");
 						socialButtons.addComponent(facebook); facebook.addStyleName("a-auth-topbar-social-button"); facebook.addStyleName("a-auth-topbar-social-facebook");
 						socialButtons.addComponent(twitter); twitter.addStyleName("a-auth-topbar-social-button"); twitter.addStyleName("a-auth-topbar-social-twitter");
+						google.setDescription("Entrar via Google");
+						windows.setDescription("Entrar via WindowsLive, MSN, Hotmail");
+						yahoo.setDescription("Entrar via Yahoo");
+						facebook.setDescription("Entrar via Facebook");
 						twitter.setDescription("Twitter: Em breve!");
 					// Login Fields and Buttons
 					CssLayout loginFields = new CssLayout();
@@ -163,12 +166,6 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	}	
 
 	
-	@Override
-	public void redirectTo(String url) {
-		container.getWindow().open(new ExternalResource(url));
-	}
-
-
 	private void setLoginOptionsEnablement(boolean enabled) {
 		emailLabel.setEnabled(enabled);
 		email.setEnabled(enabled);

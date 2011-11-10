@@ -57,20 +57,26 @@ public class Presenter {
 
 	
 	private void tryRestInvocation(String relativeUri, Map<String, String[]> params) throws Refusal {
+		recoverFromRedirectWithoutBlink();
 		String[] uri = relativeUri.split("/");
 		if (uri.length == 0) return;
 
 		String command = uri[0];
 
-		if ("demo".equals(command)) { onDemo(); }
-		if ("contacts-demo".equals(command)) { onContactsDemo(); }
-		if ("unsubscribe".equals(command)) { onUnsubscribe(uri); }
-		if ("signup".equals(command)) { onRestSignup(params); }
-		if ("oauth".equals(command)) { onOAuthSignin(params); }
+		if ("demo".equals(command)) { demo(); }
+		if ("contacts-demo".equals(command)) { contactsDemo(); }
+		if ("unsubscribe".equals(command)) { unsubscribe(uri); }
+		if ("signup".equals(command)) { restSignup(params); }
+		if ("oauth".equals(command)) { oAuthCallback(params); }
 	}
 
 
-	private void onContactsDemo() {
+	private void recoverFromRedirectWithoutBlink() {
+		view.show();
+	}
+
+
+	private void contactsDemo() {
 		SessionView sessionView = view.showSessionView();
 		sessionView.init(new ContactsDemoNeeds());
 		sessionView.showContactsView();
@@ -78,7 +84,7 @@ public class Presenter {
 	}
 
 
-	private void onDemo() {
+	private void demo() {
 		onAuthenticate().consume(new DemoPreparation(domain()).user());
 	}
 
@@ -99,27 +105,35 @@ public class Presenter {
 	
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), controller.oAuth(), warningDisplayer(), httpSession, context);
+		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), controller.oAuth(), warningDisplayer(), httpSession, context, urlBlankRedirector());
 	}
 
 	
-	private void onRestSignup(Map<String, String[]> params) throws Refusal {
+	private Consumer<String> urlBlankRedirector() {
+		return new Consumer<String>() {  @Override public void consume(String url) {
+			view.hideToAvoidBlinkAndRedirect(url);
+		}};
+	}
+
+
+	private void restSignup(Map<String, String[]> params) throws Refusal {
 		User user = controller.signups().onRestInvocation(params);
 		onAuthenticate().consume(user);
 	}
 
 	
-	private void onOAuthSignin(Map<String, String[]> params) throws Refusal {
+	private void oAuthCallback(Map<String, String[]> params) throws Refusal {
 		try {
 			User user = controller.oAuth().signinCallback(params, httpSession);
 			onAuthenticate().consume(user);
+			view.hideToAvoidBlinkAndRedirect(context.toString());
 		} catch (Exception e) {
 			throw new Refusal("Erro de autenticação na rede social.");
 		}
 	}
 
 
-	private void onUnsubscribe(String[] uri) {
+	private void unsubscribe(String[] uri) {
 		if (uri.length < 2) return;
 		
 		String userEncryptedInfo = uri[1];
