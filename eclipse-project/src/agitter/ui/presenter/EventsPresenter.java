@@ -179,10 +179,9 @@ public class EventsPresenter {
 
 	
 	private void onEventSelected(Event event) {
-		if(events.isEditableBy(event, user)){
-			eventBeingEdited = event;
-			inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
-		}
+		eventBeingEdited = event;
+		inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
+		inviteView().enableEdit(events.isEditableBy(event, user));
 	}
 
 	

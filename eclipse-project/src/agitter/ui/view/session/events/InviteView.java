@@ -10,6 +10,8 @@ public interface InviteView {
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void display(String description, Date datetime, List<String> invitees);
 
+	void enableEdit(boolean canEdit);
+
 	String eventDescription();
 	Date datetime();
 	List<String> invitees();

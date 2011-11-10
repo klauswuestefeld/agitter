@@ -25,12 +25,15 @@ public class EventViewImpl extends CssLayout {
 		addRemovalButton(eventValues);
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
-			Label label = new Label(eventValues.description);
-			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-description");
+			Label label;
 			label = new Label(dateFormat.format(new Date(eventValues.datetime)));
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-date");
+			
+			label = new Label(eventValues.description);
+			label.setSizeUndefined();
+			texts.addComponent(label); label.addStyleName("a-event-description");
+
 			label = new Label(eventValues.owner);
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-owner");

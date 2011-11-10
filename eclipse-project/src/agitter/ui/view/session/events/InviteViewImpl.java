@@ -13,6 +13,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
@@ -23,20 +24,27 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	private final PopupDateField date = new PopupDateField("Quando?");
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser("Quem você quer convidar?");
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
+	private final NativeButton invite;
 
+	private final Label descriptionLabel = new Label();
+	private final Label dateLabel = new Label();
+
+	
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
-		NativeButton invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+		invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 		invite.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			onInvite.run();
 		}});
 		addStyleName("a-invite-view");
-		description.setSizeUndefined();
-		addComponent(description);
-		description.addStyleName("a-invite-description");
+
+		addComponent(dateLabel);
+		addComponent(descriptionLabel);
+		
 		date.setResolution(DateField.RESOLUTION_MIN);
 		date.setDateFormat("dd/MM/yyyy HH:mm");
-		addComponent(date);
-		date.addStyleName("a-invite-date");
+		addComponent(date); date.addStyleName("a-invite-date");
+		description.setSizeUndefined();
+		addComponent(description); description.addStyleName("a-invite-description");
 
 		nextInvitee.setListener(newInviteeValidator, new Consumer<String>() { @Override public void consume(String invitee) {
 			onNextInvitee(invitee);
@@ -107,6 +115,22 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		this.date.setValue(datetime);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
+		
+		descriptionLabel.setValue(description);
+		dateLabel.setValue(datetime);
+	}
+
+
+	@Override
+	public void enableEdit(boolean b) {
+		description.setVisible(b);
+		date.setVisible(b);
+		nextInvitee.setVisible(b);
+		invitations.setVisible(b);
+		invite.setVisible(b);
+
+		descriptionLabel.setVisible(!b);
+		dateLabel.setVisible(!b);
 	}
 
 }
