@@ -6,8 +6,10 @@
 		Botao de Novo Agito (foi movido pra cima da lista de agitos)
 			Fazê-lo como CSSLayout contendo um Label, não como button.
 			Iniciar tela com campos hidden. Dar hide nos campos qdo agito q estiver sendo visualizado for removido da lista (botaozinho de X ou lixinho).
-		Primeira linha da descrição do agito somente deve aparecer na lista.
+		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
+			encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
+				Teremos problemas de XSS? Dá pra usar nosso XssAttackSanitizer nos links?
 
 	Tela de Entrada Nova - Imagem larga
 
