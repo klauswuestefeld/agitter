@@ -1,12 +1,10 @@
 package agitter.ui.view.session;
 
-import vaadinutils.SessionUtils;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
 import agitter.ui.view.session.events.EventsViewImpl;
-import agitter.ui.view.session.events.EventsViewImplOld;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -112,9 +110,7 @@ public class SessionViewImpl implements SessionView {
 
 	
 	private EventsView createEventView() {
-		return SessionUtils.isParameterSet(container, "new-events-screen")
-			? new EventsViewImpl(mainContent)
-			: new EventsViewImplOld(mainContent);
+		return new EventsViewImpl(mainContent);
 	}
 
 }
