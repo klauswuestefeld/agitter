@@ -1,6 +1,6 @@
 ﻿	BUG - Visualização de Agitos de outras pessoas n está funcionando.
 	
-	BUG - Grupo com muitos membros nao aparece. Paginar? Outra solução?
+	BUG - Lista de membros de Grupo com muitos membros nao aparece. Paginar? Outra solução?
 	
 	CRUD do Agito
 		Botao de Novo Agito (foi movido pra cima da lista de agitos)
