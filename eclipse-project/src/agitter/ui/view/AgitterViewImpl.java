@@ -51,7 +51,7 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 
 
 	@Override
-	public void hideToAvoidBlinkAndRedirect(String url) {
+	public void hideToAvoidExtraBlinkAndRedirect(String url) {
 		innerView.setVisible(false);
 		open(new ExternalResource(url));
 	}

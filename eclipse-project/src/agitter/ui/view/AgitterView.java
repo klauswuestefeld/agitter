@@ -11,7 +11,7 @@ public interface AgitterView {
 	
 	void showWarningMessage(String message);
 	
-	void hideToAvoidBlinkAndRedirect(String url);
+	void hideToAvoidExtraBlinkAndRedirect(String url);
 	void show();
 	void setURIFragment(String fragment);
 	

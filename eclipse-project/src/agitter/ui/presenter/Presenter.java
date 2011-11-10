@@ -111,7 +111,7 @@ public class Presenter {
 	
 	private Consumer<String> urlBlankRedirector() {
 		return new Consumer<String>() {  @Override public void consume(String url) {
-			view.hideToAvoidBlinkAndRedirect(url);
+			view.hideToAvoidExtraBlinkAndRedirect(url);
 		}};
 	}
 
@@ -126,7 +126,7 @@ public class Presenter {
 		try {
 			User user = controller.oAuth().signinCallback(params, httpSession);
 			onAuthenticate().consume(user);
-			view.hideToAvoidBlinkAndRedirect(context.toString());
+			view.hideToAvoidExtraBlinkAndRedirect(context.toString());
 		} catch (Exception e) {
 			throw new Refusal("Erro de autenticação na rede social.");
 		}
