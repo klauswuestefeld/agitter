@@ -105,9 +105,9 @@ button.a-session-logo {
 }
 
 
-/* Event List  -----------------------------------------------------------------   */
+/* Events   --------------------------------------------------------------------   */
 
-.a-event-list-view {
+.a-events-view-left-side {
 	min-height: 1200px;
 	min-width: 470px;
 	display: inline-block;
@@ -124,8 +124,20 @@ button.a-session-logo {
 	z-index: 6;
 }
 
+.a-events-view-new-event {
+	background: orangered;  /* #FF681A; #FF4500; */
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #C8C8C8;
+	padding: 9px 155px;
+}
 
-/* Event  ----------------------------------------------------------------------   */
+.a-events-view-new-event .v-label {
+	color: white;
+	font-size: 24px;
+	_text-shadow: 1px 1px 1px #AA3300;
+}
 
 .a-event-view {
 	width: 450px;    /*  430 + 16 the X button + 4 separation */
@@ -180,8 +192,6 @@ button.a-event-delete-button:hover {
 }
 
 
-/* Invite  ----------------------------------------------------------------------   */
-
 .a-invite-view {
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
@@ -200,6 +210,10 @@ button.a-event-delete-button:hover {
 	margin-bottom: 3px;
 }
 
+.a-invite-date {
+	float: none;
+}
+
 textarea.a-invite-description {
 	width: 430px;
 	height: 50px;
@@ -207,10 +221,7 @@ textarea.a-invite-description {
 	max-height: 300px;
 	resize: vertical;
 	font-size: 18px;
-}
-
-.a-invite-date {
-	float: none;
+	display: block;
 }
 
 .a-invite-next-invitee {
@@ -226,10 +237,12 @@ textarea.a-invite-description {
 	margin-top: 35px;
 }
 
+/*
 .a-invite-new {
 	float: right;
 	margin-top: 0px;
 }
+*/
 
 .a-invite-invitations {
 	width: 430px;

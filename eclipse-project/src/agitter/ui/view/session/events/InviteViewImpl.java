@@ -31,11 +31,12 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
+		addStyleName("a-invite-view");
+
 		invite = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 		invite.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			onInvite.run();
 		}});
-		addStyleName("a-invite-view");
 
 		addComponent(dateLabel);
 		addComponent(descriptionLabel);

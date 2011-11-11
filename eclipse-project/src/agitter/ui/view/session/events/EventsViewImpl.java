@@ -1,20 +1,14 @@
 package agitter.ui.view.session.events;
 
-
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
+import vaadinutils.WidgetUtils;
 
 import com.vaadin.event.LayoutEvents;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Component.Event;
-import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 public class EventsViewImpl implements EventsView {
 
@@ -33,22 +27,20 @@ public class EventsViewImpl implements EventsView {
 	public void show() {
 		container.removeAllComponents();
 		
-		ComponentContainer leftSide = new VerticalLayout();
-		leftSide.addComponent(createNewEventButton());
-		leftSide.addComponent(eventList);
+		CssLayout leftSide = new CssLayout();
+		container.addComponent(leftSide); leftSide.addStyleName("a-events-view-left-side");
+			leftSide.addComponent(createNewEventButton());
+			leftSide.addComponent(eventList);
 
-		ComponentContainer peccinPleaseRemoveMe = new HorizontalLayout();
-		peccinPleaseRemoveMe.addComponent(leftSide);
-		peccinPleaseRemoveMe.addComponent(inviteView);
-
-		container.addComponent(peccinPleaseRemoveMe);
+		container.addComponent(inviteView);
 	}
 
 
 	private Component createNewEventButton() {
 		//NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
-		Label newEventLabel = new Label("Agitar!");
+		Label newEventLabel = WidgetUtils.createLabel("Criar um Agito");
 		CssLayout newEventLayout = new CssLayout();
+		newEventLayout.addStyleName("a-events-view-new-event");
 		
 		newEventLayout.addComponent(newEventLabel);
 		newEventLayout.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
