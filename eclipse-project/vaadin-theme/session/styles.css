@@ -124,19 +124,14 @@ button.a-session-logo {
 	z-index: 6;
 }
 
-.a-events-view-new-event {
-	background: orangered;  /* #FF681A; #FF4500; */
-	border: none;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: #C8C8C8;
-	padding: 9px 155px;
+.a-events-view-new-event-wrapper  {
+	padding: 10px 10px 10px 10px;
 }
 
-.a-events-view-new-event .v-label {
-	color: white;
-	font-size: 24px;
-	_text-shadow: 1px 1px 1px #AA3300;
+button.a-events-view-new-event-button  {
+	height: 90px;
+	width: 100%;
+	font-size: 52px;
 }
 
 .a-event-view {

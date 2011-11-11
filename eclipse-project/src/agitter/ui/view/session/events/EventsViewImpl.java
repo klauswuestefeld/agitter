@@ -2,13 +2,13 @@ package agitter.ui.view.session.events;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
-import vaadinutils.WidgetUtils;
+import agitter.ui.view.AgitterVaadinUtils;
 
-import com.vaadin.event.LayoutEvents;
-import com.vaadin.ui.Component;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 
 public class EventsViewImpl implements EventsView {
 
@@ -29,26 +29,18 @@ public class EventsViewImpl implements EventsView {
 		
 		CssLayout leftSide = new CssLayout();
 		container.addComponent(leftSide); leftSide.addStyleName("a-events-view-left-side");
-			leftSide.addComponent(createNewEventButton());
+			CssLayout newEventWrapper = new CssLayout();
+			leftSide.addComponent(newEventWrapper); newEventWrapper.addStyleName("a-events-view-new-event-wrapper");
+				Button newEvent = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+				newEventWrapper.addComponent(newEvent); newEvent.addStyleName("a-events-view-new-event-button");
 			leftSide.addComponent(eventList);
-
 		container.addComponent(inviteView);
-	}
-
-
-	private Component createNewEventButton() {
-		//NativeButton result = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
-		Label newEventLabel = WidgetUtils.createLabel("Criar um Agito");
-		CssLayout newEventLayout = new CssLayout();
-		newEventLayout.addStyleName("a-events-view-new-event");
 		
-		newEventLayout.addComponent(newEventLabel);
-		newEventLayout.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
+		newEvent.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (onNewEvent != null) onNewEvent.run();
 		}});
-		
-		return newEventLayout;
 	}
+
 
 	@Override
 	public EventListView initEventListView(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
