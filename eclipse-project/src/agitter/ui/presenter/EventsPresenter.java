@@ -111,7 +111,7 @@ public class EventsPresenter {
 		addNewContactsIfAny(invitees); //Refactor: Move this responsibility to Events.create(...).
 
 		refreshEventList();
-		resetInviteView();
+		//resetInviteView();
 	}
 
 
@@ -119,7 +119,7 @@ public class EventsPresenter {
 		if (datetime == null) throw new Refusal("Data do Agito deve ser preenchida.");
 			
 		if (eventBeingEdited == null)
-			events.create(user, description, datetime.getTime(), inviteeGroups, invitees);
+			eventBeingEdited = events.create(user, description, datetime.getTime(), inviteeGroups, invitees);
 		else
 			events.edit(user, eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
 	}
