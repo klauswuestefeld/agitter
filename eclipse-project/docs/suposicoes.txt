@@ -4,9 +4,11 @@
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 	
 	CRUD do Agito
-		Botao de Novo Agito (foi movido pra cima da lista de agitos)
+		Botao de Novo Agito
+			Experimentar "Criar Novo Agito" como texto, com botão mais baixo.
 			Iniciar tela com campos hidden. Dar hide nos campos qdo agito q estiver sendo visualizado for removido da lista (botaozinho de X ou lixinho).
 		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
+		Agito selecionado - Destacar com CSS.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 			encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
 				Teremos problemas de XSS? Dá pra usar nosso XssAttackSanitizer nos links?
@@ -18,6 +20,12 @@
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		N fazer importacao de contatos do twitter e facebook.
 		Fazer botao/link pra importação/atualizaçao separada do login.
+	
+	Email - Formato
+		31/12/2011
+		Reveillon com churrasco na Casa do Klaus.
+		Vamo aí galera!
+		klaus@gmail.com  (bloquear agitos desta pessoa)
 
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
