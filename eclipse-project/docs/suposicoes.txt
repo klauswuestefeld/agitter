@@ -1,6 +1,4 @@
-﻿	BUG - Visualização de Agitos de outras pessoas n está funcionando.
-	
-	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
+﻿	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 	
 	CRUD do Agito
