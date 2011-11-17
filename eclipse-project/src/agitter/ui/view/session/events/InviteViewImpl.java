@@ -128,6 +128,8 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	@Override
 	public void display(String description, Date datetime, List<String> invitees) {
+		listenersActive = false;
+		
 		this.description.setValue(description);
 		this.descriptionValue = description;
 		this.date.setValue(datetime);
@@ -136,6 +138,8 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		
 		descriptionLabel.setValue(description);
 		dateLabel.setValue(datetime);
+
+		listenersActive = true;
 	}
 
 
