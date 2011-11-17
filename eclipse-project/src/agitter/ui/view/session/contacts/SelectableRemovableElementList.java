@@ -65,7 +65,7 @@ public class SelectableRemovableElementList extends CssLayout {
 	}
 
 	
-	public void removeEement(String element) {
+	public void removeElement(String element) {
 		List<Component> linesToRemove = new ArrayList<Component>();
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
 			ComponentContainer elemLine = (ComponentContainer) it.next();

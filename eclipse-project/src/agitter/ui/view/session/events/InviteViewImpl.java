@@ -31,13 +31,16 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	private final Label dateLabel = new Label();	
 	
 	private boolean listenersActive = false;
+	private final Runnable onInvite;
 	
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
-		ValueChangeListener autosave = new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-				if (listenersActive) onInvite.run();
-			}
-		};
+		this.onInvite = onInvite;
 		
+		description.setNullRepresentation("");
+		description.setInputPrompt("Descrição do agito...");
+		date.setInputPrompt("Data do agito...");
+		nextInvitee.setInputPrompt("Email...");
+
 		addStyleName("a-invite-view");
 
 		addComponent(dateLabel);
@@ -45,26 +48,28 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		
 		date.setResolution(DateField.RESOLUTION_MIN);
 		date.setDateFormat("dd/MM/yyyy HH:mm");
-		date.addListener(autosave);
+		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
+			autosave();
+		}});
 		addComponent(date); date.addStyleName("a-invite-date");
 		description.setSizeUndefined();
 		description.addListener(new TextChangeListener() {  @Override public void textChange(TextChangeEvent event) {
 			descriptionValue = event.getText();
-			if (listenersActive) onInvite.run();
+			autosave();
 		}});
 		
 		addComponent(description); description.addStyleName("a-invite-description");
 
 		nextInvitee.setListener(newInviteeValidator, new Consumer<String>() { @Override public void consume(String invitee) {
 			onNextInvitee(invitee);
-			if (listenersActive) onInvite.run();
+			autosave();
 		}});
 
 		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
 
 		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
 			onInviteeRemoved(value);
-			if (listenersActive) onInvite.run();
+			autosave();
 		}});
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 
@@ -79,14 +84,13 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	
 	private void onInviteeRemoved(String invitee) {
-		invitations.removeEement(invitee);
+		invitations.removeElement(invitee);
 	}
 
 	
 	@Override
 	public String eventDescription() {
 		return descriptionValue;
-		//return (String) description.getValue();
 	}
 
 
@@ -96,11 +100,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		
 		description.setValue(null);
 		descriptionValue = " ";
-		description.setNullRepresentation("");
-		description.setInputPrompt("Descrição do agito...");
 		date.setValue(null);
-		date.setInputPrompt("Data do agito...");
-		nextInvitee.setInputPrompt("Email...");
 		invitations.removeAllElements();
 		
 		listenersActive = true;
@@ -152,6 +152,10 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 		descriptionLabel.setVisible(!b);
 		dateLabel.setVisible(!b);
+	}
+
+	private void autosave() {
+		if (listenersActive) onInvite.run();
 	}
 
 }
