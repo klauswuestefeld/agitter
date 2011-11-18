@@ -4,7 +4,6 @@
 	CRUD do Agito
 		Botao de Novo Agito
 			Experimentar "Criar Novo Agito" como texto, com botão mais baixo.
-			Iniciar tela com campos hidden. Dar hide nos campos qdo agito q estiver sendo visualizado for removido da lista (botaozinho de X ou lixinho).
 		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		Agito selecionado - Destacar com CSS.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)

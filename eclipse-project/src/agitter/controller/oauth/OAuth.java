@@ -120,7 +120,6 @@ public class OAuth {
 
 
 	private boolean providesUsefulContacts(AuthProvider provider) {
-		System.out.println(provider.getProviderId());
 		if (provider.getProviderId().equals(FACEBOOK)) return false;
 		if (provider.getProviderId().equals(TWITTER)) return false;
 		return true;

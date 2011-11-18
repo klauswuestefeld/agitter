@@ -3,13 +3,20 @@ package agitter.ui.presenter;
 import static agitter.domain.emails.EmailAddress.email;
 import static infra.util.ToString.sortIgnoreCase;
 import static infra.util.ToString.toStrings;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.SECOND;
+import static java.util.Collections.EMPTY_LIST;
 import infra.util.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Pair;
@@ -19,6 +26,7 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
+import agitter.domain.events.DuplicateEvent;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
@@ -52,33 +60,69 @@ public class EventsPresenter {
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
 
-		resetInviteView();
-
 		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
 			refreshEventList();
 		}});
 		
-		this.view.onNewEvent(new Runnable() {public void run() {
-			resetInviteView();
+		this.view.onNewEvent(new Runnable() { public void run() {
+			onNewEvent();
 		}});
-	}
-
-	
-	private void resetInviteView() {
-		inviteView().reset();
+		
 		refreshContactsToChoose();
-		eventBeingEdited = null;
+		
+		setEventBeingEdited(null);
 	}
 
 	
+	private void onNewEvent() {
+		Event newEvent;
+		try {
+			newEvent = events.create(user, "", nextFullHour(), EMPTY_LIST, EMPTY_LIST);
+		} catch (DuplicateEvent e) {
+			warningDisplayer.consume("Você já tem agito novinho na lista.");
+			return;
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
+		refreshEventList();
+		setEventBeingEdited(newEvent);
+	}
+
+
+	private long nextFullHour() {
+		GregorianCalendar c = new GregorianCalendar();
+		c.setTimeInMillis(Clock.currentTimeMillis());
+		c.add(HOUR_OF_DAY, 1);
+		c.clear(MINUTE);
+		c.clear(SECOND);
+		c.clear(MILLISECOND);
+		return c.getTimeInMillis();
+	}
+
+
+	private void setEventBeingEdited(Event event) {
+		eventBeingEdited = event;
+		refresh();
+	}
+
+
+	private void refresh() {
+		if (eventBeingEdited == null) {
+			inviteView().clear();
+			return;
+		}
+		inviteView().display(eventBeingEdited.description(), new Date(eventBeingEdited.datetime()), sortedInviteesOf(eventBeingEdited));
+		inviteView().enableEdit(events.isEditableBy(eventBeingEdited, user));
+	}
+
+
 	private Predicate<String> newInviteeValidator() {
 		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
 			if(newInvitee==null) { return false; }
 			try {
 				Group group = contacts.groupGivenName(newInvitee);
-				if(group == null){
+				if (group == null)
 					AddressValidator.validateEmail(newInvitee);
-				}
 			} catch(Refusal r) {
 				warningDisplayer.consume(r.getMessage());
 				return false;
@@ -111,17 +155,12 @@ public class EventsPresenter {
 		addNewContactsIfAny(invitees); //Refactor: Move this responsibility to Events.create(...).
 
 		refreshEventList();
-		//resetInviteView();
 	}
 
 
 	private void invite(String description, Date datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		if (datetime == null) throw new Refusal("Data do Agito deve ser preenchida.");
-			
-		if (eventBeingEdited == null)
-			eventBeingEdited = events.create(user, description, datetime.getTime(), inviteeGroups, invitees);
-		else
-			events.edit(user, eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
+		events.edit(user, eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
 	}
 
 
@@ -173,19 +212,12 @@ public class EventsPresenter {
 	private EventListView eventsListView() {
 		if (eventListView == null)
 			eventListView = view.initEventListView(new Consumer<Object>() { @Override public void consume(Object event) {
-				onEventSelected((Event)event);
+				setEventBeingEdited(((Event)event));
 			}}, new Consumer<Object>() { @Override public void consume(Object event) {
 				onEventRemoved((Event)event);
 			}});
 
 		return eventListView;
-	}
-
-	
-	private void onEventSelected(Event event) {
-		eventBeingEdited = event;
-		inviteView().display(event.description(), new Date(event.datetime()), sortedInviteesOf(event));
-		inviteView().enableEdit(events.isEditableBy(event, user));
 	}
 
 	
@@ -226,7 +258,7 @@ public class EventsPresenter {
 			event.notInterested(user);
 		
 		refreshEventList();
-		resetInviteView();
+		setEventBeingEdited(null);
 	}
 
 

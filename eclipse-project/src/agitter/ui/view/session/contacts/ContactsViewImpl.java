@@ -31,7 +31,7 @@ public class ContactsViewImpl implements ContactsView {
 	private final NativeButton ignored = AgitterVaadinUtils.createDefaultAddButton();
 	private Consumer<String> newGroupConsumer;
 
-	private final AutoCompleteChooser newMember = new AutoCompleteChooser(null);
+	private final AutoCompleteChooser newMember = new AutoCompleteChooser();
 
 
 	public ContactsViewImpl(ComponentContainer container) {

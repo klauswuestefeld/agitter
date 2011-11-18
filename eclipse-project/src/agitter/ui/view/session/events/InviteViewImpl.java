@@ -20,15 +20,15 @@ import com.vaadin.ui.TextArea;
 
 class InviteViewImpl extends CssLayout implements InviteView {
 
-	private final TextArea description = new TextArea("Qual é o agito?");
+	private final TextArea description = new TextArea();
 	private String descriptionValue = " ";
 	
-	private final PopupDateField date = new PopupDateField("Quando?");
-	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser("Quem você quer convidar?");
+	private final PopupDateField date = new PopupDateField();
+	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
-	private final Label descriptionLabel = new Label();
-	private final Label dateLabel = new Label();	
+	private final Label readOnlyDescription = new Label();
+	private final Label readOnlyDate = new Label();	
 	
 	private boolean listenersActive = false;
 	private final Runnable onInvite;
@@ -37,14 +37,14 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		this.onInvite = onInvite;
 		
 		description.setNullRepresentation("");
-		description.setInputPrompt("Descrição do agito...");
-		date.setInputPrompt("Data do agito...");
-		nextInvitee.setInputPrompt("Email...");
+		description.setInputPrompt("Descreva o agito");
+		date.setInputPrompt("Escolha uma data");
+		nextInvitee.setInputPrompt("Convide alguém");
 
 		addStyleName("a-invite-view");
 
-		addComponent(dateLabel);
-		addComponent(descriptionLabel);
+		addComponent(readOnlyDate);
+		addComponent(readOnlyDescription);
 		
 		date.setResolution(DateField.RESOLUTION_MIN);
 		date.setDateFormat("dd/MM/yyyy HH:mm");
@@ -95,15 +95,9 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 
 	@Override
-	public void reset() {
-		listenersActive = false;
-		
-		description.setValue(null);
-		descriptionValue = " ";
-		date.setValue(null);
-		invitations.removeAllElements();
-		
-		listenersActive = true;
+	public void clear() {
+		showReadOnlyLabels(false);
+		showEditFields(false);
 	}
 
 
@@ -136,8 +130,8 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
 		
-		descriptionLabel.setValue(description);
-		dateLabel.setValue(datetime);
+		readOnlyDescription.setValue(description);
+		readOnlyDate.setValue(datetime);
 
 		listenersActive = true;
 	}
@@ -145,13 +139,23 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	@Override
 	public void enableEdit(boolean b) {
+		//The methods below have to be called in this order or the readOnlyLabels will never be shown.
+		showReadOnlyLabels(!b);
+		showEditFields(b);
+	}
+
+	
+	private void showEditFields(boolean b) {
 		description.setVisible(b);
 		date.setVisible(b);
 		nextInvitee.setVisible(b);
 		invitations.setVisible(b);
+	}
 
-		descriptionLabel.setVisible(!b);
-		dateLabel.setVisible(!b);
+	
+	private void showReadOnlyLabels(boolean notB) {
+		readOnlyDescription.setVisible(notB);
+		readOnlyDate.setVisible(notB);
 	}
 
 	private void autosave() {

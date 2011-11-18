@@ -23,7 +23,7 @@ public class EventsImpl2 implements Events {
 	public Event create(User user, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
 		EventImpl2 event = new EventImpl2(user, description, datetime, inviteeGroups, invitees);
 		if (_all.contains(event))
-			throw new Refusal("Já existe um agito seu na mesma data com a mesma descrição.");
+			throw new DuplicateEvent();
 		_all.add(event);
 		return event;
 	}

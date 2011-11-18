@@ -19,9 +19,9 @@ public class AutoCompleteChooser extends CssLayout {
 	private Predicate<String> valueValidator;
 	private Consumer<String> listener;
 
-	public AutoCompleteChooser(String caption) {
+	public AutoCompleteChooser() {
 		addStyleName("a-auto-complete-chooser");
-		choice = new ComboBox(caption); choice.addStyleName("a-auto-complete-chooser-choice");
+		choice = new ComboBox(); choice.addStyleName("a-auto-complete-chooser-choice");
 		choice.setSizeUndefined();
 		ignored = AgitterVaadinUtils.createDefaultAddButton(); ignored.addStyleName("a-auto-complete-chooser-ignored");
 
