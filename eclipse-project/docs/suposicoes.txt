@@ -16,7 +16,6 @@
 	Grupos de Contatos - Arrumar CSS no IE
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
-		N fazer importacao de contatos do twitter e facebook.
 		Fazer botao/link pra importação/atualizaçao separada do login.
 	
 	Email - Formato

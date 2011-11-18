@@ -24,6 +24,13 @@ import agitter.domain.users.User;
 
 public class OAuth {
 
+	private static final String TWITTER = "twitter";
+	private static final String FACEBOOK = "facebook";
+	private static final String YAHOO = "yahoo";
+	private static final String HOTMAIL = "hotmail";
+	private static final String GOOGLE = "google";
+	
+	
 	private final Functor<EmailAddress, User> userProducer;
 	private final Contacts contacts;
 
@@ -35,19 +42,19 @@ public class OAuth {
 
 	
 	public String googleSigninURL(URL context, HttpSession httpSession) throws Exception {
-		return signinURL(context, httpSession, "google");
+		return signinURL(context, httpSession, GOOGLE);
 	}
 	public String windowsSigninURL(URL context, HttpSession httpSession) throws Exception {
-		return signinURL(context, httpSession, "hotmail");
+		return signinURL(context, httpSession, HOTMAIL);
 	}
 	public String yahooSigninURL(URL context, HttpSession httpSession) throws Exception {
-		return signinURL(context, httpSession, "yahoo");
+		return signinURL(context, httpSession, YAHOO);
 	}
 	public String facebookSigninURL(URL context, HttpSession httpSession) throws Exception {
-		return signinURL(context, httpSession, "facebook");
+		return signinURL(context, httpSession, FACEBOOK);
 	}
 	public String twitterSigninURL(URL context, HttpSession httpSession) throws Exception {
-		return signinURL(context, httpSession, "twitter");
+		return signinURL(context, httpSession, TWITTER);
 	}
 	
 	
@@ -83,9 +90,6 @@ public class OAuth {
 		Profile profile;
 		try {
 			provider = manager.connect(paramsMap);
-			System.out.println("Provider: " + provider);
-			System.out.println("ProviderClass: " + provider.getClass());
-	
 			profile = provider.getUserProfile();
 		} catch (Exception e) {
 			LogInfra.getLogger(this).log(Level.SEVERE, "Erro no retorno do SocialAuth. Provider: " + provider + "\n" + e.getMessage());
@@ -99,6 +103,8 @@ public class OAuth {
 
 
 	private void startContactImport(AuthProvider provider, User user) {
+		if (!providesUsefulContacts(provider)) return;
+		
 		List<Contact> candidates;
 		try {
 			candidates = provider.getContactList();
@@ -110,6 +116,14 @@ public class OAuth {
 		if (candidates.isEmpty()) return;
 		new ContactsImport(contacts.contactsOf(user), candidates, userProducer)
 			.start(); //Optimize: use a thread pool instead of starting tons of threads.
+	}
+
+
+	private boolean providesUsefulContacts(AuthProvider provider) {
+		System.out.println(provider.getProviderId());
+		if (provider.getProviderId().equals(FACEBOOK)) return false;
+		if (provider.getProviderId().equals(TWITTER)) return false;
+		return true;
 	}
 
 }
