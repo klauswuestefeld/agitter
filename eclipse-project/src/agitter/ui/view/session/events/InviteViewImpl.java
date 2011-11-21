@@ -153,9 +153,9 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	}
 
 	
-	private void showReadOnlyLabels(boolean notB) {
-		readOnlyDescription.setVisible(notB);
-		readOnlyDate.setVisible(notB);
+	private void showReadOnlyLabels(boolean b) {
+		readOnlyDescription.setVisible(b);
+		readOnlyDate.setVisible(b);
 	}
 
 	private void autosave() {
