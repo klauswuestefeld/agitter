@@ -20,26 +20,26 @@ import com.vaadin.ui.TextArea;
 
 class InviteViewImpl extends CssLayout implements InviteView {
 
+	private final PopupDateField date = new PopupDateField();
 	private final TextArea description = new TextArea();
 	private String descriptionValue = " ";
-	
-	private final PopupDateField date = new PopupDateField();
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
+	private final Label readOnlyDate = new Label();
 	private final Label readOnlyDescription = new Label();
-	private final Label readOnlyDate = new Label();	
 	
 	private boolean listenersActive = false;
 	private final Runnable onInvite;
 	
+	
 	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
 		this.onInvite = onInvite;
 		
+		date.setInputPrompt("Escolha uma data");
 		description.setNullRepresentation("");
 		description.setInputPrompt("Descreva o agito");
-		date.setInputPrompt("Escolha uma data");
-		nextInvitee.setInputPrompt("Convide alguém");
+		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
 
 		addStyleName("a-invite-view");
 
