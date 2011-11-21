@@ -91,9 +91,9 @@ public class ContactsViewImpl implements ContactsView {
 	@Override
 	public void setGroupSelected(String groupName) {
 		if (groupName == null)
-			groupList.selectElement(ALL);
+			groupList.highlightElement(ALL);
 		else
-			groupList.selectElement(groupName);
+			groupList.highlightElement(groupName);
 	}
 	@Override
 	public void setGroupSelectionListener(final Consumer<String> consumer) {

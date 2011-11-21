@@ -21,22 +21,15 @@ public class SelectableRemovableElementList extends CssLayout {
 
 	private final static String REMOVE_BUTTON = "REM_BUTTON";
 
+	
 	public SelectableRemovableElementList() {
 		addStyleName("a-remov-elem-list");
-		addListener(new LayoutClickListener() {
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
-				String element = getElementStringForElementLine((CssLayout)event.getChildComponent());
-				if (((AbstractComponent)event.getClickedComponent()).getData() == REMOVE_BUTTON) {
-					if (removeListener != null) removeListener.consume(element);
-				} else {
-					if (selectionListener != null) selectionListener.consume(element);
-				}
-			}
-		});
+		addListener(new LayoutClickListener() { @Override public void layoutClick(LayoutClickEvent event) {
+			onClick(event);
+		}});
 	}
 
-
+	
 	public void addElement(String element) {
 		addElement(element, true);
 	}
@@ -55,27 +48,25 @@ public class SelectableRemovableElementList extends CssLayout {
 	
 	private void addElement(String element, boolean removable) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
-		Label newElemCaption = newElementCaptionLabel(element);
-		elemLine.addComponent(newElemCaption); newElemCaption.addStyleName("a-remov-elem-list-element-caption");
+		Label caption = newElementCaptionLabel(element);
+		elemLine.addComponent(caption); caption.addStyleName("a-remov-elem-list-element-caption");
 		if (removable) {
-			Label newElemRemove = newElementRemoveLabel();
-			elemLine.addComponent(newElemRemove); newElemRemove.addStyleName("a-remov-elem-list-element-remove-button");
+			Label removeButton = newElementRemoveLabel();
+			elemLine.addComponent(removeButton); removeButton.addStyleName("a-remov-elem-list-element-remove-button");
 		}
 		addComponent(elemLine);
 	}
 
 	
-	public void removeElement(String element) {
+	private void removeElement(String element) {
 		List<Component> linesToRemove = new ArrayList<Component>();
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
 			ComponentContainer elemLine = (ComponentContainer) it.next();
 			if (getElementStringForElementLine(elemLine).equals(element))
 					linesToRemove.add(elemLine);
 		}
-		for (Iterator<Component> it = linesToRemove.iterator(); it.hasNext();) {
-			Component line = (Component) it.next();
-			removeComponent(line);
-		}
+		for (Iterator<Component> it = linesToRemove.iterator(); it.hasNext();)
+			removeComponent((Component) it.next());
 	}
 
 
@@ -88,7 +79,8 @@ public class SelectableRemovableElementList extends CssLayout {
 		return result;
 	}
 
-	public void selectElement(String element) {
+	
+	public void highlightElement(String element) {
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
 			ComponentContainer elemLine = (ComponentContainer) it.next();
 			String eachElement = getElementStringForElementLine(elemLine);
@@ -101,13 +93,13 @@ public class SelectableRemovableElementList extends CssLayout {
 
 	
 	public void setSelectionListener(Consumer<String> listener) {
-		if(selectionListener!=null) throw new IllegalStateException();
+		if (selectionListener != null) throw new IllegalStateException();
 		selectionListener = listener;
 	}
 	
 	
 	public void setRemoveListener(Consumer<String> listener) {
-		if(removeListener!=null) throw new IllegalStateException();
+		if (removeListener != null) throw new IllegalStateException();
 		removeListener = listener;
 	}
 
@@ -132,8 +124,31 @@ public class SelectableRemovableElementList extends CssLayout {
 
 	
 	private String getElementStringForElementLine(ComponentContainer elemLine) {
-		Component comp = elemLine.getComponentIterator().next();  // get the first component, which is the caption label
-		return comp.toString();
+		Label caption = (Label)elemLine.getComponentIterator().next();
+		return (String)caption.getValue();
+	}
+
+
+	private void onClick(LayoutClickEvent event) {
+		String element = getElementStringForElementLine((CssLayout)event.getChildComponent());
+		if (((AbstractComponent)event.getClickedComponent()).getData() == REMOVE_BUTTON)
+			onRemovalButtonPressed(element);
+		else
+			onSelection(element);
+	}
+	
+	
+	private void onRemovalButtonPressed(String element) {
+		removeElement(element);
+		
+		if (removeListener == null) return;
+		removeListener.consume(element);
+	}
+
+
+	private void onSelection(String element) {
+		if (selectionListener == null) return;
+		selectionListener.consume(element);
 	}
 	
 }

@@ -68,7 +68,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
 
 		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
-			onInviteeRemoved(value);
 			autosave();
 		}});
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
@@ -80,11 +79,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	
 	private void onNextInvitee(String invitee) {
 		invitations.addElement(invitee);
-	}
-
-	
-	private void onInviteeRemoved(String invitee) {
-		invitations.removeElement(invitee);
 	}
 
 	
@@ -158,6 +152,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		readOnlyDate.setVisible(b);
 	}
 
+	
 	private void autosave() {
 		if (listenersActive) onInvite.run();
 	}

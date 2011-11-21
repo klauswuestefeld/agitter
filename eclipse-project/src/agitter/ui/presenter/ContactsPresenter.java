@@ -64,7 +64,6 @@ public class ContactsPresenter {
 	
 	private void onGroupRemoved(String value) {
 		contacts.deleteGroupAndRemoveFromAllContainingGroups(findGroup(value));
-		refreshGroupList();
 		onGroupSelected(null);
 	}
 
