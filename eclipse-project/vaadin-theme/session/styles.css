@@ -125,13 +125,19 @@ button.a-session-logo {
 }
 
 .a-events-view-new-event-wrapper  {
-	padding: 10px 10px 10px 10px;
+	padding: 10px;
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #C8C8C8;
 }
 
 button.a-events-view-new-event-button  {
-	height: 90px;
+	height: 56px;
 	width: 100%;
-	font-size: 52px;
+	font-size: 29px;
+	border: none;
+	border-radius: 6px;
 }
 
 .a-event-view {
@@ -194,7 +200,7 @@ button.a-event-delete-button:hover {
 	overflow: hidden;
 	vertical-align: top;
 	border-top-right-radius: 7px;
-	padding: 6px 0px 16px 18px;
+	padding: 16px 0px 16px 18px;
 }
 
 .a-invite-view .v-captiontext {
@@ -207,6 +213,11 @@ button.a-event-delete-button:hover {
 
 .a-invite-date {
 	float: none;
+	margin-bottom: 10px;
+}
+
+.a-invite-date .v-datefield-full, .a-invite-date .v-datefield-textfield {
+	width: 120px;
 }
 
 textarea.a-invite-description {
@@ -217,6 +228,7 @@ textarea.a-invite-description {
 	resize: vertical;
 	font-size: 18px;
 	display: block;
+	margin-bottom: 14px;
 }
 
 .a-invite-next-invitee {
@@ -224,18 +236,13 @@ textarea.a-invite-description {
 }
 
 .a-invite-next-invitee .v-filterselect-input {
-	width: 180px;
-}
-
-.a-invite-send {
-	float: right;
-	margin-top: 35px;
+	width: 210px;
 }
 
 /*
-.a-invite-new {
+.a-invite-send {
 	float: right;
-	margin-top: 0px;
+	margin-top: 35px;
 }
 */
 
