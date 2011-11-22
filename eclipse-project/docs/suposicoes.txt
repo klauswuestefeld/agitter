@@ -1,4 +1,6 @@
-﻿	BUG Login - Ao digitar senha, o enter não está mais logando (teste feito com Firefox 8)
+﻿	BUG - Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.
+
+	BUG Login - Ao digitar senha, o enter não está mais logando (teste feito com Firefox 8)
 
 	BUG Login - No campo de email ao selecionar o autocomplite com enter ele ta disparando o evento de entrar com o digitado e não o email completo escolhido (teste feito com Firefox 8)
 
