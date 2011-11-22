@@ -8,8 +8,8 @@
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 	
 	CRUD do Agito
-		Botao de Novo Agito
-			Experimentar "Criar Novo Agito" como texto, com botão mais baixo.
+		Fluxo de Novo Agito
+		Formatação dos campos do agito de outros
 		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		Agito selecionado - Destacar com CSS.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
