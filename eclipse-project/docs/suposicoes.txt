@@ -1,4 +1,6 @@
-﻿	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
+﻿	BUG Login - Ao digitar senha, o enter não está mais logando (teste feito com Firefox 8)
+
+	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 	
 	CRUD do Agito
