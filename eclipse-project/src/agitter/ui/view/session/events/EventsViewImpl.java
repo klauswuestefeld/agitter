@@ -31,7 +31,7 @@ public class EventsViewImpl implements EventsView {
 		container.addComponent(leftSide); leftSide.addStyleName("a-events-view-left-side");
 			CssLayout newEventWrapper = new CssLayout();
 			leftSide.addComponent(newEventWrapper); newEventWrapper.addStyleName("a-events-view-new-event-wrapper");
-				Button newEvent = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
+				Button newEvent = AgitterVaadinUtils.createDefaultNativeButton("Criar novo Agito");
 				newEventWrapper.addComponent(newEvent); newEvent.addStyleName("a-events-view-new-event-button");
 			leftSide.addComponent(eventList);
 		container.addComponent(inviteView);
