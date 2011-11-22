@@ -17,5 +17,7 @@
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/dependencies/stax-ri-1.2.0/stax-1.2.0.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/aws-java-sdk-1.2.0.jar" sourcepath="src/agitter/controller/mailing/lib/aws-java-sdk-1.2.0-sources.jar"/>
 	<classpathentry kind="lib" path="src/agitter/ui/view/lib/vaadin-6.5.4.jar"/>
+	<classpathentry kind="lib" path="src/spikes/tokenizer/lib/natty-0.4.jar"/>
+	<classpathentry kind="lib" path="src/spikes/tokenizer/lib/antlr-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
