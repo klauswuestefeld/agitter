@@ -1,7 +1,6 @@
 package agitter.domain.events;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.Clock;
@@ -23,10 +22,10 @@ public class EventImpl2 implements Event {
 	final private Set<User> notInterested = new HashSet<User>();
 	
 	
-	public EventImpl2(User owner, String description, long datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
+	public EventImpl2(User owner, String description, long datetime) throws Refusal {
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		_owner = owner;
-		edit(description, datetime, inviteeGroups, invitees);
+		edit(description, datetime);
 	}
 
 
@@ -112,27 +111,36 @@ public class EventImpl2 implements Event {
 	}
 
 
-	void edit(String newDescription, long newDatetime, List<Group> newInviteeGroups, List<User> newInvitees) throws Refusal {
+	void edit(String newDescription, long newDatetime) throws Refusal {
 		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 		assertIsInTheFuture(newDatetime);
 
 		_description = newDescription;
 		_datetime = newDatetime;
-
-		setGroupInvitees(newInviteeGroups);
-		setInvitees(newInvitees);
 	}
 
 
-	private void setInvitees(List<User> newInvitees) {
-		actualInvitees().clear();
-		actualInvitees().addAll(newInvitees);
+	@Override
+	public void addInvitee(User invitee) {
+		actualInvitees().add(invitee);
 	}
 
 
-	private void setGroupInvitees(List<Group> newInviteeGroups) {
-		actualGroupInvitees().clear();
-		actualGroupInvitees().addAll(newInviteeGroups);
+	@Override
+	public void removeInvitee(User invitee) {
+		actualInvitees().remove(invitee);
+	}
+
+
+	@Override
+	public void addInvitee(Group invitee) {
+		actualGroupInvitees().add(invitee);
+	}
+
+
+	@Override
+	public void removeInvitee(Group invitee) {
+		actualGroupInvitees().remove(invitee);
 	}
 
 }

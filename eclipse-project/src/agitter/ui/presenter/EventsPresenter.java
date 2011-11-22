@@ -1,32 +1,12 @@
 package agitter.ui.presenter;
 
-import static agitter.domain.emails.EmailAddress.email;
-import static infra.util.ToString.sortIgnoreCase;
-import static infra.util.ToString.toStrings;
-import static java.util.Calendar.HOUR_OF_DAY;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.SECOND;
-import static java.util.Collections.EMPTY_LIST;
-import infra.util.ToString;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.Pair;
-import sneer.foundation.lang.Predicate;
-import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
-import agitter.domain.contacts.Group;
-import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
-import agitter.domain.events.DuplicateEvent;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
@@ -34,7 +14,6 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
 import agitter.ui.view.session.events.EventVO;
 import agitter.ui.view.session.events.EventsView;
-import agitter.ui.view.session.events.InviteView;
 
 public class EventsPresenter {
 
@@ -43,13 +22,12 @@ public class EventsPresenter {
 	private final Events events;
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
-	private InviteView inviteView;
+	private InvitePresenter invitePresenter;
 	private EventListView eventListView;
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
 	private final Functor<EmailAddress, User> userProducer;
-	private Event eventBeingEdited;
 
 	
 	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
@@ -69,138 +47,31 @@ public class EventsPresenter {
 		}});
 		
 		refreshContactsToChoose();
-		
-		setEventBeingEdited(null);
+	}
+
+
+	void refreshContactsToChoose() {
+		invitePresenter().refreshContactsToChoose();
 	}
 
 	
 	private void onNewEvent() {
-		Event newEvent;
-		try {
-			newEvent = events.create(user, "", nextFullHour(), EMPTY_LIST, EMPTY_LIST);
-		} catch (DuplicateEvent e) {
-			warningDisplayer.consume("Você já tem agito novinho na lista.");
-			return;
-		} catch (Refusal e) {
-			throw new IllegalStateException(e);
-		}
-		refreshEventList();
-		setEventBeingEdited(newEvent);
+		invitePresenter().startCreatingNewEvent();
 	}
 
 
-	private long nextFullHour() {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTimeInMillis(Clock.currentTimeMillis());
-		c.add(HOUR_OF_DAY, 1);
-		c.clear(MINUTE);
-		c.clear(SECOND);
-		c.clear(MILLISECOND);
-		return c.getTimeInMillis();
-	}
-
-
-	private void setEventBeingEdited(Event event) {
-		eventBeingEdited = event;
-		refresh();
-	}
-
-
-	private void refresh() {
-		if (eventBeingEdited == null) {
-			inviteView().clear();
-			return;
-		}
-		inviteView().display(eventBeingEdited.description(), new Date(eventBeingEdited.datetime()), sortedInviteesOf(eventBeingEdited));
-		inviteView().enableEdit(events.isEditableBy(eventBeingEdited, user));
-	}
-
-
-	private Predicate<String> newInviteeValidator() {
-		return new Predicate<String>() { @Override public boolean evaluate(String newInvitee) {
-			if(newInvitee==null) { return false; }
-			try {
-				Group group = contacts.groupGivenName(newInvitee);
-				if (group == null)
-					AddressValidator.validateEmail(newInvitee);
-			} catch(Refusal r) {
-				warningDisplayer.consume(r.getMessage());
-				return false;
-			}
-			return true;
-		}};
-	}
-
-	
-	private List<String> contacts() {
-		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
-		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
-		return contactsAndGroups;
-	}
-
-	
-	private void invite() {
-		String description = inviteView().eventDescription();
-		Date datetime = inviteView().datetime();
-		Pair<List<Group>, List<User>> usersAndGroups = toGroupsAndUsers(inviteView().invitees());
-		List<Group> inviteeGroups = usersAndGroups.a;
-		List<User> invitees = usersAndGroups.b;
-		try {
-			invite(description, datetime, inviteeGroups, invitees);
-		} catch (Refusal e) {
-			warningDisplayer.consume(e.getMessage());
-			return;
-		}
-		invitees.removeAll(contacts.all());
-		addNewContactsIfAny(invitees); //Refactor: Move this responsibility to Events.create(...).
-
+	private void onDateOrDescriptionChange() {
 		refreshEventList();
 	}
 
 
-	private void invite(String description, Date datetime, List<Group> inviteeGroups, List<User> invitees) throws Refusal {
-		if (datetime == null) throw new Refusal("Data do Agito deve ser preenchida.");
-		events.edit(user, eventBeingEdited, description, datetime.getTime(), inviteeGroups, invitees);
-	}
-
-
-	private void addNewContactsIfAny(List<User> invitees) {
-		for(User contact : invitees) { contacts.addContact(contact); }
-	}
-
-
-	private Pair<List<Group>, List<User>> toGroupsAndUsers(List<String> validEmailOrGroup) {
-		List<User> users = new ArrayList<User>();
-		List<Group> groups = new ArrayList<Group>();
-		for(String emailOrGroup : validEmailOrGroup) {
-			Group group = contacts.groupGivenName(emailOrGroup);
-			if( group != null ) {
-				groups.add(group);
-			}else {
-				users.add(userProducer.evaluate(toAddress(emailOrGroup)));
-			}
-			
-		}
-		return new Pair<List<Group>, List<User>>(groups, users);
-	}
-
-	
-	private EmailAddress toAddress(String validEmail) {
-		try {
-			return email(validEmail);
-		} catch(Refusal e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
-	
-	private InviteView inviteView() {
-		if (inviteView == null)
-			inviteView = view.initInviteView(newInviteeValidator(), new Runnable() { @Override public void run() {
-				invite();
+	private InvitePresenter invitePresenter() {
+		if (invitePresenter == null)
+			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.showInviteView(), warningDisplayer, new Runnable() { @Override public void run() {
+				onDateOrDescriptionChange();
 			}});
 
-		return inviteView;
+		return invitePresenter;
 	}
 
 	
@@ -212,7 +83,7 @@ public class EventsPresenter {
 	private EventListView eventsListView() {
 		if (eventListView == null)
 			eventListView = view.initEventListView(new Consumer<Object>() { @Override public void consume(Object event) {
-				setEventBeingEdited(((Event)event));
+				onEventSelected((Event)event);
 			}}, new Consumer<Object>() { @Override public void consume(Object event) {
 				onEventRemoved((Event)event);
 			}});
@@ -221,22 +92,6 @@ public class EventsPresenter {
 	}
 
 	
-	private List<String> sortedInviteesOf(Event event) {
-		List<String> result = new ArrayList<String>();
-
-		String[] groups = toStrings(event.groupInvitees());
-		result.addAll(Arrays.asList(groups));
-		sortIgnoreCase(result);
-		
-		String[] users = toStrings(event.invitees());
-		List<String> userList = Arrays.asList(users);
-		sortIgnoreCase(userList);
-		result.addAll(userList);
-		
-		return result;
-	}
-
-
 	private List<EventVO> eventsToHappen() {
 		List<EventVO> result = new ArrayList<EventVO>();
 		List<Event> toHappen = events.toHappen(user);
@@ -247,23 +102,23 @@ public class EventsPresenter {
 
 	
 	private boolean isDeletable(Event event) {
-		return events.isEditableBy(event, user);
+		return events.isEditableBy(user, event);
 	}
 
 
+	private void onEventSelected(Event event) {
+		invitePresenter().setSelectedEvent(event);
+	}
+
+	
 	private void onEventRemoved(Event event) {
 		if (isDeletable(event))
-			events.delete(event, user);
+			events.delete(user, event);
 		else
 			event.notInterested(user);
 		
 		refreshEventList();
-		setEventBeingEdited(null);
-	}
-
-
-	void refreshContactsToChoose() {
-		inviteView().refreshInviteesToChoose(contacts());
+		invitePresenter().clear();
 	}
 
 }

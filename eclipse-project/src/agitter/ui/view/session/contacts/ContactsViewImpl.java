@@ -107,8 +107,8 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMemberEntryListener(Predicate<String> valueValidator, Consumer<String> consumer) {
-		newMember.setListener(valueValidator, consumer);
+	public void setMemberEntryListener(Predicate<String> listener) {
+		newMember.setListener(listener);
 	}
 	
 	@Override

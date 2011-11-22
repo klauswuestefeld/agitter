@@ -1,7 +1,6 @@
 package agitter.ui.view.session.events;
 
 import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.ui.Button;
@@ -51,9 +50,9 @@ public class EventsViewImpl implements EventsView {
 
 
 	@Override
-	public InviteView initInviteView(Predicate<String> newInviteeValidator, Runnable onInvite) {
-		if (inviteView != null) throw new IllegalStateException();
-		inviteView = new InviteViewImpl(newInviteeValidator, onInvite);
+	public InviteView showInviteView() {
+		if (inviteView == null)
+			inviteView = new InviteViewImpl();
 		return inviteView;
 	}
 

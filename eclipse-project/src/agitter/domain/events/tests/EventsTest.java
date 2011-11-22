@@ -1,7 +1,6 @@
 package agitter.domain.events.tests;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.Test;
 
@@ -10,7 +9,6 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
-import agitter.domain.users.User;
 
 public class EventsTest extends EventsTestBase {
 
@@ -33,13 +31,12 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		subject.edit(ana, secondEvent, "D2", 14, Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+		subject.setDatetime(ana, secondEvent, 14);
 
 		assertEquals(3, subject.toHappen(ana).size());
 		assertSame(firstEvent, subject.toHappen(ana).get(0));
 		assertSame(thirdEvent, subject.toHappen(ana).get(1));
 		assertSame(secondEvent, subject.toHappen(ana).get(2));		
-
 	}
 
 
@@ -48,16 +45,18 @@ public class EventsTest extends EventsTestBase {
 		ContactsOfAUser contacts = agitter.contacts().contactsOf( ana );
 		Group work = contacts.createGroup( "work" );
 		
-		Event event =  subject.create(ana, "Churras", 12, Arrays.asList( new Group[]{work}), Collections.EMPTY_LIST );
+		Event event =  subject.create(ana, "Churras", 12);
+		event.addInvitee(work);
 		assertContents(Arrays.asList(event.groupInvitees()),work);
 		assertContents(Arrays.asList(event.invitees()));
 
 		Group friends = contacts.createGroup( "friends" );
-		subject.edit(ana, event, "Churras", 12, Arrays.asList( new Group[]{work,friends}), Arrays.asList(new User[]{jose}));
+		event.addInvitee(friends);
+		event.addInvitee(jose);
 		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
 		assertContents(Arrays.asList(event.invitees()),jose);
 		
-		subject.edit(ana, event, "Churras", 12, Arrays.asList( new Group[]{friends}), Arrays.asList(new User[]{jose}));
+		event.removeInvitee(work);
 		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
 		assertContents(Arrays.asList(event.invitees()),jose);
 	}
@@ -86,8 +85,6 @@ public class EventsTest extends EventsTestBase {
 
 		Clock.setForCurrentThread(TWO_HOURS + 14);
 		assertTrue(subject.toHappen(ana).isEmpty());
-
-
 	}
 	
 	
@@ -106,9 +103,9 @@ public class EventsTest extends EventsTestBase {
 	public void deletion() throws Refusal {
 		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);
 
-		assertTrue(subject.isEditableBy(event, ana));
-		assertFalse(subject.isEditableBy(event, jose));
-		subject.delete(event, ana);
+		assertTrue(subject.isEditableBy(ana, event));
+		assertFalse(subject.isEditableBy(jose, event));
+		subject.delete(ana, event);
 		assertEquals(0, subject.toHappen(ana).size());
 		assertEquals(0, subject.toHappen(jose).size());
 	}

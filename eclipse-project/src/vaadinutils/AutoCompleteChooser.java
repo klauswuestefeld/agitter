@@ -2,7 +2,6 @@ package vaadinutils;
 
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
 
@@ -16,8 +15,7 @@ public class AutoCompleteChooser extends CssLayout {
 
 	private ComboBox choice;
 	private final NativeButton ignored; //Clicking on this button has no effect. Lost focus from the setImmediate(true) combo-box will already trigger the event.
-	private Predicate<String> valueValidator;
-	private Consumer<String> listener;
+	private Predicate<String> listener;
 
 	public AutoCompleteChooser() {
 		addStyleName("a-auto-complete-chooser");
@@ -33,9 +31,8 @@ public class AutoCompleteChooser extends CssLayout {
 		addComponent(ignored);
 	}
 
-	public void setListener(final Predicate<String> valueValidator, final Consumer<String> listener) {
-		if(this.listener!=null) { throw new IllegalStateException(); }
-		this.valueValidator = valueValidator;
+	public void setListener(final Predicate<String> listener) {
+		if (this.listener != null) throw new IllegalStateException();
 		this.listener = listener;
 		choice.addListener(new Property.ValueChangeListener() { @Override public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
 			onChoose();
@@ -43,14 +40,13 @@ public class AutoCompleteChooser extends CssLayout {
 	}
 
 	private void onChoose() {
-		Object comboBoxValue = choice.getValue();
-		if (comboBoxValue==null) { return;}
-		if (!valueValidator.evaluate(comboBoxValue.toString())) {
-			choice.removeItem(comboBoxValue.toString());
+		Object value = choice.getValue();
+		if (value == null) return;
+		if (!listener.evaluate(value.toString())) {
+			choice.removeItem(value.toString());
 			return;
 		}
 		choice.setValue(null);
-		listener.consume(comboBoxValue.toString());
 	}
 
 	

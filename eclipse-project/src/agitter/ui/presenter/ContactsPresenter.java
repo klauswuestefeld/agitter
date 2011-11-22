@@ -42,9 +42,7 @@ public class ContactsPresenter {
 			onGroupRemoved(value);
 		}});
 
-		view.setMemberEntryListener(memberEntryValidator(), new Consumer<String>() { @Override public void consume(String value) {
-			onMemberEntered(value);
-		}});
+		view.setMemberEntryListener(memberEntryListener());
 
 		view.setMemberRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
 			onMemberRemoved(value);
@@ -126,10 +124,12 @@ public class ContactsPresenter {
 	}
 
 	
-	private Predicate<String> memberEntryValidator() {
+	private Predicate<String> memberEntryListener() {
 		return new Predicate<String>() { @Override public boolean evaluate(String entry) {
-			if (isValidEmailEntry(entry)) return true;
-			if (isValidGroupEntry(entry)) return true;
+			if (isValidEmailEntry(entry) || isValidGroupEntry(entry)) {
+				onMemberEntered(entry);
+				return true;
+			}
 			
 			String message = isAllContactsGroupSelected()
 				? "Digite um Email válido."

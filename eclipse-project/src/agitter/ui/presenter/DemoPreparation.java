@@ -1,12 +1,9 @@
 package agitter.ui.presenter;
 
-import static java.util.Collections.EMPTY_LIST;
-
-import java.util.Arrays;
-
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.emails.EmailAddress;
+import agitter.domain.events.Event;
 import agitter.domain.users.User;
 
 public class DemoPreparation {
@@ -46,11 +43,14 @@ public class DemoPreparation {
 	}
 
 	private void createEvent(User owner, String description, int timeFromNow, User... invitees) {
+		Event event;
 		try {
-			domain.events().create(owner, description, System.currentTimeMillis() + timeFromNow, EMPTY_LIST, Arrays.asList(invitees));
+			event = domain.events().create(owner, description, System.currentTimeMillis() + timeFromNow);
 		} catch (Refusal e) {
 			throw new IllegalStateException(e);
 		}
+		for (User user : invitees)
+			event.addInvitee(user);
 	}
 
 }

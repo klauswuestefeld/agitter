@@ -22,72 +22,39 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 	private final PopupDateField date = new PopupDateField();
 	private final TextArea description = new TextArea();
-	private String descriptionValue = " ";
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
 	private final Label readOnlyDate = new Label();
 	private final Label readOnlyDescription = new Label();
 	
+	private Boss boss;
 	private boolean listenersActive = false;
-	private final Runnable onInvite;
 	
 	
-	InviteViewImpl(Predicate<String> newInviteeValidator, final Runnable onInvite) {
-		this.onInvite = onInvite;
-		
-		date.setInputPrompt("Escolha uma data");
-		description.setNullRepresentation("");
-		description.setInputPrompt("Descreva o agito");
-		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
-
+	InviteViewImpl() {
 		addStyleName("a-invite-view");
-
+		
 		addComponent(readOnlyDate);
 		addComponent(readOnlyDescription);
-		
-		date.setResolution(DateField.RESOLUTION_MIN);
-		date.setDateFormat("dd/MM/yyyy HH:mm");
-		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-			autosave();
-		}});
-		addComponent(date); date.addStyleName("a-invite-date");
-		description.setSizeUndefined();
-		description.addListener(new TextChangeListener() {  @Override public void textChange(TextChangeEvent event) {
-			descriptionValue = event.getText();
-			autosave();
-		}});
-		
-		addComponent(description); description.addStyleName("a-invite-description");
+		addDateComponent();
+		addDescriptionComponent();
+		addNextInviteeComponent();
+		addInvitationsComponent();
 
-		nextInvitee.setListener(newInviteeValidator, new Consumer<String>() { @Override public void consume(String invitee) {
-			onNextInvitee(invitee);
-			autosave();
-		}});
-
-		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
-
-		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
-			autosave();
-		}});
-		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
-
-		description.focus();
+		date.focus();
 		
 		listenersActive = true;
 	}
-	
-	private void onNextInvitee(String invitee) {
-		invitations.addElement(invitee);
-	}
 
-	
+
 	@Override
-	public String eventDescription() {
-		return descriptionValue;
+	public void startReportingTo(Boss boss) {
+		if (this.boss != null) throw new IllegalStateException();
+		this.boss = boss;
 	}
 
-
+	
 	@Override
 	public void clear() {
 		showReadOnlyLabels(false);
@@ -102,24 +69,10 @@ class InviteViewImpl extends CssLayout implements InviteView {
 
 
 	@Override
-	public Date datetime() {
-		Object result = date.getValue();
-		return result==null ? null : (Date) result;
-	}
-
-
-	@Override
-	public List<String> invitees() {
-		return invitations.getElements();
-	}
-
-
-	@Override
 	public void display(String description, Date datetime, List<String> invitees) {
 		listenersActive = false;
 		
 		this.description.setValue(description);
-		this.descriptionValue = description;
 		this.date.setValue(datetime);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
@@ -139,6 +92,14 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	}
 
 	
+	private boolean onNextInvitee(String invitee) {
+		boolean result = boss.approveInviteeAdd(invitee);
+		if (result)
+			invitations.addElement(invitee);
+		return result;
+	}
+	
+	
 	private void showEditFields(boolean b) {
 		description.setVisible(b);
 		date.setVisible(b);
@@ -153,8 +114,44 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	}
 
 	
-	private void autosave() {
-		if (listenersActive) onInvite.run();
+	private void addNextInviteeComponent() {
+		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
+		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
+			return onNextInvitee(invitee);
+		}});
+		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
+	}
+
+
+	private void addInvitationsComponent() {
+		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String invitee) {
+			boss.onInviteeRemoved(invitee);
+		}});
+		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
+	}
+	
+	
+	private void addDescriptionComponent() {
+		description.setNullRepresentation("");
+		description.setInputPrompt("Descreva o agito");
+		description.setSizeUndefined();
+		description.addListener(new TextChangeListener() {  @Override public void textChange(TextChangeEvent event) {
+			if (!listenersActive) return;
+			boss.onDescriptionEdit(event.getText());
+		}});
+		addComponent(description); description.addStyleName("a-invite-description");
+	}
+	
+	
+	private void addDateComponent() {
+		date.setInputPrompt("Escolha uma data");
+		date.setResolution(DateField.RESOLUTION_MIN);
+		date.setDateFormat("dd/MM/yyyy HH:mm");
+		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
+			if (!listenersActive) return;
+			boss.onDatetimeEdit((Date)date.getValue());
+		}});
+		addComponent(date); date.addStyleName("a-invite-date");
 	}
 
 }

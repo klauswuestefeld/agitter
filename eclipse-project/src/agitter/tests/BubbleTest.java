@@ -2,9 +2,6 @@ package agitter.tests;
 
 import static agitter.domain.emails.EmailAddress.email;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -25,8 +22,9 @@ public class BubbleTest extends CleanTestBase {
 		agitter = PrevaylerBootstrap.agitter();
 		User ana = agitter.users().signup(email("ana@email.com"), "abc123");
 		Events events = agitter.events();
-		events.create(ana, "dinner", 10, Collections.EMPTY_LIST, Arrays.asList(jose()));
+		events.create(ana, "dinner", 10);
 		Event event = events.toHappen(ana).get(0);
+		event.addInvitee(jose());
 		
 		User jose = agitter.users().searchByEmail(email("jose@email.com"));
 		assertEquals(1, events.toHappen(jose).size());

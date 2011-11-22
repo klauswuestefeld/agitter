@@ -1,9 +1,6 @@
 package agitter.domain.events.tests;
 
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
@@ -23,10 +20,12 @@ public abstract class EventsTestBase extends UsersTestBase {
 
 
 	protected Event createEvent(Events events, User owner, String description, long startTime, User... invitees) throws Refusal {
-		events.create(owner, description, startTime, Collections.EMPTY_LIST, Arrays.asList(invitees));
-		for (Event event : events.toHappen(owner))
-			if (event.description().equals(description) && event.datetime() == startTime)
-				return event;
+		Event event = events.create(owner, description, startTime);
+		for (User user : invitees)
+			event.addInvitee(user);
+		for (Event candidate : events.toHappen(owner))
+			if (candidate.description().equals(description) && candidate.datetime() == startTime)
+				return candidate;
 		throw new IllegalStateException("Newly created event not found.");
 	}
 

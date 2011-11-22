@@ -18,7 +18,7 @@ public interface ContactsView {
 
 	void setMembersToChoose(List<String> membersToChoose);
 	void setMembers(List<String> memberNames);
-	void setMemberEntryListener(Predicate<String> valueValidator, Consumer<String> consumer);
+	void setMemberEntryListener(Predicate<String> listener);
 	void setMemberRemoveListener(Consumer<String> consumer);
 
 }
