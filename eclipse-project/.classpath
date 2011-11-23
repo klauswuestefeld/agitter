@@ -7,6 +7,7 @@
 	<classpathentry kind="lib" path="src/agitter/controller/oauth/lib/json-20080701.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/oauth/lib/openid4java.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/oauth/lib/socialauth-2.0-beta3.jar"/>
+	<classpathentry kind="lib" path="src/agitter/ui/view/lib/vaadin-6.7.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/bubble"/>
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/dependencies/commons-codec-1.3/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/dependencies/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
@@ -16,7 +17,6 @@
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/dependencies/stax-api-1.0.1/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/dependencies/stax-ri-1.2.0/stax-1.2.0.jar"/>
 	<classpathentry kind="lib" path="src/agitter/controller/mailing/lib/aws-java-sdk-1.2.0.jar" sourcepath="src/agitter/controller/mailing/lib/aws-java-sdk-1.2.0-sources.jar"/>
-	<classpathentry kind="lib" path="src/agitter/ui/view/lib/vaadin-6.5.4.jar"/>
 	<classpathentry kind="lib" path="src/spikes/tokenizer/lib/natty-0.4.jar"/>
 	<classpathentry kind="lib" path="src/spikes/tokenizer/lib/antlr-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
