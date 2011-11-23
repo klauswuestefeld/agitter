@@ -76,7 +76,7 @@ public class EventsImpl2 implements Events {
 	@Override
 	public void delete(User user, Event event) {
 		if (!isEditableBy(user, event))
-			throw new IllegalArgumentException("Evento não deletável por este usuário.");
+			throw new IllegalArgumentException("Agito não deletável por este usuário.");
 		_all.remove(event);
 	}
 
