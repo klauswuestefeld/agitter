@@ -109,7 +109,7 @@ public class EventImpl2 implements Event {
 
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis() - ONE_HOUR)
-			throw new Refusal("Crie o agito para agora ou para o futuro, não para o passado.");
+			throw new Refusal("Agito no passado??!?");
 	}
 
 
