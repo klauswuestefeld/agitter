@@ -115,7 +115,7 @@ public class InvitePresenter implements InviteView.Boss {
 	@Override
 	public void onDescriptionEdit(String newText) {
 		if (newText != null &&  newText.trim().equals("")) {
-			warningDisplayer.consume("Preencha o texto do agito.");
+			warningDisplayer.consume("Preencha a descrição do agito.");
 			return;
 		}
 			
