@@ -58,6 +58,7 @@ public class EventListElement extends CssLayout {
 		addComponent(button); button.addStyleName(style);
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			System.out.println("Botao de remocao clicado.");
 			removedEventListener.consume(eventValues.eventObject);
 		}});
 		return button;

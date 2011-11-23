@@ -20,6 +20,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		this.selectedEventListener = selectedEventListener;
 		this.removedEventListener = removedEventListener;
 		this.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
+			System.out.println("Elemento da lista selecionado." + System.currentTimeMillis());
 			onEventSelected(layoutClickEvent);
 		}});
 		addStyleName("a-event-list-view");
@@ -47,7 +48,10 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 	
 	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
 		EventListElement eventView = (EventListElement) layoutClickEvent.getChildComponent();
-		if (eventView == null) return;
+		if (eventView == null) {
+			System.out.println("Child clicado nao achado. Component Clicked: " + (layoutClickEvent.getClickedComponent() == null) );
+			return;
+		}
 		Object eventObject = eventView.getEventObject();
 		selectedEventListener.consume(eventObject);
 	}
