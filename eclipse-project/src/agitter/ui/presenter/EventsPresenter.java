@@ -42,7 +42,7 @@ public class EventsPresenter {
 			refreshEventList();
 		}});
 		
-		this.view.onNewEvent(new Runnable() { public void run() {
+		this.view.onNewEvent(new Runnable() { @Override public void run() {
 			onNewEvent();
 		}});
 		
