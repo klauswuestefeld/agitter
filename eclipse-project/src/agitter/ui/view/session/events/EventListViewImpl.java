@@ -2,8 +2,6 @@ package agitter.ui.view.session.events;
 
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.ui.Component;
@@ -12,13 +10,10 @@ import com.vaadin.ui.ProgressIndicator;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
-	private final Consumer<Object> selectedEventListener;
-	private final Consumer<Object> removedEventListener;
+	private Boss boss;
 
 
-	EventListViewImpl(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
-		this.selectedEventListener = selectedEventListener;
-		this.removedEventListener = removedEventListener;
+	EventListViewImpl() {
 		this.addListener(new LayoutEvents.LayoutClickListener() { @Override public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
 			System.out.println("Elemento da lista selecionado." + System.currentTimeMillis());
 			onEventSelected(layoutClickEvent);
@@ -33,7 +28,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		addComponent(createPoller(millisToNextRefresh));
 
 		for (EventVO eventData : events)
-			addComponent(new EventListElement(eventData, removedEventListener));
+			addComponent(new EventListElement(eventData, boss));
 	}
 
 	
@@ -53,7 +48,14 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 			return;
 		}
 		Object eventObject = eventView.getEventObject();
-		selectedEventListener.consume(eventObject);
+		boss.onEventSelected(eventObject);
+	}
+
+
+	@Override
+	public void startReportingTo(Boss boss) {
+		if (this.boss != null) throw new IllegalStateException();
+		this.boss = boss;
 	}
 	
 }

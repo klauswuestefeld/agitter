@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import sneer.foundation.lang.Consumer;
+import agitter.ui.view.session.events.EventListView.Boss;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -16,10 +16,10 @@ import com.vaadin.ui.NativeButton;
 public class EventListElement extends CssLayout {
 
 	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	private final Consumer<Object> removedEventListener;
+	private final Boss boss;
 
-	public EventListElement(EventVO eventValues, Consumer<Object> removedEventListener) {
-		this.removedEventListener = removedEventListener;
+	public EventListElement(EventVO eventValues, Boss boss) {
+		this.boss = boss;
 		setData(eventValues.eventObject);
 		addStyleName("a-event-view");
 		addRemovalButton(eventValues);
@@ -59,7 +59,7 @@ public class EventListElement extends CssLayout {
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			System.out.println("Botao de remocao clicado.");
-			removedEventListener.consume(eventValues.eventObject);
+			boss.onEventRemoved(eventValues.eventObject);
 		}});
 		return button;
 	}

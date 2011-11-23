@@ -20,10 +20,11 @@ import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
+import agitter.ui.view.session.events.EventListView.Boss;
 import agitter.ui.view.session.events.EventVO;
 import agitter.ui.view.session.events.EventsView;
 
-public class EventsPresenter {
+public class EventsPresenter implements Boss {
 
 	private final User user;
 	private final ContactsOfAUser contacts;
@@ -118,12 +119,10 @@ public class EventsPresenter {
 
 	
 	private EventListView eventsListView() {
-		if (eventListView == null)
-			eventListView = view.initEventListView(new Consumer<Object>() { @Override public void consume(Object event) {
-				onEventSelected((Event)event);
-			}}, new Consumer<Object>() { @Override public void consume(Object event) {
-				onEventRemoved((Event)event);
-			}});
+		if (eventListView == null) {
+			eventListView = view.initEventListView();
+			eventListView.startReportingTo(this);
+		}
 
 		return eventListView;
 	}
@@ -143,12 +142,15 @@ public class EventsPresenter {
 	}
 
 
-	private void onEventSelected(Event event) {
-		invitePresenter().setSelectedEvent(event);
+	@Override
+	public void onEventSelected(Object selectedEvent) {
+		invitePresenter().setSelectedEvent(((Event)selectedEvent));
 	}
 
-	
-	private void onEventRemoved(Event event) {
+
+	@Override
+	public void onEventRemoved(Object removedEvent) {
+		Event event = (Event)removedEvent;
 		if (isDeletable(event))
 			events.delete(user, event);
 		else

@@ -1,6 +1,5 @@
 package agitter.ui.view.session.events;
 
-import sneer.foundation.lang.Consumer;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.ui.Button;
@@ -42,9 +41,10 @@ public class EventsViewImpl implements EventsView {
 
 
 	@Override
-	public EventListView initEventListView(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener) {
+	public EventListView initEventListView() {
 		if (eventList != null) throw new IllegalStateException();
-		eventList = new EventListViewImpl(selectedEventListener, removedEventListener);
+		eventList = new EventListViewImpl();
+		
 		return eventList;
 	}
 
