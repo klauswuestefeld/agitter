@@ -17,13 +17,13 @@ public interface InviteView {
 	void startReportingTo(Boss boss);
 	
 	void clear();
-	void refreshInviteesToChoose(List<String> inviteesToChoose);
-
 	void display(String description, Date datetime, List<String> invitees);
 	void enableEdit(boolean canEdit);
 	void enableNewEvent();
 	
 	void focusOnDescription();
 	void focusOnDate();
+
+	void refreshInviteesToChoose(List<String> inviteesToChoose);
 
 }
