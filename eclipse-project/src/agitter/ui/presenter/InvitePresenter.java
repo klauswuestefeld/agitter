@@ -77,7 +77,7 @@ public class InvitePresenter implements InviteView.Boss {
 	private void refresh() {
 		if (isNewEventBeingCreated) {
 			view.display("", new Date(Clock.currentTimeMillis()), Collections.EMPTY_LIST);
-			view.enableNewEvent(true);
+			view.enableNewEvent();
 			view.focusOnDate();
 			return;
 		}

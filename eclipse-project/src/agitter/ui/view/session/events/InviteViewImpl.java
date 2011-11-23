@@ -99,10 +99,11 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	}
 
 	@Override
-	public void enableNewEvent(boolean b) {
-		//The methods below have to be called in this order or the readOnlyLabels will never be shown.
-		showReadOnlyLabels(!b);
-		showFirstField(b);
+	public void enableNewEvent() {
+		date.setVisible(true);
+		description.setVisible(false);
+		nextInvitee.setVisible(false);
+		invitations.setVisible(false);
 	}
 	
 	private boolean onNextInvitee(String invitee) {
@@ -120,13 +121,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		invitations.setVisible(b);
 	}
 	
-	private void showFirstField(boolean b) {
-		date.setVisible(b);
-		description.setVisible(!b);
-		nextInvitee.setVisible(!b);
-		invitations.setVisible(!b);
-	}
-
 	
 	private void showReadOnlyLabels(boolean b) {
 		readOnlyDescription.setVisible(b);
