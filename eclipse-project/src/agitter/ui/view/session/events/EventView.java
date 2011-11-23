@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public interface InviteView {
+public interface EventView {
 
 	interface Boss {
 		void onDescriptionEdit(String newText);

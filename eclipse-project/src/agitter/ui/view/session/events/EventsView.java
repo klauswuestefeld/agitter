@@ -7,7 +7,7 @@ public interface EventsView {
 	void show();
 
 	void onNewEvent(Runnable onNewEvent);
-	InviteView showInviteView();
+	EventView showInviteView();
 	EventListView initEventListView(Consumer<Object> selectedEventListener, Consumer<Object> removedEventListener);
 
 }

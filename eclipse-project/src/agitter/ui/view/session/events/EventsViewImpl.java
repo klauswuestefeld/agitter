@@ -13,7 +13,7 @@ public class EventsViewImpl implements EventsView {
 
 	private final ComponentContainer container;
 	private EventListViewImpl eventList;
-	private InviteViewImpl inviteView;
+	private EventViewImpl inviteView;
 	private Runnable onNewEvent;
 
 
@@ -50,9 +50,9 @@ public class EventsViewImpl implements EventsView {
 
 
 	@Override
-	public InviteView showInviteView() {
+	public EventView showInviteView() {
 		if (inviteView == null)
-			inviteView = new InviteViewImpl();
+			inviteView = new EventViewImpl();
 		return inviteView;
 	}
 

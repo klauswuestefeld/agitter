@@ -1,71 +1,178 @@
 package agitter.ui.view.session.events;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Predicate;
+import vaadinutils.AutoCompleteChooser;
+import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TextArea;
 
-public class EventViewImpl extends CssLayout {
+class EventViewImpl extends CssLayout implements EventView {
 
-	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	private final Consumer<Object> removedEventListener;
+	private final PopupDateField date = new PopupDateField();
+	private final TextArea description = new TextArea();
+	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
+	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
-	public EventViewImpl(EventVO eventValues, Consumer<Object> removedEventListener) {
-		this.removedEventListener = removedEventListener;
-		setData(eventValues.eventObject);
-		addStyleName("a-event-view");
-		addRemovalButton(eventValues);
-		CssLayout texts = new CssLayout();
-		addComponent(texts); texts.addStyleName("a-event-texts");
-			Label label;
-			label = new Label(dateFormat.format(new Date(eventValues.datetime)));
-			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-date");
-			
-			label = new Label(eventValues.description);
-			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-description");
-
-			label = new Label(eventValues.owner);
-			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-owner");
-	}
-
-	private void addRemovalButton(EventVO event) {
-		String style = event.isDeletable
-			? "a-event-delete-button"
-			: "a-event-remove-button";
-		Button button = addRemovalButton(event, style);
-		button.setDescription(
-			event.isDeletable
-			? "Excluir este Agito"
-			: "Fica pra próxima"
-		);
+	private final Label readOnlyDate = new Label();
+	private final Label readOnlyDescription = new Label();
+	
+	private Boss boss;
+	private boolean listenersActive = false;
+	
+	
+	EventViewImpl() {
+		addStyleName("a-invite-view");
+		
+		addComponent(readOnlyDate);
+		addComponent(readOnlyDescription);
+		addDateComponent();
+		addDescriptionComponent();
+		addNextInviteeComponent();
+		addInvitationsComponent();
+	
+		listenersActive = true;
 	}
 
 
-	private Button addRemovalButton(final EventVO eventValues, String style) {
-		NativeButton button = new NativeButton();
-		button.setSizeUndefined();
-		addComponent(button); button.addStyleName(style);
-		button.addStyleName("a-default-nativebutton");
-		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			removedEventListener.consume(eventValues.eventObject);
-		}});
-		return button;
+	@Override
+	public void startReportingTo(Boss boss) {
+		if (this.boss != null) throw new IllegalStateException();
+		this.boss = boss;
 	}
 
 	
-	Object getEventObject() {
-		return getData();
+	@Override
+	public void clear() {
+		showReadOnlyLabels(false);
+		showEditFields(false);
+	}
+
+
+	@Override
+	public void refreshInviteesToChoose(List<String> inviteesToChoose) {
+		nextInvitee.setChoices(inviteesToChoose);
+	}
+
+
+	@Override
+	public void display(String description, Date datetime, List<String> invitees) {
+		listenersActive = false;
+	
+		this.description.setValue(description);
+		this.date.setValue(datetime);
+		invitations.removeAllElements();
+		invitations.addElements(invitees);
+		
+		readOnlyDescription.setValue(description);
+		readOnlyDate.setValue(datetime);
+
+		listenersActive = true;
+	}
+
+	
+	@Override
+	public void focusOnDescription() {
+		this.description.focus();
+	}
+	
+	
+	@Override
+	public void focusOnDate() {
+		this.date.focus();
+	}
+
+	
+	@Override
+	public void enableEdit(boolean b) {
+		//The methods below have to be called in this order or the readOnlyLabels will never be shown.
+		showReadOnlyLabels(!b);
+		showEditFields(b);
+	}
+
+	
+	private boolean onNextInvitee(String invitee) {
+		boolean result = boss.approveInviteeAdd(invitee);
+		if (result)
+			invitations.addElement(invitee);
+		return result;
+	}
+	
+	
+	private void showEditFields(boolean b) {
+		date.setVisible(b);
+		description.setVisible(b);
+		nextInvitee.setVisible(b);
+		invitations.setVisible(b);
+	}
+	
+	
+	private void showReadOnlyLabels(boolean b) {
+		readOnlyDescription.setVisible(b);
+		readOnlyDate.setVisible(b);
+	}
+
+	
+	private void addNextInviteeComponent() {
+		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
+		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
+			return onNextInvitee(invitee);
+		}});
+		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
+	}
+
+
+	private void addInvitationsComponent() {
+		invitations.setRemoveListener(new Consumer<String>() { @Override public void consume(String invitee) {
+			boss.onInviteeRemoved(invitee);
+		}});
+		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
+	}
+	
+	
+	private void addDescriptionComponent() {
+		description.setNullRepresentation("");
+		description.setInputPrompt("Descreva o agito");
+		description.setSizeUndefined();
+		description.addListener(new TextChangeListener() {  @Override public void textChange(TextChangeEvent event) {
+			if (!listenersActive) return;
+			boss.onDescriptionEdit(event.getText());
+		}});
+		addComponent(description); description.addStyleName("a-invite-description");
+	}
+	
+	
+	private void addDateComponent() {
+		date.setInputPrompt("Escolha uma data");
+		date.setResolution(DateField.RESOLUTION_MIN);
+		date.setDateFormat("dd/MM/yyyy HH:mm");
+		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
+			onDatetimeEdit();
+		}});
+		date.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
+			onDatetimeEdit();
+		}});
+		
+		addComponent(date); date.addStyleName("a-invite-date");
+	}
+
+
+	private void onDatetimeEdit() {
+		if (!listenersActive) return;
+		boss.onDatetimeEdit((Date)date.getValue());
 	}
 
 }

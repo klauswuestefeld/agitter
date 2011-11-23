@@ -32,7 +32,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		addComponent(createPoller(millisToNextRefresh));
 
 		for (EventVO eventData : events)
-			addComponent(new EventViewImpl(eventData, removedEventListener));
+			addComponent(new EventListElement(eventData, removedEventListener));
 	}
 
 	
@@ -46,7 +46,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 
 	
 	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
-		EventViewImpl eventView = (EventViewImpl) layoutClickEvent.getChildComponent();
+		EventListElement eventView = (EventListElement) layoutClickEvent.getChildComponent();
 		if (eventView == null) return;
 		Object eventObject = eventView.getEventObject();
 		selectedEventListener.consume(eventObject);

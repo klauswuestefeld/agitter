@@ -19,22 +19,22 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
-import agitter.ui.view.session.events.InviteView;
+import agitter.ui.view.session.events.EventView;
 
-public class InvitePresenter implements InviteView.Boss {
+public class InvitePresenter implements EventView.Boss {
 
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
 	private final Consumer<String> warningDisplayer;
 	private final Functor<EmailAddress, User> userProducer;
-	private final InviteView view;
+	private final EventView view;
 	private final Runnable onDateOrDescriptionChanged;
 
 	private Event selectedEvent = null;
 
 	
-	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, InviteView view, Consumer<String> warningDisplayer, Runnable onDateOrDescriptionChanged) {
+	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onDateOrDescriptionChanged) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
