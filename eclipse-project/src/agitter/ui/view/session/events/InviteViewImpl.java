@@ -83,14 +83,19 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		listenersActive = true;
 	}
 
+	
+	@Override
 	public void focusOnDescription() {
 		this.description.focus();
 	}
 	
+	
+	@Override
 	public void focusOnDate() {
 		this.date.focus();
 	}
 
+	
 	@Override
 	public void enableEdit(boolean b) {
 		//The methods below have to be called in this order or the readOnlyLabels will never be shown.
@@ -98,13 +103,6 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		showEditFields(b);
 	}
 
-	@Override
-	public void enableNewEvent() {
-		date.setVisible(true);
-		description.setVisible(false);
-		nextInvitee.setVisible(false);
-		invitations.setVisible(false);
-	}
 	
 	private boolean onNextInvitee(String invitee) {
 		boolean result = boss.approveInviteeAdd(invitee);

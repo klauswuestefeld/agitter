@@ -1,10 +1,18 @@
 package agitter.ui.presenter;
 
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.SECOND;
+
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
@@ -56,7 +64,36 @@ public class EventsPresenter {
 
 	
 	private void onNewEvent() {
-		invitePresenter().startCreatingNewEvent();
+		Event event;
+		try {
+			event = events.create(user, "", suggestedTime());
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+			return;
+		}
+		refreshEventList();
+		invitePresenter().setSelectedEvent(event);
+	}
+
+
+	private long suggestedTime() {
+		GregorianCalendar result = new GregorianCalendar();
+		result.setTimeInMillis(Clock.currentTimeMillis());
+		result.clear(MINUTE);
+		result.clear(SECOND);
+		result.clear(MILLISECOND);
+		
+		setHourToEightAtNightOrNextFullHour(result);
+		
+		return result.getTimeInMillis();
+	}
+
+
+	private void setHourToEightAtNightOrNextFullHour(GregorianCalendar cal) {
+		if (cal.get(HOUR_OF_DAY) < 20)
+			cal.set(HOUR_OF_DAY, 20);
+		else
+			cal.add(HOUR_OF_DAY, 1);
 	}
 
 

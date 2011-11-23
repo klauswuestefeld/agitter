@@ -18,11 +18,10 @@ public interface InviteView {
 	
 	void clear();
 	void display(String description, Date datetime, List<String> invitees);
-	void enableEdit(boolean canEdit);
-	void enableNewEvent();
+	void enableEdit(boolean isEditEnabled);
 	
-	void focusOnDescription();
 	void focusOnDate();
+	void focusOnDescription();
 
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 

@@ -6,11 +6,9 @@ import infra.util.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
@@ -33,7 +31,6 @@ public class InvitePresenter implements InviteView.Boss {
 	private final InviteView view;
 	private final Runnable onDateOrDescriptionChanged;
 
-	private boolean isNewEventBeingCreated = false;
 	private Event selectedEvent = null;
 
 	
@@ -55,39 +52,44 @@ public class InvitePresenter implements InviteView.Boss {
 	
 	void setSelectedEvent(Event event) {
 		selectedEvent = event;
-		isNewEventBeingCreated = false;
 		refresh();
 	}
 
 	
-	void startCreatingNewEvent() {
-		selectedEvent = null;
-		isNewEventBeingCreated = true;
-		refresh();
-	}
-
-
 	void clear() {
-		selectedEvent = null;
-		isNewEventBeingCreated = false;
-		refresh();
+		setSelectedEvent(null);
 	}
 
 	
 	private void refresh() {
-		if (isNewEventBeingCreated) {
-			view.display("", new Date(Clock.currentTimeMillis()), Collections.EMPTY_LIST);
-			view.enableNewEvent();
+		if (selectedEvent == null) {
+			view.clear();
+			return;
+		}
+		
+		view.display(
+			selectedEvent.description(),
+			new Date(selectedEvent.datetime()),
+			sortedInviteesOf(selectedEvent)
+		);
+
+		refreshEditMode();
+	}
+
+
+	private void refreshEditMode() {
+		boolean isEditable = events.isEditableBy(user, selectedEvent);
+		view.enableEdit(isEditable);
+
+		if (isEditable) refreshFocus();
+	}
+
+
+	private void refreshFocus() {
+		if (selectedEvent.description().isEmpty())
 			view.focusOnDate();
-			return;
-		}
-		if (selectedEvent != null) {
-			view.display(selectedEvent.description(), new Date(selectedEvent.datetime()), sortedInviteesOf(selectedEvent));
-			view.enableEdit(events.isEditableBy(user, selectedEvent));
+		else
 			view.focusOnDescription();
-			return;
-		}
-		view.clear();
 	}
 
 
@@ -131,16 +133,12 @@ public class InvitePresenter implements InviteView.Boss {
 
 	@Override
 	public void onDatetimeEdit(Date date) {
-		if (date == null) {
+		if (date == null) { //Unnecessary when we start using drop-downs instead of free-typing field 
 			warningDisplayer.consume("Preencha a data do agito.");
 			return;
 		}
 		
 		try {
-			if (isNewEventBeingCreated) {
-				Event event = events.create(user, "", date.getTime());
-				setSelectedEvent(event);
-			}
 			events.setDatetime(user, selectedEvent, date.getTime());
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
