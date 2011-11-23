@@ -168,15 +168,19 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		date.setResolution(DateField.RESOLUTION_MIN);
 		date.setDateFormat("dd/MM/yyyy HH:mm");
 		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-			if (!listenersActive) return;
-			boss.onDatetimeEdit((Date)date.getValue());
+			onDatetimeEdit();
 		}});
 		date.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
-			if (!listenersActive) return;
-			boss.onDatetimeEdit((Date)date.getValue());	
+			onDatetimeEdit();
 		}});
 		
 		addComponent(date); date.addStyleName("a-invite-date");
+	}
+
+
+	private void onDatetimeEdit() {
+		if (!listenersActive) return;
+		boss.onDatetimeEdit((Date)date.getValue());
 	}
 
 }
