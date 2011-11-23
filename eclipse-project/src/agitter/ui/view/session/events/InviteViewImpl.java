@@ -10,6 +10,8 @@ import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.CssLayout;
@@ -41,9 +43,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		addDescriptionComponent();
 		addNextInviteeComponent();
 		addInvitationsComponent();
-
-		date.focus();
-		
+	
 		listenersActive = true;
 	}
 
@@ -71,7 +71,7 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	@Override
 	public void display(String description, Date datetime, List<String> invitees) {
 		listenersActive = false;
-		
+	
 		this.description.setValue(description);
 		this.date.setValue(datetime);
 		invitations.removeAllElements();
@@ -83,6 +83,13 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		listenersActive = true;
 	}
 
+	public void focusOnDescription() {
+		this.description.focus();
+	}
+	
+	public void focusOnDate() {
+		this.date.focus();
+	}
 
 	@Override
 	public void enableEdit(boolean b) {
@@ -91,6 +98,12 @@ class InviteViewImpl extends CssLayout implements InviteView {
 		showEditFields(b);
 	}
 
+	@Override
+	public void enableNewEvent(boolean b) {
+		//The methods below have to be called in this order or the readOnlyLabels will never be shown.
+		showReadOnlyLabels(!b);
+		showFirstField(b);
+	}
 	
 	private boolean onNextInvitee(String invitee) {
 		boolean result = boss.approveInviteeAdd(invitee);
@@ -101,10 +114,17 @@ class InviteViewImpl extends CssLayout implements InviteView {
 	
 	
 	private void showEditFields(boolean b) {
-		description.setVisible(b);
 		date.setVisible(b);
+		description.setVisible(b);
 		nextInvitee.setVisible(b);
 		invitations.setVisible(b);
+	}
+	
+	private void showFirstField(boolean b) {
+		date.setVisible(b);
+		description.setVisible(!b);
+		nextInvitee.setVisible(!b);
+		invitations.setVisible(!b);
 	}
 
 	
@@ -151,6 +171,11 @@ class InviteViewImpl extends CssLayout implements InviteView {
 			if (!listenersActive) return;
 			boss.onDatetimeEdit((Date)date.getValue());
 		}});
+		date.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
+			if (!listenersActive) return;
+			boss.onDatetimeEdit((Date)date.getValue());	
+		}});
+		
 		addComponent(date); date.addStyleName("a-invite-date");
 	}
 

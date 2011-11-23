@@ -21,5 +21,9 @@ public interface InviteView {
 
 	void display(String description, Date datetime, List<String> invitees);
 	void enableEdit(boolean canEdit);
+	void enableNewEvent(boolean canEdit);
+	
+	void focusOnDescription();
+	void focusOnDate();
 
 }

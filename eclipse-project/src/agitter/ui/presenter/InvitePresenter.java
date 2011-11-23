@@ -77,12 +77,14 @@ public class InvitePresenter implements InviteView.Boss {
 	private void refresh() {
 		if (isNewEventBeingCreated) {
 			view.display("", new Date(Clock.currentTimeMillis()), Collections.EMPTY_LIST);
-			view.enableEdit(true);
+			view.enableNewEvent(true);
+			view.focusOnDate();
 			return;
 		}
 		if (selectedEvent != null) {
 			view.display(selectedEvent.description(), new Date(selectedEvent.datetime()), sortedInviteesOf(selectedEvent));
 			view.enableEdit(events.isEditableBy(user, selectedEvent));
+			view.focusOnDescription();
 			return;
 		}
 		view.clear();
@@ -112,8 +114,8 @@ public class InvitePresenter implements InviteView.Boss {
 
 	@Override
 	public void onDescriptionEdit(String newText) {
-		if (isNewEventBeingCreated) {
-			warningDisplayer.consume("Preencha a data do agito.");
+		if (newText != null &&  newText.trim().equals("")) {
+			warningDisplayer.consume("Preencha o texto do agito.");
 			return;
 		}
 			
