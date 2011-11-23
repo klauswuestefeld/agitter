@@ -10,6 +10,8 @@ import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
+	private static final long ONE_HOUR = 1000 * 60 * 60;
+
 	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
 
 	final private User _owner;
@@ -106,8 +108,8 @@ public class EventImpl2 implements Event {
 
 
 	private void assertIsInTheFuture(long datetime) throws Refusal {
-		if (datetime < Clock.currentTimeMillis())
-			throw new Refusal("Novos eventos devem ser criados com data futura.");
+		if (datetime < Clock.currentTimeMillis() - ONE_HOUR)
+			throw new Refusal("Crie o agito para agora ou para o futuro, não para o passado.");
 	}
 
 
