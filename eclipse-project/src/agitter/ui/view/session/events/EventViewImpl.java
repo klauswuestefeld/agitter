@@ -46,7 +46,7 @@ public class EventViewImpl extends CssLayout {
 		Button button = addRemovalButton(event, style);
 		button.setDescription(
 			event.isDeletable
-			? "Remover o Agito"
+			? "Excluir este Agito"
 			: "Fica pra próxima"
 		);
 	}
