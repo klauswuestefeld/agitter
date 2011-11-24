@@ -8,6 +8,7 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
+import agitter.domain.events.DuplicateEvent;
 import agitter.domain.events.Event;
 
 public class EventsTest extends EventsTestBase {
@@ -25,6 +26,21 @@ public class EventsTest extends EventsTestBase {
 	}
 	
 
+	@Test(expected = DuplicateEvent.class)
+	public void duplicateEvent() throws Exception {
+		createEvent(ana, "Dinner at Joes", 1000);
+		createEvent(ana, "Dinner at Joes", 1000);
+	}
+
+	@Test
+	public void differentEventsDontCauseDuplicateEventException() throws Exception {
+		createEvent(ana, "Dinner at Joes", 1000);
+		createEvent(jose, "Dinner at Joes", 1000);
+		createEvent(ana, "Dinner at Moes", 1000);
+		createEvent(ana, "Dinner at Joes", 1001);
+	}
+
+	
 	@Test
 	public void changingEventTime() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);

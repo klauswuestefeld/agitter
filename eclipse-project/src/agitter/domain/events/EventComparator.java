@@ -13,7 +13,7 @@ public class EventComparator implements Comparator<Event>, Serializable {
 	public int compare(Event a1, Event a2) {
 		long result = a1.datetime() - a2.datetime(); //Casting to int does not have enough precision.
 		if (result == 0L)
-			result = a1.owner().email().toString().compareTo(a1.owner().email().toString());  //Casting to int does not have enough precision.
+			result = a1.owner().email().toString().compareTo(a2.owner().email().toString());  //Casting to int does not have enough precision.
 		if (result == 0L)
 			result = a1.description().compareTo(a2.description());
 		if (result == 0L)
