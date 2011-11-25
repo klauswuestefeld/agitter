@@ -44,8 +44,10 @@ public class LoginViewImpl implements LoginView {
 				loginfields.addComponent(cancel); cancel.addStyleName("a-login-cancel-button");
 				loginfields.addComponent(forgotMyPassword); forgotMyPassword.addStyleName("a-login-forgot-password");
 		
-		setupFocus();
 		login.setClickShortcut( KeyCode.ENTER );
+		cancel.setClickShortcut( KeyCode.ESCAPE );
+		
+		setupFocus();
 	}
 
 	
