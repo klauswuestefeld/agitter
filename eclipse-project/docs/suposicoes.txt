@@ -1,16 +1,22 @@
-﻿	BUG - Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.
+﻿	BUG - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
+		Acompanhar Bug ticket aberto pro Vaadin.
 
-	BUG Login - Ao digitar senha, o enter não está mais logando (teste feito com Firefox 8)
+	BUG Login - Ao digitar senha, o enter as vezes não funciona
+		FIXED: O problema da intermitência era q o button.setClickShortcut(KeyCode.ENTER) é global por window e os listeners sao guardados num hashset, entao, na hora do vaadin processar os listeners com um iterator, as vezes vinha primeiro o botao da janela principal (q está disable), as vezes o botao da janela de login (e aí funcionava o enter).
+			Sempre q abrirmos uma subjanelinha temos q ficar lembrando de remover e readicionar depois o shortcut da janela mãe.
+			Klaus: Abrir bug ticket pro Vaadin
+Peccin:		Vc considerou usar algum tipo de inner windows do vaadin em vez de emular popups com css?
 
-	BUG Login - No campo de email ao selecionar o autocomplite com enter ele ta disparando o evento de entrar com o digitado e não o email completo escolhido (teste feito com Firefox 8)
+	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
+		Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
+			Lembrar de desativar/remover o timer na segunda vez.
 
 	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 	
 	CRUD do Agito
-		Fluxo de Novo Agito
 		Formatação dos campos do agito de outros
-		Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
+		Somente 2 primeiras linhas da descrição do agito deve aparecer na lista, não descrição inteira.
 		Agito selecionado - Destacar com CSS.
 		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
 			encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
@@ -40,7 +46,7 @@
 		Abrir a tela de agitos com o cara já autenticado.
 
 	Undo Deleção de Agito
-		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
+		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior, tipo GMail: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
 
 	Comments
 
@@ -64,14 +70,9 @@
 	Permalink para cada agito, para que possa ser linkado, tweetado, etc.
 	
 	Acabamento de UI
-		Agitar (ver docs/ui/mvp)
-			- O que? Quando? - Estilo Twitter: acima da lista de agitos, tem um campo de uma linha em branco para o "O Que". Ele cresce na vertical a medida q o usuario vai preenchendo. Campos de "Quando?" abaixo dele.   
 		Gancho - Primeira palavra do agito sempre grifada em todos os lugares q aparecer (lista, email, etc).
 			Ver docs/ui/mvp/EmailTemplate.rtf
-		Ilustração Explicativa - Falar c Petra.
 		History (Back) do Browser - Fazer funcionar inclusive pro signup.
-
-	Hot Deploy no Server ou Servidor de Integração c Deploy Automatico Diario pro Server - Para evitar do Deploy pausar o server a cada commit
 
 	HTTPS - Precisamos ter um mínimo de segurança nas informacoes relativas ao login, com https.
 
