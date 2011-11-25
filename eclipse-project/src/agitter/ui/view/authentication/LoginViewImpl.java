@@ -7,7 +7,6 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.NativeButton;
@@ -19,7 +18,6 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout loginView = new CssLayout();
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button forgotMyPassword = WidgetUtils.createLinkButton("Esqueci minha senha");
-	private final CheckBox keepMeLoggedIn = new CheckBox("Mantenha-me conectado");
 	private final NativeButton login = AgitterVaadinUtils.createDefaultNativeButton("Entrar");
 	private final NativeButton cancel = AgitterVaadinUtils.createDefaultNativeButton("Voltar");
 
@@ -45,20 +43,23 @@ public class LoginViewImpl implements LoginView {
 				loginfields.addComponent(forgotMyPassword); forgotMyPassword.addStyleName("a-login-forgot-password");
 		
 		setupFocus();
-		login.setClickShortcut( KeyCode.ENTER );
+		login.setClickShortcut(KeyCode.ENTER);
+		cancel.setClickShortcut( KeyCode.ESCAPE );
 	}
 
 	
 	private void setupFocus() {
-		WidgetUtils.focusOrder(password, forgotMyPassword, keepMeLoggedIn, login);
+		WidgetUtils.focusOrder(password, forgotMyPassword, login, cancel);
 		password.focus();
 	}
 
+	
 	@Override
 	public String password() {
 		return (String)password.getValue(); 
 	}
 
+	
 	@Override
 	public void onForgotMyPassword(final Runnable runnable) {
 		forgotMyPassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -66,6 +67,7 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
+	
 	@Override
 	public void onCancel(final Runnable runnable) {
 		cancel.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
@@ -73,10 +75,6 @@ public class LoginViewImpl implements LoginView {
 		}});
 	}
 
-	@Override
-	public boolean keepMeLoggedIn() {
-		return (Boolean)keepMeLoggedIn.getValue(); 
-	}
 
 	@Override
 	public void onLoginAttempt(final Runnable runnable) {

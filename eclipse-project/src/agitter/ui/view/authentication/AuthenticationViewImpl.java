@@ -24,7 +24,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	private final Button google = new NativeButton();
 	private final Button windows = new NativeButton();
 	private final Button yahoo = new NativeButton();
-	private final CssLayout mainContent = new CssLayout();
+	private final CssLayout popup = new CssLayout();
 	private Label socialLabel = WidgetUtils.createLabel("Entre via Rede Social");
 	private Label emailLabel = WidgetUtils.createLabel("Ou digite seu e-mail");
 
@@ -37,12 +37,12 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		CssLayout loginView = new CssLayout();
-		loginView.addStyleName("a-auth-view");
-		container.addComponent(loginView); 
+		CssLayout innerLayout = new CssLayout();
+		innerLayout.addStyleName("a-auth-view");
+		container.addComponent(innerLayout); 
 			// Top Bar
 			CssLayout topBar = new CssLayout();
-			loginView.addComponent(topBar); topBar.addStyleName("a-auth-topbar");
+			innerLayout.addComponent(topBar); topBar.addStyleName("a-auth-topbar");
 			CssLayout topBarContent = new CssLayout();
 			topBar.addComponent(topBarContent); topBarContent.addStyleName("a-auth-topbar-content");
 				topBarContent.addComponent(loginAgitterLogo); loginAgitterLogo.addStyleName("a-auth-topbar-logo");
@@ -73,13 +73,12 @@ public class AuthenticationViewImpl implements AuthenticationView {
 							email.setSizeUndefined();
 						loginFields.addComponent(enter); enter.addStyleName("a-auth-topbar-enter-button");
 			// Main content
-			CssLayout main = new CssLayout();
-			loginView.addComponent(main); main.addStyleName("a-auth-main");
-				mainContent.removeAllComponents();
-				main.addComponent(mainContent); mainContent.addStyleName("a-auth-main-content");
+			CssLayout popupContainer = new CssLayout();
+			innerLayout.addComponent(popupContainer); popupContainer.addStyleName("a-auth-main");
+				popup.removeAllComponents();
+				popupContainer.addComponent(popup); popup.addStyleName("a-auth-main-content");
 									
-		setLoginOptionsEnablement(true);
-		enter.setClickShortcut(KeyCode.ENTER);
+		setModalEnablement(true);
 		
 		setupFocus();
 	}
@@ -87,8 +86,8 @@ public class AuthenticationViewImpl implements AuthenticationView {
 
 	@Override
 	public LoginView showLoginView() {
-		setLoginOptionsEnablement(false);
-		LoginViewImpl login = new LoginViewImpl(mainContent);
+		setModalEnablement(false);
+		LoginViewImpl login = new LoginViewImpl(popup);
 		login.show();
 		return login;
 	}
@@ -96,8 +95,8 @@ public class AuthenticationViewImpl implements AuthenticationView {
 
 	@Override
 	public SignupView showSignupView() {
-		setLoginOptionsEnablement(false);
-		SignupViewImpl signup = new SignupViewImpl(mainContent);
+		setModalEnablement(false);
+		SignupViewImpl signup = new SignupViewImpl(popup);
 		signup.show();
 		return signup;
 	}
@@ -166,7 +165,12 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	}	
 
 	
-	private void setLoginOptionsEnablement(boolean enabled) {
+	private void setModalEnablement(boolean enabled) {
+		if (enabled)
+			enter.setClickShortcut(KeyCode.ENTER);
+		else
+			enter.removeClickShortcut();
+
 		emailLabel.setEnabled(enabled);
 		email.setEnabled(enabled);
 		enter.setEnabled(enabled);

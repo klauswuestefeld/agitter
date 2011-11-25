@@ -48,6 +48,7 @@ public class SignupViewImpl implements SignupView {
 		
 		setupFocus();
 		signup.setClickShortcut( KeyCode.ENTER );
+		cancel.setClickShortcut( KeyCode.ESCAPE );
 	}
 
 	
