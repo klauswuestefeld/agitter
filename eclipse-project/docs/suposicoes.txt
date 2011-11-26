@@ -1,46 +1,69 @@
-﻿	BUG - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
-		Acompanhar Bug ticket aberto pro Vaadin.
+﻿Klaus
 
 	BUG Login - Ao digitar senha, o enter as vezes não funciona
 		FIXED: O problema da intermitência era q o button.setClickShortcut(KeyCode.ENTER) é global por window e os listeners sao guardados num hashset, entao, na hora do vaadin processar os listeners com um iterator, as vezes vinha primeiro o botao da janela principal (q está disable), as vezes o botao da janela de login (e aí funcionava o enter).
 			Sempre q abrirmos uma subjanelinha temos q ficar lembrando de remover e readicionar depois o shortcut da janela mãe.
 			Klaus: Abrir bug ticket pro Vaadin
-Peccin:		Vc considerou usar algum tipo de inner windows do vaadin em vez de emular popups com css?
+			Peccin, vc considerou usar algum tipo de inner window do vaadin em vez de emular popups com css?
+
+	Grupos -> Temas
+
+	BUG DO VAADIN - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
+		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
+
+	Tela de Entrada Nova - Imagem larga - Follow-up c Petra
+
+
+Peccin
+
+	BUG - Grupos de Contatos - Arrumar CSS no IE
+
+	BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
+		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
+
+	Formatação dos campos do agito de outros
+
+	Agito selecionado - Destacar com CSS.
+
+	Somente 2 primeiras linhas da descrição do agito deve aparecer na lista, não descrição inteira.
+
+
+Matias
+
+	Session Management
+		"Mantenha-me Conectado" por default até dar "Sair".
+		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
+
+
+Quem Quiser
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
-		Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
+		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
 			Lembrar de desativar/remover o timer na segunda vez.
-
-	BUG CSS - Lista de membros de Grupo com e-mails grandes quebra o layout. 
-		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
-	
-	CRUD do Agito
-		Formatação dos campos do agito de outros
-		Somente 2 primeiras linhas da descrição do agito deve aparecer na lista, não descrição inteira.
-		Agito selecionado - Destacar com CSS.
-		URLs clicáveis na descricao do agito (Nao são clicáveis no email)
-			encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
-				Teremos problemas de XSS? Dá pra usar nosso XssAttackSanitizer nos links?
-
-	Tela de Entrada Nova - Imagem larga
-
-	Grupos de Contatos - Arrumar CSS no IE
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		Fazer botao/link pra importação/atualizaçao separada do login.
 	
-	Email - Formato
-		31/12/2011
-		Reveillon com churrasco na Casa do Klaus.
-		Vamo aí galera!
-		klaus@gmail.com  (bloquear agitos desta pessoa)
+	Email
+		Formato da Lista
+			Quinta 31/12/2011
+			Reveillon com churrasco lá em casa
+			Vamo aí galera!
+			klaus@gmail.com  (bloquear emails desta pessoa)
+		No Spam
+			Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
+				Email primeiro pq é mais importante.
+			Unsubscribe geral do email diario.
 
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
-	Privacidade
-		- Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
-		- Unsubscribe geral do email diario.
+	Unificação de emails. Permitir vários emails para um mesmo user.
+
+
+	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
+		encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
+			Teremos problemas de XSS? Dá pra usar nosso XssAttackSanitizer nos links?
 
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Abrir a tela de agitos com o cara já autenticado.
@@ -49,8 +72,6 @@ Peccin:		Vc considerou usar algum tipo de inner windows do vaadin em vez de emul
 		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior, tipo GMail: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
 
 	Comments
-
-	Unificação de emails. Permitir vários emails para um mesmo user.
 
 	Lista de Agitos Ignorados
 		- Botao no agito de recuparar no lugar onde ficava o X
