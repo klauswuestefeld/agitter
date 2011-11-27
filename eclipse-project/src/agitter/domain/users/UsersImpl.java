@@ -45,6 +45,15 @@ public class UsersImpl implements Users {
 		User user = searchByEmail(email);
 		return login(user, email.toString(), password);
 	}
+	
+	@Override
+	public User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken {
+		//TODO: Implement this...
+		if( authenticationToken == null || authenticationToken.trim().isEmpty() ) {
+			throw new InvalidAuthenticationToken( "mmm sorry this is not a helpful message..." );
+		}
+		return searchByEmail(EmailAddress.certain(authenticationToken));
+	}
 
 
 	@Override

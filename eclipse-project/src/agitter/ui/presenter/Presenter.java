@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
@@ -18,12 +20,15 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
+import agitter.domain.users.Users.InvalidAuthenticationToken;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
 import com.vaadin.terminal.DownloadStream;
 
 public class Presenter {
+	
+	public static String AUTHENTICATION_TOKEN_NAME = "AuthenticationToken";
 
 	private final Controller controller;
 	private final AgitterView view;
@@ -31,15 +36,21 @@ public class Presenter {
 	private final URL context;
 	private final Functor<EmailAddress, User> userProducer;
 
+	private HttpServletResponse currentResponse;
 
-	public Presenter(Controller controller, AgitterView view, HttpSession httpSession, URL context) {
+	public Presenter(Controller controller, AgitterView view, HttpSession httpSession, URL context, String authenticationToken) {
 		this.controller = controller;
 		this.view = view;
 		this.httpSession = httpSession;
 		this.context = context;
 		this.userProducer = UserUtils.userProducer(domain().users());
-		
-		openAuthentication();
+
+		try {
+			attemptToLoginWithAuthenticationToken(authenticationToken);
+		} catch (InvalidAuthenticationToken e) {
+			System.err.println( "Invalid authentication token... opening authentication view..." );
+			openAuthentication();
+		}
 	}
 	
 
@@ -54,7 +65,11 @@ public class Presenter {
 		}
 		return null;
 	}
-
+	
+	public void updateCurrentResponse(HttpServletResponse response) {
+		currentResponse = response;
+	}
+	
 	
 	private void tryRestInvocation(String relativeUri, Map<String, String[]> params) throws Refusal {
 		recoverFromRedirectWithoutBlink();
@@ -92,6 +107,7 @@ public class Presenter {
 	private Consumer<User> onAuthenticate() {
 		return new Consumer<User>() { @Override public void consume(User user) {
 			SessionView sessionView = view.showSessionView();
+			updateAuthenticationTokenFor(user);
 			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), userProducer, sessionView, warningDisplayer(), onLogout());
 		}};
 	}
@@ -99,6 +115,7 @@ public class Presenter {
 	
 	private Runnable onLogout() {
 		return new Runnable() { @Override public void run() {
+			clearAuthenticationToken();
 			openAuthentication();
 		}};
 	}
@@ -158,11 +175,38 @@ public class Presenter {
 	private Agitter domain() {
 		return controller.domain();
 	}
-
 	
 	private void warn(String message) {
 		view.showWarningMessage(message);
 	}
 
+	private void updateAuthenticationTokenFor(User user) {
+		if( currentResponse == null ) {
+			return;
+		}
+		//TODO: tell users to generate a token for user...
+		System.err.println( "Updating authentication token cookie for: " + user );
+		setCookieForEver( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
+	}
+	
+	private void clearAuthenticationToken() {
+		System.err.println( "Clearing authentication token cookie..." );
+		setCookieForEver( AUTHENTICATION_TOKEN_NAME, "" );
+	};
+	
+	private void attemptToLoginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken {
+		System.err.println( "Attempting to login with authentication token: " + authenticationToken );
+		User user = domain().users().loginWithAuthenticationToken( authenticationToken );
+		System.err.println( "OK! found user: " + user );
+		onAuthenticate().consume(user);
+	}
+	
+	private void setCookieForEver(String name, String value) {
+		final Cookie authenticationCookie = new Cookie( name, value );
+		authenticationCookie.setMaxAge( Integer.MAX_VALUE );
+		authenticationCookie.setPath( "/" );
+		currentResponse.addCookie( authenticationCookie );		
+	}
+	
 }
 
