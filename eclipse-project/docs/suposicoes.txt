@@ -1,13 +1,5 @@
 ﻿Klaus
 
-	BUG Login - Ao digitar senha, o enter as vezes não funciona
-		FIXED: O problema da intermitência era q o button.setClickShortcut(KeyCode.ENTER) é global por window e os listeners sao guardados num hashset, entao, na hora do vaadin processar os listeners com um iterator, as vezes vinha primeiro o botao da janela principal (q está disable), as vezes o botao da janela de login (e aí funcionava o enter).
-			Sempre q abrirmos uma subjanelinha temos q ficar lembrando de remover e readicionar depois o shortcut da janela mãe.
-			Klaus: Abrir bug ticket pro Vaadin
-			Peccin, vc considerou usar algum tipo de inner window do vaadin em vez de emular popups com css?
-
-	Grupos -> Temas
-
 	BUG DO VAADIN - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
 		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
 
@@ -37,7 +29,7 @@ Matias
 		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
 
 
-Quem Quiser
+Alguém com Iniciativa
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
