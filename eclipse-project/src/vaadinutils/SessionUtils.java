@@ -16,7 +16,7 @@ public class SessionUtils implements ParameterHandler {
 	private final HttpSession session;
 
 	
-	public static void handleForMainWindow(Window mainWindow) {
+	public static void handleSessionForMainWindow(Window mainWindow) {
 		new SessionUtils(mainWindow);
 	}
 	private SessionUtils(Window mainWindow) {

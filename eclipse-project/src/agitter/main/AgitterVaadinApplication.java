@@ -23,14 +23,19 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	private Presenter presenter;
 	private String authenticationToken;
 	
+	
 	@Override
 	public void init() {
 		setTheme("agitter");
 		final AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
 
-		SessionUtils.handleForMainWindow(view);
+		SessionUtils.handleSessionForMainWindow(view);
+		startHandlingRestRequests(view);
+	}
 
+
+	private void startHandlingRestRequests(final AgitterViewImpl view) {
 		RestUtils.addRestHandler(view, new RestHandler() { @Override public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 			if (presenter == null) {
 				presenter = new Presenter(CONTROLLER, view, SessionUtils.getHttpSession(view), context, authenticationToken);
@@ -40,26 +45,26 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 		}});
 	}
 	
+	
 	@Override
 	public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
-		if( presenter == null ) {
-			searchAuthenticationTokenIn( request.getCookies() );
-		} else {
-			presenter.updateCurrentResponse( response );
-		}
+		if (presenter == null)
+			searchAuthenticationTokenIn(request.getCookies());
+		else
+			presenter.updateCurrentResponse(response);
 	}
+	
 	
 	@Override
 	public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
+		// Required by HttpServletRequestListener interface.
 	}
 	
 	
 	private void searchAuthenticationTokenIn(Cookie[] cookies) {
-		for(Cookie c : cookies) {
-			if( Presenter.AUTHENTICATION_TOKEN_NAME.equals( c.getName() ) ) {
+		for (Cookie c : cookies)
+			if (Presenter.AUTHENTICATION_TOKEN_NAME.equals(c.getName()))
 				authenticationToken = c.getValue();
-			}
-		}
 	}
 	
 }
