@@ -11,6 +11,7 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 public abstract class RestRequest {
 
+	private static final String HMAC_SHA256 = "HmacSHA256";
 	private String params = "";
 
 	
@@ -27,7 +28,7 @@ public abstract class RestRequest {
 	
 	protected String securityCode() {
 		String input = asURI();
-		return getHmacMD5("QualquerSenha764", input, "HmacSHA256");
+		return computeHmac("QualquerSenha764", input);
 	}
 
 	
@@ -39,17 +40,22 @@ public abstract class RestRequest {
 	}
 	
 	
-	private String getHmacMD5(String privateKey, String input, String algorithm) {
+	private String computeHmac(String privateKey, String input) {
 			byte[] keyBytes = privateKey.getBytes();
-			Key key = new SecretKeySpec(keyBytes, 0, keyBytes.length, algorithm); 
-			Mac mac;
-			try {
-				mac = Mac.getInstance(algorithm);
-				mac.init(key);
-			} catch (Exception e) {
-				throw new IllegalStateException(e);
-			} 
+			Key key = new SecretKeySpec(keyBytes, 0, keyBytes.length, HMAC_SHA256); 
+			Mac mac = getAlgorithm(HMAC_SHA256, key); 
 			return toHex(mac.doFinal(input.getBytes()));
+	}
+
+
+	private Mac getAlgorithm(String algorithm, Key key) {
+		try {
+			Mac mac = Mac.getInstance(algorithm);
+			mac.init(key);
+			return mac;
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 	
 	
