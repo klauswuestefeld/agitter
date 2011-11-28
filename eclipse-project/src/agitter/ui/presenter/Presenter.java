@@ -189,7 +189,8 @@ public class Presenter implements RestHandler {
 	}
 
 	private void updateAuthenticationTokenFor(User user) {
-		if( currentResponse == null ) {
+		if( currentResponse == null ) { //Is this necessary? Check log in production.
+			LogInfra.getLogger(this).info("It is possible for currentResponse to be null.");
 			return;
 		}
 		//TODO: tell users to generate a token for user...
