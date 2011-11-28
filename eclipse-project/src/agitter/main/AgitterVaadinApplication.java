@@ -21,7 +21,7 @@ import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 public class AgitterVaadinApplication extends Application implements HttpServletRequestListener  {
 
 	private Presenter presenter;
-	private String autehnticationToken;
+	private String authenticationToken;
 	
 	@Override
 	public void init() {
@@ -33,8 +33,8 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 
 		RestUtils.addRestHandler(view, new RestHandler() { @Override public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 			if (presenter == null) {
-				presenter = new Presenter(CONTROLLER, view, SessionUtils.getHttpSession(view), context, autehnticationToken);
-				autehnticationToken = null;
+				presenter = new Presenter(CONTROLLER, view, SessionUtils.getHttpSession(view), context, authenticationToken);
+				authenticationToken = null;
 			}
 			presenter.onRestInvocation(context, relativeUri, params);
 		}});
@@ -57,7 +57,7 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	private void searchAuthenticationTokenIn(Cookie[] cookies) {
 		for(Cookie c : cookies) {
 			if( Presenter.AUTHENTICATION_TOKEN_NAME.equals( c.getName() ) ) {
-				autehnticationToken = c.getValue();
+				authenticationToken = c.getValue();
 			}
 		}
 	}
