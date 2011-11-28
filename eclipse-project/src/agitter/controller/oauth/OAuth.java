@@ -2,7 +2,6 @@ package agitter.controller.oauth;
 
 import infra.logging.LogInfra;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,24 +40,24 @@ public class OAuth {
 	}
 
 	
-	public String googleSigninURL(URL context, HttpSession httpSession) throws Exception {
+	public String googleSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, GOOGLE);
 	}
-	public String windowsSigninURL(URL context, HttpSession httpSession) throws Exception {
+	public String windowsSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, HOTMAIL);
 	}
-	public String yahooSigninURL(URL context, HttpSession httpSession) throws Exception {
+	public String yahooSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, YAHOO);
 	}
-	public String facebookSigninURL(URL context, HttpSession httpSession) throws Exception {
+	public String facebookSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, FACEBOOK);
 	}
-	public String twitterSigninURL(URL context, HttpSession httpSession) throws Exception {
+	public String twitterSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, TWITTER);
 	}
 	
 	
-	private String signinURL(URL context, HttpSession httpSession, String providerId) throws Exception {
+	private String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
 		SocialAuthConfig config = SocialAuthConfig.getDefault();
 		try {
 			config.load();
@@ -66,7 +65,7 @@ public class OAuth {
 			SocialAuthManager manager = new SocialAuthManager();
 			manager.setSocialAuthConfig(config);
 			
-			String callbackUrl = context.toString() + "oauth";
+			String callbackUrl = context + "oauth";
 			String result = manager.getAuthenticationUrl(providerId, callbackUrl);
 
 			httpSession.setAttribute("authManager", manager);

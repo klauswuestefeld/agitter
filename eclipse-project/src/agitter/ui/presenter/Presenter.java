@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,8 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.FriendlyException;
 import sneer.foundation.lang.exceptions.Refusal;
+import vaadinutils.RestUtils.RestHandler;
+import vaadinutils.SessionUtils;
 import agitter.controller.Controller;
 import agitter.domain.Agitter;
 import agitter.domain.emails.EmailAddress;
@@ -24,37 +27,43 @@ import agitter.domain.users.Users.InvalidAuthenticationToken;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
-import com.vaadin.terminal.DownloadStream;
-
-public class Presenter {
+public class Presenter implements RestHandler {
 	
 	public static String AUTHENTICATION_TOKEN_NAME = "AuthenticationToken";
 
 	private final Controller controller;
 	private final AgitterView view;
 	private final HttpSession httpSession;
-	private final URL context;
+	private final String context;
 	private final Functor<EmailAddress, User> userProducer;
 
 	private HttpServletResponse currentResponse;
 
-	public Presenter(Controller controller, AgitterView view, HttpSession httpSession, URL context, String authenticationToken) {
+	public Presenter(Controller controller, AgitterView view, HttpServletRequest firstRequest) {
 		this.controller = controller;
 		this.view = view;
-		this.httpSession = httpSession;
-		this.context = context;
+		this.httpSession = firstRequest.getSession();
+		this.context = firstRequest.getContextPath();
 		this.userProducer = UserUtils.userProducer(domain().users());
 
+		SessionUtils.initParameters(httpSession, firstRequest.getParameterMap());
+		
+		authenticateUser(firstRequest);
+	}
+
+
+	private void authenticateUser(HttpServletRequest firstRequest) {
 		try {
-			attemptToLoginWithAuthenticationToken(authenticationToken);
+			attemptLoginWith(firstRequest.getCookies());
 		} catch (InvalidAuthenticationToken e) {
-			System.err.println( "Invalid authentication token... opening authentication view..." );
+			System.err.println( "Unable to login with cookies... opening authentication view..." );
 			openAuthentication();
 		}
 	}
 	
 
-	public DownloadStream onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
+	@Override
+	public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
 		try {
 			tryRestInvocation(relativeUri, params);
 		} catch (FriendlyException e) {
@@ -63,10 +72,9 @@ public class Presenter {
 			LogInfra.getLogger(this).log(Level.SEVERE, "Rest error. Context: " + context + " relativeUri: " + relativeUri, e);
 			warn("Erro processando requisição.");
 		}
-		return null;
 	}
 	
-	public void updateCurrentResponse(HttpServletResponse response) {
+	public void setCurrentResponse(HttpServletResponse response) {
 		currentResponse = response;
 	}
 	
@@ -194,9 +202,10 @@ public class Presenter {
 		setCookieForEver( AUTHENTICATION_TOKEN_NAME, "" );
 	};
 	
-	private void attemptToLoginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken {
-		System.err.println( "Attempting to login with authentication token: " + authenticationToken );
-		User user = domain().users().loginWithAuthenticationToken( authenticationToken );
+	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
+		String token = searchAuthenticationTokenIn(cookies);
+		System.err.println("Attempting to login with authentication token: " + token);
+		User user = domain().users().loginWithAuthenticationToken(token);
 		System.err.println( "OK! found user: " + user );
 		onAuthenticate().consume(user);
 	}
@@ -208,5 +217,14 @@ public class Presenter {
 		currentResponse.addCookie( authenticationCookie );		
 	}
 	
+
+	private String searchAuthenticationTokenIn(Cookie[] cookies) {
+		if (cookies == null) return null;
+		for (Cookie c : cookies)
+			if (Presenter.AUTHENTICATION_TOKEN_NAME.equals(c.getName()))
+				return c.getValue();
+		return null;
+	}
+
 }
 

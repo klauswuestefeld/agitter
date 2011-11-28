@@ -4,28 +4,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.vaadin.terminal.ParameterHandler;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Window;
 
-public class SessionUtils implements ParameterHandler {
+public class SessionUtils {
 	
 	private static final String KEY = SessionUtils.class.getSimpleName();
 
-	private final HttpSession session;
-
 	
-	public static void handleSessionForMainWindow(Window mainWindow) {
-		new SessionUtils(mainWindow);
-	}
-	private SessionUtils(Window mainWindow) {
-		session = getHttpSession(mainWindow);
-		mainWindow.addParameterHandler(this);
-	}
-
-
-	@Override public void handleParameters(Map<String, String[]> parameters) {
+	public static void initParameters(HttpSession session, Map<String, String[]> parameters) {
 		session.setAttribute(KEY, parameters);
 	}
 

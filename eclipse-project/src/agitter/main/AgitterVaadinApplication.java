@@ -2,16 +2,10 @@ package agitter.main;
 
 import static agitter.controller.Controller.CONTROLLER;
 
-import java.net.URL;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vaadinutils.RestUtils;
-import vaadinutils.RestUtils.RestHandler;
-import vaadinutils.SessionUtils;
 import agitter.ui.presenter.Presenter;
 import agitter.ui.view.AgitterViewImpl;
 
@@ -20,52 +14,35 @@ import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 
 public class AgitterVaadinApplication extends Application implements HttpServletRequestListener  {
 
+	private HttpServletRequest firstRequest;
 	private Presenter presenter;
-	private String authenticationToken;
-	
-	
-	@Override
-	public void init() {
-		setTheme("agitter");
-		final AgitterViewImpl view = new AgitterViewImpl();
-		setMainWindow(view);
-
-		SessionUtils.handleSessionForMainWindow(view);
-		startHandlingRestRequests(view);
-	}
-
-
-	private void startHandlingRestRequests(final AgitterViewImpl view) {
-		RestUtils.addRestHandler(view, new RestHandler() { @Override public void onRestInvocation(URL context, String relativeUri, Map<String, String[]> params) {
-			if (presenter == null) {
-				presenter = new Presenter(CONTROLLER, view, SessionUtils.getHttpSession(view), context, authenticationToken);
-				authenticationToken = null;
-			}
-			presenter.onRestInvocation(context, relativeUri, params);
-		}});
-	}
 	
 	
 	@Override
 	public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
 		if (presenter == null)
-			searchAuthenticationTokenIn(request.getCookies());
+			firstRequest = request;
 		else
-			presenter.updateCurrentResponse(response);
+			presenter.setCurrentResponse(response);
 	}
-	
-	
+
+
 	@Override
 	public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
-		// Required by HttpServletRequestListener interface.
+		presenter.setCurrentResponse(null);
 	}
-	
-	
-	private void searchAuthenticationTokenIn(Cookie[] cookies) {
-		if (cookies == null) return;
-		for (Cookie c : cookies)
-			if (Presenter.AUTHENTICATION_TOKEN_NAME.equals(c.getName()))
-				authenticationToken = c.getValue();
+
+
+	@Override
+	public void init() {
+		setTheme("agitter");
+		AgitterViewImpl view = new AgitterViewImpl();
+		setMainWindow(view);
+
+		presenter = new Presenter(CONTROLLER, view, firstRequest);
+		firstRequest = null;
+		
+		RestUtils.addRestHandler(view, presenter);
 	}
 	
 }

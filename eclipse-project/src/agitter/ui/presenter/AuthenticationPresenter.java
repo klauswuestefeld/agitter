@@ -4,7 +4,6 @@ import static agitter.domain.emails.EmailAddress.email;
 import infra.logging.LogInfra;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,13 +30,13 @@ public class AuthenticationPresenter {
 	private final SignupEmailController signups;
 	private final OAuth oAuth;
 	private final HttpSession httpSession;
-	private final URL context;
+	private final String context;
 	private final Consumer<String> urlRedirector;
 	private SignupView signupView;
 	private LoginView loginView;
 	
 	
-	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, HttpSession httpSession, URL context, Consumer<String> urlRedirector) {
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, HttpSession httpSession, String context, Consumer<String> urlRedirector) {
 		this.users = users;
 		this.authenticationView = authenticationView;
 		this.onAuthenticate = onAuthenticate;
