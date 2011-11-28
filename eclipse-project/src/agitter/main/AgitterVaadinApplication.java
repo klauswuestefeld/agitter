@@ -62,6 +62,7 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	
 	
 	private void searchAuthenticationTokenIn(Cookie[] cookies) {
+		if (cookies == null) return;
 		for (Cookie c : cookies)
 			if (Presenter.AUTHENTICATION_TOKEN_NAME.equals(c.getName()))
 				authenticationToken = c.getValue();
