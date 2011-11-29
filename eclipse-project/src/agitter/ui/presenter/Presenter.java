@@ -195,12 +195,12 @@ public class Presenter implements RestHandler {
 		}
 		//TODO: tell users to generate a token for user...
 		System.err.println( "Updating authentication token cookie for: " + user );
-		setCookieForEver( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
+		setCookieForever( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
 	}
 	
 	private void clearAuthenticationToken() {
 		System.err.println( "Clearing authentication token cookie..." );
-		setCookieForEver( AUTHENTICATION_TOKEN_NAME, "" );
+		setCookieForever( AUTHENTICATION_TOKEN_NAME, "" );
 	};
 	
 	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
@@ -211,7 +211,7 @@ public class Presenter implements RestHandler {
 		onAuthenticate().consume(user);
 	}
 	
-	private void setCookieForEver(String name, String value) {
+	private void setCookieForever(String name, String value) {
 		final Cookie authenticationCookie = new Cookie( name, value );
 		authenticationCookie.setMaxAge( Integer.MAX_VALUE );
 		authenticationCookie.setPath( "/" );

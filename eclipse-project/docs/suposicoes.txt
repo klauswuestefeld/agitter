@@ -17,14 +17,15 @@ Peccin
 
 	Agito selecionado - Destacar com CSS.
 
-	Somente 2 primeiras linhas da descrição do agito deve aparecer na lista, não descrição inteira.
+	Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
+		Se quiser resolver todos os casos (1a linha comprida, quebra de linha, etc) e fazer 2 linhas, blz, mas dá pra lançar sossegado sem isso.
 
 
 Matias
 
 	Session Management
 		"Mantenha-me Conectado" por default até dar "Sair".
-		  - Criar o conceito do authentication token no domain
+		  - Criptografar o authentication token
 		  - Verificar o fluxo de login pela rede social e fazer funcionar tmb.
 		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
 
@@ -42,7 +43,6 @@ Alguém com Iniciativa
 		Formato da Lista
 			Quinta 31/12/2011
 			Reveillon com churrasco lá em casa
-			Vamo aí galera!
 			klaus@gmail.com  (bloquear emails desta pessoa)
 		No Spam
 			Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
