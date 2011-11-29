@@ -54,11 +54,6 @@ Alguém com Iniciativa
 
 	Unificação de emails. Permitir vários emails para um mesmo user.
 
-
-	URLs clicáveis na descricao do agito (Nao são clicáveis no email)
-		encontrar os links dentro de um texto (EventVO.description), envolvê-los com a tag <a>, e depois setar o ContentMode do label para Label.CONTENT_XHTML (EventViewImpl.java:29)
-			Teremos problemas de XSS? Dá pra usar nosso XssAttackSanitizer nos links?
-
 	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
 		Abrir a tela de agitos com o cara já autenticado.
 

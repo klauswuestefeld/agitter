@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.events.EventListView.Boss;
 
 import com.vaadin.ui.Button;
@@ -30,7 +31,7 @@ public class EventListElement extends CssLayout {
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-date");
 			
-			label = new Label(eventValues.description);
+			label = new Label(new HTMLFormatter().makeClickable(eventValues.description), Label.CONTENT_XHTML);
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
 
