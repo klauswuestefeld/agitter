@@ -15,6 +15,7 @@ import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 public class AgitterVaadinApplication extends Application implements HttpServletRequestListener  {
 
 	private HttpServletRequest firstRequest;
+	private HttpServletResponse firstResponse;
 	private Presenter presenter;
 	
 	public static SystemMessages getSystemMessages() {
@@ -25,9 +26,10 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	
 	@Override
 	public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
-		if (presenter == null)
+		if (presenter == null) {
 			firstRequest = request;
-		else
+			firstResponse = response;
+		} else
 			presenter.setCurrentResponse(response);
 	}
 
@@ -45,7 +47,7 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 		AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
 
-		presenter = new Presenter(CONTROLLER, view, firstRequest);
+		presenter = new Presenter(CONTROLLER, view, firstRequest, firstResponse);
 		firstRequest = null;
 		
 		RestUtils.addRestHandler(view, presenter);

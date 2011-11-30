@@ -24,7 +24,6 @@ import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidAuthenticationToken;
-import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -40,14 +39,15 @@ public class Presenter implements RestHandler {
 
 	private HttpServletResponse currentResponse;
 
-	public Presenter(Controller controller, AgitterView view, HttpServletRequest firstRequest) {
+	public Presenter(Controller controller, AgitterView view, HttpServletRequest firstRequest, HttpServletResponse firstResponse) {
 		this.controller = controller;
 		this.view = view;
 		this.httpSession = firstRequest.getSession();
 		this.context = firstRequest.getRequestURL().toString();
 		
 		this.userProducer = UserUtils.userProducer(domain().users());
-
+		setCurrentResponse(firstResponse);
+		
 		SessionUtils.initParameters(httpSession, firstRequest.getParameterMap());
 		
 		authenticateUser(firstRequest);
@@ -57,8 +57,6 @@ public class Presenter implements RestHandler {
 	private void authenticateUser(HttpServletRequest firstRequest) {
 		try {
 			attemptLoginWith(firstRequest.getCookies());
-		} catch (UserNotFound e) {
-			openAuthentication();
 		} catch (InvalidAuthenticationToken e) {
 			openAuthentication();
 		}
@@ -192,10 +190,6 @@ public class Presenter implements RestHandler {
 	}
 
 	private void updateAuthenticationTokenFor(User user) {
-		if( currentResponse == null ) { //Is this necessary? Check log in production.
-			LogInfra.getLogger(this).info("It is possible for currentResponse to be null.");
-			return;
-		}
 		//TODO: tell users to generate a token for user...
 		setCookieForever( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
 	}
@@ -204,7 +198,7 @@ public class Presenter implements RestHandler {
 		setCookieForever( AUTHENTICATION_TOKEN_NAME, "" );
 	};
 	
-	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken, UserNotFound {
+	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
 		String token = searchAuthenticationTokenIn(cookies);
 		User user = domain().users().loginWithAuthenticationToken(token);
 		onAuthenticate().consume(user);

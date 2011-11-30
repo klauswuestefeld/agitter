@@ -47,12 +47,16 @@ public class UsersImpl implements Users {
 	}
 	
 	@Override
-	public User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken, UserNotFound {
+	public User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken {
 		//TODO: Implement this...
-		if( authenticationToken == null || authenticationToken.trim().isEmpty() ) {
-			throw new InvalidAuthenticationToken();
+		if( authenticationToken == null || authenticationToken.trim().isEmpty() )
+			throw new InvalidAuthenticationToken("Empty token.");
+
+		try {
+			return findByEmail(EmailAddress.certain(authenticationToken));
+		} catch (UserNotFound e) {
+			throw new InvalidAuthenticationToken("User not found.");
 		}
-		return findByEmail(EmailAddress.certain(authenticationToken));
 	}
 
 
