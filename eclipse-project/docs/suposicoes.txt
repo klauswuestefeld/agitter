@@ -32,6 +32,11 @@ Matias
 
 Alguém com Iniciativa
 
+	Links clicáveis na descricao do agito
+		Colocar tbém no campo de visualização à direita
+		Fazer abrir outra aba do browser
+		Prevenir ataques de XSS  
+
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
 			Lembrar de desativar/remover o timer na segunda vez.
