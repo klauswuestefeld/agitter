@@ -17,6 +17,11 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	private HttpServletRequest firstRequest;
 	private Presenter presenter;
 	
+	public static SystemMessages getSystemMessages() {
+		final CustomizedSystemMessages messages = new CustomizedSystemMessages();
+		messages.setSessionExpiredNotificationEnabled(false);
+		return messages;
+	}
 	
 	@Override
 	public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {

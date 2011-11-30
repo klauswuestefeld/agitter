@@ -43,7 +43,8 @@ public class Presenter implements RestHandler {
 		this.controller = controller;
 		this.view = view;
 		this.httpSession = firstRequest.getSession();
-		this.context = firstRequest.getContextPath();
+		this.context = firstRequest.getRequestURL().toString();
+		
 		this.userProducer = UserUtils.userProducer(domain().users());
 
 		SessionUtils.initParameters(httpSession, firstRequest.getParameterMap());
@@ -56,7 +57,6 @@ public class Presenter implements RestHandler {
 		try {
 			attemptLoginWith(firstRequest.getCookies());
 		} catch (InvalidAuthenticationToken e) {
-			System.err.println( "Unable to login with cookies... opening authentication view..." );
 			openAuthentication();
 		}
 	}
@@ -194,20 +194,16 @@ public class Presenter implements RestHandler {
 			return;
 		}
 		//TODO: tell users to generate a token for user...
-		System.err.println( "Updating authentication token cookie for: " + user );
 		setCookieForever( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
 	}
 	
 	private void clearAuthenticationToken() {
-		System.err.println( "Clearing authentication token cookie..." );
 		setCookieForever( AUTHENTICATION_TOKEN_NAME, "" );
 	};
 	
 	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
 		String token = searchAuthenticationTokenIn(cookies);
-		System.err.println("Attempting to login with authentication token: " + token);
 		User user = domain().users().loginWithAuthenticationToken(token);
-		System.err.println( "OK! found user: " + user );
 		onAuthenticate().consume(user);
 	}
 	
@@ -226,6 +222,6 @@ public class Presenter implements RestHandler {
 				return c.getValue();
 		return null;
 	}
-
+	
 }
 
