@@ -31,6 +31,7 @@ Matias
 	Session Management
 		"Mantenha-me Conectado" por default até dar "Sair".
 		  - Criptografar o authentication token
+		  - Domain não deve saber do token...
 		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
 
 
