@@ -43,7 +43,8 @@ public class Presenter implements RestHandler {
 		this.controller = controller;
 		this.view = view;
 		this.httpSession = firstRequest.getSession();
-		this.context = firstRequest.getContextPath();
+		this.context = firstRequest.getRequestURL().toString();
+		
 		this.userProducer = UserUtils.userProducer(domain().users());
 
 		SessionUtils.initParameters(httpSession, firstRequest.getParameterMap());
@@ -221,6 +222,6 @@ public class Presenter implements RestHandler {
 				return c.getValue();
 		return null;
 	}
-
+	
 }
 
