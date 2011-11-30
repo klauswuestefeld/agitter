@@ -44,6 +44,7 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 
 		presenter = new Presenter(CONTROLLER, view, firstRequest, firstResponse);
 		firstRequest = null;
+		firstResponse = null;
 		
 		RestUtils.addRestHandler(view, presenter);
 	}
