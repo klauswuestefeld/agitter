@@ -18,11 +18,6 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	private HttpServletResponse firstResponse;
 	private Presenter presenter;
 	
-	public static SystemMessages getSystemMessages() {
-		final CustomizedSystemMessages messages = new CustomizedSystemMessages();
-		messages.setSessionExpiredNotificationEnabled(false);
-		return messages;
-	}
 	
 	@Override
 	public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
@@ -52,5 +47,12 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 		
 		RestUtils.addRestHandler(view, presenter);
 	}
+
 	
+	public static SystemMessages getSystemMessages() {
+		CustomizedSystemMessages messages = new CustomizedSystemMessages();
+		messages.setSessionExpiredNotificationEnabled(false);
+		return messages;
+	}
+
 }
