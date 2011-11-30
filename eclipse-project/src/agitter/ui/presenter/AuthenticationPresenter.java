@@ -13,7 +13,6 @@ import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.ForgotPasswordMailSender;
 import agitter.controller.mailing.SignupEmailController;
 import agitter.controller.oauth.OAuth;
-import agitter.domain.emails.AddressValidator;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.ui.view.authentication.AuthenticationView;
@@ -77,15 +76,15 @@ public class AuthenticationPresenter {
 		String email = authenticationView.email();
 		User user = null;
 		try {
-			AddressValidator.validateEmail(email);
 			user = users.searchByEmail(email(email));
-			if (user != null && user.hasSignedUp())		// TODO Codigo duplicado em SignupEmailController.checkDuplicatedSignup()
-				startLogin();
-			else
-				startSignup();
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
+			return;
 		}
+		if (user != null && user.hasSignedUp())		// TODO Codigo duplicado em SignupEmailController.checkDuplicatedSignup()
+			startLogin();
+		else
+			startSignup();
 	}
 
 
