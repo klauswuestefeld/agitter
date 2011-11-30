@@ -48,7 +48,7 @@ public class HTMLFormatter {
 	}
 	
 	public String addWEB(String text) {
-		return replaceOutsideATAG(text, WEB_REGEX,"<a href='$1'>$1</a>");
+		return replaceOutsideATAG(text, WEB_REGEX,"<a href='$1' target='_new'>$1</a>");
 	}
 
 	public String addMail(String text) {
@@ -56,7 +56,7 @@ public class HTMLFormatter {
 	}
 	
 	public String addWWW(String text) {
-		return replaceOutsideATAG(text, WWW_REGEX,"<a href='http://$1'>$1</a>");
+		return replaceOutsideATAG(text, WWW_REGEX,"<a href='http://$1' target='_new'>$1</a>");
 	}
 
 	public String makeClickable(String text) {

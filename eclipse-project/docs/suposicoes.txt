@@ -23,6 +23,8 @@ Peccin
 	Altura da Descrição do Agito p Edição
 		Auto-resize de acordo com o texto ou simplesmente mais alto.
 
+	Layout do agito em read-only similar ao layout do agito para edição
+		Visualizar agitos de outros.
 
 Matias
 
@@ -42,7 +44,6 @@ Alguém com Iniciativa
 
 	Links clicáveis na descricao do agito
 		Colocar tbém no campo de visualização à direita
-		Fazer abrir outra aba do browser
 		Prevenir ataques de XSS  
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
@@ -51,6 +52,10 @@ Alguém com Iniciativa
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		Fazer botao/link pra importação/atualizaçao separada do login.
+	
+	Espere passar a hora do agito e tente editá-lo. 
+		Aparece msg de erro de agito antigo.
+		Fazer o agito desaparecer quando passar a validade? 
 	
 	Email
 		Formato da Lista
@@ -64,6 +69,29 @@ Alguém com Iniciativa
 
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
+
+	Public profile do sugeito
+		Definir como será os IDs. Usar do Twetter do Facebook? 
+		Permitir alteração? 
+		
+	Eventos periódicos. E-mails automaticamente
+	
+	Fazer a visualização do agito clicado sempre visível
+		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scrool até o topo da página
+	
+	Melhorar redigibilidade.
+	
+	Unlink accounts
+	
+	Transformar o e-mail de login do topo em um dropdown
+		Botar o sair lá
+		Configurações de conta
+	
+	Na visualização, carregar: 
+		Imagens
+		Previsualizar links
+		Videos
+		Integrar com servicos: Flyckr, Instagram, etc... 		  		
 
 	Unificação de emails. Permitir vários emails para um mesmo user.
 
