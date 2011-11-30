@@ -19,6 +19,9 @@ Peccin
 
 	Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		Se quiser resolver todos os casos (1a linha comprida, quebra de linha, etc) e fazer 2 linhas, blz, mas dá pra lançar sossegado sem isso.
+		
+	Altura da Descrição do Agito p Edição
+		Auto-resize de acordo com o texto ou simplesmente mais alto.
 
 
 Matias
@@ -41,14 +44,7 @@ Alguém com Iniciativa
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
 			Lembrar de desativar/remover o timer na segunda vez.
 
-	BUG lista de Eventos com URL - Ao Clicar na URL aparece uma mensagem de "Comunication Problem" antes do 
-	cara ser redirecionado. 
-	
 	BUG Login por rede social parece não estar funcionando.
-
-	Auto-resize do campo descrição. Principalmente ao copiar e colar textos 
-	
-	 
 
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		Fazer botao/link pra importação/atualizaçao separada do login.
