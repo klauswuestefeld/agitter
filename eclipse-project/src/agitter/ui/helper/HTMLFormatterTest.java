@@ -14,29 +14,29 @@ public class HTMLFormatterTest {
 	
 	@Test
 	public void testSimpleReplacement() {
-		equals("<a href='http://teste.com.br'>http://teste.com.br</a>", 
+		equals("<a href='http://teste.com.br' target='_new'>http://teste.com.br</a>", 
 				"http://teste.com.br");
 		
-		equals("Hi this <a href='http://teste.com.br'>http://teste.com.br</a> is a test.", 
+		equals("Hi this <a href='http://teste.com.br' target='_new'>http://teste.com.br</a> is a test.", 
 			   "Hi this http://teste.com.br is a test.");		
 	}
 
 
 	@Test
 	public void testHTTPS() {
-		equals("Hi this <a href='https://teste.com'>https://teste.com</a>.",
+		equals("Hi this <a href='https://teste.com' target='_new'>https://teste.com</a>.",
 			   "Hi this https://teste.com."); 
 	}
 	
 	@Test
 	public void testFTP() {
-		equals("Hi this <a href='ftp://teste.com'>ftp://teste.com</a>.",
+		equals("Hi this <a href='ftp://teste.com' target='_new'>ftp://teste.com</a>.",
 			   "Hi this ftp://teste.com."); 
 	}
 	
 	@Test
 	public void testDoubleURL() {
-		equals("Hi this <a href='http://teste.com'>http://teste.com</a> is a test <a href='http://teste.com.br'>http://teste.com.br</a>.",
+		equals("Hi this <a href='http://teste.com' target='_new'>http://teste.com</a> is a test <a href='http://teste.com.br' target='_new'>http://teste.com.br</a>.",
 			   "Hi this http://teste.com is a test http://teste.com.br."); 
 	}
 	
@@ -54,13 +54,13 @@ public class HTMLFormatterTest {
 	
 	@Test
 	public void testWWW() {
-		equals("Hi this <a href='http://www.teste.com'>www.teste.com</a>.",
+		equals("Hi this <a href='http://www.teste.com' target='_new'>www.teste.com</a>.",
 			   "Hi this www.teste.com."); 
 	}
 	
 	@Test
 	public void testNpWWW() {
-		equals("Hi this <a href='http://teste.com'>teste.com</a>.",
+		equals("Hi this <a href='http://teste.com' target='_new'>teste.com</a>.",
 			   "Hi this teste.com."); 
 	}
 	
