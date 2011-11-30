@@ -34,7 +34,8 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 
 	@Override
 	public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
-		presenter.setCurrentResponse(null);
+		if (presenter != null) //Exception during init can leave it null.
+			presenter.setCurrentResponse(null);
 	}
 
 

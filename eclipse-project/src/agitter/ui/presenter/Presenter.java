@@ -24,6 +24,7 @@ import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidAuthenticationToken;
+import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -56,6 +57,8 @@ public class Presenter implements RestHandler {
 	private void authenticateUser(HttpServletRequest firstRequest) {
 		try {
 			attemptLoginWith(firstRequest.getCookies());
+		} catch (UserNotFound e) {
+			openAuthentication();
 		} catch (InvalidAuthenticationToken e) {
 			openAuthentication();
 		}
@@ -201,7 +204,7 @@ public class Presenter implements RestHandler {
 		setCookieForever( AUTHENTICATION_TOKEN_NAME, "" );
 	};
 	
-	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
+	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken, UserNotFound {
 		String token = searchAuthenticationTokenIn(cookies);
 		User user = domain().users().loginWithAuthenticationToken(token);
 		onAuthenticate().consume(user);

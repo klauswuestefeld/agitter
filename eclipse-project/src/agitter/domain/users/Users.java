@@ -10,7 +10,7 @@ import agitter.domain.emails.EmailAddress;
 public interface Users {
 
 	public class UserNotFound extends Refusal {  public UserNotFound(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
-	public class InvalidAuthenticationToken extends Refusal {  public InvalidAuthenticationToken(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
+	public class InvalidAuthenticationToken extends Exception {};
 	public class InvalidPassword extends Refusal {  public InvalidPassword(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
 	public class UserNotActive extends Refusal { public UserNotActive(String veryHelpfulMessage) { super(veryHelpfulMessage); }  }
 
@@ -24,7 +24,7 @@ public interface Users {
 	User produce(EmailAddress email);
 
 	User loginWithEmail(EmailAddress email, String password) throws UserNotActive, UserNotFound, InvalidPassword;
-	User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken;
+	User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken, UserNotFound;
 	
 	User findByEmail(EmailAddress email) throws UserNotFound;
 	User searchByEmail(EmailAddress email);
