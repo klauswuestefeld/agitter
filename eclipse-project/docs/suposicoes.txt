@@ -71,21 +71,25 @@ Alguém com Iniciativa
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
 	Public profile do sugeito
-		Definir como será os IDs. Usar do Twetter do Facebook? 
+		Definir como será os IDs. Username? Usar do Twetter do Facebook? 
 		Permitir alteração? 
 		
 	Eventos periódicos. E-mails automaticamente
+		Como assim?
 	
-	Fazer a visualização do agito clicado sempre visível
+	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
 		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scrool até o topo da página
 	
 	Melhorar redigibilidade.
+		Como assim?
 	
 	Unlink accounts
+		Como assim?
 	
 	Transformar o e-mail de login do topo em um dropdown
 		Botar o sair lá
 		Configurações de conta
+			Q vai ter nessas configuraçoes?
 	
 	Na visualização, carregar: 
 		Imagens
