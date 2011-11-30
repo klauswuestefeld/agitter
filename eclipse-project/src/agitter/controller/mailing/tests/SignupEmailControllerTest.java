@@ -24,12 +24,13 @@ public class SignupEmailControllerTest extends TestWithMocks {
 	public void signupViaEmail() throws Exception {
 		checking(new Expectations(){{
 			allowing(users).searchByEmail(email("ana@mail.com"));
-			exactly(1).of(users).signup(email("ana@mail.com"), "password123");
 		}});
-		
 		subject.initiateSignup(email("ana@mail.com"), "password123");
 		assertTrue(sender.body().contains("email=ana@mail.com"));
 		
+		checking(new Expectations(){{
+			exactly(1).of(users).signup(email("ana@mail.com"), "password123");
+		}});
 		Map<String, String[]> params = map("email", "ana@mail.com", "code", "E752D24A27601AA686AFEDA0D3991CA35C99E062CFA929B030ED8F2E473010D0");  //Obtained by Regression
 		subject.onRestInvocation(params);
 	}
