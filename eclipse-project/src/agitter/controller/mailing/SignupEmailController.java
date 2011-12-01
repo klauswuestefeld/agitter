@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.controller.RestRequest;
+import utils.RestRequest;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
@@ -40,7 +40,7 @@ public class SignupEmailController {
 
 
 	public User onRestInvocation(Map<String, String[]> params) throws Refusal {
-		SignupRequest req = SignupRequest.unmarshal(params);
+		SignupRequest req = new SignupRequest(params);
 		checkDuplicatedSignup(req.email());
 		String password = passwordsByEmail.remove(req.email());
 		if (password == null) throw new Refusal("Código de ativação expirado. Faça seu cadastro novamente.");

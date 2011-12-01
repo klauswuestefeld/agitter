@@ -47,19 +47,11 @@ public class UsersImpl implements Users {
 	}
 	
 	@Override
-	public User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken {
-		//TODO: Implement this...
-		if( authenticationToken == null || authenticationToken.trim().isEmpty() )
-			throw new InvalidAuthenticationToken("Empty token.");
-
-		try {
-			return findByEmail(EmailAddress.certain(authenticationToken));
-		} catch (UserNotFound e) {
-			throw new InvalidAuthenticationToken("User not found.");
-		}
+	public User loginWithEmail(EmailAddress email) throws UserNotActive, UserNotFound {
+		User user = searchByEmail(email);
+		return login(user, email.toString());
 	}
-
-
+	
 	@Override
 	public User findByEmail(EmailAddress email) throws UserNotFound {
 		User user = searchByEmail(email);
@@ -130,11 +122,21 @@ public class UsersImpl implements Users {
 
 
 	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
-		checkUser(user, email);
-		if(!user.hasSignedUp()) { throw new UserNotActive("Usuário não encontrado: " + email); }
+		checkUserIsValidAndActive(user, email);
 		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
 		getLogger(this).info("Login: "+email);
 		return user;
+	}
+
+	private User login(User user, String email) throws UserNotFound, UserNotActive {
+		checkUserIsValidAndActive(user, email);
+		getLogger(this).info("Auto login: "+email);
+		return user;
+	}
+
+	private void checkUserIsValidAndActive(User user, String email) throws UserNotFound, UserNotActive {
+		checkUser(user, email);
+		if(!user.hasSignedUp()) { throw new UserNotActive("Usuário não encontrado: " + email); }
 	}
 
 	

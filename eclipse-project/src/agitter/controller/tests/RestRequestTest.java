@@ -3,7 +3,8 @@ package agitter.controller.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import agitter.controller.RestRequest;
+import utils.RestRequest;
+
 
 public class RestRequestTest extends Assert {
 

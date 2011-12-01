@@ -15,6 +15,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.FriendlyException;
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.RestRequest;
 import vaadinutils.RestUtils.RestHandler;
 import vaadinutils.SessionUtils;
 import agitter.controller.Controller;
@@ -24,6 +25,8 @@ import agitter.domain.users.User;
 import agitter.domain.users.UserUtils;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidAuthenticationToken;
+import agitter.domain.users.Users.UserNotActive;
+import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -190,8 +193,7 @@ public class Presenter implements RestHandler {
 	}
 
 	private void updateAuthenticationTokenFor(User user) {
-		//TODO: tell users to generate a token for user...
-		setCookieForever( AUTHENTICATION_TOKEN_NAME, user.email().toString() );
+		setCookieForever( AUTHENTICATION_TOKEN_NAME, new LoginRequest( user.email() ).asSecureURI() );
 	}
 	
 	private void clearAuthenticationToken() {
@@ -200,7 +202,15 @@ public class Presenter implements RestHandler {
 	
 	private void attemptLoginWith(Cookie[] cookies) throws InvalidAuthenticationToken {
 		String token = searchAuthenticationTokenIn(cookies);
-		User user = domain().users().loginWithAuthenticationToken(token);
+		EmailAddress email = getEmail(token);
+		User user;
+		try {
+			user = domain().users().loginWithEmail(email);
+		} catch (UserNotActive e) {
+			throw new InvalidAuthenticationToken("User not active");
+		} catch (UserNotFound e) {
+			throw new InvalidAuthenticationToken("User not found");
+		}
 		onAuthenticate().consume(user);
 	}
 	
@@ -218,6 +228,19 @@ public class Presenter implements RestHandler {
 			if (Presenter.AUTHENTICATION_TOKEN_NAME.equals(c.getName()))
 				return c.getValue();
 		return null;
+	}
+	
+	private EmailAddress getEmail(String cookie) throws InvalidAuthenticationToken {
+		String[] parts = cookie.split("\\?");
+		if(parts.length != 2) {
+			throw new InvalidAuthenticationToken( "Invalid token" );
+		}
+		try {
+			LoginRequest req = new LoginRequest(RestRequest.map(parts[1]));
+			return req.email();
+		} catch (Exception e) {
+			throw new InvalidAuthenticationToken(e.getMessage());
+		}
 	}
 	
 }

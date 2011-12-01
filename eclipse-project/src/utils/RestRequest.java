@@ -1,5 +1,7 @@
-package agitter.controller;
+package utils;
 import java.security.Key;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.Mac;
@@ -13,6 +15,18 @@ public abstract class RestRequest {
 
 	private static final String HMAC_SHA256 = "HmacSHA256";
 	private String params = "";
+	
+	public static Map<String, String[]> map(String req) throws Refusal {
+		String[] keysAndValues = req.split( "[&=]" );
+		Map<String, String[]> result = new HashMap<String, String[]>();
+		int i = 0;
+		while (i < keysAndValues.length) {
+			String key = keysAndValues[i++];
+			String value = keysAndValues[i++];
+			result.put(key, new String[]{value});
+		}
+		return result;
+	}
 
 	
 	public String asSecureURI() {
@@ -78,5 +92,11 @@ public abstract class RestRequest {
 		if (code == null || code.length != 1 || !securityCode().equals(code[0]))
 			throw new Refusal("Requisição inválida.");
 	}
+	
+	
+	public static void main(String[] args) {
+		System.err.println( Arrays.toString( "signup?email=matias@sumersoft.com&code=12789A159BCED6CC42F7EB9D41FA415DB91FE8AA8DBD4CF8985C0664927A6906".split( "\\?" ) ) );
+	}
+	
 	
 }

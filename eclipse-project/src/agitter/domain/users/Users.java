@@ -24,7 +24,7 @@ public interface Users {
 	User produce(EmailAddress email);
 
 	User loginWithEmail(EmailAddress email, String password) throws UserNotActive, UserNotFound, InvalidPassword;
-	User loginWithAuthenticationToken(String authenticationToken) throws InvalidAuthenticationToken;
+	User loginWithEmail(EmailAddress email) throws UserNotActive, UserNotFound;
 	
 	User findByEmail(EmailAddress email) throws UserNotFound;
 	User searchByEmail(EmailAddress email);
