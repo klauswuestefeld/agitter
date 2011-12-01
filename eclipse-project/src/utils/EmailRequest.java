@@ -5,7 +5,7 @@ import java.util.Map;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.emails.EmailAddress;
 
-public abstract class EmailRequest extends RestRequest {
+public abstract class EmailRequest extends SecureRequest {
 
 	private final EmailAddress email;
 	

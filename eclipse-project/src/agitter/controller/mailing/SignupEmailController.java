@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import utils.RestRequest;
+import utils.SecureRequest;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
@@ -33,7 +33,7 @@ public class SignupEmailController {
 	public void initiateSignup(EmailAddress email, String password) throws Refusal {
 		checkDuplicatedSignup(email);
 		passwordsByEmail.put(email, password);
-		RestRequest req = new SignupRequest(email);
+		SecureRequest req = new SignupRequest(email);
 		String body = BODY.replaceAll("%REQUEST%", req.asSecureURI());
 		emailSender.send(email, SUBJECT, body);
 	}

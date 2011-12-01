@@ -11,23 +11,10 @@ import sneer.foundation.lang.exceptions.Refusal;
 
 
 
-public abstract class RestRequest {
+public abstract class SecureRequest {
 
 	private static final String HMAC_SHA256 = "HmacSHA256";
 	private String params = "";
-	
-	public static Map<String, String[]> map(String req) throws Refusal {
-		String[] keysAndValues = req.split( "[&=]" );
-		Map<String, String[]> result = new HashMap<String, String[]>();
-		int i = 0;
-		while (i < keysAndValues.length) {
-			String key = keysAndValues[i++];
-			String value = keysAndValues[i++];
-			result.put(key, new String[]{value});
-		}
-		return result;
-	}
-
 	
 	public String asSecureURI() {
 		addParamToUri("code", securityCode());
@@ -97,6 +84,25 @@ public abstract class RestRequest {
 	public static void main(String[] args) {
 		System.err.println( Arrays.toString( "signup?email=matias@sumersoft.com&code=12789A159BCED6CC42F7EB9D41FA415DB91FE8AA8DBD4CF8985C0664927A6906".split( "\\?" ) ) );
 	}
+
 	
+	protected static Map<String, String[]> parseUri(String command, String uri) throws Refusal {
+		String[] parts = uri.split("\\?");
+		if(parts.length != 2)
+			throw new Refusal( "Invalid " + command + " request: " + uri);
+		if(!parts[0].equals(command))
+			throw new Refusal( "Invalid request. Expected: " + command + " was: " + parts[0]);
+	
+		String[] keysAndValues = parts[1].split( "[&=]" );
+
+		Map<String, String[]> result = new HashMap<String, String[]>();
+		int i = 0;
+		while (i < keysAndValues.length) {
+			String key = keysAndValues[i++];
+			String value = keysAndValues[i++];
+			result.put(key, new String[]{value});
+		}
+		return result;
+	}
 	
 }

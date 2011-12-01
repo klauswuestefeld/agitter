@@ -3,14 +3,14 @@ package agitter.controller.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import utils.RestRequest;
+import utils.SecureRequest;
 
 
 public class RestRequestTest extends Assert {
 
 	@Test
 	public void uriIsAuthentic() {
-		RestRequest req = new RestRequest() {
+		SecureRequest req = new SecureRequest() {
 			{
 				addParamToUri("a", "40");
 				addParamToUri("b", "2");

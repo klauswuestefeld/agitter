@@ -15,7 +15,6 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.FriendlyException;
 import sneer.foundation.lang.exceptions.Refusal;
-import utils.RestRequest;
 import vaadinutils.RestUtils.RestHandler;
 import vaadinutils.SessionUtils;
 import agitter.controller.Controller;
@@ -193,7 +192,7 @@ public class Presenter implements RestHandler {
 	}
 
 	private void updateAuthenticationTokenFor(User user) {
-		setCookieForever( AUTHENTICATION_TOKEN_NAME, new LoginRequest( user.email() ).asSecureURI() );
+		setCookieForever( AUTHENTICATION_TOKEN_NAME, new AuthenticationToken( user.email() ).asSecureURI() );
 	}
 	
 	private void clearAuthenticationToken() {
@@ -229,14 +228,11 @@ public class Presenter implements RestHandler {
 				return c.getValue();
 		return null;
 	}
+
 	
 	private EmailAddress getEmail(String cookie) throws InvalidAuthenticationToken {
-		String[] parts = cookie.split("\\?");
-		if(parts.length != 2) {
-			throw new InvalidAuthenticationToken( "Invalid token" );
-		}
 		try {
-			LoginRequest req = new LoginRequest(RestRequest.map(parts[1]));
+			AuthenticationToken req = new AuthenticationToken(cookie);
 			return req.email();
 		} catch (Exception e) {
 			throw new InvalidAuthenticationToken(e.getMessage());
