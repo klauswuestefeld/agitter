@@ -52,6 +52,7 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 	
 	public static SystemMessages getSystemMessages() {
 		CustomizedSystemMessages messages = new CustomizedSystemMessages();
+		messages.setOutOfSyncNotificationEnabled(false);
 		messages.setSessionExpiredNotificationEnabled(false);
 		return messages;
 	}
