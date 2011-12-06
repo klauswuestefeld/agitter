@@ -1,11 +1,15 @@
 package agitter.ui.view.session.events;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
+import vaadinutils.WidgetUtils;
+import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -22,23 +26,25 @@ import com.vaadin.ui.TextArea;
 
 class EventViewImpl extends CssLayout implements EventView {
 
+	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
 	private final PopupDateField date = new PopupDateField();
 	private final TextArea description = new TextArea();
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
 
-	private final Label readOnlyDate = new Label();
-	private final Label readOnlyDescription = new Label();
+	private final Label readOnlyDate = WidgetUtils.createLabelXHTML(""); 
+	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	
 	private Boss boss;
 	private boolean listenersActive = false;
-	
+
 	
 	EventViewImpl() {
 		addStyleName("a-invite-view");
 		
-		addComponent(readOnlyDate);
-		addComponent(readOnlyDescription);
+		addComponent(readOnlyDate); readOnlyDate.addStyleName("a-invite-readonly-date");
+		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
 		addDateComponent();
 		addDescriptionComponent();
 		addNextInviteeComponent();
@@ -77,8 +83,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
 		
-		readOnlyDescription.setValue(description);
-		readOnlyDate.setValue(datetime);
+		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
+		readOnlyDate.setValue(dateFormat.format(datetime));
 
 		listenersActive = true;
 	}

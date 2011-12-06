@@ -151,6 +151,12 @@ button.a-events-view-new-event-button  {
 .a-event-view:hover {
 	background: #F7F7F7;
 }
+.a-event-view-selected {
+	background: #EAEAEA;
+}
+.a-event-view-selected:hover {
+	background: #E4E4E4;
+}
 
 button.a-event-remove-button, button.a-event-delete-button {
 	float: right;
@@ -180,6 +186,8 @@ button.a-event-delete-button:hover {
 .a-event-description {
 	width: 430px;
 	min-height: 25px;
+	max-height: 25px;
+	overflow: hidden;
 	font-size: 18px;
     line-height: normal;
     white-space: pre-wrap;
@@ -222,9 +230,9 @@ button.a-event-delete-button:hover {
 
 textarea.a-invite-description {
 	width: 430px;
-	height: 50px;
+	height: 160px;
 	min-height: 50px;
-	max-height: 300px;
+	max-height: 500px;
 	resize: vertical;
 	font-size: 18px;
 	display: block;
@@ -238,13 +246,6 @@ textarea.a-invite-description {
 .a-invite-next-invitee .v-filterselect-input {
 	width: 210px;
 }
-
-/*
-.a-invite-send {
-	float: right;
-	margin-top: 35px;
-}
-*/
 
 .a-invite-invitations {
 	width: 430px;
@@ -268,6 +269,22 @@ textarea.a-invite-description {
 
 .a-invite-invitations .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
 	visibility: visible;
+}
+
+.a-invite-readonly-date {
+	float: none;
+	margin-bottom: 10px;
+	width: 120px;
+}
+
+.a-invite-readonly-description {
+	width: 430px;
+	min-height: 50px;
+	display: block;
+	font-size: 18px;
+    line-height: normal;
+    white-space: pre-wrap;
+	margin-bottom: 14px;
 }
 
 

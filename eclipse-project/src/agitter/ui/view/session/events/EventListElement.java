@@ -40,6 +40,15 @@ public class EventListElement extends CssLayout {
 			texts.addComponent(label); label.addStyleName("a-event-owner");
 	}
 
+	
+	public void setSelected(boolean selected) {
+		if (selected)
+			addStyleName("a-event-view-selected");
+		else 
+			removeStyleName("a-event-view-selected");
+	}
+	
+	
 	private void addRemovalButton(EventVO event) {
 		String style = event.isDeletable
 			? "a-event-delete-button"

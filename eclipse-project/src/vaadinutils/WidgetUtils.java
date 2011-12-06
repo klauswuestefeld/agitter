@@ -26,4 +26,10 @@ public class WidgetUtils {
 	    return l;
 	}
 
+	public static Label createLabelXHTML(String caption) {
+		Label l = createLabel(caption);
+		l.setContentMode(Label.CONTENT_XHTML);
+		return l;
+	}
+
 }

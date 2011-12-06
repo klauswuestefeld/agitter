@@ -33,6 +33,7 @@ public class EventsPresenter implements Boss {
 	private final EventsView view;
 	private InvitePresenter invitePresenter;
 	private EventListView eventListView;
+	private Event eventSelected;
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
@@ -46,6 +47,8 @@ public class EventsPresenter implements Boss {
 		this.userProducer = userProducer;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
+		
+		this.eventSelected = null;
 
 		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
 			refreshEventList();
@@ -73,7 +76,7 @@ public class EventsPresenter implements Boss {
 			return;
 		}
 		refreshEventList();
-		invitePresenter().setSelectedEvent(event);
+		selectEvent(event);
 	}
 
 
@@ -115,6 +118,8 @@ public class EventsPresenter implements Boss {
 	
 	synchronized private void refreshEventList() {
 		eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		eventsListView().setSelectedEvent(eventSelected);
+
 	}
 
 	
@@ -142,9 +147,16 @@ public class EventsPresenter implements Boss {
 	}
 
 
+	private void selectEvent(Event eventSelected) {
+		this.eventSelected = eventSelected;
+		eventsListView().setSelectedEvent(this.eventSelected);
+		invitePresenter().setSelectedEvent(this.eventSelected);
+	}
+
+
 	@Override
-	public void onEventSelected(Object selectedEvent) {
-		invitePresenter().setSelectedEvent(((Event)selectedEvent));
+	public void onEventSelected(Object eventSelected) {
+		selectEvent((Event)eventSelected);
 	}
 
 
@@ -156,6 +168,7 @@ public class EventsPresenter implements Boss {
 		else
 			event.notInterested(user);
 		
+		eventSelected = null;
 		refreshEventList();
 		invitePresenter().clear();
 	}

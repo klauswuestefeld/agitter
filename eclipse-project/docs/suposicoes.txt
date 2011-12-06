@@ -2,6 +2,7 @@
 
 	BUG DO VAADIN - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
 		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
+		PECCIN: Acho que deve haver algum problema no tratamento do evento em si. No Galera não tem este problema, aparentemente. Ver como foi feito lá.
 
 	Tela de Entrada Nova - Imagem larga - Follow-up c Petra
 
@@ -9,22 +10,23 @@
 Peccin
 
 	BUG - Grupos de Contatos - Arrumar CSS no IE
-
+		Problema de Hover no IE, não sei como resolver...
+				
 	BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 
-	Formatação dos campos do agito de outros
+	DONE: Formatação dos campos do agito de outros
 
-	Agito selecionado - Destacar com CSS.
+	DONE (Mesmo problema de sempre com Hover no IE, não sei como resolver): Agito selecionado - Destacar com CSS.   
 
-	Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
+	DONE (1 linha): Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
 		Se quiser resolver todos os casos (1a linha comprida, quebra de linha, etc) e fazer 2 linhas, blz, mas dá pra lançar sossegado sem isso.
 		
-	Altura da Descrição do Agito p Edição
+	DONE (sem auto-resize): Altura da Descrição do Agito p Edição
 		Auto-resize de acordo com o texto ou simplesmente mais alto.
 
-	Layout do agito em read-only similar ao layout do agito para edição
-		Visualizar agitos de outros.
+	DONE: Layout do agito em read-only similar ao layout do agito para edição
+			Visualizar agitos de outros.
 
 Matias
 

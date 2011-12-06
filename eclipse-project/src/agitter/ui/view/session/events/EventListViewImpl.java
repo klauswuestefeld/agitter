@@ -1,5 +1,6 @@
 package agitter.ui.view.session.events;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.vaadin.event.LayoutEvents;
@@ -49,6 +50,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		}
 		Object eventObject = eventView.getEventObject();
 		boss.onEventSelected(eventObject);
+		
 	}
 
 
@@ -56,6 +58,17 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 	public void startReportingTo(Boss boss) {
 		if (this.boss != null) throw new IllegalStateException();
 		this.boss = boss;
+	}
+
+
+	@Override
+	public void setSelectedEvent(agitter.domain.events.Event event) {
+		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
+			Component item = it.next();
+			if (!(item instanceof EventListElement)) continue;
+			EventListElement eventItem = (EventListElement) item;
+			eventItem.setSelected(eventItem.getData().equals(event));
+		}
 	}
 	
 }
