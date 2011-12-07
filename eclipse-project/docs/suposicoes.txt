@@ -36,12 +36,16 @@ Matias
 
 Alguém com Iniciativa
 
-	Visualizar agito próprio antes de editar - Link p editar
+	VITOR - DONE: Visualizar agito próprio antes de editar - Link p editar
 		Abrir a tela com primeiro agito já selecionado
+		VITOR - Ficou horrível. :( 
 
 	Links clicáveis na descricao do agito
 		Colocar tbém no campo de visualização à direita
 		Prevenir ataques de XSS  
+
+	BUG Alguns cliques na lista de eventos não abrem o evento. 
+		O clique se perde e não aciona nada. 
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
@@ -72,16 +76,27 @@ Alguém com Iniciativa
 		Permitir alteração? 
 		
 	Eventos periódicos. E-mails automaticamente
-		Como assim?
+		Exemplo: Futebol toda a quarta com o mesmo grupo. Criar evento sozinho e já cadastrar todos. 
+		Exemplo2: Meeting do Vaadin toda a terça as 21h 
 	
 	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
 		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scrool até o topo da página
 	
-	Melhorar redigibilidade.
-		Como assim?
+	E-mail distinction
+	    Invitation-like
+	    Reminder-like
 	
-	Unlink accounts
-		Como assim?
+	Botões 
+		Lido/Novo
+		Receber e-mail ou não
+		Tô dentro/Tô fora
+		
+	Mostrar apenas os novos eventos. Opções:  
+		Filtro de novos/não lidos
+		Mostrar novos/não lidos no topo depois os outros. 	 
+	
+	Unlink Social accounts.  
+		Opção para desconectar twitter, gmail e outros. 
 	
 	Transformar o e-mail de login do topo em um dropdown
 		Botar o sair lá
