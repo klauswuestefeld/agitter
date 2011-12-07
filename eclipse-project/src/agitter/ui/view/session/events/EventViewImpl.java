@@ -20,6 +20,8 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
@@ -39,6 +41,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label readOnlyDate = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	
+	private Button edit = new Button("Editar");
+	
 	private Boss boss;
 	private boolean saveListenersActive = false;
 	private boolean editListenersActive = false;
@@ -54,15 +58,19 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		addNextInviteeComponent();
 		addInvitationsComponent();
+
+		addEditComponent();
 		
 		 this.addListener(new LayoutClickListener() { @Override public void layoutClick(LayoutClickEvent event) {
             // Get the child component which was clicked
             Component child = event.getChildComponent();
 
-            if (child == readOnlyDescription) {
-            	editDescription(true);
-            } else if (child == readOnlyDate) { 
-            	editDate(true);
+            if (child == readOnlyDescription && editListenersActive) {
+            	editAll(true);
+            	focusOnDescription();
+            } else if (child == readOnlyDate && editListenersActive) { 
+            	editAll(true);
+            	focusOnDate();
             }
         }});
 		
@@ -117,7 +125,8 @@ class EventViewImpl extends CssLayout implements EventView {
 
 	@Override
 	public void enableEditListeners(boolean b) {
-		editListenersActive = b;		
+		editListenersActive = b;	
+		edit.setVisible(b);
 	}
 	
 	@Override
@@ -126,25 +135,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		showEditFields(b);
 		enableEditListeners(!b);
 	}
-
-	public void editDescription(boolean enableEdit) {
-		if (!editListenersActive) return;
-		
-		readOnlyDescription.setVisible(!enableEdit);
-		description.setVisible(enableEdit);
-		description.setHeight(readOnlyDescription.getHeight(), readOnlyDescription.getHeightUnits());
-		
-		focusOnDescription();
-	}
-	
-	public void editDate(boolean enableEdit) {
-		if (!editListenersActive) return;
-		
-		readOnlyDate.setVisible(!enableEdit);
-		date.setVisible(enableEdit);
-		
-		focusOnDate();
-	}	
 
 	private boolean onNextInvitee(String invitee) {
 		boolean result = boss.approveInviteeAdd(invitee);
@@ -165,6 +155,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private void showReadOnlyLabels(boolean b) {
 		readOnlyDescription.setVisible(b);
 		readOnlyDate.setVisible(b);
+		edit.setVisible(b);
 	}
 
 	
@@ -193,10 +184,7 @@ class EventViewImpl extends CssLayout implements EventView {
 			if (!saveListenersActive) return;
 			boss.onDescriptionEdit(event.getText());
 		}});
-		description.addListener(new BlurListener() { @Override public void blur(BlurEvent event) {
-			editDescription(false);
-		}});
-		
+				
 		addComponent(description); description.addStyleName("a-invite-description");
 	}
 	
@@ -210,13 +198,22 @@ class EventViewImpl extends CssLayout implements EventView {
 		}});
 		date.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
 			onDatetimeEdit();
-			editDate(false);
 		}});
 		
 		addComponent(date); date.addStyleName("a-invite-date");
 	}
+	
+	private void addEditComponent() {
+		edit.addListener(new Button.ClickListener() {@Override	public void buttonClick(ClickEvent event) {
+			editAll(true);
+			focusOnDescription();
+		}});
+				
+		addComponent(edit); date.addStyleName("a-invite-edit");
+	}
 
-
+	
+	
 	private void onDatetimeEdit() {
 		if (!saveListenersActive) return;
 		boss.onDatetimeEdit((Date)date.getValue());
