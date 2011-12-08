@@ -25,9 +25,12 @@ Matias
 
 Alguém com Iniciativa
 
+	BUG - Espere passar a hora do agito e tente editá-lo. 
+		Aparece msg de erro de agito antigo.
+		Fazer o agito desaparecer quando passar a validade? 
+	
 	Quem é convidado?
 		Na lista: fulano@mail.com + N convidados
-		Na visualização: emails de quem é meu contato + N convidados
 
 	Vitor: DONE - Visualizar agito próprio antes de editar - Link p editar
 		Vitor: Ficou Horrivel
@@ -44,10 +47,6 @@ Alguém com Iniciativa
 	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
 		Fazer botao/link pra importação/atualizaçao separada do login.
 	
-	Espere passar a hora do agito e tente editá-lo. 
-		Aparece msg de erro de agito antigo.
-		Fazer o agito desaparecer quando passar a validade? 
-	
 	Email
 		Formato da Lista
 			Quinta 31/12/2011
@@ -60,6 +59,9 @@ Alguém com Iniciativa
 
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
+
+	Quem é convidado?
+		Na visualização: Lista de emails de quem é meu contato + N convidados.
 
 	Public profile do sugeito
 		Definir como será os IDs. Username? Usar do Twetter do Facebook? 
