@@ -36,6 +36,10 @@ Matias
 
 Alguém com Iniciativa
 
+	Quem é convidado?
+		Na lista: fulano@mail.com + N convidados
+		Na visualização: emails de quem é meu contato + N convidados
+
 	Visualizar agito próprio antes de editar - Link p editar
 		Abrir a tela com primeiro agito já selecionado
 
