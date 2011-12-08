@@ -77,6 +77,7 @@ public class EventsPresenter implements Boss {
 		}
 		refreshEventList();
 		selectEvent(event);
+		editAll(true);
 	}
 
 
@@ -151,6 +152,10 @@ public class EventsPresenter implements Boss {
 		this.eventSelected = eventSelected;
 		eventsListView().setSelectedEvent(this.eventSelected);
 		invitePresenter().setSelectedEvent(this.eventSelected);
+	}
+	
+	private void editAll(boolean isEditting) {
+		invitePresenter().editAll(isEditting);
 	}
 
 
