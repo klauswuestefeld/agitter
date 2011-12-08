@@ -9,24 +9,13 @@
 
 Peccin
 
-	BUG - Grupos de Contatos - Arrumar CSS no IE
-		Problema de Hover no IE, não sei como resolver...
+	BUG - Problema de Hover no IE (Grupos de Contatos, Agito selecionado)
+		Pesquisar no fórum do Vaadin, mandar código pro Klaus abrir bug, se necessário.
+			Desencanar de hover, se for o caso.
 				
 	BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
 
-	DONE: Formatação dos campos do agito de outros
-
-	DONE (Mesmo problema de sempre com Hover no IE, não sei como resolver): Agito selecionado - Destacar com CSS.   
-
-	DONE (1 linha): Somente primeira linha da descrição do agito deve aparecer na lista, não descrição inteira.
-		Se quiser resolver todos os casos (1a linha comprida, quebra de linha, etc) e fazer 2 linhas, blz, mas dá pra lançar sossegado sem isso.
-		
-	DONE (sem auto-resize): Altura da Descrição do Agito p Edição
-		Auto-resize de acordo com o texto ou simplesmente mais alto.
-
-	DONE: Layout do agito em read-only similar ao layout do agito para edição
-			Visualizar agitos de outros.
 
 Matias
 
