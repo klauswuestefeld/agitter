@@ -40,7 +40,8 @@ Alguém com Iniciativa
 		Na lista: fulano@mail.com + N convidados
 		Na visualização: emails de quem é meu contato + N convidados
 
-	Visualizar agito próprio antes de editar - Link p editar
+	Vitor: DONE - Visualizar agito próprio antes de editar - Link p editar
+		Vitor: Ficou Horrivel
 		Abrir a tela com primeiro agito já selecionado
 
 	Links clicáveis na descricao do agito
