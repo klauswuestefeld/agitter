@@ -40,6 +40,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 	private final Label readOnlyDate = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
+	private final Label readOnlyInvited = WidgetUtils.createLabelXHTML("");
 	
 	private Button edit = new Button("Editar");
 	
@@ -56,6 +57,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
 		addDescriptionComponent();
 		
+		addComponent(readOnlyInvited); readOnlyInvited.addStyleName("a-invite-readonly-invited");
 		addNextInviteeComponent();
 		addInvitationsComponent();
 
@@ -71,9 +73,12 @@ class EventViewImpl extends CssLayout implements EventView {
             } else if (child == readOnlyDate && editListenersActive) { 
             	editAll(true);
             	focusOnDate();
+            } else if (child == readOnlyInvited && editListenersActive) {
+            	editAll(true);
             }
+
         }});
-		
+		 
 		saveListenersActive = true;
 	}
 	
@@ -98,7 +103,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void display(String description, Date datetime, List<String> invitees) {
+	public void display(String description, Date datetime, List<String> invitees, int unkownInvitees) {
 		saveListenersActive = false;
 	
 		this.description.setValue(description);
@@ -106,11 +111,36 @@ class EventViewImpl extends CssLayout implements EventView {
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
 		
-		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
-		readOnlyDate.setValue(dateFormat.format(datetime));
+		displayReadOnly(description, datetime);
+		displayInvitees(invitees, unkownInvitees);
 		
 		saveListenersActive = true;
 	}
+
+	private void displayInvitees(List<String> invitees, int unkownInvitees) {
+		StringBuffer beautifulList = new StringBuffer();
+		
+		beautifulList.append(invitees.size() + " convidados");
+		
+		if (invitees.size()> 0) {
+			beautifulList.append("<ul>");
+			for (String invitee: invitees) {
+				beautifulList.append("<li>" + invitee + "</li>");
+			}
+			beautifulList.append("</ul>");
+		}
+		
+		if (unkownInvitees > 0) {
+			beautifulList.append(" e mais " + unkownInvitees + " desconhecidos");
+		}
+		
+		readOnlyInvited.setValue(beautifulList.toString());
+	}
+	
+	private void displayReadOnly(String description, Date datetime) {
+		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
+		readOnlyDate.setValue(dateFormat.format(datetime));
+	}	
 	
 	@Override
 	public void focusOnDescription() {
@@ -155,10 +185,10 @@ class EventViewImpl extends CssLayout implements EventView {
 	private void showReadOnlyLabels(boolean b) {
 		readOnlyDescription.setVisible(b);
 		readOnlyDate.setVisible(b);
+		readOnlyInvited.setVisible(b);
 		edit.setVisible(b);
 	}
 
-	
 	private void addNextInviteeComponent() {
 		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
@@ -175,7 +205,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 	}
 	
-	
 	private void addDescriptionComponent() {
 		description.setNullRepresentation("");
 		description.setInputPrompt("Descreva o agito");
@@ -183,7 +212,12 @@ class EventViewImpl extends CssLayout implements EventView {
 		description.addListener(new TextChangeListener() {  @Override public void textChange(TextChangeEvent event) {
 			if (!saveListenersActive) return;
 			boss.onDescriptionEdit(event.getText());
+			displayReadOnly(event.getText(), (Date)date.getValue());
 		}});
+		
+		//description.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
+		//	editAll(false);
+		//}});
 				
 		addComponent(description); description.addStyleName("a-invite-description");
 	}
@@ -202,21 +236,20 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		addComponent(date); date.addStyleName("a-invite-date");
 	}
-	
+		
 	private void addEditComponent() {
 		edit.addListener(new Button.ClickListener() {@Override	public void buttonClick(ClickEvent event) {
 			editAll(true);
 			focusOnDescription();
 		}});
 				
-		addComponent(edit); date.addStyleName("a-invite-edit");
+		addComponent(edit); edit.addStyleName("a-invite-edit");
 	}
-
-	
 	
 	private void onDatetimeEdit() {
 		if (!saveListenersActive) return;
 		boss.onDatetimeEdit((Date)date.getValue());
+		displayReadOnly((String)readOnlyDescription.getValue(), (Date)date.getValue());
 	}
 
 }

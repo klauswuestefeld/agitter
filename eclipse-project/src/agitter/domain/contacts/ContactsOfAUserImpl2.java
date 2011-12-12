@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 public class ContactsOfAUserImpl2 implements ContactsOfAUser {
@@ -83,6 +84,17 @@ public class ContactsOfAUserImpl2 implements ContactsOfAUser {
 	@Override
 	public void removeContactFrom(Group group, User contact) {
 		((GroupImpl2)group).removeMember(contact);
+	}
+
+
+	@Override
+	public boolean isMyFriend(EmailAddress email) {
+		for (User u : all()) {
+			if (u.email().equals(email)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

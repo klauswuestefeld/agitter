@@ -17,7 +17,7 @@ public interface EventView {
 	void startReportingTo(Boss boss);
 	
 	void clear();
-	void display(String description, Date datetime, List<String> invitees);
+	void display(String description, Date datetime, List<String> invitees, int unkownInvitees);
 	void enableEditListeners(boolean isEditEnabled);
 	void editAll(boolean isEditting);
 	

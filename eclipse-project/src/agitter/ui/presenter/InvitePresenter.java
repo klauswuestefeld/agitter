@@ -70,7 +70,8 @@ public class InvitePresenter implements EventView.Boss {
 		view.display(
 			selectedEvent.description(),
 			new Date(selectedEvent.datetime()),
-			sortedInviteesOf(selectedEvent)
+			sortedKnownInviteesOf(selectedEvent), 
+			countUnkownInviteesOf(selectedEvent)
 		);
 
 		refreshEditableMode();
@@ -101,13 +102,40 @@ public class InvitePresenter implements EventView.Boss {
 			view.focusOnDescription();
 	}
 
+	private int countUnkownInviteesOf(Event event) {
+		int cont = 0;
+		for (User u : event.invitees()) {
+			if (!contacts.isMyFriend(u.email())) { 
+				cont ++;
+			}
+		}
+		return cont;
+	}
+
+	private List<String> sortedKnownInviteesOf(Event event) {
+		List<String> result = sortedGroupsInviteesOf(event);
+		
+		if (!event.owner().equals(user))
+			result.add(event.owner().email().toString());
+		
+		List<String> userList = new ArrayList<String>();
+		for (User u : event.invitees()) {
+			if (contacts.isMyFriend(u.email())) { 
+				userList.add(u.toString());
+			}
+		}
+		
+		sortIgnoreCase(userList);
+		result.addAll(userList);
+		
+		return result;
+	}
 
 	private List<String> sortedInviteesOf(Event event) {
-		List<String> result = new ArrayList<String>();
-
-		String[] groups = toStrings(event.groupInvitees());
-		result.addAll(Arrays.asList(groups));
-		sortIgnoreCase(result);
+		List<String> result = sortedGroupsInviteesOf(event);
+			
+		if (!event.owner().equals(user))
+			result.add(event.owner().email().toString());
 		
 		String[] users = toStrings(event.invitees());
 		List<String> userList = Arrays.asList(users);
@@ -116,8 +144,16 @@ public class InvitePresenter implements EventView.Boss {
 		
 		return result;
 	}
-
-
+	
+	private List<String> sortedGroupsInviteesOf(Event event) {
+		List<String> result = new ArrayList<String>();
+		String[] groups = toStrings(event.groupInvitees());
+		result.addAll(Arrays.asList(groups));
+		sortIgnoreCase(result);	
+			
+		return result;
+	}
+		
 	void refreshContactsToChoose() {
 		view.refreshInviteesToChoose(contacts());
 	}

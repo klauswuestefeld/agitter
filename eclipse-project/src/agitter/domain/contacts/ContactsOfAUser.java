@@ -5,6 +5,7 @@ import java.util.List;
 import org.prevayler.bubble.Transaction;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
 public interface ContactsOfAUser {
@@ -21,5 +22,6 @@ public interface ContactsOfAUser {
 	void addContactTo(Group group, User contact);
 	void removeContactFrom(Group group, User contact);
 	Group groupGivenName(String name);
+	boolean isMyFriend(EmailAddress email);
 	
 }

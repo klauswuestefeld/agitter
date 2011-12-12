@@ -280,8 +280,7 @@ textarea.a-invite-description {
 
 .a-invite-readonly-description {
 	width: 430px;
-	min-height: 50px;
-	height: 160px;
+	min-height: 160px;
 	display: block;
 	font-size: 18px;
     line-height: normal;
@@ -290,6 +289,16 @@ textarea.a-invite-description {
 	padding: 4px 4px 4px 4px;
 }
 
+.a-invite-readonly-invited {
+	width: 430px;
+	min-height: 30px;
+	display: block;
+	font-size: 18px;
+    line-height: normal;
+    white-space: pre-wrap;
+	margin-bottom: 14px;
+	padding: 4px 4px 4px 4px;
+}
 
 /* Contacts  ----------------------------------------------------------------------   */
 
