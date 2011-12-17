@@ -3,6 +3,9 @@ package agitter.ui.view.session.events;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import vaadinutils.WidgetUtils;
 
 import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.events.EventListView.Boss;
@@ -35,11 +38,39 @@ public class EventListElement extends CssLayout {
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
 
-			label = new Label(eventValues.owner);
+			//label = new Label(eventValues.owner);
+			//label.setSizeUndefined();
+			//texts.addComponent(label); label.addStyleName("a-event-owner");
+			
+			label = createInviteesLabel(eventValues);
 			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-owner");
+			texts.addComponent(label); label.addStyleName("a-event-owner");			
 	}
 
+	private Label createInviteesLabel(EventVO eventValues) {
+		StringBuffer beautifulList = new StringBuffer();
+		
+		//beautifulList.append(eventValues.owner);
+		if (eventValues.invitees.size()> 0) {
+			//beautifulList.append(", ");
+		
+			int i=0;
+			for (; i<Math.min(1, eventValues.invitees.size()-1); i++) {
+				beautifulList.append(eventValues.invitees.get(i) + ", ");
+			}
+			beautifulList.append(eventValues.invitees.get(i));
+			i++;
+			
+			if (i < eventValues.invitees.size())
+				beautifulList.append(" + " + (eventValues.invitees.size()-i) + " convidados");
+		}
+		
+		if (eventValues.unknownInvitees > 0) {
+			beautifulList.append(" e " + eventValues.unknownInvitees + " desconhecidos");
+		}
+		
+		return WidgetUtils.createLabelXHTML(beautifulList.toString());
+	}
 	
 	public void setSelected(boolean selected) {
 		if (selected)

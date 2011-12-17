@@ -74,16 +74,18 @@ public class InvitePresenter implements EventView.Boss {
 			countUnkownInviteesOf(selectedEvent)
 		);
 
-		refreshEditableMode();
+		editAll(true);
 	}
 
 
-	private void refreshEditableMode() {
-		boolean isEditable = events.isEditableBy(user, selectedEvent);
+	//private void refreshEditableMode() {
+		//boolean isEditable = events.isEditableBy(user, selectedEvent);
 		
-		view.editAll(false); // enableReadonlyfields
-		view.enableEditListeners(isEditable); // enableListeners to edit each field independently. 
-	}
+		//if (isEditable)
+		//	view.editAll(true); // enableReadonlyfields
+		
+		//view.enableEditListeners(isEditable); // enableListeners to edit each field independently. 
+	//}
 
 	// force edit fields on everything. (Used for New Events) 
 	public void editAll(boolean isEditting) {
@@ -92,6 +94,8 @@ public class InvitePresenter implements EventView.Boss {
 		if (isEditable) {
 			view.editAll(isEditting);
 			if (isEditting) refreshFocus();
+		} else {
+			view.editAll(false);
 		}
 	}
 

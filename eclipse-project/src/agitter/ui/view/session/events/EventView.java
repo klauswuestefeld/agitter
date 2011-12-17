@@ -18,7 +18,7 @@ public interface EventView {
 	
 	void clear();
 	void display(String description, Date datetime, List<String> invitees, int unkownInvitees);
-	void enableEditListeners(boolean isEditEnabled);
+	//void enableEditListeners(boolean isEditEnabled);
 	void editAll(boolean isEditting);
 	
 	void focusOnDate();

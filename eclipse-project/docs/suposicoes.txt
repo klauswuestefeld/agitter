@@ -30,16 +30,13 @@ Alguém com Iniciativa
 		Fazer o agito desaparecer quando passar a validade? 
 	
 	Quem é convidado?
-		Vitor Done na Visualização. Na lista: fulano@mail.com + N convidados
+		Vitor: DONE na Visualização. Na lista: fulano@mail.com + N convidados
 
 	Um grupo de contatos quando associado a um evento, é compartilhado entre os convidados?
 		Digamos que alguém crie um evento com um grupo. Os convidados veem o nome deste grupo ou o 
 		e-mail individual de cada um?  
 
-	Vitor: Vamos continuar com o botão de Edit? Se continuar, ele está feio. 
-		Se continuar, talvez precisaremos de um botão de salvar para manter a consistência. 
-
-	Vitor: DONE - Visualizar agito próprio antes de editar - Link p editar
+	Vitor: REMOVIDO: DONE - Visualizar agito próprio antes de editar - Link p editar
 		Vitor: Ficou Horrivel
 		Abrir a tela com primeiro agito já selecionado
 		Vitor: Precisamos de um botão de Salvar? 

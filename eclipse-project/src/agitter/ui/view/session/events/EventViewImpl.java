@@ -42,11 +42,11 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyInvited = WidgetUtils.createLabelXHTML("");
 	
-	private Button edit = new Button("Editar");
+	//private Button edit = new Button("Editar");
 	
 	private Boss boss;
 	private boolean saveListenersActive = false;
-	private boolean editListenersActive = false;
+	//private boolean editListenersActive = false;
 	
 	EventViewImpl() {
 		addStyleName("a-invite-view");
@@ -61,8 +61,9 @@ class EventViewImpl extends CssLayout implements EventView {
 		addNextInviteeComponent();
 		addInvitationsComponent();
 
-		addEditComponent();
+		//addEditComponent();
 		
+		/*
 		 this.addListener(new LayoutClickListener() { @Override public void layoutClick(LayoutClickEvent event) {
             // Get the child component which was clicked
             Component child = event.getChildComponent();
@@ -77,7 +78,7 @@ class EventViewImpl extends CssLayout implements EventView {
             	editAll(true);
             }
 
-        }});
+        }});*/
 		 
 		saveListenersActive = true;
 	}
@@ -153,17 +154,17 @@ class EventViewImpl extends CssLayout implements EventView {
 		this.date.focus();
 	}
 
-	@Override
-	public void enableEditListeners(boolean b) {
-		editListenersActive = b;	
-		edit.setVisible(b);
-	}
+	//@Override
+	//public void enableEditListeners(boolean b) {
+		//editListenersActive = b;	
+		//edit.setVisible(b);
+	//}
 	
 	@Override
 	public void editAll(boolean b) {
 		showReadOnlyLabels(!b);
 		showEditFields(b);
-		enableEditListeners(!b);
+		//enableEditListeners(!b);
 	}
 
 	private boolean onNextInvitee(String invitee) {
@@ -186,7 +187,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		readOnlyDescription.setVisible(b);
 		readOnlyDate.setVisible(b);
 		readOnlyInvited.setVisible(b);
-		edit.setVisible(b);
+		//edit.setVisible(b);
 	}
 
 	private void addNextInviteeComponent() {
@@ -237,14 +238,14 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(date); date.addStyleName("a-invite-date");
 	}
 		
-	private void addEditComponent() {
-		edit.addListener(new Button.ClickListener() {@Override	public void buttonClick(ClickEvent event) {
-			editAll(true);
-			focusOnDescription();
-		}});
-				
-		addComponent(edit); edit.addStyleName("a-invite-edit");
-	}
+	//private void addEditComponent() {
+	//	edit.addListener(new Button.ClickListener() {@Override	public void buttonClick(ClickEvent event) {
+	//		editAll(true);
+	//		focusOnDescription();
+	//	}});
+	//			
+	//	addComponent(edit); edit.addStyleName("a-invite-edit");
+	//}
 	
 	private void onDatetimeEdit() {
 		if (!saveListenersActive) return;
