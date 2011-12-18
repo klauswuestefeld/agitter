@@ -77,16 +77,6 @@ public class InvitePresenter implements EventView.Boss {
 		editAll(true);
 	}
 
-
-	//private void refreshEditableMode() {
-		//boolean isEditable = events.isEditableBy(user, selectedEvent);
-		
-		//if (isEditable)
-		//	view.editAll(true); // enableReadonlyfields
-		
-		//view.enableEditListeners(isEditable); // enableListeners to edit each field independently. 
-	//}
-
 	// force edit fields on everything. (Used for New Events) 
 	public void editAll(boolean isEditting) {
 		boolean isEditable = events.isEditableBy(user, selectedEvent);

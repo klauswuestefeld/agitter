@@ -159,13 +159,13 @@ public class EventsPresenter implements Boss {
 		}
 		return cont;
 	}
-	
+		
 	// REFACTOR: Same method from InvitePresenter
 	private List<String> sortedKnownInviteesOf(Event event) {
 		List<String> result = sortedGroupsInviteesOf(event);
 		
-		if (!event.owner().equals(user))
-			result.add(event.owner().email().toString());
+		//if (!event.owner().equals(user))
+		//	result.add(event.owner().email().toString());
 		
 		List<String> userList = new ArrayList<String>();
 		for (User u : event.invitees()) {

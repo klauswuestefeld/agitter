@@ -3,10 +3,8 @@ package agitter.ui.view.session.events;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import vaadinutils.WidgetUtils;
-
 import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.events.EventListView.Boss;
 
@@ -14,6 +12,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 
@@ -38,35 +37,53 @@ public class EventListElement extends CssLayout {
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
 
-			//label = new Label(eventValues.owner);
-			//label.setSizeUndefined();
-			//texts.addComponent(label); label.addStyleName("a-event-owner");
+			HorizontalLayout participants = new HorizontalLayout();
+			participants.setMargin(false);
+			participants.setSpacing(false);
+			
+			label = new Label(eventValues.owner);
+			label.setSizeUndefined();
+			//texts.addComponent(label);
+			participants.addComponent(label);
+			label.addStyleName("a-event-owner");
 			
 			label = createInviteesLabel(eventValues);
 			label.setSizeUndefined();
-			texts.addComponent(label); label.addStyleName("a-event-owner");			
+			//texts.addComponent(label);
+			participants.addComponent(label);
+			label.addStyleName("a-event-invitees");
+			
+			texts.addComponent(participants);
+			
 	}
 
 	private Label createInviteesLabel(EventVO eventValues) {
 		StringBuffer beautifulList = new StringBuffer();
+			
+		boolean someoneIsInvited = eventValues.invitees.size()> 0 || eventValues.unknownInvitees > 0;
 		
-		//beautifulList.append(eventValues.owner);
+		if (someoneIsInvited) {
+			beautifulList.append(", ");
+		}
+		
 		if (eventValues.invitees.size()> 0) {
-			//beautifulList.append(", ");
-		
 			int i=0;
-			for (; i<Math.min(1, eventValues.invitees.size()-1); i++) {
-				beautifulList.append(eventValues.invitees.get(i) + ", ");
-			}
+			//for (; i<Math.min(1, eventValues.invitees.size()-1); i++) {
+			//	beautifulList.append(eventValues.invitees.get(i) + ", ");
+			//}
 			beautifulList.append(eventValues.invitees.get(i));
 			i++;
 			
 			if (i < eventValues.invitees.size())
-				beautifulList.append(" + " + (eventValues.invitees.size()-i) + " convidados");
+				beautifulList.append(" + " + (eventValues.invitees.size()-i) + " conhecidos");
+			
+			if (eventValues.unknownInvitees > 0) {
+				beautifulList.append(" e ");
+			}
 		}
 		
 		if (eventValues.unknownInvitees > 0) {
-			beautifulList.append(" e " + eventValues.unknownInvitees + " desconhecidos");
+			beautifulList.append(eventValues.unknownInvitees + " pessoas");
 		}
 		
 		return WidgetUtils.createLabelXHTML(beautifulList.toString());
