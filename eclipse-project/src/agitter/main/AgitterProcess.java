@@ -21,6 +21,8 @@ import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
 import agitter.controller.Controller;
+import agitter.main.spike.MultiTabApplication;
+import agitter.main.spike.MultiTabWindow;
 
 import com.vaadin.Application;
 
@@ -169,6 +171,7 @@ public class AgitterProcess implements ReplaceableProcess {
 		return createServletApp(
 			com.vaadin.terminal.gwt.server.ApplicationServlet.class,
 			initWith(AgitterVaadinApplication.class),
+			//initWith(MultiTabApplication.class),
 			"/*"
 		);
 	}
