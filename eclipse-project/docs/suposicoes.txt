@@ -25,10 +25,6 @@ Matias
 
 Alguém com Iniciativa
 
-	BUG - Espere passar a hora do agito e tente editá-lo. 
-		Aparece msg de erro de agito antigo.
-		Fazer o agito desaparecer quando passar a validade? 
-	
 	Quem é convidado?
 		Vitor: DONE na Visualização. Na lista: fulano@mail.com + N convidados
 
