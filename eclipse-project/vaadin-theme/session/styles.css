@@ -203,6 +203,7 @@ button.a-event-delete-button:hover {
 	color: dodgerblue;
 	font-weight: bold;
 	margin-right: 5px;
+	vertical-align: text-bottom;
 }
 .a-event-invitees {
 	display: inline-block;
@@ -210,6 +211,7 @@ button.a-event-delete-button:hover {
 	text-overflow: ellipsis;
 	-webkit-text-overflow: ellipsis;
 	white-space: nowrap;
+	vertical-align: text-bottom;
 }
 	
 	
