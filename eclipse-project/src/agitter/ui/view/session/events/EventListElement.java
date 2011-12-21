@@ -63,7 +63,7 @@ public class EventListElement extends CssLayout {
 			if (!eventValues.isUniqueUserInvited)
 				result.append(" (").append(eventValues.totalInviteesCount).append(convidadosText).append(")");
 		} else {
-			if (!eventValues.isUniqueUserInvited)
+			if (eventValues.isUniqueUserInvited)
 				result.append("você");
 			else
 				result.append(eventValues.totalInviteesCount).append(convidadosText);
