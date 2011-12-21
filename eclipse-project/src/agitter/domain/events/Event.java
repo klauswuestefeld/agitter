@@ -1,5 +1,7 @@
 package agitter.domain.events;
 
+import java.util.List;
+
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
@@ -19,4 +21,6 @@ public interface Event {
 
 	void notInterested(User user);
 
+	List<User> allResultingInvitees();
+	
 }

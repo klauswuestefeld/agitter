@@ -4,7 +4,9 @@ import static infra.util.Collections.copy;
 import static infra.util.ToString.sortIgnoreCase;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
@@ -94,6 +96,15 @@ public class GroupImpl2 implements Group {
 			if (((GroupImpl2)subgroup).deepContains(user, visited))
 				return true;
 		return false;
+	}
+
+
+	@Override
+	public List<User> deepMembers() {
+		Set<User> result = new HashSet<User>(immediateMembers());
+		for(Group subGroup : immediateSubgroups())
+			result.addAll(subGroup.deepMembers());
+		return new ArrayList<User>(result);
 	}
 
 

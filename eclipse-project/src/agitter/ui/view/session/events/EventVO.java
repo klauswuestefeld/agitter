@@ -1,26 +1,26 @@
 package agitter.ui.view.session.events;
 
-import java.util.List;
-
-
 public class EventVO {
 
 	public final Object eventObject;
 	public final String description;
 	public final long datetime;
 	public final String owner;
-	public final boolean isDeletable;
-	public List<String> invitees;
-	public int unknownInvitees;
+	public final boolean isEditable;
+	public int totalInviteesCount;
+	public String uniqueGroupOrUserInvited;
+	public final boolean isUniqueUserInvited;
 
-	public EventVO(Object eventObject, String description, long datetime, String owner, boolean isDeletable, int unknownInvitees, List<String> invitees) {
+
+	public EventVO(Object eventObject, String description, long datetime, String owner, boolean isEditable, int totalInviteesCount, String uniqueGroupOrUserInvited, boolean isUniqueUserInvited) {
 		this.eventObject = eventObject;
 		this.description = description;
 		this.datetime = datetime;
 		this.owner = owner;
-		this.isDeletable = isDeletable;
-		this.unknownInvitees = unknownInvitees;
-		this.invitees = invitees;
+		this.isEditable = isEditable;
+		this.totalInviteesCount = totalInviteesCount;
+		this.uniqueGroupOrUserInvited = uniqueGroupOrUserInvited;
+		this.isUniqueUserInvited = isUniqueUserInvited;
 	}
 	
 }

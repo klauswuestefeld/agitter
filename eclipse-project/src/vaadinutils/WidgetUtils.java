@@ -20,8 +20,12 @@ public class WidgetUtils {
 	    return b;
 	}
 
+	public static Label createLabel() {
+	    return createLabel(null);
+	}
+
 	public static Label createLabel(String caption) {
-	    Label l = new Label(caption);
+	    Label l = caption != null ? new Label(caption) : new Label();
 		l.setSizeUndefined();
 	    return l;
 	}

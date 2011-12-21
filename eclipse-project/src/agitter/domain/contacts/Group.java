@@ -16,4 +16,6 @@ public interface Group {
 
 	boolean deepContains(User user);
 
+	List<User> deepMembers();
+
 }

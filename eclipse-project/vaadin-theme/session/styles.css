@@ -195,11 +195,25 @@ button.a-event-delete-button:hover {
 .a-event-date {
 	margin-top: 4px;
 }
+.a-event-participants {
+	overflow: hidden;
+}
 .a-event-owner {
+	display: inline-block;
 	color: dodgerblue;
 	font-weight: bold;
+	margin-right: 5px;
 }
-
+.a-event-invitees {
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+	
+	
+/* Invite  ----------------------------------------------------------------------   */
 
 .a-invite-view {
 	display: inline-block;
@@ -299,6 +313,7 @@ textarea.a-invite-description {
 	margin-bottom: 14px;
 	padding: 4px 4px 4px 4px;
 }
+
 
 /* Contacts  ----------------------------------------------------------------------   */
 

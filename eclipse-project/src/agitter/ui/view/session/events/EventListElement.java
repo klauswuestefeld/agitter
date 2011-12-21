@@ -12,7 +12,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 
@@ -37,57 +36,42 @@ public class EventListElement extends CssLayout {
 			label.setSizeUndefined();
 			texts.addComponent(label); label.addStyleName("a-event-description");
 
-			HorizontalLayout participants = new HorizontalLayout();
-			participants.setMargin(false);
-			participants.setSpacing(false);
+			CssLayout participants = new CssLayout();
+			texts.addComponent(participants); participants.addStyleName("a-event-participants");
 			
-			label = new Label(eventValues.owner);
-			label.setSizeUndefined();
-			//texts.addComponent(label);
-			participants.addComponent(label);
-			label.addStyleName("a-event-owner");
+				label = WidgetUtils.createLabel(ownerText(eventValues));
+				participants.addComponent(label); label.addStyleName("a-event-owner");
 			
-			label = createInviteesLabel(eventValues);
-			label.setSizeUndefined();
-			//texts.addComponent(label);
-			participants.addComponent(label);
-			label.addStyleName("a-event-invitees");
-			
-			texts.addComponent(participants);
-			
+				label = WidgetUtils.createLabel(inviteesText(eventValues));
+				participants.addComponent(label); label.addStyleName("a-event-invitees");
 	}
 
-	private Label createInviteesLabel(EventVO eventValues) {
-		StringBuffer beautifulList = new StringBuffer();
-			
-		boolean someoneIsInvited = eventValues.invitees.size()> 0 || eventValues.unknownInvitees > 0;
-		
-		if (someoneIsInvited) {
-			beautifulList.append(", ");
-		}
-		
-		if (eventValues.invitees.size()> 0) {
-			int i=0;
-			//for (; i<Math.min(1, eventValues.invitees.size()-1); i++) {
-			//	beautifulList.append(eventValues.invitees.get(i) + ", ");
-			//}
-			beautifulList.append(eventValues.invitees.get(i));
-			i++;
-			
-			if (i < eventValues.invitees.size())
-				beautifulList.append(" + " + (eventValues.invitees.size()-i) + " conhecidos");
-			
-			if (eventValues.unknownInvitees > 0) {
-				beautifulList.append(" e ");
-			}
-		}
-		
-		if (eventValues.unknownInvitees > 0) {
-			beautifulList.append(eventValues.unknownInvitees + " pessoas");
-		}
-		
-		return WidgetUtils.createLabelXHTML(beautifulList.toString());
+	private String ownerText(EventVO eventValues) {
+		return eventValues.isEditable ? "você" : eventValues.owner;
 	}
+
+	private String inviteesText(EventVO eventValues) {
+		
+		if (eventValues.totalInviteesCount == 0)
+			return "(nenhum convidado)";
+		
+		StringBuffer result = new StringBuffer("+ ");
+		String convidadosText = eventValues.totalInviteesCount > 1 ? " convidados" : " convidado";
+				
+		if (eventValues.isEditable && eventValues.uniqueGroupOrUserInvited != null) {
+			result.append(eventValues.uniqueGroupOrUserInvited);
+			if (!eventValues.isUniqueUserInvited)
+				result.append(" (").append(eventValues.totalInviteesCount).append(convidadosText).append(")");
+		} else {
+			if (!eventValues.isUniqueUserInvited)
+				result.append("você");
+			else
+				result.append(eventValues.totalInviteesCount).append(convidadosText);
+		}			
+
+		return result.toString();
+	}
+	
 	
 	public void setSelected(boolean selected) {
 		if (selected)
@@ -98,12 +82,12 @@ public class EventListElement extends CssLayout {
 	
 	
 	private void addRemovalButton(EventVO event) {
-		String style = event.isDeletable
+		String style = event.isEditable
 			? "a-event-delete-button"
 			: "a-event-remove-button";
 		Button button = addRemovalButton(event, style);
 		button.setDescription(
-			event.isDeletable
+			event.isEditable
 			? "Excluir este Agito"
 			: "Fica pra próxima"
 		);
