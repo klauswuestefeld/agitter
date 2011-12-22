@@ -1,6 +1,8 @@
 package agitter.domain.events;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.Clock;
@@ -143,6 +145,16 @@ public class EventImpl2 implements Event {
 	@Override
 	public void removeInvitee(Group invitee) {
 		actualGroupInvitees().remove(invitee);
+	}
+
+
+	@Override
+	public List<User> allResultingInvitees() {
+		Set<User> result = new HashSet<User>(invitees);
+		for(Group g : groupInvitations)
+			result.addAll(g.deepMembers());
+		result.remove(_owner);
+		return new ArrayList<User>(result);
 	}
 
 }

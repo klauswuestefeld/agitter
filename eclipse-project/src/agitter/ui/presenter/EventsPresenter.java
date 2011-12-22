@@ -1,14 +1,11 @@
 package agitter.ui.presenter;
 
-import static infra.util.ToString.sortIgnoreCase;
-import static infra.util.ToString.toStrings;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -140,60 +137,29 @@ public class EventsPresenter implements Boss {
 	private List<EventVO> eventsToHappen() {
 		List<EventVO> result = new ArrayList<EventVO>();
 		List<Event> toHappen = events.toHappen(user);
-		for (Event event : toHappen)
+		for (Event event : toHappen) {
 			result.add(new EventVO(event, event.description(), 
 						event.datetime(), event.owner().screenName(), 
-						isDeletable(event),
-						countUnkownInviteesOf(event), 
-						sortedKnownInviteesOf(event)));
+						events.isEditableBy(user, event),
+						event.allResultingInvitees().size(), 
+						uniqueGroupOrUserInvited(event), 
+						isUniqueUserInvited(event)));
+		}
 		return result;
 	}
 	
-	// REFACTOR: Same method from InvitePresenter
-	private int countUnkownInviteesOf(Event event) {
-		int cont = 0;
-		for (User u : event.invitees()) {
-			if (!contacts.isMyFriend(u.email())) { 
-				cont ++;
-			}
-		}
-		return cont;
-	}
 		
-	// REFACTOR: Same method from InvitePresenter
-	private List<String> sortedKnownInviteesOf(Event event) {
-		List<String> result = sortedGroupsInviteesOf(event);
-		
-		//if (!event.owner().equals(user))
-		//	result.add(event.owner().email().toString());
-		
-		List<String> userList = new ArrayList<String>();
-		for (User u : event.invitees()) {
-			if (contacts.isMyFriend(u.email())) { 
-				userList.add(u.toString());
-			}
-		}
-		
-		sortIgnoreCase(userList);
-		result.addAll(userList);
-		
-		return result;
-	}
-
-	// REFACTOR: Same method from InvitePresenter
-	private List<String> sortedGroupsInviteesOf(Event event) {
-		List<String> result = new ArrayList<String>();
-		String[] groups = toStrings(event.groupInvitees());
-		result.addAll(Arrays.asList(groups));
-		sortIgnoreCase(result);	
-			
-		return result;
+	private String uniqueGroupOrUserInvited(Event event) {
+		if (event.invitees().length + event.groupInvitees().length != 1)
+			return null;
+		return event.invitees().length > 0 ? 
+				event.invitees()[0].email().toString() : 
+				event.groupInvitees()[0].name(); 
 	}
 
 
-	
-	private boolean isDeletable(Event event) {
-		return events.isEditableBy(user, event);
+	private boolean isUniqueUserInvited(Event event) {
+		return (event.invitees().length == 1 && event.groupInvitees().length == 0);
 	}
 
 
@@ -217,7 +183,7 @@ public class EventsPresenter implements Boss {
 	@Override
 	public void onEventRemoved(Object removedEvent) {
 		Event event = (Event)removedEvent;
-		if (isDeletable(event))
+		if (events.isEditableBy(user, event))
 			events.delete(user, event);
 		else
 			event.notInterested(user);

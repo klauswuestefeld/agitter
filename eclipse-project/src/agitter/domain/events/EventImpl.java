@@ -1,5 +1,6 @@
 package agitter.domain.events;
 
+import java.util.List;
 import java.util.Set;
 
 import agitter.domain.contacts.Group;
@@ -68,6 +69,11 @@ public class EventImpl implements Event {
 
 	@Override
 	public void removeInvitee(Group invitee) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+	@Override
+	public List<User> allResultingInvitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
