@@ -2,6 +2,7 @@
 package agitter.domain.contacts;
 
 import java.util.List;
+import java.util.Set;
 
 import agitter.domain.users.User;
 
@@ -17,5 +18,6 @@ public interface Group {
 	boolean deepContains(User user);
 
 	List<User> deepMembers();
+	void deepAddMembers(Set<User> users);
 
 }

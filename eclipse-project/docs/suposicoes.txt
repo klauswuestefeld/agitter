@@ -13,8 +13,9 @@ Peccin
 		Pesquisar no fórum do Vaadin, mandar código pro Klaus abrir bug, se necessário.
 			Desencanar de hover, se for o caso.
 				
-	BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
+	<DONE> BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
 		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
+		(Quebrava em mais um monte de lugares...)
 
 
 Matias
@@ -29,12 +30,15 @@ Alguém com Iniciativa
 		Aparece msg de erro de agito antigo.
 		Fazer o agito desaparecer quando passar a validade? 
 	
-	Quem é convidado?
+	<DONE> Quem é convidado?
 		Vitor: DONE na Visualização. Na lista: fulano@mail.com + N convidados
+		Peccin: Redefinição conforme novas idéias
+		
 
-	Um grupo de contatos quando associado a um evento, é compartilhado entre os convidados?
+	<DONE> Um grupo de contatos quando associado a um evento, é compartilhado entre os convidados?
 		Digamos que alguém crie um evento com um grupo. Os convidados veem o nome deste grupo ou o 
 		e-mail individual de cada um?  
+		Peccin: Está vendo os emails individuais conforma definição:
 
 	Vitor: REMOVIDO: DONE - Visualizar agito próprio antes de editar - Link p editar
 		Vitor: Ficou Horrivel
@@ -45,9 +49,13 @@ Alguém com Iniciativa
 		Se o texto novo não aparece ao lado (edição da segunda linha por exemplo), parece 
 		que nada está sendo salvo.  
 
-	Links clicáveis na descricao do agito
+	<DONE> Links clicáveis na descricao do agito
+		Peccin: Usado mesmo método
 		Colocar tbém no campo de visualização à direita
 		Prevenir ataques de XSS  
+
+	BUG: Links clicáveis estão pegando anything.anything
+		Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
@@ -69,7 +77,7 @@ Alguém com Iniciativa
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
-	Quem é convidado?
+	<DONE:Peccin> Quem é convidado?
 		Na visualização: Lista de emails de quem é meu contato + N convidados.
 
 	Public profile do sugeito

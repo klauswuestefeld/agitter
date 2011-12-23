@@ -101,10 +101,17 @@ public class GroupImpl2 implements Group {
 
 	@Override
 	public List<User> deepMembers() {
-		Set<User> result = new HashSet<User>(immediateMembers());
-		for(Group subGroup : immediateSubgroups())
-			result.addAll(subGroup.deepMembers());
+		Set<User> result = new HashSet<User>();
+		deepAddMembers(result);
 		return new ArrayList<User>(result);
+	}
+
+
+	@Override
+	public void deepAddMembers(Set<User> users) {
+		users.addAll(immediateMembers());
+		for(Group subGroup : immediateSubgroups())
+			subGroup.deepAddMembers(users);
 	}
 
 

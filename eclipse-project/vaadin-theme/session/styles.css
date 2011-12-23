@@ -196,6 +196,7 @@ button.a-event-delete-button:hover {
 	margin-top: 4px;
 }
 .a-event-participants {
+	width: 100%;
 	overflow: hidden;
 }
 .a-event-owner {
@@ -257,20 +258,39 @@ textarea.a-invite-description {
 
 .a-invite-next-invitee {
 	display: inline-block;
+	overflow: hidden;
+	max-width: 380px;
 }
 
+/*
 .a-invite-next-invitee .v-filterselect-input {
-	width: 210px;
+	width: 260px;
+}
+*/
+
+.a-invite-invitations-header {
+	overflow: hidden;
+	font-size: 15px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 15px 0 0 10px;
 }
 
 .a-invite-invitations {
 	width: 430px;
-	margin: 15px 0 0 8px;
+	margin: 6px 0 0 25px;
 }
 
 .a-invite-invitations .a-remov-elem-list-element-caption {
-	font-size: 16px;
-	margin-bottom: 5px;
+	font-size: 14px;
+	margin-bottom: 2px;
+	max-width: 390px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-invite-invitations .a-remov-elem-list-element-remove-button {
@@ -280,7 +300,7 @@ textarea.a-invite-description {
 	height: 16px;
 	vertical-align: top;
 	border-style: none;
-	margin: 2px 0 0 5px;
+	margin: 1px 0 0 5px;
 }
 
 .a-invite-invitations .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
@@ -289,31 +309,63 @@ textarea.a-invite-description {
 
 .a-invite-readonly-date {
 	float: none;
-	margin-bottom: 10px;
-	width: 120px;
-	padding: 2px 4px 3px 5px;
+	height: 20px;
+	font-size: 14px;
+	_font-weight: bold;
+	padding: 2px 4px 3px 4px;
 }
 
 .a-invite-readonly-description {
 	width: 430px;
-	min-height: 160px;
+	min-height: 88px;
 	display: block;
+	overflow: hidden;
 	font-size: 18px;
     line-height: normal;
     white-space: pre-wrap;
-	margin-bottom: 14px;
-	padding: 4px 4px 4px 4px;
+	padding: 10px 4px 12px 4px;
+	margin: 6px 0 12px;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	border-top-style: solid;
+	border-bottom-style: solid;
 }
 
-.a-invite-readonly-invited {
-	width: 430px;
-	min-height: 30px;
+.a-invite-readonly-owner {	
+	display: inline-block;
+	color: dodgerblue;
+	font-size: 14px;
+	font-weight: bold;
+	vertical-align: text-bottom;
+	margin: 0 5px 0 8px;
+}
+
+.a-invite-readonly-invitees-header {	
+	display: inline-block;	
+	overflow: hidden;
+	font-size: 14px;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: text-bottom;
+}
+
+.a-invite-readonly-invitees-list ul {
 	display: block;
-	font-size: 18px;
-    line-height: normal;
-    white-space: pre-wrap;
-	margin-bottom: 14px;
-	padding: 4px 4px 4px 4px;
+	overflow: hidden;
+	margin: 6px 0 0 24px;
+	padding: 0;
+}
+.a-invite-readonly-invitees-list li {
+    list-style-type: none;
+	overflow: hidden;
+	font-size: 14px;
+	max-width: 410px;
+	line-height: normal;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+    white-space: no-wrap;
+    margin-bottom: 3px;
 }
 
 
@@ -361,21 +413,31 @@ textarea.a-invite-description {
 }
 
 .a-contacts-members-new {
+	overflow: hidden;
+	max-width: 420px;
 	margin-bottom: 20px;
 }
+
+/*
 .a-contacts-members-new .v-filterselect-input {
 	width: 250px;
 }
-
+*/
 
 .a-contacts-groups-list .a-remov-elem-list-element-caption {
 	color: #454545;
 	font-size: 20px;
-	margin: 6px 0 6px 9px;
+	line-height: 23px;
+	margin: 2px 0 3px 9px;
+	max-width: 270px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-contacts-groups-list .a-remov-elem-list-element:hover {
-	background: #F3F3F3;
+	background: #F6F6F6;
 }
 
 .a-contacts-groups-list .a-remov-elem-list-element-remove-button {
@@ -395,7 +457,7 @@ textarea.a-invite-description {
 
 .a-contacts-groups-list .a-remov-elem-list-element-selected, .a-contacts-groups-list .a-remov-elem-list-element-selected:hover  {
 	font-weight: bold; 
-	background: lightgray;
+	background: #E4E4E4;
 }
 
 .a-contacts-members-list {
@@ -405,6 +467,11 @@ textarea.a-invite-description {
 .a-contacts-members-list .a-remov-elem-list-element-caption {
 	font-size: 16px;
 	margin-bottom: 5px;
+	max-width: 470px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-contacts-members-list .a-remov-elem-list-element-remove-button {

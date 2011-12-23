@@ -29,19 +29,19 @@ public class InvitePresenter implements EventView.Boss {
 	private final Consumer<String> warningDisplayer;
 	private final Functor<EmailAddress, User> userProducer;
 	private final EventView view;
-	private final Runnable onDateOrDescriptionChanged;
+	private final Runnable onEventDataChanged;
 
 	private Event selectedEvent = null;
 
 	
-	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onDateOrDescriptionChanged) {
+	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onEventDataChanged) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
 		this.userProducer = userProducer;
 		this.view = view;
 		this.warningDisplayer = warningDisplayer;
-		this.onDateOrDescriptionChanged = onDateOrDescriptionChanged;
+		this.onEventDataChanged = onEventDataChanged;
 
 		this.view.startReportingTo(this);
 		
@@ -67,70 +67,36 @@ public class InvitePresenter implements EventView.Boss {
 			return;
 		}
 		
-		view.display(
-			selectedEvent.description(),
-			new Date(selectedEvent.datetime()),
-			sortedKnownInviteesOf(selectedEvent), 
-			countUnkownInviteesOf(selectedEvent)
-		);
-
-		editAll(true);
-	}
-
-	// force edit fields on everything. (Used for New Events) 
-	public void editAll(boolean isEditting) {
-		boolean isEditable = events.isEditableBy(user, selectedEvent);
-		
-		if (isEditable) {
-			view.editAll(isEditting);
-			if (isEditting) refreshFocus();
+		if (events.isEditableBy(user, selectedEvent)) {
+			view.displayEditting(
+					selectedEvent.description(), 
+					new Date(selectedEvent.datetime()),
+					sortedInviteesOf(selectedEvent),
+					selectedEvent.allResultingInvitees().size());
 		} else {
-			view.editAll(false);
+			view.displayReadOnly(
+					selectedEvent.owner().email().toString(),
+					selectedEvent.description(), 
+					new Date(selectedEvent.datetime()),
+					sortedKnownInviteesOf(selectedEvent),
+					selectedEvent.allResultingInvitees().size());
 		}
 	}
 
-	private void refreshFocus() {
-		if (selectedEvent.description().isEmpty())
-			view.focusOnDate();
-		else
-			view.focusOnDescription();
+
+	void refreshContactsToChoose() {
+		view.refreshInviteesToChoose(contacts());
 	}
 
-	private int countUnkownInviteesOf(Event event) {
-		int cont = 0;
-		for (User u : event.invitees()) {
-			if (!contacts.isMyFriend(u.email())) { 
-				cont ++;
-			}
-		}
-		return cont;
-	}
 
-	private List<String> sortedKnownInviteesOf(Event event) {
-		List<String> result = sortedGroupsInviteesOf(event);
-		
-		if (!event.owner().equals(user))
-			result.add(event.owner().email().toString());
-		
-		List<String> userList = new ArrayList<String>();
-		for (User u : event.invitees()) {
-			if (contacts.isMyFriend(u.email())) { 
-				userList.add(u.toString());
-			}
-		}
-		
-		sortIgnoreCase(userList);
-		result.addAll(userList);
-		
-		return result;
+	private void refreshIntivationsHeader() {
+		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().size());
 	}
+	
 
 	private List<String> sortedInviteesOf(Event event) {
 		List<String> result = sortedGroupsInviteesOf(event);
 			
-		if (!event.owner().equals(user))
-			result.add(event.owner().email().toString());
-		
 		String[] users = toStrings(event.invitees());
 		List<String> userList = Arrays.asList(users);
 		sortIgnoreCase(userList);
@@ -139,20 +105,28 @@ public class InvitePresenter implements EventView.Boss {
 		return result;
 	}
 	
+
+	private List<String> sortedKnownInviteesOf(Event event) {
+		List<String> userList = new ArrayList<String>();
+		for (User u : event.allResultingInvitees())
+			if (contacts.isMyFriend(u.email())) 
+				userList.add(u.toString());
+		userList.remove(user.email().toString());
+		
+		sortIgnoreCase(userList);
+		return userList;
+	}
+
+
 	private List<String> sortedGroupsInviteesOf(Event event) {
 		List<String> result = new ArrayList<String>();
 		String[] groups = toStrings(event.groupInvitees());
 		result.addAll(Arrays.asList(groups));
 		sortIgnoreCase(result);	
-			
 		return result;
 	}
+	
 		
-	void refreshContactsToChoose() {
-		view.refreshInviteesToChoose(contacts());
-	}
-
-
 	@Override
 	public void onDescriptionEdit(String newText) {
 		if (newText != null &&  newText.trim().equals("")) {
@@ -166,7 +140,7 @@ public class InvitePresenter implements EventView.Boss {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
-		onDateOrDescriptionChanged.run();
+		onEventDataChanged.run();
 	}
 
 
@@ -183,7 +157,7 @@ public class InvitePresenter implements EventView.Boss {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
-		onDateOrDescriptionChanged.run();
+		onEventDataChanged.run();
 	}
 
 
@@ -206,6 +180,8 @@ public class InvitePresenter implements EventView.Boss {
 			contacts.addContact((User)inviteeObj);
 		}
 
+		refreshIntivationsHeader();
+		onEventDataChanged.run();
 		return true;
 	}
 
@@ -230,6 +206,8 @@ public class InvitePresenter implements EventView.Boss {
 			selectedEvent.removeInvitee((Group)inviteeObj);
 		else
 			selectedEvent.removeInvitee((User)inviteeObj);
+		refreshIntivationsHeader();
+		onEventDataChanged.run();
 	}
 
 	
@@ -238,6 +216,7 @@ public class InvitePresenter implements EventView.Boss {
 		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
 		return contactsAndGroups;
 	}
+
 }
 
 

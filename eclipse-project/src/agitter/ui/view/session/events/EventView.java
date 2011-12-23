@@ -17,12 +17,11 @@ public interface EventView {
 	void startReportingTo(Boss boss);
 	
 	void clear();
-	void display(String description, Date datetime, List<String> invitees, int unkownInvitees);
-	void editAll(boolean isEditting);
-	
-	void focusOnDate();
-	void focusOnDescription();
 
+	void displayEditting(String description, Date datetime, List<String> invitees, int totalInviteesCount);
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
+	void refreshInvitationsHeader(int totalInviteesCount);
+
+	void displayReadOnly(String owner, String description, Date datetime, List<String> knownInvitees, int totalInviteesCount);
 
 }

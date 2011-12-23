@@ -77,7 +77,6 @@ public class EventsPresenter implements Boss {
 		}
 		refreshEventList();
 		selectEvent(event);
-		editAll(true);
 	}
 
 
@@ -102,7 +101,7 @@ public class EventsPresenter implements Boss {
 	}
 
 
-	private void onDateOrDescriptionChange() {
+	private void onEventChange() {
 		refreshEventList();
 	}
 
@@ -110,7 +109,7 @@ public class EventsPresenter implements Boss {
 	private InvitePresenter invitePresenter() {
 		if (invitePresenter == null)
 			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.showInviteView(), warningDisplayer, new Runnable() { @Override public void run() {
-				onDateOrDescriptionChange();
+				onEventChange();
 			}});
 
 		return invitePresenter;
@@ -169,10 +168,6 @@ public class EventsPresenter implements Boss {
 		invitePresenter().setSelectedEvent(this.eventSelected);
 	}
 	
-	private void editAll(boolean isEditting) {
-		invitePresenter().editAll(isEditting);
-	}
-
 
 	@Override
 	public void onEventSelected(Object eventSelected) {

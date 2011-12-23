@@ -63,6 +63,7 @@ public class ContactsViewImpl implements ContactsView {
 		Label membersCaption = WidgetUtils.createLabel("Membros");
 		members.addComponent(membersCaption); membersCaption.addStyleName("a-contacts-members-caption");
 		members.addComponent(newMember); newMember.addStyleName("a-contacts-members-new");
+		newMember.setInputWidth("300px");
 		members.addComponent(memberList); memberList.addStyleName("a-contacts-members-list");
 
 		contactsView.addComponent(groups);
