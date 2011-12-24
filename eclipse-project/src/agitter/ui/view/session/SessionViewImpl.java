@@ -30,9 +30,11 @@ public class SessionViewImpl implements SessionView {
 	private final Button logout = WidgetUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
 	private final CssLayout mainContent = new CssLayout();
+	private final CssLayout fixedContentCanvas = new CssLayout();
+	private final CssLayout fixedContentWrapper = new CssLayout();
+	
 	private EventsView eventsView;
-
-	private final ContactsView contactsView = new ContactsViewImpl(mainContent);
+	private ContactsView contactsView;
 
 	private static final String MENU_DEFAULT_STYLE = "a-session-menu-default";
 	private static final String MENU_ACTIVE_STYLE = "a-session-menu-active";
@@ -47,7 +49,8 @@ public class SessionViewImpl implements SessionView {
     public void init(Needs needs) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
-			sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
+
+    		sessionView.addComponent(sessionTopBar); sessionTopBar.addStyleName("a-session-top-bar");
 				sessionTopBar.addComponent(sessionTopBarContent); sessionTopBarContent.addStyleName("a-session-top-bar-content");
 					sessionTopBarContent.addComponent(logo); logo.addStyleName("a-session-logo");
 	    			sessionTopBarContent.addComponent(mainMenu); mainMenu.addStyleName("a-session-top-bar-right");
@@ -61,10 +64,14 @@ public class SessionViewImpl implements SessionView {
 		    			accountSeparator.addStyleName(MENU_DEFAULT_STYLE);
 		    			mainMenu.addComponent(logout); logout.addStyleName("a-session-menu-logout");
 		    			logout.addStyleName(MENU_DEFAULT_STYLE);
-			sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
-    			mainContentWrapper.addComponent(mainContent);  mainContent.addStyleName("a-session-main-content");
+		
+		    sessionView.addComponent(mainContentWrapper); mainContentWrapper.addStyleName("a-session-main-content-wrapper");
+		    	mainContentWrapper.addComponent(mainContent); mainContent.addStyleName("a-session-main-content");
 
-    	account.setValue(needs.userScreenName());
+   		    sessionView.addComponent(fixedContentCanvas); fixedContentCanvas.addStyleName("a-session-fixed-content-canvas");
+   		    	fixedContentCanvas.addComponent(fixedContentWrapper); fixedContentWrapper.addStyleName("a-session-fixed-content-wrapper");
+   			
+		account.setValue(needs.userScreenName());
 
     	initListeners(needs);
 	}
@@ -73,7 +80,7 @@ public class SessionViewImpl implements SessionView {
 	private void initListeners(final Needs needs) {
 		logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
     		needs.onLogout();
-    	}});
+    	}});	
     	events.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
     		needs.onEventsMenu();
     	}});
@@ -85,7 +92,7 @@ public class SessionViewImpl implements SessionView {
 
 	@Override public EventsView eventsView() {
 		if (eventsView == null)
-			eventsView = createEventView();
+			eventsView = new EventsViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
 		return eventsView;
 	}
 	@Override public void showEventsView() {
@@ -94,7 +101,11 @@ public class SessionViewImpl implements SessionView {
 	}
 
 	
-	@Override public ContactsView contactsView() { return contactsView; }  
+	@Override public ContactsView contactsView() { 
+		if (contactsView == null)
+			contactsView = new ContactsViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
+		 return contactsView;
+	}  
 	@Override public void showContactsView() {
 		highlightMenuItem(contacts);
 		contactsView.show();
@@ -106,11 +117,6 @@ public class SessionViewImpl implements SessionView {
 		contacts.removeStyleName(MENU_ACTIVE_STYLE);
 
 		menuItem.addStyleName(MENU_ACTIVE_STYLE);
-	}
-
-	
-	private EventsView createEventView() {
-		return new EventsViewImpl(mainContent);
 	}
 
 }

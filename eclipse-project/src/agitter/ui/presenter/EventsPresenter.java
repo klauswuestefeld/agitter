@@ -108,7 +108,7 @@ public class EventsPresenter implements Boss {
 
 	private InvitePresenter invitePresenter() {
 		if (invitePresenter == null)
-			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.showInviteView(), warningDisplayer, new Runnable() { @Override public void run() {
+			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.inviteView(), warningDisplayer, new Runnable() { @Override public void run() {
 				onEventChange();
 			}});
 
