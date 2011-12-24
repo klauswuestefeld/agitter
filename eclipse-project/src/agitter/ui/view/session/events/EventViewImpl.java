@@ -37,7 +37,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label readOnlyDate = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyOwner = WidgetUtils.createLabel();
-	private final Label readOnlyInviteesHeader = WidgetUtils.createLabel();
+	private final Label readOnlyInviteesHeader = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyInviteesList = WidgetUtils.createLabelXHTML("");
 	
 	private Boss boss;
@@ -123,9 +123,12 @@ class EventViewImpl extends CssLayout implements EventView {
 	private void displayReadOnlyInvitees(String owner, List<String> knownInvitees, int totalInviteesCount) {
 		readOnlyOwner.setValue(owner);
 		
-		StringBuffer header = new StringBuffer("+ você");
-		if (totalInviteesCount > 1) {
-			header.append(" e " + (totalInviteesCount -1) + " convidado" );
+		StringBuffer header;
+
+		if (totalInviteesCount == 1) {
+			header = new StringBuffer("&nbsp;+ você");
+		} else {
+			header = new StringBuffer(", você + " + (totalInviteesCount -1) + " convidado" );
 			if (totalInviteesCount > 2)
 				header.append("s" );
 		}
