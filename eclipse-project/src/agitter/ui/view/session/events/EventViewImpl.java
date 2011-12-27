@@ -125,13 +125,10 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		StringBuffer header;
 
-		if (totalInviteesCount == 1) {
-			header = new StringBuffer("&nbsp;+ você");
-		} else {
-			header = new StringBuffer(", você + " + (totalInviteesCount -1) + " convidado" );
-			if (totalInviteesCount > 2)
-				header.append("s" );
-		}
+		if (totalInviteesCount == 1)
+			header = new StringBuffer("+ você");
+		else
+			header = new StringBuffer("+ " + totalInviteesCount + " convidados" );
 			
 		StringBuffer list = new StringBuffer();
 		if (knownInvitees.size() > 0) {
@@ -139,6 +136,8 @@ class EventViewImpl extends CssLayout implements EventView {
 			list.append("<ul>");
 			for (String invitee: knownInvitees)
 				list.append("<li>" + invitee + "</li>");
+
+			list.append("<li>você</li>");
 
 			final int unkownInviteesCount = totalInviteesCount -1 - knownInvitees.size();
 			if (unkownInviteesCount > 0) {
