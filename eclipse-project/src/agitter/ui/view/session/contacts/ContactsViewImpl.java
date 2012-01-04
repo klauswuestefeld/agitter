@@ -22,6 +22,8 @@ public class ContactsViewImpl implements ContactsView {
 	private static final String ALL = "Todos";
 
 	private final ComponentContainer container;
+	private final ComponentContainer fixedContainer;
+
 	private final SelectableRemovableElementList groupList = new SelectableRemovableElementList();
 	private final SelectableRemovableElementList memberList = new SelectableRemovableElementList();
 
@@ -34,8 +36,10 @@ public class ContactsViewImpl implements ContactsView {
 	private final AutoCompleteChooser newMember = new AutoCompleteChooser();
 
 
-	public ContactsViewImpl(ComponentContainer container) {
+
+	public ContactsViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
 		this.container = container;
+		this.fixedContainer = fixedContainer;
 		newGroup.setImmediate(true);
 		newGroupListener = new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
 			String value = (String) newGroup.getValue();
@@ -48,6 +52,7 @@ public class ContactsViewImpl implements ContactsView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
+		fixedContainer.removeAllComponents();
 
 		CssLayout contactsView = new CssLayout();
 		container.addComponent(contactsView); contactsView.addStyleName("a-contacts-view");
@@ -63,6 +68,7 @@ public class ContactsViewImpl implements ContactsView {
 		Label membersCaption = WidgetUtils.createLabel("Membros");
 		members.addComponent(membersCaption); membersCaption.addStyleName("a-contacts-members-caption");
 		members.addComponent(newMember); newMember.addStyleName("a-contacts-members-new");
+		newMember.setInputWidth("300px");
 		members.addComponent(memberList); memberList.addStyleName("a-contacts-members-list");
 
 		contactsView.addComponent(groups);

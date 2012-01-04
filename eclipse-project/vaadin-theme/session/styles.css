@@ -2,7 +2,6 @@
 
 .a-session-view {
 	background: #FFB234 url('SessionBackground.jpg') fixed repeat;
-	z-index: 5;
 }
 
 .a-session-top-bar {
@@ -11,7 +10,7 @@
 	left: 0;
 	width: 100%;
 	height: 43px;
-	z-index: 9;
+	z-index: 20;
 	background-color: #303030;
 	background-image: gradient(linear,0 0,0 100%,from(#454545),to(#161616));
 	background-image: -webkit-gradient(linear,0 0,0 100%,from(#454545),to(#161616));
@@ -29,7 +28,7 @@
 	min-width: 460px;
 	margin: 0 auto;
 	padding: 0px 30px 0px 30px;
-}
+}	
 
 button.a-session-logo {
 	float: left;
@@ -104,10 +103,26 @@ button.a-session-logo {
 	margin: 0;
 }
 
+.a-session-fixed-content-canvas {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+}
+	
+.a-session-fixed-content-wrapper {
+	width: 945px;
+	margin: 0 auto;
+	padding: 62px 30px 0px 30px;
+}
+
 
 /* Events   --------------------------------------------------------------------   */
 
 .a-events-view-left-side {
+	position: relative;
 	min-height: 1200px;
 	min-width: 470px;
 	display: inline-block;
@@ -121,7 +136,7 @@ button.a-session-logo {
 	-webkit-box-shadow: 1px 2px 3px dimgray;
 	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
-	z-index: 6;
+	z-index: 15;
 }
 
 .a-events-view-new-event-wrapper  {
@@ -196,6 +211,7 @@ button.a-event-delete-button:hover {
 	margin-top: 4px;
 }
 .a-event-participants {
+	width: 100%;
 	overflow: hidden;
 }
 .a-event-owner {
@@ -218,13 +234,16 @@ button.a-event-delete-button:hover {
 /* Invite  ----------------------------------------------------------------------   */
 
 .a-invite-view {
+	position: relative;
+	/* left: 470px; */
 	display: inline-block;
 	zoom: 1;			/* IE stuff */
 	*display: inline;	/* IE stuff */
 	overflow: hidden;
 	vertical-align: top;
 	border-top-right-radius: 7px;
-	padding: 16px 0px 16px 18px;
+	padding: 15px 0px 16px 18px;
+	z-index: 10;
 }
 
 .a-invite-view .v-captiontext {
@@ -246,31 +265,44 @@ button.a-event-delete-button:hover {
 
 textarea.a-invite-description {
 	width: 430px;
-	height: 160px;
+	height: 150px;
 	min-height: 50px;
 	max-height: 500px;
 	resize: vertical;
 	font-size: 18px;
 	display: block;
-	margin-bottom: 14px;
-}
+	margin-bottom: 11px;
+}	
 
 .a-invite-next-invitee {
 	display: inline-block;
+	overflow: hidden;
+	max-width: 380px;
 }
 
-.a-invite-next-invitee .v-filterselect-input {
-	width: 210px;
+.a-invite-invitations-header {
+	overflow: hidden;
+	font-size: 15px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 15px 0 0 10px;
 }
 
 .a-invite-invitations {
 	width: 430px;
-	margin: 15px 0 0 8px;
+	margin: 6px 0 0 25px;
 }
 
 .a-invite-invitations .a-remov-elem-list-element-caption {
-	font-size: 16px;
-	margin-bottom: 5px;
+	font-size: 14px;
+	margin-bottom: 2px;
+	max-width: 390px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-invite-invitations .a-remov-elem-list-element-remove-button {
@@ -280,7 +312,7 @@ textarea.a-invite-description {
 	height: 16px;
 	vertical-align: top;
 	border-style: none;
-	margin: 2px 0 0 5px;
+	margin: 1px 0 0 5px;
 }
 
 .a-invite-invitations .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
@@ -289,31 +321,63 @@ textarea.a-invite-description {
 
 .a-invite-readonly-date {
 	float: none;
-	margin-bottom: 10px;
-	width: 120px;
-	padding: 2px 4px 3px 5px;
+	height: 20px;
+	font-size: 14px;
+	_font-weight: bold;
+	padding: 3px 4px 3px 4px;
 }
 
 .a-invite-readonly-description {
 	width: 430px;
-	min-height: 160px;
+	min-height: 88px;
 	display: block;
+	overflow: hidden;
 	font-size: 18px;
     line-height: normal;
     white-space: pre-wrap;
-	margin-bottom: 14px;
-	padding: 4px 4px 4px 4px;
+	padding: 10px 4px 12px 4px;
+	margin: 6px 0 12px;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	border-top-style: solid;
+	border-bottom-style: solid;
 }
 
-.a-invite-readonly-invited {
-	width: 430px;
-	min-height: 30px;
+.a-invite-readonly-owner {	
+	display: inline-block;
+	color: dodgerblue;
+	font-size: 14px;
+	font-weight: bold;
+	vertical-align: text-bottom;
+	margin: 0 5px 0 8px;
+}
+
+.a-invite-readonly-invitees-header {	
+	display: inline-block;	
+	overflow: hidden;
+	font-size: 14px;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: text-bottom;
+}
+
+.a-invite-readonly-invitees-list ul {
 	display: block;
-	font-size: 18px;
-    line-height: normal;
-    white-space: pre-wrap;
-	margin-bottom: 14px;
-	padding: 4px 4px 4px 4px;
+	overflow: hidden;
+	margin: 6px 0 0 24px;
+	padding: 0;
+}
+.a-invite-readonly-invitees-list li {
+    list-style-type: none;
+	overflow: hidden;
+	font-size: 14px;
+	max-width: 410px;
+	line-height: normal;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+    white-space: no-wrap;
+    margin-bottom: 3px;
 }
 
 
@@ -342,7 +406,7 @@ textarea.a-invite-description {
 	-moz-box-shadow: 1px 2px 3px dimgray;
 	filter: progid:DXImageTransform.Microsoft.Shadow(color='#505050', Direction=90, Strength=2);
 	padding: 18px 0px 18px 18px;
-	z-index: 6;
+	z-index: 15;
 }
 
 .a-contacts-groups-new {
@@ -361,21 +425,25 @@ textarea.a-invite-description {
 }
 
 .a-contacts-members-new {
+	overflow: hidden;
+	max-width: 420px;
 	margin-bottom: 20px;
 }
-.a-contacts-members-new .v-filterselect-input {
-	width: 250px;
-}
-
 
 .a-contacts-groups-list .a-remov-elem-list-element-caption {
 	color: #454545;
 	font-size: 20px;
-	margin: 6px 0 6px 9px;
+	line-height: 23px;
+	margin: 2px 0 3px 9px;
+	max-width: 270px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-contacts-groups-list .a-remov-elem-list-element:hover {
-	background: #F3F3F3;
+	background: #F6F6F6;
 }
 
 .a-contacts-groups-list .a-remov-elem-list-element-remove-button {
@@ -395,16 +463,23 @@ textarea.a-invite-description {
 
 .a-contacts-groups-list .a-remov-elem-list-element-selected, .a-contacts-groups-list .a-remov-elem-list-element-selected:hover  {
 	font-weight: bold; 
-	background: lightgray;
+	background: #E4E4E4;
 }
 
 .a-contacts-members-list {
+	overflow: hidden;
+	width: 490px;
 	margin-left: 8px;
 }
 
 .a-contacts-members-list .a-remov-elem-list-element-caption {
 	font-size: 16px;
 	margin-bottom: 5px;
+	max-width: 465px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .a-contacts-members-list .a-remov-elem-list-element-remove-button {

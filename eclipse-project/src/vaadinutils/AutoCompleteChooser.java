@@ -19,15 +19,17 @@ public class AutoCompleteChooser extends CssLayout {
 
 	public AutoCompleteChooser() {
 		addStyleName("a-auto-complete-chooser");
-		choice = new ComboBox(); choice.addStyleName("a-auto-complete-chooser-choice");
-		choice.setSizeUndefined();
-		ignored = AgitterVaadinUtils.createDefaultAddButton(); ignored.addStyleName("a-auto-complete-chooser-ignored");
+		setSizeUndefined();
 
+		choice = new ComboBox(); choice.addStyleName("a-auto-complete-chooser-choice");
 		choice.setNewItemsAllowed(true);
 		choice.setFilteringMode(AbstractSelect.Filtering.FILTERINGMODE_CONTAINS);
 		choice.setImmediate(true);
 		choice.setNullSelectionAllowed(false);
+		choice.setSizeUndefined();
 		addComponent(choice);
+
+		ignored = AgitterVaadinUtils.createDefaultAddButton(); ignored.addStyleName("a-auto-complete-chooser-ignored");
 		addComponent(ignored);
 	}
 
@@ -59,6 +61,10 @@ public class AutoCompleteChooser extends CssLayout {
 	
 	public void setInputPrompt(String prompt) {
 		choice.setInputPrompt(prompt);
+	}
+	
+	public void setInputWidth(String width) {
+		choice.setWidth(width);
 	}
 
 }

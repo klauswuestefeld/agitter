@@ -71,7 +71,7 @@ public class EventListElement extends CssLayout {
 
 		return result.toString();
 	}
-	
+		
 	
 	public void setSelected(boolean selected) {
 		if (selected)

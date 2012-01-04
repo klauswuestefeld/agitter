@@ -7,7 +7,7 @@ public interface EventsView {
 
 	void onNewEvent(Runnable onNewEvent);
 	
-	EventView showInviteView();
+	EventView inviteView();
 	EventListView initEventListView();
 
 }

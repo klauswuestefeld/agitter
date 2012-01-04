@@ -152,7 +152,7 @@ public class EventImpl2 implements Event {
 	public List<User> allResultingInvitees() {
 		Set<User> result = new HashSet<User>(invitees);
 		for(Group g : groupInvitations)
-			result.addAll(g.deepMembers());
+			g.deepAddMembers(result);
 		result.remove(_owner);
 		return new ArrayList<User>(result);
 	}
