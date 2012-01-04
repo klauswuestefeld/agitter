@@ -25,6 +25,8 @@ Matias
 
 Alguém com Iniciativa
 
+	BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
+ 
 	Quem é convidado?
 		Visualização: tirar bullets.
 		(Ver discussao na lista do agitter)
