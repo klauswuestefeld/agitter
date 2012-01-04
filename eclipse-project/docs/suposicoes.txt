@@ -26,23 +26,14 @@ Matias
 Alguém com Iniciativa
 
 	Quem é convidado?
-		Vitor: DONE na Visualização. Na lista: fulano@mail.com + N convidados
-
-	Um grupo de contatos quando associado a um evento, é compartilhado entre os convidados?
-		Digamos que alguém crie um evento com um grupo. Os convidados veem o nome deste grupo ou o 
-		e-mail individual de cada um?  
-
-	Vitor: REMOVIDO: DONE - Visualizar agito próprio antes de editar - Link p editar
-		Vitor: Ficou Horrivel
-		Abrir a tela com primeiro agito já selecionado
-		Vitor: Precisamos de um botão de Salvar? 
+		Visualização: tirar bullets.
+		(Ver discussao na lista do agitter)
 
 	Editar post está confuso. 
-		Se o texto novo não aparece ao lado (edição da segunda linha por exemplo), parece 
-		que nada está sendo salvo.  
-
+		Se o texto novo não aparece ao lado (edição da segunda linha por exemplo), parece que nada está sendo salvo.
+			Alguma sugestão? Por mim desencanamos disso. Klaus
+			
 	Links clicáveis na descricao do agito
-		Colocar tbém no campo de visualização à direita
 		Prevenir ataques de XSS  
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
