@@ -13,6 +13,7 @@ import agitter.domain.users.User;
 
 public class PeriodicScheduleMailer {
 
+	private static final int A_DAY_PLUS_TWO_HOURS = 24 + 2; //Two extra hours so that the events that are 24h and a few minutes from now get sent with enough notice time.
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
@@ -87,7 +88,7 @@ public class PeriodicScheduleMailer {
 	}
 
 	private long dateLimit() {
-		return Clock.currentTimeMillis()+24*60*60*1000;
+		return Clock.currentTimeMillis()+A_DAY_PLUS_TWO_HOURS*60*60*1000;
 	}
 
 	private void sendTo(User u, List<Event> toSend) {
