@@ -4,8 +4,6 @@
 		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
 		PECCIN: Acho que deve haver algum problema no tratamento do evento em si. No Galera não tem este problema, aparentemente. Ver como foi feito lá.
 
-	Tela de Entrada Nova - Imagem larga - Follow-up c Petra
-
 
 Peccin
 
@@ -13,9 +11,6 @@ Peccin
 		Pesquisar no fórum do Vaadin, mandar código pro Klaus abrir bug, se necessário.
 			Desencanar de hover, se for o caso.
 				
-	BUG - Lista de membros de Grupo com e-mails grandes quebra o layout. 
-		Ex: Adicione o e-mail: sajlfsajfdljsadljasldjflaskjfdlksajdfjsalkdfjlsadkjflajsldfkjlsajdflsjfksajd@demo.com
-
 
 Matias
 
@@ -25,18 +20,14 @@ Matias
 
 Alguém com Iniciativa
 
+	Links clicáveis na descricao do agito
+		Prevenir ataques de XSS  
+
 	BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
  
 	Quem é convidado?
 		Visualização: tirar bullets.
 		(Ver discussao na lista do agitter)
-
-	Editar post está confuso. 
-		Se o texto novo não aparece ao lado (edição da segunda linha por exemplo), parece que nada está sendo salvo.
-			Alguma sugestão? Por mim desencanamos disso. Klaus
-			
-	Links clicáveis na descricao do agito
-		Prevenir ataques de XSS  
 
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
@@ -55,28 +46,29 @@ Alguém com Iniciativa
 				Email primeiro pq é mais importante.
 			Unsubscribe geral do email diario.
 
+	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
+		Abrir a tela de agitos com o cara já autenticado.
+
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
-	Quem é convidado?
-		Na visualização: Lista de emails de quem é meu contato + N convidados.
-
-	Public profile do sugeito
-		Definir como será os IDs. Username? Usar do Twetter do Facebook? 
-		Permitir alteração? 
-		
-	Eventos periódicos. E-mails automaticamente
-		Como assim?
+	Eventos com múltiplas datas (periódicos)
 	
 	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
-		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scrool até o topo da página
+		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scroll até o topo da página
 	
+	Unificação de emails. Permitir vários emails para um mesmo user.
+
 	Melhorar redigibilidade.
 		Como assim?
 	
 	Unlink accounts
 		Como assim?
 	
+	Public profile do sujeito
+		Definir como será os IDs. Username? Usar do Twitter do Facebook? 
+		Permitir alteração?
+		
 	Transformar o e-mail de login do topo em um dropdown
 		Botar o sair lá
 		Configurações de conta
@@ -87,11 +79,6 @@ Alguém com Iniciativa
 		Previsualizar links
 		Videos
 		Integrar com servicos: Flyckr, Instagram, etc... 		  		
-
-	Unificação de emails. Permitir vários emails para um mesmo user.
-
-	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
-		Abrir a tela de agitos com o cara já autenticado.
 
 	Undo Deleção de Agito
 		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior, tipo GMail: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
