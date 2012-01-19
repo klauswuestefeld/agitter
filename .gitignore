@@ -6,7 +6,7 @@ simploy-build
 
 nohup.out
 
-*.byecycle
+*.byke
 *.metadata
 *.idea
 *.iml
