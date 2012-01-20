@@ -4,41 +4,41 @@
 		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
 		PECCIN: Acho que deve haver algum problema no tratamento do evento em si. No Galera não tem este problema, aparentemente. Ver como foi feito lá.
 
+	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
+		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
+			Lembrar de desativar/remover o timer na segunda vez.
+
 
 Peccin
 
 	BUG - Problema de Hover no IE (Grupos de Contatos, Agito selecionado)
 		Pesquisar no fórum do Vaadin, mandar código pro Klaus abrir bug, se necessário.
 			Desencanar de hover, se for o caso.
-				
+
+	Unificação de emails. Permitir vários emails para um mesmo user.
+	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
+		Fazer botao/link "Importar contatos de email" pra importação/atualizaçao dos contatos, abaixo da  
+
+	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
+
 
 Matias
 
 	Session Management
 		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
 
+	Comments
 
-Alguém com Iniciativa
 
-	Links clicáveis na descricao do agito
-		Prevenir ataques de XSS  
+Leo
 
-	BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
- 
-	Quem é convidado?
-		Visualização: tirar bullets.
-		(Ver discussao na lista do agitter)
+	Links nos EMails trazem usuário direto pro site
+		Abrir a tela de agitos com o cara já autenticado.
+		Conversar com Matias sobre como resolver o Out-of-sync qdo se abre nova aba do browser.
 
-	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
-		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
-			Lembrar de desativar/remover o timer na segunda vez.
-
-	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
-		Fazer botao/link pra importação/atualizaçao separada do login.
-	
 	Email
 		Formato da Lista
-			Quinta 31/12/2011
+			Quinta 31/Dez/2012
 			Reveillon com churrasco lá em casa
 			klaus@gmail.com  (bloquear emails desta pessoa)
 		No Spam
@@ -46,25 +46,28 @@ Alguém com Iniciativa
 				Email primeiro pq é mais importante.
 			Unsubscribe geral do email diario.
 
-	Links nos EMails trazem usuário direto pro site, autenticado, vendo os agitos dele.
-		Abrir a tela de agitos com o cara já autenticado.
 
+
+Vitor
+
+	Links clicáveis na descricao do agito
+		Prevenir ataques de XSS - Ver usos q já temos do nosso XssAttackSanitizer 
+
+	Eventos com múltiplas datas
+		Unificar o formato de datas em todos os lugares pra "Quinta 31/Dez/2012"
+	
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
-	Eventos com múltiplas datas (periódicos)
 	
-	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
-		Quando a lista de agitos é muito grande, ao visualizar ou editar o agito, tem que fazer o scroll até o topo da página
-	
-	Unificação de emails. Permitir vários emails para um mesmo user.
-
 	Melhorar redigibilidade.
 		Como assim?
 	
 	Unlink accounts
 		Como assim?
 	
+	BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
+ 
 	Public profile do sujeito
 		Definir como será os IDs. Username? Usar do Twitter do Facebook? 
 		Permitir alteração?
@@ -82,8 +85,6 @@ Alguém com Iniciativa
 
 	Undo Deleção de Agito
 		Mostrar janelinha amarela por cima de tudo, centralizada, colada na margem superior, tipo GMail: "Agito excluído! Recuperar", onde esse "recuperar" é um link q faz undo.
-
-	Comments
 
 	Lista de Agitos Ignorados
 		- Botao no agito de recuparar no lugar onde ficava o X
