@@ -48,6 +48,37 @@ public class AgitterVaadinApplication extends Application implements HttpServlet
 		
 		RestUtils.addRestHandler(view, presenter);
 	}
+	
+	/*
+	@Override
+	public Window getWindow(String name) {
+		System.err.println( "getWindow: " + name );
+		Window window = super.getWindow(name);
+		System.err.println( "getWindow.super.window: " + window );
+		if(window != null)
+			return window;
+		
+		window = new AgitterViewImpl();
+
+		// Use the random name given by the framework to identify this
+		// window in future
+		window.setName(name);
+		addWindow(window);
+
+		// Move to the url to remember the name in the future
+		window.open(new ExternalResource(window.getURL()));
+
+		presenter = new Presenter(CONTROLLER, (AgitterView) window, firstRequest, firstResponse);
+//		firstRequest = null;
+//		firstResponse = null;
+		
+		RestUtils.addRestHandler(window, presenter);
+
+		
+		return null;
+		
+	}
+	*/
 
 	
 	public static SystemMessages getSystemMessages() {
