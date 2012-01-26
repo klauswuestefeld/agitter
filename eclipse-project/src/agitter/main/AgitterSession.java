@@ -12,7 +12,7 @@ import agitter.ui.view.AgitterViewImpl;
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 
-public class AgitterVaadinApplication extends Application implements HttpServletRequestListener  {
+public class AgitterSession extends Application implements HttpServletRequestListener  {
 
 	private HttpServletRequest firstRequest;
 	private HttpServletResponse firstResponse;

@@ -167,7 +167,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	private static WebAppContext vaadin() {
 		return createServletApp(
 			com.vaadin.terminal.gwt.server.ApplicationServlet.class,
-			initWith(AgitterVaadinApplication.class),
+			initWith(AgitterSession.class),
 			//initWith(MultiTabApplication.class),
 			"/*"
 		);
