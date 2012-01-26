@@ -37,10 +37,8 @@ Leo
 		Conversar com Matias sobre como resolver o Out-of-sync qdo se abre nova aba do browser.
 
 	Email
-		Formato da Lista
-			Quinta 31/Dez/2012
-			Reveillon com churrasco lá em casa
-			klaus@gmail.com  (bloquear emails desta pessoa)
+		Ver docs/ui/mvp/Email*
+
 		No Spam
 			Sempre q eu vir qualquer agito via qualquer meio (site, email, etc) tenho q ser capaz de bloquear o agitador ali mesmo.
 				Email primeiro pq é mais importante.
