@@ -21,6 +21,7 @@ import org.prevayler.bubble.PrevalentBubble;
 
 import sneer.foundation.lang.Clock;
 import agitter.controller.Controller;
+
 import com.vaadin.Application;
 
 public class AgitterProcess implements ReplaceableProcess {

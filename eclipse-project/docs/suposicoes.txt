@@ -44,14 +44,12 @@ Leo
 				Email primeiro pq é mais importante.
 			Unsubscribe geral do email diario.
 
-
-
 Vitor
 
 	Links clicáveis na descricao do agito
 		Prevenir ataques de XSS - Ver usos q já temos do nosso XssAttackSanitizer 
 
-	Eventos com múltiplas datas
+	Eventos com múltiplas datas (Recorrentes)
 		Unificar o formato de datas em todos os lugares pra "Quinta 31/Dez/2012"
 	
 
