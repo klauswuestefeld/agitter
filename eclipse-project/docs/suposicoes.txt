@@ -1,37 +1,46 @@
 ﻿Klaus
 
+	Unificação de emails. Permitir vários emails para um mesmo user.
+	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
+		Fullname - Puxar do SocialAuth
+		Fazer botao/link "Importar contatos de email" pra importação/atualizaçao dos contatos, abaixo da  
+
 	BUG DO VAADIN - Perda esporádica de eventos de click na lista de agitos. (Este bug foi reportado como: "Se eu to com um agito "novinho na lista" :) ao logar e cliclo nos agitos já existentes a gui não me mostra o agito. Tenho que clicar no agito novinho e depois selecionar outro.")
 		Acompanhar Bug ticket aberto pro Vaadin - Se n tiver solução, registrar um listener em cada item do layout.
 		PECCIN: Acho que deve haver algum problema no tratamento do evento em si. No Galera não tem este problema, aparentemente. Ver como foi feito lá.
 
+	Session Management
+		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
+
+Flávio
+
 	BUG Login - No campo de email ao selecionar o autocomplete com enter ele ta disparando o evento de entrar com o pedaço digitado e logo em seguida preenche o campo com o email completo escolhido (teste feito com Firefox 8)
 		Opção: Em caso de mail inválido, usar um timer do Vaadin (do tipo q dá refresh na lista de eventos) pra disparar outro evento e dar tempo do campo de email ter sido preenchido pelo browser.
 			Lembrar de desativar/remover o timer na segunda vez.
-
+	
 
 Peccin
+
+	Fullname - Mostrar em todos os lugares email (se conhecido) + Fullname (se tiver) (Como twitter)
+			Pagina de configurações p alterar Fullname.
 
 	BUG - Problema de Hover no IE (Grupos de Contatos, Agito selecionado)
 		Pesquisar no fórum do Vaadin, mandar código pro Klaus abrir bug, se necessário.
 			Desencanar de hover, se for o caso.
-
-	Unificação de emails. Permitir vários emails para um mesmo user.
-	Autenticacao e Importação de Emails de meus Contatos através do SocialAuth
-		Fazer botao/link "Importar contatos de email" pra importação/atualizaçao dos contatos, abaixo da  
 
 	Fazer a visualização do agito clicado sempre visível, floating, como janela lateral do twitter
 
 
 Matias
 
-	Session Management
-		Out-of-Sync, principalmente qdo clicar num link do email e abrir outra aba
-
 	Comments
-
+		Pedir Fullname (mesmo termo q Facebook) se n tiver.
 
 Leo
 
+	Antecedencia - Ver email na lista
+		Idéia1: Sender da hints sobre tipo do agito, receivers definem como recebem de acordo c o tipo.
+	
 	Links nos EMails trazem usuário direto pro site
 		Abrir a tela de agitos com o cara já autenticado.
 		Conversar com Matias sobre como resolver o Out-of-sync qdo se abre nova aba do browser.
