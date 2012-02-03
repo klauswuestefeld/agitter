@@ -3,8 +3,6 @@ package agitter.ui.helper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import utils.XssAttackSanitizer;
-
 public class HTMLFormatter {
 	
 	private final static String EMAIL_REGEX = 

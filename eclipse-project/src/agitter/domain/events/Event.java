@@ -1,6 +1,5 @@
 package agitter.domain.events;
 
-import java.util.Date;
 import java.util.List;
 
 import agitter.domain.contacts.Group;

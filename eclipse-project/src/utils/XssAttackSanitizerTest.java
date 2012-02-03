@@ -11,8 +11,4 @@ public class XssAttackSanitizerTest extends Assert {
 		assertEquals("//B a n a n a@çÇãáÂÊ.,-_", result);
 	}
 	
-	@Test
-	public void failMethod() {
-		fail(); // T asdf asdf aa
-	}
 }
