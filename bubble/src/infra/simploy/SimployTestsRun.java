@@ -77,8 +77,12 @@ public class SimployTestsRun {
 
 		String rootPath = testsFolder().getAbsolutePath();
 
+		System.out.println(rootPath);
+		
 		for (String filePath : classFilePaths) {
 			String className = className(rootPath, filePath);
+		
+			System.out.println(rootPath +"/"+ filePath);
 			
 			Class<?> c = getClass().getClassLoader().loadClass(className);
 			System.out.println(getClass().getClassLoader().toString());
