@@ -38,7 +38,7 @@ public class DeployerWorker {
 
 	private void runAllTestsIn(File newBuild) throws Exception {
 		try {
-			SimployTestsRunner.runAllTestsIn(newBuild + "/src/");
+			SimployTestsRunner.runAllTestsIn(newBuild + "/src");
 		} catch (Exception e) {
 			BuildFolders.markAsFailed(newBuild, e);
 			throw e;

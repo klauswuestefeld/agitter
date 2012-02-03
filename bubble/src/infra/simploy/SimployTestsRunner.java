@@ -31,8 +31,8 @@ public class SimployTestsRunner {
 
 	
 	static private URLClassLoader separateClassLoader(URL[] classpath) throws Exception {
-		ClassLoader noParent = null;
-		return new URLClassLoader(classpath, noParent);
+//		ClassLoader noParent = null;
+		return new URLClassLoader(classpath, ClassLoader.getSystemClassLoader().getParent());
 	}
 	
 	
