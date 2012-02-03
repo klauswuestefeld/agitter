@@ -9,6 +9,8 @@ public class XssAttackSanitizerTest extends Assert {
 	public void ultraConservativeFilter() {
 		String result = XssAttackSanitizer.ultraConservativeFilter("\\//B a\rn\ta\nn a@#&*()+='\"[]{}´`~^çÇãáÂÊ;%$.,-_><");
 		assertEquals("//B a n a n a@çÇãáÂÊ.,-_", result);
+		
+		fail();
 	}
 	
 }
