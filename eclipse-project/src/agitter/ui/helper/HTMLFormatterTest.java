@@ -55,7 +55,12 @@ public class HTMLFormatterTest {
 	@Test
 	public void testWWW() {
 		equals("Hi this <a href='http://www.teste.com' target='_new'>www.teste.com</a>.",
-			   "Hi this www.teste.com."); 
+			   "Hi this www.teste.com.");
+		equals("Hi this <a href='http://teste.com' target='_new'>teste.com</a>",
+				   "Hi this teste.com"); 
+		equals("<a href='http://but.com' target='_new'>but.com</a> Agito do demo",
+				   "but.com Agito do demo"); 
+		
 		equals("Hi this <a href='http://www.teste.in' target='_new'>www.teste.in</a>.",
 				   "Hi this www.teste.in."); 
 	}
@@ -76,6 +81,12 @@ public class HTMLFormatterTest {
 		
 		equals("Hi.this.is.not.a.url",
 			   "Hi.this.is.not.a.url");
+		
+		equals("but.com:Agito do demo",
+				   "but.com:Agito do demo"); 
+		
+		equals("but.com.Agito do demo",
+				   "but.com.Agito do demo"); 		
 	}
 	
 	@Test

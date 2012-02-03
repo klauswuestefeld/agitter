@@ -22,7 +22,7 @@ public class HTMLFormatter {
 			  "(([-A-Za-z0-9]*)\\.)+" +
 			  "(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[-A-Za-z0-9]{2})"	+ 
 			  "(\\/[-A-Za-z0-9+&@#/%?=~_()|!:,;]*" +
-			  "[-A-Za-z0-9+&@#/%=~_()|])?)\\b(?!(\\W\\w))";
+			  "[-A-Za-z0-9+&@#/%=~_()|])?)\\b(?!([.!?:,;]\\w))";
 	
 	private final static String NO_HTML = "\\<.*?\\>";
 	
