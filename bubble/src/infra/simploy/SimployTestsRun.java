@@ -79,7 +79,10 @@ public class SimployTestsRun {
 
 		for (String filePath : classFilePaths) {
 			String className = className(rootPath, filePath);
-			Class<?> c = Class.forName(className);
+			
+			Class<?> c = getClass().getClassLoader().loadClass(className);
+			System.out.println(c.getResource(".").getPath());
+			
 			if (!Modifier.isAbstract(c.getModifiers()))
 				result.add(c);
 		}
