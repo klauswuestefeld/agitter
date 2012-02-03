@@ -10,4 +10,9 @@ public class XssAttackSanitizerTest extends Assert {
 		String result = XssAttackSanitizer.ultraConservativeFilter("\\//B a\rn\ta\nn a@#&*()+='\"[]{}´`~^çÇãáÂÊ;%$.,-_><");
 		assertEquals("//B a n a n a@çÇãáÂÊ.,-_", result);
 	}
+	
+	@Test
+	public void failMethod() {
+		fail(); // Teste de comit. 
+	}
 }
