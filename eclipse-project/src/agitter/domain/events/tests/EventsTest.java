@@ -22,7 +22,7 @@ public class EventsTest extends EventsTestBase {
 		assertEquals(1, subject.toHappen(ana).size());
 		Event event = subject.toHappen(ana).iterator().next();
 		assertEquals("Dinner at Joes", event.description());
-		assertEquals(1000, event.datetime());
+		assertEquals(1000, event.datetimes()[0]);
 	}
 	
 

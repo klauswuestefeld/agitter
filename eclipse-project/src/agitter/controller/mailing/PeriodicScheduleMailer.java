@@ -80,7 +80,7 @@ public class PeriodicScheduleMailer {
 		final long dateLimit = dateLimit();
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
 		for(Event e : candidates) {
-			if(e.datetime() > dateLimit) { break; }
+			if(e.datetimes()[0] > dateLimit) { break; }
 			if(result.size()==MAX_EVENTS_TO_SEND) { break; }
 			result.add(e);
 		}

@@ -4,6 +4,7 @@ import agitter.domain.comments.Comments;
 import agitter.domain.comments.CommentsImpl;
 import agitter.domain.contacts.Contacts;
 import agitter.domain.contacts.ContactsImpl2;
+import agitter.domain.events.EventImpl2;
 import agitter.domain.events.Events;
 import agitter.domain.events.EventsImpl2;
 import agitter.domain.mailing.Mailing;
@@ -50,6 +51,8 @@ public class AgitterImpl implements Agitter {
 	
 	@Override
 	public void migrateSchemaIfNecessary() {
+		((EventsImpl2)events2).migrateSchemaIfNecessary();
+		
 		//Migration code goes here
 	}
 	

@@ -41,7 +41,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(leo, "churras", startTime+11L, klaus);
 		createEvent(klaus, "event3", startTime+12L);
 		createEvent(klaus, "event4", startTime+13L);
-		createEvent(klaus, "eventNextDay", startTime+13L+TWO_HOURS+ONE_DAY);
+		createEvent(klaus, "eventNextDay", startTime+13L+TWO_HOURS+TWO_HOURS+ONE_DAY);
 
 		Clock.setForCurrentThread(startTime+11 + TWO_HOURS);
 
@@ -75,7 +75,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		Clock.setForCurrentThread(startTime+11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
-		assertFragment("leo@email.com - script", mock.body());
+		assertFragment("leo@email.com - ", mock.body());
 	}
 
 

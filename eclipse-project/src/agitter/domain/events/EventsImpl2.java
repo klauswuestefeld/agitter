@@ -36,7 +36,7 @@ public class EventsImpl2 implements Events {
 	
 	@Override
 	public void setDescription(User user, Event event, String description) throws Refusal {
-		edit(user, event, description, event.datetime());
+		edit(user, event, description, event.datetimes()[0]);
 	};
 	
 	
@@ -58,7 +58,7 @@ public class EventsImpl2 implements Events {
 		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
 
 		for(EventImpl2 e : _all) {
-			if (e.datetime() < twoHoursAgo) continue;
+			if (e.datetimes()[0] < twoHoursAgo) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
@@ -78,6 +78,13 @@ public class EventsImpl2 implements Events {
 		if (!isEditableBy(user, event))
 			throw new IllegalArgumentException("Agito não deletável por este usuário.");
 		_all.remove(event);
+	}
+
+
+	public void migrateSchemaIfNecessary() {
+		for (Event e : _all) 
+			((EventImpl2)e).migrateSchemaIfNecessary();
+		
 	}
 
 }

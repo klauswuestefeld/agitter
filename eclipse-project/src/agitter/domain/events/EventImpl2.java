@@ -18,7 +18,8 @@ public class EventImpl2 implements Event {
 
 	final private User _owner;
 	private String _description;
-	private long _datetime;
+	@Deprecated private long _datetime;
+	private long[] datetimes;
 	
 	private Set<Group> groupInvitations = new HashSet<Group>();
 	private Set<User> invitees = new HashSet<User>();
@@ -44,12 +45,10 @@ public class EventImpl2 implements Event {
 		return _description;
 	}
 
-	
 	@Override
-	public long datetime() {
-		return _datetime;
+	public long[] datetimes() {
+		return datetimes;
 	}
-
 
 	@Override
 	synchronized
@@ -120,7 +119,7 @@ public class EventImpl2 implements Event {
 		assertIsInTheFuture(newDatetime);
 
 		_description = newDescription;
-		_datetime = newDatetime;
+		datetimes = new long[]{newDatetime};
 	}
 
 
@@ -155,6 +154,13 @@ public class EventImpl2 implements Event {
 			g.deepAddMembers(result);
 		result.remove(_owner);
 		return new ArrayList<User>(result);
+	}
+
+
+	void migrateSchemaIfNecessary() {
+		// 2012-Fev-03
+		if (datetimes == null) 
+			datetimes = new long[]{_datetime};
 	}
 
 }

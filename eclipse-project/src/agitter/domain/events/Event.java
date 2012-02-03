@@ -1,5 +1,6 @@
 package agitter.domain.events;
 
+import java.util.Date;
 import java.util.List;
 
 import agitter.domain.contacts.Group;
@@ -10,7 +11,7 @@ public interface Event {
 	User owner();
 
 	String description();
-	long datetime();
+	long[] datetimes();
 
 	User[] invitees();
 	void addInvitee(User invitee);

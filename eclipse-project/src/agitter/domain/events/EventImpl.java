@@ -25,10 +25,12 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
 	@Override
-	public long datetime() {
+	public long[] datetimes() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
+
 	@Override
 	public User[] invitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();

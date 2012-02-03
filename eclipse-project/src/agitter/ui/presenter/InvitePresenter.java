@@ -70,14 +70,14 @@ public class InvitePresenter implements EventView.Boss {
 		if (events.isEditableBy(user, selectedEvent)) {
 			view.displayEditting(
 					selectedEvent.description(), 
-					new Date(selectedEvent.datetime()),
+					new Date(selectedEvent.datetimes()[0]),
 					sortedInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		} else {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
 					selectedEvent.description(), 
-					new Date(selectedEvent.datetime()),
+					new Date(selectedEvent.datetimes()[0]),
 					sortedKnownInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		}

@@ -138,7 +138,7 @@ public class EventsPresenter implements Boss {
 		List<Event> toHappen = events.toHappen(user);
 		for (Event event : toHappen) {
 			result.add(new EventVO(event, event.description(), 
-						event.datetime(), event.owner().screenName(), 
+						event.datetimes()[0], event.owner().screenName(), 
 						events.isEditableBy(user, event),
 						event.allResultingInvitees().size(), 
 						uniqueGroupOrUserInvited(event), 

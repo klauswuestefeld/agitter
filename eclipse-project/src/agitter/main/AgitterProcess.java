@@ -44,10 +44,11 @@ public class AgitterProcess implements ReplaceableProcess {
 	
 	@Override
 	public void prepareToRun() throws Throwable {
-		if (isSuccessfulBuild() || isDevelopmentMode())
+		if (isSuccessfulBuild() || isDevelopmentMode()) 
 			prepareToRunAsSuccessfulBuild();
-		else
+		else 
 			prepareToRunAsCandidateBuild();
+		
 	}
 
 
@@ -63,6 +64,9 @@ public class AgitterProcess implements ReplaceableProcess {
 
 	private void prepareToRunAsSuccessfulBuild() throws IOException, ClassNotFoundException {
 		PrevaylerBootstrap.open(new File(PREVALENCE_DIR));
+		LogInfra.getLogger(this).info("Migrating");
+		PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
+		
 	}
 
 
@@ -71,8 +75,6 @@ public class AgitterProcess implements ReplaceableProcess {
 			bringSnapshotFromPreviousGoodBuildIfNecessary();
 			LogInfra.getLogger(this).info("Running as successful build");
 			prepareToRunAsSuccessfulBuild();
-			LogInfra.getLogger(this).info("Migrating");
-			PrevaylerBootstrap.agitter().migrateSchemaIfNecessary();
 			LogInfra.getLogger(this).info("Marking as successful");
 			BuildFolders.markAsSuccessful(workingFolder());
 		} catch (Throwable t) {

@@ -24,7 +24,7 @@ public abstract class EventsTestBase extends UsersTestBase {
 		for (User user : invitees)
 			event.addInvitee(user);
 		for (Event candidate : events.toHappen(owner))
-			if (candidate.description().equals(description) && candidate.datetime() == startTime)
+			if (candidate.description().equals(description) && candidate.datetimes()[0] == startTime)
 				return candidate;
 		throw new IllegalStateException("Newly created event not found.");
 	}

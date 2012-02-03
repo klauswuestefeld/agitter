@@ -3,6 +3,7 @@ package org.prevayler.bubble;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.sql.Array;
 import java.util.Collection;
 import java.util.List;
 
@@ -57,7 +58,7 @@ class BubbleProxy implements InvocationHandler {
 		
 		Class<?> type = object.getClass();
 		if (type.isArray()) {
-			wrapArrayElementsIfNecessary((Object[])object);
+			wrapArrayElementsIfNecessary(object);
 			return object;
 		}
 		if (List.class.isAssignableFrom(type)) {
@@ -81,7 +82,12 @@ class BubbleProxy implements InvocationHandler {
 	}
 
 
-	private void wrapArrayElementsIfNecessary(Object[] array) {
+	private void wrapArrayElementsIfNecessary(Object arr) {		
+		if (arr.getClass().getComponentType().isPrimitive())
+			return; 
+		
+		Object[] array = (Object[])arr; 
+		
 		for (int i = 0; i < array.length; i++) {
 			Object obj = array[i];
 			array[i] = wrapIfNecessary(obj, null); //null means no path. Mutable objects in collections must be registered. 
