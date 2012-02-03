@@ -13,6 +13,6 @@ public class XssAttackSanitizerTest extends Assert {
 	
 	@Test
 	public void failMethod() {
-		fail(); // Teste de comit. 
+		fail(); // T
 	}
 }
