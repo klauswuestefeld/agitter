@@ -15,6 +15,7 @@ public class SimployTestsRunner {
 		URLClassLoader loader = separateClassLoader(findJars(testsPath));
 		Thread.currentThread().setContextClassLoader(loader);
 		Class<?> runClass = loader.loadClass(SimployTestsRun.class.getName());
+		System.out.println(SimployTestsRunner.class.getClassLoader());
 		System.out.println(loader);
 		System.out.println(runClass.getClassLoader());
 		instantiate(runClass, testsPath);
