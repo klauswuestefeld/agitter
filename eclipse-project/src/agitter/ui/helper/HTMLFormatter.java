@@ -3,20 +3,26 @@ package agitter.ui.helper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import utils.XssAttackSanitizer;
+
 public class HTMLFormatter {
 	
-	private final static String EMAIL_REGEX = "\\b(([a-zA-Z0-9_\\.\\-+])+@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+)";
+	private final static String EMAIL_REGEX = 
+			"\\b(([a-zA-Z0-9_\\.\\-+])+@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+)";
+	
 	private final static String WEB_REGEX = 
 			"\\b(" +
 			 "(https?|ftp|gopher|telnet|file|notes|ms-help)://" +
 			  "[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*" +
 			  "[-A-Za-z0-9+&@#/%=~_()|])";
 	
+	// anything .internationaldomain or with two letters (country domains)  
 	private final static String WWW_REGEX = 
 			"\\b(" +
-			  "(([-A-Za-z0-9+&@#/%?=~_()|!:,;]*)\\.)+" +
-			  "[-A-Za-z0-9+&@#/%?=~_()|!:,;]*" +
-			  "[-A-Za-z0-9+&@#/%=~_()|])";
+			  "(([-A-Za-z0-9]*)\\.)+" +
+			  "(aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[-A-Za-z0-9]{2})"	+ 
+			  "(\\/[-A-Za-z0-9+&@#/%?=~_()|!:,;]*" +
+			  "[-A-Za-z0-9+&@#/%=~_()|])?)\\b(?!(\\W\\w))";
 	
 	private final static String NO_HTML = "\\<.*?\\>";
 	
@@ -61,6 +67,7 @@ public class HTMLFormatter {
 
 	public String makeClickable(String text) {
 		text = removeHTML(text);
+		
 		text = addMail(text);
 		text = addWEB(text);
 		text = addWWW(text);

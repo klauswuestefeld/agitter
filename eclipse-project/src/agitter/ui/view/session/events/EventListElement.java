@@ -1,10 +1,9 @@
 package agitter.ui.view.session.events;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import vaadinutils.WidgetUtils;
+import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.events.EventListView.Boss;
 
@@ -17,7 +16,7 @@ import com.vaadin.ui.NativeButton;
 
 public class EventListElement extends CssLayout {
 
-	static private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	static private final AgitterDateFormatter dateFormat = new AgitterDateFormatter();
 	private final Boss boss;
 
 	public EventListElement(EventVO eventValues, Boss boss) {

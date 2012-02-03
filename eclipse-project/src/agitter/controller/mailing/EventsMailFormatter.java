@@ -5,6 +5,7 @@ import static utils.XssAttackSanitizer.ultraConservativeFilter;
 import java.util.List;
 
 import agitter.domain.events.Event;
+import agitter.ui.helper.HTMLFormatter;
 
 public class EventsMailFormatter {
 
@@ -24,12 +25,14 @@ public class EventsMailFormatter {
 
 	private String eventList(List<Event> events) {
 		StringBuffer result = new StringBuffer();
+		HTMLFormatter formatter = new HTMLFormatter();
 		for(Event e : events) {
 			if (result.length() != 0)
 				result.append("<BR/><BR/>");
 			result.append(ultraConservativeFilter(e.owner().screenName()));
 			result.append(" - ");
-			result.append(ultraConservativeFilter(e.description()));
+			//result.append(ultraConservativeFilter(e.description()));
+			result.append(formatter.makeClickable(e.description()));
 		}
 		return result.toString();
 	}
