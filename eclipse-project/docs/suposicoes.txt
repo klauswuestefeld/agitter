@@ -46,21 +46,20 @@ Leo
 
 Vitor
 
-	Links clicáveis na descricao do agito
-		Prevenir ataques de XSS - Ver usos q já temos do nosso XssAttackSanitizer 
-
 	Eventos com múltiplas datas (Recorrentes)
-		Unificar o formato de datas em todos os lugares pra "Quinta 31/Dez/2012"
+
+	DONE: Links clicáveis na descricao do agito
+		DONE: Prevenir ataques de XSS - Ver usos q já temos do nosso XssAttackSanitizer
+		DONE: E-mails seguros com urls clicáveis.  
+
+	DONE: Unificar o formato de datas em todos os lugares pra "Quinta 31/Dez/2012" 
 	
+	DONE: BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
 
 ----- Lançar (Break The Vial) http://3.bp.blogspot.com/_j3bYtuVJCQE/TGAL7HxkZqI/AAAAAAAAAXU/g7san97Uce4/s1600/T_Virus.jpg
 
-	
-	Melhorar redigibilidade.
-		Como assim?
-	
 	Unlink accounts
-		Como assim?
+		Deslinkar contas do facebook e twitter. A pessoa tem o direito de desistir :) 
 	
 	BUG: Links clicáveis estão pegando anything.anything. Ex: Se o agito tiver um "Chrrasco.Venham participar", ele está grifando o "Churrasco.Venham"
  
