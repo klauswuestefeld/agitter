@@ -53,7 +53,7 @@
 		<delete>
 			<fileset dir="${code}">
 				<exclude name="infra/simploy/*.*"/>
-				<exclude name="sneer/foundation/lang/*.*"/>
+				<exclude name="sneer/foundation/**/*.*"/>
 			</fileset>
 		</delete>
 		
