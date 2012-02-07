@@ -49,6 +49,14 @@
 
 
 	<target name="simploy" depends="build">
+		<!-- This is ugly. It builds everything and then deletes all that is not simploy. -->
+		<delete>
+			<fileset dir="${code}">
+				<exclude name="infra/simploy/*.*"/>
+				<exclude name="sneer/foundation/lang/*.*"/>
+			</fileset>
+		</delete>
+		
 		<java fork="true" spawn="true" classname="infra.simploy.SimployProduction">
 			<classpath location="${code}"/>
 			<arg value="SimploySecret"/>
