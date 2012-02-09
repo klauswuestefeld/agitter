@@ -1,13 +1,13 @@
 package agitter.domain.emails.tests;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.emails.EmailExtractor;
 
 
-public class EmailAddressExtractorTest extends Assert {
+public class EmailExtractorTest extends CleanTestBase {
 
 	@Test
 	public void mailExtraction() {

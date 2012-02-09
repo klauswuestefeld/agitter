@@ -29,12 +29,10 @@ public class EmailExtractor {
 	private static String extractName(String string) {
 		StringBuffer name = new StringBuffer();
 		for (char c : string.toCharArray()) {
-			System.out.println(c);
 			if (isIgnored(c)) continue;
-			if (isSeparator(c)) { clear(name); System.out.println("Cleared: " + name.length()); continue; }
+			if (isSeparator(c)) { clear(name); continue; }
 			if (c == '@') return null; //Invalid email in the middle of a name region.
 			name.append(c);
-			System.out.println(name);
 		}
 		String result = name.toString().trim();
 		result = removeFieldLabels(result);
