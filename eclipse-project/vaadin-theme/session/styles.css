@@ -305,6 +305,51 @@ textarea.a-invite-description {
 	white-space: nowrap;
 }
 
+.a-invite-multiply-date {
+	float: none;
+	margin-bottom: 10px;
+}
+
+.a-remov-date-list-element {
+	margin-bottom: 5px;
+	max-width: 200px;
+}
+
+.a-remov-date-list-element-remove-button {
+	background: url('../agitter/RemoveButton14.png') no-repeat center center;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	float:right;
+	border-style: none;
+	margin: 5px 0px 0 5px;
+}
+
+.a-multiply-date-chooser {
+	max-width: 210px;
+}
+
+.a-multiply-date-chooser-ignored {	
+	vertical-align: middle;
+	float:left;
+	border-style: none;
+	position:relative;
+	top: -20px;
+	left: 30px;
+}
+
+.a-remov-date-list-element-caption {
+	color: #454545;
+	font-size: 20px;
+	line-height: 23px;
+	margin: 2px 0 3px 0px;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .a-invite-invitations .a-remov-elem-list-element-remove-button {
 	visibility: hidden;
 	background: url('../agitter/RemoveButton14.png') no-repeat center center;

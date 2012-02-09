@@ -18,6 +18,9 @@ public interface Event {
 	Group[] groupInvitees();
 	void addInvitee(Group invitee);
 	void removeInvitee(Group invitee);
+	
+	void addDate(long date);
+	void removeDate(long date);
 
 	void notInterested(User user);
 
