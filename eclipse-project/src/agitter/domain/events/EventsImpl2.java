@@ -58,7 +58,7 @@ public class EventsImpl2 implements Events {
 		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
 
 		for(EventImpl2 e : _all) {
-			if (e.datetimes()[0] < twoHoursAgo) continue;
+			if (e.datetimes().length > 0 && e.datetimes()[0] < twoHoursAgo) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;

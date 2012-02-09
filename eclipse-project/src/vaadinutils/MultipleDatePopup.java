@@ -69,9 +69,9 @@ public class MultipleDatePopup extends CssLayout {
 		dateField.setValue(new Date(date));
 		
 		dateField.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-			long oldDate = ((Date)dateField.getData()).getTime();
-			long newDate = ((Date)event.getProperty().getValue()).getTime();
-			MultipleDatePopup.this.onChangeDate(oldDate, newDate);
+			Date oldDate = ((Date)dateField.getData());
+			Date newDate = ((Date)event.getProperty().getValue());
+			MultipleDatePopup.this.onChangeDate(oldDate.getTime(), newDate.getTime());
 			dateField.setData(newDate);
 		}});
 		
@@ -104,6 +104,9 @@ public class MultipleDatePopup extends CssLayout {
 		
 		for(long date : datetimes)
 			addRemovableDate(date, datetimes.length > 1);
+				
+		if (datetimes.length == 0)		
+			addRemovableDate(new Date().getTime(), false);
 	}
 	
 	private Date getElementDateForElementLine(ComponentContainer elemLine) {

@@ -145,7 +145,7 @@ public class EventImpl2 implements Event {
 	@Override
 	public void removeDate(long datetime) {
 		// dont remove the last one. 
-		if (datetimes.length == 1) return;
+		//if (datetimes.length == 1) return;
 		
 		for (int i=0; i<datetimes.length; i++) {
 			if (datetimes[i] == datetime) {
