@@ -157,7 +157,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	private boolean onNextInvitee(String invitee) {
-		boolean result = boss.approveInviteeAdd(invitee);
+		boolean result = boss.approveInviteesAdd(invitee);
 		if (result)
 			invitations.addElement(invitee);
 		return result;
@@ -183,7 +183,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 	
 	private void addNextInviteeComponent() {
-		nextInvitee.setInputPrompt("Convide amigos por email ou grupo");
+		nextInvitee.setInputPrompt("Digite grupo, email ou cole vários emails");
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
 			return onNextInvitee(invitee);
 		}});

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -16,6 +17,8 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
+import agitter.domain.emails.EmailExtractor;
+import agitter.domain.emails.EmailExtractor.Visitor;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
@@ -89,11 +92,6 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 
-	private void refreshIntivationsHeader() {
-		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().size());
-	}
-	
-
 	private List<String> sortedInviteesOf(Event event) {
 		List<String> result = sortedGroupsInviteesOf(event);
 			
@@ -144,39 +142,67 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 	@Override
-	public boolean approveInviteeAdd(String invitee) {
-		if (invitee == null) return false;
+	public boolean approveInviteesAdd(String invitees) {
+		if (invitees == null) return false;
 
 		if (selectedEvent == null) {
 			warningDisplayer.consume("Preencha a data e a descrição do agito.");
 			return false;
 		}
 
-		Object inviteeObj = toGroupOrUser(invitee);
-		if (inviteeObj == null) return false;
+		Object inviteeObj = toGroupOrUser(invitees);
+		if (inviteeObj == null) {
+			if (addMultipleInvitees(invitees)) {
+				refresh();
+				onEventDataChanged.run();
+			} else
+				warningDisplayer.consume("Grupo ou email invalido: " + invitees);
+
+			return false;
+		}
 		
 		if (inviteeObj instanceof Group)
 			selectedEvent.addInvitee((Group)inviteeObj);
-		else {
-			selectedEvent.addInvitee((User)inviteeObj);
-			contacts.addContact((User)inviteeObj);
-		}
+		else
+			addInvitee((User)inviteeObj);
 
-		refreshIntivationsHeader();
-		onEventDataChanged.run();
+		onInvitationChanged();
 		return true;
 	}
 
 
+	private void onInvitationChanged() {
+		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().size());
+		onEventDataChanged.run();
+	}
+
+
+	private boolean addMultipleInvitees(String invitees) {
+		final AtomicBoolean wasAdded = new AtomicBoolean(false);
+		EmailExtractor.extractAddresses(invitees, new Visitor() { @Override public void visit(String name, EmailAddress email) {
+			wasAdded.set(true);
+			User user = userProducer.evaluate(email);
+			addInvitee(user);
+			if (user.name() == null)
+				user.setName(name);
+		}});
+		return wasAdded.get();
+	}
+
+
+	private void addInvitee(User user) {
+		contacts.addContact(user);
+		selectedEvent.addInvitee(user);
+	}
+	
+	
 	private Object toGroupOrUser(String invitee) {
 		Object result = contacts.groupGivenName(invitee);
 		if (result != null) return result;
 
-		if (AddressValidator.isValidEmail(invitee))
-			return userProducer.evaluate(EmailAddress.certain(invitee));
-			
-		warningDisplayer.consume("Grupo ou email invalido: " + invitee);
-		return null;
+		return AddressValidator.isValidEmail(invitee)
+			? userProducer.evaluate(EmailAddress.certain(invitee))
+			: null;
 	}
 
 
@@ -188,21 +214,18 @@ public class InvitePresenter implements EventView.Boss {
 			selectedEvent.removeInvitee((Group)inviteeObj);
 		else
 			selectedEvent.removeInvitee((User)inviteeObj);
-		refreshIntivationsHeader();
-		onEventDataChanged.run();
+		onInvitationChanged();
 	}
 
 	@Override
 	public void onDateRemoved(Long date) {
 		selectedEvent.removeDate(date);
-		refreshIntivationsHeader();
 		onEventDataChanged.run();
 	}
 	
 	@Override
 	public void onDateAdded(Long date) {
 		selectedEvent.addDate(date);
-		refreshIntivationsHeader();
 		onEventDataChanged.run();
 	}
 	

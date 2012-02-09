@@ -8,7 +8,7 @@ public interface EventView {
 
 	interface Boss {
 		void onDescriptionEdit(String newText);
-		boolean approveInviteeAdd(String invitee);
+		boolean approveInviteesAdd(String invitee);
 		void onInviteeRemoved(String invitee);
 		void onDateRemoved(Long date);
 		void onDateAdded(Long date);
