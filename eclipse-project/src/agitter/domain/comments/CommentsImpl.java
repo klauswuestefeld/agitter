@@ -26,6 +26,7 @@ public class CommentsImpl implements Comments {
 
 	@Override
 	public void commentOn(Object thing, User author, String text) {
+		System.err.println( "commentOn: " + author + " saying: " + text + " at: " + thing );
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
 		mutableCommentsFor(thing).add(comment);
 	}
