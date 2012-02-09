@@ -8,6 +8,7 @@ import agitter.domain.emails.EmailAddress;
 public class UserImpl implements User {
 
 	private EmailAddress email;
+	private String name;
 	private String password;
 	private boolean isInterestedInPublicEvents = true;
 	@SuppressWarnings("unused") @Deprecated transient private boolean isActive = false; //Transient in 2011-09-14
@@ -65,6 +66,18 @@ public class UserImpl implements User {
 
 	void setPassword(String password) {
 		this.password = password;
+	}
+
+
+	@Override
+	public String name() {
+		return name;
+	}
+
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
