@@ -264,6 +264,7 @@ button.a-event-delete-button:hover {
 }
 
 textarea.a-invite-description {
+	clear: both;
 	width: 430px;
 	height: 150px;
 	min-height: 50px;
@@ -326,7 +327,7 @@ textarea.a-invite-description {
 }
 
 .a-multiply-date-chooser {
-	max-width: 210px;
+	width: 270px;
 }
 
 .a-multiply-date-chooser-ignored {	
