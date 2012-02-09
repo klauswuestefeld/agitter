@@ -6,28 +6,24 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
+import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.FieldEvents.BlurEvent;
-import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
 
 class EventViewImpl extends CssLayout implements EventView {
 
 	static private final AgitterDateFormatter dateFormat = new AgitterDateFormatter();
 
-	private final PopupDateField date = new PopupDateField();
+	private final MultipleDatePopup multipleDate = new MultipleDatePopup();
 	private final TextArea description = new TextArea();
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final Label invitationsHeader = WidgetUtils.createLabel();
@@ -45,7 +41,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	EventViewImpl() {
 		addStyleName("a-invite-view");
 		
-		addDateComponent();
+		addMultipleDateComponent();
 		addDescriptionComponent();
 		addNextInviteeComponent();
 		addInvitationsComponents();
@@ -81,12 +77,12 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, Date datetime, List<String> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount) {
 		editAll(true);
 		saveListenersActive = false;
 	
 		this.description.setValue(description);
-		this.date.setValue(datetime);
+		this.multipleDate.setValue(datetimes);
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
@@ -94,7 +90,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		saveListenersActive = true;
 
 		if (description.isEmpty())
-			this.date.focus();
+			this.multipleDate.focus();
 		else
 			this.description.focus();
 	}
@@ -169,7 +165,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	
 	private void showEditFields(boolean b) {
-		date.setVisible(b);
+		multipleDate.setVisible(b);
 		description.setVisible(b);
 		nextInvitee.setVisible(b);
 		invitationsHeader.setVisible(b);
@@ -217,25 +213,20 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(description); description.addStyleName("a-invite-description");
 	}
 	
-	
-	private void addDateComponent() {
-		date.setInputPrompt("Escolha uma data");
-		date.setResolution(DateField.RESOLUTION_MIN);
-		date.setDateFormat("dd/MM/yyyy HH:mm");
-		date.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-			onDatetimeEdit();
+	private void addMultipleDateComponent() {
+		multipleDate.setInputPrompt("Escolha uma data");
+		multipleDate.setResolution(DateField.RESOLUTION_MIN);
+		multipleDate.setDateFormat("dd/MM/yyyy HH:mm");
+		multipleDate.setRemoveListener(new Consumer<Long>() { @Override public void consume(Long date) {
+			if (!saveListenersActive) return;
+			boss.onDateRemoved(date);
 		}});
-		date.addListener(new BlurListener() { @Override public void blur(BlurEvent event) { 
-			onDatetimeEdit();
+		multipleDate.setAddListener(new Consumer<Long>() { @Override public void consume(Long date) {
+			if (!saveListenersActive) return;
+			boss.onDateAdded(date);
 		}});
 		
-		addComponent(date); date.addStyleName("a-invite-date");
-	}
-	
-	
-	private void onDatetimeEdit() {
-		if (!saveListenersActive) return;
-		boss.onDatetimeEdit((Date)date.getValue());
+		addComponent(multipleDate); multipleDate.addStyleName("a-invite-multiply-date");
 	}
 
 }

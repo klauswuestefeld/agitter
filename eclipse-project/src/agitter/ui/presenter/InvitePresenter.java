@@ -70,7 +70,7 @@ public class InvitePresenter implements EventView.Boss {
 		if (events.isEditableBy(user, selectedEvent)) {
 			view.displayEditting(
 					selectedEvent.description(), 
-					new Date(selectedEvent.datetimes()[0]),
+					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		} else {
@@ -143,24 +143,6 @@ public class InvitePresenter implements EventView.Boss {
 		onEventDataChanged.run();
 	}
 
-
-	@Override
-	public void onDatetimeEdit(Date date) {
-		if (date == null) { //Unnecessary when we start using drop-downs instead of free-typing field 
-			warningDisplayer.consume("Preencha a data do agito.");
-			return;
-		}
-		
-		try {
-			events.setDatetime(user, selectedEvent, date.getTime());
-		} catch (Refusal e) {
-			warningDisplayer.consume(e.getMessage());
-			return;
-		}
-		onEventDataChanged.run();
-	}
-
-
 	@Override
 	public boolean approveInviteeAdd(String invitee) {
 		if (invitee == null) return false;
@@ -210,6 +192,19 @@ public class InvitePresenter implements EventView.Boss {
 		onEventDataChanged.run();
 	}
 
+	@Override
+	public void onDateRemoved(Long date) {
+		selectedEvent.removeDate(date);
+		refreshIntivationsHeader();
+		onEventDataChanged.run();
+	}
+	
+	@Override
+	public void onDateAdded(Long date) {
+		selectedEvent.addDate(date);
+		refreshIntivationsHeader();
+		onEventDataChanged.run();
+	}
 	
 	private List<String> contacts() {
 		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
