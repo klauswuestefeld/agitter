@@ -4,6 +4,8 @@ import agitter.domain.emails.EmailAddress;
 
 public interface User {
 
+	public String name();
+	public void setName(String name);
 	public EmailAddress email();
 	public String screenName();
 

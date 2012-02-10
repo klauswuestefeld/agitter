@@ -8,9 +8,10 @@ public interface EventView {
 
 	interface Boss {
 		void onDescriptionEdit(String newText);
-		void onDatetimeEdit(Date date);
-		boolean approveInviteeAdd(String invitee);
+		boolean approveInviteesAdd(String invitee);
 		void onInviteeRemoved(String invitee);
+		void onDateRemoved(Long date);
+		void onDateAdded(Long date);
 	}
 
 	
@@ -18,7 +19,7 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, Date datetime, List<String> invitees, int totalInviteesCount);
+	void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount);
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
