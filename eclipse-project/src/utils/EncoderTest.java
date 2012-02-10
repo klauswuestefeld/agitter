@@ -17,6 +17,6 @@ public class EncoderTest extends Assert {
 	
 	@Test
 	public void differentInputsShouldLeadToDifferentResults() {
-		assertFalse(new Encoder().computeHmac("klaus", "ab").equals(new Encoder().computeHmac("kalus", "abc")));
+		assertFalse(new Encoder().computeHmac("klaus", "ab").equals(new Encoder().computeHmac("klaus", "abc")));
 	}
 }
