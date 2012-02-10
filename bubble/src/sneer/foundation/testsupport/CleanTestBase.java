@@ -145,6 +145,9 @@ public abstract class CleanTestBase extends AssertUtils {
 		if(thread.getName().indexOf("Java2D")!=-1) {
 			return; //Fix: Check for leaking Gui resources too.
 		}
+		if(thread.getName().indexOf("SunPKCS11-Darwin")!=-1) {
+			return; //Fix: Check for leaking SunPKCS11-Darwin resources too (bug on mac OSX).
+		}
 
 		final LeakingThreadStopped plug = new LeakingThreadStopped(thread, ""+thread+" was leaked by test: "+this.getClass()+" and is now being stopped!");
 		thread.stop(plug);
