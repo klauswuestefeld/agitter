@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.Encoder;
 import agitter.domain.emails.EmailAddress;
 
 public class UsersImpl implements Users {
 
 	private final List<User> users = new ArrayList<User>();
-
 	
 	@Override
 	public List<User> all() {
@@ -20,12 +20,12 @@ public class UsersImpl implements Users {
 
 	
 	@Override
-	public User signup(EmailAddress email, String password) throws Refusal {
-		checkParameters(email, password);
+	public User signup(EmailAddress email, String rawPassword) throws Refusal {
+		checkParameters(email, rawPassword);
 		checkDuplicateSignup(email);
 
 		UserImpl user = (UserImpl)produce(email);
-		user.setPassword(password);
+		user.setPassword(encrypt(rawPassword));
 		
 		getLogger(this).info("Signup: "+email);
 
@@ -33,17 +33,22 @@ public class UsersImpl implements Users {
 	}
 
 
-	private UserImpl createUser(EmailAddress email, String password) {
-		UserImpl result = new UserImpl(email, password);
+	private String encrypt(String rawPassword) {
+		return new Encoder().encryptPassword(rawPassword); 
+	}
+
+
+	private UserImpl createUser(EmailAddress email, String rawPassword) {
+		UserImpl result = new UserImpl(email, encrypt(rawPassword));
 		users.add(result);
 		return result;
 	}
 
 	
 	@Override
-	public User loginWithEmail(EmailAddress email, String password) throws UserNotFound, InvalidPassword, UserNotActive {
+	public User loginWithEmail(EmailAddress email, String rawPassword) throws UserNotFound, InvalidPassword, UserNotActive {
 		User user = searchByEmail(email);
-		return login(user, email.toString(), password);
+		return login(user, email.toString(), encrypt(rawPassword));
 	}
 	
 	@Override
@@ -121,9 +126,9 @@ public class UsersImpl implements Users {
 	}
 
 
-	private User login(User user, String email, String passwordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
+	private User login(User user, String email, String encryptedPasswordAttempt) throws UserNotFound, InvalidPassword, UserNotActive {
 		checkUserIsValidAndActive(user, email);
-		if(!user.isPasswordCorrect(passwordAttempt)) { throw new InvalidPassword("Senha inválida."); }
+		if(!user.isPasswordCorrect(encryptedPasswordAttempt)) { throw new InvalidPassword("Senha inválida."); }
 		getLogger(this).info("Login: "+email);
 		return user;
 	}
@@ -151,6 +156,12 @@ public class UsersImpl implements Users {
 		} catch(Refusal refusal) {
 			throw new UserNotFound("Usuário não encontrado: " + email);
 		}
+	}
+
+
+	public void migrateSchemaIfNecessary() {
+		for (User u : this.all()) 
+			((UserImpl) u).migrateSchemaIfNecessary();
 	}
 
 }

@@ -89,6 +89,12 @@ public class UsersTest extends UsersTestBase {
 		}
 	}
 
+	@Test
+	public void shouldNotStoreTheRawPassword() throws Refusal {
+		User user = signUp("ana@abc.com", "jaca");
+		assertFalse("jaca".equals(user.password()));
+	}
+	
 	private void assertAna(User user) {
 		assertEquals("ana@gmail.com", user.email().toString());
 	}

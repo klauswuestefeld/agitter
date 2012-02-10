@@ -9,6 +9,14 @@ public class Encoder {
 
 	private static final String HMAC_SHA256 = "HmacSHA256";
 
+	static final String PRIVATE_KEY_FOR_PASSWORD = "agitter#pk$skype@123*bacalhau+9090";
+	
+	public String encryptPassword(String rawPassword) {
+		return rawPassword != null ? 
+				this.computeHmac(PRIVATE_KEY_FOR_PASSWORD, rawPassword): 
+				null;
+	}
+	
 	public String computeHmac(String privateKey, String input) {
 		byte[] keyBytes = privateKey.getBytes();
 		Key key = new SecretKeySpec(keyBytes, 0, keyBytes.length, HMAC_SHA256);

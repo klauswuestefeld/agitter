@@ -2,6 +2,8 @@ package agitter.domain.users;
 
 import java.util.Random;
 
+import utils.Encoder;
+
 import agitter.domain.emails.EmailAddress;
 
 
@@ -78,6 +80,10 @@ public class UserImpl implements User {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void migrateSchemaIfNecessary() {
+		this.password = new Encoder().encryptPassword(this.password);
 	}
 
 }
