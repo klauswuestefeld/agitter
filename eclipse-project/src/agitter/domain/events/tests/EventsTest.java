@@ -47,7 +47,7 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-		subject.setDatetime(ana, secondEvent, 14);
+		subject.setDatetimes(ana, secondEvent, new long[]{14, 15, 16});
 
 		assertEquals(3, subject.toHappen(ana).size());
 		assertSame(firstEvent, subject.toHappen(ana).get(0));
@@ -55,6 +55,20 @@ public class EventsTest extends EventsTestBase {
 		assertSame(secondEvent, subject.toHappen(ana).get(2));		
 	}
 
+	@Test
+	public void recurrentDatesTest() throws Refusal {
+		Event firstEvent = createEvent(ana, "D1", 11);
+		Event secondEvent = createEvent(ana, "D2", 15);
+		Event thirdEvent = createEvent(ana, "D3", 18);
+		
+		firstEvent.addDate(17);
+		firstEvent.addDate(14);
+		
+		assertSame(firstEvent, subject.toHappen(ana).get(0));
+		assertSame(secondEvent, subject.toHappen(ana).get(1));
+		assertSame(thirdEvent, subject.toHappen(ana).get(2));			
+	}
+	
 
 	@Test
 	public void createAndEditEventWithGroups() throws Refusal {

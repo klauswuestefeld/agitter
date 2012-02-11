@@ -27,45 +27,49 @@ public class EventsImpl2 implements Events {
 		return event;
 	}
 
-	
 	@Override
-	public void setDatetime(User user, Event event, long datetime) throws Refusal {
-		edit(user, event, event.description(), datetime);
+	public void setDatetimes(User user, Event event, long[] datetimes) throws Refusal {
+		edit(user, event, event.description(), datetimes);
 	};
-
 	
 	@Override
 	public void setDescription(User user, Event event, String description) throws Refusal {
-		edit(user, event, description, event.datetimes()[0]);
+		edit(user, event, description, event.datetimes());
 	};
 	
 	
-	private void edit(User user, Event event, String newDescription, long newDatetime) throws Refusal {
+	private void edit(User user, Event event, String newDescription, long[] newDatetimes) throws Refusal {
 		if (!isEditableBy(user, event)) throw new IllegalStateException("Event not editable by this user.");
 		EventImpl2 casted = (EventImpl2) event;
 		boolean wasThere = _all.remove(casted); //Event could have been deleted.
 		try {
-			casted.edit(newDescription, newDatetime);
+			casted.edit(newDescription, newDatetimes);
 		} finally {
 			if (wasThere) _all.add(casted);
 		}
 	}
 
+	private boolean willHappen(Event e) {
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
+		for (long datetime : e.datetimes()) { 
+			if (datetime >= twoHoursAgo)
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public List<Event> toHappen(User user) {
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SHOW);
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
-
 		for(EventImpl2 e : _all) {
-			if (e.datetimes().length > 0 && e.datetimes()[0] < twoHoursAgo) continue;
+			if (!willHappen(e)) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
 		return result;
 	}
-
 	
 	@Override
 	public boolean isEditableBy(User user, Event event) {
@@ -86,5 +90,4 @@ public class EventsImpl2 implements Events {
 			((EventImpl2)e).migrateSchemaIfNecessary();
 		
 	}
-
 }

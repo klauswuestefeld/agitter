@@ -122,7 +122,13 @@ public class EventImpl2 implements Event {
 		datetimes = new long[]{newDatetime};
 	}
 
+	void edit(String newDescription, long[] newDatetimes) throws Refusal {
+		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 
+		_description = newDescription;
+		datetimes = newDatetimes;
+	}
+	
 	@Override
 	public void addInvitee(User invitee) {
 		actualInvitees().add(invitee);

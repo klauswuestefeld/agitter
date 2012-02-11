@@ -13,7 +13,7 @@ public interface Events {
 	Event create(User user, String description, long datetime) throws Refusal;
 
 	void setDescription(User user, Event event, String description) throws Refusal;
-	void setDatetime(User user, Event event, long newDatetime) throws Refusal;
+	void setDatetimes(User user, Event event, long[] newDatetimes) throws Refusal;
 	
 	boolean isEditableBy(User user, Event event);
 	void delete(User user, Event event);
