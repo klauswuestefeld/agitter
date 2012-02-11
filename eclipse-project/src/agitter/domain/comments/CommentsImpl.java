@@ -6,6 +6,8 @@ import static infra.util.Collections.copy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.prevayler.bubble.PrevalentBubble;
+
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Producer;
@@ -28,6 +30,7 @@ public class CommentsImpl implements Comments {
 	public void commentOn(Object thing, User author, String text) {
 		System.err.println( "commentOn: " + author + " saying: " + text + " at: " + thing );
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
+		PrevalentBubble.idMap().register(comment); //Ver com o Klaus...
 		mutableCommentsFor(thing).add(comment);
 	}
 	

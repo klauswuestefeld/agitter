@@ -4,8 +4,11 @@ import static infra.util.ToString.sortIgnoreCase;
 import static infra.util.ToString.toStrings;
 import infra.util.ToString;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,6 +17,7 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
@@ -29,6 +33,7 @@ import agitter.ui.view.session.events.EventView;
 public class InvitePresenter implements EventView.Boss {
 
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	private static final DateFormat COMMENTS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private final User user;
 	private final ContactsOfAUser contacts;
@@ -100,7 +105,8 @@ public class InvitePresenter implements EventView.Boss {
 					selectedEvent.description(), 
 					onlyFutureDates(selectedEvent.datetimes()),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(),
+					allComments(comments.commentsFor(selectedEvent)));
 		} else {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
@@ -109,6 +115,20 @@ public class InvitePresenter implements EventView.Boss {
 					sortedKnownInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		}
+	}
+
+
+	private List<String> allComments(List<Comment> commentsFor) {
+		Collections.reverse(commentsFor);
+		List<String> ret = new ArrayList<String>();
+		for(Comment c: commentsFor) {
+			ret.add( formatComment(c) );
+		}
+		return ret;
+	}
+	
+	private String formatComment(Comment comment) {
+		return "Em " + COMMENTS_DATE_FORMAT.format(new Date(comment.creationDatetime())) + " " + comment.owner().email() + " disse: " + comment.text() + "\n";
 	}
 
 

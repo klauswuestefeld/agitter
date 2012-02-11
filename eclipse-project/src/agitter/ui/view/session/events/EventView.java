@@ -19,7 +19,7 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount);
+	void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount, List<String> comments);
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 

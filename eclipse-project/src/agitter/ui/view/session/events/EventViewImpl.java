@@ -35,7 +35,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private final Label commentLabel = new Label("Comentários:"); 
 	private final TextArea comment = new TextArea();
-	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();;
+	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
+	private final Label commentsLabel = new Label();
 
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
@@ -87,7 +88,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount, List<String> comments) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -96,6 +97,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
+		commentsLabel.setValue(comments.toString());
 
 		saveListenersActive = true;
 
@@ -197,6 +199,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		commentLabel.setVisible(b);
 		comment.setVisible(b);
 		commentButton.setVisible(b);
+		commentsLabel.setVisible(b);
 	}
 	
 	
@@ -243,6 +246,8 @@ class EventViewImpl extends CssLayout implements EventView {
 			boss.onCommentPosted((String)comment.getValue());
 			comment.setValue("");
 		}});
+		
+		addComponent(commentsLabel);
 	}
 	
 	private void addDescriptionComponent() {
