@@ -106,7 +106,7 @@ public class InvitePresenter implements EventView.Boss {
 					onlyFutureDates(selectedEvent.datetimes()),
 					sortedInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size(),
-					allComments(comments.commentsFor(selectedEvent)));
+					allComments());
 		} else {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
@@ -117,8 +117,12 @@ public class InvitePresenter implements EventView.Boss {
 		}
 	}
 
-
-	private List<String> allComments(List<Comment> commentsFor) {
+	private boolean commentsEnabled() {
+		return EventView.COMMENTS_ENABLED;
+	}
+	private List<String> allComments() {
+		if(!commentsEnabled()) return new ArrayList<String>();
+		List<Comment> commentsFor = comments.commentsFor(selectedEvent);
 		Collections.reverse(commentsFor);
 		List<String> ret = new ArrayList<String>();
 		for(Comment c: commentsFor) {

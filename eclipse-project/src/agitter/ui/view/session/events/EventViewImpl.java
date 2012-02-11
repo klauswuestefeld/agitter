@@ -24,7 +24,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
 class EventViewImpl extends CssLayout implements EventView {
-
+	
 	static private final AgitterDateFormatter dateFormat = new AgitterDateFormatter();
 
 	private final MultipleDatePopup multipleDate = new MultipleDatePopup();
@@ -232,22 +232,22 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 	
 	private void addCommentsComponents() {
-		addComponent(commentLabel);
+		if(COMMENTS_ENABLED) addComponent(commentLabel);
 		
 		comment.setNullRepresentation("");
 		comment.setInputPrompt("O que Achou?");
 		comment.setSizeUndefined();
-		addComponent(comment);
+		if(COMMENTS_ENABLED) addComponent(comment);
 		comment.addStyleName("a-new-comment");
 		
 		commentButton.addStyleName("a-comment-post-ignored");
-		addComponent(commentButton);
+		if(COMMENTS_ENABLED) addComponent(commentButton);
 		commentButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			boss.onCommentPosted((String)comment.getValue());
 			comment.setValue("");
 		}});
 		
-		addComponent(commentsLabel);
+		if(COMMENTS_ENABLED) addComponent(commentsLabel);
 	}
 	
 	private void addDescriptionComponent() {

@@ -4,6 +4,8 @@ import java.util.List;
 
 
 public interface EventView {
+	
+	public static final boolean COMMENTS_ENABLED = false;
 
 	interface Boss {
 		void onDescriptionEdit(String newText);

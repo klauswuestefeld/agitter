@@ -15,6 +15,8 @@ import agitter.domain.users.User;
 
 public class CommentsImpl implements Comments {
 	
+	private static final boolean REGISTER_COMMENT = false; //MMM
+	
 	private static final Producer<List<Comment>> NEW_COMMENT_LIST = new Producer<List<Comment>>() { @Override public List<Comment> produce() {
 		return new ArrayList<Comment>();
 	}};
@@ -28,9 +30,8 @@ public class CommentsImpl implements Comments {
 
 	@Override
 	public void commentOn(Object thing, User author, String text) {
-		System.err.println( "commentOn: " + author + " saying: " + text + " at: " + thing );
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
-		PrevalentBubble.idMap().register(comment); //Ver com o Klaus...
+		if(REGISTER_COMMENT) PrevalentBubble.idMap().register(comment); //Ver com o Klaus...
 		mutableCommentsFor(thing).add(comment);
 	}
 	
