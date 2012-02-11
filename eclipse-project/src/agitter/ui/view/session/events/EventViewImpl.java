@@ -37,7 +37,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final TextArea comment = new TextArea();
 	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();;
 
-	private final Label readOnlyDate = WidgetUtils.createLabelXHTML(""); 
+	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyOwner = WidgetUtils.createLabel();
 	private final Label readOnlyInviteesHeader = WidgetUtils.createLabelXHTML("");
@@ -56,7 +56,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		addInvitationsComponents();
 		addCommentsComponents();
 		
-		addComponent(readOnlyDate); readOnlyDate.addStyleName("a-invite-readonly-date");
+		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
 		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
 		addComponent(readOnlyOwner); readOnlyOwner.addStyleName("a-invite-readonly-owner");
 		addComponent(readOnlyInviteesHeader); readOnlyInviteesHeader.addStyleName("a-invite-readonly-invitees-header");
@@ -117,10 +117,24 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(String owner, String description, Date datetime, List<String> knownInvitees, int totalInviteesCount) {
+	public void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
-		readOnlyDate.setValue(dateFormat.format(datetime));
+		
+		if (datetimes.length > 1) {		
+			StringBuilder buff = new StringBuilder();
+			buff.append("Marcado para: <UL>");
+			for (long date : datetimes) {
+				buff.append("<LI>"); 
+				buff.append(dateFormat.format(new Date(date)));
+				buff.append("</LI>");
+			}
+			buff.append("</UL>");;
+			readOnlyDates.setValue(buff.toString());
+		} else {
+			readOnlyDates.setValue(dateFormat.format(new Date(datetimes[0])));
+		}
+		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 	}
 
@@ -188,7 +202,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private void showReadOnlyLabels(boolean b) {
 		readOnlyDescription.setVisible(b);
-		readOnlyDate.setVisible(b);
+		readOnlyDates.setVisible(b);
 		readOnlyOwner.setVisible(b);
 		readOnlyInviteesHeader.setVisible(b);
 		readOnlyInviteesList.setVisible(b);

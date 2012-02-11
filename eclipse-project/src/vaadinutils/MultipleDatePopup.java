@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import agitter.ui.view.AgitterVaadinUtils;
 
@@ -74,7 +75,7 @@ public class MultipleDatePopup extends CssLayout {
 			MultipleDatePopup.this.onChangeDate(oldDate.getTime(), newDate.getTime());
 			dateField.setData(newDate);
 		}});
-		
+
 		elemLine.addComponent(dateField); dateField.addStyleName("a-remov-date-list-element-caption");
 		
 		Label removeButton = newElementRemoveLabel();

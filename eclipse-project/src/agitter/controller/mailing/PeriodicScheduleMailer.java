@@ -12,7 +12,8 @@ import agitter.domain.events.Event;
 import agitter.domain.users.User;
 
 public class PeriodicScheduleMailer {
-
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	
 	private static final int A_DAY_PLUS_TWO_HOURS = 24 + 2; //Two extra hours so that the events that are 24h and a few minutes from now get sent with enough notice time.
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
@@ -75,12 +76,22 @@ public class PeriodicScheduleMailer {
 		sendTo(user, toSend);
 	}
 
-
+	private boolean isTimeToSendMail(Event e, long dateLimit) {
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
+		for (long datetime : e.datetimes()) { 
+			if (datetime >= twoHoursAgo && datetime <= dateLimit)
+				return true;
+		}
+		
+		return false;
+	}
+	
 	private List<Event> choose(List<Event> candidates) {
 		final long dateLimit = dateLimit();
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
 		for(Event e : candidates) {
-			if(e.datetimes()[0] > dateLimit) { break; }
+			if (!isTimeToSendMail(e, dateLimit)) { continue; }
 			if(result.size()==MAX_EVENTS_TO_SEND) { break; }
 			result.add(e);
 		}

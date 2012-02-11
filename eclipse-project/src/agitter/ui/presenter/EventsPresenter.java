@@ -6,6 +6,8 @@ import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -23,10 +25,13 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
 import agitter.ui.view.session.events.EventListView.Boss;
 import agitter.ui.view.session.events.EventVO;
+import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss {
 
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
@@ -139,15 +144,24 @@ public class EventsPresenter implements Boss {
 	private List<EventVO> eventsToHappen() {
 		List<EventVO> result = new ArrayList<EventVO>();
 		List<Event> toHappen = events.toHappen(user);
+		
+		// TWO hours ago mesmo na lista? 
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
 		for (Event event : toHappen) {
-			if (event.datetimes().length > 0)
-				result.add(new EventVO(event, event.description(), 
-						event.datetimes()[0], event.owner().screenName(), 
+			for (long date : event.datetimes())
+				if (date > twoHoursAgo)
+					result.add(new EventVO(event, event.description(), 
+						date, event.owner().screenName(), 
 						events.isEditableBy(user, event),
 						event.allResultingInvitees().size(), 
 						uniqueGroupOrUserInvited(event), 
 						isUniqueUserInvited(event)));
-			else 
+
+			// This happens when changing an event with only one date. 
+			// the system removes the last date and includes a new one
+			// in the middle of these events, this function is called. 
+			if (event.datetimes().length == 0) 
 				result.add(new EventVO(event, event.description(), 
 						0, event.owner().screenName(), 
 						events.isEditableBy(user, event),
@@ -156,6 +170,9 @@ public class EventsPresenter implements Boss {
 						isUniqueUserInvited(event)));
 				
 		}
+		
+		Collections.sort(result, new EventVOComparator());
+		
 		return result;
 	}
 	

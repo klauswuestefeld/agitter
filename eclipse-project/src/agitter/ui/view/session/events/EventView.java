@@ -1,6 +1,5 @@
 package agitter.ui.view.session.events;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +23,6 @@ public interface EventView {
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(String owner, String description, Date datetime, List<String> knownInvitees, int totalInviteesCount);
+	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount);
 
 }

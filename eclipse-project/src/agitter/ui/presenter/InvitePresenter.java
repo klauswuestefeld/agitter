@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
@@ -27,6 +28,8 @@ import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
 
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
@@ -66,6 +69,25 @@ public class InvitePresenter implements EventView.Boss {
 		setSelectedEvent(null);
 	}
 
+	private long[] onlyFutureDates(long[] dates) {
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
+		List<Long> futureDates = new ArrayList<Long>();
+		
+		for (long datetime : dates) { 
+			if (datetime > twoHoursAgo)
+				futureDates.add(datetime);
+		}
+		
+		long[] ret = new long[futureDates.size()];
+	    int i=0;
+	    for (Long data : futureDates) {
+	        ret[i] = data;
+	        i++;
+	    }
+	    
+		return (long[]) ret;
+	}
 	
 	private void refresh() {
 		if (selectedEvent == null) {
@@ -76,14 +98,14 @@ public class InvitePresenter implements EventView.Boss {
 		if (events.isEditableBy(user, selectedEvent)) {
 			view.displayEditting(
 					selectedEvent.description(), 
-					selectedEvent.datetimes(),
+					onlyFutureDates(selectedEvent.datetimes()),
 					sortedInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		} else {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
 					selectedEvent.description(), 
-					new Date(selectedEvent.datetimes()[0]),
+					onlyFutureDates(selectedEvent.datetimes()),
 					sortedKnownInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		}
