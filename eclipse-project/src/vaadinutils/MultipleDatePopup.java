@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -140,6 +141,8 @@ public class MultipleDatePopup extends CssLayout {
 	private void onChangeDate(long oldDate, long newDate) {
 		removeListener.consume(oldDate);
 		addListener.consume(newDate);
+		
+		updateLastDateCached();
 	}
 	
 	private void onRemovalButtonPressed(long element, ComponentContainer elemLine) {
