@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
-import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -25,6 +24,8 @@ import com.vaadin.ui.PopupDateField;
 
 public class MultipleDatePopup extends CssLayout {
 
+	private static final long TWENTY_FOUR_HOURS = 1000 * 60 * 60 * 24;
+	
 	private final static String REMOVE_BUTTON = "REM_BUTTON";
 	
 	private CssLayout datePopupsContainer;
@@ -37,13 +38,17 @@ public class MultipleDatePopup extends CssLayout {
 	private Consumer<Long> removeListener;
 	private Consumer<Long> addListener;
 	
+	long lastDateCache = 0; 
+	
 	public MultipleDatePopup() {
 		addStyleName("a-multiply-date-chooser");
 		setSizeUndefined();
 
 		datePopupsContainer = new CssLayout(); datePopupsContainer.addStyleName("a-multiply-date-chooser-datePopupsContainer");
 
-		addButton = AgitterVaadinUtils.createDefaultAddButton(); addButton.addStyleName("a-multiply-date-chooser-ignored");
+		addButton = new NativeButton("mais uma data"); addButton.addStyleName("a-multiply-date-chooser-ignored");
+		addButton.setSizeUndefined();
+		//addButton = AgitterVaadinUtils.createDefaultAddButton(); addButton.addStyleName("a-multiply-date-chooser-ignored");
 		addButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			onAddButtonPressed();
 		}});
@@ -89,18 +94,27 @@ public class MultipleDatePopup extends CssLayout {
 		elemLine.addComponent(removeButton); removeButton.addStyleName("a-remov-date-list-element-remove-button");
 		
 		datePopupsContainer.addComponent(elemLine);
+		
+		updateLastDateCache(date);
 	}
 
 	private Label newElementRemoveLabel() {
 		Label label = new Label();
 		label.setSizeUndefined();
+		label.setDescription("Não me interessa");
 		label.setData(REMOVE_BUTTON);
 		return label;
 	}
 	
+	public void updateLastDateCache(long date) {
+		if (date > lastDateCache) 
+			lastDateCache = date;
+	}
+	
 	public void setValue(long[] datetimes) {
 		datePopupsContainer.removeAllComponents();
-
+		lastDateCache = 0;
+		
 		Arrays.sort(datetimes);
 		
 		for(long date : datetimes)
@@ -136,10 +150,12 @@ public class MultipleDatePopup extends CssLayout {
 		removeListener.consume(element);
 		
 		checkAllRemovableWhenMoreThanOne();
+		updateLastDateCached();
 	}
 	
 	private void onAddButtonPressed() {
-		long element = new Date().getTime();
+		if (lastDateCache == 0) lastDateCache = Clock.currentTimeMillis();
+		long element = lastDateCache + TWENTY_FOUR_HOURS;
 		addRemovableDate(element, true);
 		
 		if (addListener == null) return;
@@ -157,6 +173,22 @@ public class MultipleDatePopup extends CssLayout {
 				Component c = iLabel.next();
 				if (c instanceof Label) {
 					c.setVisible(datePopupsContainer.getComponentCount()>1);
+				}
+			}
+		}
+	}
+	
+	private void updateLastDateCached() {
+		lastDateCache = 0;
+		
+		Iterator<Component> iElem = datePopupsContainer.getComponentIterator();
+		while (iElem.hasNext()) {
+			ComponentContainer elem = (ComponentContainer) iElem.next();
+			Iterator<Component> iLabel = elem.getComponentIterator();
+			while (iLabel.hasNext()) {
+				Component c = iLabel.next();
+				if (c instanceof PopupDateField) {
+					updateLastDateCache(((Date)((PopupDateField)c).getValue()).getTime());
 				}
 			}
 		}
