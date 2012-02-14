@@ -4,8 +4,11 @@ import static infra.util.ToString.sortIgnoreCase;
 import static infra.util.ToString.toStrings;
 import infra.util.ToString;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,6 +17,8 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.comments.Comment;
+import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
@@ -28,10 +33,12 @@ import agitter.ui.view.session.events.EventView;
 public class InvitePresenter implements EventView.Boss {
 
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	private static final DateFormat COMMENTS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
+	private final Comments comments;
 	private final Consumer<String> warningDisplayer;
 	private final Functor<EmailAddress, User> userProducer;
 	private final EventView view;
@@ -40,10 +47,11 @@ public class InvitePresenter implements EventView.Boss {
 	private Event selectedEvent = null;
 
 	
-	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onEventDataChanged) {
+	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onEventDataChanged) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
+		this.comments = comments;
 		this.userProducer = userProducer;
 		this.view = view;
 		this.warningDisplayer = warningDisplayer;
@@ -97,7 +105,8 @@ public class InvitePresenter implements EventView.Boss {
 					selectedEvent.description(), 
 					onlyFutureDates(selectedEvent.datetimes()),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(),
+					allComments());
 		} else {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
@@ -106,6 +115,24 @@ public class InvitePresenter implements EventView.Boss {
 					sortedKnownInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size());
 		}
+	}
+
+	private boolean commentsEnabled() {
+		return EventView.COMMENTS_ENABLED;
+	}
+	private List<String> allComments() {
+		if(!commentsEnabled()) return new ArrayList<String>();
+		List<Comment> commentsFor = comments.commentsFor(selectedEvent);
+		Collections.reverse(commentsFor);
+		List<String> ret = new ArrayList<String>();
+		for(Comment c: commentsFor) {
+			ret.add( formatComment(c) );
+		}
+		return ret;
+	}
+	
+	private String formatComment(Comment comment) {
+		return "Em " + COMMENTS_DATE_FORMAT.format(new Date(comment.creationDatetime())) + " " + comment.owner().email() + " disse: " + comment.text() + "\n";
 	}
 
 
@@ -255,6 +282,11 @@ public class InvitePresenter implements EventView.Boss {
 		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
 		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
 		return contactsAndGroups;
+	}
+	
+	@Override
+	public void onCommentPosted(String comment) {
+		comments.commentOn(selectedEvent, user, comment);
 	}
 
 }

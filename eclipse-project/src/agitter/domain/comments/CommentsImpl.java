@@ -6,12 +6,16 @@ import static infra.util.Collections.copy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.prevayler.bubble.PrevalentBubble;
+
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Producer;
 import agitter.domain.users.User;
 
 public class CommentsImpl implements Comments {
+	
+	private static final boolean REGISTER_COMMENT = false; //MMM
 	
 	private static final Producer<List<Comment>> NEW_COMMENT_LIST = new Producer<List<Comment>>() { @Override public List<Comment> produce() {
 		return new ArrayList<Comment>();
@@ -27,6 +31,7 @@ public class CommentsImpl implements Comments {
 	@Override
 	public void commentOn(Object thing, User author, String text) {
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
+		if(REGISTER_COMMENT) PrevalentBubble.idMap().register(comment); //Ver com o Klaus...
 		mutableCommentsFor(thing).add(comment);
 	}
 	

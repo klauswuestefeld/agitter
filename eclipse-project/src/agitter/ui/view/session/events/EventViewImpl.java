@@ -10,6 +10,7 @@ import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
+import agitter.ui.view.AgitterVaadinUtils;
 import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
@@ -17,10 +18,13 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 class EventViewImpl extends CssLayout implements EventView {
-
+	
 	static private final AgitterDateFormatter dateFormat = new AgitterDateFormatter();
 
 	private final MultipleDatePopup multipleDate = new MultipleDatePopup();
@@ -28,6 +32,11 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final Label invitationsHeader = WidgetUtils.createLabel();
 	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
+	
+	private final Label commentLabel = new Label("Comentários:"); 
+	private final TextArea comment = new TextArea();
+	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
+	private final Label commentsLabel = new Label();
 
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
@@ -37,6 +46,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private Boss boss;
 	private boolean saveListenersActive = false;
+
 	
 	EventViewImpl() {
 		addStyleName("a-invite-view");
@@ -45,6 +55,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		addDescriptionComponent();
 		addNextInviteeComponent();
 		addInvitationsComponents();
+		addCommentsComponents();
 		
 		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
 		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
@@ -77,7 +88,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount, List<String> comments) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -86,6 +97,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
+		commentsLabel.setValue(comments.toString());
 
 		saveListenersActive = true;
 
@@ -184,6 +196,10 @@ class EventViewImpl extends CssLayout implements EventView {
 		nextInvitee.setVisible(b);
 		invitationsHeader.setVisible(b);
 		invitations.setVisible(b);
+		commentLabel.setVisible(b);
+		comment.setVisible(b);
+		commentButton.setVisible(b);
+		commentsLabel.setVisible(b);
 	}
 	
 	
@@ -215,6 +231,24 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 	}
 	
+	private void addCommentsComponents() {
+		if(COMMENTS_ENABLED) addComponent(commentLabel);
+		
+		comment.setNullRepresentation("");
+		comment.setInputPrompt("O que Achou?");
+		comment.setSizeUndefined();
+		if(COMMENTS_ENABLED) addComponent(comment);
+		comment.addStyleName("a-new-comment");
+		
+		commentButton.addStyleName("a-comment-post-ignored");
+		if(COMMENTS_ENABLED) addComponent(commentButton);
+		commentButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			boss.onCommentPosted((String)comment.getValue());
+			comment.setValue("");
+		}});
+		
+		if(COMMENTS_ENABLED) addComponent(commentsLabel);
+	}
 	
 	private void addDescriptionComponent() {
 		description.setNullRepresentation("");

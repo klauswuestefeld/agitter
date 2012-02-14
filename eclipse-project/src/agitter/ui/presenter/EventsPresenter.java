@@ -15,6 +15,7 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
@@ -34,6 +35,7 @@ public class EventsPresenter implements Boss {
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
+	private final Comments comments;
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
 	private InvitePresenter invitePresenter;
@@ -45,10 +47,11 @@ public class EventsPresenter implements Boss {
 	private final Functor<EmailAddress, User> userProducer;
 
 	
-	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
+	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
+		this.comments = comments;
 		this.userProducer = userProducer;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
@@ -113,7 +116,7 @@ public class EventsPresenter implements Boss {
 
 	private InvitePresenter invitePresenter() {
 		if (invitePresenter == null)
-			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.inviteView(), warningDisplayer, new Runnable() { @Override public void run() {
+			invitePresenter = new InvitePresenter(user, contacts, events, comments, userProducer, view.inviteView(), warningDisplayer, new Runnable() { @Override public void run() {
 				onEventChange();
 			}});
 
