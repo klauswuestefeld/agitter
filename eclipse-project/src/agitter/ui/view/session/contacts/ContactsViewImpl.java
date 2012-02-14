@@ -76,6 +76,8 @@ public class ContactsViewImpl implements ContactsView {
 		
 		newGroup.setInputPrompt("Novo Grupo");
 		newMember.setInputPrompt("Adicionar Membro");
+		
+		
 	}
 
 	@Override

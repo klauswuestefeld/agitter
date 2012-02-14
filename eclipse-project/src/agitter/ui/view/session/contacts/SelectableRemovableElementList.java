@@ -143,9 +143,8 @@ public class SelectableRemovableElementList extends CssLayout {
 		
 		if (removeListener == null) return;
 		removeListener.consume(element);
-	}
-
-
+	} 
+		
 	private void onSelection(String element) {
 		if (selectionListener == null) return;
 		selectionListener.consume(element);

@@ -6,7 +6,6 @@ import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
