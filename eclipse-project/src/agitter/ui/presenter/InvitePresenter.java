@@ -288,6 +288,7 @@ public class InvitePresenter implements EventView.Boss {
 	@Override
 	public void onCommentPosted(String comment) {
 		comments.commentOn(selectedEvent, user, comment);
+		refresh();
 	}
 
 
