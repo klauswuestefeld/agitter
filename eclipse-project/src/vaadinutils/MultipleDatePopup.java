@@ -29,8 +29,9 @@ public class MultipleDatePopup extends CssLayout {
 	private final static String REMOVE_BUTTON = "REM_BUTTON";
 	
 	private CssLayout datePopupsContainer;
-	private final NativeButton addButton; //Clicking on this button has no effect. Lost focus from the setImmediate(true) combo-box will already trigger the event.
-
+	private NativeButton addButton; //Clicking on this button has no effect. Lost focus from the setImmediate(true) combo-box will already trigger the event.
+	private ElipsisButton elipsisButton; 
+	
 	private String inputPrompt = "";
 	private int resolutionMin = DateField.RESOLUTION_MIN;
 	private String dateFormat = "dd/MM/yyyy HH:mm";
@@ -38,23 +39,17 @@ public class MultipleDatePopup extends CssLayout {
 	private Consumer<Long> removeListener;
 	private Consumer<Long> addListener;
 	
-	long lastDateCache = 0; 
+	private long lastDateCache = 0; 
 	
 	public MultipleDatePopup() {
 		addStyleName("a-multiply-date-chooser");
 		setSizeUndefined();
 
 		datePopupsContainer = new CssLayout(); datePopupsContainer.addStyleName("a-multiply-date-chooser-datePopupsContainer");
-
-		addButton = new NativeButton("mais uma data"); addButton.addStyleName("a-multiply-date-chooser-ignored");
-		addButton.setSizeUndefined();
-		//addButton = AgitterVaadinUtils.createDefaultAddButton(); addButton.addStyleName("a-multiply-date-chooser-ignored");
-		addButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			onAddButtonPressed();
-		}});
-		
 		addComponent(datePopupsContainer);
-		addComponent(addButton);
+
+		addNewEventButton();
+		addElipseButton();
 	}
 	
 	public PopupDateField newDateField() {
@@ -95,7 +90,10 @@ public class MultipleDatePopup extends CssLayout {
 		
 		datePopupsContainer.addComponent(elemLine);
 		
+		dateField.focus();
+		
 		updateLastDateCache(date);
+		updateElipsisButtonVisibility();
 	}
 
 	private Label newElementRemoveLabel() {
@@ -122,6 +120,9 @@ public class MultipleDatePopup extends CssLayout {
 				
 		if (datetimes.length == 0)		
 			addRemovableDate(new Date().getTime(), false);
+		
+		close();
+		elipsisButton.close();
 	}
 	
 	private Date getElementDateForElementLine(ComponentContainer elemLine) {
@@ -153,6 +154,8 @@ public class MultipleDatePopup extends CssLayout {
 		
 		checkAllRemovableWhenMoreThanOne();
 		updateLastDateCached();
+		if (elipsisButton.isClosed()) updateClosed();
+		updateElipsisButtonVisibility();
 	}
 	
 	private void onAddButtonPressed() {
@@ -164,6 +167,44 @@ public class MultipleDatePopup extends CssLayout {
 		addListener.consume(element);
 		
 		checkAllRemovableWhenMoreThanOne();
+		updateElipsisButtonVisibility();
+	}
+	
+	public void open() {
+		Iterator<Component> iElem = datePopupsContainer.getComponentIterator();
+		while (iElem.hasNext()) {
+			iElem.next().setVisible(true);
+		}
+	}
+	
+	public void close() {
+		Iterator<Component> iElem = datePopupsContainer.getComponentIterator();
+		int cont = 0; 
+		while (iElem.hasNext()) {
+			iElem.next().setVisible(cont < 3);
+			cont++;
+		}
+	}
+
+	public int visibleDates() {
+		Iterator<Component> iElem = datePopupsContainer.getComponentIterator();
+		int cont = 0; 
+		while (iElem.hasNext()) {
+			if (iElem.next().isVisible()) cont++;
+		}
+		return cont;
+	}
+	
+	public void updateClosed() {
+		// only updates if it has less than 3 visible. 
+		if (visibleDates() >= 3) return;
+		
+		Iterator<Component> iElem = datePopupsContainer.getComponentIterator();
+		int cont = 0; 
+		while (iElem.hasNext()) {
+			iElem.next().setVisible(cont < 3);
+			cont++;
+		}
 	}
 	
 	private void checkAllRemovableWhenMoreThanOne() {
@@ -223,5 +264,35 @@ public class MultipleDatePopup extends CssLayout {
 		((PopupDateField)
 				((CssLayout)datePopupsContainer.getComponentIterator().next())
 		.getComponentIterator().next()).focus();
+	}
+	
+	private void addNewEventButton() {
+		addButton = new NativeButton("mais uma data"); addButton.addStyleName("a-multiply-date-chooser-ignored");
+		addButton.setSizeUndefined();
+		//addButton = AgitterVaadinUtils.createDefaultAddButton(); addButton.addStyleName("a-multiply-date-chooser-ignored");
+		addButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			onAddButtonPressed();
+		}});
+		addComponent(addButton);
+	}
+	
+	private void updateElipsisButtonVisibility() {
+		boolean willBeVisible = datePopupsContainer.getComponentCount()>3;
+		if (!elipsisButton.isVisible() && willBeVisible) {
+			elipsisButton.open();
+		}
+		elipsisButton.setVisible(willBeVisible);
+	}
+
+	private void addElipseButton() {
+		elipsisButton = new ElipsisButton(); 
+		elipsisButton.setSizeUndefined();
+		elipsisButton.setOpenListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			open();
+		}});
+		elipsisButton.setCloseListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			close();
+		}});
+		addComponent(elipsisButton);
 	}
 }

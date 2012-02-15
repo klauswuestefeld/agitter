@@ -103,7 +103,8 @@ public class InvitePresenter implements EventView.Boss {
 		if (events.isEditableBy(user, selectedEvent)) {
 			view.displayEditting(
 					selectedEvent.description(), 
-					onlyFutureDates(selectedEvent.datetimes()),
+					//onlyFutureDates(selectedEvent.datetimes()),
+					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size(),
 					allComments());
@@ -287,6 +288,19 @@ public class InvitePresenter implements EventView.Boss {
 	@Override
 	public void onCommentPosted(String comment) {
 		comments.commentOn(selectedEvent, user, comment);
+	}
+
+
+	@Override
+	public void onEventRemoved() {
+		if (events.isEditableBy(user, selectedEvent))
+			events.delete(user, selectedEvent); // Should never come here. 
+		else
+			selectedEvent.notInterested(user);
+
+		clear();
+		refresh();
+		onEventDataChanged.run();
 	}
 
 }

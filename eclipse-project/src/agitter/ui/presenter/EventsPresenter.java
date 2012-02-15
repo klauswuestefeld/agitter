@@ -207,7 +207,7 @@ public class EventsPresenter implements Boss {
 	public void onEventRemoved(Object removedEvent) {
 		Event event = (Event)removedEvent;
 		if (events.isEditableBy(user, event))
-			events.delete(user, event);
+			events.delete(user, event); // Should never come here. 
 		else
 			event.notInterested(user);
 		

@@ -15,13 +15,13 @@ import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 
 class EventViewImpl extends CssLayout implements EventView {
 	
@@ -38,6 +38,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
 	private final Label commentsLabel = new Label();
 
+	private final NativeButton removeButton = new NativeButton();
+	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyOwner = WidgetUtils.createLabel();
@@ -50,7 +52,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	EventViewImpl() {
 		addStyleName("a-invite-view");
-		
+
+		addRemovalButton();
 		addMultipleDateComponent();
 		addDescriptionComponent();
 		addNextInviteeComponent();
@@ -66,6 +69,15 @@ class EventViewImpl extends CssLayout implements EventView {
 		saveListenersActive = true;
 	}
 	
+	private void displayRemovalButton(boolean isEditable) {
+		String style = isEditable
+			? "a-event-delete-button"
+			: "a-event-remove-button";
+		
+		removeButton.setDescription(isEditable ? "Excluir Todos os Agitos" : "Bloquear Evento");
+		removeButton.setStyleName(style);
+		removeButton.setVisible(true);
+	}
 	
 	@Override
 	public void startReportingTo(Boss boss) {
@@ -78,6 +90,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	public void clear() {
 		showReadOnlyLabels(false);
 		showEditFields(false);
+		removeButton.setVisible(false);
 	}
 
 
@@ -105,6 +118,8 @@ class EventViewImpl extends CssLayout implements EventView {
 			this.multipleDate.focus();
 		else
 			this.description.focus();
+		
+		displayRemovalButton(true);
 	}
 
 
@@ -125,7 +140,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		if (datetimes.length > 1) {		
 			StringBuilder buff = new StringBuilder();
-			buff.append("Marcado para: <UL>");
+			buff.append("Próximas Datas: <UL>");
 			for (long date : datetimes) {
 				buff.append("<LI>"); 
 				buff.append(dateFormat.format(new Date(date)));
@@ -138,6 +153,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		}
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
+		displayRemovalButton(false);
 	}
 
 	
@@ -278,4 +294,15 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(multipleDate); multipleDate.addStyleName("a-invite-multiply-date");
 	}
 
+	private void addRemovalButton() {
+		removeButton.setSizeUndefined();
+		removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			System.out.println("Botao de remocao clicado.");
+			boss.onEventRemoved();
+		}});
+		removeButton.setVisible(false);
+		addComponent(removeButton); removeButton.addStyleName("a-default-nativebutton"); 
+	}
+
+	
 }

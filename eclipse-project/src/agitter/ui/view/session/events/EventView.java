@@ -14,6 +14,7 @@ public interface EventView {
 		void onDateRemoved(Long date);
 		void onDateAdded(Long date);
 		void onCommentPosted(String comment);
+		void onEventRemoved();
 	}
 
 	

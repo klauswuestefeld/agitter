@@ -173,7 +173,7 @@ button.a-events-view-new-event-button  {
 	background: #E4E4E4;
 }
 
-button.a-event-remove-button, button.a-event-delete-button {
+button.a-event-remove-button {
 	float: right;
 	height: 16px;
 	max-height: 16px;
@@ -182,6 +182,18 @@ button.a-event-remove-button, button.a-event-delete-button {
 	border: none;
 	padding: 0px;
 	margin: 0px;
+}
+
+button.a-event-delete-button {
+	float: right;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-right: 16px;
 }
 
 button.a-event-remove-button {
@@ -326,11 +338,6 @@ textarea.a-new-comment {
 	white-space: nowrap;
 }
 
-.a-invite-multiply-date {
-	float: none;
-	margin-bottom: 10px;
-}
-
 .a-remov-date-list-element {
 	margin-bottom: 5px;
 	max-width: 200px;
@@ -346,17 +353,26 @@ textarea.a-new-comment {
 	margin: 5px 0px 0 5px;
 }
 
+.a-invite-multiply-date {
+	float: none;
+	margin-bottom: 2px;
+}
+
 .a-multiply-date-chooser {
-	width: 270px;
+	width: 300px;
+	margin: 0px 0px 0px 0px;
+}
+
+.a-multiply-date-chooser-datePopupsContainer {
+	width: 200px;
 }
 
 .a-multiply-date-chooser-ignored {	
-	vertical-align: middle;
-	float:left;
+	position: relative;
 	border-style: none;
-	position:relative;
+	float:right;
+	left: 0px;
 	top: -17px;
-	left: 30px;
 }
 
 .a-remov-date-list-element-caption {
@@ -559,6 +575,24 @@ textarea.a-new-comment {
 
 .a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
 	visibility: visible;
+}
+
+.elipsis-opened {
+	float: none;
+	clear: both;
+	width: 194px;
+	margin: 2px 4px 6px 4px;
+	font-size: 20px;
+	line-height: 23px;
+}
+
+.elipsis-closed {
+	float: none;
+	clear: both;
+	width: 194px;
+	margin: 2px 4px 6px 4px;
+	font-size: 20px;
+	line-height: 23px;
 }
 
 
