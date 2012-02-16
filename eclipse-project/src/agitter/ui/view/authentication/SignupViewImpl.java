@@ -16,7 +16,7 @@ public class SignupViewImpl implements SignupView {
 
 	private final ComponentContainer container;
 	private final CssLayout signupView = new CssLayout();
-	private final PasswordField password = new PasswordField("Senha");
+	private final PasswordField password = new PasswordField("Escolha uma Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
 	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final NativeButton cancel = AgitterVaadinUtils.createDefaultNativeButton("Voltar");

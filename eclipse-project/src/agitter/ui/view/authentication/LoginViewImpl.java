@@ -18,7 +18,7 @@ public class LoginViewImpl implements LoginView {
 	private final CssLayout loginView = new CssLayout();
 	private final PasswordField password = new PasswordField("Senha");
 	private final Button forgotMyPassword = WidgetUtils.createLinkButton("Esqueci minha senha");
-	private final NativeButton login = AgitterVaadinUtils.createDefaultNativeButton("Entrar");
+	private final NativeButton login = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final NativeButton cancel = AgitterVaadinUtils.createDefaultNativeButton("Voltar");
 
 	LoginViewImpl(ComponentContainer container) {
