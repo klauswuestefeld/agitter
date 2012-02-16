@@ -173,7 +173,7 @@ button.a-events-view-new-event-button  {
 	background: #E4E4E4;
 }
 
-button.a-event-remove-button, button.a-event-delete-button {
+button.a-event-remove-button {
 	float: right;
 	height: 16px;
 	max-height: 16px;
@@ -182,6 +182,18 @@ button.a-event-remove-button, button.a-event-delete-button {
 	border: none;
 	padding: 0px;
 	margin: 0px;
+}
+
+button.a-event-delete-button {
+	float: right;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-right: 16px;
 }
 
 button.a-event-remove-button {
@@ -264,6 +276,7 @@ button.a-event-delete-button:hover {
 }
 
 textarea.a-invite-description {
+	clear: both;
 	width: 430px;
 	height: 150px;
 	min-height: 50px;
@@ -273,6 +286,26 @@ textarea.a-invite-description {
 	display: block;
 	margin-bottom: 11px;
 }	
+
+textarea.a-new-comment {
+	clear: both;
+	width: 395px;
+	height: 55px;
+	min-height: 50px;
+	max-height: 155px;
+	resize: vertical;
+	font-size: 14px;
+	display: block;
+	margin-bottom: 11px;
+}
+.a-comment-post-ignored {	
+	vertical-align: center;
+	float:right;
+	border-style: none;
+	position:relative;
+	top: -36px;
+	left: -18px;
+}
 
 .a-invite-next-invitee {
 	display: inline-block;
@@ -305,6 +338,55 @@ textarea.a-invite-description {
 	white-space: nowrap;
 }
 
+.a-remov-date-list-element {
+	margin-bottom: 5px;
+	max-width: 200px;
+}
+
+.a-remov-date-list-element-remove-button {
+	background: url('../agitter/RemoveButton14.png') no-repeat center center;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	float:right;
+	border-style: none;
+	margin: 5px 0px 0 5px;
+}
+
+.a-invite-multiply-date {
+	float: none;
+	margin-bottom: 2px;
+}
+
+.a-multiply-date-chooser {
+	width: 300px;
+	margin: 0px 0px 0px 0px;
+}
+
+.a-multiply-date-chooser-datePopupsContainer {
+	width: 200px;
+}
+
+.a-multiply-date-chooser-ignored {	
+	position: relative;
+	border-style: none;
+	float:right;
+	left: 0px;
+	top: -17px;
+}
+
+.a-remov-date-list-element-caption {
+	color: #454545;
+	font-size: 20px;
+	line-height: 23px;
+	margin: 2px 0 3px 0px;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .a-invite-invitations .a-remov-elem-list-element-remove-button {
 	visibility: hidden;
 	background: url('../agitter/RemoveButton14.png') no-repeat center center;
@@ -321,7 +403,6 @@ textarea.a-invite-description {
 
 .a-invite-readonly-date {
 	float: none;
-	height: 20px;
 	font-size: 14px;
 	_font-weight: bold;
 	padding: 3px 4px 3px 4px;
@@ -494,6 +575,24 @@ textarea.a-invite-description {
 
 .a-contacts-members-list .a-remov-elem-list-element:hover .a-remov-elem-list-element-remove-button  {
 	visibility: visible;
+}
+
+.elipsis-opened {
+	float: none;
+	clear: both;
+	width: 194px;
+	margin: 2px 4px 6px 4px;
+	font-size: 20px;
+	line-height: 23px;
+}
+
+.elipsis-closed {
+	float: none;
+	clear: both;
+	width: 194px;
+	margin: 2px 4px 6px 4px;
+	font-size: 20px;
+	line-height: 23px;
 }
 
 

@@ -6,6 +6,7 @@ import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
@@ -22,13 +24,17 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
 import agitter.ui.view.session.events.EventListView.Boss;
 import agitter.ui.view.session.events.EventVO;
+import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss {
 
+	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
+	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
+	private final Comments comments;
 	private final Consumer<String> warningDisplayer;
 	private final EventsView view;
 	private InvitePresenter invitePresenter;
@@ -40,10 +46,11 @@ public class EventsPresenter implements Boss {
 	private final Functor<EmailAddress, User> userProducer;
 
 	
-	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
+	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
+		this.comments = comments;
 		this.userProducer = userProducer;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
@@ -108,7 +115,7 @@ public class EventsPresenter implements Boss {
 
 	private InvitePresenter invitePresenter() {
 		if (invitePresenter == null)
-			invitePresenter = new InvitePresenter(user, contacts, events, userProducer, view.inviteView(), warningDisplayer, new Runnable() { @Override public void run() {
+			invitePresenter = new InvitePresenter(user, contacts, events, comments, userProducer, view.inviteView(), warningDisplayer, new Runnable() { @Override public void run() {
 				onEventChange();
 			}});
 
@@ -136,14 +143,35 @@ public class EventsPresenter implements Boss {
 	private List<EventVO> eventsToHappen() {
 		List<EventVO> result = new ArrayList<EventVO>();
 		List<Event> toHappen = events.toHappen(user);
+		
+		// TWO hours ago mesmo na lista? 
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
 		for (Event event : toHappen) {
-			result.add(new EventVO(event, event.description(), 
-						event.datetimes()[0], event.owner().screenName(), 
+			for (long date : event.datetimes())
+				if (date > twoHoursAgo)
+					result.add(new EventVO(event, event.description(), 
+						date, event.owner().screenName(), 
 						events.isEditableBy(user, event),
 						event.allResultingInvitees().size(), 
 						uniqueGroupOrUserInvited(event), 
 						isUniqueUserInvited(event)));
+
+			// This happens when changing an event with only one date. 
+			// the system removes the last date and includes a new one
+			// in the middle of these events, this function is called. 
+			if (event.datetimes().length == 0) 
+				result.add(new EventVO(event, event.description(), 
+						0, event.owner().screenName(), 
+						events.isEditableBy(user, event),
+						event.allResultingInvitees().size(), 
+						uniqueGroupOrUserInvited(event), 
+						isUniqueUserInvited(event)));
+				
 		}
+		
+		Collections.sort(result, new EventVOComparator());
+		
 		return result;
 	}
 	
@@ -179,7 +207,7 @@ public class EventsPresenter implements Boss {
 	public void onEventRemoved(Object removedEvent) {
 		Event event = (Event)removedEvent;
 		if (events.isEditableBy(user, event))
-			events.delete(user, event);
+			events.delete(user, event); // Should never come here. 
 		else
 			event.notInterested(user);
 		

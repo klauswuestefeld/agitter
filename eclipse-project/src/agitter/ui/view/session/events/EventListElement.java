@@ -81,15 +81,14 @@ public class EventListElement extends CssLayout {
 	
 	
 	private void addRemovalButton(EventVO event) {
-		String style = event.isEditable
-			? "a-event-delete-button"
-			: "a-event-remove-button";
-		Button button = addRemovalButton(event, style);
-		button.setDescription(
-			event.isEditable
-			? "Excluir este Agito"
-			: "Fica pra próxima"
-		);
+		//String style = event.isEditable
+		//	? "a-event-delete-button"
+		//	: "a-event-remove-button";
+		
+		if (!event.isEditable) {
+			Button button = addRemovalButton(event, "a-event-remove-button");
+			button.setDescription("Fica pra próxima");
+		}
 	}
 
 

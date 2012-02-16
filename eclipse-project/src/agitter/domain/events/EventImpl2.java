@@ -122,7 +122,13 @@ public class EventImpl2 implements Event {
 		datetimes = new long[]{newDatetime};
 	}
 
+	void edit(String newDescription, long[] newDatetimes) throws Refusal {
+		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 
+		_description = newDescription;
+		datetimes = newDatetimes;
+	}
+	
 	@Override
 	public void addInvitee(User invitee) {
 		actualInvitees().add(invitee);
@@ -132,6 +138,30 @@ public class EventImpl2 implements Event {
 	@Override
 	public void removeInvitee(User invitee) {
 		actualInvitees().remove(invitee);
+	}
+	
+	@Override
+	public void addDate(long datetime) {
+        long[] copy = new long[datetimes.length+1];
+        System.arraycopy(datetimes,0,copy,0,datetimes.length);
+        copy[datetimes.length] = datetime;
+        datetimes = copy;
+	}
+
+	@Override
+	public void removeDate(long datetime) {
+		// dont remove the last one. 
+		//if (datetimes.length == 1) return;
+		
+		for (int i=0; i<datetimes.length; i++) {
+			if (datetimes[i] == datetime) {
+		        long[] copy = new long[datetimes.length-1];
+		        System.arraycopy(datetimes,0,copy,0,i);
+		        System.arraycopy(datetimes,i+1,copy,i,datetimes.length-(i+1));
+		        datetimes = copy;
+		        return;
+			}
+		}
 	}
 
 

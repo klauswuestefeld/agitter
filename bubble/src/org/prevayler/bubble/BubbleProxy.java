@@ -76,7 +76,7 @@ class BubbleProxy implements InvocationHandler {
 	private void wrapListElementsIfNecessary(List<Object> list) {
 		for (int i = 0; i < list.size(); i++) {
 			Object obj = list.get(i);
-			list.set(i, wrapIfNecessary(obj, null)); //null means no path. Mutable objects in collections must be registered. 
+			list.set(i, wrapIfNecessary(obj, null)); //null means no path. Mutable objects in collections must be registered. PrevalentBubble.getIdMap().register(...)
 		}
 	}
 

@@ -29,6 +29,16 @@ public abstract class EventsTestBase extends UsersTestBase {
 		throw new IllegalStateException("Newly created event not found.");
 	}
 
+
+	protected Event createEvent(Events events, User owner, String description, long... dates) throws Refusal {
+		Event event = events.create(owner, description, dates[0]);
+		for (int i=1; i<dates.length; i++) 
+			event.addDate(dates[i]);
+		for (Event candidate : events.toHappen(owner))
+			if (candidate.description().equals(description) && candidate.datetimes()[0] == dates[0])
+				return candidate;
+		throw new IllegalStateException("Newly created event not found.");
+	}
 	
 
 }

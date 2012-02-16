@@ -81,7 +81,6 @@ public class SimployTestsRun {
 			String className = className(rootPath, filePath);
 			
 			Class<?> c = getClass().getClassLoader().loadClass(className);
-			System.out.println(c.getResource(c.getSimpleName() + ".class").getPath());
 			
 			if (!Modifier.isAbstract(c.getModifiers()))
 				result.add(c);

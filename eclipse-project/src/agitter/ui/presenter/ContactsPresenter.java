@@ -33,7 +33,7 @@ public class ContactsPresenter {
 		view.setGroupCreateListener(new Consumer<String>() { @Override public void consume(String value) {
 			onGroupCreate(value);
 		}});
-
+		
 		view.setGroupSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
 			onGroupSelected(value);
 		}});
@@ -47,13 +47,18 @@ public class ContactsPresenter {
 		view.setMemberRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
 			onMemberRemoved(value);
 		}});
-
-		refreshGroupList();
 		
+		refreshGroupList();
 		onGroupSelected(null);
-
 	}
 
+	public void refresh() {
+		refreshGroupList();
+		if (groupSelected != null)
+			onGroupSelected(groupSelected.name());
+		else 
+			onGroupSelected(null);
+	}
 
 	private void refreshGroupList() {
 		view.setGroups(toStrings(contacts.groups()));
