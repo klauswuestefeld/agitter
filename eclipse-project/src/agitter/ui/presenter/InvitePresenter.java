@@ -134,7 +134,6 @@ public class InvitePresenter implements EventView.Boss {
 			return new ArrayList<String>();
 		
 		List<Comment> commentsFor = comments.commentsFor(selectedEvent);
-		Collections.reverse(commentsFor);
 		List<String> ret = new ArrayList<String>();
 		for(Comment c: commentsFor) {
 			ret.add( formatComment(c) );
