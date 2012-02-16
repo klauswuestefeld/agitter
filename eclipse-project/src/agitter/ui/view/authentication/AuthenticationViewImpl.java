@@ -7,6 +7,7 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -72,6 +73,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 							email.setInputPrompt("Digite seu Email");
 							email.setSizeUndefined();
 						loginFields.addComponent(enter); enter.addStyleName("a-auth-topbar-enter-button");
+							enter.setDebugId("enter");
 			// Main content
 			CssLayout popupContainer = new CssLayout();
 			innerLayout.addComponent(popupContainer); popupContainer.addStyleName("a-auth-main");
@@ -82,7 +84,16 @@ public class AuthenticationViewImpl implements AuthenticationView {
 		
 		setupFocus();
 	}
-
+	
+	private String getJavascriptElement(Component component) {
+		return "document.getElementById('" + component.getDebugId() + "')";
+	}
+	
+	@Override
+	public String getRetryAuthenticationJavascript() {
+		String enterElement = getJavascriptElement(enter);
+		return enterElement + ".focus();" + enterElement + ".click();";
+	}
 
 	@Override
 	public LoginView showLoginView() {
@@ -163,7 +174,6 @@ public class AuthenticationViewImpl implements AuthenticationView {
 //			action.run();
 //		}});
 	}	
-
 	
 	private void setModalEnablement(boolean enabled) {
 		if (enabled)
@@ -187,7 +197,6 @@ public class AuthenticationViewImpl implements AuthenticationView {
 		WidgetUtils.focusOrder(email, enter);
 		email.focus();
 	}
-
 
 }
 

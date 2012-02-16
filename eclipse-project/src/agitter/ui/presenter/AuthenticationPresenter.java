@@ -25,6 +25,7 @@ public class AuthenticationPresenter {
 	private final AuthenticationView authenticationView;
 	private final Consumer<User> onAuthenticate;
 	private final Consumer<String> warningDisplayer;
+	private final Consumer<String> javascriptExecutor;
 	private final EmailSender emailSender;
 	private final SignupEmailController signups;
 	private final OAuth oAuth;
@@ -33,9 +34,9 @@ public class AuthenticationPresenter {
 	private final Consumer<String> urlRedirector;
 	private SignupView signupView;
 	private LoginView loginView;
+	private boolean retryingAuthentication = false;
 	
-	
-	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, HttpSession httpSession, String context, Consumer<String> urlRedirector) {
+	public AuthenticationPresenter(Users users, AuthenticationView authenticationView, Consumer<User> onAuthenticate, SignupEmailController signups, EmailSender emailSender, OAuth oAuth, Consumer<String> warningDisplayer, Consumer<String> javascriptExecutor, HttpSession httpSession, String context, Consumer<String> urlRedirector) {
 		this.users = users;
 		this.authenticationView = authenticationView;
 		this.onAuthenticate = onAuthenticate;
@@ -43,6 +44,7 @@ public class AuthenticationPresenter {
 		this.emailSender = emailSender;
 		this.oAuth = oAuth;
 		this.warningDisplayer = warningDisplayer;
+		this.javascriptExecutor = javascriptExecutor;
 		this.httpSession = httpSession;
 		this.context = context;
 		this.urlRedirector = urlRedirector;
@@ -71,14 +73,20 @@ public class AuthenticationPresenter {
 		startAuthentication();
 	}
 	
-	
 	private void enterAttempt() {
 		String email = authenticationView.email();
 		User user = null;
 		try {
 			user = users.searchByEmail(email(email));
+			retryingAuthentication = false;
 		} catch (Refusal e) {
-			warningDisplayer.consume(e.getMessage());
+			if(!retryingAuthentication) {
+				javascriptExecutor.consume(authenticationView.getRetryAuthenticationJavascript());
+				retryingAuthentication = true;
+			} else {
+				warningDisplayer.consume(e.getMessage());
+				retryingAuthentication = false;
+			}
 			return;
 		}
 		if (user != null && user.hasSignedUp())		// TODO Codigo duplicado em SignupEmailController.checkDuplicatedSignup()

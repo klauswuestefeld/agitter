@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -28,6 +27,7 @@ import agitter.domain.emails.EmailExtractor.Visitor;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
+import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
@@ -43,6 +43,9 @@ public class InvitePresenter implements EventView.Boss {
 	private final Functor<EmailAddress, User> userProducer;
 	private final EventView view;
 	private final Runnable onEventDataChanged;
+	@SuppressWarnings("unused")
+	private final HandleToAvoidLeaks handle;
+
 
 	private Event selectedEvent = null;
 
@@ -56,6 +59,10 @@ public class InvitePresenter implements EventView.Boss {
 		this.view = view;
 		this.warningDisplayer = warningDisplayer;
 		this.onEventDataChanged = onEventDataChanged;
+		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
+			refreshCommentsList();
+		}});
+
 
 		this.view.startReportingTo(this);
 		
@@ -63,7 +70,6 @@ public class InvitePresenter implements EventView.Boss {
 		refresh();
 	}
 
-	
 	void setSelectedEvent(Event event) {
 		selectedEvent = event;
 		refresh();
@@ -114,7 +120,8 @@ public class InvitePresenter implements EventView.Boss {
 					selectedEvent.description(), 
 					onlyFutureDates(selectedEvent.datetimes()),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(),
+					allComments());
 		}
 	}
 
@@ -122,9 +129,10 @@ public class InvitePresenter implements EventView.Boss {
 		return EventView.COMMENTS_ENABLED;
 	}
 	private List<String> allComments() {
-		if(!commentsEnabled()) return new ArrayList<String>();
+		if(!commentsEnabled() || selectedEvent==null) 
+			return new ArrayList<String>();
+		
 		List<Comment> commentsFor = comments.commentsFor(selectedEvent);
-		Collections.reverse(commentsFor);
 		List<String> ret = new ArrayList<String>();
 		for(Comment c: commentsFor) {
 			ret.add( formatComment(c) );
@@ -288,6 +296,7 @@ public class InvitePresenter implements EventView.Boss {
 	@Override
 	public void onCommentPosted(String comment) {
 		comments.commentOn(selectedEvent, user, comment);
+		refresh();
 	}
 
 
@@ -301,6 +310,11 @@ public class InvitePresenter implements EventView.Boss {
 		clear();
 		refresh();
 		onEventDataChanged.run();
+	}
+	
+	protected void refreshCommentsList() {
+		if(selectedEvent != null)
+			view.refreshComments(allComments(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 	}
 
 }

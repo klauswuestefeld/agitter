@@ -26,6 +26,7 @@ public interface EventView {
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount);
-
+	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount, List<String> comments);
+	
+	void refreshComments(List<String> comments, int millisToNextRefresh);
 }

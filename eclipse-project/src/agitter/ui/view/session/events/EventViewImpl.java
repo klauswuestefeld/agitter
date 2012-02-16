@@ -17,6 +17,7 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
@@ -58,7 +59,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		addDescriptionComponent();
 		addNextInviteeComponent();
 		addInvitationsComponents();
-		addCommentsComponents();
 		
 		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
 		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
@@ -66,6 +66,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(readOnlyInviteesHeader); readOnlyInviteesHeader.addStyleName("a-invite-readonly-invitees-header");
 		addComponent(readOnlyInviteesList); readOnlyInviteesList.addStyleName("a-invite-readonly-invitees-list");
 		
+		addCommentsComponents();
+
 		saveListenersActive = true;
 	}
 	
@@ -110,7 +112,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
-		commentsLabel.setValue(comments.toString());
+		updateComments(comments);
 
 		saveListenersActive = true;
 
@@ -121,7 +123,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		displayRemovalButton(true);
 	}
-
+	
 
 	@Override
 	public void refreshInvitationsHeader(int totalInviteesCount) {
@@ -134,7 +136,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount) {
+	public void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount, List<String> comments) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -151,11 +153,22 @@ class EventViewImpl extends CssLayout implements EventView {
 		} else {
 			readOnlyDates.setValue(dateFormat.format(new Date(datetimes[0])));
 		}
+		updateComments(comments);
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 		displayRemovalButton(false);
 	}
-
+	
+	private Component poller;
+	@Override
+	public void refreshComments(List<String> comments, int millisToNextRefresh) {
+		if( poller != null ) {
+			removeComponent(poller);
+		}
+		poller = WidgetUtils.createPoller(millisToNextRefresh);
+		addComponent(poller);
+		updateComments(comments);
+	}
 	
 	private void displayReadOnlyInvitees(String owner, List<String> knownInvitees, int totalInviteesCount) {
 		readOnlyOwner.setValue(owner);
@@ -212,11 +225,9 @@ class EventViewImpl extends CssLayout implements EventView {
 		nextInvitee.setVisible(b);
 		invitationsHeader.setVisible(b);
 		invitations.setVisible(b);
-		commentLabel.setVisible(b);
-		comment.setVisible(b);
-		commentButton.setVisible(b);
-		commentsLabel.setVisible(b);
+		setVisibleCommentsView(true);
 	}
+
 	
 	
 	private void showReadOnlyLabels(boolean b) {
@@ -225,6 +236,14 @@ class EventViewImpl extends CssLayout implements EventView {
 		readOnlyOwner.setVisible(b);
 		readOnlyInviteesHeader.setVisible(b);
 		readOnlyInviteesList.setVisible(b);
+		setVisibleCommentsView(true);
+	}
+
+	private void setVisibleCommentsView(boolean visible) {
+		commentLabel.setVisible(visible);
+		comment.setVisible(visible);
+		commentButton.setVisible(visible);
+		commentsLabel.setVisible(visible);
 	}
 	
 	private void addNextInviteeComponent() {
@@ -302,6 +321,10 @@ class EventViewImpl extends CssLayout implements EventView {
 		}});
 		removeButton.setVisible(false);
 		addComponent(removeButton); removeButton.addStyleName("a-default-nativebutton"); 
+	}
+
+	private void updateComments(List<String> comments) {
+		commentsLabel.setValue(comments.toString());
 	}
 
 	

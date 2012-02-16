@@ -3,11 +3,12 @@ package agitter.ui.view.session.events;
 import java.util.Iterator;
 import java.util.List;
 
+import vaadinutils.WidgetUtils;
+
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.ProgressIndicator;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
@@ -26,19 +27,10 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 	@Override
 	public void refresh(List<EventVO> events, int millisToNextRefresh) {
 		removeAllComponents();
-		addComponent(createPoller(millisToNextRefresh));
+		addComponent(WidgetUtils.createPoller(millisToNextRefresh));
 
 		for (EventVO eventData : events)
 			addComponent(new EventListElement(eventData, boss));
-	}
-
-	
-	private Component createPoller(int millisToNextRefresh) {
-		ProgressIndicator result = new ProgressIndicator();
-		result.setPollingInterval(millisToNextRefresh);
-		result.setWidth("0px");
-		result.setHeight("0px");
-		return result;
 	}
 
 	

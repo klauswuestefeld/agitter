@@ -10,6 +10,7 @@ public interface AgitterView {
 	SessionView showSessionView();
 	
 	void showWarningMessage(String message);
+	void executeJavascript(String javascript);
 	
 	void hideToAvoidExtraBlinkAndRedirect(String url);
 	void show();
