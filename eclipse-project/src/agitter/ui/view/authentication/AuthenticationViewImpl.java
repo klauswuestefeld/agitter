@@ -97,7 +97,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 	public SignupView showSignupView() {
 		setModalEnablement(false);
 		SignupViewImpl signup = new SignupViewImpl(popup);
-		signup.show();
+		signup.show(email());
 		return signup;
 	}
 

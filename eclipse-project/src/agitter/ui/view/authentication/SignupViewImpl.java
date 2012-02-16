@@ -18,21 +18,21 @@ public class SignupViewImpl implements SignupView {
 	private final CssLayout signupView = new CssLayout();
 	private final PasswordField password = new PasswordField("Senha");
 	private final PasswordField passwordConfirmation = new PasswordField("Confirme a Senha");
-	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Cadastrar");
+	private final NativeButton signup = AgitterVaadinUtils.createDefaultNativeButton("Agitar!");
 	private final NativeButton cancel = AgitterVaadinUtils.createDefaultNativeButton("Voltar");
 
 	SignupViewImpl(ComponentContainer container) {
 		this.container = container;
 	}
 
-	void show() {
+	void show(String email) {
 		container.removeAllComponents();
 		container.addComponent(signupView); signupView.addStyleName("a-signup-view");
 		
 			// Welcome messages
-			Label label = WidgetUtils.createLabel("Bem-vindo");
+			Label label = WidgetUtils.createLabel("Novo Usuário");
 			signupView.addComponent(label); label.addStyleName("a-signup-welcome1");
-			label = WidgetUtils.createLabel("Escolha uma senha e comece a agitar!");
+			label = WidgetUtils.createLabel(email);
 			signupView.addComponent(label); label.addStyleName("a-signup-welcome2");
 			// Signup Fields
 			CssLayout signupfields = new CssLayout();
