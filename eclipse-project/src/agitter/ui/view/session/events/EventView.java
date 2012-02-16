@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface EventView {
 	
-	public static final boolean COMMENTS_ENABLED = false;
+	public static final boolean COMMENTS_ENABLED = true;
 
 	interface Boss {
 		void onDescriptionEdit(String newText);
@@ -26,6 +26,6 @@ public interface EventView {
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount);
+	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount, List<String> comments);
 
 }

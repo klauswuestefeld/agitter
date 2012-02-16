@@ -114,7 +114,8 @@ public class InvitePresenter implements EventView.Boss {
 					selectedEvent.description(), 
 					onlyFutureDates(selectedEvent.datetimes()),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(),
+					allComments());
 		}
 	}
 
