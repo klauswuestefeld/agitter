@@ -4,6 +4,7 @@ package vaadinutils;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.themes.BaseTheme;
 
 public class WidgetUtils {
@@ -34,6 +35,14 @@ public class WidgetUtils {
 		Label l = createLabel(caption);
 		l.setContentMode(Label.CONTENT_XHTML);
 		return l;
+	}
+	
+	public static Component createPoller(int millisToNextRefresh) {
+		ProgressIndicator result = new ProgressIndicator();
+		result.setPollingInterval(millisToNextRefresh);
+		result.setWidth("0px");
+		result.setHeight("0px");
+		return result;
 	}
 
 }
