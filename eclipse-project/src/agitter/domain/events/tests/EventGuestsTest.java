@@ -13,7 +13,7 @@ import agitter.domain.users.User;
 
 public class EventGuestsTest extends EventsTestBase {
 	
-	private final Contacts contacts = new ContactsImpl2();
+	private final Contacts contacts = agitter.contacts();
 
 	
 	@Test

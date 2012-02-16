@@ -2,6 +2,7 @@ package sneer.foundation.testsupport;
 
 import java.lang.reflect.Method;
 
+import org.junit.Ignore;
 import org.junit.internal.runners.InitializationError;
 import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.notification.Failure;
@@ -26,6 +27,11 @@ public class CleanTestRunner extends JUnit4ClassRunner {
 	
 	@Override
 	protected void invokeTestMethod(final Method method, RunNotifier notifier) {
+		if (method.getAnnotation(Ignore.class) != null) {
+			notifier.fireTestIgnored(methodDescription(method));
+			return;
+		}
+		
 		RunListener listener = new RunListener() { @Override public void testFailure(Failure failure) throws Exception {
 			notifyFailure(method, failure.getException());
 		}};
