@@ -29,6 +29,11 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 	public void showWarningMessage(String message) {
 		showNotification(message, Window.Notification.TYPE_WARNING_MESSAGE);
 	}
+	
+	@Override
+	public void executeJavascript(String javascript) {
+		super.executeJavaScript(javascript);
+	}
 
 
 	@Override

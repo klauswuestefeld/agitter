@@ -133,7 +133,7 @@ public class Presenter implements RestHandler {
 	
 
 	private void openAuthentication() {
-		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), controller.oAuth(), warningDisplayer(), httpSession, context, urlBlankRedirector());
+		new AuthenticationPresenter(domain().users(), view.authenticationView(), onAuthenticate(), controller.signups(), controller.emailSender(), controller.oAuth(), warningDisplayer(), javascriptExecutor(), httpSession, context, urlBlankRedirector());
 	}
 
 	
@@ -182,6 +182,11 @@ public class Presenter implements RestHandler {
 		}};
 	}
 
+	private Consumer<String> javascriptExecutor() {
+		return new Consumer<String>() { @Override public void consume(String javascript) {
+			executeJavascript(javascript);
+		}};
+	}
 	
 	private Agitter domain() {
 		return controller.domain();
@@ -189,6 +194,10 @@ public class Presenter implements RestHandler {
 	
 	private void warn(String message) {
 		view.showWarningMessage(message);
+	}
+
+	private void executeJavascript(String javascript) {
+		view.executeJavascript(javascript);
 	}
 
 	private void updateAuthenticationTokenFor(User user) {

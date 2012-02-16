@@ -1,8 +1,5 @@
 package agitter.ui.view.authentication;
 
-
-
-
 public interface AuthenticationView {
 
 	void show();
@@ -19,5 +16,7 @@ public interface AuthenticationView {
 	void onYahooSignin(Runnable action);
 	void onFacebookSignin(Runnable action);
 	void onTwitterSignin(Runnable action);
+	
+	String getRetryAuthenticationJavascript();
 
 }
