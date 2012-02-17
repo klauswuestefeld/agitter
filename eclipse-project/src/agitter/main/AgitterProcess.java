@@ -180,6 +180,7 @@ public class AgitterProcess implements ReplaceableProcess {
 	private static Map<String, String> initWith(Class<? extends Application> vaadinApp) {
 		Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("application", vaadinApp.getName());
+		initParams.put("productionMode", "true");
 		return initParams;
 	}
 
