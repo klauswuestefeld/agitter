@@ -247,13 +247,14 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 	
 	private void addNextInviteeComponent() {
-		nextInvitee.setInputPrompt("Digite grupo, email ou cole vários emails");
+		nextInvitee.setInputPrompt("Digite um grupo, email ou cole vários emails para convidar");
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
 			return onNextInvitee(invitee);
 		}});
+		int Peccin_Favor_Revisar;
 		// Why setting this width here? It works without it. 
 		// WARNING: This breaks the layout. Go to a editable event, readonly event and editable event again. Buttons disappear.
-		//nextInvitee.setInputWidth("280px");
+		nextInvitee.setInputWidth("280px"); //Colocar largura certa
 		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
 	}
 
