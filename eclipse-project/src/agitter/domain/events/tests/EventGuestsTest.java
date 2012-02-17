@@ -5,7 +5,6 @@ import static agitter.domain.contacts.tests.ContactsTest.createGroup;
 import org.junit.Test;
 
 import agitter.domain.contacts.Contacts;
-import agitter.domain.contacts.ContactsImpl2;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
