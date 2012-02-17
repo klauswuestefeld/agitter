@@ -2,6 +2,7 @@ package agitter.domain.events.tests;
 
 import java.util.Arrays;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -40,11 +41,10 @@ public class EventsTest extends EventsTestBase {
 		createEvent(ana, "Dinner at Joes", 1001);
 	}
 
-	
+
+	@Ignore
 	@Test
 	public void changingEventTime() throws Refusal {
-		if ("".isEmpty()) return; //If @Ignore is used, @After is not run and does not cleanup the bubble. I am looking into this. Klaus
-		
 		Event firstEvent = createEvent(ana, "D1", 11);
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
