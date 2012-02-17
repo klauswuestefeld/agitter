@@ -13,14 +13,14 @@ public class EventsImpl2 implements Events {
 
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
-
-	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
+	
+//	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
+	private long lastId = 0; //2011-02-16
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
-
 	
 	@Override
 	public Event create(User user, String description, long datetime) throws Refusal {
-		EventImpl2 event = new EventImpl2(user, description, datetime);
+		EventImpl2 event = new EventImpl2(getNextId(), user, description, datetime);
 		if (_all.contains(event))
 			throw new DuplicateEvent();
 		_all.add(event);
@@ -86,8 +86,23 @@ public class EventsImpl2 implements Events {
 
 
 	public void migrateSchemaIfNecessary() {
-		for (Event e : _all) 
-			((EventImpl2)e).migrateSchemaIfNecessary();
 		
+		for (Event e : _all) {
+			EventImpl2 impl2 = (EventImpl2) e;
+			impl2.migrateSchemaIfNecessary();
+			if(impl2.getId() <= 0)
+				impl2.setId(getNextId());
+		}
+		
+	}
+	
+	private long getNextId() {
+		return ++lastId;
+	}
+
+	@Deprecated
+	@Override
+	public void setLastId(long lastId) {
+		this.lastId = lastId;
 	}
 }

@@ -9,8 +9,9 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
-import agitter.domain.events.DuplicateEvent;
 import agitter.domain.events.Event;
+import agitter.domain.events.EventImpl2;
+import agitter.domain.events.EventsImpl2;
 
 public class EventsTest extends EventsTestBase {
 
@@ -27,10 +28,12 @@ public class EventsTest extends EventsTestBase {
 	}
 	
 
-	@Test(expected = DuplicateEvent.class)
+	@Test
 	public void duplicateEvent() throws Exception {
-		createEvent(ana, "Dinner at Joes", 1000);
-		createEvent(ana, "Dinner at Joes", 1000);
+		Event event1 = createEvent(ana, "Dinner at Joes", 1000);
+		Event event2 = createEvent(ana, "Dinner at Joes", 1000);
+		assertNotNull(event1);
+		assertNotNull(event2);
 	}
 
 	@Test
@@ -144,6 +147,31 @@ public class EventsTest extends EventsTestBase {
 		subject.delete(ana, event);
 		assertEquals(0, subject.toHappen(ana).size());
 		assertEquals(0, subject.toHappen(jose).size());
+	}
+	
+	@Test
+	public void eventId() throws Refusal {
+		Event event1 = createEvent(ana, "D1", 11);
+		Event event2 = createEvent(ana, "D2", 12);
+		Event event3 = createEvent(ana, "D3", 13);
+		assertTrue(0 < event2.getId());
+		assertTrue(event1.getId() < event2.getId());
+		assertTrue(event2.getId() < event3.getId());
+	}
+	
+	@Test
+	public void eventIdMigration() throws Refusal {
+		Event event1 = createEvent(ana, "D1", 11);
+		Event event2 = createEvent(ana, "D2", 12);
+		Event event3 = createEvent(ana, "D3", 13);
+		subject.setLastId(0);
+		event1.setId(0);
+		event2.setId(0);
+		event3.setId(0);
+		agitter.migrateSchemaIfNecessary();
+		assertTrue(0 < event2.getId());
+		assertTrue(event1.getId() < event2.getId());
+		assertTrue(event2.getId() < event3.getId());
 	}
 
 }

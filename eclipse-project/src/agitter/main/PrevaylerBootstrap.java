@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
-import org.prevayler.foundation.serialization.XStreamSerializer;
 
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
@@ -75,12 +74,13 @@ public class PrevaylerBootstrap {
 	}
 	
 	
+	
 	private static PrevaylerFactory createPrevaylerFactory(File prevalenceBase) {
 		PrevaylerFactory factory = new PrevaylerFactory();
 		factory.configurePrevalenceDirectory(prevalenceBase.getAbsolutePath());
 		factory.configureTransactionFiltering(false);
-		factory.configureJournalSerializer(new XStreamSerializer("UTF-8"));
-		factory.configureSnapshotSerializer(new XStreamSerializer("UTF-8"));
+		factory.configureJournalSerializer(new XStreamSafeSerializer("UTF-8"));
+		factory.configureSnapshotSerializer(new XStreamSafeSerializer("UTF-8"));
 		return factory;
 	}
 

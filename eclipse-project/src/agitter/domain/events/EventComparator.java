@@ -17,6 +17,8 @@ public class EventComparator implements Comparator<Event>, Serializable {
 		if (result == 0L)
 			result = a1.description().compareTo(a2.description());
 		if (result == 0L)
+			result = a1.getId() - a2.getId();
+		if (result == 0L)
 			return 0;
 		return result < 0L ? -1 : 1;
 	}

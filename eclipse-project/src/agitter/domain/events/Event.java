@@ -26,4 +26,9 @@ public interface Event {
 
 	List<User> allResultingInvitees();
 	
+	@Deprecated
+	long getId();
+	@Deprecated
+	void setId(long id);
+	
 }

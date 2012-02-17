@@ -14,7 +14,8 @@ public class EventImpl2 implements Event {
 	
 	private static final long ONE_HOUR = 1000 * 60 * 60;
 
-	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
+//	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
+	private long id; //2011-02-16 - Change to final after schema migration
 
 	final private User _owner;
 	private String _description;
@@ -26,8 +27,8 @@ public class EventImpl2 implements Event {
 	
 	final private Set<User> notInterested = new HashSet<User>();
 	
-	
-	public EventImpl2(User owner, String description, long datetime) throws Refusal {
+	public EventImpl2(long id, User owner, String description, long datetime) throws Refusal {
+		this.id = id;
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		_owner = owner;
 		edit(description, datetime);
@@ -191,6 +192,18 @@ public class EventImpl2 implements Event {
 		// 2012-Fev-03
 		if (datetimes == null) 
 			datetimes = new long[]{_datetime};
+	}
+	
+	@Deprecated
+	@Override
+	public long getId() {
+		return id;
+	}
+	
+	@Deprecated
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

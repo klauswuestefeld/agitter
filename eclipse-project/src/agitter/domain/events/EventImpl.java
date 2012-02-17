@@ -90,5 +90,16 @@ public class EventImpl implements Event {
 	public void removeDate(long date) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
+	
+	@Override
+	public long getId() {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void setId(long id) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
 
 }

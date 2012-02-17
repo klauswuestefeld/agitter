@@ -19,5 +19,8 @@ public interface Events {
 	void delete(User user, Event event);
 
 	List<Event> toHappen(User user);
+	
+	@Deprecated
+	void setLastId(long nextId);
 
 }
