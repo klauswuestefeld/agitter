@@ -1,6 +1,8 @@
 
 package agitter.domain.comments;
 
+import org.prevayler.bubble.PrevalentBubble;
+
 import agitter.domain.users.User;
 
 public class CommentImpl implements Comment {
@@ -8,6 +10,10 @@ public class CommentImpl implements Comment {
 	private final User owner;
 	private final long creationDatetime;
 	private final String text;
+	
+	{
+		PrevalentBubble.idMap().register(this);
+	}
 
 	public CommentImpl(User owner, long creationDatetime, String text) {
 		this.owner = owner;

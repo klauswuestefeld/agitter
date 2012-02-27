@@ -16,7 +16,7 @@ import agitter.domain.users.User;
 
 public class CommentsTest extends EventsTestBase {
 
-	private final Comments comments = new CommentsImpl();
+	private final Comments comments = agitter.comments();
 
 	
 	@Test
