@@ -10,8 +10,6 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
-import agitter.domain.events.EventImpl2;
-import agitter.domain.events.EventsImpl2;
 
 public class EventsTest extends EventsTestBase {
 
