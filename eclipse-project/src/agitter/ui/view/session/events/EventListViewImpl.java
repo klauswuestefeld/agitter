@@ -9,9 +9,11 @@ import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.ProgressIndicator;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
+	private final ProgressIndicator poller = WidgetUtils.createPoller(100*1000); //Any large value. Will be reset later.
 	private Boss boss;
 
 
@@ -27,7 +29,8 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 	@Override
 	public void refresh(List<EventVO> events, int millisToNextRefresh) {
 		removeAllComponents();
-		addComponent(WidgetUtils.createPoller(millisToNextRefresh));
+		poller.setPollingInterval(millisToNextRefresh);
+		addComponent(poller);
 
 		for (EventVO eventData : events)
 			addComponent(new EventListElement(eventData, boss));

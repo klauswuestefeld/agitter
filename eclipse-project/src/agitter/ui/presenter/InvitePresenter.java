@@ -27,7 +27,6 @@ import agitter.domain.emails.EmailExtractor.Visitor;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
-import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
@@ -43,8 +42,6 @@ public class InvitePresenter implements EventView.Boss {
 	private final Functor<EmailAddress, User> userProducer;
 	private final EventView view;
 	private final Runnable onEventDataChanged;
-	@SuppressWarnings("unused")
-	private final HandleToAvoidLeaks handle;
 
 
 	private Event selectedEvent = null;
@@ -59,10 +56,6 @@ public class InvitePresenter implements EventView.Boss {
 		this.view = view;
 		this.warningDisplayer = warningDisplayer;
 		this.onEventDataChanged = onEventDataChanged;
-		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
-			refreshCommentsList();
-		}});
-
 
 		this.view.startReportingTo(this);
 		
@@ -100,7 +93,7 @@ public class InvitePresenter implements EventView.Boss {
 		return (long[]) ret;
 	}
 	
-	private void refresh() {
+	void refresh() {
 		if (selectedEvent == null) {
 			view.clear();
 			return;
@@ -312,9 +305,10 @@ public class InvitePresenter implements EventView.Boss {
 		onEventDataChanged.run();
 	}
 	
-	protected void refreshCommentsList() {
+	
+	void periodicRefresh() {
 		if(selectedEvent != null)
-			view.refreshComments(allComments(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+			view.refreshComments(allComments());
 	}
 
 }

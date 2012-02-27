@@ -17,7 +17,6 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
@@ -112,7 +111,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
-		updateComments(comments);
+		refreshComments(comments);
 
 		saveListenersActive = true;
 
@@ -153,22 +152,18 @@ class EventViewImpl extends CssLayout implements EventView {
 		} else {
 			readOnlyDates.setValue(dateFormat.format(new Date(datetimes[0])));
 		}
-		updateComments(comments);
+		refreshComments(comments);
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 		displayRemovalButton(false);
 	}
 	
-	private Component poller;
+	
 	@Override
-	public void refreshComments(List<String> comments, int millisToNextRefresh) {
-		if( poller != null ) {
-			removeComponent(poller);
-		}
-		poller = WidgetUtils.createPoller(millisToNextRefresh);
-		addComponent(poller);
-		updateComments(comments);
+	public void refreshComments(List<String> comments) {
+		commentsLabel.setValue(comments.toString());
 	}
+	
 	
 	private void displayReadOnlyInvitees(String owner, List<String> knownInvitees, int totalInviteesCount) {
 		readOnlyOwner.setValue(owner);
@@ -324,9 +319,4 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(removeButton); removeButton.addStyleName("a-default-nativebutton"); 
 	}
 
-	private void updateComments(List<String> comments) {
-		commentsLabel.setValue(comments.toString());
-	}
-
-	
 }
