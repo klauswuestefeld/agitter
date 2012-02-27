@@ -6,8 +6,6 @@ import static infra.util.Collections.copy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.prevayler.bubble.PrevalentBubble;
-
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Producer;
