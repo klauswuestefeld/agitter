@@ -99,7 +99,7 @@ public class EventListElement extends CssLayout {
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			System.out.println("Botao de remocao clicado.");
-			boss.onEventRemoved(eventValues.eventObject);
+			boss.onEventRemoved(eventValues.eventObject, eventValues.datetime);
 		}});
 		return button;
 	}

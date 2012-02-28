@@ -10,8 +10,7 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
-import agitter.domain.events.EventImpl2;
-import agitter.domain.events.EventsImpl2;
+import agitter.domain.events.Occurrence;
 
 public class EventsTest extends EventsTestBase {
 
@@ -172,6 +171,68 @@ public class EventsTest extends EventsTestBase {
 		assertTrue(0 < event2.getId());
 		assertTrue(event1.getId() < event2.getId());
 		assertTrue(event2.getId() < event3.getId());
+	}
+	
+
+
+	@Test
+	public void newEventHasOneOccurrence() throws Refusal {
+		Event party = createEvent(ana, "Party at home", 1000);
+		assertEquals(1, party.datetimes().length);
+	}
+	
+	
+	@Test
+	public void notInterestedOccurrence() throws Refusal {
+		Event party = createEvent(ana, "Barbecue at home", 1000, jose);
+		Clock.setForCurrentThread( 10 );
+		
+		Occurrence d2000 = occurrenceOn(party, 2000);
+		assertEquals(2000, d2000.datetime());
+		assertTrue(d2000.isInterested(ana));
+		assertTrue(d2000.isInterested(jose));
+		
+		Occurrence d3000 = occurrenceOn(party, 3000);
+		assertEquals(3000, d3000.datetime());
+		assertTrue(d3000.isInterested(ana));
+		assertTrue(d3000.isInterested(jose));
+		assertEquals(3, party.occurrences().length);
+	
+		d2000.notInterested(jose);
+		
+		d2000 = searchOccurrence(party, 2000);
+		assertTrue(d2000.isInterested(ana));
+		assertTrue(!d2000.isInterested(jose));
+
+		d3000 = searchOccurrence(party, 3000);
+		assertTrue(d3000.isInterested(ana));
+		assertTrue(d3000.isInterested(jose));
+
+		Occurrence d1000 = searchOccurrence(party, 1000);
+		assertTrue(d1000.isInterested(ana));
+		assertTrue(d1000.isInterested(jose));
+		
+		party.notInterested(jose, 3000);
+		assertTrue(d3000.isInterested(ana));
+		assertTrue(!d3000.isInterested(jose));
+		
+		assertTrue(d1000.isInterested(ana));
+		assertTrue(d1000.isInterested(jose));
+		assertTrue(d2000.isInterested(ana));
+		assertTrue(!d2000.isInterested(jose));
+	}
+
+	
+	private Occurrence occurrenceOn(Event event, long datetime) {
+		event.addDate(datetime);
+		return searchOccurrence(event, datetime);
+	}
+	
+	private Occurrence searchOccurrence(Event event, long datetime) {
+		for (Occurrence occ : event.occurrences()) {
+			if (occ.datetime() == datetime) return occ;
+		}
+		return null;
 	}
 
 }

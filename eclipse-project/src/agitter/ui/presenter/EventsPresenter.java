@@ -19,6 +19,7 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
+import agitter.domain.events.Occurrence;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
@@ -28,8 +29,6 @@ import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss {
-
-	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 	
 	private final User user;
 	private final ContactsOfAUser contacts;
@@ -126,7 +125,6 @@ public class EventsPresenter implements Boss {
 	synchronized private void refreshEventList() {
 		eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		eventsListView().setSelectedEvent(eventSelected);
-
 	}
 
 	
@@ -142,25 +140,22 @@ public class EventsPresenter implements Boss {
 	
 	private List<EventVO> eventsToHappen() {
 		List<EventVO> result = new ArrayList<EventVO>();
-		List<Event> toHappen = events.toHappen(user);
-		
-		// TWO hours ago mesmo na lista? 
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		List<Event> toHappen = events.toHappen(user);		
 		
 		for (Event event : toHappen) {
-			for (long date : event.datetimes())
-				if (date > twoHoursAgo)
-					result.add(new EventVO(event, event.description(), 
-						date, event.owner().screenName(), 
-						events.isEditableBy(user, event),
-						event.allResultingInvitees().size(), 
-						uniqueGroupOrUserInvited(event), 
-						isUniqueUserInvited(event)));
+			long[] interesting = event.interestedDatetimes(user);
+			for (long date : interesting)
+				result.add(new EventVO(event, event.description(), 
+					date, event.owner().screenName(), 
+					events.isEditableBy(user, event),
+					event.allResultingInvitees().size(), 
+					uniqueGroupOrUserInvited(event), 
+					isUniqueUserInvited(event)));
 
 			// This happens when changing an event with only one date. 
 			// the system removes the last date and includes a new one
 			// in the middle of these events, this function is called. 
-			if (event.datetimes().length == 0) 
+			if (interesting.length == 0) 
 				result.add(new EventVO(event, event.description(), 
 						0, event.owner().screenName(), 
 						events.isEditableBy(user, event),
@@ -204,14 +199,19 @@ public class EventsPresenter implements Boss {
 
 
 	@Override
-	public void onEventRemoved(Object removedEvent) {
+	public void onEventRemoved(Object removedEvent, long datetime) {
 		Event event = (Event)removedEvent;
-		if (events.isEditableBy(user, event))
-			events.delete(user, event); // Should never come here. 
-		else
-			event.notInterested(user);
+		if (events.isEditableBy(user, event)) {
+			// This option is disable on screen
+			// Should never come here.
+			System.out.println("Should NEVER come here");
+			events.delete(user, event); 
+		} else {
+			System.out.println("Not interesting anymore");
+			event.notInterested(user, datetime);
+		}
 		
-		eventSelected = null;
+		selectEvent(null);
 		refreshEventList();
 		invitePresenter().clear();
 	}

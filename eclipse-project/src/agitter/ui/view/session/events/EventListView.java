@@ -8,7 +8,7 @@ public interface EventListView {
 	
 	interface Boss {
 		void onEventSelected(Object selectedEvent);
-		void onEventRemoved(Object removedEvent);
+		void onEventRemoved(Object removedEvent, long datetime);
 	}
 
 	void startReportingTo(Boss boss);

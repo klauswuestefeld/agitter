@@ -102,4 +102,22 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public Occurrence[] occurrences() {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void notInterested(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public long[] interestedDatetimes(User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }

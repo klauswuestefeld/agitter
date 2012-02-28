@@ -1,6 +1,7 @@
 package agitter.domain.events;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import agitter.domain.users.User;
 public class EventImpl2 implements Event {
 	
 	private static final long ONE_HOUR = 1000 * 60 * 60;
+	private static final long TWO_HOURS = ONE_HOUR * 2;
 
 //	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
 	private long id; //2011-02-16 - Change to final after schema migration
@@ -20,8 +22,9 @@ public class EventImpl2 implements Event {
 	final private User _owner;
 	private String _description;
 	@Deprecated private long _datetime;
-	private long[] datetimes;
+	@Deprecated private long[] datetimes;
 	
+	private Set<Occurrence> occurrences = new HashSet<Occurrence>();
 	private Set<Group> groupInvitations = new HashSet<Group>();
 	private Set<User> invitees = new HashSet<User>();
 	
@@ -48,9 +51,25 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public long[] datetimes() {
-		return datetimes;
+		long[] ret = new long[actualOccurrences().size()];
+		int cont=0;
+		for (Occurrence occ : actualOccurrences()) {
+			ret[cont++] = occ.datetime();
+		}
+		return ret;
+		//return datetimes;
 	}
 
+	@Override
+	public Occurrence[] occurrences() {
+		return actualOccurrences().toArray(new Occurrence[actualOccurrences().size()]);
+	}
+	
+	private Set<Occurrence> actualOccurrences() {
+		if (occurrences==null) occurrences = new HashSet<Occurrence>();
+		return occurrences;
+	}
+	
 	@Override
 	synchronized
 	public User[] invitees() {
@@ -83,6 +102,18 @@ public class EventImpl2 implements Event {
 		
 		notInterested.add(user);
 	}
+	
+	@Override
+	public void notInterested(User user, long date) {
+		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		
+		for (Occurrence o : actualOccurrences()) {
+			if (o.datetime() == date) {
+				o.notInterested(user);
+			}
+		}
+	}
+
 	
 	
 	private boolean isInterested(User user) {
@@ -120,14 +151,20 @@ public class EventImpl2 implements Event {
 		assertIsInTheFuture(newDatetime);
 
 		_description = newDescription;
-		datetimes = new long[]{newDatetime};
+		//datetimes = new long[]{newDatetime};
+		actualOccurrences().clear();
+		addDate(newDatetime);
 	}
 
 	void edit(String newDescription, long[] newDatetimes) throws Refusal {
 		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 
 		_description = newDescription;
-		datetimes = newDatetimes;
+		//datetimes = newDatetimes;
+		actualOccurrences().clear();
+		for (long l : newDatetimes) {
+			addDate(l);
+		}
 	}
 	
 	@Override
@@ -143,26 +180,38 @@ public class EventImpl2 implements Event {
 	
 	@Override
 	public void addDate(long datetime) {
-        long[] copy = new long[datetimes.length+1];
-        System.arraycopy(datetimes,0,copy,0,datetimes.length);
-        copy[datetimes.length] = datetime;
-        datetimes = copy;
+        //long[] copy = new long[datetimes.length+1];
+        //System.arraycopy(datetimes,0,copy,0,datetimes.length);
+        //copy[datetimes.length] = datetime;
+        //datetimes = copy;
+		actualOccurrences().add(new OccurrenceImpl(datetime));
 	}
 
+	private Occurrence searchOccurrence(long datetime) {
+		for (Occurrence occ : occurrences) {
+			if (occ.datetime() == datetime) return occ;
+		}
+		return null;
+	}
+	
 	@Override
 	public void removeDate(long datetime) {
 		// dont remove the last one. 
 		//if (datetimes.length == 1) return;
 		
-		for (int i=0; i<datetimes.length; i++) {
-			if (datetimes[i] == datetime) {
-		        long[] copy = new long[datetimes.length-1];
-		        System.arraycopy(datetimes,0,copy,0,i);
-		        System.arraycopy(datetimes,i+1,copy,i,datetimes.length-(i+1));
-		        datetimes = copy;
-		        return;
-			}
-		}
+		Occurrence toRemove = searchOccurrence(datetime);
+		if (toRemove != null)
+			actualOccurrences().remove(toRemove);
+		
+		//for (int i=0; i<datetimes.length; i++) {
+		//	if (datetimes[i] == datetime) {
+		//       long[] copy = new long[datetimes.length-1];
+		//        System.arraycopy(datetimes,0,copy,0,i);
+		//        System.arraycopy(datetimes,i+1,copy,i,datetimes.length-(i+1));
+		//        datetimes = copy;
+		//        return;
+	//		}
+	//	}
 	}
 
 
@@ -192,6 +241,13 @@ public class EventImpl2 implements Event {
 		// 2012-Fev-03
 		if (datetimes == null) 
 			datetimes = new long[]{_datetime};
+		
+		if (actualOccurrences().size() < datetimes.length) {
+			actualOccurrences().clear();
+			for (long l : datetimes) {
+				addDate(l);
+			}
+		}
 	}
 	
 	@Deprecated
@@ -204,6 +260,25 @@ public class EventImpl2 implements Event {
 	@Override
 	public void setId(long id) {
 		this.id = id;
+	}
+
+
+	@Override
+	public long[] interestedDatetimes(User user) {
+		// TWO hours ago mesmo na lista? 
+		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		
+		List<Long> interesting = new ArrayList<Long>(); 
+		for (Occurrence occ : occurrences()) {
+			if (occ.datetime() > twoHoursAgo && occ.isInterested(user)) {
+				interesting.add(occ.datetime());
+			}
+		}
+		
+		long[] ret = new long[interesting.size()];
+		int i=0;
+		for (Long l : interesting) ret[i++] = l; 
+		return ret;
 	}
 
 }

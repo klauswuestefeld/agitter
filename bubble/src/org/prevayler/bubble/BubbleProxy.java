@@ -36,7 +36,7 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private BubbleProxy(ProducerX<Object, ? extends Exception> producer) {
-		if (producer == null) throw new IllegalArgumentException();
+		if (producer == null) throw new IllegalArgumentException("Possible Cause: mutable objects out of the prevayler system were not registered, using: PrevalentBubble.getIdMap().register(...)");
 		_invocationPath = producer;
 	}
 
@@ -89,7 +89,7 @@ class BubbleProxy implements InvocationHandler {
 		
 		for (int i = 0; i < array.length; i++) {
 			Object obj = array[i];
-			array[i] = wrapIfNecessary(obj, null); //null means no path. Mutable objects in collections must be registered. 
+			array[i] = wrapIfNecessary(obj, null); //null means no path. Mutable objects in collections must be registered. PrevalentBubble.getIdMap().register(...)
 		}
 	}
 

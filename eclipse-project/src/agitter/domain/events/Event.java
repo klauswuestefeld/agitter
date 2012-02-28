@@ -10,7 +10,12 @@ public interface Event {
 	User owner();
 
 	String description();
+	
+	long[] interestedDatetimes(User user);
 	long[] datetimes();
+	Occurrence[] occurrences();
+	void addDate(long date);
+	void removeDate(long date);
 
 	User[] invitees();
 	void addInvitee(User invitee);
@@ -18,11 +23,11 @@ public interface Event {
 	Group[] groupInvitees();
 	void addInvitee(Group invitee);
 	void removeInvitee(Group invitee);
-	
-	void addDate(long date);
-	void removeDate(long date);
 
 	void notInterested(User user);
+	void notInterested(User user, long date);
+
+	
 
 	List<User> allResultingInvitees();
 	
