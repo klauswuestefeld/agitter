@@ -9,14 +9,13 @@ import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
-import agitter.domain.comments.CommentsImpl;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
 
 public class CommentsTest extends EventsTestBase {
 
-	private final Comments comments = new CommentsImpl();
+	private final Comments comments = agitter.comments();
 
 	
 	@Test

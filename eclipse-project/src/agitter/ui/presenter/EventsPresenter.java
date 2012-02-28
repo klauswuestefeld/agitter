@@ -57,7 +57,7 @@ public class EventsPresenter implements Boss {
 		this.eventSelected = null;
 
 		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
-			refreshEventList();
+			periodicRefresh();
 		}});
 		
 		this.view.onNewEvent(new Runnable() { @Override public void run() {
@@ -65,6 +65,12 @@ public class EventsPresenter implements Boss {
 		}});
 		
 		refreshContactsToChoose();
+	}
+
+
+	private void periodicRefresh() {
+		refreshEventList();
+		invitePresenter().periodicRefresh();
 	}
 
 

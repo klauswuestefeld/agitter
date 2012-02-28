@@ -37,7 +37,7 @@ public class WidgetUtils {
 		return l;
 	}
 	
-	public static Component createPoller(int millisToNextRefresh) {
+	public static ProgressIndicator createPoller(int millisToNextRefresh) {
 		ProgressIndicator result = new ProgressIndicator();
 		result.setPollingInterval(millisToNextRefresh);
 		result.setWidth("0px");
