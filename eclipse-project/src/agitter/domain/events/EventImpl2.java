@@ -98,6 +98,7 @@ public class EventImpl2 implements Event {
 	@Override
 	public void notInterested(User user) {
 		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 		
 		notInterested.add(user);
 	}
@@ -105,15 +106,66 @@ public class EventImpl2 implements Event {
 	@Override
 	public void notInterested(User user, long date) {
 		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+
+		Occurrence o = searchOccurrence(date);
+		if (o != null) {
+			o.notInterested(user);
+		}
+	}
+	
+	@Override
+	public void going(User user, long date) {
+		Occurrence o = searchOccurrence(date);
+		if(!owner().equals(user) && !invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem participar." );
 		
-		for (Occurrence o : actualOccurrences()) {
-			if (o.datetime() == date) {
-				o.notInterested(user);
-			}
+		if (o != null) {
+			o.going(user);
 		}
 	}
 
+	@Override
+	public void notGoing(User user, long date) {
+		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+
+		Occurrence o = searchOccurrence(date);
+		if (o != null) {
+			o.notGoing(user);
+		}
+	}
+
+	@Override
+	public void mayGo(User user, long date) {
+		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+
+		Occurrence o = searchOccurrence(date);
+		if (o != null) {
+			o.mayGo(user);
+		}
+	}
+
+	@Override
+	public Boolean isGoing(User user, long date) {
+		Occurrence o = searchOccurrence(date);
+		if (o != null) {
+			return o.isGoing(user);
+		}
+		return false;
+	}
 	
+	@Override
+	public boolean hasIgnored(User user, long date) {
+		Occurrence o = searchOccurrence(date);
+		if (o != null) {
+			return o.hasIgnored(user);
+		}
+		return true;
+	}
+	
+	
+
 	
 	private boolean isInterested(User user) {
 		return !notInterested.contains(user);
@@ -183,10 +235,10 @@ public class EventImpl2 implements Event {
         //System.arraycopy(datetimes,0,copy,0,datetimes.length);
         //copy[datetimes.length] = datetime;
         //datetimes = copy;
-		actualOccurrences().add(new OccurrenceImpl(datetime));
+		actualOccurrences().add(new OccurrenceImpl(datetime, this.owner()));
 	}
 
-	private Occurrence searchOccurrence(long datetime) {
+	public Occurrence searchOccurrence(long datetime) {
 		for (Occurrence occ : occurrences) {
 			if (occ.datetime() == datetime) return occ;
 		}
@@ -261,7 +313,7 @@ public class EventImpl2 implements Event {
 		this.id = id;
 	}
 
-
+	// TODO: this is a mess.
 	@Override
 	public long[] interestedDatetimes(User user) {
 		// TWO hours ago mesmo na lista? 
@@ -295,10 +347,8 @@ public class EventImpl2 implements Event {
 		long[] ret = new long[futureDates.size()];
 	    int i=0;
 	    for (Long data : futureDates) 
-	        ret[i++] = data;
-	    
+	    	ret[i++] = data;
 	    
 		return (long[]) ret;
 	}
-	
 }

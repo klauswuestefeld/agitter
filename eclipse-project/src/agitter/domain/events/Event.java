@@ -37,5 +37,10 @@ public interface Event {
 	long getId();
 	@Deprecated
 	void setId(long id);
-	
+
+	void going(User user, long date);
+	void notGoing(User user, long date);
+	void mayGo(User user, long date);
+	Boolean isGoing(User user, long date);
+	boolean hasIgnored(User user, long date);
 }

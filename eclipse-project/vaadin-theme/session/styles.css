@@ -184,6 +184,48 @@ button.a-event-remove-button {
 	margin: 0px;
 }
 
+button.a-event-maybe-button {
+	float: right;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+button.a-event-maybe-button {
+	background: url('EventMaybeButton.png') no-repeat center center;
+}
+button.a-event-maybe-button:hover {
+	background: url('EventMaybeButtonHover.png') no-repeat center center;
+}
+button.a-event-maybe-button-active {
+	background: url('EventMaybeButtonHover.png') no-repeat center center;
+}
+
+button.a-event-going-button {
+	float: right;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+button.a-event-going-button {
+	background: url('EventGoingButton.png') no-repeat center center;
+}
+button.a-event-going-button-active {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+button.a-event-going-button:hover {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+
 button.a-event-delete-button {
 	float: right;
 	height: 16px;
@@ -202,10 +244,14 @@ button.a-event-remove-button {
 button.a-event-remove-button:hover {
 	background: url('EventNotInterestedHover.png') no-repeat center center;
 }
+button.a-event-remove-button-active {
+	background: url('EventNotInterestedHover.png') no-repeat center center;
+}
 
 button.a-event-delete-button {
 	background: url('EventDelete.png') no-repeat center center;
 }
+
 button.a-event-delete-button:hover {
 	background: url('EventDeleteHover.png') no-repeat center center;
 }

@@ -10,9 +10,11 @@ public class EventVO {
 	public int totalInviteesCount;
 	public String uniqueGroupOrUserInvited;
 	public final boolean isUniqueUserInvited;
+	public final Boolean attendanceStatus;
+	public final boolean noReply;
 
 
-	public EventVO(Object eventObject, String description, long datetime, String owner, boolean isEditable, int totalInviteesCount, String uniqueGroupOrUserInvited, boolean isUniqueUserInvited) {
+	public EventVO(Object eventObject, String description, long datetime, String owner, boolean isEditable, int totalInviteesCount, String uniqueGroupOrUserInvited, boolean isUniqueUserInvited, Boolean attendanceStatus, boolean noReply) {
 		this.eventObject = eventObject;
 		this.description = description;
 		this.datetime = datetime;
@@ -21,6 +23,8 @@ public class EventVO {
 		this.totalInviteesCount = totalInviteesCount;
 		this.uniqueGroupOrUserInvited = uniqueGroupOrUserInvited;
 		this.isUniqueUserInvited = isUniqueUserInvited;
+		this.attendanceStatus = attendanceStatus;
+		this.noReply = noReply;
 	}
 	
 }

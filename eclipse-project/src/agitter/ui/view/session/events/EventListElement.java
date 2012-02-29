@@ -24,6 +24,9 @@ public class EventListElement extends CssLayout {
 		setData(eventValues.eventObject);
 		addStyleName("a-event-view");
 		addRemovalButton(eventValues);
+		addGoingButton(eventValues);
+		addMaybeButton(eventValues);
+		
 		CssLayout texts = new CssLayout();
 		addComponent(texts); texts.addStyleName("a-event-texts");
 			Label label;
@@ -79,27 +82,70 @@ public class EventListElement extends CssLayout {
 			removeStyleName("a-event-view-selected");
 	}
 	
-	
-	private void addRemovalButton(EventVO event) {
-		//String style = event.isEditable
-		//	? "a-event-delete-button"
-		//	: "a-event-remove-button";
+	private Button addRemovalButton(final EventVO eventValues) {
+		if (eventValues.isEditable) return null;
 		
-		if (!event.isEditable) {
-			Button button = addRemovalButton(event, "a-event-remove-button");
-			button.setDescription("Fica pra próxima");
-		}
-	}
-
-
-	private Button addRemovalButton(final EventVO eventValues, String style) {
 		NativeButton button = new NativeButton();
 		button.setSizeUndefined();
-		addComponent(button); button.addStyleName(style);
+		addComponent(button); 
+		button.addStyleName("a-event-remove-button");
+		
+		if (eventValues.noReply) {
+		} else if (eventValues.attendanceStatus != null && !eventValues.attendanceStatus) {
+			button.addStyleName("a-event-remove-button-active");
+		} else {
+		}		
+		
+		button.setDescription("Fica pra próxima");
 		button.addStyleName("a-default-nativebutton");
+		
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			System.out.println("Botao de remocao clicado.");
 			boss.onEventRemoved(eventValues.eventObject, eventValues.datetime);
+		}});
+		return button;
+	}
+	
+	private Button addGoingButton(final EventVO eventValues) {
+		if (eventValues.isEditable) return null;
+		
+		NativeButton button = new NativeButton();
+		button.setSizeUndefined();
+		addComponent(button); 
+		
+		button.addStyleName("a-event-going-button");
+		if (eventValues.noReply) {
+		} else if (eventValues.attendanceStatus != null && eventValues.attendanceStatus) {
+			button.addStyleName("a-event-going-button-active");
+		} else {
+		}		
+		
+		button.setDescription("To Dentro");
+		button.addStyleName("a-default-nativebutton");
+		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			boss.goingOnEvent(eventValues.eventObject, eventValues.datetime);
+		}});
+		return button;
+	}
+	
+	private Button addMaybeButton(final EventVO eventValues) {
+		if (eventValues.isEditable) return null;
+		
+		NativeButton button = new NativeButton();
+		button.addStyleName("a-event-maybe-button");
+		
+		if (eventValues.noReply) {
+		} else if (eventValues.attendanceStatus == null) {
+			button.addStyleName("a-event-maybe-button-active");
+		} else {
+		}
+		
+		button.setSizeUndefined();
+		button.setDescription("Talvez");
+		addComponent(button); 
+		button.addStyleName("a-default-nativebutton");
+		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			boss.mayGoOnEvent(eventValues.eventObject, eventValues.datetime);
 		}});
 		return button;
 	}

@@ -12,6 +12,7 @@ public abstract class EventsTestBase extends UsersTestBase {
 	protected final Events subject = agitter.events();
 	protected final User ana = user("Ana", "ana@email.com", "123x");
 	protected final User jose = user("Jose", "jose@email.com", "123x");
+	protected final User paulo = user("Paulo", "paulo@email.com", "123x");
 	
 	
 	protected Event createEvent(User owner, String description, long startTime, User... invitees) throws Refusal {

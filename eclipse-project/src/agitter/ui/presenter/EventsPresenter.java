@@ -19,7 +19,6 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
-import agitter.domain.events.Occurrence;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
@@ -156,7 +155,9 @@ public class EventsPresenter implements Boss {
 					events.isEditableBy(user, event),
 					event.allResultingInvitees().size(), 
 					uniqueGroupOrUserInvited(event), 
-					isUniqueUserInvited(event)));
+					isUniqueUserInvited(event), 
+					event.isGoing(user, date),
+					event.hasIgnored(user, date)));
 
 			// This happens when changing an event with only one date. 
 			// the system removes the last date and includes a new one
@@ -167,7 +168,9 @@ public class EventsPresenter implements Boss {
 						events.isEditableBy(user, event),
 						event.allResultingInvitees().size(), 
 						uniqueGroupOrUserInvited(event), 
-						isUniqueUserInvited(event)));
+						isUniqueUserInvited(event),
+						null,
+						true));
 			
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
@@ -218,6 +221,39 @@ public class EventsPresenter implements Boss {
 			event.notInterested(user, datetime);
 		}
 		
+		selectEvent(null);
+		refreshEventList();
+		invitePresenter().clear();
+	}
+	
+	@Override
+	public void goingOnEvent(Object eventObject, long datetime) {
+		Event event = (Event)eventObject;
+		if (events.isEditableBy(user, event)) {
+			// This option is disabled on screen
+			// Should never come here.
+			System.out.println("Should NEVER come here");
+		} else {
+			System.out.println("Not interesting anymore");
+			event.going(user, datetime);
+		}
+		selectEvent(null);
+		refreshEventList();
+		invitePresenter().clear();
+	}
+
+
+	@Override
+	public void mayGoOnEvent(Object eventObject, long datetime) {
+		Event event = (Event)eventObject;
+		if (events.isEditableBy(user, event)) {
+			// This option is disabled on screen
+			// Should never come here.
+			System.out.println("Should NEVER come here");
+		} else {
+			System.out.println("Not interesting anymore");
+			event.mayGo(user, datetime);
+		}
 		selectEvent(null);
 		refreshEventList();
 		invitePresenter().clear();

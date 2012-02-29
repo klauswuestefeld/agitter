@@ -126,4 +126,34 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public void going(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void notGoing(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void mayGo(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public Boolean isGoing(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public boolean hasIgnored(User user, long date) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }
