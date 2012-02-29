@@ -18,6 +18,24 @@ public class PeriodicScheduleMailer {
 		}}.start();
 	}
 
+	
+	private final EmailSender sender;
+	private final Agitter agitter;
+
+	public PeriodicScheduleMailer(Agitter agitter, EmailSender sender) {
+		this.agitter = agitter;
+		this.sender = sender;
+	}
+
+
+	public void sendEventsToHappenTomorrow() {
+		if (!agitter.mailing().shouldSendScheduleNow()) return;
+		agitter.mailing().markScheduleSent();
+
+		new MailingRound(agitter.users().all(), agitter.events(), sender);
+	}
+
+	
 	private void sleepHalfAnHour() {
 		try {
 			Thread.sleep(30*60*1000);
@@ -25,23 +43,5 @@ public class PeriodicScheduleMailer {
 			getLogger(this).log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-
-	private final EmailSender sender;
-	private final Agitter agitter;
-
-	private EventsMailFormatter formatter = new EventsMailFormatter();
-
-	public PeriodicScheduleMailer(Agitter agitter, EmailSender sender) {
-		this.sender = sender;
-		this.agitter = agitter;
-	}
-
-
-	public void sendEventsToHappenTomorrow() {
-		if(!agitter.mailing().shouldSendScheduleNow()) { return; }
-		agitter.mailing().markScheduleSent();
-
-		new MailingRound(agitter.users().all(), agitter.events(), sender);
-	}
-
+	
 }

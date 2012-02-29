@@ -20,7 +20,6 @@ import agitter.domain.users.User;
 public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	private static final int ONE_HOUR = 1000 * 60 * 60;
-	private static final int TWO_HOURS = ONE_HOUR * 2;
 	private static final long ONE_DAY = ONE_HOUR * 24;
 	private final long startTime = fourOClockOnWednesday();
 

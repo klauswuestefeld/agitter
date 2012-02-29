@@ -26,7 +26,7 @@ public class MailingRound {
 	private final long afterTomorrow;
 
 	
-	public MailingRound(List<User> users, Events events, EmailSender sender) {
+	MailingRound(List<User> users, Events events, EmailSender sender) {
 		this.events = events;
 		this.sender = sender;
 		
