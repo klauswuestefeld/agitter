@@ -4,7 +4,6 @@ import static agitter.domain.emails.EmailAddress.email;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
@@ -106,7 +105,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		createEvent(leo, "eventTomorrow", startTime+ONE_DAY);
 		createEvent(leo, "eventAfterTomorrow", startTime+ONE_DAY+ONE_DAY);
 
-		long tooEarly = startTime-10;
+		long tooEarly = startTime - 10;
 		Clock.setForCurrentThread(tooEarly);
 		assertNull(sendEmailsAndCaptureLast().to());
 
