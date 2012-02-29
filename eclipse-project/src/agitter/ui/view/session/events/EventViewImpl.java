@@ -246,7 +246,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
 			return onNextInvitee(invitee);
 		}});
-		int Peccin_Favor_Revisar;
+		// Peccin Favor Revisar:
 		// Why setting this width here? It works without it. 
 		// WARNING: This breaks the layout. Go to a editable event, readonly event and editable event again. Buttons disappear.
 		nextInvitee.setInputWidth("280px"); //Colocar largura certa

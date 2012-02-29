@@ -64,7 +64,7 @@ public class AutoCompleteChooser extends CssLayout {
 	}
 	
 	public void setInputWidth(String width) {
-		int Peccin_Favor_Revisar;
+		// Peccin Favor Revisar:
 		// WARNING: algo errado com esse comando. Ele destroi o layout.
 		//choice.setWidth(width);
 	}
