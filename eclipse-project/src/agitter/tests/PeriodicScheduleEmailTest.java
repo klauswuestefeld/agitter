@@ -22,7 +22,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	private static final int ONE_HOUR = 1000 * 60 * 60;
 	private static final int TWO_HOURS = ONE_HOUR * 2;
 	private static final long ONE_DAY = ONE_HOUR * 24;
-	private final long startTime = fourOClockToday();
+	private final long startTime = fourOClockOnThursday();
 
 
 	@Before
@@ -49,10 +49,21 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
-		final String body =
-				"Seus amigos estão agitando e querem você lá: <br/><br/>klaus@email.com - event2<BR/><BR/>leo@email.com - churras<BR/><BR/>klaus@email.com - event3<BR/><BR/>klaus@email.com - event4<BR/><BR/><BR/><a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito.<BR/><BR/>Saia da Internet. Agite!   \\o/<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
-		assertEquals(body, mock.body());
+		assertContains(mock.body(), "event2", "churras", "event3", "event4");
+		assertNotContains(mock.body(), "event1", "eventNextDay");
 	}
+
+	
+	private void assertContains(String string, String... parts) {
+		for (int i = 0; i < parts.length; i++)
+			assertTrue("'" + parts[i] + "' not found in '" + string +"'", string.contains(parts[i]));
+	}
+
+	private void assertNotContains(String string, String... parts) {
+		for (int i = 0; i < parts.length; i++)
+			assertFalse("'" + parts[i] + "' found in '" + string +"'", string.contains(parts[i]));
+	}
+
 
 	@Test
 	public void sendingEmailsToUnregisteredUsers() throws Refusal, IOException {
@@ -124,8 +135,8 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 
-	private long fourOClockToday() {
-		return new GregorianCalendar(2011, Calendar.APRIL, 1, 16, 0).getTimeInMillis();
+	private long fourOClockOnThursday() {
+		return new GregorianCalendar(2012, Calendar.FEBRUARY, 1, 16, 0).getTimeInMillis();
 	}
 
 	private EmailSenderMock sendEmailsAndCaptureLast() {
