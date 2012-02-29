@@ -13,7 +13,7 @@ public interface User {
 	public String password();
 	public boolean isPasswordCorrect(String passwordAttempt);
 
-	public boolean isInterestedInPublicEvents();
-	public void setInterestedInPublicEvents(boolean interested);
+	public boolean isSubscribedToEmails();
+	public void setSubscribedToEmails(boolean interested);
 
 }

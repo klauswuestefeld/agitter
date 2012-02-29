@@ -69,7 +69,7 @@ public class PeriodicScheduleMailer {
 	}
 
 	private void tryToSendEventsToHappenIn24Hours(User user) {
-		if(!user.isInterestedInPublicEvents()) { return; }
+		if(!user.isSubscribedToEmails()) { return; }
 		List<Event> candidateEvents = agitter.events().toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
 		if(toSend.isEmpty()) { return; }

@@ -70,7 +70,7 @@ public class UsersImpl implements Users {
 	public void unsubscribe(String userEncryptedInfo) throws UserNotFound {
 		//TODO - Implement crypto
 		User user = this.findByEmail(mail(userEncryptedInfo));
-		user.setInterestedInPublicEvents(false);
+		user.setSubscribedToEmails(false);
 	}
 
 

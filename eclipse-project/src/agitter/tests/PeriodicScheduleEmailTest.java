@@ -32,7 +32,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 
 	@Test
-	public void sendingEmailsForNext24Hours() throws Refusal, IOException {
+	public void sendingEmailsForTomorrow() throws Refusal, IOException {
 		User leo = signup("leo");
 		User klaus = signup("klaus");
 
@@ -117,7 +117,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		Clock.setForCurrentThread(startTime);
 		assertNotNull(sendEmailsAndCaptureLast().to());
 
-		leo.setInterestedInPublicEvents(false);
+		leo.setSubscribedToEmails(false);
 
 		Clock.setForCurrentThread(Clock.currentTimeMillis()+ONE_DAY);
 		assertNull(sendEmailsAndCaptureLast().to());
