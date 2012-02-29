@@ -10,12 +10,12 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 public class EventsImpl2 implements Events {
-
-	private static final int MAX_EVENTS_TO_SHOW = 40;
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 	
 //	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
 	private long lastId = 0; //2011-02-16
+	
+	//Vitor: Important, don't assume _all is sorted by date. Multiple dates had broken this logic! 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
 	
 	@Override
@@ -61,12 +61,11 @@ public class EventsImpl2 implements Events {
 
 	@Override
 	public List<Event> toHappen(User user) {
-		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SHOW);
+		List<Event> result = new ArrayList<Event>();
 		for(EventImpl2 e : _all) {
 			if (!willHappen(e)) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);
-			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
 		return result;
 	}

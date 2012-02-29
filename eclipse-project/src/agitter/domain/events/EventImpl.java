@@ -120,4 +120,10 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public long[] datetimesToCome() {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }

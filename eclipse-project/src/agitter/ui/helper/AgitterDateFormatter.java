@@ -12,7 +12,8 @@ public class AgitterDateFormatter {
 		
 	}
 	
-	public String format(Date d) {
-		return dateFormat.format(d);
+	public String format(Date d) {			
+		String dateWithFeira = dateFormat.format(d);
+		return dateWithFeira.replaceFirst("-feira", "");
 	}
 }

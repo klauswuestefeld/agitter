@@ -30,6 +30,8 @@ import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss {
 	
+	private static final int MAX_EVENTS_TO_SHOW = 40;
+	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
@@ -77,7 +79,6 @@ public class EventsPresenter implements Boss {
 	void refreshContactsToChoose() {
 		invitePresenter().refreshContactsToChoose();
 	}
-
 	
 	private void onNewEvent() {
 		Event event;
@@ -90,7 +91,6 @@ public class EventsPresenter implements Boss {
 		refreshEventList();
 		selectEvent(event);
 	}
-
 
 	private long suggestedTime() {
 		GregorianCalendar result = new GregorianCalendar();
@@ -168,7 +168,8 @@ public class EventsPresenter implements Boss {
 						event.allResultingInvitees().size(), 
 						uniqueGroupOrUserInvited(event), 
 						isUniqueUserInvited(event)));
-				
+			
+			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
 		
 		Collections.sort(result, new EventVOComparator());
@@ -208,7 +209,7 @@ public class EventsPresenter implements Boss {
 	public void onEventRemoved(Object removedEvent, long datetime) {
 		Event event = (Event)removedEvent;
 		if (events.isEditableBy(user, event)) {
-			// This option is disable on screen
+			// This option is disabled on screen
 			// Should never come here.
 			System.out.println("Should NEVER come here");
 			events.delete(user, event); 

@@ -13,6 +13,8 @@ public interface Event {
 	
 	long[] interestedDatetimes(User user);
 	long[] datetimes();
+	long[] datetimesToCome();
+	
 	Occurrence[] occurrences();
 	void addDate(long date);
 	void removeDate(long date);

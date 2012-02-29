@@ -73,26 +73,6 @@ public class InvitePresenter implements EventView.Boss {
 		setSelectedEvent(null);
 	}
 
-	private long[] onlyFutureDates(long[] dates) {
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
-		
-		List<Long> futureDates = new ArrayList<Long>();
-		
-		for (long datetime : dates) { 
-			if (datetime > twoHoursAgo)
-				futureDates.add(datetime);
-		}
-		
-		long[] ret = new long[futureDates.size()];
-	    int i=0;
-	    for (Long data : futureDates) {
-	        ret[i] = data;
-	        i++;
-	    }
-	    
-		return (long[]) ret;
-	}
-	
 	void refresh() {
 		if (selectedEvent == null) {
 			view.clear();
@@ -111,7 +91,7 @@ public class InvitePresenter implements EventView.Boss {
 			view.displayReadOnly(
 					selectedEvent.owner().email().toString(),
 					selectedEvent.description(), 
-					onlyFutureDates(selectedEvent.datetimes()),
+					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
 					selectedEvent.allResultingInvitees().size(),
 					allComments());
