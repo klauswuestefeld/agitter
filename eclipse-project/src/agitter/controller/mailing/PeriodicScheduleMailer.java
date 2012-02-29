@@ -3,6 +3,8 @@ package agitter.controller.mailing;
 import static infra.logging.LogInfra.getLogger;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -12,9 +14,7 @@ import agitter.domain.events.Event;
 import agitter.domain.users.User;
 
 public class PeriodicScheduleMailer {
-	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
-	
-	private static final int A_DAY_PLUS_TWO_HOURS = 24 + 2; //Two extra hours so that the events that are 24h and a few minutes from now get sent with enough notice time.
+
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
@@ -25,7 +25,7 @@ public class PeriodicScheduleMailer {
 			@Override
 			public void run() {
 				while(true) {
-					instance.sendEventsToHappenIn24Hours();
+					instance.sendEventsToHappenTomorrow();
 					instance.sleepHalfAnHour();
 				}
 			}
@@ -51,56 +51,65 @@ public class PeriodicScheduleMailer {
 	}
 
 
-	public void sendEventsToHappenIn24Hours() {
+	public void sendEventsToHappenTomorrow() {
 		if(!agitter.mailing().shouldSendScheduleNow()) { return; }
 		agitter.mailing().markScheduleSent();
 
-		for(User user : agitter.users().all()) { sendEventsToHappenIn24Hours(user); }
+		for(User user : agitter.users().all()) { sendEventsToHappenTomorrow(user); }
 	}
 
 
-	private void sendEventsToHappenIn24Hours(User user) {
+	private void sendEventsToHappenTomorrow(User user) {
 		try {
 			getLogger(this).info("Sending events to user: " + user);
-			tryToSendEventsToHappenIn24Hours(user);
+			tryToSendEventsToHappenTomorrow(user);
 		} catch(RuntimeException e) {
 			getLogger(this).log(Level.SEVERE, "Erro enviando email para: " + user+ "/" + user.email() + " - " + e.getMessage(), e);
 		}
 	}
 
-	private void tryToSendEventsToHappenIn24Hours(User user) {
-		if(!user.isSubscribedToEmails()) { return; }
+	private void tryToSendEventsToHappenTomorrow(User user) {
+		if(!user.isSubscribedToEmails()) return;
 		List<Event> candidateEvents = agitter.events().toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
-		if(toSend.isEmpty()) { return; }
+		if(toSend.isEmpty()) return;
 		sendTo(user, toSend);
 	}
 
-	private boolean isTimeToSendMail(Event e, long dateLimit) {
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+	private boolean isTimeToSendMail(Event e) {
+		GregorianCalendar cal = zeroHourToday();
+		cal.add(Calendar.DATE, 1);
+		long tomorrow = cal.getTimeInMillis();
+		cal.add(Calendar.DATE, 1);
+		long afterTomorrow = cal.getTimeInMillis();
 		
-		for (long datetime : e.datetimes()) { 
-			if (datetime >= twoHoursAgo && datetime <= dateLimit)
+		for (long datetime : e.datetimes()) 
+			if (datetime >= tomorrow && datetime < afterTomorrow)
 				return true;
-		}
 		
 		return false;
 	}
+
+	private GregorianCalendar zeroHourToday() {
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(Clock.currentTimeMillis());
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal;
+	}
 	
 	private List<Event> choose(List<Event> candidates) {
-		final long dateLimit = dateLimit();
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
 		for(Event e : candidates) {
-			if (!isTimeToSendMail(e, dateLimit)) { continue; }
-			if(result.size()==MAX_EVENTS_TO_SEND) { break; }
+			if (result.size() == MAX_EVENTS_TO_SEND) break;
+			if (!isTimeToSendMail(e)) continue;
 			result.add(e);
 		}
 		return result;
 	}
 
-	private long dateLimit() {
-		return Clock.currentTimeMillis()+A_DAY_PLUS_TWO_HOURS*60*60*1000;
-	}
 
 	private void sendTo(User u, List<Event> toSend) {
 		String body = formatter.format(toSend);

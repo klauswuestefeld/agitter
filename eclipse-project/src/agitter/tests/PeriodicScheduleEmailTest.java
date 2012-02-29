@@ -4,6 +4,7 @@ import static agitter.domain.emails.EmailAddress.email;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Before;
@@ -22,7 +23,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	private static final int ONE_HOUR = 1000 * 60 * 60;
 	private static final int TWO_HOURS = ONE_HOUR * 2;
 	private static final long ONE_DAY = ONE_HOUR * 24;
-	private final long startTime = fourOClockOnThursday();
+	private final long startTime = fourOClockOnWednesday();
 
 
 	@Before
@@ -33,24 +34,22 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	@Test
 	public void sendingEmailsForTomorrow() throws Refusal, IOException {
-		User leo = signup("leo");
-		User klaus = signup("klaus");
+		User fred = signup("fred");
 
-		createEvent(klaus, "event1", startTime+10L);
-		createEvent(klaus, "event2", startTime+11L);
-		createEvent(leo, "churras", startTime+11L, klaus);
-		createEvent(klaus, "event3", startTime+12L);
-		createEvent(klaus, "event4", startTime+13L);
-		createEvent(klaus, "eventNextDay", startTime+13L+TWO_HOURS+TWO_HOURS+ONE_DAY);
+		createEvent(fred, "wednesday event", date(7, 16, 0));
+		createEvent(fred, "today event", date(8, 23, 59));
+		createEvent(fred, "friday event 1", date(9, 0, 0));
+		createEvent(fred, "friday event 2", date(9, 23, 59));
+		createEvent(fred, "saturday event", date(10, 0, 0));
 
-		Clock.setForCurrentThread(startTime+11 + TWO_HOURS);
+		Clock.setForCurrentThread(date(8, 16, 0));
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 
-		assertEquals("klaus@email.com", mock.to().toString());
+		assertEquals("fred@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
-		assertContains(mock.body(), "event2", "churras", "event3", "event4");
-		assertNotContains(mock.body(), "event1", "eventNextDay");
+		assertContains(mock.body(), "friday event 1", "friday event 2");
+		assertNotContains(mock.body(), "wednesday event", "today event", "saturday event");
 	}
 
 	
@@ -69,7 +68,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	public void sendingEmailsToUnregisteredUsers() throws Refusal, IOException {
 		User matias = signup("matias");
 
-		createEvent(matias, "churras", startTime+11L, user("klaus@email.com"));
+		createEvent(matias, "churras", startTime+ONE_DAY, user("klaus@email.com"));
 		Clock.setForCurrentThread(startTime+10);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
@@ -82,7 +81,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	public void xssAttackFiltering() throws Refusal, IOException {
 		User leo = signup("leo");
 
-		createEvent(leo, "<script>", startTime+11L, user("fulano@email.com"));
+		createEvent(leo, "<script>", startTime+ONE_DAY, user("fulano@email.com"));
 		Clock.setForCurrentThread(startTime+11);
 
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
@@ -104,8 +103,8 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	@Test
 	public void onlyOnceADay() throws Refusal, IOException {
 		User leo = signup("leo");
-		createEvent(leo, "eventToday", startTime+11L);
-		createEvent(leo, "eventTomorrow", startTime+11L+ONE_DAY);
+		createEvent(leo, "eventTomorrow", startTime+ONE_DAY);
+		createEvent(leo, "eventAfterTomorrow", startTime+ONE_DAY+ONE_DAY);
 
 		long tooEarly = startTime-10;
 		Clock.setForCurrentThread(tooEarly);
@@ -135,14 +134,19 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 
-	private long fourOClockOnThursday() {
-		return new GregorianCalendar(2012, Calendar.FEBRUARY, 1, 16, 0).getTimeInMillis();
+	private long fourOClockOnWednesday() {
+		return date(7, 16, 0);
+	}
+
+
+	private long date(int dayOfMonth, int hourOfDay, int minute) {
+		return new GregorianCalendar(2012, Calendar.FEBRUARY, dayOfMonth, hourOfDay, minute).getTimeInMillis();
 	}
 
 	private EmailSenderMock sendEmailsAndCaptureLast() {
 		EmailSenderMock emailSenderMock = new EmailSenderMock();
 		PeriodicScheduleMailer daemon = new PeriodicScheduleMailer(agitter, emailSenderMock);
-		daemon.sendEventsToHappenIn24Hours();
+		daemon.sendEventsToHappenTomorrow();
 		return emailSenderMock;
 	}
 
