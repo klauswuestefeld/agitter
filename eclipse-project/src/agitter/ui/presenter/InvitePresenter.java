@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
@@ -31,7 +30,6 @@ import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
 
-	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 	private static final DateFormat COMMENTS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private final User user;

@@ -21,22 +21,14 @@ public class EventsImpl2 implements Events {
 	@Override
 	public Event create(User user, String description, long datetime) throws Refusal {
 		EventImpl2 event = new EventImpl2(getNextId(), user, description, datetime);
-		if (_all.contains(event))
-			throw new DuplicateEvent();
 		_all.add(event);
 		return event;
 	}
-
-	@Override
-	public void setDatetimes(User user, Event event, long[] datetimes) throws Refusal {
-		edit(user, event, event.description(), datetimes);
-	};
 	
 	@Override
 	public void setDescription(User user, Event event, String description) throws Refusal {
 		edit(user, event, description, event.datetimes());
 	};
-	
 	
 	private void edit(User user, Event event, String newDescription, long[] newDatetimes) throws Refusal {
 		if (!isEditableBy(user, event)) throw new IllegalStateException("Event not editable by this user.");
@@ -60,7 +52,7 @@ public class EventsImpl2 implements Events {
 	}
 
 	@Override
-	public List<Event> toHappen(User user) {
+	public List<Event> toHappen(User user) {		
 		List<Event> result = new ArrayList<Event>();
 		for(EventImpl2 e : _all) {
 			if (!willHappen(e)) continue;
