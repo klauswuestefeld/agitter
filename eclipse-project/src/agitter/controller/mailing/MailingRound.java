@@ -1,6 +1,10 @@
 package agitter.controller.mailing;
 
 import static infra.logging.LogInfra.getLogger;
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.FRIDAY;
+import static java.util.Calendar.SATURDAY;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,22 +22,26 @@ public class MailingRound {
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
-	private final EmailSender sender;
-	private final Events events;
+	private final List<User> _users;
+	private final EmailSender _sender;
+	private final Events _events;
 
-	private final EventsMailFormatter formatter = new EventsMailFormatter();
-	private final long tomorrow;
-	private final long afterTomorrow;
+	private final EventsMailFormatter _formatter = new EventsMailFormatter();
+	private final long _startTime = startTime();
+	private final long _endTime = endTime();
 
-	
+
 	MailingRound(List<User> users, Events events, EmailSender sender) {
-		this.events = events;
-		this.sender = sender;
-		
-		tomorrow = daysFromNow(1);
-		afterTomorrow = daysFromNow(2);
-		
-		for (User user : users)
+		this._users = users;
+		this._events = events;
+		this._sender = sender;
+	}
+
+
+	void start() {
+		if (isToday(SATURDAY)) return;
+
+		for (User user : this._users)
 			sendEventsToHappenTomorrow(user);
 	}
 
@@ -49,7 +57,7 @@ public class MailingRound {
 
 	private void tryToSendEventsToHappenTomorrow(User user) {
 		if (!user.isSubscribedToEmails()) return;
-		List<Event> candidateEvents = events.toHappen(user);
+		List<Event> candidateEvents = this._events.toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
 		if (toSend.isEmpty()) return;
 		sendTo(user, toSend);
@@ -57,7 +65,7 @@ public class MailingRound {
 
 	private boolean isTimeToSendMail(Event e) {
 		for (long datetime : e.datetimes()) 
-			if (datetime >= tomorrow && datetime < afterTomorrow)
+			if (datetime >= this._startTime && datetime < this._endTime)
 				return true;
 		
 		return false;
@@ -75,26 +83,50 @@ public class MailingRound {
 
 
 	private void sendTo(User u, List<Event> toSend) {
-		String body = formatter.format(toSend);
-		sender.send(u.email(), SUBJECT, body);
+		String body = this._formatter.format(toSend);
+		this._sender.send(u.email(), SUBJECT, body);
 	}
 
 	
+	private long startTime() {
+		return daysFromNow(1);
+	}
+	
+	
+	private long endTime() {
+		return isToday(FRIDAY)
+			? daysFromNow(3)
+			: daysFromNow(2);
+	}
+
+
+	private boolean isToday(int dayOfWeek) {
+		return zeroHourToday().get(DAY_OF_WEEK) == dayOfWeek;
+	}
+
+
 	private static long daysFromNow(int days) {
 		GregorianCalendar cal = zeroHourToday();
-		cal.add(Calendar.DATE, days);
+		cal.add(DATE, days);
 		return cal.getTimeInMillis();
 	}
 
 
 	private static GregorianCalendar zeroHourToday() {
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTimeInMillis(Clock.currentTimeMillis());
+		long millis = Clock.currentTimeMillis();
+		GregorianCalendar cal = asCalendar(millis);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal;
+	}
+
+
+	private static GregorianCalendar asCalendar(long millis) {
+		GregorianCalendar ret = new GregorianCalendar();
+		ret.setTimeInMillis(millis);
+		return ret;
 	}
 
 }

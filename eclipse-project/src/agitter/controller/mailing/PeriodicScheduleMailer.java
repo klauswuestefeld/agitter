@@ -32,7 +32,8 @@ public class PeriodicScheduleMailer {
 		if (!agitter.mailing().shouldSendScheduleNow()) return;
 		agitter.mailing().markScheduleSent();
 
-		new MailingRound(agitter.users().all(), agitter.events(), sender);
+		new MailingRound(agitter.users().all(), agitter.events(), sender)
+			.start();
 	}
 
 	

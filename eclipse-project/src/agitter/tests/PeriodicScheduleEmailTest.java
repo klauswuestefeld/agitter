@@ -31,23 +31,56 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 
 	@Test
-	public void sendingEmailsForTomorrow() throws Refusal, IOException {
+	public void sendingEmailReminders() throws Refusal, IOException {
 		User fred = signup("fred");
 
-		createEvent(fred, "wednesday event", date(7, 16, 0));
-		createEvent(fred, "today event", date(8, 23, 59));
-		createEvent(fred, "friday event 1", date(9, 0, 0));
-		createEvent(fred, "friday event 2", date(9, 23, 59));
-		createEvent(fred, "saturday event", date(10, 0, 0));
+		createEvent(fred, "wednesday event", date(8, 16, 0));
+		createEvent(fred, "today event", date(9, 23, 59));
+		createEvent(fred, "friday event 1", date(10, 0, 0));
+		createEvent(fred, "friday event 2", date(10, 23, 59));
+		createEvent(fred, "saturday event", date(11, 0, 0));
+		createEvent(fred, "sunday event", date(12, 0, 0));
 
-		Clock.setForCurrentThread(date(8, 16, 0));
-
+		long thursday = date(9, 16, 0);
+		Clock.setForCurrentThread(thursday);
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
-
+		
 		assertEquals("fred@email.com", mock.to().toString());
 		assertEquals("Agitos da Semana", mock.subject());
 		assertContains(mock.body(), "friday event 1", "friday event 2");
 		assertNotContains(mock.body(), "wednesday event", "today event", "saturday event");
+	}
+
+	
+	@Test
+	public void sendingEmailRemindersOnWeekends() throws Refusal, IOException {
+		User fred = signup("fred");
+
+		createEvent(fred, "friday event", date(10, 23, 59));
+		createEvent(fred, "saturday event", date(11, 0, 0));
+		createEvent(fred, "sunday event", date(12, 0, 0));
+		createEvent(fred, "monday event", date(13, 0, 0));
+
+		long friday = date(10, 16, 0);
+		Clock.setForCurrentThread(friday);
+		assertRemindersForSaturdayAndSundayAreSent();
+
+		long saturday = date(11, 16, 0);
+		Clock.setForCurrentThread(saturday);
+		assertNoRemindersAreSent();
+	}
+
+
+	private void assertRemindersForSaturdayAndSundayAreSent() {
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		assertContains(mock.body(), "saturday event", "sunday event");
+		assertNotContains(mock.body(), "friday event", "monday event");
+	}
+
+	
+	private void assertNoRemindersAreSent() {
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
+		assertNull(mock.body());
 	}
 
 	
@@ -74,6 +107,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertFragment("matias@email.com - churras", mock.body());
 	}
+	
 	
 	@Test
 	public void xssAttackFiltering() throws Refusal, IOException {
@@ -133,7 +167,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 
 	private long fourOClockOnWednesday() {
-		return date(7, 16, 0);
+		return date(8, 16, 0);
 	}
 
 
