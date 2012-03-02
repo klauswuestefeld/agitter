@@ -38,6 +38,15 @@ public class MultipleDatePopup extends CssLayout {
 	
 	private Consumer<Long> removeListener;
 	private Consumer<Long> addListener;
+
+	public class DateChanged {
+		public Long from;
+		public Long to;
+		
+		public DateChanged(Long from, Long to) { this.from = from; this.to = to;} 
+	}
+	
+	private Consumer<DateChanged> changeListener ;
 	
 	private long lastDateCache = 0; 
 	
@@ -140,8 +149,7 @@ public class MultipleDatePopup extends CssLayout {
 	}
 	
 	private void onChangeDate(long oldDate, long newDate) {
-		removeListener.consume(oldDate);
-		addListener.consume(newDate);
+		changeListener.consume(new DateChanged(oldDate, newDate));
 		
 		updateLastDateCached();
 	}
@@ -245,6 +253,11 @@ public class MultipleDatePopup extends CssLayout {
 	public void setAddListener(Consumer<Long> consumer) {
 		if (addListener != null) throw new IllegalStateException();
 		addListener = consumer;
+	}
+	
+	public void setChangeListener(Consumer<DateChanged> consumer) {
+		if (changeListener != null) throw new IllegalStateException();
+		changeListener = consumer;
 	}
 	
 	public void setInputPrompt(String prompt) {

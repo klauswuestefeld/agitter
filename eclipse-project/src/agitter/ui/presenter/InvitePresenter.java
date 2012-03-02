@@ -258,6 +258,12 @@ public class InvitePresenter implements EventView.Boss {
 		onEventDataChanged.run();
 	}
 	
+	@Override
+	public void onDateChanged(Long from, Long to) {
+		selectedEvent.changeDate(from,to);
+		onEventDataChanged.run();
+	}
+	
 	private List<String> contacts() {
 		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
 		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
