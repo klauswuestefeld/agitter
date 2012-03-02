@@ -25,4 +25,9 @@ class ContactsDemoNeeds implements Needs {
 		System.out.println("Contacts Menu");
 	}
 
+	@Override
+	public void onAccountMenu() {
+		System.out.println("Account Menu");
+	}
+
 }
