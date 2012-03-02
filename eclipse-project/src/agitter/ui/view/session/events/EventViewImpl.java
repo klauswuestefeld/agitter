@@ -305,6 +305,10 @@ class EventViewImpl extends CssLayout implements EventView {
 			if (!saveListenersActive) return;
 			boss.onDateAdded(date);
 		}});
+		multipleDate.setChangeListener(new Consumer<MultipleDatePopup.DateChanged>() { @Override public void consume(MultipleDatePopup.DateChanged dates) {
+			if (!saveListenersActive) return;
+			boss.onDateChanged(dates.from, dates.to);
+		}});
 		
 		addComponent(multipleDate); multipleDate.addStyleName("a-invite-multiply-date");
 	}

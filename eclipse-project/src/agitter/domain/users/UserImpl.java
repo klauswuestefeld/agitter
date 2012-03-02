@@ -35,6 +35,7 @@ public class UserImpl implements User {
 
 	@Override
 	public String screenName() {
+		if (name() != null) return name(); 
 		return email().toString();
 	}
 

@@ -1,5 +1,6 @@
 package agitter.ui.view.session;
 
+import agitter.ui.view.session.account.AccountView;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.events.EventsView;
 
@@ -10,6 +11,7 @@ public interface SessionView {
 		void onLogout();
 		void onEventsMenu();
 		void onContactsMenu();
+		void onAccountMenu();
 	}
 	
 	void init(Needs needs);
@@ -19,5 +21,8 @@ public interface SessionView {
 
 	ContactsView contactsView();
 	void showContactsView();
+
+	AccountView accountView();
+	void showAccountView();
 
 }

@@ -156,4 +156,10 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public void changeDate(long from, long to) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }

@@ -158,19 +158,6 @@ public class EventsPresenter implements Boss {
 					isUniqueUserInvited(event), 
 					event.isGoing(user, date),
 					event.hasIgnored(user, date)));
-
-			// This happens when changing an event with only one date. 
-			// the system removes the last date and includes a new one
-			// in the middle of these events, this function is called. 
-			if (interesting.length == 0) 
-				result.add(new EventVO(event, event.description(), 
-						0, event.owner().screenName(), 
-						events.isEditableBy(user, event),
-						event.allResultingInvitees().size(), 
-						uniqueGroupOrUserInvited(event), 
-						isUniqueUserInvited(event),
-						null,
-						true));
 			
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}

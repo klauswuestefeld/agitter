@@ -1,6 +1,9 @@
 package agitter.ui.view.session;
 
+import sneer.foundation.lang.Consumer;
 import vaadinutils.WidgetUtils;
+import agitter.ui.view.session.account.AccountView;
+import agitter.ui.view.session.account.AccountViewImpl;
 import agitter.ui.view.session.contacts.ContactsView;
 import agitter.ui.view.session.contacts.ContactsViewImpl;
 import agitter.ui.view.session.events.EventsView;
@@ -25,7 +28,8 @@ public class SessionViewImpl implements SessionView {
 	private final CssLayout mainMenu = new CssLayout();
 	private final Button events = WidgetUtils.createLinkButton("Agitos");
 	private final Button contacts = WidgetUtils.createLinkButton("Galera");
-	private final Label account = WidgetUtils.createLabel("");
+	private final Button account = WidgetUtils.createLinkButton("User Setup");
+	//private final Label account = WidgetUtils.createLabel("");
 	private final Label accountSeparator = WidgetUtils.createLabel("-");
 	private final Button logout = WidgetUtils.createLinkButton("Sair");
 	private final CssLayout mainContentWrapper = new CssLayout();
@@ -35,6 +39,7 @@ public class SessionViewImpl implements SessionView {
 	
 	private EventsView eventsView;
 	private ContactsView contactsView;
+	private AccountView accountView;
 
 	private static final String MENU_DEFAULT_STYLE = "a-session-menu-default";
 	private static final String MENU_ACTIVE_STYLE = "a-session-menu-active";
@@ -71,9 +76,14 @@ public class SessionViewImpl implements SessionView {
    		    sessionView.addComponent(fixedContentCanvas); fixedContentCanvas.addStyleName("a-session-fixed-content-canvas");
    		    	fixedContentCanvas.addComponent(fixedContentWrapper); fixedContentWrapper.addStyleName("a-session-fixed-content-wrapper");
    			
-		account.setValue(needs.userScreenName());
-
+		
+   		refreshAccountName(needs.userScreenName());
     	initListeners(needs);
+	}
+
+
+	private void refreshAccountName(String username) {
+		account.setCaption(username);
 	}
 
 
@@ -86,6 +96,9 @@ public class SessionViewImpl implements SessionView {
     	}});
     	contacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
     		needs.onContactsMenu();
+    	}});
+       	account.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+    		needs.onAccountMenu();
     	}});
 	}
 
@@ -115,8 +128,30 @@ public class SessionViewImpl implements SessionView {
 	private void highlightMenuItem(Component menuItem) {
 		events.removeStyleName(MENU_ACTIVE_STYLE);
 		contacts.removeStyleName(MENU_ACTIVE_STYLE);
+		account.removeStyleName(MENU_ACTIVE_STYLE);
 
 		menuItem.addStyleName(MENU_ACTIVE_STYLE);
+	}
+
+
+	@Override
+	public AccountView accountView() {
+		if (accountView == null) {
+			accountView = new AccountViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
+		
+			accountView().setNameListener(new Consumer<String>() { @Override public void consume(String value) {
+				refreshAccountName(value);
+			}});
+		}
+		
+		return accountView;
+	}
+
+
+	@Override
+	public void showAccountView() {
+		highlightMenuItem(account);
+		accountView().show();
 	}
 
 }

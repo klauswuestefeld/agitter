@@ -18,6 +18,7 @@ public interface Event {
 	Occurrence[] occurrences();
 	void addDate(long date);
 	void removeDate(long date);
+	void changeDate(long from, long to);
 
 	User[] invitees();
 	void addInvitee(User invitee);

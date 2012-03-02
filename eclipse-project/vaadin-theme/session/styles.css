@@ -356,7 +356,7 @@ textarea.a-new-comment {
 .a-invite-next-invitee {
 	display: inline-block;
 	overflow: hidden;
-	max-width: 380px;
+	max-width: 410px;
 }
 
 .a-invite-invitations-header {
@@ -517,6 +517,12 @@ textarea.a-new-comment {
 	margin-bottom: 14px;
 }
 
+.a-account-field-caption {
+	color: #505050;
+	font-size: 19px;
+	text-shadow: 1px 1px 1px white;
+	margin-bottom: 5px;
+}
 
 .a-contacts-groups {
 	min-height: 1200px;
