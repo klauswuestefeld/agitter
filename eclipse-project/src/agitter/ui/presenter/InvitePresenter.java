@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
@@ -87,7 +88,7 @@ public class InvitePresenter implements EventView.Boss {
 					allComments());
 		} else {
 			view.displayReadOnly(
-					selectedEvent.owner().email().toString(),
+					getOwnerPair(selectedEvent),
 					selectedEvent.description(), 
 					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
@@ -121,29 +122,38 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 
-	private List<String> sortedInviteesOf(Event event) {
-		List<String> result = sortedGroupsInviteesOf(event);
+	private List<Pair<String,String>> sortedInviteesOf(Event event) {
+		List<String> groups = sortedGroupsInviteesOf(event);
 			
-		String[] users = toStrings(event.invitees());
-		List<String> userList = Arrays.asList(users);
+		List<Pair<String,String>> userList = new ArrayList<Pair<String,String>>();
+		for (User u : event.invitees()) {
+			userList.add(new Pair<String, String>(u.email().toString(), u.name()));
+		}
+		for (String group : groups) {
+			userList.add(new Pair<String, String>(group, null));
+		}
+				
 		sortIgnoreCase(userList);
-		result.addAll(userList);
 		
-		return result;
+		return userList;
 	}
 	
 
-	private List<String> sortedKnownInviteesOf(Event event) {
-		List<String> userList = new ArrayList<String>();
-		for (User u : event.allResultingInvitees())
-			if (contacts.isMyFriend(u.email())) 
-				userList.add(u.toString());
-		userList.remove(user.email().toString());
+	private List<Pair<String,String>> sortedKnownInviteesOf(Event event) {
+		List<Pair<String,String>> userList = new ArrayList<Pair<String,String>>();
+		for (User u : event.allResultingInvitees()) {
+			if (contacts.isMyFriend(u.email()) && !u.email().equals(user.email())) {
+				userList.add(new Pair<String, String>(u.email().toString(), u.name()));	
+			}
+		}
 		
 		sortIgnoreCase(userList);
 		return userList;
 	}
 
+	private Pair<String,String> getOwnerPair(Event selectedEvent) {
+		return new Pair<String,String>(selectedEvent.owner().email().toString(), selectedEvent.owner().name());
+	}
 
 	private List<String> sortedGroupsInviteesOf(Event event) {
 		List<String> result = new ArrayList<String>();
