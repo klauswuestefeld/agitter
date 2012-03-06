@@ -17,8 +17,10 @@ public class LuceneTest extends EventsTestBase{
 
 	@Test
 	public void testSearch() throws Refusal, CorruptIndexException, LockObtainFailedException, IOException, ParseException {
+		@SuppressWarnings("unused")
 		Event firstEvent = createEvent(ana, "Festa na Casa do Paulo", 11);
 		Event secondEvent = createEvent(ana, "Festa na Casa do Pedro", 12);
+		@SuppressWarnings("unused")
 		Event thirdEvent = createEvent(ana, "Festa na Casa do Paulo V2", 13);
 
 		assertEquals(3,agitter.events().toHappen(ana).size());  
