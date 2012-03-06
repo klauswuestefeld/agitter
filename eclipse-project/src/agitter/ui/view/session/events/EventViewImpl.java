@@ -11,7 +11,6 @@ import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
-import agitter.ui.view.AgitterVaadinUtils;
 import agitter.ui.view.session.contacts.SelectableRemovablePairList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
@@ -34,11 +33,6 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label invitationsHeader = WidgetUtils.createLabel();
 	private final SelectableRemovablePairList invitations = new SelectableRemovablePairList();
 	
-	private final Label commentLabel = new Label("Comentários:"); 
-	private final TextArea comment = new TextArea();
-	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
-	private final Label commentsLabel = new Label();
-
 	private final NativeButton removeButton = new NativeButton();
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
@@ -49,6 +43,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private Boss boss;
 	private boolean saveListenersActive = false;
+
+	private final CommentsViewImpl commentsView = new CommentsViewImpl();
 
 	
 	EventViewImpl() {
@@ -66,8 +62,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(readOnlyInviteesHeader); readOnlyInviteesHeader.addStyleName("a-invite-readonly-invitees-header");
 		addComponent(readOnlyInviteesList); readOnlyInviteesList.addStyleName("a-invite-readonly-invitees-list");
 		
-		addCommentsComponents();
-
+		addComponent(commentsView);
+		
 		saveListenersActive = true;
 	}
 	
@@ -103,7 +99,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount, List<String> comments) {
+	public void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -112,7 +108,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		refreshInvitationsHeader(totalInviteesCount);
 		invitations.removeAllElements();
 		invitations.addElements(invitees);
-		refreshComments(comments);
 
 		saveListenersActive = true;
 
@@ -136,7 +131,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount, List<String> comments) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -153,17 +148,11 @@ class EventViewImpl extends CssLayout implements EventView {
 		} else {
 			readOnlyDates.setValue(dateFormat.format(new Date(datetimes[0])));
 		}
-		refreshComments(comments);
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 		displayRemovalButton(false);
 	}
 	
-	
-	@Override
-	public void refreshComments(List<String> comments) {
-		commentsLabel.setValue(comments.toString());
-	}
 	
 	private String getHTMLInvitee(String key, String value) {
 		if (value == null || value.isEmpty()) return key;
@@ -228,7 +217,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		nextInvitee.setVisible(b);
 		invitationsHeader.setVisible(b);
 		invitations.setVisible(b);
-		setVisibleCommentsView(true);
 	}
 
 	
@@ -239,15 +227,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		readOnlyOwner.setVisible(b);
 		readOnlyInviteesHeader.setVisible(b);
 		readOnlyInviteesList.setVisible(b);
-		setVisibleCommentsView(true);
 	}
 
-	private void setVisibleCommentsView(boolean visible) {
-		commentLabel.setVisible(visible);
-		comment.setVisible(visible);
-		commentButton.setVisible(visible);
-		commentsLabel.setVisible(visible);
-	}
 	
 	private void addNextInviteeComponent() {
 		nextInvitee.setInputPrompt("Digite um grupo, email ou cole vários emails para convidar");
@@ -270,24 +251,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(invitations); invitations.addStyleName("a-invite-invitations");
 	}
 	
-	private void addCommentsComponents() {
-		if(COMMENTS_ENABLED) addComponent(commentLabel);
-		
-		comment.setNullRepresentation("");
-		comment.setInputPrompt("O que Achou?");
-		comment.setSizeUndefined();
-		if(COMMENTS_ENABLED) addComponent(comment);
-		comment.addStyleName("a-new-comment");
-		
-		commentButton.addStyleName("a-comment-post-ignored");
-		if(COMMENTS_ENABLED) addComponent(commentButton);
-		commentButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			boss.onCommentPosted((String)comment.getValue());
-			comment.setValue("");
-		}});
-		
-		if(COMMENTS_ENABLED) addComponent(commentsLabel);
-	}
 	
 	private void addDescriptionComponent() {
 		description.setNullRepresentation("");
@@ -329,6 +292,12 @@ class EventViewImpl extends CssLayout implements EventView {
 		}});
 		removeButton.setVisible(false);
 		addComponent(removeButton); removeButton.addStyleName("a-default-nativebutton"); 
+	}
+
+	
+	@Override
+	public CommentsView commentsView() {
+		return commentsView;
 	}
 
 }

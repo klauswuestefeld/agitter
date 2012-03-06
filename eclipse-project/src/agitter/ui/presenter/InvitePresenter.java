@@ -4,11 +4,8 @@ import static infra.util.ToString.sortIgnoreCase;
 import static infra.util.ToString.toStrings;
 import infra.util.ToString;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -16,7 +13,6 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
@@ -31,12 +27,9 @@ import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
 
-	private static final DateFormat COMMENTS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	
 	private final User user;
 	private final ContactsOfAUser contacts;
 	private final Events events;
-	private final Comments comments;
 	private final Consumer<String> warningDisplayer;
 	private final Functor<EmailAddress, User> userProducer;
 	private final EventView view;
@@ -45,12 +38,13 @@ public class InvitePresenter implements EventView.Boss {
 
 	private Event selectedEvent = null;
 
+	private final CommentsPresenter commentsPresenter;
+
 	
 	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onEventDataChanged) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
-		this.comments = comments;
 		this.userProducer = userProducer;
 		this.view = view;
 		this.warningDisplayer = warningDisplayer;
@@ -58,8 +52,10 @@ public class InvitePresenter implements EventView.Boss {
 
 		this.view.startReportingTo(this);
 		
+		this.commentsPresenter = new CommentsPresenter(user, comments, this.view.commentsView());
+		
 		refreshContactsToChoose();
-		refresh();
+		clear();
 	}
 
 	void setSelectedEvent(Event event) {
@@ -73,6 +69,8 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 	void refresh() {
+		commentsPresenter.setObject(selectedEvent);
+
 		if (selectedEvent == null) {
 			view.clear();
 			return;
@@ -84,36 +82,15 @@ public class InvitePresenter implements EventView.Boss {
 					//onlyFutureDates(selectedEvent.datetimes()),
 					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size(),
-					allComments());
+					selectedEvent.allResultingInvitees().size());
 		} else {
 			view.displayReadOnly(
 					getOwnerPair(selectedEvent),
 					selectedEvent.description(), 
 					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size(),
-					allComments());
+					selectedEvent.allResultingInvitees().size());
 		}
-	}
-
-	private boolean commentsEnabled() {
-		return EventView.COMMENTS_ENABLED;
-	}
-	private List<String> allComments() {
-		if(!commentsEnabled() || selectedEvent==null) 
-			return new ArrayList<String>();
-		
-		List<Comment> commentsFor = comments.commentsFor(selectedEvent);
-		List<String> ret = new ArrayList<String>();
-		for(Comment c: commentsFor) {
-			ret.add( formatComment(c) );
-		}
-		return ret;
-	}
-	
-	private String formatComment(Comment comment) {
-		return "Em " + COMMENTS_DATE_FORMAT.format(new Date(comment.creationDatetime())) + " " + comment.owner().email() + " disse: " + comment.text() + "\n";
 	}
 
 
@@ -280,12 +257,6 @@ public class InvitePresenter implements EventView.Boss {
 		return contactsAndGroups;
 	}
 	
-	@Override
-	public void onCommentPosted(String comment) {
-		comments.commentOn(selectedEvent, user, comment);
-		refresh();
-	}
-
 
 	@Override
 	public void onEventRemoved() {
@@ -300,14 +271,12 @@ public class InvitePresenter implements EventView.Boss {
 		}
 
 		clear();
-		refresh();
 		onEventDataChanged.run();
 	}
 	
 	
 	void periodicRefresh() {
-		if(selectedEvent != null)
-			view.refreshComments(allComments());
+		commentsPresenter.periodicRefresh();
 	}
 
 }
