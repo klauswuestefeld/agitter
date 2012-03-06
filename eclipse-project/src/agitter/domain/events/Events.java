@@ -21,5 +21,6 @@ public interface Events {
 	
 	@Deprecated
 	void setLastId(long nextId);
+	Event get(long eventId);
 
 }

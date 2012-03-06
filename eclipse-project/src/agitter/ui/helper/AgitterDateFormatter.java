@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AgitterDateFormatter {
-	static private final DateFormat dateFormat = new SimpleDateFormat("EEEE, dd/MM/yyyy HH:mm", new Locale("pt","br"));
+	static private final DateFormat dateFormat = new SimpleDateFormat("EEEE, dd/MMM/yyyy HH:mm", new Locale("pt","br"));
 
 	public AgitterDateFormatter() {
 		

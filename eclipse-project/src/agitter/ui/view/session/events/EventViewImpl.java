@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.MultipleDatePopup;
@@ -11,7 +12,7 @@ import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.AgitterVaadinUtils;
-import agitter.ui.view.session.contacts.SelectableRemovableElementList;
+import agitter.ui.view.session.contacts.SelectableRemovablePairList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
@@ -31,7 +32,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final TextArea description = new TextArea();
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final Label invitationsHeader = WidgetUtils.createLabel();
-	private final SelectableRemovableElementList invitations = new SelectableRemovableElementList();
+	private final SelectableRemovablePairList invitations = new SelectableRemovablePairList();
 	
 	private final Label commentLabel = new Label("Comentários:"); 
 	private final TextArea comment = new TextArea();
@@ -42,7 +43,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
-	private final Label readOnlyOwner = WidgetUtils.createLabel();
+	private final Label readOnlyOwner = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyInviteesHeader = WidgetUtils.createLabelXHTML("");
 	private final Label readOnlyInviteesList = WidgetUtils.createLabelXHTML("");
 	
@@ -102,7 +103,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount, List<String> comments) {
+	public void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount, List<String> comments) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -135,7 +136,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount, List<String> comments) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount, List<String> comments) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -164,9 +165,16 @@ class EventViewImpl extends CssLayout implements EventView {
 		commentsLabel.setValue(comments.toString());
 	}
 	
+	private String getHTMLInvitee(String key, String value) {
+		if (value == null || value.isEmpty()) return key;
+		
+		return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
+		       "<span class='a-remov-elem-list-element-key'>" + key + "</span>"; 
+	}
 	
-	private void displayReadOnlyInvitees(String owner, List<String> knownInvitees, int totalInviteesCount) {
-		readOnlyOwner.setValue(owner);
+	private void displayReadOnlyInvitees(Pair<String,String> owner, List<Pair<String,String>> knownInvitees, int totalInviteesCount) {
+		//readOnlyOwner.setValue(owner.b != null ? owner.b : owner.a);
+		readOnlyOwner.setValue(getHTMLInvitee(owner.a,owner.b));
 		
 		StringBuffer header;
 
@@ -179,8 +187,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		if (knownInvitees.size() > 0) {
 			header.append(":" );
 			list.append("<ul>");
-			for (String invitee: knownInvitees)
-				list.append("<li>" + invitee + "</li>");
+			for (Pair<String,String> invitee: knownInvitees)
+				list.append("<li>" + getHTMLInvitee(invitee.a, invitee.b) + "</li>");
 
 			list.append("<li>você</li>");
 
@@ -206,10 +214,10 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 	
 
-	private boolean onNextInvitee(String invitee) {
-		boolean result = boss.approveInviteesAdd(invitee);
+	private boolean onNextInvitee(String key) {
+		boolean result = boss.approveInviteesAdd(key);
 		if (result)
-			invitations.addElement(invitee);
+			invitations.addElement(key, "");
 		return result;
 	}
 	

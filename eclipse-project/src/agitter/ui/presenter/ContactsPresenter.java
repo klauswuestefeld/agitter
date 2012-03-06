@@ -8,6 +8,7 @@ import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
@@ -103,10 +104,16 @@ public class ContactsPresenter {
 			memberUsers = groupSelected.immediateMembers();
 			subgroups = groupSelected.immediateSubgroups();
 		}	
-		List<String> members = toStrings(subgroups);
-		members.addAll(toStrings(memberUsers));
 		
-		view.setMembers(members);
+		List<Pair<String,String>> userList = new ArrayList<Pair<String,String>>();
+		for (User u : memberUsers) {
+			userList.add(new Pair<String, String>(u.email().toString(), u.name()));
+		}
+		for (Group group : subgroups) {
+			userList.add(new Pair<String, String>(group.name(), null));
+		}
+		
+		view.setMembers(userList);
 	}
 
 	

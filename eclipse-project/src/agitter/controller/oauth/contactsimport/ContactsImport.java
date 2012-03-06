@@ -46,11 +46,31 @@ public class ContactsImport extends Thread {
 		if (candidate.getEmail() == null) return null;
 		try {
 			EmailAddress email = EmailAddress.email(candidate.getEmail());
-			return userProducer.evaluate(email);
+			User u = userProducer.evaluate(email);
+			
+			if (u != null) 
+				u.setName(getName(candidate));
+			
+			return u;
 		} catch (Refusal e) {
 			LogInfra.getLogger(this).warning("Illegal email address being imported: " + candidate.getEmail());
 			return null;
 		}
+	}
+	
+	public String getName(Contact candidate) {
+		String name = "";
+		
+		if (candidate.getFirstName() != null)
+			name = candidate.getFirstName() + " ";
+		
+		if (candidate.getLastName() != null) 
+			name = name + candidate.getLastName();
+		
+		if (name.trim().equals(""))
+			return null;
+		
+		return name.trim();
 	}
 
 }

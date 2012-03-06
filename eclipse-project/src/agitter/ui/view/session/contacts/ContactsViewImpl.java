@@ -4,6 +4,7 @@ package agitter.ui.view.session.contacts;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.WidgetUtils;
@@ -25,7 +26,7 @@ public class ContactsViewImpl implements ContactsView {
 	private final ComponentContainer fixedContainer;
 
 	private final SelectableRemovableElementList groupList = new SelectableRemovableElementList();
-	private final SelectableRemovableElementList memberList = new SelectableRemovableElementList();
+	private final SelectableRemovablePairList memberList = new SelectableRemovablePairList();
 
 	private final TextField newGroup = new TextField();
 	private final ValueChangeListener newGroupListener;
@@ -125,7 +126,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembers(List<String> memberNames) {
+	public void setMembers(List<Pair<String,String>> memberNames) {
 		memberList.removeAllElements();
 		memberList.addElements(memberNames);
 	}

@@ -2,6 +2,8 @@ package agitter.ui.view.session.events;
 
 import java.util.List;
 
+import sneer.foundation.lang.Pair;
+
 
 public interface EventView {
 	
@@ -23,11 +25,11 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, long[] datetimes, List<String> invitees, int totalInviteesCount, List<String> comments);
+	void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount, List<String> comments);
 	void refreshInviteesToChoose(List<String> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(String owner, String description, long[] datetimes, List<String> knownInvitees, int totalInviteesCount, List<String> comments);
+	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount, List<String> comments);
 	
 	void refreshComments(List<String> comments);
 }

@@ -384,6 +384,17 @@ textarea.a-new-comment {
 	white-space: nowrap;
 }
 
+.a-remov-elem-list-element-value {
+
+}
+
+.a-remov-elem-list-element-key {
+	font-size: 12px;
+	margin-left: 12px;
+	color: #999;
+	font-weight: normal;
+}
+
 .a-remov-date-list-element {
 	margin-bottom: 5px;
 	max-width: 200px;

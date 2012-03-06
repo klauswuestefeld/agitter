@@ -96,4 +96,14 @@ public class EventsImpl2 implements Events {
 	public void setLastId(long lastId) {
 		this.lastId = lastId;
 	}
+
+	@Override
+	public Event get(long eventId) {
+		for (Event e: _all) {
+			if (e.getId() == eventId) {
+				return e;
+			}
+		}
+		return null;
+	}
 }
