@@ -7,10 +7,10 @@ import java.io.InputStream;
 import org.junit.Test;
 import org.prevayler.foundation.serialization.XStreamSerializer;
 
-import com.thoughtworks.xstream.converters.ConversionException;
-
 import sneer.foundation.testsupport.CleanTestBase;
 import agitter.main.XStreamSafeSerializer;
+
+import com.thoughtworks.xstream.converters.ConversionException;
 
 public class XStreamSafeSerializerTest extends CleanTestBase {
 
