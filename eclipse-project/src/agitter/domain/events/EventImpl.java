@@ -98,12 +98,6 @@ public class EventImpl implements Event {
 
 
 	@Override
-	public void setId(long id) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-
-	@Override
 	public Occurrence[] occurrences() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}

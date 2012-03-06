@@ -158,21 +158,6 @@ public class EventsTest extends EventsTestBase {
 	}
 	
 	@Test
-	public void eventIdMigration() throws Refusal {
-		Event event1 = createEvent(ana, "D1", 11);
-		Event event2 = createEvent(ana, "D2", 12);
-		Event event3 = createEvent(ana, "D3", 13);
-		subject.setLastId(0);
-		event1.setId(0);
-		event2.setId(0);
-		event3.setId(0);
-		agitter.migrateSchemaIfNecessary();
-		assertTrue(0 < event2.getId());
-		assertTrue(event1.getId() < event2.getId());
-		assertTrue(event2.getId() < event3.getId());
-	}
-	
-	@Test
 	public void testDecisions() throws Refusal {
 		Event party = createEvent(ana, "Party at home", 1000);
 		

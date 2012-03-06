@@ -30,14 +30,9 @@ public interface Event {
 	void notInterested(User user);
 	void notInterested(User user, long date);
 
-	
-
 	List<User> allResultingInvitees();
-	
-	@Deprecated
+
 	long getId();
-	@Deprecated
-	void setId(long id);
 
 	void going(User user, long date);
 	void notGoing(User user, long date);

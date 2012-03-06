@@ -12,8 +12,7 @@ import agitter.domain.users.User;
 public class EventsImpl2 implements Events {
 	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
 	
-//	@SuppressWarnings("unused") @Deprecated transient private long nextId; //2011-10-19
-	private long lastId = 0; //2011-02-16
+	private long lastId = 0;
 	
 	//Vitor: Important, don't assume _all is sorted by date. Multiple dates had broken this logic! 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
@@ -81,20 +80,12 @@ public class EventsImpl2 implements Events {
 		for (Event e : _all) {
 			EventImpl2 impl2 = (EventImpl2) e;
 			impl2.migrateSchemaIfNecessary();
-			if(impl2.getId() <= 0)
-				impl2.setId(getNextId());
 		}
 		
 	}
 	
 	private long getNextId() {
 		return ++lastId;
-	}
-
-	@Deprecated
-	@Override
-	public void setLastId(long lastId) {
-		this.lastId = lastId;
 	}
 
 	@Override

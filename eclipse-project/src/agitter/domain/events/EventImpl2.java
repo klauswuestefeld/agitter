@@ -15,8 +15,7 @@ public class EventImpl2 implements Event {
 	private static final long ONE_HOUR = 1000 * 60 * 60;
 	private static final long TWO_HOURS = ONE_HOUR * 2;
 
-//	@SuppressWarnings("unused")	@Deprecated transient private long id; //2011-10-19
-	private long id; //2011-02-16 - Change to final after schema migration
+	private final long id;
 
 	final private User _owner;
 	private String _description;
@@ -287,18 +286,11 @@ public class EventImpl2 implements Event {
 		}
 	}
 	
-	@Deprecated
 	@Override
 	public long getId() {
 		return id;
 	}
 	
-	@Deprecated
-	@Override
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	// TODO: this is a mess.
 	@Override
 	public long[] interestedDatetimes(User user) {
