@@ -65,7 +65,10 @@ public class ContactsImport extends Thread {
 			name = candidate.getFirstName() + " ";
 		
 		if (candidate.getLastName() != null) 
-			name = candidate.getLastName();
+			name = name + candidate.getLastName();
+		
+		if (name.trim().equals(""))
+			return null;
 		
 		return name.trim();
 	}
