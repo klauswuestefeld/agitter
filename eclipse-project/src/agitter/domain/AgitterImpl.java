@@ -24,10 +24,6 @@ public class AgitterImpl implements Agitter {
 	 }
 
 	  
-	@SuppressWarnings("unused")
-	@Deprecated //2011-08-12 Transient 2011-09-06
-	private transient final Contacts contacts = new agitter.domain.contacts.ContactsImpl();
-
 	private final Users users = new UsersImpl();
 	private Contacts contacts2 = new ContactsImpl2();
 	private Events events2 = new EventsImpl2();
