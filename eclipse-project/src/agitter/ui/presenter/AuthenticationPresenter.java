@@ -4,11 +4,14 @@ import static agitter.domain.emails.EmailAddress.email;
 import infra.logging.LogInfra;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.Encoders;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.ForgotPasswordMailSender;
 import agitter.controller.mailing.SignupEmailController;
@@ -20,6 +23,9 @@ import agitter.ui.view.authentication.LoginView;
 import agitter.ui.view.authentication.SignupView;
 
 public class AuthenticationPresenter {
+
+	private static final Functor<String, byte[]> HMAC = Encoders.hmacForKey("QqCoisa7@(*");
+	private static final Random RANDOM = new Random();
 
 	private final Users users;
 	private final AuthenticationView authenticationView;
@@ -203,12 +209,20 @@ public class AuthenticationPresenter {
 	private void tryToSendPassword() throws Refusal {
 		User user = users.findByEmail(email(authenticationView.email()));
 		if (!user.hasSignedUp()) throw new Refusal("Usuário não cadastrado.");
+
+		String newPassword = generatePassword();
 		try {
-			ForgotPasswordMailSender.send(emailSender, user.email(), user.password());
+			ForgotPasswordMailSender.send(emailSender, user.email(), newPassword);
 		} catch (IOException e) {
 			LogInfra.getLogger(this).severe("Erro enviando senha para usuario: " + user.email() + " - " + e.getMessage());
 			throw new Refusal("Não foi possível enviar seu email. Tente novamente mais tarde.");
 		}
+		user.setPassword(newPassword);
+	}
+
+	
+	private String generatePassword() {
+		return Encoders.toHex(HMAC.evaluate(System.nanoTime()+""+RANDOM.nextLong())).substring(0, 10);
 	}
 
 	

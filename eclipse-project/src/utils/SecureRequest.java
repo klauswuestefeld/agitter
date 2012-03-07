@@ -3,10 +3,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
 
 public abstract class SecureRequest {
 
+	private static final Functor<String, byte[]> HMAC = Encoders.hmacForKey("QualquerSenHa764");
+	
 	private String params = "";
 	
 	public String asSecureURI() {
@@ -22,7 +25,7 @@ public abstract class SecureRequest {
 	
 	protected String securityCode() {
 		String input = asURI();
-		return new Encoder().computeHmac("QualquerSenha764", input);
+		return Encoders.toHex(HMAC.evaluate(input));
 	}
 
 	

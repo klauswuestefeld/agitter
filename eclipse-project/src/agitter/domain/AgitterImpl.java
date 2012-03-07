@@ -49,6 +49,8 @@ public class AgitterImpl implements Agitter {
 		((EventsImpl2)events2).migrateSchemaIfNecessary();
 		
 		if (comments == null) comments = new CommentsImpl(); //2012-03-06 Make comments final, after migration. Klaus.
-	}
+
+		((UsersImpl)users).migrateSchemaIfNecessary();
+}
 	
 }

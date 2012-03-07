@@ -4,16 +4,16 @@ import agitter.domain.emails.EmailAddress;
 
 public interface User {
 
-	public String name();
-	public void setName(String name);
-	public EmailAddress email();
-	public String screenName();
+	String name();
+	void setName(String name);
+	EmailAddress email();
+	String screenName();
 
 	boolean hasSignedUp();
-	public String password();
-	public boolean isPasswordCorrect(String passwordAttempt);
+	boolean isPasswordCorrect(String passwordAttempt);
+	void setPassword(String newPassword);
 
-	public boolean isSubscribedToEmails();
-	public void setSubscribedToEmails(boolean interested);
+	boolean isSubscribedToEmails();
+	void setSubscribedToEmails(boolean interested);
 
 }

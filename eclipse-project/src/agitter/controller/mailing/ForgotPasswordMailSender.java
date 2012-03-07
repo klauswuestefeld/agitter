@@ -6,10 +6,11 @@ import agitter.domain.emails.EmailAddress;
 
 public class ForgotPasswordMailSender {
 
-	private static final String SUBJECT = "Lembrete de Senha";
+	private static final String SUBJECT = "Sua Nova Senha";
 	private static final String BODY =
-		"Você solicitou que nós enviássemos sua senha.<br />" +
-		"Sua senha é: %PASSWORD% <br/><br/>" +
+		"Você solicitou uma nova senha para o Agitter.<br />" +
+		"Sua nova senha é: %PASSWORD% <br/><br/>" +
+		"Você pode alterá-la nas configurações, depois de fazer o login.<br/><br/>" +
 		"<a href=\"http://agitter.com\">Agitter</a><br /><br />" +
 		"Bons agitos,<br />Equipe Agitter.";
 

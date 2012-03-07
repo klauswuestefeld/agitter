@@ -76,7 +76,9 @@ public class UsersImpl implements Users {
 
 	@Override
 	public User searchByEmail(EmailAddress email) {
-		for(User candidate : users) { if(candidate.email().equals(email)) { return candidate; } }
+		for (User candidate : users)
+			if (candidate.email().equals(email))
+				return candidate;
 		return null;
 	}
 
@@ -151,6 +153,12 @@ public class UsersImpl implements Users {
 		} catch(Refusal refusal) {
 			throw new UserNotFound("Usuário não encontrado: " + email);
 		}
+	}
+
+
+	public void migrateSchemaIfNecessary() {
+		for(User user : users)
+			((UserImpl)user).migrateSchemaIfNecessary();
 	}
 
 }

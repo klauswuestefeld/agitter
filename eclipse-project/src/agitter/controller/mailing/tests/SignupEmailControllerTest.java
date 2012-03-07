@@ -31,7 +31,7 @@ public class SignupEmailControllerTest extends TestWithMocks {
 		checking(new Expectations(){{
 			exactly(1).of(users).signup(email("ana@mail.com"), "password123");
 		}});
-		Map<String, String[]> params = map("email", "ana@mail.com", "code", "E752D24A27601AA686AFEDA0D3991CA35C99E062CFA929B030ED8F2E473010D0");  //Obtained by Regression
+		Map<String, String[]> params = map("email", "ana@mail.com", "code", "5CBDF90FAD3E408C93E08F697696CA8A3AC88DC6BB11A7918C4CB31FD5905798");  //Obtained by Regression
 		subject.onRestInvocation(params);
 	}
 

@@ -1,22 +1,33 @@
 package utils;
 
-import org.junit.Assert;
+import java.util.Arrays;
+
 import org.junit.Test;
 
-public class EncoderTest extends Assert {
+import sneer.foundation.lang.Functor;
+import sneer.foundation.testsupport.CleanTestBase;
+
+public class EncoderTest extends CleanTestBase {
+
+	Functor<String, byte[]> hmac1 = Encoders.hmacForKey("111");
+	Functor<String, byte[]> hmac1b = Encoders.hmacForKey("111");
+	Functor<String, byte[]> hmac2 = Encoders.hmacForKey("222");
 
 	@Test
 	public void hmacShouldBeConsistent() {
-		assertEquals(new Encoder().computeHmac("agitter", "abcdef"),new Encoder().computeHmac("agitter", "abcdef"));
+		assertArrayEquals(hmac1.evaluate("abc"), hmac1.evaluate("abc"));
+		assertArrayEquals(hmac1.evaluate("abc"), hmac1b.evaluate("abc"));
 	}
+	
 	
 	@Test
 	public void differentKeysShouldLeadToDifferentResults() {
-		assertFalse(new Encoder().computeHmac("klaus", "abcdef").equals(new Encoder().computeHmac("vitor", "abcdef")));
+		assertFalse(Arrays.equals(hmac1.evaluate("abc"), hmac2.evaluate("abc")));
 	}
+	
 	
 	@Test
 	public void differentInputsShouldLeadToDifferentResults() {
-		assertFalse(new Encoder().computeHmac("klaus", "ab").equals(new Encoder().computeHmac("klaus", "abc")));
+		assertFalse(Arrays.equals(hmac1.evaluate("abc"), hmac1.evaluate("def")));
 	}
 }
