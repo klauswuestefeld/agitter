@@ -14,6 +14,7 @@ class CommentsPresenter implements CommentsView.Boss {
 	private Object object;
 
 	CommentsPresenter(User user, Comments comments, CommentsView view) {
+		if (comments == null) throw new IllegalStateException();
 		this.user = user;
 		this.comments = comments;
 		this.view = view;
