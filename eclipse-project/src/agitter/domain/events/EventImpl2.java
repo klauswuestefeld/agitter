@@ -294,7 +294,8 @@ public class EventImpl2 implements Event {
 	// TODO: this is a mess.
 	@Override
 	public long[] interestedDatetimes(User user) {
-		// TWO hours ago mesmo na lista? 
+		// TWO hours ago mesmo na lista? Vitor.
+		// Sim. Klaus.
 		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
 		
 		List<Long> interesting = new ArrayList<Long>(); 
