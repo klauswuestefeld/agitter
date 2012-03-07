@@ -1,37 +1,40 @@
 
 package agitter.domain.comments;
 
-import static infra.util.Collections.copy;
+import static infra.util.Collections.append;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.Producer;
 import agitter.domain.users.User;
 
 public class CommentsImpl implements Comments {
 	
-	private static final Producer<List<Comment>> NEW_COMMENT_LIST = new Producer<List<Comment>>() { @Override public List<Comment> produce() {
-		return new ArrayList<Comment>(0);
-	}};
+	private static final Comment[] NO_COMMENTS = new Comment[0];
+	
+	private final Map<Object, Comment[]> commentsByObject = new HashMap<Object, Comment[]>();
 
-	private final CacheMap<Object, List<Comment>> commentsByEvent = CacheMap.newInstance();
-
+	
 	@Override
-	public List<Comment> commentsFor(Object thing) {
-		return copy(mutableCommentsFor(thing));
+	public Comment[] commentsFor(Object thing) {
+		Comment[] ret = originalComments(thing);
+		return Arrays.copyOf(ret, ret.length);
 	}
 
+	
 	@Override
 	public void commentOn(Object thing, User author, String text) {
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
-		mutableCommentsFor(thing).add(comment);
+		Comment[] newComments = append(originalComments(thing), comment);
+		commentsByObject.put(thing, newComments);
 	}
 	
-	private List<Comment> mutableCommentsFor(Object thing) {
-		return commentsByEvent.get(thing, NEW_COMMENT_LIST);
+	
+	private Comment[] originalComments(Object thing) {
+		Comment[] ret = commentsByObject.get(thing);
+		return ret == null ? NO_COMMENTS : ret;
 	}
 
 }

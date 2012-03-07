@@ -21,7 +21,7 @@ public class CommentsTest extends EventsTestBase {
 	@Test
 	public void newEventHasNoComments() throws Refusal {
 		Event party = createEvent(ana, "Party at home", 1000);
-		assertTrue(comments.commentsFor(party).isEmpty());
+		assertEquals(0, comments.commentsFor(party).length);
 	}
 	
 	

@@ -19,9 +19,16 @@ class BubbleProxy implements InvocationHandler {
 	private static final CacheMap<Object, Object> _proxiesByObject = CacheMap.newInstance();
 	
 	public static <T> T wrapped(final Object object, final ProducerX<Object, ? extends Exception> path) {
+		checkDoubleWrapping(object);
 		return (T)_proxiesByObject.get(object, new Producer<Object>() { @Override public Object produce() {
 			return newProxyFor(object, path);
 		}});
+	}
+
+
+	private static void checkDoubleWrapping(final Object object) {
+		if (Proxy.isProxyClass(object.getClass()))
+			throw new IllegalStateException("Object being wrapped again. Domain might have returned a mutable collection or array instead of a copy.");
 	}
 
 

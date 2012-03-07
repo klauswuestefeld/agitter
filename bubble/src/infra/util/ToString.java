@@ -12,23 +12,36 @@ public class ToString {
 	}};
 
 
-	public static boolean containsToString(Iterable<?> iterable, Object toCompare) {
-		return searchToString(iterable, toCompare) != null;
+	public static boolean containsToString(Iterable<?> candidates, Object toMatch) {
+		return searchToString(candidates, toMatch) != null;
 	}
 
 
-	public static <T> T findToString(Iterable<T> iterable, Object toCompare) {
-		T result = searchToString(iterable, toCompare);
+	public static <T> T findToString(Iterable<T> candidates, Object toMatch) {
+		T result = searchToString(candidates, toMatch);
 		if (result == null)
-			throw new IllegalStateException("'" + toCompare + "' not found serching by all elements toString()");
+			throw new IllegalStateException("'" + toMatch + "' not found serching by all elements toString()");
+		return result;
+	}
+	public static <T> T findToString(T[] candidates, Object toMatch) {
+		T result = searchToString(candidates, toMatch);
+		if (result == null)
+			throw new IllegalStateException("'" + toMatch + "' not found serching by all elements toString()");
 		return result;
 	}
 
 
-	private static <T> T searchToString(Iterable<T> iterable, Object toCompare) {
-		String toString = toCompare.toString();
-		for (T obj : iterable)
-			if (obj.toString().equalsIgnoreCase(toString ))
+	private static <T> T searchToString(Iterable<T> candidates, Object toMatch) {
+		String s = toMatch.toString();
+		for (T obj : candidates)
+			if (obj.toString().equalsIgnoreCase(s))
+				return obj;
+		return null;
+	}
+	private static <T> T searchToString(T[] candidates, Object toMatch) {
+		String s = toMatch.toString();
+		for (T obj : candidates)
+			if (obj.toString().equalsIgnoreCase(s))
 				return obj;
 		return null;
 	}
