@@ -54,7 +54,7 @@ public class MailingRound {
 	}
 
 	private void tryToSendRemindersTo(User user) {
-		if (!user.isSubscribedToEmails()) return;
+		if (user.hasUnsubscribedFromEmails()) return;
 		List<Event> candidateEvents = this._events.toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
 		if (toSend.isEmpty()) return;

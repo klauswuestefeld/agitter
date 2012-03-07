@@ -16,7 +16,7 @@ public class UserImpl implements User {
 	@Deprecated	private String password = OLD_PASSWORD_FOR_MIGRATION_TEST; //Deprecated 2012-03-07 Klaus
 	@Deprecated public static String OLD_PASSWORD_FOR_MIGRATION_TEST; //Deprecated 2012-03-07 Klaus
 	private byte[] passwordHash;
-	private boolean isSubscribedToEmails = true;
+	private boolean hasUnsubscribedFromEmails = false;
 
 	public UserImpl(EmailAddress email, String password) {
 		this.email = email;
@@ -42,8 +42,8 @@ public class UserImpl implements User {
 	}
 
 	
-	@Override public boolean isSubscribedToEmails() { return isSubscribedToEmails; }
-	@Override public void setSubscribedToEmails(boolean subscribed) { isSubscribedToEmails = subscribed; }
+	@Override public boolean hasUnsubscribedFromEmails() { return hasUnsubscribedFromEmails; }
+	@Override public void setUnsubscribedFromEmails(boolean unsubscribed) { hasUnsubscribedFromEmails = unsubscribed; }
 
 
 	@Override

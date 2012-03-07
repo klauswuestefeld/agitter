@@ -13,7 +13,7 @@ public interface User {
 	boolean isPasswordCorrect(String passwordAttempt);
 	void setPassword(String newPassword);
 
-	boolean isSubscribedToEmails();
-	void setSubscribedToEmails(boolean interested);
+	boolean hasUnsubscribedFromEmails();
+	void setUnsubscribedFromEmails(boolean interested);
 
 }

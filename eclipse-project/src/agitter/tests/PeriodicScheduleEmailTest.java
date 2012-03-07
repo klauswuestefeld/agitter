@@ -151,7 +151,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	}
 
 	@Test
-	public void notInterestedInPublicEvents() throws Refusal, IOException {
+	public void unsubscribe() throws Refusal, IOException {
 		User leo = signup("leo");
 		createEvent(leo, "eventToday", startTime+11L);
 		createEvent(leo, "eventTomorrow", startTime+11L+ONE_DAY);
@@ -159,7 +159,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		Clock.setForCurrentThread(startTime);
 		assertNotNull(sendEmailsAndCaptureLast().to());
 
-		leo.setSubscribedToEmails(false);
+		leo.setUnsubscribedFromEmails(true);
 
 		Clock.setForCurrentThread(Clock.currentTimeMillis()+ONE_DAY);
 		assertNull(sendEmailsAndCaptureLast().to());
