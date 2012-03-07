@@ -14,7 +14,7 @@ import agitter.domain.users.User;
 public class CommentsImpl implements Comments {
 	
 	private static final Producer<List<Comment>> NEW_COMMENT_LIST = new Producer<List<Comment>>() { @Override public List<Comment> produce() {
-		return new ArrayList<Comment>();
+		return new ArrayList<Comment>(0);
 	}};
 
 	private final CacheMap<Object, List<Comment>> commentsByEvent = CacheMap.newInstance();
