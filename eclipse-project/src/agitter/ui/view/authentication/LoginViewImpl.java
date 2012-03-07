@@ -56,7 +56,7 @@ public class LoginViewImpl implements LoginView {
 	
 	@Override
 	public String password() {
-		return (String)password.getValue(); 
+		return ((String)password.getValue()).trim();
 	}
 
 	
