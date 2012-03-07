@@ -22,48 +22,46 @@ public class MailingRound {
 	private static final int MAX_EVENTS_TO_SEND = 5;
 	private static final String SUBJECT = "Agitos da Semana";
 
-	private final List<User> _users;
 	private final EmailSender _sender;
 	private final Events _events;
 
 	private final EventsMailFormatter _formatter = new EventsMailFormatter();
-	private final long _startTime = startTime();
+	private final long _startTime = daysFromNow(1);
 	private final long _endTime = endTime();
 
 
-	MailingRound(List<User> users, Events events, EmailSender sender) {
-		this._users = users;
+	MailingRound(Events events, EmailSender sender) {
 		this._events = events;
 		this._sender = sender;
 	}
 
 
-	void start() {
+	void sendRemindersTo(Iterable<User> users) {
 		if (isToday(SATURDAY)) return;
 
-		for (User user : this._users)
-			sendEventsToHappenTomorrow(user);
+		for (User user : users)
+			sendRemindersTo(user);
 	}
 
 
-	private void sendEventsToHappenTomorrow(User user) {
+	private void sendRemindersTo(User user) {
 		try {
 			getLogger(this).info("Sending events to user: " + user);
-			tryToSendEventsToHappenTomorrow(user);
+			tryToSendRemindersTo(user);
 		} catch(RuntimeException e) {
 			getLogger(this).log(Level.SEVERE, "Erro enviando email para: " + user+ "/" + user.email() + " - " + e.getMessage(), e);
 		}
 	}
 
-	private void tryToSendEventsToHappenTomorrow(User user) {
+	private void tryToSendRemindersTo(User user) {
 		if (!user.isSubscribedToEmails()) return;
 		List<Event> candidateEvents = this._events.toHappen(user);
 		List<Event> toSend = choose(candidateEvents);
 		if (toSend.isEmpty()) return;
-		sendTo(user, toSend);
+		sendReminderTo(user, toSend);
 	}
 
-	private boolean isTimeToSendMail(Event e) {
+	private boolean isTimeToRemindAbout(Event e) {
 		for (long datetime : e.datetimes()) 
 			if (datetime >= this._startTime && datetime < this._endTime)
 				return true;
@@ -75,23 +73,18 @@ public class MailingRound {
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
 		for(Event e : candidates) {
 			if (result.size() == MAX_EVENTS_TO_SEND) break;
-			if (!isTimeToSendMail(e)) continue;
+			if (!isTimeToRemindAbout(e)) continue;
 			result.add(e);
 		}
 		return result;
 	}
 
 
-	private void sendTo(User u, List<Event> toSend) {
+	private void sendReminderTo(User u, List<Event> toSend) {
 		String body = this._formatter.format(toSend);
 		this._sender.send(u.email(), SUBJECT, body);
 	}
 
-	
-	private long startTime() {
-		return daysFromNow(1);
-	}
-	
 	
 	private long endTime() {
 		return isToday(FRIDAY)
@@ -101,20 +94,19 @@ public class MailingRound {
 
 
 	private boolean isToday(int dayOfWeek) {
-		return zeroHourToday().get(DAY_OF_WEEK) == dayOfWeek;
+		return today().get(DAY_OF_WEEK) == dayOfWeek;
 	}
 
 
 	private static long daysFromNow(int days) {
-		GregorianCalendar cal = zeroHourToday();
+		GregorianCalendar cal = today();
 		cal.add(DATE, days);
 		return cal.getTimeInMillis();
 	}
 
 
-	private static GregorianCalendar zeroHourToday() {
-		long millis = Clock.currentTimeMillis();
-		GregorianCalendar cal = asCalendar(millis);
+	private static GregorianCalendar today() {
+		GregorianCalendar cal = asCalendar(Clock.currentTimeMillis());
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
