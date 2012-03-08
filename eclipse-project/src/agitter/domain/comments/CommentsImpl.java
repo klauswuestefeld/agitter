@@ -14,7 +14,7 @@ public class CommentsImpl implements Comments {
 	
 	private static final Comment[] NO_COMMENTS = new Comment[0];
 	
-	private final Map<Object, Comment[]> commentsByObject = new HashMap<Object, Comment[]>();
+	private Map<Object, Comment[]> commentsByObject = new HashMap<Object, Comment[]>();
 
 	
 	@Override
@@ -28,13 +28,19 @@ public class CommentsImpl implements Comments {
 	public void commentOn(Object thing, User author, String text) {
 		Comment comment = new CommentImpl(author, Clock.currentTimeMillis(), text);
 		Comment[] newComments = append(originalComments(thing), comment);
-		commentsByObject.put(thing, newComments);
+		commentsByObject().put(thing, newComments);
 	}
 	
 	
 	private Comment[] originalComments(Object thing) {
-		Comment[] ret = commentsByObject.get(thing);
+		Comment[] ret = commentsByObject().get(thing);
 		return ret == null ? NO_COMMENTS : ret;
+	}
+	
+	private Map<Object, Comment[]>  commentsByObject() {
+		if (commentsByObject == null)
+			commentsByObject = new HashMap<Object, Comment[]>();
+		return commentsByObject;
 	}
 
 }
