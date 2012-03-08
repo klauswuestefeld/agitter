@@ -119,7 +119,8 @@ public class Presenter implements RestHandler {
 		return new Consumer<User>() { @Override public void consume(User user) {
 			SessionView sessionView = view.showSessionView();
 			updateAuthenticationTokenFor(user);
-			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), domain().comments(), userProducer, sessionView, warningDisplayer(), onLogout());
+			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), domain().comments(), userProducer, sessionView, warningDisplayer(), onLogout(), 
+							controller.oAuth(), httpSession, context, urlBlankRedirector());
 		}};
 	}
 

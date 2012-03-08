@@ -1,7 +1,10 @@
 package agitter.ui.presenter;
 
+import javax.servlet.http.HttpSession;
+
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import agitter.controller.oauth.OAuth;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
@@ -19,14 +22,14 @@ public class SessionPresenter implements Needs {
 	private final ContactsPresenter contactsPresenter;
 	private final AccountPresenter accountPresenter;
 
-	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout) {
+	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout, OAuth oAuth, HttpSession httpSession, String context, Consumer<String> urlRedirector) {
 		this.view = view;
 		this.onLogout = onLogout;
 		this.userScreenName = user.screenName();
 
 		eventsPresenter = new EventsPresenter(user, contacts, events, comments, userProducer, view.eventsView(), warningDisplayer);
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
-		accountPresenter = new AccountPresenter(user, view.accountView());
+		accountPresenter = new AccountPresenter(user, view.accountView(), oAuth, warningDisplayer, httpSession, context, urlRedirector);
 		
 		view.init(this);
 		view.showEventsView();
