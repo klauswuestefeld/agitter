@@ -163,7 +163,11 @@ public class EventImpl2 implements Event {
 		return true;
 	}
 	
-	
+	@Override
+	public boolean isVisibleTo(User user) {
+		if (owner().equals(user)) return true;
+		return isInvited(user) && isInterested(user);
+	}
 
 	
 	private boolean isInterested(User user) {
@@ -171,12 +175,6 @@ public class EventImpl2 implements Event {
 	}
 	
 	
-	boolean isVisibleTo(User user) {
-		if (owner().equals(user)) return true;
-		return isInvited(user) && isInterested(user);
-	}
-
-
 	private boolean isInvited(User user) {
 		return actualInvitees().contains(user) || groupInvitationsContain(user);
 	}

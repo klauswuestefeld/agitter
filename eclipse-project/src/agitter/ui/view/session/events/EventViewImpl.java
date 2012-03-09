@@ -139,8 +139,10 @@ class EventViewImpl extends CssLayout implements EventView {
 			}
 			buff.append("</UL>");;
 			readOnlyDates.setValue(buff.toString());
-		} else {
+		} else if(datetimes.length == 1)  {
 			readOnlyDates.setValue(dateFormat.format(new Date(datetimes[0])));
+		} else {
+			readOnlyDates.setValue("");
 		}
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);

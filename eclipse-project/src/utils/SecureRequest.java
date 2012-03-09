@@ -1,4 +1,6 @@
 package utils;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,21 +12,37 @@ public abstract class SecureRequest {
 
 	private static final Functor<String, byte[]> HMAC = Encoders.hmacForKey("QualquerSenHa764");
 	
-	private String params = "";
+	private final Map<String, String> params = new HashMap<String, String>();
 	
 	public String asSecureURI() {
 		addParamToUri("code", securityCode());
-		return asURI();
+		return asURI(true);
 	}
-
 	
-	private String asURI() {
-		return command() + params;
+	private String encodeUrlValue(String value) {
+		try {
+			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedOperationException("Invalid encoding");
+		}
 	}
 
+	private String asURI(boolean encode) {
+		String paramsString = "";
+		for(Map.Entry<String, String> entry : params.entrySet()) {
+			String key = encode ? encodeUrlValue(entry.getKey()) : entry.getKey();
+			String value = encode ? encodeUrlValue(entry.getValue()) : entry.getValue();
+			if(paramsString.isEmpty())
+				paramsString += "?";
+			else 
+				paramsString += "&";
+			paramsString += key + "=" + value;
+		}
+		return command() + paramsString;
+	}
 	
 	protected String securityCode() {
-		String input = asURI();
+		String input = asURI(false);
 		return Encoders.toHex(HMAC.evaluate(input));
 	}
 
@@ -32,8 +50,7 @@ public abstract class SecureRequest {
 	abstract protected String command();
 
 	protected void addParamToUri(String name, String value) {
-		params += params.isEmpty() ? "?" : "&";
-		params += name + "=" + value;
+		params.put(name, value);
 	}
 
 	protected void validate(Map<String, String[]> params) throws Refusal {

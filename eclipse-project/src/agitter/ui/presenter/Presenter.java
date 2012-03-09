@@ -3,6 +3,8 @@ package agitter.ui.presenter;
 import infra.logging.LogInfra;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -29,6 +31,25 @@ import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
+// TODO Verificar com o Klaus se já não existe algo no foundation para fazer isso.
+// Caso não tenha, mover a classe para um lugar melhor.
+class Notifier<T> {
+	private final List<Consumer<T>> consumers = new ArrayList<Consumer<T>>();
+	private T lastValue;
+	synchronized public void notify(T value) {
+		for(Consumer<T> consumer : consumers)
+			consumer.consume(value);
+		lastValue = value;
+	}
+	synchronized public void addConsumer(Consumer<T> consumer) {
+		consumers.add(consumer);
+	}
+	public void addConsumerAndNotifyLastValue(Consumer<T> consumer) {
+		addConsumer(consumer);
+		consumer.consume(lastValue);
+	}
+}
+
 public class Presenter implements RestHandler {
 	
 	public static String AUTHENTICATION_TOKEN_NAME = "AuthenticationToken";
@@ -38,6 +59,7 @@ public class Presenter implements RestHandler {
 	private final HttpSession httpSession;
 	private final String context;
 	private final Functor<EmailAddress, User> userProducer;
+	private final Notifier<String> urlRestPathNotifier; 
 
 	private HttpServletResponse currentResponse;
 
@@ -48,6 +70,9 @@ public class Presenter implements RestHandler {
 		this.context = firstRequest.getRequestURL().toString();
 		
 		this.userProducer = UserUtils.userProducer(domain().users());
+		
+		this.urlRestPathNotifier = new Notifier<String>();
+		
 		setCurrentResponse(firstResponse);
 		
 		SessionUtils.initParameters(httpSession, firstRequest.getParameterMap());
@@ -88,14 +113,16 @@ public class Presenter implements RestHandler {
 		if (uri.length == 0) return;
 
 		String command = uri[0];
-
-		if ("demo".equals(command)) { demo(); }
-		if ("contacts-demo".equals(command)) { contactsDemo(); }
-		if ("unsubscribe".equals(command)) { unsubscribe(uri); }
-		if ("signup".equals(command)) { restSignup(params); }
-		if ("oauth".equals(command)) { oAuthCallback(params); }
+		boolean processed = false;
+		if ("demo".equals(command)) { demo(); processed = true; }
+		if ("contacts-demo".equals(command)) { contactsDemo(); processed = true; }
+		if ("unsubscribe".equals(command)) { unsubscribe(uri); processed = true; }
+		if ("signup".equals(command)) { restSignup(params); processed = true; }
+		if ("oauth".equals(command)) { oAuthCallback(params); processed = true; }
+		if(!processed)
+			urlRestPathNotifier.notify(relativeUri);
 	}
-
+	
 
 	private void recoverFromRedirectWithoutBlink() {
 		view.show();
@@ -120,7 +147,7 @@ public class Presenter implements RestHandler {
 			SessionView sessionView = view.showSessionView();
 			updateAuthenticationTokenFor(user);
 			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), domain().comments(), userProducer, sessionView, warningDisplayer(), onLogout(), 
-							controller.oAuth(), httpSession, context, urlBlankRedirector());
+							controller.oAuth(), httpSession, context, urlBlankRedirector(), urlRestPathNotifier);
 		}};
 	}
 
