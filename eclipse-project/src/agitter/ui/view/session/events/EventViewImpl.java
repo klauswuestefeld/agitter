@@ -33,7 +33,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label invitationsHeader = WidgetUtils.createLabel();
 	private final SelectableRemovablePairList invitations = new SelectableRemovablePairList();
 	
-	private final Button removeButton = WidgetUtils.createLinkButton("Excluir Este Agito");
+	private final Button deleteButton;
+	private final Button blockButton;
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
@@ -50,7 +51,8 @@ class EventViewImpl extends CssLayout implements EventView {
 	EventViewImpl() {
 		addStyleName("a-invite-view");
 
-		addRemovalButton();
+		deleteButton = addRemoveButton("Excluir este Agito"); deleteButton.addStyleName("a-event-delete-button");
+		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-event-block-button");
 		addMultipleDateComponent();
 		addDescriptionComponent();
 		addNextInviteeComponent();
@@ -67,9 +69,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		saveListenersActive = true;
 	}
 	
-	private void displayRemovalButton(boolean visible) {
-		removeButton.setVisible(visible);
-	}
 	
 	@Override
 	public void startReportingTo(Boss boss) {
@@ -82,7 +81,6 @@ class EventViewImpl extends CssLayout implements EventView {
 	public void clear() {
 		showReadOnlyLabels(false);
 		showEditFields(false);
-		removeButton.setVisible(false);
 	}
 
 
@@ -109,8 +107,6 @@ class EventViewImpl extends CssLayout implements EventView {
 			this.multipleDate.focus();
 		else
 			this.description.focus();
-		
-		displayRemovalButton(true);
 	}
 	
 
@@ -146,7 +142,6 @@ class EventViewImpl extends CssLayout implements EventView {
 		}
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
-		displayRemovalButton(false);
 	}
 	
 	
@@ -208,6 +203,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	
 	private void showEditFields(boolean b) {
+		deleteButton.setVisible(b);
 		multipleDate.setVisible(b);
 		description.setVisible(b);
 		nextInvitee.setVisible(b);
@@ -218,6 +214,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	
 	private void showReadOnlyLabels(boolean b) {
+		blockButton.setVisible(b);
 		readOnlyDescription.setVisible(b);
 		readOnlyDates.setVisible(b);
 		readOnlyOwner.setVisible(b);
@@ -280,13 +277,13 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(multipleDate); multipleDate.addStyleName("a-invite-multiply-date");
 	}
 
-	private void addRemovalButton() {
-		removeButton.setSizeUndefined();
-		removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+	private Button addRemoveButton(String caption) {
+		Button ret = WidgetUtils.createLinkButton(caption);
+		ret.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			boss.onEventRemoved();
 		}});
-		removeButton.setVisible(false);
-		addComponent(removeButton); removeButton.addStyleName("a-event-delete-button");
+		addComponent(ret);
+		return ret;
 	}
 
 	
