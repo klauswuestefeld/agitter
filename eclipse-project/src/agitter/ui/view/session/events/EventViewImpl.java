@@ -15,12 +15,12 @@ import agitter.ui.view.session.contacts.SelectableRemovablePairList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextArea;
 
 class EventViewImpl extends CssLayout implements EventView {
@@ -33,7 +33,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final Label invitationsHeader = WidgetUtils.createLabel();
 	private final SelectableRemovablePairList invitations = new SelectableRemovablePairList();
 	
-	private final NativeButton removeButton = new NativeButton();
+	private final Button removeButton = WidgetUtils.createLinkButton("Excluir Este Agito");
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
@@ -67,14 +67,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		saveListenersActive = true;
 	}
 	
-	private void displayRemovalButton(boolean isEditable) {
-		String style = isEditable
-			? "a-event-delete-button"
-			: "a-event-remove-button";
-		
-		removeButton.setDescription(isEditable ? "Excluir Todos os Agitos" : "Bloquear Evento");
-		removeButton.setStyleName(style);
-		removeButton.setVisible(true);
+	private void displayRemovalButton(boolean visible) {
+		removeButton.setVisible(visible);
 	}
 	
 	@Override
@@ -287,11 +281,10 @@ class EventViewImpl extends CssLayout implements EventView {
 	private void addRemovalButton() {
 		removeButton.setSizeUndefined();
 		removeButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			System.out.println("Botao de remocao clicado.");
 			boss.onEventRemoved();
 		}});
 		removeButton.setVisible(false);
-		addComponent(removeButton); removeButton.addStyleName("a-default-nativebutton"); 
+		addComponent(removeButton); removeButton.addStyleName("a-event-delete-button");
 	}
 
 	
