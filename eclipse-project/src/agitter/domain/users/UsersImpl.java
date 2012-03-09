@@ -60,12 +60,6 @@ public class UsersImpl implements Users {
 	}
 
 
-//	@Override
-//	public String userEncyptedInfo(User user) {
-//		return user.email().toString();//TODO - Implement encryption
-//	}
-
-	
 	@Override
 	public void unsubscribe(String userEncryptedInfo) throws UserNotFound {
 		//TODO - Implement crypto
