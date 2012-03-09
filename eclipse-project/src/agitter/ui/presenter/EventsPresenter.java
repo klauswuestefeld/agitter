@@ -45,8 +45,7 @@ public class EventsPresenter implements Boss {
 	private final HandleToAvoidLeaks handle;
 	private final Functor<EmailAddress, User> userProducer;
 
-	
-	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer) {
+	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer, Notifier<String> urlRestPathNotifier) {
 		this.user = user;
 		this.contacts = contacts;
 		this.events = events;
@@ -54,8 +53,13 @@ public class EventsPresenter implements Boss {
 		this.userProducer = userProducer;
 		this.view = eventsView;
 		this.warningDisplayer = warningDisplayer;
-		
 		this.eventSelected = null;
+		urlRestPathNotifier.addConsumerAndNotifyLastValue(new Consumer<String>() {
+			@Override
+			public void consume(String value) {
+				tryToSelectEventFromUrl(value);
+			}
+		});
 
 		handle = SimpleTimer.runNowAndPeriodically(new Runnable() { @Override public void run() {
 			periodicRefresh();
@@ -66,6 +70,28 @@ public class EventsPresenter implements Boss {
 		}});
 		
 		refreshContactsToChoose();
+	}
+	
+	private void tryToSelectEventFromUrl(String value) {
+		Long possibleId = tryToParseId(value);
+		if(possibleId != null) {
+			Event possibleEvent = events.get(possibleId);
+			if(possibleEvent != null)
+				if(possibleEvent.isVisibleTo(user))
+					selectEvent(possibleEvent);
+				else 
+					warningDisplayer.consume("Você não possui acesso ao agito!");	
+			else
+				warningDisplayer.consume("Agito não encontrado.");
+		}
+	}
+	
+	private Long tryToParseId(String string) {
+		try {
+			if(string != null && !string.isEmpty())
+				return Long.parseLong(string, 36);
+		} catch(NumberFormatException e) {}
+		return null;
 	}
 
 

@@ -53,7 +53,7 @@ public class EventsImpl2 implements Events {
 	@Override
 	public List<Event> toHappen(User user) {		
 		List<Event> result = new ArrayList<Event>();
-		for(EventImpl2 e : _all) {
+		for(Event e : _all) {
 			if (!willHappen(e)) continue;
 			if (!e.isVisibleTo(user)) continue;
 			result.add(e);

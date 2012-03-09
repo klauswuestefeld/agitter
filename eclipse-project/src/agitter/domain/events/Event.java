@@ -39,4 +39,6 @@ public interface Event {
 	void mayGo(User user, long date);
 	Boolean isGoing(User user, long date);
 	boolean hasIgnored(User user, long date);
+
+	boolean isVisibleTo(User user);
 }

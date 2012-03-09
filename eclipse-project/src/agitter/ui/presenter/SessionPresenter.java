@@ -22,12 +22,12 @@ public class SessionPresenter implements Needs {
 	private final ContactsPresenter contactsPresenter;
 	private final AccountPresenter accountPresenter;
 
-	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout, OAuth oAuth, HttpSession httpSession, String context, Consumer<String> urlRedirector) {
+	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout, OAuth oAuth, HttpSession httpSession, String context, Consumer<String> urlRedirector, Notifier<String> urlRestPathNotifier) {
 		this.view = view;
 		this.onLogout = onLogout;
 		this.userScreenName = user.screenName();
 
-		eventsPresenter = new EventsPresenter(user, contacts, events, comments, userProducer, view.eventsView(), warningDisplayer);
+		eventsPresenter = new EventsPresenter(user, contacts, events, comments, userProducer, view.eventsView(), warningDisplayer, urlRestPathNotifier);
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 		accountPresenter = new AccountPresenter(user, view.accountView(), oAuth, warningDisplayer, httpSession, context, urlRedirector);
 		

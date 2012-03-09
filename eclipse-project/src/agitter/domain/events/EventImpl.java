@@ -156,4 +156,10 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public boolean isVisibleTo(User user) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }
