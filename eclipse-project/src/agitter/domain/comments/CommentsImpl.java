@@ -14,7 +14,7 @@ public class CommentsImpl implements Comments {
 	
 	private static final Comment[] NO_COMMENTS = new Comment[0];
 	
-	private Map<Object, Comment[]> commentsByObject = new HashMap<Object, Comment[]>();
+	private final Map<Object, Comment[]> commentsByObject = new HashMap<Object, Comment[]>();
 
 	
 	@Override
@@ -38,8 +38,6 @@ public class CommentsImpl implements Comments {
 	}
 	
 	private Map<Object, Comment[]>  commentsByObject() {
-		if (commentsByObject == null)
-			commentsByObject = new HashMap<Object, Comment[]>();
 		return commentsByObject;
 	}
 

@@ -14,7 +14,6 @@ import org.junit.Test;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
-import agitter.domain.users.UserImpl;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;
 import agitter.domain.users.Users.UserNotFound;
@@ -26,22 +25,6 @@ public class UsersTest extends UsersTestBase {
 	@Before
 	public void workaround() {
 		Clock.setForCurrentThread(new GregorianCalendar(2011, Calendar.MAY, 28).getTimeInMillis());
-	}
-
-	
-	@SuppressWarnings("deprecation")
-	@Test
-	public void passwordMigration() throws Refusal {
-		UserImpl.OLD_PASSWORD_FOR_MIGRATION_TEST = "123";
-		User user1 = subject.produce(email("joe1@mail.com"));
-		UserImpl.OLD_PASSWORD_FOR_MIGRATION_TEST = "456";
-		User user2 = subject.produce(email("joe2@mail.com"));
-
-		assertFalse(user1.isPasswordCorrect("123"));
-		assertFalse(user2.isPasswordCorrect("456"));
-		agitter.migrateSchemaIfNecessary();
-		assertTrue(user1.isPasswordCorrect("123"));
-		assertTrue(user2.isPasswordCorrect("456"));
 	}
 
 	

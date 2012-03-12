@@ -149,10 +149,4 @@ public class UsersImpl implements Users {
 		}
 	}
 
-
-	public void migrateSchemaIfNecessary() {
-		for(User user : users)
-			((UserImpl)user).migrateSchemaIfNecessary();
-	}
-
 }

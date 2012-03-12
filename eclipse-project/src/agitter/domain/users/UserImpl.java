@@ -13,8 +13,6 @@ public class UserImpl implements User {
 	
 	private EmailAddress email;
 	private String name;
-	@Deprecated	private String password = OLD_PASSWORD_FOR_MIGRATION_TEST; //Deprecated 2012-03-07 Klaus
-	@Deprecated public static String OLD_PASSWORD_FOR_MIGRATION_TEST; //Deprecated 2012-03-07 Klaus
 	private byte[] passwordHash;
 	private boolean hasUnsubscribedFromEmails = false;
 
@@ -72,18 +70,6 @@ public class UserImpl implements User {
 
 	static private byte[] hashOf(String password) {
 		return HMAC.evaluate(password);
-	}
-	
-	
-	void migrateSchemaIfNecessary() {
-		if (passwordHash != null) return;
-		if (password == null) return;
-		setPassword(password);
-	}
-
-
-	public void setOldPasswordForMigrationTest(String password) {
-		this.password = password;
 	}
 
 }

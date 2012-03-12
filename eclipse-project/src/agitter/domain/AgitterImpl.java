@@ -28,7 +28,7 @@ public class AgitterImpl implements Agitter {
 	private Contacts contacts2 = new ContactsImpl2();
 	private Events events2 = new EventsImpl2();
 
-	private Comments comments = new CommentsImpl();
+	private final Comments comments = new CommentsImpl();
 	private final Mailing mailing = new MailingImpl();
 	
 
@@ -47,10 +47,6 @@ public class AgitterImpl implements Agitter {
 	@Override
 	public void migrateSchemaIfNecessary() {
 		((EventsImpl2)events2).migrateSchemaIfNecessary();
-		
-		if (comments == null) comments = new CommentsImpl(); //2012-03-06 Make comments final, after migration. Klaus.
-
-		((UsersImpl)users).migrateSchemaIfNecessary();
-}
+	}
 	
 }
