@@ -7,6 +7,7 @@ public interface CommentsView {
 	
 	interface Boss {
 		void onCommentPosted(String text);
+		boolean onNameGiven(String name);
 	}
 	
 	void startReportingTo(Boss boss);
@@ -14,7 +15,9 @@ public interface CommentsView {
 	void show();
 	void hide();
 
+	void clearCommentBox();
 	void clearCommentList();
 	void addComment(String user, String date, String text);
+	void askForName();
 	
 }

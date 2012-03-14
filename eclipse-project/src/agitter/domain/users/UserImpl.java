@@ -31,6 +31,7 @@ public class UserImpl implements User {
 
 	@Override public String name() { return name; }
 	@Override public void setName(String name) { this.name = name; }
+	@Override public boolean hasName() { return name != null && !"".equals(name.trim()); }
 	
 	
 	@Override

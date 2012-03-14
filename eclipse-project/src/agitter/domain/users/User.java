@@ -9,6 +9,7 @@ public interface User {
 	EmailAddress email();
 	String screenName();
 
+	boolean hasName();
 	boolean hasSignedUp();
 	boolean isPasswordCorrect(String passwordAttempt);
 	void setPassword(String newPassword);
