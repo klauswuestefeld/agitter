@@ -89,6 +89,15 @@ public class UsersTest extends UsersTestBase {
 			}
 		}
 	}
+	
+	@Test
+	public void hasNameHappyDay() throws UserNotFound, Refusal{
+		signUpAna();
+		User user = subject.findByEmail(email("ana@gmail.com"));
+		assertFalse(user.hasName());
+		user.setName("Ana Bolena");
+		assertTrue(user.hasName());
+	}
 
 	private void assertAna(User user) {
 		assertEquals("ana@gmail.com", user.email().toString());
