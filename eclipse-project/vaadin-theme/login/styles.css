@@ -160,8 +160,19 @@ button.a-login-cancel-button {
 
 
 /* Signup  ----------------------------------------------------------------------   */
-
+/* MMM */
 .a-signup-view {
+	padding: 16px 23px 20px 23px;
+	margin: 20px 30px;
+	float: right;
+	background: white;
+	border-radius: 6px;
+	box-shadow: 3px 3px 12px #444;
+	-webkit-box-shadow: 3px 3px 12px #444;
+	-moz-box-shadow: 3px 3px 12px #444;
+}
+
+.a-comment-ask-name-view {
 	padding: 16px 23px 20px 23px;
 	margin: 20px 30px;
 	float: right;
