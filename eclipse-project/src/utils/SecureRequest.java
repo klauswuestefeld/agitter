@@ -1,5 +1,6 @@
 package utils;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,9 +20,17 @@ public abstract class SecureRequest {
 		return asURI(true);
 	}
 	
-	private String encodeUrlValue(String value) {
+	private static String encodeUrlValue(String value) {
 		try {
 			return URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedOperationException("Invalid encoding");
+		}
+	}
+
+	private static String decodeUrlValue(String value) {
+		try {
+			return URLDecoder.decode(value, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new UnsupportedOperationException("Invalid encoding");
 		}
@@ -78,7 +87,7 @@ public abstract class SecureRequest {
 		int i = 0;
 		while (i < keysAndValues.length) {
 			String key = keysAndValues[i++];
-			String value = keysAndValues[i++];
+			String value = decodeUrlValue( keysAndValues[i++] );
 			result.put(key, new String[]{value});
 		}
 		return result;
