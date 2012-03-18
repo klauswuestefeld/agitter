@@ -25,10 +25,21 @@ class CommentsPresenter implements CommentsView.Boss {
 	
 	@Override
 	public void onCommentPosted(String comment) {
-		comments.commentOn(object, user, comment);
-		refresh();
+		if( user.hasName() ) {
+			comments.commentOn(object, user, comment);
+			view.clearCommentBox();
+			refresh();
+		}else {
+			view.askForName();
+		}
 	}
-
+	
+	@Override
+	public boolean onNameGiven(String name) {
+		user.setName( name );
+		//MMM O menú de cima precisa se atualizar agora que o usuário tem um nome...
+		return user.hasName();
+	}
 
 	void periodicRefresh() {
 		refresh();
@@ -52,6 +63,7 @@ class CommentsPresenter implements CommentsView.Boss {
 		for (Comment c : comments.commentsFor(object))
 			view.addComment(c.owner().screenName(), ""+c.creationDatetime(), c.text());
 		view.show();
-	}
-
+	}	
+	
 }
+
