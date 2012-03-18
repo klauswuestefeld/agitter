@@ -12,8 +12,8 @@ public class PeriodicScheduleMailer {
 		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, sender);
 		new Thread() { { setDaemon(true); } @Override public void run() {
 			while(true) {
-				instance.sendEventsToHappenTomorrow();
-				instance.sleepHalfAnHour();
+				instance.sendEventRemindersIfNecessary();
+				instance.sleepAMinute();
 			}
 		}}.start();
 	}
@@ -28,7 +28,7 @@ public class PeriodicScheduleMailer {
 	}
 
 
-	public void sendEventsToHappenTomorrow() {
+	public void sendEventRemindersIfNecessary() {
 		if (!agitter.mailing().shouldSendScheduleNow()) return;
 		agitter.mailing().markScheduleSent();
 
@@ -36,9 +36,9 @@ public class PeriodicScheduleMailer {
 	}
 
 	
-	private void sleepHalfAnHour() {
+	private void sleepAMinute() {
 		try {
-			Thread.sleep(30*60*1000);
+			Thread.sleep(60*1000);
 		} catch(InterruptedException e) {
 			getLogger(this).log(Level.SEVERE, e.getMessage(), e);
 		}

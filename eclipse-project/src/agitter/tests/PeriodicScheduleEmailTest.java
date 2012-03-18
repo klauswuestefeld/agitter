@@ -46,7 +46,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		EmailSenderMock mock = sendEmailsAndCaptureLast();
 		
 		assertEquals("fred@email.com", mock.to().toString());
-		assertEquals("Agitos da Semana", mock.subject());
+		assertEquals("Lembretes de Agito", mock.subject());
 		assertContains(mock.body(), "friday event 1", "friday event 2");
 		assertNotContains(mock.body(), "wednesday event", "today event", "saturday event");
 	}
@@ -178,7 +178,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 	private EmailSenderMock sendEmailsAndCaptureLast() {
 		EmailSenderMock emailSenderMock = new EmailSenderMock();
 		PeriodicScheduleMailer daemon = new PeriodicScheduleMailer(agitter, emailSenderMock);
-		daemon.sendEventsToHappenTomorrow();
+		daemon.sendEventRemindersIfNecessary();
 		return emailSenderMock;
 	}
 
