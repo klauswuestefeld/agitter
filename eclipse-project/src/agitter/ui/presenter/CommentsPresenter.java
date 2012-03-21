@@ -1,5 +1,7 @@
 package agitter.ui.presenter;
 
+import java.text.SimpleDateFormat;
+
 import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
 import agitter.domain.users.User;
@@ -7,6 +9,8 @@ import agitter.ui.view.session.events.CommentsView;
 
 
 class CommentsPresenter implements CommentsView.Boss {
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
 	private final CommentsView view;
 	private final User user;
@@ -61,7 +65,7 @@ class CommentsPresenter implements CommentsView.Boss {
 
 		view.clearCommentList();
 		for (Comment c : comments.commentsFor(object))
-			view.addComment(c.owner().screenName(), ""+c.creationDatetime(), c.text());
+			view.addComment(c.owner().screenName(), DATE_FORMAT.format(c.creationDatetime()), c.text());
 		view.show();
 	}	
 	

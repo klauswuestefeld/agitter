@@ -659,3 +659,25 @@ textarea.a-new-comment {
 }
 
 
+/* Comments  */
+
+.a-comment-view {
+	margin: 2px;
+	padding: 2px 2px 18px 2px;
+}
+.a-comment-view:hover {
+	background: #FFFFFF;
+}
+
+.a-comment-view-user {
+	color: dodgerblue;
+	font-weight: bold;
+}
+.a-comment-view-text {
+	color: black;
+	word-wrap: break-word;
+}
+.a-comment-view-date {
+	color: gray;
+}
+

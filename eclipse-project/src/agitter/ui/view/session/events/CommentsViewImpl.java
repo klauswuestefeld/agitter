@@ -16,7 +16,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	private final Label commentLabel = new Label("Comentários:"); 
 	private final TextArea comment = new TextArea();
 	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
-	private final Label commentList = new Label();
+	private final CssLayout commentList = new CssLayout();
 	
 	private Boss boss;
 
@@ -60,13 +60,16 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	}
 	
 	private void commentPosted() {
-		boss.onCommentPosted((String)comment.getValue());
+		String text = (String)comment.getValue();
+		if(text!=null && !"".equals(text)) {
+			boss.onCommentPosted(text);
+		}
 	}
 	
 	
 	@Override
 	public void addComment(String user, String date, String text) {
-		commentList.setValue(commentList.getValue() + "--------- Usuário: " + user + " Data: " + date + " Texto: " + text);
+		commentList.addComponent(new CommentComponent(user, text, date));
 	}
 	
 	@Override
@@ -77,7 +80,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 
 	@Override
 	public void clearCommentList() {
-		commentList.setValue("");
+		commentList.removeAllComponents();
 	}
 
 	
@@ -144,5 +147,27 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		popup.removeAllComponents();
 		popup.setVisible(false);		
 	}
+	
+	
+	private class CommentComponent extends CssLayout {
+		
+		public CommentComponent(String user, String text, String date) {
+			this.addStyleName( "a-comment-view" );
+
+			Label userLabel = new Label(user);
+			userLabel.addStyleName( "a-comment-view-user" );
+			this.addComponent(userLabel);
+
+			Label textLabel = new Label(text);
+			textLabel.addStyleName( "a-comment-view-text" );
+			this.addComponent(textLabel);
+			
+			Label dateLabel = new Label(date);
+			dateLabel.addStyleName( "a-comment-view-date" );
+			this.addComponent(dateLabel);
+		}
+		
+	}
+	
 
 }
