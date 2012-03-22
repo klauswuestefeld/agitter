@@ -641,8 +641,11 @@ textarea.a-invite-description {
 
 /* Comments  */
 
+.a-comments-view {
+}
+
 .a-comments-view-label {
-	padding-top: 15px;
+	padding-top: 20px;
 	padding-bottom: 10px;
 	font-weight: bold;
 	font-size: 16px;
@@ -673,9 +676,6 @@ textarea.a-invite-description {
 	padding-top: 5px;
 }
 
-.a-comments-view {
-}
-
 .a-comment-ask-name-view {
 	padding: 16px 23px 20px 23px;
 	margin: 20px 30px;
@@ -692,6 +692,7 @@ textarea.a-invite-description {
 	margin-right: 20px;
 	padding: 6px 2px 14px 2px;
 }
+
 .a-comment-view:hover {
 	background: #FFFFFF;
 }
@@ -700,10 +701,12 @@ textarea.a-invite-description {
 	color: dodgerblue;
 	font-weight: bold;
 }
+
 .a-comment-view-text {
 	color: black;
 	word-wrap: break-word;
 }
+
 .a-comment-view-date {
 	color: gray;
 }

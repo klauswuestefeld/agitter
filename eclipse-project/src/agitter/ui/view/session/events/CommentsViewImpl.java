@@ -26,7 +26,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		addComponent(commentLabel);
 		
 		comment.setNullRepresentation("");
-		comment.setInputPrompt("O que Achou?");
+		comment.setInputPrompt("Escreva seu comentário aqui...");
 		comment.setSizeUndefined();
 		comment.setMaxLength(500);
 		comment.addStyleName("a-comments-view-text");
@@ -163,6 +163,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 			this.addComponent(userLabel);
 
 			Label textLabel = new Label(text);
+			textLabel.setContentMode(Label.CONTENT_XHTML);
 			textLabel.addStyleName( "a-comment-view-text" );
 			this.addComponent(textLabel);
 			
@@ -173,5 +174,4 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		
 	}
 	
-
 }
