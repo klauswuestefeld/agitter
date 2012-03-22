@@ -60,6 +60,8 @@ public class Presenter implements RestHandler {
 	private final String context;
 	private final Functor<EmailAddress, User> userProducer;
 	private final Notifier<String> urlRestPathNotifier; 
+	
+	private SessionPresenter loggedSession;
 
 	private HttpServletResponse currentResponse;
 
@@ -119,6 +121,7 @@ public class Presenter implements RestHandler {
 		if ("unsubscribe".equals(command)) { unsubscribe(uri); processed = true; }
 		if ("signup".equals(command)) { restSignup(params); processed = true; }
 		if ("oauth".equals(command)) { oAuthCallback(params); processed = true; }
+		if ("link".equals(command)) { oAuthLinkCallback(params); processed = true; }
 		if(!processed)
 			urlRestPathNotifier.notify(relativeUri);
 	}
@@ -146,7 +149,7 @@ public class Presenter implements RestHandler {
 		return new Consumer<User>() { @Override public void consume(User user) {
 			SessionView sessionView = view.showSessionView();
 			updateAuthenticationTokenFor(user);
-			new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), domain().comments(), userProducer, sessionView, warningDisplayer(), onLogout(), 
+			loggedSession = new SessionPresenter(user, domain().contacts().contactsOf(user), domain().events(), domain().comments(), userProducer, sessionView, warningDisplayer(), onLogout(), 
 							controller.oAuth(), httpSession, context, urlBlankRedirector(), urlRestPathNotifier);
 		}};
 	}
@@ -184,6 +187,17 @@ public class Presenter implements RestHandler {
 			onAuthenticate().consume(user);
 			view.hideToAvoidExtraBlinkAndRedirect(context.toString());
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Refusal("Erro de autenticação na rede social.");
+		}
+	}
+	
+	private void oAuthLinkCallback(Map<String, String[]> params) throws Refusal {
+		try {
+			User user = controller.oAuth().linkAccountCallback(loggedSession.loggedUser(), params, httpSession);
+			view.hideToAvoidExtraBlinkAndRedirect(context.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Refusal("Erro de autenticação na rede social.");
 		}
 	}

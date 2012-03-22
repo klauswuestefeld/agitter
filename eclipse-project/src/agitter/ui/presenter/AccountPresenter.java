@@ -34,22 +34,62 @@ public class AccountPresenter {
 			onOptionSelected(value);
 		}});
 		
-		view.onTwitterSignin(new Runnable() { @Override public void run() {
-			twitterSigninAttempt(); 
+		view.onTwitterLink(new Runnable() { @Override public void run() {
+			twitterLinkAttempt(); 
 		}});
-		view.onGoogleSignin(new Runnable() { @Override public void run() {
-			googleSigninAttempt(); 
+		view.onGoogleLink(new Runnable() { @Override public void run() {
+			googleLinkAttempt(); 
 		}});
-		view.onWindowsSignin(new Runnable() { @Override public void run() {
-			windowsSigninAttempt(); 
+		view.onWindowsLink(new Runnable() { @Override public void run() {
+			windowsLinkAttempt(); 
 		}});
-		view.onYahooSignin(new Runnable() { @Override public void run() {
-			yahooSigninAttempt(); 
+		view.onYahooLink(new Runnable() { @Override public void run() {
+			yahooLinkAttempt(); 
 		}});
-		view.onFacebookSignin(new Runnable() { @Override public void run() {
-			facebookSigninAttempt(); 
+		view.onFacebookLink(new Runnable() { @Override public void run() {
+			facebookLinkAttempt(); 
+		}});
+		view.onTwitterUnlink(new Runnable() { @Override public void run() {
+			twitterUnlinkAttempt(); 
+		}});
+		view.onGoogleUnlink(new Runnable() { @Override public void run() {
+			googleUnlinkAttempt(); 
+		}});
+		view.onWindowsUnlink(new Runnable() { @Override public void run() {
+			windowsUnlinkAttempt(); 
+		}});
+		view.onYahooUnlink(new Runnable() { @Override public void run() {
+			yahooUnlinkAttempt(); 
+		}});
+		view.onFacebookUnlink(new Runnable() { @Override public void run() {
+			facebookUnlinkAttempt(); 
 		}});
 
+		refresh();
+	}
+
+	protected void facebookUnlinkAttempt() {
+		loggedUser.unlinkAccount(OAuth.FACEBOOK);
+		refresh();
+	}
+
+	protected void yahooUnlinkAttempt() {
+		loggedUser.unlinkAccount(OAuth.YAHOO);
+		refresh();
+	}
+
+	protected void windowsUnlinkAttempt() {
+		loggedUser.unlinkAccount(OAuth.HOTMAIL);
+		refresh();
+	}
+
+	protected void googleUnlinkAttempt() {
+		loggedUser.unlinkAccount(OAuth.GOOGLE);
+		refresh();
+	}
+
+	protected void twitterUnlinkAttempt() {
+		loggedUser.unlinkAccount(OAuth.TWITTER);
 		refresh();
 	}
 
@@ -61,11 +101,9 @@ public class AccountPresenter {
 		view.setUser(loggedUser);
 	}
 
-
-	
-	private void googleSigninAttempt() {
+	private void googleLinkAttempt() {
 		try{
-			String url = oAuth.googleSigninURL(context, httpSession);
+			String url = oAuth.googleLinkURL(context, httpSession);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Google.");
@@ -73,9 +111,9 @@ public class AccountPresenter {
 	}
 	
 	
-	private void windowsSigninAttempt() {
+	private void windowsLinkAttempt() {
 		try{
-			String url = oAuth.windowsSigninURL(context, httpSession);
+			String url = oAuth.windowsLinkURL(context, httpSession);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o WindowsLive.");
@@ -83,9 +121,9 @@ public class AccountPresenter {
 	}
 	
 	
-	private void yahooSigninAttempt() {
+	private void yahooLinkAttempt() {
 		try{
-			String url = oAuth.yahooSigninURL(context, httpSession);
+			String url = oAuth.yahooLinkURL(context, httpSession);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Yahoo.");
@@ -93,18 +131,18 @@ public class AccountPresenter {
 	}
 	
 	
-	private void facebookSigninAttempt() {
+	private void facebookLinkAttempt() {
 		try{
-			String url = oAuth.facebookSigninURL(context, httpSession);
+			String url = oAuth.facebookLinkURL(context, httpSession);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Facebook.");
 		}
 	}
 	
-	private void twitterSigninAttempt() {
+	private void twitterLinkAttempt() {
 		try{
-			String url = oAuth.twitterSigninURL(context, httpSession);
+			String url = oAuth.twitterLinkURL(context, httpSession);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
 			warningDisplayer.consume("Erro ao acessar o Twitter.");

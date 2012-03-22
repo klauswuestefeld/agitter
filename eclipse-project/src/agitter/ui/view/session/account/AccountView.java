@@ -14,10 +14,15 @@ public interface AccountView {
 	void setOptionSelectionListener(Consumer<String> consumer);
 	
 
-	void onGoogleSignin(Runnable action);
-	void onWindowsSignin(Runnable action);
-	void onYahooSignin(Runnable action);
-	void onFacebookSignin(Runnable action);
-	void onTwitterSignin(Runnable action);
+	void onGoogleLink(Runnable action);
+	void onWindowsLink(Runnable action);
+	void onYahooLink(Runnable action);
+	void onFacebookLink(Runnable action);
+	void onTwitterLink(Runnable action);
 
+	void onGoogleUnlink(Runnable action);
+	void onWindowsUnlink(Runnable action);
+	void onYahooUnlink(Runnable action);
+	void onFacebookUnlink(Runnable action);
+	void onTwitterUnlink(Runnable action);
 }

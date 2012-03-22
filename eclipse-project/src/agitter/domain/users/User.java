@@ -17,4 +17,8 @@ public interface User {
 	boolean hasUnsubscribedFromEmails();
 	void setUnsubscribedFromEmails(boolean interested);
 
+	void linkAccount(String portal, String username, String oauth_verifier,	String oauth_token);
+	String linkedAccountUsername(String string);
+	boolean linkedAccount(String string);
+	void unlinkAccount(String twitter);
 }

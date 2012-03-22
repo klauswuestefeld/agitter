@@ -15,6 +15,7 @@ import agitter.ui.view.session.SessionView.Needs;
 
 public class SessionPresenter implements Needs {
 
+	private final User loggedUser;
 	private final SessionView view;
 	private final Runnable onLogout;
 	private final String userScreenName;
@@ -23,6 +24,7 @@ public class SessionPresenter implements Needs {
 	private final AccountPresenter accountPresenter;
 
 	public SessionPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, SessionView view, Consumer<String> warningDisplayer, Runnable onLogout, OAuth oAuth, HttpSession httpSession, String context, Consumer<String> urlRedirector, Notifier<String> urlRestPathNotifier) {
+		this.loggedUser = user;
 		this.view = view;
 		this.onLogout = onLogout;
 		this.userScreenName = user.screenName();
@@ -41,6 +43,9 @@ public class SessionPresenter implements Needs {
 		return userScreenName;
 	}
 
+	public User loggedUser() {
+		return loggedUser;
+	}
 
 	@Override
 	public void onLogout() {
