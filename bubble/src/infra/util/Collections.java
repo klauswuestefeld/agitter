@@ -17,4 +17,15 @@ public class Collections {
 		return ret;
 	}
 
+	public static <T> T[] remove(T[] array, T element) {
+		int iOld = 0;
+		int iNew = 0;
+		while (iOld < array.length) {
+			if (!array[iOld].equals(element)) array[iNew++] = array[iOld];
+			iOld++;
+		}
+		
+		return Arrays.copyOf(array, iNew);
+	}
+
 }

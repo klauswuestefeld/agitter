@@ -1,6 +1,7 @@
 package agitter.domain.events;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -289,43 +290,36 @@ public class EventImpl2 implements Event {
 		return id;
 	}
 	
-	// TODO: this is a mess.
 	@Override
 	public long[] interestedDatetimes(User user) {
-		// TWO hours ago mesmo na lista? Vitor.
-		// Sim. Klaus.
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		final long start = twoHoursAgo();
+
+		int count = 0;
+		long[] ret = new long[actualOccurrences().size()];
+		for (Occurrence occ : actualOccurrences())
+			if (occ.datetime() > start && occ.isInterested(user))
+				ret[count++] = occ.datetime();
 		
-		List<Long> interesting = new ArrayList<Long>(); 
-		for (Occurrence occ : occurrences()) {
-			if (occ.datetime() > twoHoursAgo && occ.isInterested(user)) {
-				interesting.add(occ.datetime());
-			}
-		}
-		
-		long[] ret = new long[interesting.size()];
-		int i=0;
-		for (Long l : interesting) ret[i++] = l; 
-		return ret;
+		return Arrays.copyOf(ret, count);
 	}
 
-	// TODO: this is a mess.
+
 	@Override
 	public long[] datetimesToCome() {
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
+		final long start = twoHoursAgo();
+
+		int count = 0;
+		long[] ret = new long[actualOccurrences().size()];
+		for (Occurrence occ : actualOccurrences()) 
+			if (occ.datetime() > start)
+				ret[count++] = occ.datetime();
 		
-		List<Long> futureDates = new ArrayList<Long>();
-		
-		for (Occurrence occ : occurrences) 
-			if (occ.datetime() > twoHoursAgo)
-				futureDates.add(occ.datetime());
-		
-		
-		long[] ret = new long[futureDates.size()];
-	    int i=0;
-	    for (Long data : futureDates) 
-	    	ret[i++] = data;
-	    
-		return (long[]) ret;
+		return Arrays.copyOf(ret, count);
 	}
+
+	
+	static private long twoHoursAgo() {
+		return Clock.currentTimeMillis() - TWO_HOURS;
+	}
+	
 }

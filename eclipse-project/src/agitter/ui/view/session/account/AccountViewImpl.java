@@ -217,17 +217,17 @@ public class AccountViewImpl implements AccountView {
 		if (user != null) {
 			name.setValue(user.name());
 			
-			twitterLogin.setVisible(!user.linkedAccount(OAuth.TWITTER));
-			facebookLogin.setVisible(!user.linkedAccount(OAuth.FACEBOOK));
-			googleLogin.setVisible(!user.linkedAccount(OAuth.GOOGLE));
-			yahooLogin.setVisible(!user.linkedAccount(OAuth.YAHOO));
-			windowsLogin.setVisible(!user.linkedAccount(OAuth.HOTMAIL));
+			twitterLogin.setVisible(!user.isAccountLinked(OAuth.TWITTER));
+			facebookLogin.setVisible(!user.isAccountLinked(OAuth.FACEBOOK));
+			googleLogin.setVisible(!user.isAccountLinked(OAuth.GOOGLE));
+			yahooLogin.setVisible(!user.isAccountLinked(OAuth.YAHOO));
+			windowsLogin.setVisible(!user.isAccountLinked(OAuth.HOTMAIL));
 
-			twitterLogout.setVisible(user.linkedAccount(OAuth.TWITTER));
-			facebookLogout.setVisible(user.linkedAccount(OAuth.FACEBOOK));
-			googleLogout.setVisible(user.linkedAccount(OAuth.GOOGLE));
-			yahooLogout.setVisible(user.linkedAccount(OAuth.YAHOO));
-			windowsLogout.setVisible(user.linkedAccount(OAuth.HOTMAIL));
+			twitterLogout.setVisible(user.isAccountLinked(OAuth.TWITTER));
+			facebookLogout.setVisible(user.isAccountLinked(OAuth.FACEBOOK));
+			googleLogout.setVisible(user.isAccountLinked(OAuth.GOOGLE));
+			yahooLogout.setVisible(user.isAccountLinked(OAuth.YAHOO));
+			windowsLogout.setVisible(user.isAccountLinked(OAuth.HOTMAIL));
 				
 			twitterLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.TWITTER));
 			facebookLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.FACEBOOK));
