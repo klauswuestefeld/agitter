@@ -66,8 +66,10 @@ class CommentsPresenter implements CommentsView.Boss {
 
 		HTMLFormatter htmlFormater = new HTMLFormatter();
 		view.clearCommentList();
-		for (Comment c : comments.commentsFor(object))
-			view.addComment(c.owner().screenName(), DATE_FORMAT.format(c.creationDatetime()), htmlFormater.makeClickableWithBr(c.text()));
+		for (Comment c : comments.commentsFor(object)) {
+			User owner = c.owner();
+			view.addComment(user.equals(owner) ? "você" : owner.name(), DATE_FORMAT.format(c.creationDatetime()), htmlFormater.makeClickableWithBr(c.text()));
+		}
 		view.show();
 	}
 	
