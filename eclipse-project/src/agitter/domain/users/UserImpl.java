@@ -1,17 +1,18 @@
 package agitter.domain.users;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import sneer.foundation.lang.Functor;
 import utils.Encoders;
 import agitter.domain.emails.EmailAddress;
 
-class ConnectedAccount {
+class LinkedAccount {
 	String oauth_verifier;
 	String oauth_token;
 	String userName;
+	String portal;
 }
 
 public class UserImpl implements User {
@@ -23,7 +24,7 @@ public class UserImpl implements User {
 	private byte[] passwordHash;
 	private boolean hasUnsubscribedFromEmails = false;
 	
-	private Map<String, ConnectedAccount> linkedOAuthAccounts; 
+	private List<LinkedAccount> linkedAccounts;
 
 	public UserImpl(EmailAddress email, String password) {
 		this.email = email;
@@ -82,34 +83,41 @@ public class UserImpl implements User {
 		return HMAC.evaluate(password);
 	}
 
-	public Map<String, ConnectedAccount> linkedOAuthAccounts() {
-		if (linkedOAuthAccounts == null) {
-			linkedOAuthAccounts = new HashMap<String, ConnectedAccount>();
-		}
-		return linkedOAuthAccounts;
-	}
 	
 	@Override
-	public void linkAccount(String portal, String username, String oauth_verifier, String oauth_token) {
-		ConnectedAccount c = new ConnectedAccount();
+	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken) {
+		LinkedAccount c = new LinkedAccount();
 		c.userName = username;
-		c.oauth_token = oauth_token;
-		c.oauth_verifier = oauth_verifier;
-		
-		linkedOAuthAccounts().put(portal, c);
+		c.oauth_token = oauthToken;
+		c.oauth_verifier = oauthVerifier;
+
+		unlinkAccount(portal);
+		linkedAccounts().add(c);
 	}
 	
+	private List<LinkedAccount> linkedAccounts() {
+		if (linkedAccounts == null) linkedAccounts = new ArrayList<LinkedAccount>(0);
+		return linkedAccounts;
+	}
+
+
 	@Override
-	public boolean linkedAccount(String string) {
-		return linkedOAuthAccounts().containsKey(string);
+	public boolean isAccountLinked(String portal) {
+		return linkedAccountFor(portal) != null;
 	}
 	@Override
-	public String linkedAccountUsername(String string) {
-		if (! linkedAccount(string)) return "";
-		return linkedOAuthAccounts().get(string).userName;
+	public String linkedAccountUsername(String portal) {
+		LinkedAccount acc = linkedAccountFor(portal);
+		return acc == null ? "" : acc.userName;
 	}
 	@Override
 	public void unlinkAccount(String portal) {
-		linkedOAuthAccounts().remove(portal);
+		linkedAccounts().remove(linkedAccountFor(portal));
 	}
+	private LinkedAccount linkedAccountFor(String portal) {
+		for (LinkedAccount acc : linkedAccounts())
+			if (acc.portal.equals(portal)) return acc;
+		return null;
+	}
+	
 }
