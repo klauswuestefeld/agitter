@@ -27,7 +27,7 @@ public class ContactsImportTest extends UsersTestBase {
 		User ana = user("ana@mail.com");
 		ContactsOfAUser contacts = agitter.contacts().contactsOf(ana);
 
-		new ContactsImport(contacts, Arrays.asList(c1, c2, c3, c4), userProducer())
+		new ContactsImport("dummy", contacts, Arrays.asList(c1, c2, c3, c4), userProducer())
 			.run();
 		
 		assertEquals("c1@mail.com", contacts.all().get(0).email().toString());

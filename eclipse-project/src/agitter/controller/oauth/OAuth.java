@@ -158,8 +158,9 @@ public class OAuth {
 		}
 		
 		if (candidates.isEmpty()) return;
-		new ContactsImport(contacts.contactsOf(user), candidates, userProducer)
+		new ContactsImport("Importado de " + provider.getProviderId(), contacts.contactsOf(user), candidates, userProducer)
 			.start(); //Optimize: use a thread pool instead of starting tons of threads.
+
 	}
 
 

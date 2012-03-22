@@ -9,6 +9,7 @@ import org.brickred.socialauth.Contact;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
+import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
@@ -19,17 +20,28 @@ public class ContactsImport extends Thread {
 	private final Iterable<Contact> candidatesToImport;
 	private final Functor<EmailAddress, User> userProducer;
 	private final List<User> existing;
+	private final String group;
 
 
-	public ContactsImport(ContactsOfAUser container, Iterable<Contact> candidatesToImport, Functor<EmailAddress, User> userProducer) {
+	public ContactsImport(String group, ContactsOfAUser container, Iterable<Contact> candidatesToImport, Functor<EmailAddress, User> userProducer) {
 		this.container = container;
 		this.candidatesToImport = candidatesToImport;
 		this.userProducer = userProducer;
 		this.existing = container.all();
+		this.group = group;
 	}
-	
+
 	@Override
 	public void run() {
+		Group g = container.groupGivenName(group);
+		if (g==null) {
+			try {
+				container.createGroup(group);
+			} catch (Refusal e) {
+				throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+			}
+		}
+		
 		for (Contact candidate : candidatesToImport)
 			importIfNecessary(candidate);
 	}
@@ -39,6 +51,7 @@ public class ContactsImport extends Thread {
 		User user = asUser(candidate);
 		if (user == null || existing.contains(user)) return;
 		container.addContact(user);
+		container.addContactTo(container.groupGivenName(group), user);
 	}
 
 	
