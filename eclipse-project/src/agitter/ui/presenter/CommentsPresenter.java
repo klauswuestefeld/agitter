@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
 import agitter.domain.users.User;
+import agitter.ui.helper.HTMLFormatter;
 import agitter.ui.view.session.events.CommentsView;
 
 
@@ -63,11 +64,12 @@ class CommentsPresenter implements CommentsView.Boss {
 		}
 		view.show();
 
+		HTMLFormatter htmlFormater = new HTMLFormatter();
 		view.clearCommentList();
 		for (Comment c : comments.commentsFor(object))
-			view.addComment(c.owner().screenName(), DATE_FORMAT.format(c.creationDatetime()), c.text());
+			view.addComment(c.owner().screenName(), DATE_FORMAT.format(c.creationDatetime()), htmlFormater.makeClickableWithBr(c.text()));
 		view.show();
-	}	
+	}
 	
 }
 

@@ -26,6 +26,8 @@ public class HTMLFormatter {
 	
 	private final static String HTML_A_TAG = "\\<a.*?\\>.*\\</a\\>";
 
+	private static final String NEWLINE_REGEX = "\\r\\n|\\r|\\n";
+	
 	// replaceAll except for text in between <a> </a> tags
 	public String replaceOutsideATAG(String text, String regex, String replacement) {
 		StringBuffer temp = new StringBuffer();
@@ -72,4 +74,10 @@ public class HTMLFormatter {
 
 	    return text;
 	}
+	
+	public String makeClickableWithBr(String text) {
+		String clickable = makeClickable(text);
+		return clickable.replaceAll(NEWLINE_REGEX, "<BR/>");
+	}
+
 }
