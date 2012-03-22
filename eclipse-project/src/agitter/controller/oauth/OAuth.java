@@ -23,11 +23,11 @@ import agitter.domain.users.User;
 
 public class OAuth {
 
-	private static final String TWITTER = "twitter";
-	private static final String FACEBOOK = "facebook";
-	private static final String YAHOO = "yahoo";
-	private static final String HOTMAIL = "hotmail";
-	private static final String GOOGLE = "google";
+	public static final String TWITTER = "twitter";
+	public static final String FACEBOOK = "facebook";
+	public static final String YAHOO = "yahoo";
+	public static final String HOTMAIL = "hotmail";
+	public static final String GOOGLE = "google";
 	
 	
 	private final Functor<EmailAddress, User> userProducer;
@@ -56,8 +56,32 @@ public class OAuth {
 		return signinURL(context, httpSession, TWITTER);
 	}
 	
+	public String googleLinkURL(String context, HttpSession httpSession) throws Exception {
+		return linkURL(context, httpSession, GOOGLE);
+	}
+	public String windowsLinkURL(String context, HttpSession httpSession) throws Exception {
+		return linkURL(context, httpSession, HOTMAIL);
+	}
+	public String yahooLinkURL(String context, HttpSession httpSession) throws Exception {
+		return linkURL(context, httpSession, YAHOO);
+	}
+	public String facebookLinkURL(String context, HttpSession httpSession) throws Exception {
+		return linkURL(context, httpSession, FACEBOOK);
+	}
+	public String twitterLinkURL(String context, HttpSession httpSession) throws Exception {
+		return linkURL(context, httpSession, TWITTER);
+	}
+	
 	
 	private String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
+		return callOAuth(context, "oauth", httpSession, providerId);
+	}	
+
+	private String linkURL(String context, HttpSession httpSession, String providerId) throws Exception {
+		return callOAuth(context, "link", httpSession, providerId);
+	}	
+	
+	private String callOAuth(String context, String retURL, HttpSession httpSession, String providerId) throws Exception {
 		SocialAuthConfig config = SocialAuthConfig.getDefault();
 		try {
 			config.load();
@@ -65,7 +89,7 @@ public class OAuth {
 			SocialAuthManager manager = new SocialAuthManager();
 			manager.setSocialAuthConfig(config);
 			
-			String callbackUrl = context + "oauth";
+			String callbackUrl = context + retURL;
 			String result = manager.getAuthenticationUrl(providerId, callbackUrl);
 
 			httpSession.setAttribute("authManager", manager);
@@ -75,8 +99,7 @@ public class OAuth {
 			LogInfra.getLogger(this).severe("Erro de SocialAuth: " + e.getMessage());
 			throw e;
 		}
-	}	
-
+	}
 	
 	public User signinCallback(Map<String, String[]> params, HttpSession httpSession) throws Exception {
 		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
@@ -96,10 +119,32 @@ public class OAuth {
 		}
 	
 		User user = userProducer.evaluate(EmailAddress.email(profile.getEmail()));
+		user.linkAccount(provider.getProviderId(), profile.getDisplayName(), paramsMap.get("oauth_verifier"), paramsMap.get("oauth_token"));			
 		startContactImport(provider, user);
 		return user;
 	}
 
+	public User linkAccountCallback(User user, Map<String, String[]> params, HttpSession httpSession) throws Exception {
+		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
+	
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		for (String name : params.keySet()) 
+			paramsMap.put(name, params.get(name)[0]);
+		
+		AuthProvider provider = null;
+		Profile profile;
+		try {
+			provider = manager.connect(paramsMap);
+			profile = provider.getUserProfile();
+		} catch (Exception e) {
+			LogInfra.getLogger(this).log(Level.SEVERE, "Erro no retorno do SocialAuth. Provider: " + provider + "\n" + e.getMessage());
+			throw e;
+		}
+	
+		user.linkAccount(provider.getProviderId(),  profile.getDisplayName(), paramsMap.get("oauth_verifier"), paramsMap.get("oauth_token"));			
+		startContactImport(provider, user);
+		return user;
+	}
 
 	private void startContactImport(AuthProvider provider, User user) {
 		if (!providesUsefulContacts(provider)) return;

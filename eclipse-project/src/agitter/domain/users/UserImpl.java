@@ -1,11 +1,18 @@
 package agitter.domain.users;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import sneer.foundation.lang.Functor;
 import utils.Encoders;
 import agitter.domain.emails.EmailAddress;
 
+class ConnectedAccount {
+	String oauth_verifier;
+	String oauth_token;
+	String userName;
+}
 
 public class UserImpl implements User {
 
@@ -15,6 +22,8 @@ public class UserImpl implements User {
 	private String name;
 	private byte[] passwordHash;
 	private boolean hasUnsubscribedFromEmails = false;
+	
+	private Map<String, ConnectedAccount> linkedOAuthAccounts; 
 
 	public UserImpl(EmailAddress email, String password) {
 		this.email = email;
@@ -73,4 +82,34 @@ public class UserImpl implements User {
 		return HMAC.evaluate(password);
 	}
 
+	public Map<String, ConnectedAccount> linkedOAuthAccounts() {
+		if (linkedOAuthAccounts == null) {
+			linkedOAuthAccounts = new HashMap<String, ConnectedAccount>();
+		}
+		return linkedOAuthAccounts;
+	}
+	
+	@Override
+	public void linkAccount(String portal, String username, String oauth_verifier, String oauth_token) {
+		ConnectedAccount c = new ConnectedAccount();
+		c.userName = username;
+		c.oauth_token = oauth_token;
+		c.oauth_verifier = oauth_verifier;
+		
+		linkedOAuthAccounts().put(portal, c);
+	}
+	
+	@Override
+	public boolean linkedAccount(String string) {
+		return linkedOAuthAccounts().containsKey(string);
+	}
+	@Override
+	public String linkedAccountUsername(String string) {
+		if (! linkedAccount(string)) return "";
+		return linkedOAuthAccounts().get(string).userName;
+	}
+	@Override
+	public void unlinkAccount(String portal) {
+		linkedOAuthAccounts().remove(portal);
+	}
 }
