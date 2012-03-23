@@ -1,4 +1,19 @@
 #!/bin/sh
+
+echo ---- Linux Package Upgrades
+aptitude -y upgrade
+aptitude -y safe-update
+
+echo
+echo
+echo ---- Timezone
+# Choose your timezone: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+echo "America/Sao_Paulo" > /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata
+
+echo ----------------------
+echo Directories...
+echo ----------------------
 mkdir /agitter
 mkdir /agitter/production
 mkdir /agitter/staging
@@ -58,8 +73,3 @@ cp agitter*.sh /etc/init.d/
 chmod +x /etc/init.d/agitter*.sh
 update-rc.d agitter_boot.sh defaults 80
 
-echo ----------------------
-echo Timezone
-echo ----------------------
-echo "America/Sao_Paulo" > /etc/timezone
-dpkg-reconfigure -f noninteractive tzdata
