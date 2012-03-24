@@ -159,7 +159,7 @@ public class OAuth {
 	}
 
 	private void startContactImport(AuthProvider provider, User user) {
-		//if (!providesUsefulContacts(provider)) return;
+		if (!providesUsefulContacts(provider)) return;
 		
 		List<Contact> candidates;
 		try {
@@ -187,14 +187,14 @@ public class OAuth {
 		return true;
 	}
 
-	public String getUsername(Profile candidate) {
-		String name = "";
-		
+	public String getUsername(Profile candidate) {	
 		if (candidate.getDisplayName() != null) 
 			return candidate.getDisplayName();
 
 		if (candidate.getFullName() != null) 
 			return candidate.getFullName();
+		
+		String name = "";
 			
 		if (candidate.getFirstName() != null)
 			name = candidate.getFirstName() + " ";

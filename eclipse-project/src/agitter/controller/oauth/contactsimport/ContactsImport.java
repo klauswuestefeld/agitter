@@ -50,7 +50,7 @@ public class ContactsImport extends Thread {
 	
 	private void importIfNecessary(Contact candidate) {
 		User user = asUser(candidate);
-		
+		//System.out.println("Adicionando " + candidate.getDisplayName() + " " + candidate.getEmail() + " " + candidate.getId() + " " + candidate.getProfileUrl() + " " + candidate.getFirstName());
 		if (user == null) return;
 		
 		if (!existing.contains(user)) 
@@ -85,6 +85,9 @@ public class ContactsImport extends Thread {
 	}
 	
 	public String getName(Contact candidate) {
+		if (candidate.getDisplayName() != null) 
+			return candidate.getDisplayName();
+		
 		String name = "";
 		
 		if (candidate.getFirstName() != null)
