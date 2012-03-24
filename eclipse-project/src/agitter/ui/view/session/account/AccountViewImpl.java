@@ -146,9 +146,8 @@ public class AccountViewImpl implements AccountView {
 		twitterSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(TWITTER);
 		twitterSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
-		//Label caption = new Label("Logado ");
-		//twitterSettings.addComponent(caption); caption.addStyleName("a-account-field-caption");
-		//twitterSettings.addComponent(name); name.addStyleName("a-contacts-members-new");
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-twitter");
 		twitterSettings.addComponent(twitterLogin);
 		twitterSettings.addComponent(twitterLogout);
 		views.put(TWITTER, twitterSettings);
@@ -157,7 +156,9 @@ public class AccountViewImpl implements AccountView {
 	public void createFacebookSettings() {
 		facebookSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(FACEBOOK);
-		facebookSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
+		facebookSettings.addComponent(accountDetailsCaption); 
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-facebook");
 		facebookSettings.addComponent(facebookLogin);
 		facebookSettings.addComponent(facebookLogout);
 		views.put(FACEBOOK, facebookSettings);
@@ -166,7 +167,9 @@ public class AccountViewImpl implements AccountView {
 	public void createGoogleSettings() {
 		googleSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(GOOGLE);
-		googleSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
+		googleSettings.addComponent(accountDetailsCaption); 
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-google");
 		googleSettings.addComponent(googleLogin);
 		googleSettings.addComponent(googleLogout);
 		views.put(GOOGLE, googleSettings);
@@ -175,7 +178,9 @@ public class AccountViewImpl implements AccountView {
 	public void createWindowsSettings() {
 		windowsSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(WINDOWS);
-		windowsSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
+		windowsSettings.addComponent(accountDetailsCaption); 
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-windows");
 		windowsSettings.addComponent(windowsLogin);
 		windowsSettings.addComponent(windowsLogout);
 		views.put(WINDOWS, windowsSettings);
@@ -184,7 +189,9 @@ public class AccountViewImpl implements AccountView {
 	public void createYahooSettings() {
 		yahooSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(YAHOO);
-		yahooSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
+		yahooSettings.addComponent(accountDetailsCaption); 
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-yahoo");
 		yahooSettings.addComponent(yahooLogin);
 		yahooSettings.addComponent(yahooLogout);
 		views.put(YAHOO, yahooSettings);

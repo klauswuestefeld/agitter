@@ -157,8 +157,11 @@ public class OAuth {
 			return;
 		}
 		
+		char[] groupname = provider.getProviderId().toCharArray();
+		groupname[0] = Character.toUpperCase(groupname[0]);
+		
 		if (candidates.isEmpty()) return;
-		new ContactsImport("Importado de " + provider.getProviderId(), contacts.contactsOf(user), candidates, userProducer)
+		new ContactsImport(new String(groupname), contacts.contactsOf(user), candidates, userProducer)
 			.start(); //Optimize: use a thread pool instead of starting tons of threads.
 
 	}

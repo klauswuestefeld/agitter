@@ -498,6 +498,17 @@ textarea.a-invite-description {
     margin-bottom: 3px;
 }
 
+/* Account ------------------------------------------------------------------------  */
+
+.a-account-social-caption {
+	color: #505050;
+	font-size: 25px;
+	text-shadow: 1px 1px 1px white;
+	padding-left: 45px;
+	padding-top: 3px;
+	padding-bottom: 13px;
+	margin-bottom: 10px;
+}
 
 /* Contacts  ----------------------------------------------------------------------   */
 

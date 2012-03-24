@@ -13,6 +13,10 @@ class LinkedAccount {
 	String oauth_token;
 	String userName;
 	String portal;
+	
+	public LinkedAccount(String portal) {
+		this.portal = portal;
+	}
 }
 
 public class UserImpl implements User {
@@ -86,7 +90,7 @@ public class UserImpl implements User {
 	
 	@Override
 	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken) {
-		LinkedAccount c = new LinkedAccount();
+		LinkedAccount c = new LinkedAccount(portal);
 		c.userName = username;
 		c.oauth_token = oauthToken;
 		c.oauth_verifier = oauthVerifier;
