@@ -119,7 +119,13 @@ public class OAuth {
 		}
 	
 		User user = userProducer.evaluate(EmailAddress.email(profile.getEmail()));
-		user.linkAccount(provider.getProviderId(), profile.getDisplayName(), paramsMap.get("oauth_verifier"), paramsMap.get("oauth_token"));			
+		user.linkAccount(provider.getProviderId(), 
+				 getUsername(profile), 
+				 paramsMap.get("oauth_verifier"), 
+				 paramsMap.get("oauth_token"),
+				 profile.getProfileImageURL(),
+				 profile.getEmail() 
+				 );					
 		startContactImport(provider, user);
 		return user;
 	}
@@ -141,7 +147,13 @@ public class OAuth {
 			throw e;
 		}
 	
-		user.linkAccount(provider.getProviderId(),  profile.getDisplayName(), paramsMap.get("oauth_verifier"), paramsMap.get("oauth_token"));			
+		user.linkAccount(provider.getProviderId(), 
+						 getUsername(profile), 
+						 paramsMap.get("oauth_verifier"), 
+						 paramsMap.get("oauth_token"),
+						 profile.getProfileImageURL(),
+						 profile.getEmail()
+						 );			
 		startContactImport(provider, user);
 		return user;
 	}
@@ -173,4 +185,28 @@ public class OAuth {
 		return true;
 	}
 
+	public String getUsername(Profile candidate) {
+		String name = "";
+		
+		if (candidate.getDisplayName() != null) 
+			return candidate.getDisplayName();
+
+		if (candidate.getFullName() != null) 
+			return candidate.getFullName();
+			
+		if (candidate.getFirstName() != null)
+			name = candidate.getFirstName() + " ";
+		
+		if (candidate.getLastName() != null) 
+			name = name + candidate.getLastName();
+		
+		if (!name.trim().equals(""))
+			return name.trim();
+		
+		if (candidate.getValidatedId() != null)
+			return candidate.getValidatedId();
+		
+		return null;
+	}
+	
 }

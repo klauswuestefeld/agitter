@@ -14,11 +14,13 @@ import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextField;
@@ -60,6 +62,13 @@ public class AccountViewImpl implements AccountView {
 	private final Button windowsLogout= new NativeButton();
 	private final Button yahooLogout = new NativeButton();
 	
+	private Embedded twitterImage = new Embedded();
+	private Embedded facebookImage = new Embedded();
+	private Embedded yahooImage = new Embedded();
+	private Embedded windowsImage = new Embedded();
+	private Embedded googleImage = new Embedded();
+
+	
 	private Map<String, CssLayout> views = new HashMap<String, CssLayout>();
 	private User user;
 
@@ -84,7 +93,7 @@ public class AccountViewImpl implements AccountView {
 		yahooLogout.setDescription("Desconectar do Yahoo");
 		facebookLogout.setDescription("Desconectar do Facebook");
 		twitterLogout.setDescription("Desconectar do Twitter");
-		
+				
 		createTwitterSettings();
 		createFacebookSettings();
 		createGoogleSettings();
@@ -115,7 +124,7 @@ public class AccountViewImpl implements AccountView {
 		optionsList.addElementUnremovable(YAHOO, "a-auth-topbar-social-yahoo a-account-social-item-list");
 		optionsList.addElementUnremovable(WINDOWS, "a-auth-topbar-social-windows a-account-social-item-list");
 		
-		settingsSide = new CssLayout(); settingsSide.addStyleName("a-contacts-members");
+		settingsSide = new CssLayout(); settingsSide.addStyleName("a-account-data");
 		
 		accountView.addComponent(options);
 		accountView.addComponent(settingsSide);
@@ -144,56 +153,74 @@ public class AccountViewImpl implements AccountView {
 
 	public void createTwitterSettings() {
 		twitterSettings = new CssLayout(); 
-		Label accountDetailsCaption = WidgetUtils.createLabel(TWITTER);
-		twitterSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-twitter");
 		twitterSettings.addComponent(twitterLogin);
 		twitterSettings.addComponent(twitterLogout);
+		twitterLogin.addStyleName("a-account-link-button");
+		twitterLogout.addStyleName("a-account-link-button");
+		Label accountDetailsCaption = WidgetUtils.createLabel(TWITTER);
+		twitterSettings.addComponent(accountDetailsCaption); 
+		accountDetailsCaption.addStyleName("a-contacts-members-caption");
+		accountDetailsCaption.addStyleName("a-account-social-caption");
+		accountDetailsCaption.addStyleName("a-auth-topbar-social-twitter");
+		twitterSettings.addComponent(twitterImage);
 		views.put(TWITTER, twitterSettings);
 	}
 	
 	public void createFacebookSettings() {
 		facebookSettings = new CssLayout(); 
+		facebookSettings.addComponent(facebookLogin);
+		facebookSettings.addComponent(facebookLogout);
+		facebookLogin.addStyleName("a-account-link-button");
+		facebookLogout.addStyleName("a-account-link-button");
 		Label accountDetailsCaption = WidgetUtils.createLabel(FACEBOOK);
 		facebookSettings.addComponent(accountDetailsCaption); 
 		accountDetailsCaption.addStyleName("a-account-social-caption");
 		accountDetailsCaption.addStyleName("a-auth-topbar-social-facebook");
-		facebookSettings.addComponent(facebookLogin);
-		facebookSettings.addComponent(facebookLogout);
+		facebookSettings.addComponent(facebookImage);
 		views.put(FACEBOOK, facebookSettings);
 	}
 	
 	public void createGoogleSettings() {
 		googleSettings = new CssLayout(); 
+		googleSettings.addComponent(googleLogin);
+		googleSettings.addComponent(googleLogout);
+		googleLogin.addStyleName("a-account-link-button");
+		googleLogout.addStyleName("a-account-link-button");
 		Label accountDetailsCaption = WidgetUtils.createLabel(GOOGLE);
 		googleSettings.addComponent(accountDetailsCaption); 
 		accountDetailsCaption.addStyleName("a-account-social-caption");
 		accountDetailsCaption.addStyleName("a-auth-topbar-social-google");
-		googleSettings.addComponent(googleLogin);
-		googleSettings.addComponent(googleLogout);
+		googleSettings.addComponent(googleImage);
 		views.put(GOOGLE, googleSettings);
 	}
 	
 	public void createWindowsSettings() {
 		windowsSettings = new CssLayout(); 
+		windowsSettings.addComponent(windowsLogin);
+		windowsSettings.addComponent(windowsLogout);
+		windowsLogin.addStyleName("a-account-link-button");
+		windowsLogout.addStyleName("a-account-link-button");
 		Label accountDetailsCaption = WidgetUtils.createLabel(WINDOWS);
 		windowsSettings.addComponent(accountDetailsCaption); 
 		accountDetailsCaption.addStyleName("a-account-social-caption");
 		accountDetailsCaption.addStyleName("a-auth-topbar-social-windows");
-		windowsSettings.addComponent(windowsLogin);
-		windowsSettings.addComponent(windowsLogout);
+
+		windowsSettings.addComponent(windowsImage);
 		views.put(WINDOWS, windowsSettings);
 	}
 	
 	public void createYahooSettings() {
 		yahooSettings = new CssLayout(); 
+		yahooSettings.addComponent(yahooLogin);
+		yahooSettings.addComponent(yahooLogout);
+		yahooLogin.addStyleName("a-account-link-button");
+		yahooLogout.addStyleName("a-account-link-button");
 		Label accountDetailsCaption = WidgetUtils.createLabel(YAHOO);
 		yahooSettings.addComponent(accountDetailsCaption); 
 		accountDetailsCaption.addStyleName("a-account-social-caption");
 		accountDetailsCaption.addStyleName("a-auth-topbar-social-yahoo");
-		yahooSettings.addComponent(yahooLogin);
-		yahooSettings.addComponent(yahooLogout);
+
+		yahooSettings.addComponent(yahooImage);
 		views.put(YAHOO, yahooSettings);
 	}
 	
@@ -236,13 +263,29 @@ public class AccountViewImpl implements AccountView {
 			yahooLogout.setVisible(user.isAccountLinked(OAuth.YAHOO));
 			windowsLogout.setVisible(user.isAccountLinked(OAuth.HOTMAIL));
 				
-			twitterLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.TWITTER));
+			twitterLogout.setCaption("Desconectar de @" +  user.linkedAccountUsername(OAuth.TWITTER));
 			facebookLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.FACEBOOK));
 			yahooLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.YAHOO));
 			googleLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.GOOGLE));
 			windowsLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.HOTMAIL));
+			
+			setPictureProfile(twitterImage, user.linkedAccountImage(OAuth.TWITTER));
+			setPictureProfile(facebookImage, user.linkedAccountImage(OAuth.FACEBOOK));
+			setPictureProfile(googleImage, user.linkedAccountImage(OAuth.GOOGLE));
+			setPictureProfile(yahooImage, user.linkedAccountImage(OAuth.YAHOO));
+			setPictureProfile(windowsImage, user.linkedAccountImage(OAuth.HOTMAIL));
+
 		} else {
 			name.setValue("");
+		}
+	}
+	
+	public void setPictureProfile(Embedded view, String url) {
+		System.out.println("Setting " + url);
+		if (url != null) {
+			view.setSource(new ExternalResource(url));
+			view.setType(Embedded.TYPE_IMAGE);
+			view.setSizeUndefined();
 		}
 	}
 

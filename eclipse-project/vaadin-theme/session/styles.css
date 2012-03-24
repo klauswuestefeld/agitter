@@ -500,6 +500,17 @@ textarea.a-invite-description {
 
 /* Account ------------------------------------------------------------------------  */
 
+.a-account-data {
+	display: inline-block;
+	zoom: 1;			/* IE stuff */
+	*display: inline;	/* IE stuff */
+	overflow: hidden;
+	vertical-align: top;
+	border-top-right-radius: 7px;
+	padding: 18px 0px 18px 18px;
+	width: 500px;
+}
+
 .a-account-social-item-list {
 	padding-left: 33px;
 	padding-top: 3px;
@@ -515,6 +526,11 @@ textarea.a-invite-description {
 	padding-bottom: 13px;
 	margin-bottom: 10px;
 }
+
+.a-account-link-button {
+	float:right;
+}
+
 
 /* Contacts  ----------------------------------------------------------------------   */
 

@@ -13,9 +13,21 @@ class LinkedAccount {
 	String oauth_token;
 	String userName;
 	String portal;
+	String imgProfile;
+	String email;
 	
 	public LinkedAccount(String portal) {
 		this.portal = portal;
+	}
+	
+	@Override
+	public String toString() {
+		return "oVerifier: " + oauth_verifier + "\n"
+			+ "oToken: " + oauth_token + "\n"
+			+ "User Name: " + userName + "\n"
+			+ "Portal: " + portal + "\n"
+			+ "IMG: " + imgProfile + "\n"
+			+ "E-mail: " + email;
 	}
 }
 
@@ -89,11 +101,15 @@ public class UserImpl implements User {
 
 	
 	@Override
-	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken) {
+	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email) {
 		LinkedAccount c = new LinkedAccount(portal);
 		c.userName = username;
 		c.oauth_token = oauthToken;
 		c.oauth_verifier = oauthVerifier;
+		c.imgProfile = imageProfile;
+		c.email = email;
+		
+		System.out.println(c.toString());
 
 		unlinkAccount(portal);
 		linkedAccounts().add(c);
@@ -113,6 +129,11 @@ public class UserImpl implements User {
 	public String linkedAccountUsername(String portal) {
 		LinkedAccount acc = linkedAccountFor(portal);
 		return acc == null ? "" : acc.userName;
+	}
+	@Override
+	public String linkedAccountImage(String portal) {
+		LinkedAccount acc = linkedAccountFor(portal);
+		return acc == null ? null : acc.imgProfile;
 	}
 	@Override
 	public void unlinkAccount(String portal) {
