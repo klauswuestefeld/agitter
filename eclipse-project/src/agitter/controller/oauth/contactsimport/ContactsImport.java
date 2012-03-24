@@ -10,6 +10,7 @@ import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
+import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
 
@@ -49,16 +50,29 @@ public class ContactsImport extends Thread {
 	
 	private void importIfNecessary(Contact candidate) {
 		User user = asUser(candidate);
-		if (user == null || existing.contains(user)) return;
-		container.addContact(user);
+		System.out.println("Adicionando " + candidate.getDisplayName() + " " + candidate.getEmail() + " " + candidate.getId() + " " + candidate.getProfileUrl() + " " + candidate.getFirstName());
+		
+		if (user == null) return;
+		
+		if (!existing.contains(user)) 
+			container.addContact(user);
+		
 		container.addContactTo(container.groupGivenName(group), user);
 	}
 
 	
 	private User asUser(Contact candidate) {
-		if (candidate.getEmail() == null) return null;
+		String emailStr = candidate.getEmail(); 
+		if (emailStr == null) {
+			if (AddressValidator.isValidEmail(candidate.getDisplayName())) {
+				emailStr = candidate.getDisplayName();	
+			}
+		}
+			
+		if (emailStr == null) return null;
+		
 		try {
-			EmailAddress email = EmailAddress.email(candidate.getEmail());
+			EmailAddress email = EmailAddress.email(emailStr);
 			User u = userProducer.evaluate(email);
 			
 			if (u != null) 

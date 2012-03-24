@@ -121,8 +121,8 @@ public class OAuth {
 		User user = userProducer.evaluate(EmailAddress.email(profile.getEmail()));
 		user.linkAccount(provider.getProviderId(), 
 				 getUsername(profile), 
-				 paramsMap.get("oauth_verifier"), 
-				 paramsMap.get("oauth_token"),
+				 paramsMap.get("oauth_verifier") != null ? paramsMap.get("oauth_verifier") : paramsMap.get("exp"),
+				 paramsMap.get("oauth_token") != null ? paramsMap.get("oauth_token") : paramsMap.get("wrap_verification_code"),
 				 profile.getProfileImageURL(),
 				 profile.getEmail() 
 				 );					
@@ -149,8 +149,8 @@ public class OAuth {
 	
 		user.linkAccount(provider.getProviderId(), 
 						 getUsername(profile), 
-						 paramsMap.get("oauth_verifier"), 
-						 paramsMap.get("oauth_token"),
+						 paramsMap.get("oauth_verifier") != null ? paramsMap.get("oauth_verifier") : paramsMap.get("exp"),
+						 paramsMap.get("oauth_token") != null ? paramsMap.get("oauth_token") : paramsMap.get("wrap_verification_code"),
 						 profile.getProfileImageURL(),
 						 profile.getEmail()
 						 );			
@@ -159,7 +159,7 @@ public class OAuth {
 	}
 
 	private void startContactImport(AuthProvider provider, User user) {
-		if (!providesUsefulContacts(provider)) return;
+		//if (!providesUsefulContacts(provider)) return;
 		
 		List<Contact> candidates;
 		try {
@@ -168,6 +168,8 @@ public class OAuth {
 			LogInfra.getLogger(this).severe("Erro importando contatos via SocialAuth. Provider: " + provider + "\n" + e.getMessage());
 			return;
 		}
+		
+		System.out.println("Importando " + candidates.size() + " contatos");
 		
 		char[] groupname = provider.getProviderId().toCharArray();
 		groupname[0] = Character.toUpperCase(groupname[0]);

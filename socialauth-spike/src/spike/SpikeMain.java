@@ -7,7 +7,7 @@ public class SpikeMain {
 
 	private static String contextPath = "/";
 	private static String resourceBase = "spike-web";
-	private static int httpPort = 80;
+	private static int httpPort = 8080;
 
 	public static void main(String[] args) throws Exception {
 		runJetty();
