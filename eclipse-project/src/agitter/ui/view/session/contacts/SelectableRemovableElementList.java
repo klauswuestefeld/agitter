@@ -31,14 +31,17 @@ public class SelectableRemovableElementList extends CssLayout {
 
 	
 	public void addElement(String element) {
-		addElement(element, true);
+		addElement(element, true, null);
 	}
 
 
 	public void addElementUnremovable(String element) {
-		addElement(element, false);
+		addElement(element, false, null);
 	}
 	
+	public void addElementUnremovable(String element, String style) {
+		addElement(element, false, style);
+	}
 	
 	public void addElements(Iterable<String> elements) {
 		for (String string : elements)
@@ -46,10 +49,15 @@ public class SelectableRemovableElementList extends CssLayout {
 	}
 
 	
-	private void addElement(String element, boolean removable) {
+	private void addElement(String element, boolean removable, String style) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
 		Label caption = newElementCaptionLabel(element);
-		elemLine.addComponent(caption); caption.addStyleName("a-remov-elem-list-element-caption");
+		elemLine.addComponent(caption); 
+		caption.addStyleName("a-remov-elem-list-element-caption");
+		
+		if (style != null)
+			caption.addStyleName(style);
+		
 		if (removable) {
 			Label removeButton = newElementRemoveLabel();
 			elemLine.addComponent(removeButton); removeButton.addStyleName("a-remov-elem-list-element-remove-button");
@@ -149,5 +157,6 @@ public class SelectableRemovableElementList extends CssLayout {
 		if (selectionListener == null) return;
 		selectionListener.consume(element);
 	}
+
 	
 }

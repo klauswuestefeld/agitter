@@ -109,11 +109,11 @@ public class AccountViewImpl implements AccountView {
 		options.addComponent(optionsList); optionsList.addStyleName("a-contacts-groups-list");
 		optionsList.removeAllComponents();
 		optionsList.addElementUnremovable(ACCOUNT);
-		optionsList.addElementUnremovable(TWITTER);
-		optionsList.addElementUnremovable(FACEBOOK);
-		optionsList.addElementUnremovable(GOOGLE);
-		optionsList.addElementUnremovable(YAHOO);
-		optionsList.addElementUnremovable(WINDOWS);
+		optionsList.addElementUnremovable(TWITTER, "a-auth-topbar-social-twitter a-account-social-item-list");
+		optionsList.addElementUnremovable(FACEBOOK, "a-auth-topbar-social-facebook a-account-social-item-list");
+		optionsList.addElementUnremovable(GOOGLE, "a-auth-topbar-social-google a-account-social-item-list");
+		optionsList.addElementUnremovable(YAHOO, "a-auth-topbar-social-yahoo a-account-social-item-list");
+		optionsList.addElementUnremovable(WINDOWS, "a-auth-topbar-social-windows a-account-social-item-list");
 		
 		settingsSide = new CssLayout(); settingsSide.addStyleName("a-contacts-members");
 		

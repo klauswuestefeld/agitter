@@ -500,6 +500,12 @@ textarea.a-invite-description {
 
 /* Account ------------------------------------------------------------------------  */
 
+.a-account-social-item-list {
+	padding-left: 33px;
+	padding-top: 3px;
+	padding-bottom: 1px;
+}
+
 .a-account-social-caption {
 	color: #505050;
 	font-size: 25px;
