@@ -16,7 +16,7 @@ class LinkedAccount {
 	String imgProfile;
 	String email;
 	
-	public LinkedAccount(String portal) {
+	LinkedAccount(String portal) {
 		this.portal = portal;
 	}
 	
@@ -115,8 +115,6 @@ public class UserImpl implements User {
 		c.imgProfile = imageProfile;
 		c.email = email;
 		
-		System.out.println(c.toString());
-
 		unlinkAccount(portal);
 		linkedAccounts().add(c);
 	}
@@ -147,7 +145,7 @@ public class UserImpl implements User {
 	}
 	private LinkedAccount linkedAccountFor(String portal) {
 		for (LinkedAccount acc : linkedAccounts())
-			if (acc.portal.equals(portal)) return acc;
+			if (portal.equals(acc.portal)) return acc;
 		return null;
 	}
 	
