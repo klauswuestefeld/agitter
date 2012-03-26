@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Pair;
+import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -32,38 +32,49 @@ public class SelectableRemovablePairList extends CssLayout {
 
 	
 	public void addElement(String key, String value) {
-		addElement(key, value, true);
+		addElement(key, value, null, true);
 	}
 
+	public void addElement(String key, String value, String icon) {
+		addElement(key, value, icon, true);
+	}
 
 	public void addElementUnremovable(String key, String value) {
-		addElement(key, value, false);
+		addElement(key, value, null, false);
 	}
 	
+	public void addElementUnremovable(String key, String value, String icon) {
+		addElement(key, value, icon, false);
+	}
 	
-	public void addElements(Iterable<Pair<String,String>> elements) {
-		for (Pair<String,String> p : elements)
-			addElement(p.a, p.b);
+	public void addElements(Iterable<AutoCompleteItem> elements) {
+		for (AutoCompleteItem p : elements)
+			addElement(p.key, p.caption, p.icon);
 	}
 
-	
-	private void addElement(String key, String value, boolean removable) {
+	private void addElement(String key, String value, String icon, boolean removable) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
-		Label caption = newElementCaptionLabel(getHTMLName(key, value));
+		Label caption = newElementCaptionLabel(getHTMLName(key, value, icon));
 		caption.setData(key);
-		elemLine.addComponent(caption); caption.addStyleName("a-remov-elem-list-element-caption");
+		elemLine.addComponent(caption); 
+		caption.addStyleName("a-remov-elem-list-element-caption");
 		if (removable) {
 			Label removeButton = newElementRemoveLabel();
 			elemLine.addComponent(removeButton); removeButton.addStyleName("a-remov-elem-list-element-remove-button");
 		}
 		addComponent(elemLine);
 	}
-
-	private String getHTMLName(String key, String value) {
+	
+	private String getHTMLName(String key, String value, String icon) {
 		if (value == null || value.isEmpty()) return key;
 		
-		return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-		       "<span class='a-remov-elem-list-element-key'>" + key + "</span>"; 
+		if (icon == null)
+			return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
+				   "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
+		else 
+			return "<img src='" + icon + "' class='v-icon v-icon-list'/>" +  
+				   "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
+			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
 	}
 
 	
@@ -123,7 +134,15 @@ public class SelectableRemovablePairList extends CssLayout {
 
 	
 	private String getElementStringForElementLine(ComponentContainer elemLine) {
-		Label caption = (Label)elemLine.getComponentIterator().next();
+		Iterator<Component> i = elemLine.getComponentIterator();
+		Component t = i.next();
+		Label caption;
+		if (t instanceof Label) {
+			caption = (Label)t;
+		} else {
+			t = i.next();
+			caption = (Label)t;
+		}
 		return (String)caption.getData();
 	}
 

@@ -37,7 +37,7 @@ public class ContactsDemo {
 		
 		contactsView.setMembersToChoose(contactsAndGroups);
 		contactsView.setGroups(groupNames);
-		contactsView.setMembers(memberPairs);
+		contactsView.setMembers(contactsAndGroups);
 		
 		contactsView.setGroupSelected("Todos");
 	}

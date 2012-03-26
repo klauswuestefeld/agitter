@@ -4,7 +4,6 @@ package agitter.ui.view.session.contacts;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
@@ -127,7 +126,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembers(List<Pair<String,String>> memberNames) {
+	public void setMembers(List<AutoCompleteItem> memberNames) {
 		memberList.removeAllElements();
 		memberList.addElements(memberNames);
 	}

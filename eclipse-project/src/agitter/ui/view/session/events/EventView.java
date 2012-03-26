@@ -23,11 +23,11 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount);
+	void displayEditting(String description, long[] datetimes, List<AutoCompleteItem> invitees, int totalInviteesCount);
 	void refreshInviteesToChoose(List<AutoCompleteItem> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount);
+	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<AutoCompleteItem> knownInvitees, int totalInviteesCount);
 	
 	CommentsView commentsView();
 }

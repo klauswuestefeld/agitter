@@ -1,10 +1,7 @@
 package agitter.ui.presenter;
 
-import static infra.util.ToString.sortIgnoreCase;
-import static infra.util.ToString.toStrings;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -12,6 +9,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.exceptions.Refusal;
+import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
@@ -98,48 +96,24 @@ public class InvitePresenter implements EventView.Boss {
 		view.refreshInviteesToChoose(ContactChooserHelper.contacts(contacts.groups(), contacts.all()));
 	}
 
-
-	private List<Pair<String,String>> sortedInviteesOf(Event event) {
-		List<String> groups = sortedGroupsInviteesOf(event);
-			
-		List<Pair<String,String>> userList = new ArrayList<Pair<String,String>>();
-		for (User u : event.invitees()) {
-			userList.add(new Pair<String, String>(u.email().toString(), u.name()));
-		}
-		for (String group : groups) {
-			userList.add(new Pair<String, String>(group, null));
-		}
-				
-		sortIgnoreCase(userList);
-		
-		return userList;
+	private List<AutoCompleteItem> sortedInviteesOf(Event event) {
+		return ContactChooserHelper.contacts(event.groupInvitees(), event.invitees());
 	}
-	
 
-	private List<Pair<String,String>> sortedKnownInviteesOf(Event event) {
-		List<Pair<String,String>> userList = new ArrayList<Pair<String,String>>();
+	private List<AutoCompleteItem> sortedKnownInviteesOf(Event event) {
+		List<User> userList = new ArrayList<User>();
 		for (User u : event.allResultingInvitees()) {
 			if (contacts.isMyFriend(u.email()) && !u.email().equals(user.email())) {
-				userList.add(new Pair<String, String>(u.email().toString(), u.name()));	
+				userList.add(u);	
 			}
 		}
 		
-		sortIgnoreCase(userList);
-		return userList;
+		return ContactChooserHelper.contacts(Collections.EMPTY_LIST, userList);
 	}
 
 	private Pair<String,String> getOwnerPair(Event selectedEvent) {
 		return new Pair<String,String>(selectedEvent.owner().email().toString(), selectedEvent.owner().name());
-	}
-
-	private List<String> sortedGroupsInviteesOf(Event event) {
-		List<String> result = new ArrayList<String>();
-		String[] groups = toStrings(event.groupInvitees());
-		result.addAll(Arrays.asList(groups));
-		sortIgnoreCase(result);	
-		return result;
-	}
-	
+	}	
 		
 	@Override
 	public void onDescriptionEdit(String newText) {

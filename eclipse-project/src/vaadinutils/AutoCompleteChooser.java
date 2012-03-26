@@ -77,9 +77,9 @@ public class AutoCompleteChooser extends CssLayout {
 	}
 	
 	public static class AutoCompleteItem {
-		private String key;
-		private String caption;
-		private String icon;
+		public String key;
+		public String caption;
+		public String icon;
 		
 		public AutoCompleteItem(String key, String caption, String icon) {
 			super();

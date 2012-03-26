@@ -92,7 +92,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<AutoCompleteItem> invitees, int totalInviteesCount) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -122,7 +122,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<AutoCompleteItem> knownInvitees, int totalInviteesCount) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -145,17 +145,21 @@ class EventViewImpl extends CssLayout implements EventView {
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 	}
 	
-	
-	private String getHTMLInvitee(String key, String value) {
+	private String getHTMLName(String key, String value, String icon) {
 		if (value == null || value.isEmpty()) return key;
 		
-		return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-		       "<span class='a-remov-elem-list-element-key'>" + key + "</span>"; 
+		if (icon == null)
+			return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
+				   "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
+		else 
+			return "<img src='" + icon + "' class='v-icon v-icon-list'/>" +  
+				   "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
+			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
 	}
 	
-	private void displayReadOnlyInvitees(Pair<String,String> owner, List<Pair<String,String>> knownInvitees, int totalInviteesCount) {
+	private void displayReadOnlyInvitees(Pair<String,String> owner, List<AutoCompleteItem> knownInvitees, int totalInviteesCount) {
 		//readOnlyOwner.setValue(owner.b != null ? owner.b : owner.a);
-		readOnlyOwner.setValue(getHTMLInvitee(owner.a,owner.b));
+		readOnlyOwner.setValue(getHTMLName(owner.a,owner.b, null));
 		
 		StringBuffer header;
 
@@ -168,8 +172,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		if (knownInvitees.size() > 0) {
 			header.append(":" );
 			list.append("<ul>");
-			for (Pair<String,String> invitee: knownInvitees)
-				list.append("<li>" + getHTMLInvitee(invitee.a, invitee.b) + "</li>");
+			for (AutoCompleteItem invitee: knownInvitees)
+				list.append("<li>" + getHTMLName(invitee.key, invitee.caption, invitee.icon) + "</li>");
 
 			list.append("<li>você</li>");
 
