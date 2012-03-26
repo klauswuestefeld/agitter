@@ -6,7 +6,7 @@ import java.util.List;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
-import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
+import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 import agitter.ui.view.session.contacts.ContactsView;
 
 public class ContactsDemo {
@@ -30,9 +30,9 @@ public class ContactsDemo {
 			System.err.println("MEMBER REMOVED: " + value);
 		}});
 
-		List<AutoCompleteItem> contactsAndGroups = new ArrayList<AutoCompleteItem>();
+		List<FullFeaturedItem> contactsAndGroups = new ArrayList<FullFeaturedItem>();
 		for (Pair<String,String> p : memberPairs) {
-			contactsAndGroups.add(new AutoCompleteItem(p.a, p.b, null));
+			contactsAndGroups.add(new FullFeaturedItem(p.a, p.b, null));
 		}
 		
 		contactsView.setMembersToChoose(contactsAndGroups);

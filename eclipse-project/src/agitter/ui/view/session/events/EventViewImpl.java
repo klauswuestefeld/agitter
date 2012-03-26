@@ -7,7 +7,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
-import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
+import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
@@ -86,13 +86,13 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void refreshInviteesToChoose(List<AutoCompleteItem> inviteesToChoose) {
+	public void refreshInviteesToChoose(List<FullFeaturedItem> inviteesToChoose) {
 		nextInvitee.setChoices(inviteesToChoose);
 	}
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<AutoCompleteItem> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -122,7 +122,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<AutoCompleteItem> knownInvitees, int totalInviteesCount) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<FullFeaturedItem> knownInvitees, int totalInviteesCount) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -157,7 +157,7 @@ class EventViewImpl extends CssLayout implements EventView {
 			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
 	}
 	
-	private void displayReadOnlyInvitees(Pair<String,String> owner, List<AutoCompleteItem> knownInvitees, int totalInviteesCount) {
+	private void displayReadOnlyInvitees(Pair<String,String> owner, List<FullFeaturedItem> knownInvitees, int totalInviteesCount) {
 		//readOnlyOwner.setValue(owner.b != null ? owner.b : owner.a);
 		readOnlyOwner.setValue(getHTMLName(owner.a,owner.b, null));
 		
@@ -172,7 +172,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		if (knownInvitees.size() > 0) {
 			header.append(":" );
 			list.append("<ul>");
-			for (AutoCompleteItem invitee: knownInvitees)
+			for (FullFeaturedItem invitee: knownInvitees)
 				list.append("<li>" + getHTMLName(invitee.key, invitee.caption, invitee.icon) + "</li>");
 
 			list.append("<li>você</li>");

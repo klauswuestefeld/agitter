@@ -6,7 +6,7 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
-import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
+import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
@@ -82,7 +82,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembersToChoose(List<AutoCompleteItem> membersToChoose) {
+	public void setMembersToChoose(List<FullFeaturedItem> membersToChoose) {
 		newMember.setChoices(membersToChoose);
 	}
 
@@ -126,7 +126,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembers(List<AutoCompleteItem> memberNames) {
+	public void setMembers(List<FullFeaturedItem> memberNames) {
 		memberList.removeAllElements();
 		memberList.addElements(memberNames);
 	}

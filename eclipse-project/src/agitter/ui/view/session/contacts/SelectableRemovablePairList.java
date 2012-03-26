@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
-import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
+import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -47,8 +47,8 @@ public class SelectableRemovablePairList extends CssLayout {
 		addElement(key, value, icon, false);
 	}
 	
-	public void addElements(Iterable<AutoCompleteItem> elements) {
-		for (AutoCompleteItem p : elements)
+	public void addElements(Iterable<FullFeaturedItem> elements) {
+		for (FullFeaturedItem p : elements)
 			addElement(p.key, p.caption, p.icon);
 	}
 

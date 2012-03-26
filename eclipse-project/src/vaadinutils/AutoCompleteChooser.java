@@ -52,13 +52,13 @@ public class AutoCompleteChooser extends CssLayout {
 		choice.setValue(null);
 	}
 	
-	public void setChoices(List<AutoCompleteItem> optionsAndCaptions) {
+	public void setChoices(List<FullFeaturedItem> optionsAndCaptions) {
 		choice.removeAllItems();
-		for (AutoCompleteItem p : optionsAndCaptions) 
+		for (FullFeaturedItem p : optionsAndCaptions) 
 			addItem(p);
 	}
 	
-	public void addItem(AutoCompleteItem p) {
+	public void addItem(FullFeaturedItem p) {
 		choice.addItem(p.key);
 		if (p.caption != null)
 			choice.setItemCaption(p.key, p.caption + "   (" + p.key + ") " );
@@ -76,12 +76,12 @@ public class AutoCompleteChooser extends CssLayout {
 		//choice.setWidth(width);
 	}
 	
-	public static class AutoCompleteItem {
+	public static class FullFeaturedItem {
 		public String key;
 		public String caption;
 		public String icon;
 		
-		public AutoCompleteItem(String key, String caption, String icon) {
+		public FullFeaturedItem(String key, String caption, String icon) {
 			super();
 			this.key = key;
 			this.caption = caption;
