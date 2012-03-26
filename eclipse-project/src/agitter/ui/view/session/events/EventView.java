@@ -23,7 +23,7 @@ public interface EventView {
 	void clear();
 
 	void displayEditting(String description, long[] datetimes, List<Pair<String,String>> invitees, int totalInviteesCount);
-	void refreshInviteesToChoose(List<String> inviteesToChoose);
+	void refreshInviteesToChoose(List<String> inviteesToChoose, List<String> captionsToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
 	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<Pair<String,String>> knownInvitees, int totalInviteesCount);

@@ -58,6 +58,15 @@ public class AutoCompleteChooser extends CssLayout {
 			choice.addItem(option);
 	}
 	
+	public void setChoices(List<String> options, List<String> captions) {
+		choice.removeAllItems();
+		for(int i=0; i < options.size(); i++) {
+			choice.addItem(options.get(i));
+			if (captions.get(i) != null)
+				choice.setItemCaption(options.get(i), captions.get(i) + "   (" + options.get(i) + ") " );
+		}
+	}
+	
 	
 	public void setInputPrompt(String prompt) {
 		choice.setInputPrompt(prompt);

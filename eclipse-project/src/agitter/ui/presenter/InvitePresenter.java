@@ -6,6 +6,7 @@ import infra.util.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -95,7 +96,7 @@ public class InvitePresenter implements EventView.Boss {
 
 
 	void refreshContactsToChoose() {
-		view.refreshInviteesToChoose(contacts());
+		view.refreshInviteesToChoose(contacts(), contactsCaptions());
 	}
 
 
@@ -253,7 +254,20 @@ public class InvitePresenter implements EventView.Boss {
 	
 	private List<String> contacts() {
 		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
-		contactsAndGroups.addAll(ToString.toStrings(contacts.all()));
+
+		for (User obj : contacts.all())
+			contactsAndGroups.add(obj.email().toString());
+		
+		return contactsAndGroups;
+	}
+	
+	private List<String> contactsCaptions() {
+		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
+		Collections.fill(contactsAndGroups, (String)null);
+		
+		for (User obj : contacts.all())
+			contactsAndGroups.add(obj.name());
+
 		return contactsAndGroups;
 	}
 	

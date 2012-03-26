@@ -50,7 +50,7 @@ public class ContactsImport extends Thread {
 	
 	private void importIfNecessary(Contact candidate) {
 		User user = asUser(candidate);
-		//System.out.println("Adicionando " + candidate.getDisplayName() + " " + candidate.getEmail() + " " + candidate.getId() + " " + candidate.getProfileUrl() + " " + candidate.getFirstName());
+		// System.out.println("Adicionando " + candidate.getDisplayName() + " " + candidate.getEmail() + " " + candidate.getId() + " " + candidate.getProfileUrl() + " " + candidate.getFirstName());
 		if (user == null) return;
 		
 		if (!existing.contains(user)) 

@@ -85,8 +85,8 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void refreshInviteesToChoose(List<String> inviteesToChoose) {
-		nextInvitee.setChoices(inviteesToChoose);
+	public void refreshInviteesToChoose(List<String> inviteesToChoose, List<String> captionsToChoose) {
+		nextInvitee.setChoices(inviteesToChoose, captionsToChoose);
 	}
 
 
