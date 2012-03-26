@@ -8,29 +8,6 @@ import sneer.foundation.lang.Functor;
 import utils.Encoders;
 import agitter.domain.emails.EmailAddress;
 
-class LinkedAccount {
-	String oauth_verifier;
-	String oauth_token;
-	String userName;
-	String portal;
-	String imgProfile;
-	String email;
-	
-	LinkedAccount(String portal) {
-		this.portal = portal;
-	}
-	
-	@Override
-	public String toString() {
-		return "oVerifier: " + oauth_verifier + "\n"
-			+ "oToken: " + oauth_token + "\n"
-			+ "User Name: " + userName + "\n"
-			+ "Portal: " + portal + "\n"
-			+ "IMG: " + imgProfile + "\n"
-			+ "E-mail: " + email;
-	}
-}
-
 public class UserImpl implements User {
 
 	private static final Functor<String, byte[]> HMAC = Encoders.hmacForKey("QualquerCoiSa675$#");
@@ -102,18 +79,13 @@ public class UserImpl implements User {
 	@Override
 	public String picture() {
 		for (LinkedAccount acc : linkedAccounts())
-			if (acc.imgProfile != null) return acc.imgProfile;
+			if (acc.imageProfile != null) return acc.imageProfile;
 		return null;
 	}
 	
 	@Override
 	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email) {
-		LinkedAccount c = new LinkedAccount(portal);
-		c.userName = username;
-		c.oauth_token = oauthToken;
-		c.oauth_verifier = oauthVerifier;
-		c.imgProfile = imageProfile;
-		c.email = email;
+		LinkedAccount c = new LinkedAccount(portal, username, oauthToken, oauthVerifier, imageProfile, email);
 		
 		unlinkAccount(portal);
 		linkedAccounts().add(c);
@@ -137,7 +109,7 @@ public class UserImpl implements User {
 	@Override
 	public String linkedAccountImage(String portal) {
 		LinkedAccount acc = linkedAccountFor(portal);
-		return acc == null ? null : acc.imgProfile;
+		return acc == null ? null : acc.imageProfile;
 	}
 	@Override
 	public void unlinkAccount(String portal) {
