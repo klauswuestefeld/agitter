@@ -9,6 +9,7 @@ class LinkedAccount {
 	final String email;
 	
 	LinkedAccount(String portal, String username, String oauthToken, String oauthVerifier, String imageProfile, String email) {
+		if (portal == null) throw new IllegalArgumentException();
 		this.portal = portal;
 		this.userName = username;
 		this.oauthToken = oauthToken;
