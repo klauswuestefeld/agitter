@@ -2,6 +2,7 @@ package vaadinutils;
 
 import java.util.List;
 
+import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
 
@@ -50,20 +51,13 @@ public class AutoCompleteChooser extends CssLayout {
 		}
 		choice.setValue(null);
 	}
-
 	
-	public void setChoices(List<String> options) {
+	public void setChoices(List<Pair<String, String>> optionsAndCaptions) {
 		choice.removeAllItems();
-		for(String option : options)
-			choice.addItem(option);
-	}
-	
-	public void setChoices(List<String> options, List<String> captions) {
-		choice.removeAllItems();
-		for(int i=0; i < options.size(); i++) {
-			choice.addItem(options.get(i));
-			if (captions.get(i) != null)
-				choice.setItemCaption(options.get(i), captions.get(i) + "   (" + options.get(i) + ") " );
+		for(Pair<String,String> p : optionsAndCaptions) {
+			choice.addItem(p.a);
+			if (p.b != null)
+				choice.setItemCaption(p.a, p.b + "   (" + p.a + ") " );
 		}
 	}
 	

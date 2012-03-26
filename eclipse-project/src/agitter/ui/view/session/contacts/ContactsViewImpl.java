@@ -82,7 +82,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembersToChoose(List<String> membersToChoose) {
+	public void setMembersToChoose(List<Pair<String,String>> membersToChoose) {
 		newMember.setChoices(membersToChoose);
 	}
 

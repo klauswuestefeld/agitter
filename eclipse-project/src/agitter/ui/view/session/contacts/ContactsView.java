@@ -17,10 +17,10 @@ public interface ContactsView {
 	void setGroupRemoveListener(Consumer<String> consumer);
 	void clearGroupCreateField();
 
-	void setMembersToChoose(List<String> membersToChoose);
 	void setMemberEntryListener(Predicate<String> listener);
 	void setMemberRemoveListener(Consumer<String> consumer);
 
 	void setMembers(List<Pair<String, String>> memberNames);
+	void setMembersToChoose(List<Pair<String, String>> memberPairs);
 
 }

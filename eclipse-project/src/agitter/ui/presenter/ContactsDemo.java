@@ -10,7 +10,6 @@ import agitter.ui.view.session.contacts.ContactsView;
 public class ContactsDemo {
 
 	private static final List<String> groupNames = Arrays.asList("Todos", "Amigos", "Familia", "Faculdade", "Trabalho");
-	private static final List<String> memberNames = Arrays.asList("ana@gmail.com", "bob@yahoo.com.br", "carla@hotmail.com", "mario@nuintendo.com");
 	private static final List<Pair<String,String>> memberPairs = 
 			Arrays.asList(	new Pair<String,String>("ana@gmail.com", "Ana"), 
 						  	new Pair<String,String>("bob@yahoo.com.br", "Bob"),
@@ -29,7 +28,7 @@ public class ContactsDemo {
 			System.err.println("MEMBER REMOVED: " + value);
 		}});
 
-		contactsView.setMembersToChoose(memberNames);
+		contactsView.setMembersToChoose(memberPairs);
 		contactsView.setGroups(groupNames);
 		contactsView.setMembers(memberPairs);
 		

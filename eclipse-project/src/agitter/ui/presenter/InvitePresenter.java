@@ -2,11 +2,9 @@ package agitter.ui.presenter;
 
 import static infra.util.ToString.sortIgnoreCase;
 import static infra.util.ToString.toStrings;
-import infra.util.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -24,6 +22,7 @@ import agitter.domain.emails.EmailExtractor.Visitor;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
+import agitter.ui.helper.ContactChooserHelper;
 import agitter.ui.view.session.events.EventView;
 
 public class InvitePresenter implements EventView.Boss {
@@ -96,7 +95,7 @@ public class InvitePresenter implements EventView.Boss {
 
 
 	void refreshContactsToChoose() {
-		view.refreshInviteesToChoose(contacts(), contactsCaptions());
+		view.refreshInviteesToChoose(ContactChooserHelper.contacts(contacts.groups(), contacts.all()));
 	}
 
 
@@ -250,27 +249,7 @@ public class InvitePresenter implements EventView.Boss {
 	public void onDateChanged(Long from, Long to) {
 		selectedEvent.changeDate(from,to);
 		onEventDataChanged.run();
-	}
-	
-	private List<String> contacts() {
-		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
-
-		for (User obj : contacts.all())
-			contactsAndGroups.add(obj.email().toString());
-		
-		return contactsAndGroups;
-	}
-	
-	private List<String> contactsCaptions() {
-		List<String> contactsAndGroups = ToString.toStrings(contacts.groups());
-		Collections.fill(contactsAndGroups, (String)null);
-		
-		for (User obj : contacts.all())
-			contactsAndGroups.add(obj.name());
-
-		return contactsAndGroups;
-	}
-	
+	}	
 
 	@Override
 	public void onEventRemoved() {

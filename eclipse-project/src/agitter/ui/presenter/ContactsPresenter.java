@@ -16,6 +16,7 @@ import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
+import agitter.ui.helper.ContactChooserHelper;
 import agitter.ui.view.session.contacts.ContactsView;
 
 public class ContactsPresenter {
@@ -123,18 +124,19 @@ public class ContactsPresenter {
 			return;
 		}
 		
-		List<Object> choices = new ArrayList<Object>();
+		List<Group> choices = new ArrayList<Group>();
 
 		choices.addAll(contacts.groups());
 		choices.remove(groupSelected);
 		choices.removeAll(groupSelected.immediateSubgroups());
-		
-		choices.addAll(contacts.all());
-		choices.removeAll(groupSelected.immediateMembers());
-		
-		view.setMembersToChoose(toStrings(choices));
-	}
 
+		List<User> uChoices = new ArrayList<User>();
+		
+		uChoices.addAll(contacts.all());
+		uChoices.removeAll(groupSelected.immediateMembers());		
+		
+		view.setMembersToChoose(ContactChooserHelper.contacts(choices, uChoices));
+	}
 	
 	private Predicate<String> memberEntryListener() {
 		return new Predicate<String>() { @Override public boolean evaluate(String entry) {
