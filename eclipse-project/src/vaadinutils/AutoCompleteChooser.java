@@ -2,11 +2,11 @@ package vaadinutils;
 
 import java.util.List;
 
-import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
@@ -52,15 +52,19 @@ public class AutoCompleteChooser extends CssLayout {
 		choice.setValue(null);
 	}
 	
-	public void setChoices(List<Pair<String, String>> optionsAndCaptions) {
+	public void setChoices(List<AutoCompleteItem> optionsAndCaptions) {
 		choice.removeAllItems();
-		for(Pair<String,String> p : optionsAndCaptions) {
-			choice.addItem(p.a);
-			if (p.b != null)
-				choice.setItemCaption(p.a, p.b + "   (" + p.a + ") " );
-		}
+		for (AutoCompleteItem p : optionsAndCaptions) 
+			addItem(p);
 	}
 	
+	public void addItem(AutoCompleteItem p) {
+		choice.addItem(p.key);
+		if (p.caption != null)
+			choice.setItemCaption(p.key, p.caption + "   (" + p.key + ") " );
+		if (p.icon != null)
+			choice.setItemIcon(p.key, new ExternalResource(p.icon));
+	}
 	
 	public void setInputPrompt(String prompt) {
 		choice.setInputPrompt(prompt);
@@ -71,5 +75,17 @@ public class AutoCompleteChooser extends CssLayout {
 		// WARNING: algo errado com esse comando. Ele destroi o layout.
 		//choice.setWidth(width);
 	}
-
+	
+	public static class AutoCompleteItem {
+		private String key;
+		private String caption;
+		private String icon;
+		
+		public AutoCompleteItem(String key, String caption, String icon) {
+			super();
+			this.key = key;
+			this.caption = caption;
+			this.icon = icon;
+		}
+	}
 }

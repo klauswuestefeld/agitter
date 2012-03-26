@@ -5,6 +5,7 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
+import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
 
 public interface ContactsView {
 
@@ -21,6 +22,6 @@ public interface ContactsView {
 	void setMemberRemoveListener(Consumer<String> consumer);
 
 	void setMembers(List<Pair<String, String>> memberNames);
-	void setMembersToChoose(List<Pair<String, String>> memberPairs);
+	void setMembersToChoose(List<AutoCompleteItem> memberPairs);
 
 }

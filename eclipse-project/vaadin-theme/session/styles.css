@@ -744,3 +744,7 @@ textarea.a-invite-description {
 	color: gray;
 }
 
+.v-icon {
+	width:16px;
+	height:16px;
+}

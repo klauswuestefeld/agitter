@@ -99,6 +99,12 @@ public class UserImpl implements User {
 		return HMAC.evaluate(password);
 	}
 
+	@Override
+	public String picture() {
+		for (LinkedAccount acc : linkedAccounts())
+			if (acc.imgProfile != null) return acc.imgProfile;
+		return null;
+	}
 	
 	@Override
 	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email) {

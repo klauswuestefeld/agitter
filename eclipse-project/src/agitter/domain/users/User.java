@@ -8,7 +8,8 @@ public interface User {
 	void setName(String name);
 	EmailAddress email();
 	String screenName();
-
+	String picture();
+	
 	boolean hasName();
 	boolean hasSignedUp();
 	boolean isPasswordCorrect(String passwordAttempt);

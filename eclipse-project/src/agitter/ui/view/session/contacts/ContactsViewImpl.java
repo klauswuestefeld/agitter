@@ -7,6 +7,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
+import vaadinutils.AutoCompleteChooser.AutoCompleteItem;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
@@ -82,7 +83,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembersToChoose(List<Pair<String,String>> membersToChoose) {
+	public void setMembersToChoose(List<AutoCompleteItem> membersToChoose) {
 		newMember.setChoices(membersToChoose);
 	}
 
