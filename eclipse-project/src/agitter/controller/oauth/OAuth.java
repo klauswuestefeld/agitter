@@ -73,11 +73,11 @@ public class OAuth {
 	}
 	
 	
-	private String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
+	public String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
 		return callOAuth(context, "oauth", httpSession, providerId);
 	}	
 
-	private String linkURL(String context, HttpSession httpSession, String providerId) throws Exception {
+	public String linkURL(String context, HttpSession httpSession, String providerId) throws Exception {
 		return callOAuth(context, "link", httpSession, providerId);
 	}	
 	

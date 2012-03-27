@@ -34,62 +34,14 @@ public class AccountPresenter {
 			onOptionSelected(value);
 		}});
 		
-		view.onTwitterLink(new Runnable() { @Override public void run() {
-			twitterLinkAttempt(); 
+		view.onUnlink(new Consumer<String>() { @Override public void consume(String value) {
+			unlinkAttempt(value); 
 		}});
-		view.onGoogleLink(new Runnable() { @Override public void run() {
-			googleLinkAttempt(); 
-		}});
-		view.onWindowsLink(new Runnable() { @Override public void run() {
-			windowsLinkAttempt(); 
-		}});
-		view.onYahooLink(new Runnable() { @Override public void run() {
-			yahooLinkAttempt(); 
-		}});
-		view.onFacebookLink(new Runnable() { @Override public void run() {
-			facebookLinkAttempt(); 
-		}});
-		view.onTwitterUnlink(new Runnable() { @Override public void run() {
-			twitterUnlinkAttempt(); 
-		}});
-		view.onGoogleUnlink(new Runnable() { @Override public void run() {
-			googleUnlinkAttempt(); 
-		}});
-		view.onWindowsUnlink(new Runnable() { @Override public void run() {
-			windowsUnlinkAttempt(); 
-		}});
-		view.onYahooUnlink(new Runnable() { @Override public void run() {
-			yahooUnlinkAttempt(); 
-		}});
-		view.onFacebookUnlink(new Runnable() { @Override public void run() {
-			facebookUnlinkAttempt(); 
+			
+		view.onLink(new Consumer<String>() { @Override public void consume(String value) {
+			linkAttempt(value); 
 		}});
 
-		refresh();
-	}
-
-	protected void facebookUnlinkAttempt() {
-		loggedUser.unlinkAccount(OAuth.FACEBOOK);
-		refresh();
-	}
-
-	protected void yahooUnlinkAttempt() {
-		loggedUser.unlinkAccount(OAuth.YAHOO);
-		refresh();
-	}
-
-	protected void windowsUnlinkAttempt() {
-		loggedUser.unlinkAccount(OAuth.HOTMAIL);
-		refresh();
-	}
-
-	protected void googleUnlinkAttempt() {
-		loggedUser.unlinkAccount(OAuth.GOOGLE);
-		refresh();
-	}
-
-	protected void twitterUnlinkAttempt() {
-		loggedUser.unlinkAccount(OAuth.TWITTER);
 		refresh();
 	}
 
@@ -101,70 +53,22 @@ public class AccountPresenter {
 		view.setUser(loggedUser);
 	}
 
-	private void googleLinkAttempt() {
-		try{
-			String url = oAuth.googleLinkURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Google.");
-		}
+	public void linkAttempt(String network) {
+		onUpdateFriends(network);
 	}
 	
-	
-	private void windowsLinkAttempt() {
-		try{
-			String url = oAuth.windowsLinkURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o WindowsLive.");
-		}
-	}
-	
-	
-	private void yahooLinkAttempt() {
-		try{
-			String url = oAuth.yahooLinkURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Yahoo.");
-		}
-	}
-	
-	
-	private void facebookLinkAttempt() {
-		try{
-			String url = oAuth.facebookLinkURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Facebook.");
-		}
-	}
-	
-	private void twitterLinkAttempt() {
-		try{
-			String url = oAuth.twitterLinkURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Twitter.");
-		}
-	}
-
 	public void onUpdateFriends(String network) {
-		if (OAuth.FACEBOOK.equalsIgnoreCase(network)) {
-			facebookLinkAttempt();
+		try{
+			String url = oAuth.linkURL(context, httpSession, network);
+			urlRedirector.consume(url);
+		} catch (Exception e) {
+			warningDisplayer.consume("Erro ao acessar a rede " + network);
 		}
-		if (OAuth.TWITTER.equalsIgnoreCase(network)) {
-			twitterLinkAttempt();
-		}
-		if (OAuth.YAHOO.equalsIgnoreCase(network)) {
-			yahooLinkAttempt();
-		}
-		if (OAuth.HOTMAIL.equalsIgnoreCase(network)) {
-			windowsLinkAttempt();
-		}
-		if (OAuth.GOOGLE.equalsIgnoreCase(network)) {
-			googleLinkAttempt();
-		}
+	}
+	
+	public void unlinkAttempt(String network) {
+		loggedUser.unlinkAccount(network);
+		refresh();
 	}
 }
 

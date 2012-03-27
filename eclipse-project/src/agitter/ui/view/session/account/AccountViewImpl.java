@@ -67,6 +67,8 @@ public class AccountViewImpl implements AccountView {
 	private Embedded windowsImage = new Embedded();
 	private Embedded googleImage = new Embedded();
 
+	Consumer<String> linkAction;
+	Consumer<String> unlinkAction;
 	
 	private Map<String, CssLayout> views = new HashMap<String, CssLayout>();
 	private User user;
@@ -94,6 +96,37 @@ public class AccountViewImpl implements AccountView {
 		createWindowsSettings();
 		
 		createAccountSettings();
+		
+		googleLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			linkAction.consume(OAuth.GOOGLE);
+		}});
+		windowsLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			linkAction.consume(OAuth.HOTMAIL);
+		}});
+		yahooLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			linkAction.consume(OAuth.YAHOO);
+		}});
+		facebookLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			linkAction.consume(OAuth.FACEBOOK);
+		}});
+		twitterLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			linkAction.consume(OAuth.TWITTER);
+		}});
+		googleLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			unlinkAction.consume(OAuth.GOOGLE);
+		}});
+		windowsLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			unlinkAction.consume(OAuth.HOTMAIL);
+		}});
+		yahooLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			unlinkAction.consume(OAuth.YAHOO);
+		}});
+		facebookLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			unlinkAction.consume(OAuth.FACEBOOK);
+		}});
+		twitterLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			unlinkAction.consume(OAuth.TWITTER);
+		}});
 	}
 
 	@Override
@@ -298,75 +331,14 @@ public class AccountViewImpl implements AccountView {
 			consumer.consume(value.equals(ACCOUNT) ? null : value);
 		}});
 	}
-
-	@Override
-	public void onGoogleLink(final Runnable action) {
-		googleLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-			
-		}});
-	}
-
-	@Override
-	public void onWindowsLink(final Runnable action) {
-		windowsLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onYahooLink(final Runnable action) {
-		yahooLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onFacebookLink(final Runnable action) {
-		facebookLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onTwitterLink(final Runnable action) {
-		twitterLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
 	
 	@Override
-	public void onGoogleUnlink(final Runnable action) {
-		googleLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
+	public void onLink(Consumer<String> action) {
+		linkAction = action;
 	}
 
 	@Override
-	public void onWindowsUnlink(final Runnable action) {
-		windowsLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onYahooUnlink(final Runnable action) {
-		yahooLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onFacebookUnlink(final Runnable action) {
-		facebookLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
-	}
-
-	@Override
-	public void onTwitterUnlink(final Runnable action) {
-		twitterLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			action.run();
-		}});
+	public void onUnlink(Consumer<String> action) {
+		unlinkAction = action;
 	}
 }
