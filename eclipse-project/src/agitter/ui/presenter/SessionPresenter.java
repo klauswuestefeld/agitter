@@ -33,6 +33,11 @@ public class SessionPresenter implements Needs {
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 		accountPresenter = new AccountPresenter(user, view.accountView(), oAuth, warningDisplayer, httpSession, context, urlRedirector);
 		
+		contactsPresenter.setUpdateFriendsListener(new Consumer<String>() { @Override public void consume(String value) {
+			accountPresenter.onUpdateFriends(value);
+		}});
+
+		
 		view.init(this);
 		view.showEventsView();
 	}

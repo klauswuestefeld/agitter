@@ -148,5 +148,23 @@ public class AccountPresenter {
 			warningDisplayer.consume("Erro ao acessar o Twitter.");
 		}
 	}
+
+	public void onUpdateFriends(String network) {
+		if (OAuth.FACEBOOK.equalsIgnoreCase(network)) {
+			facebookLinkAttempt();
+		}
+		if (OAuth.TWITTER.equalsIgnoreCase(network)) {
+			twitterLinkAttempt();
+		}
+		if (OAuth.YAHOO.equalsIgnoreCase(network)) {
+			yahooLinkAttempt();
+		}
+		if (OAuth.HOTMAIL.equalsIgnoreCase(network)) {
+			windowsLinkAttempt();
+		}
+		if (OAuth.GOOGLE.equalsIgnoreCase(network)) {
+			googleLinkAttempt();
+		}
+	}
 }
 
