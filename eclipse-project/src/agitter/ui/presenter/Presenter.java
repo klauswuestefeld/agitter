@@ -195,6 +195,7 @@ public class Presenter implements RestHandler {
 	private void oAuthLinkCallback(Map<String, String[]> params) throws Refusal {
 		try {
 			controller.oAuth().linkAccountCallback(loggedSession.loggedUser(), params, httpSession);
+			loggedSession.refresh();
 			view.hideToAvoidExtraBlinkAndRedirect(context.toString());
 		} catch (Exception e) {
 			e.printStackTrace();

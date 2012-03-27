@@ -73,4 +73,10 @@ public class SessionPresenter implements Needs {
 		accountPresenter.refresh();
 	}
 
+	public void refresh() {
+		eventsPresenter.refreshContactsToChoose();
+		contactsPresenter.refresh();
+		accountPresenter.refresh();
+	}
+	
 }

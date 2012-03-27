@@ -281,11 +281,16 @@ public class AccountViewImpl implements AccountView {
 	}
 	
 	public void setPictureProfile(Embedded view, String url) {
-		System.out.println("Setting " + url);
 		if (url != null) {
 			view.setSource(new ExternalResource(url));
 			view.setType(Embedded.TYPE_IMAGE);
 			view.setSizeUndefined();
+			view.setVisible(true);
+		} else {
+			view.setSource(null);
+			view.setType(Embedded.TYPE_IMAGE);
+			view.setSizeUndefined();
+			view.setVisible(false);
 		}
 	}
 
@@ -305,6 +310,7 @@ public class AccountViewImpl implements AccountView {
 	public void onGoogleLink(final Runnable action) {
 		googleLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			action.run();
+			
 		}});
 	}
 
