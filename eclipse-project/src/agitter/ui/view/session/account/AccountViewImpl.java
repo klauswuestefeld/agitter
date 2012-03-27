@@ -24,6 +24,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
+
 public class AccountViewImpl implements AccountView {
 
 	private static final String ACCOUNT = "Informações de Conta";
@@ -41,31 +42,8 @@ public class AccountViewImpl implements AccountView {
 	
 	private final SelectableRemovableElementList optionsList = new SelectableRemovableElementList();
 
-	CssLayout settingsSide;
-	
-	CssLayout accountSettings;
-	CssLayout twitterSettings;
-	CssLayout googleSettings;
-	CssLayout facebookSettings;
-	CssLayout windowsSettings;
-	CssLayout yahooSettings;
-
-	private final Button facebookLogin = WidgetUtils.createLinkButton("Login");
-	private final Button twitterLogin = WidgetUtils.createLinkButton("Login");
-	private final Button googleLogin = WidgetUtils.createLinkButton("Login");
-	private final Button windowsLogin= WidgetUtils.createLinkButton("Login");
-	private final Button yahooLogin = WidgetUtils.createLinkButton("Login");
-	private final Button facebookLogout = WidgetUtils.createLinkButton("Logout");
-	private final Button twitterLogout = WidgetUtils.createLinkButton("Logout");
-	private final Button googleLogout = WidgetUtils.createLinkButton("Logout");
-	private final Button windowsLogout= WidgetUtils.createLinkButton("Logout");
-	private final Button yahooLogout = WidgetUtils.createLinkButton("Logout");
-	
-	private Embedded twitterImage = new Embedded();
-	private Embedded facebookImage = new Embedded();
-	private Embedded yahooImage = new Embedded();
-	private Embedded windowsImage = new Embedded();
-	private Embedded googleImage = new Embedded();
+	CssLayout accountSettings = new CssLayout();
+	CssLayout settingsSide = new CssLayout();	
 
 	Consumer<String> linkAction;
 	Consumer<String> unlinkAction;
@@ -77,56 +55,13 @@ public class AccountViewImpl implements AccountView {
 		this.container = container;
 		this.fixedContainer = fixedContainer;
 				
-		googleLogin.setDescription("Conectar com Google");
-		windowsLogin.setDescription("Conectar com WindowsLive, MSN, Hotmail");
-		yahooLogin.setDescription("Conectar com Yahoo");
-		facebookLogin.setDescription("Conectar com Facebook");
-		twitterLogin.setDescription("Conectar com Twitter");
-		
-		googleLogout.setDescription("Desconectar do Google");
-		windowsLogout.setDescription("Desconectar do WindowsLive, MSN, Hotmail");
-		yahooLogout.setDescription("Desconectar do Yahoo");
-		facebookLogout.setDescription("Desconectar do Facebook");
-		twitterLogout.setDescription("Desconectar do Twitter");
-				
-		createTwitterSettings();
-		createFacebookSettings();
-		createGoogleSettings();
-		createYahooSettings();
-		createWindowsSettings();
-		
 		createAccountSettings();
-		
-		googleLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			linkAction.consume(OAuth.GOOGLE);
-		}});
-		windowsLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			linkAction.consume(OAuth.HOTMAIL);
-		}});
-		yahooLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			linkAction.consume(OAuth.YAHOO);
-		}});
-		facebookLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			linkAction.consume(OAuth.FACEBOOK);
-		}});
-		twitterLogin.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			linkAction.consume(OAuth.TWITTER);
-		}});
-		googleLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			unlinkAction.consume(OAuth.GOOGLE);
-		}});
-		windowsLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			unlinkAction.consume(OAuth.HOTMAIL);
-		}});
-		yahooLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			unlinkAction.consume(OAuth.YAHOO);
-		}});
-		facebookLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			unlinkAction.consume(OAuth.FACEBOOK);
-		}});
-		twitterLogout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-			unlinkAction.consume(OAuth.TWITTER);
-		}});
+
+		views.put(TWITTER, new OAuthSettingsView(OAuth.TWITTER, "Twitter"));
+		views.put(FACEBOOK, new OAuthSettingsView(OAuth.FACEBOOK, "Facebook"));
+		views.put(GOOGLE, new OAuthSettingsView(OAuth.GOOGLE, "Google"));
+		views.put(YAHOO, new OAuthSettingsView(OAuth.YAHOO, "Yahoo"));
+		views.put(WINDOWS, new OAuthSettingsView(OAuth.HOTMAIL, "Hotmail, Windows, MSN"));
 	}
 
 	@Override
@@ -177,79 +112,6 @@ public class AccountViewImpl implements AccountView {
 		views.put(ACCOUNT, accountSettings);
 	}
 
-	public void createTwitterSettings() {
-		twitterSettings = new CssLayout(); 
-		twitterSettings.addComponent(twitterLogin);
-		twitterSettings.addComponent(twitterLogout);
-		twitterLogin.addStyleName("a-account-link-button");
-		twitterLogout.addStyleName("a-account-link-button");
-		Label accountDetailsCaption = WidgetUtils.createLabel(TWITTER);
-		twitterSettings.addComponent(accountDetailsCaption); 
-		accountDetailsCaption.addStyleName("a-contacts-members-caption");
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-twitter");
-		twitterSettings.addComponent(twitterImage);
-		views.put(TWITTER, twitterSettings);
-	}
-	
-	public void createFacebookSettings() {
-		facebookSettings = new CssLayout(); 
-		facebookSettings.addComponent(facebookLogin);
-		facebookSettings.addComponent(facebookLogout);
-		facebookLogin.addStyleName("a-account-link-button");
-		facebookLogout.addStyleName("a-account-link-button");
-		Label accountDetailsCaption = WidgetUtils.createLabel(FACEBOOK);
-		facebookSettings.addComponent(accountDetailsCaption); 
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-facebook");
-		facebookSettings.addComponent(facebookImage);
-		views.put(FACEBOOK, facebookSettings);
-	}
-	
-	public void createGoogleSettings() {
-		googleSettings = new CssLayout(); 
-		googleSettings.addComponent(googleLogin);
-		googleSettings.addComponent(googleLogout);
-		googleLogin.addStyleName("a-account-link-button");
-		googleLogout.addStyleName("a-account-link-button");
-		Label accountDetailsCaption = WidgetUtils.createLabel(GOOGLE);
-		googleSettings.addComponent(accountDetailsCaption); 
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-google");
-		googleSettings.addComponent(googleImage);
-		views.put(GOOGLE, googleSettings);
-	}
-	
-	public void createWindowsSettings() {
-		windowsSettings = new CssLayout(); 
-		windowsSettings.addComponent(windowsLogin);
-		windowsSettings.addComponent(windowsLogout);
-		windowsLogin.addStyleName("a-account-link-button");
-		windowsLogout.addStyleName("a-account-link-button");
-		Label accountDetailsCaption = WidgetUtils.createLabel(WINDOWS);
-		windowsSettings.addComponent(accountDetailsCaption); 
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-windows");
-
-		windowsSettings.addComponent(windowsImage);
-		views.put(WINDOWS, windowsSettings);
-	}
-	
-	public void createYahooSettings() {
-		yahooSettings = new CssLayout(); 
-		yahooSettings.addComponent(yahooLogin);
-		yahooSettings.addComponent(yahooLogout);
-		yahooLogin.addStyleName("a-account-link-button");
-		yahooLogout.addStyleName("a-account-link-button");
-		Label accountDetailsCaption = WidgetUtils.createLabel(YAHOO);
-		yahooSettings.addComponent(accountDetailsCaption); 
-		accountDetailsCaption.addStyleName("a-account-social-caption");
-		accountDetailsCaption.addStyleName("a-auth-topbar-social-yahoo");
-
-		yahooSettings.addComponent(yahooImage);
-		views.put(YAHOO, yahooSettings);
-	}
-	
 	@Override
 	public void setOptionSelected(String optionName) {
 		if (optionName == null) {
@@ -277,46 +139,17 @@ public class AccountViewImpl implements AccountView {
 		if (user != null) {
 			name.setValue(user.name());
 			
-			twitterLogin.setVisible(!user.isAccountLinked(OAuth.TWITTER));
-			facebookLogin.setVisible(!user.isAccountLinked(OAuth.FACEBOOK));
-			googleLogin.setVisible(!user.isAccountLinked(OAuth.GOOGLE));
-			yahooLogin.setVisible(!user.isAccountLinked(OAuth.YAHOO));
-			windowsLogin.setVisible(!user.isAccountLinked(OAuth.HOTMAIL));
-
-			twitterLogout.setVisible(user.isAccountLinked(OAuth.TWITTER));
-			facebookLogout.setVisible(user.isAccountLinked(OAuth.FACEBOOK));
-			googleLogout.setVisible(user.isAccountLinked(OAuth.GOOGLE));
-			yahooLogout.setVisible(user.isAccountLinked(OAuth.YAHOO));
-			windowsLogout.setVisible(user.isAccountLinked(OAuth.HOTMAIL));
-				
-			twitterLogout.setCaption("Desconectar de @" +  user.linkedAccountUsername(OAuth.TWITTER));
-			facebookLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.FACEBOOK));
-			yahooLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.YAHOO));
-			googleLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.GOOGLE));
-			windowsLogout.setCaption("Desconectar de " +  user.linkedAccountUsername(OAuth.HOTMAIL));
-			
-			setPictureProfile(twitterImage, user.linkedAccountImage(OAuth.TWITTER));
-			setPictureProfile(facebookImage, user.linkedAccountImage(OAuth.FACEBOOK));
-			setPictureProfile(googleImage, user.linkedAccountImage(OAuth.GOOGLE));
-			setPictureProfile(yahooImage, user.linkedAccountImage(OAuth.YAHOO));
-			setPictureProfile(windowsImage, user.linkedAccountImage(OAuth.HOTMAIL));
-
+			for (String network : views.keySet()) {
+				if (views.get(network) instanceof OAuthSettingsView) {
+					OAuthSettingsView v = ((OAuthSettingsView)views.get(network)); 
+					v.setLoginVisible(!user.isAccountLinked(network.toLowerCase()));
+					v.setLogoutVisible(user.isAccountLinked(network.toLowerCase()));
+					v.setLogoutCaption("Desconectar de " + user.linkedAccountUsername(network.toLowerCase()));
+					v.setProfilePic(user.linkedAccountImage(network.toLowerCase()));
+				}
+			}
 		} else {
 			name.setValue("");
-		}
-	}
-	
-	public void setPictureProfile(Embedded view, String url) {
-		if (url != null) {
-			view.setSource(new ExternalResource(url));
-			view.setType(Embedded.TYPE_IMAGE);
-			view.setSizeUndefined();
-			view.setVisible(true);
-		} else {
-			view.setSource(null);
-			view.setType(Embedded.TYPE_IMAGE);
-			view.setSizeUndefined();
-			view.setVisible(false);
 		}
 	}
 
@@ -341,4 +174,74 @@ public class AccountViewImpl implements AccountView {
 	public void onUnlink(Consumer<String> action) {
 		unlinkAction = action;
 	}
+	
+
+	class OAuthSettingsView extends CssLayout {
+		Button login;
+		Button logout;
+		Embedded image;
+		
+		String network;
+		
+		public OAuthSettingsView(final String network, String networkFriendlyName) {
+			this.network = network;
+					
+			login = WidgetUtils.createLinkButton("Login");
+			logout = WidgetUtils.createLinkButton("Logout");
+			login.addStyleName("a-account-link-button");
+			logout.addStyleName("a-account-link-button");
+			this.addComponent(login);
+			this.addComponent(logout);
+			
+			Label accountDetailsCaption = WidgetUtils.createLabel(networkFriendlyName);
+			this.addComponent(accountDetailsCaption); 
+			accountDetailsCaption.addStyleName("a-contacts-members-caption");
+			accountDetailsCaption.addStyleName("a-account-social-caption");
+			accountDetailsCaption.addStyleName("a-auth-topbar-social-"+network);
+		
+			image = new Embedded();
+			this.addComponent(image);
+			
+			login.setDescription("Conectar com " + networkFriendlyName);
+			login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+				linkAction.consume(network);
+			}});
+			
+			logout.setDescription("Desconectar do " + networkFriendlyName);
+			logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+				unlinkAction.consume(network);
+			}});		
+		}
+	
+		public void setLoginVisible(boolean b) {
+			login.setVisible(b);
+		}
+	
+		public void setLogoutVisible(boolean b) {
+			logout.setVisible(b);
+		}
+	
+		public void setLogoutCaption(String string) {
+			logout.setCaption(string);
+		}
+	
+		public void setProfilePic(String linkedAccountImage) {
+			setPictureProfile(image, linkedAccountImage);
+		}
+		
+		public void setPictureProfile(Embedded view, String url) {
+			if (url != null) {
+				view.setSource(new ExternalResource(url));
+				view.setType(Embedded.TYPE_IMAGE);
+				view.setSizeUndefined();
+				view.setVisible(true);
+			} else {
+				view.setSource(null);
+				view.setType(Embedded.TYPE_IMAGE);
+				view.setSizeUndefined();
+				view.setVisible(false);
+			}
+		}
+	}
+
 }

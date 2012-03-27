@@ -64,6 +64,9 @@ button.a-auth-topbar-logo {
 .a-auth-topbar-social-windows {
 	background: url('../agitter/WindowsButton24.png') no-repeat;
 }
+.a-auth-topbar-social-hotmail {
+	background: url('../agitter/WindowsButton24.png') no-repeat;
+}
 .a-auth-topbar-social-yahoo {
 	background: url('../agitter/YahooButton24.png') no-repeat;
 }
