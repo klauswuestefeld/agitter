@@ -51,16 +51,16 @@ public class AccountViewImpl implements AccountView {
 	CssLayout windowsSettings;
 	CssLayout yahooSettings;
 
-	private final Button facebookLogin = new NativeButton();
-	private final Button twitterLogin = new NativeButton();
-	private final Button googleLogin = new NativeButton();
-	private final Button windowsLogin= new NativeButton();
-	private final Button yahooLogin = new NativeButton();
-	private final Button facebookLogout = new NativeButton();
-	private final Button twitterLogout = new NativeButton();
-	private final Button googleLogout = new NativeButton();
-	private final Button windowsLogout= new NativeButton();
-	private final Button yahooLogout = new NativeButton();
+	private final Button facebookLogin = WidgetUtils.createLinkButton("Login");
+	private final Button twitterLogin = WidgetUtils.createLinkButton("Login");
+	private final Button googleLogin = WidgetUtils.createLinkButton("Login");
+	private final Button windowsLogin= WidgetUtils.createLinkButton("Login");
+	private final Button yahooLogin = WidgetUtils.createLinkButton("Login");
+	private final Button facebookLogout = WidgetUtils.createLinkButton("Logout");
+	private final Button twitterLogout = WidgetUtils.createLinkButton("Logout");
+	private final Button googleLogout = WidgetUtils.createLinkButton("Logout");
+	private final Button windowsLogout= WidgetUtils.createLinkButton("Logout");
+	private final Button yahooLogout = WidgetUtils.createLinkButton("Logout");
 	
 	private Embedded twitterImage = new Embedded();
 	private Embedded facebookImage = new Embedded();
@@ -75,13 +75,7 @@ public class AccountViewImpl implements AccountView {
 	public AccountViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
 		this.container = container;
 		this.fixedContainer = fixedContainer;
-		
-		twitterLogin.setCaption("Login");
-		windowsLogin.setCaption("Login");
-		yahooLogin.setCaption("Login");
-		facebookLogin.setCaption("Login");
-		googleLogin.setCaption("Login");
-		
+				
 		googleLogin.setDescription("Conectar com Google");
 		windowsLogin.setDescription("Conectar com WindowsLive, MSN, Hotmail");
 		yahooLogin.setDescription("Conectar com Yahoo");
