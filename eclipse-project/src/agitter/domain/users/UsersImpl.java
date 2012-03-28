@@ -11,13 +11,11 @@ import agitter.domain.emails.EmailAddress;
 public class UsersImpl implements Users {
 
 	private final List<User> users = new ArrayList<User>();
-
 	
 	@Override
 	public List<User> all() {
 		return new ArrayList<User>(users);
 	}
-
 	
 	@Override
 	public User signup(EmailAddress email, String password) throws Refusal {
@@ -149,4 +147,9 @@ public class UsersImpl implements Users {
 		}
 	}
 
+	@Override
+	public void delete(User user) {
+		// TODO: Flag to DELETE?
+		users.remove(user);
+	}
 }

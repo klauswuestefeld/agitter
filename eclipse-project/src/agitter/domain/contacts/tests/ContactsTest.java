@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Contacts;
-import agitter.domain.contacts.ContactsImpl2;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
@@ -16,8 +15,8 @@ import agitter.domain.users.tests.UsersTestBase;
 
 public class ContactsTest extends UsersTestBase {
 
-	private final Contacts subject = new ContactsImpl2();
 	private final User jose = createUser("jose");
+	private final Contacts subject = agitter.contacts();
 	private final ContactsOfAUser josesContacts = subject.contactsOf(jose);
 
 	

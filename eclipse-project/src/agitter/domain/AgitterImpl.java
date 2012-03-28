@@ -1,14 +1,18 @@
 package agitter.domain;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.comments.Comments;
 import agitter.domain.comments.CommentsImpl;
 import agitter.domain.contacts.Contacts;
 import agitter.domain.contacts.ContactsImpl2;
+import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Events;
 import agitter.domain.events.EventsImpl2;
 import agitter.domain.mailing.Mailing;
 import agitter.domain.mailing.MailingImpl;
+import agitter.domain.users.User;
 import agitter.domain.users.Users;
+import agitter.domain.users.Users.UserNotFound;
 import agitter.domain.users.UsersImpl;
 
 
@@ -47,6 +51,23 @@ public class AgitterImpl implements Agitter {
 	@Override
 	public void migrateSchemaIfNecessary() {
 		((EventsImpl2)events2).migrateSchemaIfNecessary();
+	}
+	
+	@Override
+	public void joinAccounts(String email1, String email2) throws UserNotFound, Refusal {
+		if (email1 == null || email2 == null) return;
+		if (email1.trim().isEmpty() || email2.trim().isEmpty()) return;
+		if (email1.trim().equalsIgnoreCase(email2.trim())) return;
+		
+		User takingCareOf = users().findByEmail(EmailAddress.email(email1));
+		User beingDropped = users().findByEmail(EmailAddress.email(email2));
+		
+		if (takingCareOf.equals(beingDropped)) return;
+		
+		events().transferEvents(takingCareOf, beingDropped);
+		contacts().transferContacts(takingCareOf, beingDropped);
+		
+		users().delete(beingDropped);
 	}
 	
 }

@@ -8,10 +8,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.prevayler.bubble.PrevalentBubble;
+
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 public class GroupImpl2 implements Group {
+	
+	{
+		PrevalentBubble.idMap().register(this);
+	}
 	
 	private static final String TWITTER_USERNAME_RULE = "^[a-zA-Z0-9_]{1,15}$";
 	private String name;

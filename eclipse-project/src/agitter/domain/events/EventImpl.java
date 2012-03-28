@@ -162,4 +162,9 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+	@Override
+	public void replace(User beingDropped, User receivingEvents) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }

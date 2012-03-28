@@ -41,4 +41,6 @@ public interface Event {
 	boolean hasIgnored(User user, long date);
 
 	boolean isVisibleTo(User user);
+
+	void replace(User beingDropped, User receivingEvents);
 }

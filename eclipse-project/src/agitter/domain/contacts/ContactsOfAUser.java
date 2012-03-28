@@ -23,5 +23,6 @@ public interface ContactsOfAUser {
 	void removeContactFrom(Group group, User contact);
 	Group groupGivenName(String name);
 	boolean isMyFriend(EmailAddress email);
+	void addAll(ContactsOfAUser contactsOf) throws Refusal;
 	
 }

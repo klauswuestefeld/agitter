@@ -16,10 +16,13 @@ import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
 
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.controller.oauth.contactsimport.ContactsImport;
+import agitter.domain.Agitter;
 import agitter.domain.contacts.Contacts;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
+import agitter.domain.users.Users.UserNotFound;
 
 public class OAuth {
 
@@ -29,16 +32,13 @@ public class OAuth {
 	public static final String HOTMAIL = "hotmail";
 	public static final String GOOGLE = "google";
 	
-	
 	private final Functor<EmailAddress, User> userProducer;
 	private final Contacts contacts;
-
 	
 	public OAuth(Functor<EmailAddress, User> userProducer, Contacts contacts) {
 		this.userProducer = userProducer;
 		this.contacts = contacts;
 	}
-
 	
 	public String googleSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, GOOGLE);
@@ -130,7 +130,7 @@ public class OAuth {
 		return user;
 	}
 
-	public User linkAccountCallback(User user, Map<String, String[]> params, HttpSession httpSession) throws Exception {
+	public User linkAccountCallback(User user, Agitter domain, Map<String, String[]> params, HttpSession httpSession) throws Exception {
 		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
 	
 		Map<String, String> paramsMap = new HashMap<String, String>();
@@ -153,9 +153,28 @@ public class OAuth {
 						 paramsMap.get("oauth_token") != null ? paramsMap.get("oauth_token") : paramsMap.get("wrap_verification_code"),
 						 profile.getProfileImageURL(),
 						 profile.getEmail()
-						 );			
+						 );
 		startContactImport(provider, user);
+		
+		startMergingAccounts(domain, user.email().toString(), profile.getEmail());
+		
 		return user;
+	}
+
+	private void startMergingAccounts(final Agitter domain, final String email1, final String email2) {
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				try {
+					domain.joinAccounts(email1, email2);
+				} catch (UserNotFound e) {
+					e.printStackTrace();
+				} catch (Refusal e) {
+					e.printStackTrace();
+				}
+			}
+		}; 
+		t.run();
 	}
 
 	private void startContactImport(AuthProvider provider, User user) {
