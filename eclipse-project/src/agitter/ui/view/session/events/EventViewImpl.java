@@ -22,6 +22,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextArea;
 
 class EventViewImpl extends CssLayout implements EventView {
@@ -48,6 +49,9 @@ class EventViewImpl extends CssLayout implements EventView {
 
 	private final CommentsViewImpl commentsView = new CommentsViewImpl();
 
+	NativeButton buttonOnlyInvitedSign;
+	NativeButton buttonPublicSign;
+	CssLayout opennessLine;
 	
 	EventViewImpl() {
 		addStyleName("a-invite-view");
@@ -56,6 +60,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-event-block-button");
 		addMultipleDateComponent();
 		addDescriptionComponent();
+		addPublicEventOption();
 		addNextInviteeComponent();
 		addInvitationsComponents();
 		
@@ -69,8 +74,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		saveListenersActive = true;
 	}
-	
-	
+
+
 	@Override
 	public void startReportingTo(Boss boss) {
 		if (this.boss != null) throw new IllegalStateException();
@@ -92,7 +97,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount) {
+	public void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount, boolean isPublicEvent) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -108,8 +113,9 @@ class EventViewImpl extends CssLayout implements EventView {
 			this.multipleDate.focus();
 		else
 			this.description.focus();
+		
+		setPublic(isPublicEvent);
 	}
-	
 
 	@Override
 	public void refreshInvitationsHeader(int totalInviteesCount) {
@@ -122,7 +128,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<FullFeaturedItem> knownInvitees, int totalInviteesCount) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<FullFeaturedItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -210,13 +216,12 @@ class EventViewImpl extends CssLayout implements EventView {
 	private void showEditFields(boolean b) {
 		deleteButton.setVisible(b);
 		multipleDate.setVisible(b);
+		opennessLine.setVisible(b);
 		description.setVisible(b);
 		nextInvitee.setVisible(b);
 		invitationsHeader.setVisible(b);
 		invitations.setVisible(b);
 	}
-
-	
 	
 	private void showReadOnlyLabels(boolean b) {
 		blockButton.setVisible(b);
@@ -280,6 +285,72 @@ class EventViewImpl extends CssLayout implements EventView {
 		}});
 		
 		addComponent(multipleDate); multipleDate.addStyleName("a-invite-multiply-date");
+	}
+	
+	private void addPublicEventOption() {
+		buttonOnlyInvitedSign = new NativeButton();
+		buttonOnlyInvitedSign.setSizeUndefined();
+		
+		Button buttonOnlyInvited = WidgetUtils.createLinkButton("Só a panelinha");
+		buttonOnlyInvited.setSizeUndefined();
+		
+		buttonOnlyInvited.addStyleName("a-invite-openness-link");
+		buttonOnlyInvitedSign.addStyleName("a-invite-openness-button");
+		//buttonOnlyInvitedSign.addStyleName("a-default-nativebutton");
+		//button.addStyleName("a-event-going-button-active");
+
+		buttonOnlyInvited.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			if (!saveListenersActive) return;
+			boss.onOpennessChanged(false);
+			setPublic(false);
+			requestRepaintAll();
+		}});
+		buttonOnlyInvitedSign.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			if (!saveListenersActive) return;
+			boss.onOpennessChanged(false);
+			setPublic(false);
+			requestRepaintAll();
+		}});
+		
+		buttonPublicSign = new NativeButton();
+		buttonPublicSign.setSizeUndefined();
+		
+		Button buttonPublic = WidgetUtils.createLinkButton("Evento público");
+		buttonPublic.setSizeUndefined();
+		
+		buttonPublic.addStyleName("a-invite-openness-link");
+		buttonPublicSign.addStyleName("a-invite-openness-button");
+		//buttonPublicSign.addStyleName("a-default-nativebutton");
+		buttonPublic.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			if (!saveListenersActive) return;
+			boss.onOpennessChanged(true);
+			setPublic(true);
+			requestRepaintAll();
+		}});
+		buttonPublicSign.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			if (!saveListenersActive) return;
+			boss.onOpennessChanged(true);
+			setPublic(true);
+			requestRepaintAll();
+		}});
+		
+		opennessLine = new CssLayout();
+		opennessLine.addStyleName("a-invite-openness");
+		opennessLine.addComponent(buttonPublicSign);
+		opennessLine.addComponent(buttonPublic); 
+		opennessLine.addComponent(buttonOnlyInvitedSign);
+		opennessLine.addComponent(buttonOnlyInvited);
+		addComponent(opennessLine);
+	}
+	
+	private void setPublic(boolean isPublicEvent) {
+		if (isPublicEvent) {
+			buttonPublicSign.setStyleName("a-invite-openness-button-active");
+			buttonOnlyInvitedSign.setStyleName("a-invite-openness-button");
+		} else {
+			buttonPublicSign.setStyleName("a-invite-openness-button");
+			buttonOnlyInvitedSign.setStyleName("a-invite-openness-button-active");			
+		}
 	}
 
 	private Button addRemoveButton(String caption) {

@@ -167,4 +167,16 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
+
+	@Override
+	public boolean isPublic() {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void setPublic(boolean publicEvent) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
 }

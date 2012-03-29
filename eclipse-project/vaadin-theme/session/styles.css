@@ -321,6 +321,48 @@ button.a-event-delete-button:hover {
 	width: 120px;
 }
 
+.a-invite-openness-link {
+	padding: 0px;
+	margin: 0px 10px 0px 10px;
+}
+
+.a-invite-openness {
+	margin-bottom: 5px;	
+}
+
+
+button.a-invite-openness-button {
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px 0px 0px 15px;
+	margin: 0px;
+	vertical-align: middle;
+}
+
+button.a-invite-openness-button-active {
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px 0px 0px 15px;
+	margin: 0px;
+	vertical-align: middle;
+}
+
+button.a-invite-openness-button {
+	background: url('EventGoingButton.png') no-repeat center center;
+}
+button.a-invite-openness-button-active {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+button.a-invite-openness-button:hover {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+
 textarea.a-invite-description {
 	clear: both;
 	width: 430px;
@@ -330,7 +372,7 @@ textarea.a-invite-description {
 	resize: vertical;
 	font-size: 18px;
 	display: block;
-	margin-bottom: 11px;
+	margin-bottom: 5px;
 }	
 
 .a-invite-next-invitee {

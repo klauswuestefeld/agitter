@@ -80,14 +80,16 @@ public class InvitePresenter implements EventView.Boss {
 					//onlyFutureDates(selectedEvent.datetimes()),
 					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(),
+					selectedEvent.isPublic());
 		} else {
 			view.displayReadOnly(
 					getOwnerPair(selectedEvent),
 					selectedEvent.description(), 
 					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size());
+					selectedEvent.allResultingInvitees().size(), 
+					selectedEvent.isPublic());
 		}
 	}
 
@@ -128,6 +130,12 @@ public class InvitePresenter implements EventView.Boss {
 			warningDisplayer.consume(e.getMessage());
 			return;
 		}
+		onEventDataChanged.run();
+	}
+	
+	@Override
+	public void onOpennessChanged(boolean publicEvent) {
+		selectedEvent.setPublic(publicEvent);
 		onEventDataChanged.run();
 	}
 
@@ -245,6 +253,8 @@ public class InvitePresenter implements EventView.Boss {
 	void periodicRefresh() {
 		commentsPresenter.periodicRefresh();
 	}
+
+
 
 }
 

@@ -20,6 +20,7 @@ public class EventImpl2 implements Event {
 
 	private User _owner;
 	private String _description;
+	private boolean publicEvent;
 	@Deprecated private long _datetime;
 	@Deprecated private long[] datetimes;
 	
@@ -352,5 +353,15 @@ public class EventImpl2 implements Event {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isPublic() {
+		return publicEvent;
+	}
+
+	@Override
+	public void setPublic(boolean publicEvent) {
+		this.publicEvent = publicEvent;
 	}
 }
