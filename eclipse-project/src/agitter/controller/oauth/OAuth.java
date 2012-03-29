@@ -14,9 +14,11 @@ import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.provider.GoogleImpl;
 
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.ReflectionUtils;
 import agitter.controller.oauth.contactsimport.ContactsImport;
 import agitter.domain.Agitter;
 import agitter.domain.contacts.Contacts;
@@ -38,6 +40,16 @@ public class OAuth {
 	public OAuth(Functor<EmailAddress, User> userProducer, Contacts contacts) {
 		this.userProducer = userProducer;
 		this.contacts = contacts;
+		
+		try {
+			ReflectionUtils.setFinalStatic(GoogleImpl.class, "CONTACTS_FEED_URL", "http://www.google.com/m8/feeds/contacts/default/full/?max-results=9000");
+		} catch (SecurityException e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		} catch (NoSuchFieldException e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		} catch (Exception e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		}
 	}
 	
 	public String googleSigninURL(String context, HttpSession httpSession) throws Exception {
