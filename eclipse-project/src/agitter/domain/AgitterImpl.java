@@ -59,15 +59,19 @@ public class AgitterImpl implements Agitter {
 		if (email1.trim().isEmpty() || email2.trim().isEmpty()) return;
 		if (email1.trim().equalsIgnoreCase(email2.trim())) return;
 		
-		User takingCareOf = users().findByEmail(EmailAddress.email(email1));
-		User beingDropped = users().findByEmail(EmailAddress.email(email2));
+		try {
+			User takingCareOf = users().findByEmail(EmailAddress.email(email1));
+			User beingDropped = users().findByEmail(EmailAddress.email(email2));
 		
-		if (takingCareOf.equals(beingDropped)) return;
-		
-		events().transferEvents(takingCareOf, beingDropped);
-		contacts().transferContacts(takingCareOf, beingDropped);
-		
-		users().delete(beingDropped);
+			if (takingCareOf.equals(beingDropped)) return;
+			
+			events().transferEvents(takingCareOf, beingDropped);
+			contacts().transferContacts(takingCareOf, beingDropped);
+			
+			users().delete(beingDropped);
+		} catch (UserNotFound u) {
+			return;
+		}
 	}
 	
 }
