@@ -424,6 +424,7 @@ textarea.a-invite-description {
 .a-remov-date-list-element {
 	margin-bottom: 5px;
 	max-width: 200px;
+	height: 16px;
 }
 
 .a-remov-date-list-element-remove-button {
