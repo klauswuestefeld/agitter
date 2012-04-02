@@ -326,10 +326,14 @@ button.a-event-delete-button:hover {
 	margin: 0px 10px 0px 10px;
 }
 
-.a-invite-openness {
-	margin-bottom: 5px;	
+.a-invite-openness-update-contact {
+	float:right;
 }
 
+.a-invite-openness {
+	margin-bottom: 5px;
+	margin-right: 8px;	
+}
 
 button.a-invite-openness-button {
 	height: 16px;

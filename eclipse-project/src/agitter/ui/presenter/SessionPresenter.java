@@ -37,6 +37,10 @@ public class SessionPresenter implements Needs {
 			accountPresenter.onUpdateFriends(value);
 		}});
 
+		eventsPresenter.setUpdateContactsListener(new Runnable() { @Override public void run() {
+       		 onAccountMenu();
+		}});
+
 		
 		view.init(this);
 		view.showEventsView();

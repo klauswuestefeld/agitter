@@ -17,6 +17,7 @@ public interface EventView {
 		void onEventRemoved();
 		void onDateChanged(Long from, Long to);
 		void onOpennessChanged(boolean publicEvent);
+		void onUpdateContacts();
 	}
 
 	

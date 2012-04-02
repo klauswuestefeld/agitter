@@ -33,10 +33,10 @@ public class InvitePresenter implements EventView.Boss {
 	private final EventView view;
 	private final Runnable onEventDataChanged;
 
-
 	private Event selectedEvent = null;
 
 	private final CommentsPresenter commentsPresenter;
+	private Runnable onUpdateContacts;
 
 	
 	InvitePresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventView view, Consumer<String> warningDisplayer, Runnable onEventDataChanged) {
@@ -254,6 +254,14 @@ public class InvitePresenter implements EventView.Boss {
 		commentsPresenter.periodicRefresh();
 	}
 
+	@Override
+	public void onUpdateContacts() {
+		if (this.onUpdateContacts != null) this.onUpdateContacts.run();
+	}
+
+	public void setUpdateContactsListener(Runnable runnable) {
+		this.onUpdateContacts = runnable;
+	}
 
 
 }

@@ -334,12 +334,22 @@ class EventViewImpl extends CssLayout implements EventView {
 			requestRepaintAll();
 		}});
 		
+		Button updateContacts = WidgetUtils.createLinkButton("Atualizar Contatos");
+		updateContacts.setSizeUndefined();
+		updateContacts.addStyleName("a-invite-openness-link");
+		updateContacts.addStyleName("a-invite-openness-update-contact");
+		updateContacts.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			if (!saveListenersActive) return;
+			boss.onUpdateContacts();
+		}});
+		
 		opennessLine = new CssLayout();
 		opennessLine.addStyleName("a-invite-openness");
 		opennessLine.addComponent(buttonPublicSign);
 		opennessLine.addComponent(buttonPublic); 
 		opennessLine.addComponent(buttonOnlyInvitedSign);
 		opennessLine.addComponent(buttonOnlyInvited);
+		opennessLine.addComponent(updateContacts);
 		addComponent(opennessLine);
 	}
 	
