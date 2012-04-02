@@ -43,7 +43,7 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private BubbleProxy(ProducerX<Object, ? extends Exception> producer) {
-		if (producer == null) throw new IllegalArgumentException("Possible Cause: mutable objects out of the prevayler system were not registered, using: PrevalentBubble.getIdMap().register(...)");
+		if (producer == null) throw new IllegalArgumentException("Possible Cause: mutable objects returned by the domain were not registered using: PrevalentBubble.getIdMap().register(obj)");
 		_invocationPath = producer;
 	}
 
@@ -53,9 +53,30 @@ class BubbleProxy implements InvocationHandler {
 	
 	@Override
 	public Object invoke(Object proxyImplied, Method method, Object[] args) throws Exception {
-		ProducerX<Object, Exception> path = extendedPath(method, args);
+		if (PrevalenceFlag.isInsidePrevalence()) throw new IllegalStateException("Method called on bubble from within bubble.");
+
+		return isTransaction(method)
+			? invokeTransaction(method, args)
+			: invokeQuery(method, args);
+	}
+
+
+	private Object invokeTransaction(Method method, Object[] args) throws Exception {
+		TransactionInvocation transaction = new TransactionInvocation(_invocationPath, method, args);
+		Object ret = PrevalentBubble.execute(transaction);
+		return wrapIfNecessary(ret, null);
+	}
+
+
+	private Object invokeQuery(Method method, Object[] args) throws Exception {
+		ProducerX<Object, Exception> path = extendedPath(method, args); //Optimize: If wrapping isn't necessary, the extended path is also not necessary. The method can be invoked directly.
 		Object result = path.produce();
 		return wrapIfNecessary(result, path);
+	}
+
+
+	private ProducerX<Object, Exception> extendedPath(Method method, Object[] args) {
+		return new QueryInvocation(_invocationPath, method, args);
 	}
 
 
@@ -103,24 +124,6 @@ class BubbleProxy implements InvocationHandler {
 
 	private void throwNotImplementedYet(String typeName) {
 		throw new NotImplementedYet("" + BubbleProxy.class + " does not yet handle "+typeName+" return types. It does handle List returns though.");
-	}
-
-
-	private ProducerX<Object, Exception> extendedPath(Method method, Object[] args) {
-		if (!isTransaction(method))
-			return new Invocation(_invocationPath, method, args);
-
-		TransactionInvocation transaction = new TransactionInvocation(_invocationPath, method, args);
-		return PrevalenceFlag.isInsidePrevalence()
-			? transaction
-			: withPrevayler(transaction);
-	}
-
-
-	private ProducerX<Object, Exception> withPrevayler(final TransactionInvocation transaction) {
-		return new ProducerX<Object, Exception>() { @Override public Object produce() throws Exception {
-			return PrevalentBubble.execute(transaction);
-		}};
 	}
 
 

@@ -60,9 +60,8 @@ public class PrevalentBubble {
 
 	synchronized
 	static Object execute(TransactionInvocation transaction) throws Exception {
-		if( isReadOnlyMode() ) {
+		if (isReadOnlyMode())
 			throw new RuntimeException(readOnlyMessage);
-		}
 		return _session._prevayler.execute( transaction );
 	}
 

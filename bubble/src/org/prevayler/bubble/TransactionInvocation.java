@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.prevayler.TransactionWithQuery;
 
-import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Logger;
 import sneer.foundation.lang.ProducerX;
 
@@ -13,10 +12,6 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 
 	private static final long serialVersionUID = 1L;
 
-	private TransactionInvocation() {
-		super(null, null, null);
-		throw new IllegalStateException();
-	}
 
 	TransactionInvocation(ProducerX<Object, ? extends Exception> targetProducer, Method method, Object[] args) {
 		super(targetProducer, method, args);
@@ -25,20 +20,10 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	@Override
 	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
-		PrevalentBubble.setPrevalentSystemIfNecessary((IdMap)prevalentSystem);
-
-		Long clockState = Clock.memento();
-		Clock.setForCurrentThread(datetime.getTime());
-		PrevalenceFlag.setInsidePrevalence(true);
-		try {
-			return produce();
-		} finally {
-			PrevalenceFlag.setInsidePrevalence(false);
-			Clock.restore(clockState);
-		}
+		return produce(prevalentSystem, datetime);
 	}
 
-	
+
 	@Override
 	public Object produce() throws Exception {
 		try {

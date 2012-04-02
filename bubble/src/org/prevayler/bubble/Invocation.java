@@ -3,10 +3,12 @@ package org.prevayler.bubble;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Date;
 
+import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.ProducerX;
 
-class Invocation implements ProducerX<Object, Exception>, Serializable {
+abstract class Invocation implements ProducerX<Object, Exception>, Serializable {
 
 	Invocation(ProducerX<Object, ? extends Exception> targetProducer, Method method, Object[] args) {
 		_targetProducer = targetProducer;
@@ -27,6 +29,21 @@ class Invocation implements ProducerX<Object, Exception>, Serializable {
 	public Object produce() throws Exception {
 		Object target = _targetProducer.produce();
 		return invoke(target, _method, _argsTypes, unmarshal(_args));
+	}
+
+
+	protected Object produce(Object prevalentSystem, Date datetime) throws Exception {
+		PrevalentBubble.setPrevalentSystemIfNecessary((IdMap)prevalentSystem);
+	
+		Long clockState = Clock.memento();
+		Clock.setForCurrentThread(datetime.getTime());
+		PrevalenceFlag.setInsidePrevalence(true);
+		try {
+			return produce();
+		} finally {
+			PrevalenceFlag.setInsidePrevalence(false);
+			Clock.restore(clockState);
+		}
 	}
 
 
