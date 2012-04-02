@@ -1,8 +1,9 @@
 package vaadinutils;
 
-import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.themes.BaseTheme;
 
-public class ElipsisButton extends NativeButton {
+public class ElipsisButton extends Button {
 	private boolean closed;
 	private ClickListener openListener;
 	private ClickListener closeListener;
@@ -29,13 +30,16 @@ public class ElipsisButton extends NativeButton {
 		}			
 	}
 	
-	private void updateStyle() { 
+	private void updateStyle() {
+		setSizeUndefined();
+		setStyleName(BaseTheme.BUTTON_LINK);
+		
 		if (closed) {
-			setStyleName("elipsis-closed");
+			addStyleName("elipsis-closed");
 			setCaption("Abrir o restante");
 			setDescription("Abre a lista");
 		} else {
-			setStyleName("elipsis-opened");
+			addStyleName("elipsis-opened");
 			setCaption("Fechar lista");
 			setDescription("Fecha a Lista");
 		}

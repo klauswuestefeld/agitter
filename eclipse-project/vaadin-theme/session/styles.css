@@ -723,6 +723,7 @@ textarea.a-invite-description {
 	margin: 2px 4px 6px 4px;
 	font-size: 20px;
 	line-height: 23px;
+	text-align: center;
 }
 
 .elipsis-closed {
@@ -732,6 +733,7 @@ textarea.a-invite-description {
 	margin: 2px 4px 6px 4px;
 	font-size: 20px;
 	line-height: 23px;
+	text-align: center;
 }
 
 
