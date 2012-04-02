@@ -30,5 +30,6 @@ public interface Users {
 	User searchByEmail(EmailAddress email);
 
 	void unsubscribe(String userEncryptedInfo) throws UserNotFound;
-
+	
+	void delete(User user);
 }

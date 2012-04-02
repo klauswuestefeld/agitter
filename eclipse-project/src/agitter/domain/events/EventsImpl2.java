@@ -97,4 +97,11 @@ public class EventsImpl2 implements Events {
 		}
 		return null;
 	}
+	
+	@Override
+	public void transferEvents(User receivingEvents, User beingDropped) {
+		for (Event e: _all) {
+			e.replace(beingDropped, receivingEvents);			
+		}
+	}
 }

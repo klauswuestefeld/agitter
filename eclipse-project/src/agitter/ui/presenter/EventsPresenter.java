@@ -272,4 +272,7 @@ public class EventsPresenter implements Boss {
 		invitePresenter().clear();
 	}
 
+	public void setUpdateContactsListener(Runnable runnable) {
+		invitePresenter().setUpdateContactsListener(runnable);
+	}
 }

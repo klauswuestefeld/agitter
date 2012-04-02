@@ -6,6 +6,7 @@ import java.util.List;
 
 import sneer.foundation.lang.Functor;
 import utils.Encoders;
+import agitter.controller.oauth.OAuth;
 import agitter.domain.emails.EmailAddress;
 
 public class UserImpl implements User {
@@ -39,8 +40,19 @@ public class UserImpl implements User {
 	
 	@Override
 	public String screenName() {
-		if (name() != null) return name(); 
-		return email().toString();
+		String twitter = linkedAccountUsername(OAuth.TWITTER);
+		String facebook = linkedAccountUsername(OAuth.FACEBOOK);
+		
+		String id = email().toString();
+		if (twitter != null && !twitter.trim().isEmpty())
+			id = "@" + twitter;
+		else if (facebook != null && !facebook.trim().isEmpty())
+			id = facebook;
+		
+		if (name() != null) 
+			return name() + " (" + id + ")"; 
+		
+		return id;
 	}
 
 	

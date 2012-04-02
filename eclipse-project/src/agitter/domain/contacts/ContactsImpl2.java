@@ -2,6 +2,7 @@ package agitter.domain.contacts;
 
 import sneer.foundation.lang.CacheMap;
 import sneer.foundation.lang.Producer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 public class ContactsImpl2 implements Contacts {
@@ -16,6 +17,12 @@ public class ContactsImpl2 implements Contacts {
 	@Override
 	public ContactsOfAUser contactsOf(User user) {
 		return contactsByUser.get(user, NEW_CONTACTS_OF_A_USER);
+	}
+
+
+	@Override
+	public void transferContacts(User takingCareOf, User beingDropped) throws Refusal {
+		contactsOf(takingCareOf).addAll(contactsOf(beingDropped));
 	}
 
 }

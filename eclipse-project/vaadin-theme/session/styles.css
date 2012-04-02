@@ -321,6 +321,52 @@ button.a-event-delete-button:hover {
 	width: 120px;
 }
 
+.a-invite-openness-link {
+	padding: 0px;
+	margin: 0px 10px 0px 10px;
+}
+
+.a-invite-openness-update-contact {
+	float:right;
+}
+
+.a-invite-openness {
+	margin-bottom: 5px;
+	margin-right: 8px;	
+}
+
+button.a-invite-openness-button {
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px 0px 0px 15px;
+	margin: 0px;
+	vertical-align: middle;
+}
+
+button.a-invite-openness-button-active {
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px 0px 0px 15px;
+	margin: 0px;
+	vertical-align: middle;
+}
+
+button.a-invite-openness-button {
+	background: url('EventGoingButton.png') no-repeat center center;
+}
+button.a-invite-openness-button-active {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+button.a-invite-openness-button:hover {
+	background: url('EventGoingButtonHover.png') no-repeat center center;
+}
+
 textarea.a-invite-description {
 	clear: both;
 	width: 430px;
@@ -330,7 +376,7 @@ textarea.a-invite-description {
 	resize: vertical;
 	font-size: 18px;
 	display: block;
-	margin-bottom: 11px;
+	margin-bottom: 5px;
 }	
 
 .a-invite-next-invitee {
@@ -378,6 +424,7 @@ textarea.a-invite-description {
 .a-remov-date-list-element {
 	margin-bottom: 5px;
 	max-width: 200px;
+	height: 16px;
 }
 
 .a-remov-date-list-element-remove-button {
@@ -401,7 +448,8 @@ textarea.a-invite-description {
 }
 
 .a-multiply-date-chooser-datePopupsContainer {
-	width: 200px;
+	width: 300px;
+	margin: 0px 0px 0px 0px;
 }
 
 .a-multiply-date-chooser-ignored {	
@@ -496,6 +544,21 @@ textarea.a-invite-description {
 	-webkit-text-overflow: ellipsis;
     white-space: no-wrap;
     margin-bottom: 3px;
+}
+
+.a-invite-delete-button {
+	float:right;
+	vertical-align: middle;
+	position: relative;
+	left: -100px;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-top: 4px;
 }
 
 /* Account ------------------------------------------------------------------------  */
@@ -660,6 +723,7 @@ textarea.a-invite-description {
 	margin: 2px 4px 6px 4px;
 	font-size: 20px;
 	line-height: 23px;
+	text-align: center;
 }
 
 .elipsis-closed {
@@ -669,6 +733,7 @@ textarea.a-invite-description {
 	margin: 2px 4px 6px 4px;
 	font-size: 20px;
 	line-height: 23px;
+	text-align: center;
 }
 
 

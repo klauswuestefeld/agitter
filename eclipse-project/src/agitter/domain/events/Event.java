@@ -33,6 +33,9 @@ public interface Event {
 	List<User> allResultingInvitees();
 
 	long getId();
+	
+	boolean isPublic();
+	void setPublic(boolean publicEvent);
 
 	void going(User user, long date);
 	void notGoing(User user, long date);
@@ -41,4 +44,6 @@ public interface Event {
 	boolean hasIgnored(User user, long date);
 
 	boolean isVisibleTo(User user);
+
+	void replace(User beingDropped, User receivingEvents);
 }

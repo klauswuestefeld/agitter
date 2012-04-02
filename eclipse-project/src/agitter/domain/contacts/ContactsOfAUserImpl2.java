@@ -47,7 +47,7 @@ public class ContactsOfAUserImpl2 implements ContactsOfAUser {
 
 	@Override
 	public Group createGroup(String groupName) throws Refusal {
-		GroupImpl2 newGroup = new GroupImpl2(groupName);
+		Group newGroup = new GroupImpl2(groupName);
 		if (containsToString(groups(), newGroup))
 			throw new Refusal("Já existe um grupo chamado " + groupName + ".");
 		groups.add(newGroup);
@@ -97,4 +97,46 @@ public class ContactsOfAUserImpl2 implements ContactsOfAUser {
 		return false;
 	}
 
+
+	@Override
+	public void addAll(ContactsOfAUser contactsOf) throws Refusal {
+		// Add all friends. Remove duplicates
+		for (User u : contactsOf.all()) {
+			if (!containsToString(all, u))
+				all.add(u);
+		}
+		sortIgnoreCase(all);
+		
+		// Import all groups.
+		for (Group g : contactsOf.groups()) {
+			transferGroup(null, g);
+		}
+	}
+	
+	private void transferGroup(Group ownFather, Group external) throws Refusal {
+		addContactsTo(ownFather, external.name(), external.immediateMembers());
+		for (Group sub : external.immediateSubgroups()) {
+			transferGroup(groupGivenName(external.name()), sub);
+		}
+	}
+
+	private void addContactsTo(Group father, String groupName, List<User> users) throws Refusal {
+		Group host = groupGivenName(groupName);
+		
+		if (host == null) {
+			host = createGroup(groupName);
+			if (father != null) {
+				father.addSubgroup(host);	
+			}
+		}							
+		
+		addContactsTo(host,users);
+	}
+	
+	private void addContactsTo(Group group, List<User> users) {
+		for (User u : users) {
+			addContactTo(group, u);	
+		}
+	}
+	
 }

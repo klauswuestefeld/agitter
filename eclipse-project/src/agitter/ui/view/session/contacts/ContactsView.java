@@ -23,4 +23,6 @@ public interface ContactsView {
 	void setMembers(List<FullFeaturedItem> memberNames);
 	void setMembersToChoose(List<FullFeaturedItem> memberPairs);
 
+	void setUpdateFriendsListener(Consumer<String> listener);
+
 }

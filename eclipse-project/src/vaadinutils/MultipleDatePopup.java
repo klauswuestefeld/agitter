@@ -12,6 +12,7 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
@@ -19,7 +20,6 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.PopupDateField;
 
 public class MultipleDatePopup extends CssLayout {
@@ -29,7 +29,7 @@ public class MultipleDatePopup extends CssLayout {
 	private final static String REMOVE_BUTTON = "REM_BUTTON";
 	
 	private CssLayout datePopupsContainer;
-	private NativeButton addButton; //Clicking on this button has no effect. Lost focus from the setImmediate(true) combo-box will already trigger the event.
+	private Button addButton; //Clicking on this button has no effect. Lost focus from the setImmediate(true) combo-box will already trigger the event.
 	private ElipsisButton elipsisButton; 
 	
 	private String inputPrompt = "";
@@ -280,7 +280,8 @@ public class MultipleDatePopup extends CssLayout {
 	}
 	
 	private void addNewEventButton() {
-		addButton = new NativeButton("mais uma data"); addButton.addStyleName("a-multiply-date-chooser-ignored");
+		addButton = WidgetUtils.createLinkButton("Mais uma data");
+		addButton.addStyleName("a-multiply-date-chooser-ignored");
 		addButton.setSizeUndefined();
 		//addButton = AgitterVaadinUtils.createDefaultAddButton(); addButton.addStyleName("a-multiply-date-chooser-ignored");
 		addButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {

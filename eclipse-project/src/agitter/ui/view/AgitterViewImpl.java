@@ -50,7 +50,6 @@ public class AgitterViewImpl extends com.vaadin.ui.Window implements AgitterView
 	
 	@Override
 	public void setURIFragment(String fragment) {
-		System.out.println("Fragment: " + fragment);
 		fragmentUtility.setFragment(fragment);
 	}
 

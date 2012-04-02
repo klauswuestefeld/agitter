@@ -48,7 +48,7 @@ public class ContactsPresenter {
 		view.setMemberRemoveListener(new Consumer<String>() { @Override public void consume(String value) {
 			onMemberRemoved(value);
 		}});
-		
+				
 		refreshGroupList();
 		onGroupSelected(null);
 	}
@@ -221,6 +221,9 @@ public class ContactsPresenter {
 		if (result == null) throw new IllegalArgumentException("Group not found: " + groupName);
 		return result;
 	}
-
+	
+	public void setUpdateFriendsListener(Consumer<String> consumer) {
+		view.setUpdateFriendsListener(consumer);
+	}
 }
 

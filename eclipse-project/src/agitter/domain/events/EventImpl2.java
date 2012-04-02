@@ -18,8 +18,9 @@ public class EventImpl2 implements Event {
 
 	private final long id;
 
-	final private User _owner;
+	private User _owner;
 	private String _description;
+	private boolean publicEvent;
 	@Deprecated private long _datetime;
 	@Deprecated private long[] datetimes;
 	
@@ -175,11 +176,9 @@ public class EventImpl2 implements Event {
 		return !notInterested.contains(user);
 	}
 	
-	
-	private boolean isInvited(User user) {
+	public boolean isInvited(User user) {
 		return actualInvitees().contains(user) || groupInvitationsContain(user);
 	}
-
 
 	private boolean groupInvitationsContain(User user) {
 		for (Group group : actualGroupInvitees())
@@ -321,5 +320,48 @@ public class EventImpl2 implements Event {
 	static private long twoHoursAgo() {
 		return Clock.currentTimeMillis() - TWO_HOURS;
 	}
-	
+
+	private void giveOwnershipTo(User newOwner) {
+		this._owner = newOwner;
+	}
+
+	@Override
+	public void replace(User fromUser, User toUser) {
+		if (owner().equals(fromUser)) {
+			giveOwnershipTo(toUser);
+		} else { 
+			if (isInvited(fromUser)) {
+				addInvitee(toUser);
+			}
+			if (notInterested.contains(fromUser)) {
+				try {
+					notInterested(toUser);	
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+			for (Occurrence occ : occurrences()) {
+				if (!occ.isInterested(fromUser)) {
+					occ.notInterested(toUser);
+				}
+				if (occ.isGoing(fromUser) != null) {
+					if (occ.isGoing(fromUser)) {	
+						occ.going(toUser);
+					} else {
+						occ.notGoing(toUser);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public boolean isPublic() {
+		return publicEvent;
+	}
+
+	@Override
+	public void setPublic(boolean publicEvent) {
+		this.publicEvent = publicEvent;
+	}
 }

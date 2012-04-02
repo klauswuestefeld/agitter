@@ -14,12 +14,17 @@ import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.provider.GoogleImpl;
 
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.exceptions.Refusal;
+import utils.ReflectionUtils;
 import agitter.controller.oauth.contactsimport.ContactsImport;
+import agitter.domain.Agitter;
 import agitter.domain.contacts.Contacts;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
+import agitter.domain.users.Users.UserNotFound;
 
 public class OAuth {
 
@@ -29,16 +34,23 @@ public class OAuth {
 	public static final String HOTMAIL = "hotmail";
 	public static final String GOOGLE = "google";
 	
-	
 	private final Functor<EmailAddress, User> userProducer;
 	private final Contacts contacts;
-
 	
 	public OAuth(Functor<EmailAddress, User> userProducer, Contacts contacts) {
 		this.userProducer = userProducer;
 		this.contacts = contacts;
+		
+		try {
+			ReflectionUtils.setFinalStatic(GoogleImpl.class, "CONTACTS_FEED_URL", "http://www.google.com/m8/feeds/contacts/default/full/?max-results=9000");
+		} catch (SecurityException e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		} catch (NoSuchFieldException e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		} catch (Exception e) {
+			throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
+		}
 	}
-
 	
 	public String googleSigninURL(String context, HttpSession httpSession) throws Exception {
 		return signinURL(context, httpSession, GOOGLE);
@@ -73,11 +85,11 @@ public class OAuth {
 	}
 	
 	
-	private String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
+	public String signinURL(String context, HttpSession httpSession, String providerId) throws Exception {
 		return callOAuth(context, "oauth", httpSession, providerId);
 	}	
 
-	private String linkURL(String context, HttpSession httpSession, String providerId) throws Exception {
+	public String linkURL(String context, HttpSession httpSession, String providerId) throws Exception {
 		return callOAuth(context, "link", httpSession, providerId);
 	}	
 	
@@ -130,7 +142,7 @@ public class OAuth {
 		return user;
 	}
 
-	public User linkAccountCallback(User user, Map<String, String[]> params, HttpSession httpSession) throws Exception {
+	public User linkAccountCallback(User user, Agitter domain, Map<String, String[]> params, HttpSession httpSession) throws Exception {
 		SocialAuthManager manager = (SocialAuthManager) httpSession.getAttribute("authManager");
 	
 		Map<String, String> paramsMap = new HashMap<String, String>();
@@ -153,9 +165,28 @@ public class OAuth {
 						 paramsMap.get("oauth_token") != null ? paramsMap.get("oauth_token") : paramsMap.get("wrap_verification_code"),
 						 profile.getProfileImageURL(),
 						 profile.getEmail()
-						 );			
+						 );
 		startContactImport(provider, user);
+		
+		startMergingAccounts(domain, user.email().toString(), profile.getEmail());
+		
 		return user;
+	}
+
+	private void startMergingAccounts(final Agitter domain, final String email1, final String email2) {
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				try {
+					domain.joinAccounts(email1, email2);
+				} catch (UserNotFound e) {
+					e.printStackTrace();
+				} catch (Refusal e) {
+					e.printStackTrace();
+				}
+			}
+		}; 
+		t.run();
 	}
 
 	private void startContactImport(AuthProvider provider, User user) {

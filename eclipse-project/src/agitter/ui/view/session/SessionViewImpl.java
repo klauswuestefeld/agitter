@@ -108,6 +108,7 @@ public class SessionViewImpl implements SessionView {
 			eventsView = new EventsViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
 		return eventsView;
 	}
+	
 	@Override public void showEventsView() {
 		highlightMenuItem(events);
 		eventsView().show();

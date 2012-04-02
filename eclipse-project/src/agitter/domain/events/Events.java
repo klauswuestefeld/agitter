@@ -21,4 +21,5 @@ public interface Events {
 	
 	Event get(long eventId);
 
+	void transferEvents(User receivingEvents, User beingDropped);
 }

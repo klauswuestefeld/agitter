@@ -33,6 +33,15 @@ public class SessionPresenter implements Needs {
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 		accountPresenter = new AccountPresenter(user, view.accountView(), oAuth, warningDisplayer, httpSession, context, urlRedirector);
 		
+		contactsPresenter.setUpdateFriendsListener(new Consumer<String>() { @Override public void consume(String value) {
+			accountPresenter.onUpdateFriends(value);
+		}});
+
+		eventsPresenter.setUpdateContactsListener(new Runnable() { @Override public void run() {
+       		 onAccountMenu();
+		}});
+
+		
 		view.init(this);
 		view.showEventsView();
 	}
@@ -73,4 +82,10 @@ public class SessionPresenter implements Needs {
 		accountPresenter.refresh();
 	}
 
+	public void refresh() {
+		eventsPresenter.refreshContactsToChoose();
+		contactsPresenter.refresh();
+		accountPresenter.refresh();
+	}
+	
 }

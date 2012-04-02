@@ -8,10 +8,14 @@ import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 import vaadinutils.WidgetUtils;
+import agitter.controller.oauth.OAuth;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -36,7 +40,8 @@ public class ContactsViewImpl implements ContactsView {
 
 	private final AutoCompleteChooser newMember = new AutoCompleteChooser();
 
-
+	Button updateFriends = WidgetUtils.createLinkButton("Atualizar");
+	Consumer<String> onUpdateFriends;
 
 	public ContactsViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
 		this.container = container;
@@ -48,6 +53,10 @@ public class ContactsViewImpl implements ContactsView {
 			newGroupConsumer.consume(value);
 		}};
 		newGroup.addListener(newGroupListener);
+		
+		updateFriends.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			onUpdateFriends.consume((String)updateFriends.getData());
+		}});
 	}
 
 	@Override
@@ -67,6 +76,9 @@ public class ContactsViewImpl implements ContactsView {
 		
 		CssLayout members = new CssLayout(); members.addStyleName("a-contacts-members");
 		Label membersCaption = WidgetUtils.createLabel("Membros");
+		members.addComponent(updateFriends);
+		updateFriends.addStyleName("a-account-link-button");
+		
 		members.addComponent(membersCaption); membersCaption.addStyleName("a-contacts-members-caption");
 		members.addComponent(newMember); newMember.addStyleName("a-contacts-members-new");
 		newMember.setInputWidth("300px");
@@ -103,7 +115,20 @@ public class ContactsViewImpl implements ContactsView {
 			groupList.highlightElement(ALL);
 		else
 			groupList.highlightElement(groupName);
+		
+		if (OAuth.FACEBOOK.equalsIgnoreCase(groupName)
+		||  OAuth.TWITTER.equalsIgnoreCase(groupName)
+		||  OAuth.YAHOO.equalsIgnoreCase(groupName)
+		||  OAuth.HOTMAIL.equalsIgnoreCase(groupName)
+		||  OAuth.GOOGLE.equalsIgnoreCase(groupName)) {
+			updateFriends.setCaption("Atualizar do " + groupName);
+			updateFriends.setData(groupName.toLowerCase());
+			updateFriends.setVisible(true);
+		} else {
+			updateFriends.setVisible(false);
+		}
 	}
+	
 	@Override
 	public void setGroupSelectionListener(final Consumer<String> consumer) {
 		groupList.setSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
@@ -136,4 +161,8 @@ public class ContactsViewImpl implements ContactsView {
 		newGroup.setValue("");
 	}
 
+	@Override
+	public void setUpdateFriendsListener(Consumer<String> listener) {
+		onUpdateFriends = listener;
+	}
 }
