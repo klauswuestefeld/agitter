@@ -22,12 +22,11 @@ echo ----------------------
 echo Java...
 echo ----------------------
 # Apparently sun/oracle jdk packages were removed from all Ubuntu repositories so we have to wget from Oracle. (April 2011)
-wget http://download.oracle.com/otn-pub/java/jdk/6u25-b06/jdk-6u25-linux-i586.bin
-mv jdk* jdk6.bin
-chmod a+x jdk6.bin
-./jdk6.bin
-rm jdk6.bin
-mv jdk* /agitter/jdk1.6
+wget http://www.java.net/download/jdk7u4/archive/b18/binaries/jdk-7u4-ea-bin-b18-linux-i586-29_mar_2012.tar.gz
+mv jdk* jdk.tar.gz
+tar -xf jdk.tar.gz
+rm jdk.tar.gz
+mv jdk* /agitter/jdk
 
 echo ----------------------
 echo Ant...
