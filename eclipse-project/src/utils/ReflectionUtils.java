@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class ReflectionUtils {
+	
 	static void setFinalStatic(Field field, String newValue) throws Exception {
 		field.setAccessible(true);
 
@@ -16,7 +17,7 @@ public class ReflectionUtils {
 	    stringValue.set(field.get(null), newValue.toCharArray());
 	}
 
-	public static void setFinalStatic(Class classe, String fieldname, String newValue) throws SecurityException, NoSuchFieldException, Exception {
+	public static void setFinalStatic(Class<?> classe, String fieldname, String newValue) throws SecurityException, NoSuchFieldException, Exception {
 		setFinalStatic(classe.getDeclaredField(fieldname), newValue);
 	}
 }
