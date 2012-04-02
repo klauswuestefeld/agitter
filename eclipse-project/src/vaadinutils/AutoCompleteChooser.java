@@ -61,7 +61,7 @@ public class AutoCompleteChooser extends CssLayout {
 	public void addItem(FullFeaturedItem p) {
 		choice.addItem(p.key);
 		if (p.caption != null)
-			choice.setItemCaption(p.key, p.caption + "   (" + p.key + ") " );
+			choice.setItemCaption(p.key, p.caption + "   (" + p.key + ") ");
 		if (p.icon != null)
 			choice.setItemIcon(p.key, new ExternalResource(p.icon));
 	}

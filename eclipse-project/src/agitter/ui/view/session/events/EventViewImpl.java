@@ -1,6 +1,7 @@
 package agitter.ui.view.session.events;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
@@ -19,6 +20,8 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
@@ -94,8 +97,21 @@ class EventViewImpl extends CssLayout implements EventView {
 	@Override
 	public void refreshInviteesToChoose(List<FullFeaturedItem> inviteesToChoose) {
 		nextInvitee.setChoices(inviteesToChoose);
+		
+		setWidth(nextInvitee);
 	}
 
+	public void setWidth(ComponentContainer cc) {
+		Iterator<Component> c = cc.getComponentIterator();
+		while (c.hasNext()) {
+			Component co = c.next();
+			if (!(co instanceof Button))
+				co.setWidth("380px");
+			if (co instanceof ComponentContainer) {
+				setWidth((ComponentContainer)co);
+			}
+		}
+	}
 
 	@Override
 	public void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount, boolean isPublicEvent) {
@@ -236,6 +252,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private void addNextInviteeComponent() {
 		nextInvitee.setInputPrompt("Digite um grupo, email ou cole vários emails para convidar");
+		nextInvitee.setSizeUndefined();
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
 			return onNextInvitee(invitee);
 		}});
