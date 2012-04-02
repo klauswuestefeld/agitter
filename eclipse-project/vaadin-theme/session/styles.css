@@ -448,7 +448,8 @@ textarea.a-invite-description {
 }
 
 .a-multiply-date-chooser-datePopupsContainer {
-	width: 200px;
+	width: 300px;
+	margin: 0px 0px 0px 0px;
 }
 
 .a-multiply-date-chooser-ignored {	
@@ -543,6 +544,21 @@ textarea.a-invite-description {
 	-webkit-text-overflow: ellipsis;
     white-space: no-wrap;
     margin-bottom: 3px;
+}
+
+.a-invite-delete-button {
+	float:right;
+	vertical-align: middle;
+	position: relative;
+	left: -100px;
+	height: 16px;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-top: 4px;
 }
 
 /* Account ------------------------------------------------------------------------  */

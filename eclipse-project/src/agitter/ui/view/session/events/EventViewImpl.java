@@ -56,8 +56,9 @@ class EventViewImpl extends CssLayout implements EventView {
 	EventViewImpl() {
 		addStyleName("a-invite-view");
 
-		deleteButton = addRemoveButton("Excluir este Agito"); deleteButton.addStyleName("a-event-delete-button");
-		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-event-block-button");
+		deleteButton = addRemoveButton("Excluir este Agito"); deleteButton.addStyleName("a-invite-delete-button");
+		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-invite-delete-button");
+		
 		addMultipleDateComponent();
 		addDescriptionComponent();
 		addPublicEventOption();
