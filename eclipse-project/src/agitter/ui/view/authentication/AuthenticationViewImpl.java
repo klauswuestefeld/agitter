@@ -55,7 +55,7 @@ public class AuthenticationViewImpl implements AuthenticationView {
 					topBarRight.addComponent(socialButtons); socialButtons.addStyleName("a-auth-topbar-social");
 						socialButtons.addComponent(socialLabel); socialLabel.addStyleName("a-auth-topbar-social-label");
 						socialButtons.addComponent(google); google.addStyleName("a-auth-topbar-social-button"); google.addStyleName("a-auth-topbar-social-google");
-						socialButtons.addComponent(windows); windows.addStyleName("a-auth-topbar-social-button"); windows.addStyleName("a-auth-topbar-social-windows");
+						socialButtons.addComponent(windows); windows.addStyleName("a-auth-topbar-social-button"); windows.addStyleName("a-auth-topbar-social-windowslive");
 						socialButtons.addComponent(yahoo); yahoo.addStyleName("a-auth-topbar-social-button"); yahoo.addStyleName("a-auth-topbar-social-yahoo");
 						socialButtons.addComponent(facebook); facebook.addStyleName("a-auth-topbar-social-button"); facebook.addStyleName("a-auth-topbar-social-facebook");
 						socialButtons.addComponent(twitter); twitter.addStyleName("a-auth-topbar-social-button"); twitter.addStyleName("a-auth-topbar-social-twitter");

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
+import agitter.common.Portal;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
@@ -33,7 +34,7 @@ public class SessionPresenter implements Needs {
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
 		accountPresenter = new AccountPresenter(user, view.accountView(), oAuth, warningDisplayer, httpSession, context, urlRedirector);
 		
-		contactsPresenter.setUpdateFriendsListener(new Consumer<String>() { @Override public void consume(String value) {
+		contactsPresenter.setUpdateFriendsListener(new Consumer<Portal>() { @Override public void consume(Portal value) {
 			accountPresenter.onUpdateFriends(value);
 		}});
 

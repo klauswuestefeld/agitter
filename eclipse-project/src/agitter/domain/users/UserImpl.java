@@ -1,12 +1,15 @@
 package agitter.domain.users;
 
+import static agitter.common.Portal.Facebook;
+import static agitter.common.Portal.Twitter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import sneer.foundation.lang.Functor;
 import utils.Encoders;
-import agitter.controller.oauth.OAuth;
+import agitter.common.Portal;
 import agitter.domain.emails.EmailAddress;
 
 public class UserImpl implements User {
@@ -40,8 +43,8 @@ public class UserImpl implements User {
 	
 	@Override
 	public String screenName() {
-		String twitter = linkedAccountUsername(OAuth.TWITTER);
-		String facebook = linkedAccountUsername(OAuth.FACEBOOK);
+		String twitter = linkedAccountUsername(Twitter);
+		String facebook = linkedAccountUsername(Facebook);
 		
 		String id = email().toString();
 		if (twitter != null && !twitter.trim().isEmpty())
@@ -96,8 +99,8 @@ public class UserImpl implements User {
 	}
 	
 	@Override
-	public void linkAccount(String portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email) {
-		LinkedAccount c = new LinkedAccount(portal, username, oauthToken, oauthVerifier, imageProfile, email);
+	public void linkAccount(Portal portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email) {
+		LinkedAccount c = new LinkedAccount(portal.name(), username, oauthToken, oauthVerifier, imageProfile, email);
 		
 		unlinkAccount(portal);
 		linkedAccounts().add(c);
@@ -110,26 +113,26 @@ public class UserImpl implements User {
 
 
 	@Override
-	public boolean isAccountLinked(String portal) {
+	public boolean isAccountLinked(Portal portal) {
 		return linkedAccountFor(portal) != null;
 	}
 	@Override
-	public String linkedAccountUsername(String portal) {
+	public String linkedAccountUsername(Portal portal) {
 		LinkedAccount acc = linkedAccountFor(portal);
 		return acc == null ? "" : acc.userName;
 	}
 	@Override
-	public String linkedAccountImage(String portal) {
+	public String linkedAccountImage(Portal portal) {
 		LinkedAccount acc = linkedAccountFor(portal);
 		return acc == null ? null : acc.imageProfile;
 	}
 	@Override
-	public void unlinkAccount(String portal) {
+	public void unlinkAccount(Portal portal) {
 		linkedAccounts().remove(linkedAccountFor(portal));
 	}
-	private LinkedAccount linkedAccountFor(String portal) {
+	private LinkedAccount linkedAccountFor(Portal portal) {
 		for (LinkedAccount acc : linkedAccounts())
-			if (portal.equals(acc.portal)) return acc;
+			if (portal.name().equals(acc.portal)) return acc;
 		return null;
 	}
 	

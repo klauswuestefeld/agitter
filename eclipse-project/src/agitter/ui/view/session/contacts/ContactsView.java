@@ -5,6 +5,7 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import agitter.common.Portal;
 
 public interface ContactsView {
 
@@ -23,6 +24,6 @@ public interface ContactsView {
 	void setMembers(List<FullFeaturedItem> memberNames);
 	void setMembersToChoose(List<FullFeaturedItem> memberPairs);
 
-	void setUpdateFriendsListener(Consumer<String> listener);
+	void setUpdateFriendsListener(Consumer<Portal> listener);
 
 }

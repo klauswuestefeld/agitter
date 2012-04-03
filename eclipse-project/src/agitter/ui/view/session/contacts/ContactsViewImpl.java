@@ -8,7 +8,7 @@ import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
 import vaadinutils.WidgetUtils;
-import agitter.controller.oauth.OAuth;
+import agitter.common.Portal;
 import agitter.ui.view.AgitterVaadinUtils;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -41,7 +41,7 @@ public class ContactsViewImpl implements ContactsView {
 	private final AutoCompleteChooser newMember = new AutoCompleteChooser();
 
 	Button updateFriends = WidgetUtils.createLinkButton("Atualizar");
-	Consumer<String> onUpdateFriends;
+	Consumer<Portal> onUpdateFriends;
 
 	public ContactsViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
 		this.container = container;
@@ -55,7 +55,7 @@ public class ContactsViewImpl implements ContactsView {
 		newGroup.addListener(newGroupListener);
 		
 		updateFriends.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			onUpdateFriends.consume((String)updateFriends.getData());
+			onUpdateFriends.consume(Portal.valueOf((String)updateFriends.getData()));
 		}});
 	}
 
@@ -116,13 +116,9 @@ public class ContactsViewImpl implements ContactsView {
 		else
 			groupList.highlightElement(groupName);
 		
-		if (OAuth.FACEBOOK.equalsIgnoreCase(groupName)
-		||  OAuth.TWITTER.equalsIgnoreCase(groupName)
-		||  OAuth.YAHOO.equalsIgnoreCase(groupName)
-		||  OAuth.HOTMAIL.equalsIgnoreCase(groupName)
-		||  OAuth.GOOGLE.equalsIgnoreCase(groupName)) {
+		if (groupName != null && Portal.valueOf(groupName) != null) {
 			updateFriends.setCaption("Atualizar do " + groupName);
-			updateFriends.setData(groupName.toLowerCase());
+			updateFriends.setData(groupName);
 			updateFriends.setVisible(true);
 		} else {
 			updateFriends.setVisible(false);
@@ -162,7 +158,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setUpdateFriendsListener(Consumer<String> listener) {
+	public void setUpdateFriendsListener(Consumer<Portal> listener) {
 		onUpdateFriends = listener;
 	}
 }

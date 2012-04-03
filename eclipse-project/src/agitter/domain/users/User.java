@@ -1,5 +1,6 @@
 package agitter.domain.users;
 
+import agitter.common.Portal;
 import agitter.domain.emails.EmailAddress;
 
 public interface User {
@@ -18,9 +19,9 @@ public interface User {
 	boolean hasUnsubscribedFromEmails();
 	void setUnsubscribedFromEmails(boolean interested);
 
-	String linkedAccountUsername(String portal);
-	String linkedAccountImage(String portal);
-	boolean isAccountLinked(String portal);
-	void unlinkAccount(String portal);
-	void linkAccount(String portal, String username, String oauthVerifier,	String oauthToken, String imageProfile, String email);
+	String linkedAccountUsername(Portal portal);
+	String linkedAccountImage(Portal portal);
+	boolean isAccountLinked(Portal portal);
+	void unlinkAccount(Portal portal);
+	void linkAccount(Portal portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email);
 }

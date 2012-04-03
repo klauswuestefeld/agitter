@@ -10,6 +10,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Predicate;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.common.Portal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
@@ -222,7 +223,7 @@ public class ContactsPresenter {
 		return result;
 	}
 	
-	public void setUpdateFriendsListener(Consumer<String> consumer) {
+	public void setUpdateFriendsListener(Consumer<Portal> consumer) {
 		view.setUpdateFriendsListener(consumer);
 	}
 }

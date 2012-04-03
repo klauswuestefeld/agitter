@@ -1,5 +1,10 @@
 package agitter.ui.presenter;
 
+import static agitter.common.Portal.Facebook;
+import static agitter.common.Portal.Google;
+import static agitter.common.Portal.Twitter;
+import static agitter.common.Portal.WindowsLive;
+import static agitter.common.Portal.Yahoo;
 import static agitter.domain.emails.EmailAddress.email;
 import infra.logging.LogInfra;
 
@@ -12,6 +17,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
 import utils.Encoders;
+import agitter.common.Portal;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.ForgotPasswordMailSender;
 import agitter.controller.mailing.SignupEmailController;
@@ -61,19 +67,19 @@ public class AuthenticationPresenter {
 			enterAttempt(); 
 		}});
 		this.authenticationView.onGoogleSignin(new Runnable() { @Override public void run() {
-			googleSigninAttempt(); 
+			signinAttempt(Google); 
 		}});
 		this.authenticationView.onWindowsSignin(new Runnable() { @Override public void run() {
-			windowsSigninAttempt(); 
+			signinAttempt(WindowsLive); 
 		}});
 		this.authenticationView.onYahooSignin(new Runnable() { @Override public void run() {
-			yahooSigninAttempt(); 
+			signinAttempt(Yahoo); 
 		}});
 		this.authenticationView.onFacebookSignin(new Runnable() { @Override public void run() {
-			facebookSigninAttempt(); 
+			signinAttempt(Facebook); 
 		}});
 		this.authenticationView.onTwitterSignin(new Runnable() { @Override public void run() {
-			twitterSigninAttempt(); 
+			signinAttempt(Twitter); 
 		}});
 		
 		startAuthentication();
@@ -114,52 +120,12 @@ public class AuthenticationPresenter {
 	}
 
 	
-	private void googleSigninAttempt() {
+	private void signinAttempt(Portal portal) {
 		try{
-			String url = oAuth.googleSigninURL(context, httpSession);
+			String url = oAuth.signinURL(context, httpSession, portal);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Google.");
-		}
-	}
-	
-	
-	private void windowsSigninAttempt() {
-		try{
-			String url = oAuth.windowsSigninURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o WindowsLive.");
-		}
-	}
-	
-	
-	private void yahooSigninAttempt() {
-		try{
-			String url = oAuth.yahooSigninURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Yahoo.");
-		}
-	}
-	
-	
-	private void facebookSigninAttempt() {
-		try{
-			String url = oAuth.facebookSigninURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Facebook.");
-		}
-	}
-
-	
-	private void twitterSigninAttempt() {
-		try{
-			String url = oAuth.twitterSigninURL(context, httpSession);
-			urlRedirector.consume(url);
-		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar o Twitter.");
+			warningDisplayer.consume("Erro ao acessar o " + portal);
 		}
 	}
 

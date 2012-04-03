@@ -134,6 +134,7 @@ public abstract class Immutable implements ReadOnly {
 		
 		if (type == Date.class) return true;
 		if (Immutable.class.isAssignableFrom(type)) return true;
+		if (Enum.class.isAssignableFrom(type)) return true;
 		return false;
 	}
 

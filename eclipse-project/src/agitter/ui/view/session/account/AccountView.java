@@ -1,6 +1,7 @@
 package agitter.ui.view.session.account;
 
 import sneer.foundation.lang.Consumer;
+import agitter.common.Portal;
 import agitter.domain.users.User;
 
 public interface AccountView {
@@ -13,6 +14,6 @@ public interface AccountView {
 
 	void setOptionSelectionListener(Consumer<String> consumer);
 	
-	void onLink(Consumer<String> action);
-	void onUnlink(Consumer<String> action);
+	void onLink(Consumer<Portal> action);
+	void onUnlink(Consumer<Portal> action);
 }

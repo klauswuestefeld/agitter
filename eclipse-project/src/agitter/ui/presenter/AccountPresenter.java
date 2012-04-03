@@ -3,6 +3,7 @@ package agitter.ui.presenter;
 import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
+import agitter.common.Portal;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.users.User;
 import agitter.ui.view.session.account.AccountView;
@@ -34,11 +35,11 @@ public class AccountPresenter {
 			onOptionSelected(value);
 		}});
 		
-		view.onUnlink(new Consumer<String>() { @Override public void consume(String value) {
+		view.onUnlink(new Consumer<Portal>() { @Override public void consume(Portal value) {
 			unlinkAttempt(value); 
 		}});
 			
-		view.onLink(new Consumer<String>() { @Override public void consume(String value) {
+		view.onLink(new Consumer<Portal>() { @Override public void consume(Portal value) {
 			linkAttempt(value); 
 		}});
 
@@ -53,21 +54,21 @@ public class AccountPresenter {
 		view.setUser(loggedUser);
 	}
 
-	public void linkAttempt(String network) {
-		onUpdateFriends(network);
+	private void linkAttempt(Portal portal) {
+		onUpdateFriends(portal);
 	}
 	
-	public void onUpdateFriends(String network) {
+	public void onUpdateFriends(Portal portal) {
 		try{
-			String url = oAuth.linkURL(context, httpSession, network);
+			String url = oAuth.linkURL(context, httpSession, portal);
 			urlRedirector.consume(url);
 		} catch (Exception e) {
-			warningDisplayer.consume("Erro ao acessar a rede " + network);
+			warningDisplayer.consume("Erro ao acessar a rede " + portal);
 		}
 	}
 	
-	public void unlinkAttempt(String network) {
-		loggedUser.unlinkAccount(network);
+	public void unlinkAttempt(Portal portal) {
+		loggedUser.unlinkAccount(portal);
 		refresh();
 	}
 }
