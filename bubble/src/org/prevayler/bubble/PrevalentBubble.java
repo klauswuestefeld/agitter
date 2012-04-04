@@ -3,6 +3,7 @@ package org.prevayler.bubble;
 import java.io.IOException;
 
 import org.prevayler.PrevaylerFactory;
+import org.prevayler.Query;
 
 public class PrevalentBubble {
 
@@ -58,17 +59,23 @@ public class PrevalentBubble {
 		_session.waitForTransactionLogReplay();
 	}
 
+	
 	synchronized
 	static Object execute(TransactionInvocation transaction) throws Exception {
 		if (isReadOnlyMode())
 			throw new RuntimeException(readOnlyMessage);
-		return _session._prevayler.execute( transaction );
+		return _session._prevayler.execute(transaction);
+	}
+	static Object execute(Query query) throws Exception {
+		return _session._prevayler.execute(query);
 	}
 
+	
 	private static boolean isReadOnlyMode() {
 		return readOnlyMessage != null;
 	}
 
+	
 	public static void takeSnapshot() throws IOException {
 		_session._prevayler.takeSnapshot();
 	}

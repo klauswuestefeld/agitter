@@ -69,14 +69,9 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private Object invokeQuery(Method method, Object[] args) throws Exception {
-		ProducerX<Object, Exception> path = extendedPath(method, args); //Optimize: If wrapping isn't necessary, the extended path is also not necessary. The method can be invoked directly.
-		Object result = path.produce();
-		return wrapIfNecessary(result, path);
-	}
-
-
-	private ProducerX<Object, Exception> extendedPath(Method method, Object[] args) {
-		return new QueryInvocation(_invocationPath, method, args);
+		QueryInvocation extendedPath = new QueryInvocation(_invocationPath, method, args);
+		Object ret = PrevalentBubble.execute(extendedPath);
+		return wrapIfNecessary(ret, extendedPath);
 	}
 
 
