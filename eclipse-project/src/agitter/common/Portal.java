@@ -6,6 +6,12 @@ public enum Portal {
 	Facebook,
 	Google,
 	Yahoo,
-	WindowsLive,
+	WindowsLive;
+	
+	public static Portal search(String name) {
+		for (Portal portal : values())
+			if (portal.name().equals(name)) return portal;
+		return null;
+	}
 	
 }

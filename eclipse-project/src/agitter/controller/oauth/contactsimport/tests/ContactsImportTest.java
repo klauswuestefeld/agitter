@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.common.Portal;
 import agitter.controller.oauth.contactsimport.ContactsImport;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
@@ -27,7 +28,7 @@ public class ContactsImportTest extends UsersTestBase {
 		User ana = user("ana@mail.com");
 		ContactsOfAUser contacts = agitter.contacts().contactsOf(ana);
 
-		new ContactsImport("dummy", contacts, Arrays.asList(c1, c2, c3, c4), userProducer())
+		new ContactsImport(Portal.Google, contacts, Arrays.asList(c1, c2, c3, c4), userProducer())
 			.run();
 		
 		assertEquals("c1@mail.com", contacts.all().get(0).email().toString());

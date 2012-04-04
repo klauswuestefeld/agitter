@@ -116,8 +116,8 @@ public class ContactsViewImpl implements ContactsView {
 		else
 			groupList.highlightElement(groupName);
 		
-		if (groupName != null && Portal.valueOf(groupName) != null) {
-			updateFriends.setCaption("Atualizar do " + groupName);
+		if (Portal.search(groupName) != null) {
+			updateFriends.setCaption("Atualizar contatos do " + groupName);
 			updateFriends.setData(groupName);
 			updateFriends.setVisible(true);
 		} else {

@@ -8,8 +8,8 @@ import org.brickred.socialauth.Contact;
 
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.Refusal;
+import agitter.common.Portal;
 import agitter.domain.contacts.ContactsOfAUser;
-import agitter.domain.contacts.Group;
 import agitter.domain.emails.AddressValidator;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;
@@ -21,42 +21,44 @@ public class ContactsImport extends Thread {
 	private final Iterable<Contact> candidatesToImport;
 	private final Functor<EmailAddress, User> userProducer;
 	private final List<User> existing;
-	private final String group;
+	private final Portal portal;
 
 
-	public ContactsImport(String group, ContactsOfAUser container, Iterable<Contact> candidatesToImport, Functor<EmailAddress, User> userProducer) {
+	public ContactsImport(Portal portal, ContactsOfAUser container, Iterable<Contact> candidatesToImport, Functor<EmailAddress, User> userProducer) {
 		this.container = container;
 		this.candidatesToImport = candidatesToImport;
 		this.userProducer = userProducer;
 		this.existing = container.all();
-		this.group = group;
+		this.portal = portal;
 	}
 
 	@Override
 	public void run() {
-		Group g = container.groupGivenName(group);
-		if (g==null) {
-			try {
-				container.createGroup(group);
-			} catch (Refusal e) {
-				throw new sneer.foundation.lang.exceptions.NotImplementedYet(e);
-			}
-		}
+		produceGroup(portal.name());
 		
 		for (Contact candidate : candidatesToImport)
 			importIfNecessary(candidate);
 	}
 
 	
+	private void produceGroup(String groupName) {
+		if (container.groupGivenName(groupName) != null) return;
+		try {
+			container.createGroup(groupName);
+		} catch (Refusal e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	
 	private void importIfNecessary(Contact candidate) {
 		User user = asUser(candidate);
-		// System.out.println("Adicionando " + candidate.getDisplayName() + " " + candidate.getEmail() + " " + candidate.getId() + " " + candidate.getProfileUrl() + " " + candidate.getFirstName());
 		if (user == null) return;
 		
 		if (!existing.contains(user)) 
 			container.addContact(user);
 		
-		container.addContactTo(container.groupGivenName(group), user);
+		container.addContactTo(container.groupGivenName(portal.name()), user);
 	}
 
 	
