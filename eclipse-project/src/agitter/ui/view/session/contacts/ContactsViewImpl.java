@@ -6,7 +6,8 @@ import java.util.List;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
-import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import vaadinutils.ProfileList;
+import vaadinutils.ProfileListItem;
 import vaadinutils.WidgetUtils;
 import agitter.common.Portal;
 import agitter.ui.view.AgitterVaadinUtils;
@@ -29,8 +30,8 @@ public class ContactsViewImpl implements ContactsView {
 	private final ComponentContainer container;
 	private final ComponentContainer fixedContainer;
 
-	private final SelectableRemovableElementList groupList = new SelectableRemovableElementList();
-	private final SelectableRemovablePairList memberList = new SelectableRemovablePairList();
+	private final ProfileList groupList = new ProfileList();
+	private final ProfileList memberList = new ProfileList();
 
 	private final TextField newGroup = new TextField();
 	private final ValueChangeListener newGroupListener;
@@ -94,7 +95,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembersToChoose(List<FullFeaturedItem> membersToChoose) {
+	public void setMembersToChoose(List<ProfileListItem> membersToChoose) {
 		newMember.setChoices(membersToChoose);
 	}
 
@@ -102,7 +103,7 @@ public class ContactsViewImpl implements ContactsView {
 	public void setGroups(List<String> groupNames) {
 		groupList.removeAllElements();
 		groupList.addElementUnremovable(ALL);
-		groupList.addElements(groupNames);
+		groupList.addKeys(groupNames);
 	}
 	
 	@Override
@@ -147,7 +148,7 @@ public class ContactsViewImpl implements ContactsView {
 	}
 
 	@Override
-	public void setMembers(List<FullFeaturedItem> memberNames) {
+	public void setMembers(List<ProfileListItem> memberNames) {
 		memberList.removeAllElements();
 		memberList.addElements(memberNames);
 	}

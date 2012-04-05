@@ -9,7 +9,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.exceptions.Refusal;
-import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import vaadinutils.ProfileListItem;
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
@@ -98,11 +98,11 @@ public class InvitePresenter implements EventView.Boss {
 		view.refreshInviteesToChoose(ContactChooserHelper.contacts(contacts.groups(), contacts.all()));
 	}
 
-	private List<FullFeaturedItem> sortedInviteesOf(Event event) {
+	private List<ProfileListItem> sortedInviteesOf(Event event) {
 		return ContactChooserHelper.contacts(event.groupInvitees(), event.invitees());
 	}
 
-	private List<FullFeaturedItem> sortedKnownInviteesOf(Event event) {
+	private List<ProfileListItem> sortedKnownInviteesOf(Event event) {
 		List<User> userList = new ArrayList<User>();
 		for (User u : event.allResultingInvitees()) {
 			if (contacts.isMyFriend(u.email()) && !u.email().equals(user.email())) {

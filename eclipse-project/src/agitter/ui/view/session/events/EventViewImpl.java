@@ -8,12 +8,12 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
-import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import vaadinutils.ProfileList;
+import vaadinutils.ProfileListItem;
 import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
-import agitter.ui.view.session.contacts.SelectableRemovablePairList;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
@@ -36,7 +36,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final TextArea description = new TextArea();
 	private final AutoCompleteChooser nextInvitee = new AutoCompleteChooser();
 	private final Label invitationsHeader = WidgetUtils.createLabel();
-	private final SelectableRemovablePairList invitations = new SelectableRemovablePairList();
+	private final ProfileList invitations = new ProfileList();
 	
 	private final Button deleteButton;
 	private final Button blockButton;
@@ -95,7 +95,7 @@ class EventViewImpl extends CssLayout implements EventView {
 
 
 	@Override
-	public void refreshInviteesToChoose(List<FullFeaturedItem> inviteesToChoose) {
+	public void refreshInviteesToChoose(List<ProfileListItem> inviteesToChoose) {
 		nextInvitee.setChoices(inviteesToChoose);
 		
 		setWidth(nextInvitee);
@@ -114,7 +114,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 
 	@Override
-	public void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount, boolean isPublicEvent) {
+	public void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount, boolean isPublicEvent) {
 		editAll(true);
 		saveListenersActive = false;
 	
@@ -145,7 +145,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 
 	@Override
-	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<FullFeaturedItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent) {
+	public void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<ProfileListItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent) {
 		editAll(false);
 		readOnlyDescription.setValue(new HTMLFormatter().makeClickable(description));
 		
@@ -180,7 +180,7 @@ class EventViewImpl extends CssLayout implements EventView {
 			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
 	}
 	
-	private void displayReadOnlyInvitees(Pair<String,String> owner, List<FullFeaturedItem> knownInvitees, int totalInviteesCount) {
+	private void displayReadOnlyInvitees(Pair<String,String> owner, List<ProfileListItem> knownInvitees, int totalInviteesCount) {
 		//readOnlyOwner.setValue(owner.b != null ? owner.b : owner.a);
 		readOnlyOwner.setValue(getHTMLName(owner.a,owner.b, null));
 		
@@ -195,7 +195,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		if (knownInvitees.size() > 0) {
 			header.append(":" );
 			list.append("<ul>");
-			for (FullFeaturedItem invitee: knownInvitees)
+			for (ProfileListItem invitee: knownInvitees)
 				list.append("<li>" + getHTMLName(invitee.key, invitee.caption, invitee.icon) + "</li>");
 
 			list.append("<li>você</li>");

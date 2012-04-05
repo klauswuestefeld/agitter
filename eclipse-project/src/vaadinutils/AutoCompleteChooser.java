@@ -52,13 +52,13 @@ public class AutoCompleteChooser extends CssLayout {
 		choice.setValue(null);
 	}
 	
-	public void setChoices(List<FullFeaturedItem> optionsAndCaptions) {
+	public void setChoices(List<ProfileListItem> optionsAndCaptions) {
 		choice.removeAllItems();
-		for (FullFeaturedItem p : optionsAndCaptions) 
+		for (ProfileListItem p : optionsAndCaptions) 
 			addItem(p);
 	}
 	
-	public void addItem(FullFeaturedItem p) {
+	public void addItem(ProfileListItem p) {
 		choice.addItem(p.key);
 		if (p.caption != null)
 			choice.setItemCaption(p.key, p.caption + "   (" + p.key + ") ");
@@ -74,18 +74,5 @@ public class AutoCompleteChooser extends CssLayout {
 		// Peccin Favor Revisar:
 		// WARNING: algo errado com esse comando. Ele destroi o layout.
 		//choice.setWidth(width);
-	}
-	
-	public static class FullFeaturedItem {
-		public String key;
-		public String caption;
-		public String icon;
-		
-		public FullFeaturedItem(String key, String caption, String icon) {
-			super();
-			this.key = key;
-			this.caption = caption;
-			this.icon = icon;
-		}
 	}
 }

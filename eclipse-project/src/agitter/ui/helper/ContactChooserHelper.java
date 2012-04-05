@@ -6,33 +6,33 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import vaadinutils.ProfileListItem;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
 public class ContactChooserHelper {
-	public static List<FullFeaturedItem> contacts(Iterable<Group> groups, Iterable<User> contacts) {
-		List<FullFeaturedItem> contactsAndGroups = new ArrayList<FullFeaturedItem>();
+	public static List<ProfileListItem> contacts(Iterable<Group> groups, Iterable<User> contacts) {
+		List<ProfileListItem> contactsAndGroups = new ArrayList<ProfileListItem>();
 		
 		for (Group g : groups) 
-			contactsAndGroups.add(new FullFeaturedItem(g.toString(), null, null));	
+			contactsAndGroups.add(new ProfileListItem(g.toString()));	
 			
 		for (User obj : contacts)
-			contactsAndGroups.add(new FullFeaturedItem(obj.email().toString(), obj.name(), obj.picture()));
+			contactsAndGroups.add(new ProfileListItem(obj.email().toString(), obj.name(), obj.picture()));
 		
 		Collections.sort(contactsAndGroups, new ItemComparator());
 		
 		return contactsAndGroups;
 	}
 
-	public static List<FullFeaturedItem> contacts(Group[] groupInvitees,
+	public static List<ProfileListItem> contacts(Group[] groupInvitees,
 			User[] invitees) {
 		return contacts(Arrays.asList(groupInvitees),Arrays.asList(invitees));
 	}
 	
-	static class ItemComparator implements Comparator<FullFeaturedItem> {
+	static class ItemComparator implements Comparator<ProfileListItem> {
 		@Override
-		public int compare(FullFeaturedItem o1, FullFeaturedItem o2) {
+		public int compare(ProfileListItem o1, ProfileListItem o2) {
 			if (o1.caption == null && o2.caption != null) {
 				return -1;
 			}

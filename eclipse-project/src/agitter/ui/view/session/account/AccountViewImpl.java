@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import sneer.foundation.lang.Consumer;
+import vaadinutils.ProfileList;
 import vaadinutils.WidgetUtils;
 import agitter.common.Portal;
 import agitter.domain.users.User;
-import agitter.ui.view.session.contacts.SelectableRemovableElementList;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -35,7 +35,7 @@ public class AccountViewImpl implements AccountView {
 	private final TextField name = new TextField();
 	private List<Consumer<String>> newNameConsumers = new ArrayList<Consumer<String>>();
 	
-	private final SelectableRemovableElementList optionsList = new SelectableRemovableElementList();
+	private final ProfileList optionsList = new ProfileList();
 
 	CssLayout accountSettings = new CssLayout();
 	CssLayout settingsSide = new CssLayout();	
@@ -87,7 +87,7 @@ public class AccountViewImpl implements AccountView {
 
 	private void addPortalOption(Portal portal) {
 		OAuthSettingsView view = viewsByPortal.get(portal);
-		optionsList.addElementUnremovable(view.friendlyName(), view.style() + " a-account-social-item-list");
+		optionsList.addElementUnremovable(portal.name(), null, null, view.style() + " a-account-social-item-list");
 	}
 	
 	
@@ -232,7 +232,10 @@ public class AccountViewImpl implements AccountView {
 			}});		
 		}
 
-
+		public String portal() {
+			return portal.name();
+		}
+		
 		public String friendlyName() {
 			return portal == Portal.WindowsLive
 				? "Windows Live (Hotmail, MSN, etc)"

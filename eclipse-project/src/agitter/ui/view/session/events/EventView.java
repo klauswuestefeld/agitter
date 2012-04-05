@@ -3,7 +3,7 @@ package agitter.ui.view.session.events;
 import java.util.List;
 
 import sneer.foundation.lang.Pair;
-import vaadinutils.AutoCompleteChooser.FullFeaturedItem;
+import vaadinutils.ProfileListItem;
 
 
 public interface EventView {
@@ -25,11 +25,11 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, long[] datetimes, List<FullFeaturedItem> invitees, int totalInviteesCount, boolean isPublicEvent);
-	void refreshInviteesToChoose(List<FullFeaturedItem> inviteesToChoose);
+	void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount, boolean isPublicEvent);
+	void refreshInviteesToChoose(List<ProfileListItem> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<FullFeaturedItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent);
+	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<ProfileListItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent);
 	
 	CommentsView commentsView();
 }
