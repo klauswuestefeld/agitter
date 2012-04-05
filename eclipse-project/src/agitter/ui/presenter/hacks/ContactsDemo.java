@@ -1,4 +1,4 @@
-package agitter.ui.presenter;
+package agitter.ui.presenter.hacks;
 
 import java.util.ArrayList;
 import java.util.Arrays;

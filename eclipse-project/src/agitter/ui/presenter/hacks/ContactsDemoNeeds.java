@@ -1,10 +1,14 @@
-package agitter.ui.presenter;
+package agitter.ui.presenter.hacks;
 
 import agitter.ui.view.session.SessionView.Needs;
 
 
-class ContactsDemoNeeds implements Needs {
+public class ContactsDemoNeeds implements Needs {
 
+	public ContactsDemoNeeds() {
+		
+	}
+	
 	@Override
 	public String userScreenName() {
 		return "fulano@example.com";

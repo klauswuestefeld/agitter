@@ -1,4 +1,4 @@
-package agitter.ui.presenter;
+package agitter.ui.presenter.hacks;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
@@ -13,11 +13,11 @@ public class DemoPreparation {
 	private User user;
 
 
-	DemoPreparation(Agitter domain) {
+	public DemoPreparation(Agitter domain) {
 		this.domain = domain;
 	}
 	
-	User user() {
+	public User user() {
 		User existing = domain.users().searchByEmail(DEMO_USER_EMAIL);
 		if (existing != null) return existing;
 

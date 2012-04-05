@@ -28,6 +28,10 @@ import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidAuthenticationToken;
 import agitter.domain.users.Users.UserNotActive;
 import agitter.domain.users.Users.UserNotFound;
+import agitter.ui.presenter.hacks.AnnePreparation;
+import agitter.ui.presenter.hacks.ContactsDemo;
+import agitter.ui.presenter.hacks.ContactsDemoNeeds;
+import agitter.ui.presenter.hacks.DemoPreparation;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
 
@@ -117,6 +121,7 @@ public class Presenter implements RestHandler {
 		String command = uri[0];
 		boolean processed = false;
 		if ("demo".equals(command)) { demo(); processed = true; }
+		if ("anne".equals(command)) { anne(); processed = true; }
 		if ("contacts-demo".equals(command)) { contactsDemo(); processed = true; }
 		if ("unsubscribe".equals(command)) { unsubscribe(uri); processed = true; }
 		if ("signup".equals(command)) { restSignup(params); processed = true; }
@@ -144,6 +149,9 @@ public class Presenter implements RestHandler {
 		onAuthenticate().consume(new DemoPreparation(domain()).user());
 	}
 
+	private void anne() {
+		onAuthenticate().consume(new AnnePreparation(domain()).user());
+	}
 
 	private Consumer<User> onAuthenticate() {
 		return new Consumer<User>() { @Override public void consume(User user) {
