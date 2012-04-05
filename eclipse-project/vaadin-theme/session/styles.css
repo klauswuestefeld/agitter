@@ -531,7 +531,7 @@ textarea.a-invite-description {
 .a-invite-readonly-invitees-list ul {
 	display: block;
 	overflow: hidden;
-	margin: 6px 0 0 24px;
+	margin: 6px 20px 0px 24px;
 	padding: 0;
 }
 .a-invite-readonly-invitees-list li {
@@ -560,6 +560,17 @@ textarea.a-invite-description {
 	margin: 0px;
 	margin-top: 4px;
 }
+
+.a-invite-readonly-spread-button {
+	vertical-align: middle;
+	max-height: 16px;
+	width: 16px;
+	max-width: 16px;
+	border: none;
+	padding: 0px;
+	margin: 3px 5px 0 8px;
+}
+
 
 /* Account ------------------------------------------------------------------------  */
 

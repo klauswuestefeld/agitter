@@ -8,9 +8,9 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Pair;
 import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
+import vaadinutils.MultipleDatePopup;
 import vaadinutils.ProfileList;
 import vaadinutils.ProfileListItem;
-import vaadinutils.MultipleDatePopup;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
@@ -40,6 +40,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 	private final Button deleteButton;
 	private final Button blockButton;
+	private final Button spreadButton;
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
 	private final Label readOnlyDescription = WidgetUtils.createLabelXHTML("");
@@ -52,8 +53,8 @@ class EventViewImpl extends CssLayout implements EventView {
 
 	private final CommentsViewImpl commentsView = new CommentsViewImpl();
 
-	NativeButton buttonOnlyInvitedSign;
-	NativeButton buttonPublicSign;
+	NativeButton onlyInvitedSignButton;
+	NativeButton publicEventSignButton;
 	CssLayout opennessLine;
 	
 	EventViewImpl() {
@@ -61,18 +62,20 @@ class EventViewImpl extends CssLayout implements EventView {
 
 		deleteButton = addRemoveButton("Excluir este Agito"); deleteButton.addStyleName("a-invite-delete-button");
 		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-invite-delete-button");
+			
+		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
+		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
+		addComponent(readOnlyOwner); readOnlyOwner.addStyleName("a-invite-readonly-owner");
+		addComponent(readOnlyInviteesHeader); readOnlyInviteesHeader.addStyleName("a-invite-readonly-invitees-header");
+		addComponent(readOnlyInviteesList); readOnlyInviteesList.addStyleName("a-invite-readonly-invitees-list");
+
+		spreadButton = addSpreadButton("Reagitar!"); spreadButton.addStyleName("a-invite-readonly-spread-button");
 		
 		addMultipleDateComponent();
 		addDescriptionComponent();
 		addPublicEventOption();
 		addNextInviteeComponent();
 		addInvitationsComponents();
-		
-		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
-		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
-		addComponent(readOnlyOwner); readOnlyOwner.addStyleName("a-invite-readonly-owner");
-		addComponent(readOnlyInviteesHeader); readOnlyInviteesHeader.addStyleName("a-invite-readonly-invitees-header");
-		addComponent(readOnlyInviteesList); readOnlyInviteesList.addStyleName("a-invite-readonly-invitees-list");
 		
 		addComponent(commentsView);
 		
@@ -131,7 +134,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		else
 			this.description.focus();
 		
-		setPublic(isPublicEvent);
+		spreadButton.setVisible(false);
+		setPublicFlags(isPublicEvent);
 	}
 
 	@Override
@@ -164,6 +168,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		} else {
 			readOnlyDates.setValue("");
 		}
+		
+		spreadButton.setVisible(isPublicEvent);
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 	}
@@ -215,12 +221,10 @@ class EventViewImpl extends CssLayout implements EventView {
 		readOnlyInviteesList.setValue(list.toString());
 	}
 	
-	
 	private void editAll(boolean b) {
 		showReadOnlyLabels(!b);
 		showEditFields(b);
 	}
-	
 
 	private boolean onNextInvitee(String key) {
 		boolean result = boss.approveInviteesAdd(key);
@@ -228,7 +232,6 @@ class EventViewImpl extends CssLayout implements EventView {
 			invitations.addElement(key, "");
 		return result;
 	}
-	
 	
 	private void showEditFields(boolean b) {
 		deleteButton.setVisible(b);
@@ -247,6 +250,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		readOnlyOwner.setVisible(b);
 		readOnlyInviteesHeader.setVisible(b);
 		readOnlyInviteesList.setVisible(b);
+		
+		if (!b) spreadButton.setVisible(false);
 	}
 
 	
@@ -306,49 +311,49 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 	
 	private void addPublicEventOption() {
-		buttonOnlyInvitedSign = new NativeButton();
-		buttonOnlyInvitedSign.setSizeUndefined();
+		onlyInvitedSignButton = new NativeButton();
+		onlyInvitedSignButton.setSizeUndefined();
 		
-		Button buttonOnlyInvited = WidgetUtils.createLinkButton("Só a panelinha");
-		buttonOnlyInvited.setSizeUndefined();
+		Button onlyInvitedButton = WidgetUtils.createLinkButton("Só a panelinha");
+		onlyInvitedButton.setSizeUndefined();
 		
-		buttonOnlyInvited.addStyleName("a-invite-openness-link");
-		buttonOnlyInvitedSign.addStyleName("a-invite-openness-button");
+		onlyInvitedButton.addStyleName("a-invite-openness-link");
+		onlyInvitedSignButton.addStyleName("a-invite-openness-button");
 		//buttonOnlyInvitedSign.addStyleName("a-default-nativebutton");
 		//button.addStyleName("a-event-going-button-active");
 
-		buttonOnlyInvited.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+		onlyInvitedButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (!saveListenersActive) return;
 			boss.onOpennessChanged(false);
-			setPublic(false);
+			setPublicFlags(false);
 			requestRepaintAll();
 		}});
-		buttonOnlyInvitedSign.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+		onlyInvitedSignButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (!saveListenersActive) return;
 			boss.onOpennessChanged(false);
-			setPublic(false);
+			setPublicFlags(false);
 			requestRepaintAll();
 		}});
 		
-		buttonPublicSign = new NativeButton();
-		buttonPublicSign.setSizeUndefined();
+		publicEventSignButton = new NativeButton();
+		publicEventSignButton.setSizeUndefined();
 		
-		Button buttonPublic = WidgetUtils.createLinkButton("Evento público");
-		buttonPublic.setSizeUndefined();
+		Button publicEventButton = WidgetUtils.createLinkButton("Evento público");
+		publicEventButton.setSizeUndefined();
 		
-		buttonPublic.addStyleName("a-invite-openness-link");
-		buttonPublicSign.addStyleName("a-invite-openness-button");
+		publicEventButton.addStyleName("a-invite-openness-link");
+		publicEventSignButton.addStyleName("a-invite-openness-button");
 		//buttonPublicSign.addStyleName("a-default-nativebutton");
-		buttonPublic.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+		publicEventButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (!saveListenersActive) return;
 			boss.onOpennessChanged(true);
-			setPublic(true);
+			setPublicFlags(true);
 			requestRepaintAll();
 		}});
-		buttonPublicSign.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+		publicEventSignButton.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (!saveListenersActive) return;
 			boss.onOpennessChanged(true);
-			setPublic(true);
+			setPublicFlags(true);
 			requestRepaintAll();
 		}});
 		
@@ -363,21 +368,21 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		opennessLine = new CssLayout();
 		opennessLine.addStyleName("a-invite-openness");
-		opennessLine.addComponent(buttonPublicSign);
-		opennessLine.addComponent(buttonPublic); 
-		opennessLine.addComponent(buttonOnlyInvitedSign);
-		opennessLine.addComponent(buttonOnlyInvited);
+		opennessLine.addComponent(publicEventSignButton);
+		opennessLine.addComponent(publicEventButton); 
+		opennessLine.addComponent(onlyInvitedSignButton);
+		opennessLine.addComponent(onlyInvitedButton);
 		opennessLine.addComponent(updateContacts);
 		addComponent(opennessLine);
 	}
 	
-	private void setPublic(boolean isPublicEvent) {
+	private void setPublicFlags(boolean isPublicEvent) {
 		if (isPublicEvent) {
-			buttonPublicSign.setStyleName("a-invite-openness-button-active");
-			buttonOnlyInvitedSign.setStyleName("a-invite-openness-button");
+			publicEventSignButton.setStyleName("a-invite-openness-button-active");
+			onlyInvitedSignButton.setStyleName("a-invite-openness-button");
 		} else {
-			buttonPublicSign.setStyleName("a-invite-openness-button");
-			buttonOnlyInvitedSign.setStyleName("a-invite-openness-button-active");			
+			publicEventSignButton.setStyleName("a-invite-openness-button");
+			onlyInvitedSignButton.setStyleName("a-invite-openness-button-active");	
 		}
 	}
 
@@ -389,8 +394,25 @@ class EventViewImpl extends CssLayout implements EventView {
 		addComponent(ret);
 		return ret;
 	}
+	
+	private Button addSpreadButton(String caption) {
+		Button ret = WidgetUtils.createLinkButton(caption);
+		ret.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
+			openSpreadingView();
+		}});
+		addComponent(ret);
+		return ret;
+	}
 
 	
+	protected void openSpreadingView() {
+		nextInvitee.setVisible(true);
+		invitations.setVisible(true);
+		invitations.removeAllElements();
+		spreadButton.setVisible(false);
+	}
+
+
 	@Override
 	public CommentsView commentsView() {
 		return commentsView;
