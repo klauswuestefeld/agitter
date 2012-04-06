@@ -325,34 +325,27 @@ public class EventImpl2 implements Event {
 		this._owner = newOwner;
 	}
 
+	private boolean isOwner(User user) {
+		return owner().equals(user);
+	}
+	
 	@Override
 	public void replace(User fromUser, User toUser) {
-		if (owner().equals(fromUser)) {
+		if (isOwner(fromUser)) {
 			giveOwnershipTo(toUser);
-		} else { 
-			if (isInvited(fromUser)) {
-				addInvitee(toUser);
-			}
-			if (notInterested.contains(fromUser)) {
-				try {
-					notInterested(toUser);	
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}
-			for (Occurrence occ : occurrences()) {
-				if (!occ.isInterested(fromUser)) {
-					occ.notInterested(toUser);
-				}
-				if (occ.isGoing(fromUser) != null) {
-					if (occ.isGoing(fromUser)) {	
-						occ.going(toUser);
-					} else {
-						occ.notGoing(toUser);
-					}
-				}
-			}
+			return;
 		}
+		
+		if (isInvited(fromUser)) 
+			addInvitee(toUser);
+			
+		if (!isInterested(fromUser)) 
+			try {
+				notInterested(toUser);	
+			} catch (Exception e) {} // Do not need to handle exception. It is ok if it happens. 
+			
+		for (Occurrence occ : occurrences()) 
+			occ.copyBehavior(fromUser, toUser);
 	}
 
 	@Override

@@ -78,4 +78,17 @@ public class OccurrenceImpl implements Occurrence {
 	public Boolean isGoing(User user) {	
 		return attendanceStatus().get(user);
 	}
+
+	@Override
+	public void copyBehavior(User leader, User sheep) {
+		if (!isInterested(leader)) 
+			notInterested(sheep);
+		
+		if (isGoing(leader) != null) {
+			if (isGoing(leader)) 	
+				going(sheep);
+			else 
+				notGoing(sheep);
+		}
+	}
 }

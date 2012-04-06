@@ -16,4 +16,6 @@ public interface Occurrence {
 	// Null -> user may go. 
 	Boolean isGoing(User user);
 	boolean hasIgnored(User user);
+	
+	void copyBehavior(User fromUser, User toUser);
 }
