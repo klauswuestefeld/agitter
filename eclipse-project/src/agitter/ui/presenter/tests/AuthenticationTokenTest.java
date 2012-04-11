@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
-import utils.AuthenticationToken;
+import agitter.controller.AuthenticationToken;
 import agitter.domain.emails.EmailAddress;
 
 public class AuthenticationTokenTest extends CleanTestBase {

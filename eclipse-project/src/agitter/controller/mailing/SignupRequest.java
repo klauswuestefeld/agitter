@@ -3,7 +3,7 @@ package agitter.controller.mailing;
 import java.util.Map;
 
 import sneer.foundation.lang.exceptions.Refusal;
-import utils.AuthenticationToken;
+import agitter.controller.AuthenticationToken;
 import agitter.domain.emails.EmailAddress;
 
 public class SignupRequest extends AuthenticationToken {

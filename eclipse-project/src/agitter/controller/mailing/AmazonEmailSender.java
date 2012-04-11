@@ -21,7 +21,7 @@ public class AmazonEmailSender implements EmailSender {
 	private final AmazonSimpleEmailService service;
 
 	public AmazonEmailSender() throws IOException {
-		service = new AmazonSimpleEmailServiceClient(new PropertiesCredentials(EventsMailFormatter.class.getResourceAsStream("AwsCredentials.properties")));
+		service = new AmazonSimpleEmailServiceClient(new PropertiesCredentials(AmazonEmailSender.class.getResourceAsStream("AwsCredentials.properties")));
 	}
 
 	@Override

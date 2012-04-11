@@ -4,7 +4,10 @@ import static utils.XssAttackSanitizer.ultraConservativeFilter;
 
 import java.util.List;
 
+import sneer.foundation.lang.Clock;
+import agitter.controller.AuthenticationToken;
 import agitter.domain.events.Event;
+import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;
 
 public class EventsMailFormatter {
@@ -14,13 +17,20 @@ public class EventsMailFormatter {
 			+"<BR/><BR/><BR/>"
 			+"<a href=\"http://agitter.com\">Acesse o Agitter</a> para ficar por dentro e convidar seus amigos para festas, encontros, espetáculos ou qualquer tipo de agito."
 			+"<BR/><BR/>Saia da Internet. Agite!   \\o/"
-			+"<BR/><a href=\"http://agitter.com\">agitter.com</a><BR/>";
+			+"<BR/><a href=\"http://agitter.com/%AUTH%\">agitter.com</a><BR/>";
 	//			+"<BR><BR>Para não receber mais nenhum convite clique: <a href=\"http://agitter.com\">unsubscribe</a>";
 
+	private static final long TWO_DAYS = 1000 * 60 * 60 * 24 * 2;
 
-	public String format(List<Event> events) {
-		String agitos = eventList(events);
-		return BODY.replaceAll("%EVENT_LIST%", agitos);
+
+	public String format(User u, List<Event> events) {
+		return BODY
+			.replaceAll("%EVENT_LIST%", eventList(events))
+			.replaceAll("%AUTH%", authUri(u));
+	}
+
+	private String authUri(User u) {
+		return new AuthenticationToken(u.email(), Clock.currentTimeMillis() + TWO_DAYS).asSecureURI();
 	}
 
 	private String eventList(List<Event> events) {
