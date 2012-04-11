@@ -17,6 +17,7 @@ import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
 import sneer.foundation.lang.exceptions.FriendlyException;
 import sneer.foundation.lang.exceptions.Refusal;
+import utils.AuthenticationToken;
 import vaadinutils.RestUtils.RestHandler;
 import vaadinutils.SessionUtils;
 import agitter.controller.Controller;
@@ -125,6 +126,7 @@ public class Presenter implements RestHandler {
 		if ("contacts-demo".equals(command)) { contactsDemo(); processed = true; }
 		if ("unsubscribe".equals(command)) { unsubscribe(uri); processed = true; }
 		if ("signup".equals(command)) { restSignup(params); processed = true; }
+		if ("auth".equals(command)) { restAuth(params); processed = true; }
 		if ("oauth".equals(command)) { oAuthCallback(params); processed = true; }
 		if ("link".equals(command)) { oAuthLinkCallback(params); processed = true; }
 		if(!processed)
@@ -185,6 +187,13 @@ public class Presenter implements RestHandler {
 
 	private void restSignup(Map<String, String[]> params) throws Refusal {
 		User user = controller.signups().onRestInvocation(params);
+		onAuthenticate().consume(user);
+	}
+
+	
+	private void restAuth(Map<String, String[]> params) throws Refusal {
+		AuthenticationToken token = new AuthenticationToken(params);
+		User user = userProducer.evaluate(token.email());
 		onAuthenticate().consume(user);
 	}
 

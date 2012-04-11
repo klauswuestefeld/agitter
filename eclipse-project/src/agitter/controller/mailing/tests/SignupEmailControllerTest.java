@@ -31,14 +31,14 @@ public class SignupEmailControllerTest extends TestWithMocks {
 		checking(new Expectations(){{
 			exactly(1).of(users).signup(email("ana+1@mail.com"), "password123");
 		}});
-		Map<String, String[]> params = map("email", "ana+1@mail.com", "code", "C4547596FFCFDA1381212731460137B8EEFF2B45AD650BFDC89328891B6436B3");  //Obtained by Regression
+		Map<String, String[]> params = map("email", "ana+1@mail.com", "expires", "-1", "code", "8B2185CF5384FD691EF4AE5CA7D8AF9D789012F2C957A0C7251E6318228C5FF5");  //Obtained by Regression
 		subject.onRestInvocation(params);
 	}
 
 
 	@Test (timeout = 2000, expected = Refusal.class)
 	public void invalidRequest() throws Exception {
-		Map<String, String[]> params = map("email", "ana@mail.com", "code", "InvalidCode:P");
+		Map<String, String[]> params = map("email", "ana@mail.com", "expires", "-1", "code", "InvalidCode:P");
 		subject.onRestInvocation(params);
 	}
 

@@ -74,7 +74,7 @@ public abstract class SecureRequest {
 	}
 
 	
-	protected static Map<String, String[]> parseUri(String command, String uri) throws Refusal {
+	protected static Map<String, String[]> parseParams(String command, String uri) throws Refusal {
 		String[] parts = uri.split("\\?");
 		if(parts.length != 2)
 			throw new Refusal( "Invalid " + command + " request: " + uri);

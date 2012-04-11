@@ -3,11 +3,10 @@ package agitter.ui.presenter.tests;
 
 import org.junit.Test;
 
-import agitter.domain.emails.EmailAddress;
-import agitter.ui.presenter.AuthenticationToken;
-
 import sneer.foundation.lang.exceptions.Refusal;
 import sneer.foundation.testsupport.CleanTestBase;
+import utils.AuthenticationToken;
+import agitter.domain.emails.EmailAddress;
 
 public class AuthenticationTokenTest extends CleanTestBase {
 
