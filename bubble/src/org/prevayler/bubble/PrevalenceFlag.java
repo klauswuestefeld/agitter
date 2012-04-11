@@ -3,15 +3,17 @@ package org.prevayler.bubble;
 
 class PrevalenceFlag {
 
-	private static boolean _isInsidePrevalence = false;
+	private static ThreadLocal<Boolean> _isInsidePrevalence = new ThreadLocal<Boolean>() {  @Override protected Boolean initialValue() {
+		return false;
+	}};
 
 	static boolean isInsidePrevalence() {
-		return _isInsidePrevalence;
+		return _isInsidePrevalence.get();
 	}
 
 	static void setInsidePrevalence(boolean newValue) {
-		if (_isInsidePrevalence == newValue) throw new IllegalStateException();
-		_isInsidePrevalence = newValue;
+		if (newValue == _isInsidePrevalence.get()) throw new Error("Prevalence Flag being set redundantly.");
+		_isInsidePrevalence.set(newValue);
 	}
 
 }
