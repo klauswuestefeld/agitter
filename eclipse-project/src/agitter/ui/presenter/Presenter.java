@@ -195,6 +195,7 @@ public class Presenter implements RestHandler {
 		AuthenticationToken token = new AuthenticationToken(params);
 		User user = userProducer.evaluate(token.email());
 		onAuthenticate().consume(user);
+		view.hideToAvoidExtraBlinkAndRedirect(context.toString());
 	}
 
 	
