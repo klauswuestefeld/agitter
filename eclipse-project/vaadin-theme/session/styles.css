@@ -748,7 +748,7 @@ textarea.a-invite-description {
 }
 
 
-/* Comments  */
+/* Begin Comments  */
 
 .a-comments-view {
 }
@@ -760,25 +760,24 @@ textarea.a-invite-description {
 	font-size: 16px;
 }
 
+.a-comments-view-container-text-post {
+	width: 435px;
+	height: 90px;
+	/*border: 1px solid #000;*/
+}
+
 .a-comments-view-text {
-	clear: both;
 	width: 395px;
-	height: 55px;
-	min-height: 80px;
-	max-height: 155px;
-	resize: vertical;
+	height: 80px;
+	resize: none;
 	font-size: 14px;
-	display: block;
 	margin-bottom: 11px;
+	float:left;
 }
 
 .a-comments-view-post {
 	vertical-align: center;
-	float:right;
 	border-style: none;
-	position:relative;
-	top: -36px;
-	left: -18px;
 }
 
 .a-comments-view-list {
@@ -819,6 +818,8 @@ textarea.a-invite-description {
 .a-comment-view-date {
 	color: gray;
 }
+
+/* End Comments  */
 
 .v-icon {
 	width:16px;

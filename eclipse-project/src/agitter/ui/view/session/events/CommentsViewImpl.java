@@ -25,15 +25,22 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		commentLabel.addStyleName("a-comments-view-label");
 		addComponent(commentLabel);
 		
+		CssLayout commentTextAndButtonContainer = new CssLayout();
+		
 		comment.setNullRepresentation("");
 		comment.setInputPrompt("Escreva seu comentário aqui...");
 		comment.setSizeUndefined();
 		comment.setMaxLength(500);
 		comment.addStyleName("a-comments-view-text");
-		addComponent(comment);
+		commentTextAndButtonContainer.addComponent(comment);
+//		addComponent(comment);
 		
 		commentButton.addStyleName("a-comments-view-post");
-		addComponent(commentButton);
+		commentTextAndButtonContainer.addComponent(commentButton);
+//		addComponent(commentButton);
+		
+		commentTextAndButtonContainer.addStyleName("a-comments-view-container-text-post");
+		addComponent(commentTextAndButtonContainer);
 		
 		commentList.addStyleName("a-comments-view-list");
 		addComponent(commentList);
