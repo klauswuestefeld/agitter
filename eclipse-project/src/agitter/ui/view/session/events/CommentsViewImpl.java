@@ -3,6 +3,9 @@ package agitter.ui.view.session.events;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
+import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
@@ -48,7 +51,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		addComponent(commentLabel);
 		
 		comment.setNullRepresentation("");
-		comment.setInputPrompt("Escreva seu comentário aqui...");
+		comment.setInputPrompt("Escreva seu comentário...");
 		comment.setSizeUndefined();
 		comment.setMaxLength(500);
 		comment.addStyleName("a-comments-view-text");
@@ -63,6 +66,20 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		addComponent(commentList);
 		
 		addStyleName("a-comments-view");
+		
+		final String withFocusStyleName = "a-comments-view-text-withfocus"; 
+		comment.addListener(new FieldEvents.FocusListener() {
+			@Override
+			public void focus(FocusEvent event) {
+				comment.addStyleName(withFocusStyleName);
+			}
+		});
+		comment.addListener(new FieldEvents.BlurListener() {
+			@Override
+			public void blur(BlurEvent event) {
+				comment.removeStyleName(withFocusStyleName);
+			}
+		});
 	}
 	
 	
@@ -116,7 +133,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	public void askForName() {
 		setModalEnablement(false);
 
-		nameTf.setInputPrompt("Por favor informe seu nome");
+		nameTf.setInputPrompt("Por favor informe seu nome:");
 		nameTf.setValue( "" );
 		popup.addComponent(nameTf); ////MMM criar um CSS
 

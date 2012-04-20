@@ -761,14 +761,15 @@ textarea.a-invite-description {
 }
 
 .a-comments-view-text {
-	width: 395px;
-	height: 80px;
-	min-height: 35px;
-	max-height: 155px;
-	resize: vertical;
+	width: 400px;
+	height: 20px;
+	resize: none;
 	font-size: 14px;
 	margin-bottom: 11px;
 	float:left;
+}
+.a-comments-view-text-withfocus {
+	height: 80px;
 }
 
 .a-comments-view-post {
