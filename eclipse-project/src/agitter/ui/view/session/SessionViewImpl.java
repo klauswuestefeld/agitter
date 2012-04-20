@@ -138,8 +138,7 @@ public class SessionViewImpl implements SessionView {
 	@Override
 	public AccountView accountView() {
 		if (accountView == null) {
-			accountView = new AccountViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
-		
+			accountView = new AccountViewImpl(mainContent);
 			accountView().setNameListener(new Consumer<String>() { @Override public void consume(String value) {
 				refreshAccountName(value);
 			}});

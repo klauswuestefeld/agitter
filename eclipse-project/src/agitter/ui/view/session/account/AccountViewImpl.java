@@ -22,6 +22,8 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
 
@@ -30,10 +32,12 @@ public class AccountViewImpl implements AccountView {
 	private static final String ACCOUNT = "Informações de Conta";
 	
 	private final ComponentContainer container;
-	private final ComponentContainer fixedContainer;
 
 	private final TextField name = new TextField();
 	private List<Consumer<String>> newNameConsumers = new ArrayList<Consumer<String>>();
+	private final PasswordField password = new PasswordField();
+	private final PasswordField newPassword = new PasswordField();
+	private final Button changePassword = new NativeButton("Alterar Senha");
 	
 	private final ProfileList optionsList = new ProfileList();
 
@@ -45,11 +49,10 @@ public class AccountViewImpl implements AccountView {
 	
 	private Map<Portal, OAuthSettingsView> viewsByPortal = new HashMap<Portal, OAuthSettingsView>();
 	private User user;
-
+	private Boss boss;
 	
-	public AccountViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
+	public AccountViewImpl(ComponentContainer container) {
 		this.container = container;
-		this.fixedContainer = fixedContainer;
 				
 		createAccountSettings();
 
@@ -57,11 +60,18 @@ public class AccountViewImpl implements AccountView {
 			viewsByPortal.put(portal, new OAuthSettingsView(portal));
 	}
 
+	@Override
+	public void startReportingTo(Boss b) {
+		if (this.boss != null) throw new IllegalStateException();
+		this.boss = b;
+		changePassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
+			boss.onPasswordChange((String)password.getValue(), (String)newPassword.getValue());
+		}});
+	}
 
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		fixedContainer.removeAllComponents();
 
 		CssLayout accountView = new CssLayout();
 		container.addComponent(accountView); accountView.addStyleName("a-contacts-view");
@@ -92,21 +102,38 @@ public class AccountViewImpl implements AccountView {
 	
 	
 	private void createAccountSettings() {
-		name.setImmediate(true);
-		ValueChangeListener nameListener = new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
-			String value = (String) name.getValue();
-			if (value == null || value.isEmpty()) return;
-			for (Consumer<String> c : newNameConsumers) 
-				c.consume(value);
-		}};
-		name.addListener(nameListener);
-		
 		accountSettings = new CssLayout(); 
 		Label accountDetailsCaption = WidgetUtils.createLabel(ACCOUNT);
 		accountSettings.addComponent(accountDetailsCaption); accountDetailsCaption.addStyleName("a-contacts-members-caption");
-		Label caption = new Label("Nome: ");
+
+		Label caption;
+		
+		caption = new Label("Nome: ");
 		accountSettings.addComponent(caption); caption.addStyleName("a-account-field-caption");
-		accountSettings.addComponent(name); name.addStyleName("a-contacts-members-new");
+		initNameField();
+		accountSettings.addComponent(name); name.addStyleName("a-account-name");
+
+//		caption = new Label("Alterar Senha: ");
+//		accountSettings.addComponent(caption); caption.addStyleName("a-account-field-caption");
+		password.setCaption("Senha Atual:");
+		accountSettings.addComponent(password); password.addStyleName("a-account-password");
+		newPassword.setCaption("Senha Nova:");
+		accountSettings.addComponent(newPassword); newPassword.addStyleName("a-account-password");
+		accountSettings.addComponent(changePassword);
+		changePassword.addListener(new ClickListener() {  @Override public void buttonClick(ClickEvent ignored) {
+			
+		}});
+		
+	}
+
+	private void initNameField() {
+		name.setImmediate(true);
+		name.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
+			String value = (String)name.getValue();
+			if (value == null || value.isEmpty()) return;
+			for (Consumer<String> c : newNameConsumers) 
+				c.consume(value);
+		}});
 	}
 
 	
@@ -144,13 +171,16 @@ public class AccountViewImpl implements AccountView {
 	
 	
 	private void refreshFields() {
-		if (user == null) {
-			name.setValue("");
-			return;
-		}
+		name.setValue(userName());
 		
-		name.setValue(user.name());
-		refreshOAuthFields();
+		if (user != null)
+			refreshOAuthFields();
+	}
+
+	private String userName() {
+		if (user == null) return "";
+		if (user.name() == null) return "";
+		return user.name();
 	}
 
 	
@@ -194,6 +224,13 @@ public class AccountViewImpl implements AccountView {
 		unlinkAction = action;
 	}
 	
+
+	@Override
+	public void clearPasswordFields() {
+		password.setValue("");
+		newPassword.setValue("");
+	}
+
 
 	class OAuthSettingsView extends CssLayout {
 		Button login;

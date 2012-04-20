@@ -3,12 +3,13 @@ package agitter.ui.presenter;
 import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.common.Portal;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.users.User;
 import agitter.ui.view.session.account.AccountView;
 
-public class AccountPresenter {
+public class AccountPresenter implements AccountView.Boss {
 
 	private final User loggedUser;
 	private final AccountView view;
@@ -43,6 +44,7 @@ public class AccountPresenter {
 			linkAttempt(value); 
 		}});
 
+		view.startReportingTo(this);
 		refresh();
 	}
 
@@ -71,5 +73,19 @@ public class AccountPresenter {
 		loggedUser.unlinkAccount(portal);
 		refresh();
 	}
+	
+	
+	@Override
+	public void onPasswordChange(String currentPassword, String newPassword) {
+		try {
+			loggedUser.attemptToSetPassword(currentPassword, newPassword);
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+			return;
+		}
+		view.clearPasswordFields();
+		warningDisplayer.consume("Senha alterada com sucesso.");
+	}
+	
 }
 
