@@ -760,12 +760,6 @@ textarea.a-invite-description {
 	font-size: 16px;
 }
 
-.a-comments-view-container-text-post {
-	/*width: 435px;
-	height: 90px;*/
-	/*border: 1px solid #000;*/
-}
-
 .a-comments-view-text {
 	width: 395px;
 	height: 80px;
@@ -780,6 +774,7 @@ textarea.a-invite-description {
 .a-comments-view-post {
 	vertical-align: center;
 	border-style: none;
+	float:left;
 }
 
 .a-comments-view-list {

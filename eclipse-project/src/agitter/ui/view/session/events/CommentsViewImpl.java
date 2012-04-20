@@ -17,10 +17,10 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	private final TextField nameTf = new TextField( "Você deve ter um nome cadastrado" );
 	private final NativeButton okButton = AgitterVaadinUtils.createDefaultNativeButton("OK");
 	private final NativeButton cancelButton = AgitterVaadinUtils.createDefaultNativeButton("Cancelar");
+	
 	{
 		popup.addStyleName( "a-comment-ask-name-view" ); //MMM esta no css errado
 		popup.setVisible(false);
-//		addComponent( popup );
 
 		okButton.addListener(new ClickListener() {
 			@Override
@@ -43,26 +43,20 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	
 	private Boss boss;
 
-	
 	{
 		commentLabel.addStyleName("a-comments-view-label");
 		addComponent(commentLabel);
-		
-		CssLayout commentTextAndButtonContainer = new CssLayout();
 		
 		comment.setNullRepresentation("");
 		comment.setInputPrompt("Escreva seu comentário aqui...");
 		comment.setSizeUndefined();
 		comment.setMaxLength(500);
 		comment.addStyleName("a-comments-view-text");
-		commentTextAndButtonContainer.addComponent(comment);
+		addComponent(comment);
 		
 		commentButton.addStyleName("a-comments-view-post");
-		commentTextAndButtonContainer.addComponent(commentButton);
+		addComponent(commentButton);
 
-		commentTextAndButtonContainer.addStyleName("a-comments-view-container-text-post");
-		addComponent(commentTextAndButtonContainer);
-		
 		addComponent(popup);
 		
 		commentList.addStyleName("a-comments-view-list");
