@@ -779,9 +779,10 @@ textarea.a-invite-description {
 }
 
 .a-comment-ask-name-view {
+	clear:left;
 	padding: 16px 23px 20px 23px;
 	margin: 20px 30px;
-	float: right;
+	float: left;
 	background: white;
 	border-radius: 6px;
 	box-shadow: 3px 3px 12px #444;

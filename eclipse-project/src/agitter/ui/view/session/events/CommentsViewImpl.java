@@ -17,7 +17,7 @@ import com.vaadin.ui.TextField;
 class CommentsViewImpl extends CssLayout implements CommentsView {
 	
 	private final CssLayout popup = new CssLayout();
-	private final TextField nameTf = new TextField( "Você deve ter um nome cadastrado" );
+	private final TextField nameTf = new TextField( "Você deve ter um nome cadastrado:" );
 	private final NativeButton okButton = AgitterVaadinUtils.createDefaultNativeButton("OK");
 	private final NativeButton cancelButton = AgitterVaadinUtils.createDefaultNativeButton("Cancelar");
 	
@@ -133,8 +133,9 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	public void askForName() {
 		setModalEnablement(false);
 
-		nameTf.setInputPrompt("Por favor informe seu nome:");
-		nameTf.setValue( "" );
+		nameTf.setInputPrompt("Por favor informe seu nome");
+		nameTf.setValue("");
+		nameTf.setColumns(15);
 		popup.addComponent(nameTf); ////MMM criar um CSS
 
 		okButton.addStyleName("a-login-button"); //MMM arrumar CSS
