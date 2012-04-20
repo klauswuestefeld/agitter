@@ -761,15 +761,17 @@ textarea.a-invite-description {
 }
 
 .a-comments-view-container-text-post {
-	width: 435px;
-	height: 90px;
+	/*width: 435px;
+	height: 90px;*/
 	/*border: 1px solid #000;*/
 }
 
 .a-comments-view-text {
 	width: 395px;
 	height: 80px;
-	resize: none;
+	min-height: 35px;
+	max-height: 155px;
+	resize: vertical;
 	font-size: 14px;
 	margin-bottom: 11px;
 	float:left;
@@ -781,6 +783,7 @@ textarea.a-invite-description {
 }
 
 .a-comments-view-list {
+	clear:left;
 	padding-top: 5px;
 }
 
