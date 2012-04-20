@@ -791,13 +791,13 @@ textarea.a-invite-description {
 
 .a-comments-view-list {
 	clear:left;
-	padding-top: 5px;
+	padding-top: 2px;
 }
 
 .a-comment-view {
 	margin: 2px;
 	margin-right: 20px;
-	padding: 6px 2px 14px 2px;
+	padding: 4px 2px 8px 2px;
 }
 
 .a-comment-view:hover {
