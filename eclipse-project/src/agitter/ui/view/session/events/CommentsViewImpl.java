@@ -16,6 +16,8 @@ import com.vaadin.ui.TextField;
 
 class CommentsViewImpl extends CssLayout implements CommentsView {
 	
+	private static final String STYLE_NEW_COMMENT_TEXTAREA_BIG = "a-comments-view-text-withfocus";
+	
 	private final CssLayout popup = new CssLayout();
 	private final TextField nameTf = new TextField( "Você deve ter um nome cadastrado:" );
 	private final NativeButton okButton = AgitterVaadinUtils.createDefaultNativeButton("OK");
@@ -67,21 +69,20 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		
 		addStyleName("a-comments-view");
 		
-		final String withFocusStyleName = "a-comments-view-text-withfocus"; 
 		comment.addListener(new FieldEvents.FocusListener() {
 			@Override
 			public void focus(FocusEvent event) {
-				comment.addStyleName(withFocusStyleName);
+				comment.addStyleName(STYLE_NEW_COMMENT_TEXTAREA_BIG);
 			}
 		});
 		comment.addListener(new FieldEvents.BlurListener() {
 			@Override
 			public void blur(BlurEvent event) {
-				comment.removeStyleName(withFocusStyleName);
+				shrinkCommentTextAreaIfNecessary();
 			}
+
 		});
 	}
-	
 	
 	@Override
 	public void startReportingTo(Boss b) {
@@ -120,6 +121,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	@Override
 	public void clearCommentBox() {
 		comment.setValue("");
+		shrinkCommentTextAreaIfNecessary();
 	}
 
 
@@ -168,6 +170,13 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		setModalEnablement(true);
 		popup.removeAllComponents();
 		popup.setVisible(false);		
+	}
+	
+	private void shrinkCommentTextAreaIfNecessary() {
+		String commentText = (String)comment.getValue();
+		if(commentText == null || commentText.isEmpty()) {
+			comment.removeStyleName(STYLE_NEW_COMMENT_TEXTAREA_BIG);
+		}
 	}
 	
 	
