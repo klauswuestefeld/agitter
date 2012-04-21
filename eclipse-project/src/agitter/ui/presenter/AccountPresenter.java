@@ -28,13 +28,6 @@ public class AccountPresenter implements AccountView.Boss {
 		this.warningDisplayer = warningDisplayer;
 		this.httpSession = httpSession;
 		this.context = context;
-		view.setNameListener(new Consumer<String>() { @Override public void consume(String value) {
-			loggedUser.setName(value);
-		}});
-		
-		view.setOptionSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
-			onOptionSelected(value);
-		}});
 		
 		view.onUnlink(new Consumer<Portal>() { @Override public void consume(Portal value) {
 			unlinkAttempt(value); 
@@ -48,7 +41,8 @@ public class AccountPresenter implements AccountView.Boss {
 		refresh();
 	}
 
-	private void onOptionSelected(String value) {
+	@Override
+	public void onOptionSelected(String value) {
 		view.setOptionSelected(value);
 	}
 	
@@ -85,6 +79,11 @@ public class AccountPresenter implements AccountView.Boss {
 		}
 		view.clearPasswordFields();
 		warningDisplayer.consume("Senha alterada com sucesso.");
+	}
+
+	@Override
+	public void onNameChange(String newName) {
+		loggedUser.setName(newName);
 	}
 	
 }

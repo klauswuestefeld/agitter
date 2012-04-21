@@ -8,6 +8,8 @@ public interface AccountView {
 	
 	interface Boss {
 		void onPasswordChange(String currentPassword, String newPassword);
+		void onNameChange(String newName);
+		void onOptionSelected(String option);
 	}
 
 	void startReportingTo(Boss b);
@@ -16,11 +18,8 @@ public interface AccountView {
 
 	void setUser(User user);
 	void setOptionSelected(String optionName);
-	void setNameListener(Consumer<String> consumer);
 	void clearPasswordFields();
 
-	void setOptionSelectionListener(Consumer<String> consumer);
-	
 	void onLink(Consumer<Portal> action);
 	void onUnlink(Consumer<Portal> action);
 

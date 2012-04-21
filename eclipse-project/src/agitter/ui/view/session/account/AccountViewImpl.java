@@ -1,9 +1,7 @@
 package agitter.ui.view.session.account;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import sneer.foundation.lang.Consumer;
@@ -34,7 +32,6 @@ public class AccountViewImpl implements AccountView {
 	private final ComponentContainer container;
 
 	private final TextField name = new TextField();
-	private List<Consumer<String>> newNameConsumers = new ArrayList<Consumer<String>>();
 	private final PasswordField password = new PasswordField();
 	private final PasswordField newPassword = new PasswordField();
 	private final Button changePassword = new NativeButton("Alterar Senha");
@@ -67,6 +64,11 @@ public class AccountViewImpl implements AccountView {
 		changePassword.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
 			boss.onPasswordChange((String)password.getValue(), (String)newPassword.getValue());
 		}});
+		
+		optionsList.setSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
+			boss.onOptionSelected(value.equals(ACCOUNT) ? null : value);
+		}});
+
 	}
 
 	@Override
@@ -131,8 +133,7 @@ public class AccountViewImpl implements AccountView {
 		name.addListener(new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
 			String value = (String)name.getValue();
 			if (value == null || value.isEmpty()) return;
-			for (Consumer<String> c : newNameConsumers) 
-				c.consume(value);
+			boss.onNameChange(value);
 		}});
 	}
 
@@ -198,20 +199,6 @@ public class AccountViewImpl implements AccountView {
 		v.setProfilePic(user.linkedAccountImage(v.portal));
 	}
 
-	
-	@Override
-	public void setNameListener(Consumer<String> consumer) {
-		newNameConsumers.add(consumer);
-	}
-
-	
-	@Override
-	public void setOptionSelectionListener(final Consumer<String> consumer) {
-		optionsList.setSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
-			consumer.consume(value.equals(ACCOUNT) ? null : value);
-		}});
-	}
-	
 	
 	@Override
 	public void onLink(Consumer<Portal> action) {

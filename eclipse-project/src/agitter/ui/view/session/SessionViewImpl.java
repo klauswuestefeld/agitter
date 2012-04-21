@@ -1,6 +1,5 @@
 package agitter.ui.view.session;
 
-import sneer.foundation.lang.Consumer;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.account.AccountView;
 import agitter.ui.view.session.account.AccountViewImpl;
@@ -131,12 +130,8 @@ public class SessionViewImpl implements SessionView {
 
 	@Override
 	public AccountView accountView() {
-		if (accountView == null) {
+		if (accountView == null)
 			accountView = new AccountViewImpl(mainContent);
-			accountView().setNameListener(new Consumer<String>() { @Override public void consume(String value) {
-				setUserScreenName(value);
-			}});
-		}
 		
 		return accountView;
 	}
