@@ -6,16 +6,17 @@ import agitter.ui.view.session.events.EventsView;
 
 public interface SessionView {
 	
-	public interface Needs {
-		String userScreenName();
+	public interface Boss {
 		void onLogout();
 		void onEventsMenu();
 		void onContactsMenu();
 		void onAccountMenu();
 	}
 	
-	void init(Needs needs);
+	void startReportingTo(Boss boss);
 	
+	void setUserScreenName(String screenName);
+
 	EventsView eventsView();
 	void showEventsView();
 

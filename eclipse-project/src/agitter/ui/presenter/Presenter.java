@@ -31,7 +31,7 @@ import agitter.domain.users.Users.UserNotActive;
 import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.presenter.hacks.AnnePreparation;
 import agitter.ui.presenter.hacks.ContactsDemo;
-import agitter.ui.presenter.hacks.ContactsDemoNeeds;
+import agitter.ui.presenter.hacks.ContactsDemoBoss;
 import agitter.ui.presenter.hacks.DemoPreparation;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
@@ -141,7 +141,8 @@ public class Presenter implements RestHandler {
 
 	private void contactsDemo() {
 		SessionView sessionView = view.showSessionView();
-		sessionView.init(new ContactsDemoNeeds());
+		sessionView.startReportingTo(new ContactsDemoBoss());
+		sessionView.setUserScreenName("Contacts Demo");
 		sessionView.showContactsView();
 		new ContactsDemo(sessionView.contactsView());
 	}
