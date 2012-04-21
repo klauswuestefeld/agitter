@@ -201,18 +201,6 @@ public class AccountViewImpl implements AccountView {
 
 	
 	@Override
-	public void onLink(Consumer<Portal> action) {
-		linkAction = action;
-	}
-
-	
-	@Override
-	public void onUnlink(Consumer<Portal> action) {
-		unlinkAction = action;
-	}
-	
-
-	@Override
 	public void clearPasswordFields() {
 		password.setValue("");
 		newPassword.setValue("");
@@ -247,12 +235,12 @@ public class AccountViewImpl implements AccountView {
 			
 			login.setDescription("Conectar com " + friendlyName());
 			login.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-				linkAction.consume(portal);
+				boss.onLink(portal);
 			}});
 			
 			logout.setDescription("Desconectar do " + friendlyName());
 			logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
-				unlinkAction.consume(portal);
+				boss.onUnlink(portal);
 			}});		
 		}
 

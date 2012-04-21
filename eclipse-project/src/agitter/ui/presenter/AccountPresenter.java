@@ -28,15 +28,7 @@ public class AccountPresenter implements AccountView.Boss {
 		this.warningDisplayer = warningDisplayer;
 		this.httpSession = httpSession;
 		this.context = context;
-		
-		view.onUnlink(new Consumer<Portal>() { @Override public void consume(Portal value) {
-			unlinkAttempt(value); 
-		}});
 			
-		view.onLink(new Consumer<Portal>() { @Override public void consume(Portal value) {
-			linkAttempt(value); 
-		}});
-
 		view.startReportingTo(this);
 		refresh();
 	}
@@ -50,10 +42,6 @@ public class AccountPresenter implements AccountView.Boss {
 		view.setUser(loggedUser);
 	}
 
-	private void linkAttempt(Portal portal) {
-		onUpdateFriends(portal);
-	}
-	
 	public void onUpdateFriends(Portal portal) {
 		try{
 			String url = oAuth.linkURL(context, httpSession, portal);
@@ -62,12 +50,6 @@ public class AccountPresenter implements AccountView.Boss {
 			warningDisplayer.consume("Erro ao acessar a rede " + portal);
 		}
 	}
-	
-	public void unlinkAttempt(Portal portal) {
-		loggedUser.unlinkAccount(portal);
-		refresh();
-	}
-	
 	
 	@Override
 	public void onPasswordChange(String currentPassword, String newPassword) {
@@ -84,6 +66,17 @@ public class AccountPresenter implements AccountView.Boss {
 	@Override
 	public void onNameChange(String newName) {
 		loggedUser.setName(newName);
+	}
+	
+	@Override
+	public void onLink(Portal portal) {
+		onUpdateFriends(portal); 
+	}
+	
+	@Override
+	public void onUnlink(Portal portal) {
+		loggedUser.unlinkAccount(portal);
+		refresh();
 	}
 	
 }

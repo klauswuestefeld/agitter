@@ -1,6 +1,5 @@
 package agitter.ui.view.session.account;
 
-import sneer.foundation.lang.Consumer;
 import agitter.common.Portal;
 import agitter.domain.users.User;
 
@@ -10,6 +9,8 @@ public interface AccountView {
 		void onPasswordChange(String currentPassword, String newPassword);
 		void onNameChange(String newName);
 		void onOptionSelected(String option);
+		void onLink(Portal portal);
+		void onUnlink(Portal portal);
 	}
 
 	void startReportingTo(Boss b);
@@ -20,7 +21,5 @@ public interface AccountView {
 	void setOptionSelected(String optionName);
 	void clearPasswordFields();
 
-	void onLink(Consumer<Portal> action);
-	void onUnlink(Consumer<Portal> action);
 
 }
