@@ -1,5 +1,8 @@
 package agitter.ui.presenter;
 
+import static agitter.domain.events.Event.Attendance.GOING;
+import static agitter.domain.events.Event.Attendance.MAYBE;
+import static agitter.domain.events.Event.Attendance.NOT_GOING;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
@@ -184,8 +187,7 @@ public class EventsPresenter implements Boss {
 					invitees.length, 
 					uniqueGroupOrUserInvited(invitees), 
 					isUniqueUserInvited(invitees), 
-					event.isGoing(user, date),
-					event.hasIgnored(user, date)));
+					event.attendance(user, date) == GOING));
 			}
 			
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
@@ -233,7 +235,7 @@ public class EventsPresenter implements Boss {
 			events.delete(user, event); 
 		} else {
 			System.out.println("Not interesting anymore");
-			event.notInterested(user, datetime);
+			event.setAttendance(user, datetime, NOT_GOING);
 		}
 		
 		selectEvent(null);
@@ -249,7 +251,7 @@ public class EventsPresenter implements Boss {
 			// Should never come here.
 			System.out.println("Should NEVER come here");
 		} else {
-			event.going(user, datetime);
+			event.setAttendance(user, datetime, GOING);
 		}
 		selectEvent(null);
 		refreshEventList();
@@ -266,7 +268,7 @@ public class EventsPresenter implements Boss {
 			System.out.println("Should NEVER come here");
 		} else {
 			System.out.println("Not interesting anymore");
-			event.mayGo(user, datetime);
+			event.setAttendance(user, datetime, MAYBE);
 		}
 		selectEvent(null);
 		refreshEventList();

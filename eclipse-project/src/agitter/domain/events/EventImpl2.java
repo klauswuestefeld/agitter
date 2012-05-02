@@ -1,5 +1,7 @@
 package agitter.domain.events;
 
+import static agitter.domain.events.Event.Attendance.NOT_GOING;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +28,7 @@ public class EventImpl2 implements Event {
 	@SuppressWarnings("unused") @Deprecated private long _datetime;
 	@SuppressWarnings("unused") @Deprecated private long[] datetimes;
 	
-	private Set<Occurrence> occurrences = new HashSet<Occurrence>();
+	private Set<OccurrenceImpl> occurrences = new HashSet<OccurrenceImpl>();
 	
 	final private Set<User> notInterested = new HashSet<User>();
 	
@@ -52,19 +54,14 @@ public class EventImpl2 implements Event {
 	public long[] datetimes() {
 		long[] ret = new long[actualOccurrences().size()];
 		int cont=0;
-		for (Occurrence occ : actualOccurrences()) {
+		for (OccurrenceImpl occ : actualOccurrences()) {
 			ret[cont++] = occ.datetime();
 		}
 		return ret;
 	}
 
-	@Override
-	public Occurrence[] occurrences() {
-		return actualOccurrences().toArray(new Occurrence[actualOccurrences().size()]);
-	}
-	
-	private Set<Occurrence> actualOccurrences() {
-		if (occurrences==null) occurrences = new HashSet<Occurrence>();
+	private Set<OccurrenceImpl> actualOccurrences() {
+		if (occurrences==null) occurrences = new HashSet<OccurrenceImpl>();
 		return occurrences;
 	}
 	
@@ -102,66 +99,6 @@ public class EventImpl2 implements Event {
 		notInterested.add(user);
 	}
 	
-	@Override
-	public void notInterested(User user, long date) {
-		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
-
-		Occurrence o = searchOccurrence(date);
-		if (o != null) {
-			o.notInterested(user);
-		}
-	}
-	
-	@Override
-	public void going(User user, long date) {
-		Occurrence o = searchOccurrence(date);
-		if(!isOwner(user) && !isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem participar." );
-		
-		if (o != null) {
-			o.going(user);
-		}
-	}
-
-	@Override
-	public void notGoing(User user, long date) {
-		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
-
-		Occurrence o = searchOccurrence(date);
-		if (o != null) {
-			o.notGoing(user);
-		}
-	}
-
-	@Override
-	public void mayGo(User user, long date) {
-		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
-
-		Occurrence o = searchOccurrence(date);
-		if (o != null) {
-			o.mayGo(user);
-		}
-	}
-
-	@Override
-	public Boolean isGoing(User user, long date) {
-		Occurrence o = searchOccurrence(date);
-		if (o != null) {
-			return o.isGoing(user);
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean hasIgnored(User user, long date) {
-		Occurrence o = searchOccurrence(date);
-		if (o != null) {
-			return o.hasIgnored(user);
-		}
-		return true;
-	}
 	
 	@Override
 	public boolean isVisibleTo(User user) {
@@ -237,16 +174,15 @@ public class EventImpl2 implements Event {
 		actualOccurrences().add(new OccurrenceImpl(datetime, this.owner()));
 	}
 
-	public Occurrence searchOccurrence(long datetime) {
-		for (Occurrence occ : occurrences) {
+	public OccurrenceImpl searchOccurrence(long datetime) {
+		for (OccurrenceImpl occ : occurrences)
 			if (occ.datetime() == datetime) return occ;
-		}
 		return null;
 	}
 	
 	@Override
 	public void removeDate(long datetime) {		
-		Occurrence toRemove = searchOccurrence(datetime);
+		OccurrenceImpl toRemove = searchOccurrence(datetime);
 		if (toRemove != null)
 			actualOccurrences().remove(toRemove);
 	}
@@ -285,8 +221,8 @@ public class EventImpl2 implements Event {
 
 		int count = 0;
 		long[] ret = new long[actualOccurrences().size()];
-		for (Occurrence occ : actualOccurrences())
-			if (occ.datetime() > start && occ.isInterested(user))
+		for (OccurrenceImpl occ : actualOccurrences())
+			if (occ.datetime() > start && occ.attendance(user) != NOT_GOING)
 				ret[count++] = occ.datetime();
 		
 		return Arrays.copyOf(ret, count);
@@ -299,7 +235,7 @@ public class EventImpl2 implements Event {
 
 		int count = 0;
 		long[] ret = new long[actualOccurrences().size()];
-		for (Occurrence occ : actualOccurrences()) 
+		for (OccurrenceImpl occ : actualOccurrences()) 
 			if (occ.datetime() > start)
 				ret[count++] = occ.datetime();
 		
@@ -336,7 +272,7 @@ public class EventImpl2 implements Event {
 				notInterested(toUser);	
 			} catch (Exception e) {} // Do not need to handle exception. It is ok if it happens. 
 			
-		for (Occurrence occ : occurrences()) 
+		for (OccurrenceImpl occ : actualOccurrences()) 
 			occ.copyBehavior(fromUser, toUser);
 	}
 
@@ -357,5 +293,15 @@ public class EventImpl2 implements Event {
 	@Override
 	public String toString() {
 		return description();
+	}
+
+	@Override
+	public Attendance attendance(User user, long date) {
+		return searchOccurrence(date).attendance(user);
+	}
+
+	@Override
+	public void setAttendance(User user, long date, Attendance att) {
+		searchOccurrence(date).setAttendance(user, att);
 	}
 }

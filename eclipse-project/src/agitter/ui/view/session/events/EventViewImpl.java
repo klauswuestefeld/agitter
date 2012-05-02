@@ -38,7 +38,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	private final ProfileList invitations = new ProfileList();
 	
 	private final Button deleteButton;
-	private final Button blockButton;
+	private final Button notInterestedButton;
 	private final Button spreadButton;
 	
 	private final Label readOnlyDates = WidgetUtils.createLabelXHTML(""); 
@@ -57,7 +57,7 @@ class EventViewImpl extends CssLayout implements EventView {
 		addStyleName("a-invite-view");
 
 		deleteButton = addRemoveButton("Excluir este Agito"); deleteButton.addStyleName("a-invite-delete-button");
-		blockButton = addRemoveButton("Bloquear este Agito"); blockButton.addStyleName("a-invite-delete-button");
+		notInterestedButton = addRemoveButton("Não Me Interessa"); notInterestedButton.addStyleName("a-invite-delete-button");
 			
 		addComponent(readOnlyDates); readOnlyDates.addStyleName("a-invite-readonly-date");
 		addComponent(readOnlyDescription); readOnlyDescription.addStyleName("a-invite-readonly-description");
@@ -223,7 +223,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 	
 	private void showReadOnlyLabels(boolean b) {
-		blockButton.setVisible(b);
+		notInterestedButton.setVisible(b);
 		readOnlyDescription.setVisible(b);
 		readOnlyDates.setVisible(b);
 		readOnlyOwner.setVisible(b);

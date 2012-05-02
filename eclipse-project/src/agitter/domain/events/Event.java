@@ -5,16 +5,21 @@ import agitter.domain.users.User;
 
 public interface Event {
 
+	enum Attendance { GOING, MAYBE, NOT_GOING }
+
 	User owner();
 	Invitation invitationTree();
 
 	String description();
 	
+	Attendance attendance(User ana, long date);
+	void setAttendance(User ana, long date, Attendance att);
+
+	void notInterested(User user);
 	long[] datetimesInterestingFor(User user);
 	long[] datetimes();
 	long[] datetimesToCome();
 	
-	Occurrence[] occurrences();
 	void addDate(long date);
 	void removeDate(long date);
 	void changeDate(long from, long to);
@@ -25,18 +30,11 @@ public interface Event {
 	void uninvite(User invitee);
 	void uninvite(Group invitee);
 	
-	void notInterested(User user);
-	void notInterested(User user, long date);
 
 	User[] allResultingInvitees();
 
 	long getId();
 	
-	void going(User user, long date);
-	void notGoing(User user, long date);
-	void mayGo(User user, long date);
-	Boolean isGoing(User user, long date);
-	boolean hasIgnored(User user, long date);
 
 	boolean isVisibleTo(User user);
 

@@ -1,93 +1,50 @@
 package agitter.domain.events;
 
+import static agitter.domain.events.Event.Attendance.GOING;
+
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.prevayler.bubble.PrevalentBubble;
 
+import agitter.domain.events.Event.Attendance;
 import agitter.domain.users.User;
 
-public class OccurrenceImpl implements Occurrence {
+class OccurrenceImpl {
 
 	{
 		PrevalentBubble.idMap().register(this);
 	}
 	
-	private Set<User> notInterested = new HashSet<User>();
 	private long datetime;
-	private Map<User, Boolean> attendanceStatus = new HashMap<User, Boolean>();
+	private Map<User, Attendance> attendanceByUser = new HashMap<User, Attendance>();
 	
-	public OccurrenceImpl(long datetime, User owner) {
+	OccurrenceImpl(long datetime, User owner) {
 		this.datetime = datetime;
-		going(owner);
+		setAttendance(owner, GOING);
 	}
 	
-	@Override
-	public long datetime() {
+	long datetime() {
 		return datetime;
 	}
 
-	@Override
-	public void notInterested(User user) {	
-		notInterested().add(user);
+	private Map<User,Attendance> attendanceByUser() {
+		if (attendanceByUser == null) 
+			attendanceByUser = new HashMap<User, Attendance>();
+		return attendanceByUser;
 	}
+
+	void setAttendance(User user, Attendance att) {
+		attendanceByUser().put(user, att);
+	}
+
+
+	Attendance attendance(User user) {	
+		return attendanceByUser().get(user);
+	}
+
 	
-	@Override
-	public boolean isInterested(User user) {
-		return !notInterested().contains(user);
-	}
-	
-	public Set<User> notInterested() {
-		if (notInterested == null) { 
-			notInterested = new HashSet<User>();
-		}
-		return notInterested;
-	}
-	
-	private Map<User,Boolean> attendanceStatus() {
-		if (attendanceStatus == null) { 
-			attendanceStatus = new HashMap<User, Boolean>();
-		}
-		return attendanceStatus;
-	}
-
-	@Override
-	public void going(User user) {
-		attendanceStatus().put(user, true);
-	}
-
-	@Override
-	public void notGoing(User user) {
-		attendanceStatus().put(user, false);
-	}
-
-	@Override
-	public void mayGo(User user) {
-		attendanceStatus().put(user, null);
-	}
-
-	@Override
-	public boolean hasIgnored(User user) {
-		return !notInterested.contains(user) && !attendanceStatus().containsKey(user);
-	}
-	
-	@Override
-	public Boolean isGoing(User user) {	
-		return attendanceStatus().get(user);
-	}
-
-	@Override
-	public void copyBehavior(User leader, User sheep) {
-		if (!isInterested(leader)) 
-			notInterested(sheep);
-		
-		if (isGoing(leader) != null) {
-			if (isGoing(leader)) 	
-				going(sheep);
-			else 
-				notGoing(sheep);
-		}
+	void copyBehavior(User leader, User sheep) {
+		setAttendance(sheep, attendance(leader));
 	}
 }

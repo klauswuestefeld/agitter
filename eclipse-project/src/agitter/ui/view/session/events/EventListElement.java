@@ -90,11 +90,8 @@ public class EventListElement extends CssLayout {
 		addComponent(button); 
 		button.addStyleName("a-event-remove-button");
 		
-		if (eventValues.noReply) {
-		} else if (eventValues.attendanceStatus != null && !eventValues.attendanceStatus) {
+		if (eventValues.attendanceStatus != null && !eventValues.attendanceStatus)
 			button.addStyleName("a-event-remove-button-active");
-		} else {
-		}		
 		
 		button.setDescription("Fica pra próxima");
 		button.addStyleName("a-default-nativebutton");
@@ -114,11 +111,8 @@ public class EventListElement extends CssLayout {
 		addComponent(button); 
 		
 		button.addStyleName("a-event-going-button");
-		if (eventValues.noReply) {
-		} else if (eventValues.attendanceStatus != null && eventValues.attendanceStatus) {
+		if (eventValues.attendanceStatus != null && eventValues.attendanceStatus)
 			button.addStyleName("a-event-going-button-active");
-		} else {
-		}		
 		
 		button.setDescription("To Dentro");
 		button.addStyleName("a-default-nativebutton");
@@ -134,11 +128,8 @@ public class EventListElement extends CssLayout {
 		NativeButton button = new NativeButton();
 		button.addStyleName("a-event-maybe-button");
 		
-		if (eventValues.noReply) {
-		} else if (eventValues.attendanceStatus == null) {
+		if (eventValues.attendanceStatus == null)
 			button.addStyleName("a-event-maybe-button-active");
-		} else {
-		}
 		
 		button.setSizeUndefined();
 		button.setDescription("Talvez");
