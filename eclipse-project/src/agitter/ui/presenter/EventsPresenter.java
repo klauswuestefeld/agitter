@@ -258,7 +258,7 @@ public class EventsPresenter implements Boss {
 
 
 	@Override
-	public void mayGoOnEvent(Object eventObject, long datetime) {
+	public void mayGoToEvent(Object eventObject, long datetime) {
 		Event event = (Event)eventObject;
 		if (events.isEditableBy(user, event)) {
 			// This option is disabled on screen

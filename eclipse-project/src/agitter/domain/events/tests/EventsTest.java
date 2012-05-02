@@ -153,10 +153,10 @@ public class EventsTest extends EventsTestBase {
 		}
 		assertContentsInAnyOrder(invitees, paulo, pedro);
 		
-		assertEquals(null, event.invitationTree().isInvitedBy(ana));
-		assertEquals(ana, event.invitationTree().isInvitedBy(jose));
-		assertEquals(jose, event.invitationTree().isInvitedBy(pedro));
-		assertEquals(jose, event.invitationTree().isInvitedBy(paulo));
+		assertEquals(null, event.invitationTree().userThatInvited(ana));
+		assertEquals(ana, event.invitationTree().userThatInvited(jose));
+		assertEquals(jose, event.invitationTree().userThatInvited(pedro));
+		assertEquals(jose, event.invitationTree().userThatInvited(paulo));
 	}
 	
 	@Test

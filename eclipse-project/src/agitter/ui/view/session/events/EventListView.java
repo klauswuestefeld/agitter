@@ -10,7 +10,7 @@ public interface EventListView {
 		void onEventSelected(Object selectedEvent);
 		void onEventRemoved(Object removedEvent, long datetime);
 		void goingOnEvent(Object eventObject, long datetime);
-		void mayGoOnEvent(Object eventObject, long datetime);
+		void mayGoToEvent(Object eventObject, long datetime);
 	}
 
 	void startReportingTo(Boss boss);

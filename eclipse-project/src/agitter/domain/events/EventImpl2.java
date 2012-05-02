@@ -327,7 +327,7 @@ public class EventImpl2 implements Event {
 			return;
 		}
 		
-		User u = invitationTree.isInvitedBy(fromUser);
+		User u = invitationTree.userThatInvited(fromUser);
 		if (u != null) 
 			invite(u, toUser);
 			

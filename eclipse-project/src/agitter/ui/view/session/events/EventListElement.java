@@ -145,7 +145,7 @@ public class EventListElement extends CssLayout {
 		addComponent(button); 
 		button.addStyleName("a-default-nativebutton");
 		button.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
-			boss.mayGoOnEvent(eventValues.eventObject, eventValues.datetime);
+			boss.mayGoToEvent(eventValues.eventObject, eventValues.datetime);
 		}});
 		return button;
 	}

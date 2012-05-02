@@ -51,7 +51,7 @@ public class InvitationImpl implements Invitation {
 
 	@Override
 	public boolean isInvited(User user) {
-		return isInvitedBy(user) != null;
+		return userThatInvited(user) != null;
 	}
 	
 	@Override
@@ -60,19 +60,18 @@ public class InvitationImpl implements Invitation {
 	}
 	
 	@Override
-	public User isInvitedBy(User user) {
+	public User userThatInvited(User user) {
 		// If it is into a group invited by this host.
-		for (Group g : actualGroupInvitees()) {
+		for (Group g : actualGroupInvitees())
 			if (g.deepContains(user)) 
 				return host();
-		}
 		
 		// Search in the invitations. 
 		for (Invitation i : actualInvitees()) {
 			if (i.host().equals(user)) return host(); 
 			
 			// Recursion.
-			User h = i.isInvitedBy(user);
+			User h = i.userThatInvited(user);
 			if (h != null) 
 				return h;
 		}
