@@ -1,5 +1,6 @@
 package agitter.domain.users;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.common.Portal;
 import agitter.domain.emails.EmailAddress;
 
@@ -15,6 +16,7 @@ public interface User {
 	boolean hasSignedUp();
 	boolean isPasswordCorrect(String passwordAttempt);
 	void setPassword(String newPassword);
+	void attemptToSetPassword(String currentPasswordAttempt, String newPassword) throws Refusal;
 
 	boolean hasUnsubscribedFromEmails();
 	void setUnsubscribedFromEmails(boolean interested);

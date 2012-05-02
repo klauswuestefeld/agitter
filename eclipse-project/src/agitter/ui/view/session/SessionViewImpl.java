@@ -1,6 +1,5 @@
 package agitter.ui.view.session;
 
-import sneer.foundation.lang.Consumer;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.session.account.AccountView;
 import agitter.ui.view.session.account.AccountViewImpl;
@@ -51,7 +50,7 @@ public class SessionViewImpl implements SessionView {
 
     
     @Override
-    public void init(Needs needs) {
+    public void startReportingTo(Boss needs) {
         container.removeAllComponents();
     	container.addComponent(sessionView); sessionView.addStyleName("a-session-view");
 
@@ -77,17 +76,11 @@ public class SessionViewImpl implements SessionView {
    		    	fixedContentCanvas.addComponent(fixedContentWrapper); fixedContentWrapper.addStyleName("a-session-fixed-content-wrapper");
    			
 		
-   		refreshAccountName(needs.userScreenName());
     	initListeners(needs);
 	}
 
 
-	private void refreshAccountName(String username) {
-		account.setCaption(username);
-	}
-
-
-	private void initListeners(final Needs needs) {
+	private void initListeners(final Boss needs) {
 		logout.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent event) {
     		needs.onLogout();
     	}});	
@@ -122,7 +115,7 @@ public class SessionViewImpl implements SessionView {
 	}  
 	@Override public void showContactsView() {
 		highlightMenuItem(contacts);
-		contactsView.show();
+		contactsView().show();
 	}
 
 	
@@ -137,13 +130,8 @@ public class SessionViewImpl implements SessionView {
 
 	@Override
 	public AccountView accountView() {
-		if (accountView == null) {
-			accountView = new AccountViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
-		
-			accountView().setNameListener(new Consumer<String>() { @Override public void consume(String value) {
-				refreshAccountName(value);
-			}});
-		}
+		if (accountView == null)
+			accountView = new AccountViewImpl(mainContent);
 		
 		return accountView;
 	}
@@ -153,6 +141,12 @@ public class SessionViewImpl implements SessionView {
 	public void showAccountView() {
 		highlightMenuItem(account);
 		accountView().show();
+	}
+
+
+	@Override
+	public void setUserScreenName(String screenName) {
+		account.setCaption(screenName);
 	}
 
 }

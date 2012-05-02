@@ -1,18 +1,9 @@
 package agitter.ui.presenter.hacks;
 
-import agitter.ui.view.session.SessionView.Needs;
+import agitter.ui.view.session.SessionView.Boss;
 
 
-public class ContactsDemoNeeds implements Needs {
-
-	public ContactsDemoNeeds() {
-		
-	}
-	
-	@Override
-	public String userScreenName() {
-		return "fulano@example.com";
-	}
+public class ContactsDemoBoss implements Boss {
 
 	@Override
 	public void onLogout() {

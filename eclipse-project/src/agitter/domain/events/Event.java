@@ -30,9 +30,6 @@ public interface Event {
 
 	long getId();
 	
-	boolean isPublic();
-	void setPublic(boolean publicEvent);
-
 	void going(User user, long date);
 	void notGoing(User user, long date);
 	void mayGo(User user, long date);

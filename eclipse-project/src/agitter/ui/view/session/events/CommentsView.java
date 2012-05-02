@@ -3,7 +3,7 @@ package agitter.ui.view.session.events;
 
 public interface CommentsView {
 	
-	public static final boolean COMMENTS_ENABLED = false;
+	public static final boolean COMMENTS_ENABLED = true;
 	
 	interface Boss {
 		void onCommentPosted(String text);

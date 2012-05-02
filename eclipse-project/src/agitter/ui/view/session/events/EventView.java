@@ -16,7 +16,6 @@ public interface EventView {
 		void onDateAdded(Long date);
 		void onEventRemoved();
 		void onDateChanged(Long from, Long to);
-		void onOpennessChanged(boolean publicEvent);
 		void onUpdateContacts();
 	}
 
@@ -25,11 +24,11 @@ public interface EventView {
 	
 	void clear();
 
-	void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount, boolean isPublicEvent);
+	void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount);
 	void refreshInviteesToChoose(List<ProfileListItem> inviteesToChoose);
 	void refreshInvitationsHeader(int totalInviteesCount);
 
-	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<ProfileListItem> knownInvitees, int totalInviteesCount, boolean isPublicEvent);
+	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<ProfileListItem> knownInvitees, int totalInviteesCount);
 	
 	CommentsView commentsView();
 }

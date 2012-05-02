@@ -23,7 +23,6 @@ public class EventImpl2 implements Event {
 	private Invitation invitationTree;
 	
 	private String _description;
-	private boolean publicEvent;
 	@Deprecated private long _datetime;
 	@Deprecated private long[] datetimes;
 	
@@ -336,28 +335,8 @@ public class EventImpl2 implements Event {
 			occ.copyBehavior(fromUser, toUser);
 	}
 
-	@Override
-	public boolean isPublic() {
-		return publicEvent;
-	}
-
-	@Override
-	public void setPublic(boolean publicEvent) {
-		this.publicEvent = publicEvent;
-	}
-	
 	void migrateSchemaIfNecessary() {
-		// 2012-Fev-03
-		if (datetimes == null) 
-			datetimes = new long[]{_datetime};
-		
-		if (actualOccurrences().size() < datetimes.length) {
-			actualOccurrences().clear();
-			for (long l : datetimes) {
-				addDate(l);
-			}
-		}
-		
+		// 2012-May-01
 		if (invitationTree == null) {
 			invitationTree = new InvitationImpl(_owner);
 			((InvitationImpl)invitationTree).inviteAllUsers(_owner, invitees);

@@ -3,6 +3,9 @@ package agitter.ui.view.session.events;
 import vaadinutils.WidgetUtils;
 import agitter.ui.view.AgitterVaadinUtils;
 
+import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
@@ -13,6 +16,31 @@ import com.vaadin.ui.TextField;
 
 class CommentsViewImpl extends CssLayout implements CommentsView {
 	
+	private static final String STYLE_NEW_COMMENT_TEXTAREA_BIG = "a-comments-view-text-withfocus";
+	
+	private final CssLayout popup = new CssLayout();
+	private final TextField nameTf = new TextField( "Você deve ter um nome cadastrado:" );
+	private final NativeButton okButton = AgitterVaadinUtils.createDefaultNativeButton("OK");
+	private final NativeButton cancelButton = AgitterVaadinUtils.createDefaultNativeButton("Cancelar");
+	
+	{
+		popup.addStyleName( "a-comment-ask-name-view" ); //MMM esta no css errado
+		popup.setVisible(false);
+
+		okButton.addListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				onNameGiven();
+			}
+		});
+		cancelButton.addListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				disposePopup();
+			}
+		});
+	}
+
 	private final Label commentLabel = new Label("Comentários:"); 
 	private final TextArea comment = new TextArea();
 	private final NativeButton commentButton = AgitterVaadinUtils.createDefaultAddButton();
@@ -20,13 +48,12 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	
 	private Boss boss;
 
-	
 	{
 		commentLabel.addStyleName("a-comments-view-label");
 		addComponent(commentLabel);
 		
 		comment.setNullRepresentation("");
-		comment.setInputPrompt("Escreva seu comentário aqui...");
+		comment.setInputPrompt("Escreva seu comentário...");
 		comment.setSizeUndefined();
 		comment.setMaxLength(500);
 		comment.addStyleName("a-comments-view-text");
@@ -34,13 +61,28 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		
 		commentButton.addStyleName("a-comments-view-post");
 		addComponent(commentButton);
+
+		addComponent(popup);
 		
 		commentList.addStyleName("a-comments-view-list");
 		addComponent(commentList);
 		
 		addStyleName("a-comments-view");
+		
+		comment.addListener(new FieldEvents.FocusListener() {
+			@Override
+			public void focus(FocusEvent event) {
+				comment.addStyleName(STYLE_NEW_COMMENT_TEXTAREA_BIG);
+			}
+		});
+		comment.addListener(new FieldEvents.BlurListener() {
+			@Override
+			public void blur(BlurEvent event) {
+				shrinkCommentTextAreaIfNecessary();
+			}
+
+		});
 	}
-	
 	
 	@Override
 	public void startReportingTo(Boss b) {
@@ -79,6 +121,7 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	@Override
 	public void clearCommentBox() {
 		comment.setValue("");
+		shrinkCommentTextAreaIfNecessary();
 	}
 
 
@@ -88,36 +131,13 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 	}
 
 	
-	private final CssLayout popup = new CssLayout();
-	private final TextField nameTf = new TextField( "Nome" );
-	private final NativeButton okButton = AgitterVaadinUtils.createDefaultNativeButton("OK");
-	private final NativeButton cancelButton = AgitterVaadinUtils.createDefaultNativeButton("Cancelar");
-	
-	{
-		popup.addStyleName( "a-comment-ask-name-view" ); //MMM esta no css errado
-		popup.setVisible(false);
-		addComponent( popup );
-
-		okButton.addListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				onNameGiven();
-			}
-		});
-		cancelButton.addListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				disposePopup();
-			}
-		});
-	}
-	
 	@Override
 	public void askForName() {
 		setModalEnablement(false);
 
 		nameTf.setInputPrompt("Por favor informe seu nome");
-		nameTf.setValue( "" );
+		nameTf.setValue("");
+		nameTf.setColumns(15);
 		popup.addComponent(nameTf); ////MMM criar um CSS
 
 		okButton.addStyleName("a-login-button"); //MMM arrumar CSS
@@ -150,6 +170,13 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		setModalEnablement(true);
 		popup.removeAllComponents();
 		popup.setVisible(false);		
+	}
+	
+	private void shrinkCommentTextAreaIfNecessary() {
+		String commentText = (String)comment.getValue();
+		if(commentText == null || commentText.isEmpty()) {
+			comment.removeStyleName(STYLE_NEW_COMMENT_TEXTAREA_BIG);
+		}
 	}
 	
 	

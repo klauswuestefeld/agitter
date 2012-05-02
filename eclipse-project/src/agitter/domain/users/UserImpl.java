@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import sneer.foundation.lang.Functor;
+import sneer.foundation.lang.exceptions.Refusal;
 import utils.Encoders;
 import agitter.common.Portal;
 import agitter.domain.emails.EmailAddress;
@@ -84,6 +85,13 @@ public class UserImpl implements User {
 	@Override
 	public void setPassword(String password) {
 		passwordHash = hashOf(password);
+	}
+	
+	@Override
+	public void attemptToSetPassword(String currentPasswordAttempt, String newPassword) 	throws Refusal {
+		if (!isPasswordCorrect(currentPasswordAttempt))
+			throw new Refusal("Senha atual não confere.");
+		setPassword(newPassword);
 	}
 
 

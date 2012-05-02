@@ -12,14 +12,13 @@ import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.view.session.SessionView;
-import agitter.ui.view.session.SessionView.Needs;
+import agitter.ui.view.session.SessionView.Boss;
 
-public class SessionPresenter implements Needs {
+public class SessionPresenter implements Boss {
 
 	private final User loggedUser;
 	private final SessionView view;
 	private final Runnable onLogout;
-	private final String userScreenName;
 	private final EventsPresenter eventsPresenter;
 	private final ContactsPresenter contactsPresenter;
 	private final AccountPresenter accountPresenter;
@@ -28,7 +27,6 @@ public class SessionPresenter implements Needs {
 		this.loggedUser = user;
 		this.view = view;
 		this.onLogout = onLogout;
-		this.userScreenName = user.screenName();
 
 		eventsPresenter = new EventsPresenter(user, contacts, events, comments, userProducer, view.eventsView(), warningDisplayer, urlRestPathNotifier);
 		contactsPresenter = new ContactsPresenter(contacts, view.contactsView(), userProducer, warningDisplayer);
@@ -43,16 +41,12 @@ public class SessionPresenter implements Needs {
 		}});
 
 		
-		view.init(this);
+		view.startReportingTo(this);
+		view.setUserScreenName(loggedUser.screenName());
 		view.showEventsView();
 	}
 
 	
-	@Override
-	public String userScreenName() {
-		return userScreenName;
-	}
-
 	public User loggedUser() {
 		return loggedUser;
 	}

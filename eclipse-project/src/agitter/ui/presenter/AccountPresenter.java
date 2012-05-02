@@ -3,12 +3,13 @@ package agitter.ui.presenter;
 import javax.servlet.http.HttpSession;
 
 import sneer.foundation.lang.Consumer;
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.common.Portal;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.users.User;
 import agitter.ui.view.session.account.AccountView;
 
-public class AccountPresenter {
+public class AccountPresenter implements AccountView.Boss {
 
 	private final User loggedUser;
 	private final AccountView view;
@@ -27,26 +28,13 @@ public class AccountPresenter {
 		this.warningDisplayer = warningDisplayer;
 		this.httpSession = httpSession;
 		this.context = context;
-		view.setNameListener(new Consumer<String>() { @Override public void consume(String value) {
-			loggedUser.setName(value);
-		}});
-		
-		view.setOptionSelectionListener(new Consumer<String>() { @Override public void consume(String value) {
-			onOptionSelected(value);
-		}});
-		
-		view.onUnlink(new Consumer<Portal>() { @Override public void consume(Portal value) {
-			unlinkAttempt(value); 
-		}});
 			
-		view.onLink(new Consumer<Portal>() { @Override public void consume(Portal value) {
-			linkAttempt(value); 
-		}});
-
+		view.startReportingTo(this);
 		refresh();
 	}
 
-	private void onOptionSelected(String value) {
+	@Override
+	public void onOptionSelected(String value) {
 		view.setOptionSelected(value);
 	}
 	
@@ -54,10 +42,6 @@ public class AccountPresenter {
 		view.setUser(loggedUser);
 	}
 
-	private void linkAttempt(Portal portal) {
-		onUpdateFriends(portal);
-	}
-	
 	public void onUpdateFriends(Portal portal) {
 		try{
 			String url = oAuth.linkURL(context, httpSession, portal);
@@ -67,9 +51,33 @@ public class AccountPresenter {
 		}
 	}
 	
-	public void unlinkAttempt(Portal portal) {
+	@Override
+	public void onPasswordChange(String currentPassword, String newPassword) {
+		try {
+			loggedUser.attemptToSetPassword(currentPassword, newPassword);
+		} catch (Refusal e) {
+			warningDisplayer.consume(e.getMessage());
+			return;
+		}
+		view.clearPasswordFields();
+		warningDisplayer.consume("Senha alterada com sucesso.");
+	}
+
+	@Override
+	public void onNameChange(String newName) {
+		loggedUser.setName(newName);
+	}
+	
+	@Override
+	public void onLink(Portal portal) {
+		onUpdateFriends(portal); 
+	}
+	
+	@Override
+	public void onUnlink(Portal portal) {
 		loggedUser.unlinkAccount(portal);
 		refresh();
 	}
+	
 }
 

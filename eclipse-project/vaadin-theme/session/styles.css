@@ -321,52 +321,6 @@ button.a-event-delete-button:hover {
 	width: 120px;
 }
 
-.a-invite-openness-link {
-	padding: 0px;
-	margin: 0px 10px 0px 10px;
-}
-
-.a-invite-openness-update-contact {
-	float:right;
-}
-
-.a-invite-openness {
-	margin-bottom: 5px;
-	margin-right: 8px;	
-}
-
-button.a-invite-openness-button {
-	height: 16px;
-	max-height: 16px;
-	width: 16px;
-	max-width: 16px;
-	border: none;
-	padding: 0px 0px 0px 15px;
-	margin: 0px;
-	vertical-align: middle;
-}
-
-button.a-invite-openness-button-active {
-	height: 16px;
-	max-height: 16px;
-	width: 16px;
-	max-width: 16px;
-	border: none;
-	padding: 0px 0px 0px 15px;
-	margin: 0px;
-	vertical-align: middle;
-}
-
-button.a-invite-openness-button {
-	background: url('EventGoingButton.png') no-repeat center center;
-}
-button.a-invite-openness-button-active {
-	background: url('EventGoingButtonHover.png') no-repeat center center;
-}
-button.a-invite-openness-button:hover {
-	background: url('EventGoingButtonHover.png') no-repeat center center;
-}
-
 textarea.a-invite-description {
 	clear: both;
 	width: 430px;
@@ -748,7 +702,7 @@ textarea.a-invite-description {
 }
 
 
-/* Comments  */
+/* Begin Comments  */
 
 .a-comments-view {
 }
@@ -761,34 +715,28 @@ textarea.a-invite-description {
 }
 
 .a-comments-view-text {
-	clear: both;
-	width: 395px;
-	height: 55px;
-	min-height: 80px;
-	max-height: 155px;
-	resize: vertical;
+	width: 400px;
+	height: 20px;
+	resize: none;
 	font-size: 14px;
-	display: block;
 	margin-bottom: 11px;
+	float:left;
+}
+.a-comments-view-text-withfocus {
+	height: 80px;
 }
 
 .a-comments-view-post {
 	vertical-align: center;
-	float:right;
 	border-style: none;
-	position:relative;
-	top: -36px;
-	left: -18px;
-}
-
-.a-comments-view-list {
-	padding-top: 5px;
+	float:left;
 }
 
 .a-comment-ask-name-view {
+	clear:left;
 	padding: 16px 23px 20px 23px;
 	margin: 20px 30px;
-	float: right;
+	float: left;
 	background: white;
 	border-radius: 6px;
 	box-shadow: 3px 3px 12px #444;
@@ -796,10 +744,15 @@ textarea.a-invite-description {
 	-moz-box-shadow: 3px 3px 12px #444;
 }
 
+.a-comments-view-list {
+	clear:left;
+	padding-top: 2px;
+}
+
 .a-comment-view {
 	margin: 2px;
 	margin-right: 20px;
-	padding: 6px 2px 14px 2px;
+	padding: 4px 2px 8px 2px;
 }
 
 .a-comment-view:hover {
@@ -819,6 +772,71 @@ textarea.a-invite-description {
 .a-comment-view-date {
 	color: gray;
 }
+
+/* End Comments  */
+
+.v-icon {
+	width:16px;
+	height:16px;
+}
+
+.v-icon-list {
+	padding-right:5px;
+}tom: 11px;
+	float:left;
+}
+.a-comments-view-text-withfocus {
+	height: 80px;
+}
+
+.a-comments-view-post {
+	vertical-align: center;
+	border-style: none;
+	float:left;
+}
+
+.a-comment-ask-name-view {
+	clear:left;
+	padding: 16px 23px 20px 23px;
+	margin: 20px 30px;
+	float: left;
+	background: white;
+	border-radius: 6px;
+	box-shadow: 3px 3px 12px #444;
+	-webkit-box-shadow: 3px 3px 12px #444;
+	-moz-box-shadow: 3px 3px 12px #444;
+}
+
+.a-comments-view-list {
+	clear:left;
+	padding-top: 2px;
+}
+
+.a-comment-view {
+	margin: 2px;
+	margin-right: 20px;
+	padding: 4px 2px 8px 2px;
+}
+
+.a-comment-view:hover {
+	background: #FFFFFF;
+}
+
+.a-comment-view-user {
+	color: dodgerblue;
+	font-weight: bold;
+}
+
+.a-comment-view-text {
+	color: black;
+	word-wrap: break-word;
+}
+
+.a-comment-view-date {
+	color: gray;
+}
+
+/* End Comments  */
 
 .v-icon {
 	width:16px;

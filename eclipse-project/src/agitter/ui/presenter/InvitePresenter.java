@@ -80,16 +80,14 @@ public class InvitePresenter implements EventView.Boss {
 					//onlyFutureDates(selectedEvent.datetimes()),
 					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().length,
-					selectedEvent.isPublic());
+					selectedEvent.allResultingInvitees().length);
 		} else {
 			view.displayReadOnly(
 					getOwnerPair(selectedEvent),
 					selectedEvent.description(), 
 					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().length, 
-					selectedEvent.isPublic());
+					selectedEvent.allResultingInvitees().length);
 		}
 	}
 
@@ -133,11 +131,6 @@ public class InvitePresenter implements EventView.Boss {
 		onEventDataChanged.run();
 	}
 	
-	@Override
-	public void onOpennessChanged(boolean publicEvent) {
-		selectedEvent.setPublic(publicEvent);
-		onEventDataChanged.run();
-	}
 
 	@Override
 	public boolean approveInviteesAdd(String invitees) {
