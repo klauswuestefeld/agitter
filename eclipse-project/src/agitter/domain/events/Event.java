@@ -8,9 +8,8 @@ public interface Event {
 	enum Attendance { GOING, MAYBE, NOT_GOING }
 
 	User owner();
-	Invitation invitationTree();
-
 	String description();
+	boolean isVisibleTo(User user);
 	
 	Attendance attendance(User ana, long date);
 	void setAttendance(User ana, long date, Attendance att);
@@ -24,21 +23,14 @@ public interface Event {
 	void removeDate(long date);
 	void changeDate(long from, long to);
 
+	Invitation invitationTree();
 	void invite(User host, User invitee);
 	void invite(User host, Group friends);
-	
 	void uninvite(User invitee);
 	void uninvite(Group invitee);
-	
-
 	User[] allResultingInvitees();
-
+	
 	long getId();
 	
-
-	boolean isVisibleTo(User user);
-
 	void replace(User beingDropped, User receivingEvents);
-
-
 }
