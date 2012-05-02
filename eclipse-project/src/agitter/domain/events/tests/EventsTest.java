@@ -10,6 +10,7 @@ import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
+import agitter.domain.events.Invitation;
 
 public class EventsTest extends EventsTestBase {
 
@@ -76,6 +77,29 @@ public class EventsTest extends EventsTestBase {
 		assertSame(thirdEvent, subject.toHappen(ana).get(2));			
 	}
 	
+	// OLD Version when a Group object is stored inside the Event.
+	// The New version Stores only users. 
+	/*
+	@Test
+	public void createAndEditEventWithGroups() throws Refusal {
+		ContactsOfAUser contacts = agitter.contacts().contactsOf( ana );
+		Group work = contacts.createGroup( "work" );
+		
+		Event event =  subject.create(ana, "Churras", 12);
+		event.invite(ana, work);
+		assertContents(Arrays.asList(event.groupInvitees()),work);
+		assertContents(Arrays.asList(event.invitees()));
+
+		Group friends = contacts.createGroup( "friends" );
+		event.invite(ana, friends);
+		event.invite(ana, jose);
+		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
+		assertContents(Arrays.asList(event.invitees()),jose);
+		
+		event.removeInvitee(work);
+		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
+		assertContents(Arrays.asList(event.invitees()),jose);
+	}*/
 
 	@Test
 	public void createAndEditEventWithGroups() throws Refusal {
@@ -83,21 +107,52 @@ public class EventsTest extends EventsTestBase {
 		Group work = contacts.createGroup( "work" );
 		
 		Event event =  subject.create(ana, "Churras", 12);
-		event.addInvitee(work);
-		assertContents(Arrays.asList(event.groupInvitees()),work);
-		assertContents(Arrays.asList(event.invitees()));
+		event.invite(ana, work);
+		assertEquals(0, event.allResultingInvitees().length);
 
 		Group friends = contacts.createGroup( "friends" );
-		event.addInvitee(friends);
-		event.addInvitee(jose);
-		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
-		assertContents(Arrays.asList(event.invitees()),jose);
+		event.invite(ana, friends);
+		event.invite(ana, jose);
+		event.invite(jose, paulo);
+		assertEquals(2, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList( event.allResultingInvitees()),jose, paulo);
 		
-		event.removeInvitee(work);
-		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
-		assertContents(Arrays.asList(event.invitees()),jose);
+		contacts.addContactTo(friends,pedro);
+		assertEquals(2, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, paulo);
+		
+		event.invite(ana, friends);
+		
+		assertEquals(3, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, paulo, pedro);
 	}
+	
+	@Test
+	public void testInvitationTree() throws Refusal {	
+		Event event =  subject.create(ana, "Churras", 12);
+		event.invite(ana, jose);
+		assertEquals(1, event.allResultingInvitees().length);
 
+		event.invite(jose, paulo);
+		event.invite(jose, pedro);
+		
+		assertEquals(3, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, paulo, pedro);
+		
+		assertEquals(ana,  event.owner());
+		assertEquals(ana,  event.invitationTree().host());
+		assertEquals(jose, event.invitationTree().invitees()[0].host());
+		
+		Invitation[] inviteesByJose = event.invitationTree().invitees()[0].invitees();
+		assertEquals(paulo, inviteesByJose[0].host());
+		assertEquals(pedro, inviteesByJose[1].host());
+		
+		assertEquals(null, event.invitationTree().isInvitedBy(ana));
+		assertEquals(ana, event.invitationTree().isInvitedBy(jose));
+		assertEquals(jose, event.invitationTree().isInvitedBy(pedro));
+		assertEquals(jose, event.invitationTree().isInvitedBy(paulo));
+		
+	}
 	
 	@Test
 	public void toHappenSinceTwoHoursAgo() throws Refusal {
@@ -176,7 +231,7 @@ public class EventsTest extends EventsTestBase {
 			assertNotNull(e);
 		}
 		
-		party.addInvitee(jose);
+		party.invite(ana, jose);
 		assertTrue(!party.hasIgnored(ana, 1000));
 		assertTrue(party.hasIgnored(jose, 1000));
 

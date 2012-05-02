@@ -79,14 +79,14 @@ public class LuceneBase {
 		String fullText = e.description() + " " 
 						+ getIndexStringForUser(e.owner())  + " "
 						+ getIndexStringDatetimes(e.datetimes())  + " "
-						+ getIndexStringInvitees(e.invitees()); 
+						+ getIndexStringInvitees(e.allResultingInvitees()); 
 		
 	    Document doc = new Document();
 	    doc.add(new Field("id", Long.toString(e.getId()), Field.Store.YES, Field.Index.NO));
 	    doc.add(new Field("description", e.description(), Field.Store.YES, Field.Index.ANALYZED));
 	    doc.add(new Field("owner", getIndexStringForUser(e.owner()), Field.Store.NO, Field.Index.ANALYZED));
 	    doc.add(new Field("datetimes", getIndexStringDatetimes(e.datetimes()), Field.Store.NO, Field.Index.ANALYZED));
-	    doc.add(new Field("invitees", getIndexStringInvitees(e.invitees()), Field.Store.NO, Field.Index.ANALYZED));
+	    doc.add(new Field("invitees", getIndexStringInvitees(e.allResultingInvitees()), Field.Store.NO, Field.Index.ANALYZED));
 	    doc.add(new Field("fullSearchableText", fullText,  Field.Store.NO, Field.Index.ANALYZED));
 	    w.addDocument(doc);
 	}

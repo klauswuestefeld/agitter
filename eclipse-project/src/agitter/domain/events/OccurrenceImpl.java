@@ -18,7 +18,6 @@ public class OccurrenceImpl implements Occurrence {
 	private Set<User> notInterested = new HashSet<User>();
 	private long datetime;
 	private Map<User, Boolean> attendanceStatus = new HashMap<User, Boolean>();
-	//private Set<Decision> attendanceStatus = new HashSet<Decision>();
 	
 	public OccurrenceImpl(long datetime, User owner) {
 		this.datetime = datetime;

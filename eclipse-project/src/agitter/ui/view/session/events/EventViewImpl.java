@@ -173,22 +173,10 @@ class EventViewImpl extends CssLayout implements EventView {
 		
 		displayReadOnlyInvitees(owner, knownInvitees, totalInviteesCount);
 	}
-	
-	private String getHTMLName(String key, String value, String icon) {
-		if (value == null || value.isEmpty()) return key;
 		
-		if (icon == null)
-			return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-				   "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
-		else 
-			return "<img src='" + icon + "' class='v-icon v-icon-list'/>" +  
-				   "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
-	}
-	
 	private void displayReadOnlyInvitees(Pair<String,String> owner, List<ProfileListItem> knownInvitees, int totalInviteesCount) {
 		//readOnlyOwner.setValue(owner.b != null ? owner.b : owner.a);
-		readOnlyOwner.setValue(getHTMLName(owner.a,owner.b, null));
+		readOnlyOwner.setValue(new ProfileListItem(owner.a,owner.b, null));
 		
 		StringBuffer header;
 
@@ -202,7 +190,7 @@ class EventViewImpl extends CssLayout implements EventView {
 			header.append(":" );
 			list.append("<ul>");
 			for (ProfileListItem invitee: knownInvitees)
-				list.append("<li>" + getHTMLName(invitee.key, invitee.caption, invitee.icon) + "</li>");
+				list.append("<li>" + invitee.toHTML() + "</li>");
 
 			list.append("<li>você</li>");
 
@@ -227,6 +215,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 
 	private boolean onNextInvitee(String key) {
+		// TODO: Add with Icon + Name.
 		boolean result = boss.approveInviteesAdd(key);
 		if (result)
 			invitations.addElement(key, "");

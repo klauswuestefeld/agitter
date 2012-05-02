@@ -1,9 +1,7 @@
 package agitter.domain.events;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import sneer.foundation.lang.Clock;
@@ -18,15 +16,18 @@ public class EventImpl2 implements Event {
 
 	private final long id;
 
-	private User _owner;
+	@Deprecated private User _owner;
+	@Deprecated private Set<Group> groupInvitations = new HashSet<Group>();
+	@Deprecated private Set<User> invitees = new HashSet<User>();
+	
+	private Invitation invitationTree;
+	
 	private String _description;
 	private boolean publicEvent;
 	@Deprecated private long _datetime;
 	@Deprecated private long[] datetimes;
 	
 	private Set<Occurrence> occurrences = new HashSet<Occurrence>();
-	private Set<Group> groupInvitations = new HashSet<Group>();
-	private Set<User> invitees = new HashSet<User>();
 	
 	final private Set<User> notInterested = new HashSet<User>();
 	
@@ -34,15 +35,14 @@ public class EventImpl2 implements Event {
 		this.id = id;
 		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
 		_owner = owner;
+		invitationTree = new InvitationImpl(owner);
 		edit(description, datetime);
 	}
 
-
 	@Override
 	public User owner() {
-		return _owner;
+		return invitationTree.host();
 	}
-
 	
 	@Override
 	public String description() {
@@ -57,7 +57,6 @@ public class EventImpl2 implements Event {
 			ret[cont++] = occ.datetime();
 		}
 		return ret;
-		//return datetimes;
 	}
 
 	@Override
@@ -70,26 +69,26 @@ public class EventImpl2 implements Event {
 		return occurrences;
 	}
 	
-	@Override
+	@Deprecated
 	synchronized
 	public User[] invitees() {
 		return actualInvitees().toArray(new User[actualInvitees().size()]);
 	}
 
-
+	@Deprecated
 	private Set<User> actualInvitees() {
 		if (invitees==null) invitees = new HashSet<User>();
 		return invitees;
 	}
 
-	
-	@Override
+	@Deprecated
 	synchronized
 	public Group[] groupInvitees() {
 		return actualGroupInvitees().toArray(new Group[actualGroupInvitees().size()]);
 	}
 
 
+	@Deprecated
 	private Set<Group> actualGroupInvitees() {
 		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
 		return groupInvitations;
@@ -98,16 +97,16 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public void notInterested(User user) {
-		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 		
 		notInterested.add(user);
 	}
 	
 	@Override
 	public void notInterested(User user, long date) {
-		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 
 		Occurrence o = searchOccurrence(date);
 		if (o != null) {
@@ -118,7 +117,7 @@ public class EventImpl2 implements Event {
 	@Override
 	public void going(User user, long date) {
 		Occurrence o = searchOccurrence(date);
-		if(!owner().equals(user) && !invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem participar." );
+		if(!isOwner(user) && !isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem participar." );
 		
 		if (o != null) {
 			o.going(user);
@@ -127,8 +126,8 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public void notGoing(User user, long date) {
-		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 
 		Occurrence o = searchOccurrence(date);
 		if (o != null) {
@@ -138,8 +137,8 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public void mayGo(User user, long date) {
-		if(owner().equals(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
-		else if(!invitees.contains(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
+		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
+		else if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 
 		Occurrence o = searchOccurrence(date);
 		if (o != null) {
@@ -167,7 +166,7 @@ public class EventImpl2 implements Event {
 	
 	@Override
 	public boolean isVisibleTo(User user) {
-		if (owner().equals(user)) return true;
+		if (isOwner(user)) return true;
 		return isInvited(user) && isInterested(user);
 	}
 
@@ -177,16 +176,8 @@ public class EventImpl2 implements Event {
 	}
 	
 	public boolean isInvited(User user) {
-		return actualInvitees().contains(user) || groupInvitationsContain(user);
+		return invitationTree.isInvited(user);
 	}
-
-	private boolean groupInvitationsContain(User user) {
-		for (Group group : actualGroupInvitees())
-			if (group.deepContains(user))
-				return true;
-		return false;
-	}
-
 
 	private void assertIsInTheFuture(long datetime) throws Refusal {
 		if (datetime < Clock.currentTimeMillis() - ONE_HOUR)
@@ -214,12 +205,25 @@ public class EventImpl2 implements Event {
 	}
 	
 	@Override
-	public void addInvitee(User invitee) {
-		actualInvitees().add(invitee);
+	public void invite(User host, User invitee) {
+		if (!invitationTree.invite(host, invitee)) {
+			throw new IllegalArgumentException("Host não é convidado");
+		}
 	}
-
-
+	
 	@Override
+	public void invite(User host, Group invitees) {
+		if (!invitationTree.invite(host, invitees)) {
+			throw new IllegalArgumentException("Host não é convidado");
+		}
+	}
+	
+	@Override
+	public void uninvite(User invitee) {
+		invitationTree.removeInvitee(invitee);
+	}
+	
+	@Deprecated
 	public void removeInvitee(User invitee) {
 		actualInvitees().remove(invitee);
 	}
@@ -249,39 +253,21 @@ public class EventImpl2 implements Event {
 		addDate(to);
 	}
 
-	@Override
+	@Deprecated
 	public void addInvitee(Group invitee) {
 		actualGroupInvitees().add(invitee);
 	}
 
-
-	@Override
+	@Deprecated
 	public void removeInvitee(Group invitee) {
 		actualGroupInvitees().remove(invitee);
 	}
 
-
 	@Override
-	public List<User> allResultingInvitees() {
-		Set<User> result = new HashSet<User>(invitees);
-		for(Group g : groupInvitations)
-			g.deepAddMembers(result);
-		result.remove(_owner);
-		return new ArrayList<User>(result);
-	}
-
-
-	void migrateSchemaIfNecessary() {
-		// 2012-Fev-03
-		if (datetimes == null) 
-			datetimes = new long[]{_datetime};
-		
-		if (actualOccurrences().size() < datetimes.length) {
-			actualOccurrences().clear();
-			for (long l : datetimes) {
-				addDate(l);
-			}
-		}
+	public User[] allResultingInvitees() {
+		Set<User> result = invitationTree.allResultingInvitees();
+		result.remove(invitationTree.host());
+		return result.toArray(new User[result.size()]);
 	}
 	
 	@Override
@@ -323,6 +309,7 @@ public class EventImpl2 implements Event {
 
 	private void giveOwnershipTo(User newOwner) {
 		this._owner = newOwner;
+		invitationTree.transferHostTo(newOwner);
 	}
 
 	private boolean isOwner(User user) {
@@ -336,8 +323,9 @@ public class EventImpl2 implements Event {
 			return;
 		}
 		
-		if (isInvited(fromUser)) 
-			addInvitee(toUser);
+		User u = invitationTree.isInvitedBy(fromUser);
+		if (u != null) 
+			invite(u, toUser);
 			
 		if (!isInterested(fromUser)) 
 			try {
@@ -356,5 +344,29 @@ public class EventImpl2 implements Event {
 	@Override
 	public void setPublic(boolean publicEvent) {
 		this.publicEvent = publicEvent;
+	}
+	
+	void migrateSchemaIfNecessary() {
+		// 2012-Fev-03
+		if (datetimes == null) 
+			datetimes = new long[]{_datetime};
+		
+		if (actualOccurrences().size() < datetimes.length) {
+			actualOccurrences().clear();
+			for (long l : datetimes) {
+				addDate(l);
+			}
+		}
+		
+		if (invitationTree == null) {
+			invitationTree = new InvitationImpl(_owner);
+			((InvitationImpl)invitationTree).inviteAllUsers(_owner, invitees);
+			((InvitationImpl)invitationTree).inviteAllGroups(_owner, groupInvitations);
+		}
+	}
+
+	@Override
+	public Invitation invitationTree() {
+		return invitationTree;
 	}
 }

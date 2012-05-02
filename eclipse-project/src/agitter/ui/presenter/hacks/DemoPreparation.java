@@ -50,7 +50,7 @@ public class DemoPreparation {
 			throw new IllegalStateException(e);
 		}
 		for (User user : invitees)
-			event.addInvitee(user);
+			event.invite(owner, user);
 	}
 
 }

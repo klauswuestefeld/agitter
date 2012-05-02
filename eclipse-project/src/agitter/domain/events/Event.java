@@ -1,13 +1,12 @@
 package agitter.domain.events;
 
-import java.util.List;
-
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
 public interface Event {
 
 	User owner();
+	Invitation invitationTree();
 
 	String description();
 	
@@ -20,17 +19,14 @@ public interface Event {
 	void removeDate(long date);
 	void changeDate(long from, long to);
 
-	User[] invitees();
-	void addInvitee(User invitee);
-	void removeInvitee(User invitee);
-	Group[] groupInvitees();
-	void addInvitee(Group invitee);
-	void removeInvitee(Group invitee);
-
+	void invite(User host, User invitee);
+	void invite(User host, Group friends);
+	void uninvite(User invitee); //TODO: Should just the host uninvite his invitees?
+	
 	void notInterested(User user);
 	void notInterested(User user, long date);
 
-	List<User> allResultingInvitees();
+	User[] allResultingInvitees();
 
 	long getId();
 	
@@ -46,4 +42,6 @@ public interface Event {
 	boolean isVisibleTo(User user);
 
 	void replace(User beingDropped, User receivingEvents);
+
+
 }

@@ -175,15 +175,18 @@ public class EventsPresenter implements Boss {
 		
 		for (Event event : toHappen) {
 			long[] interesting = event.interestedDatetimes(user);
-			for (long date : interesting)
+			for (long date : interesting) {
+				User[] invitees = event.allResultingInvitees();
+				
 				result.add(new EventVO(event, event.description(), 
 					date, event.owner().screenName(), 
 					events.isEditableBy(user, event),
-					event.allResultingInvitees().size(), 
-					uniqueGroupOrUserInvited(event), 
-					isUniqueUserInvited(event), 
+					invitees.length, 
+					uniqueGroupOrUserInvited(invitees), 
+					isUniqueUserInvited(invitees), 
 					event.isGoing(user, date),
 					event.hasIgnored(user, date)));
+			}
 			
 			if (result.size() == MAX_EVENTS_TO_SHOW) break;
 		}
@@ -194,17 +197,16 @@ public class EventsPresenter implements Boss {
 	}
 	
 		
-	private String uniqueGroupOrUserInvited(Event event) {
-		if (event.invitees().length + event.groupInvitees().length != 1)
+	private String uniqueGroupOrUserInvited(User[] invitees) {
+		if (invitees.length != 1)
 			return null;
-		return event.invitees().length > 0 ? 
-				event.invitees()[0].email().toString() : 
-				event.groupInvitees()[0].name(); 
+		
+		return invitees[0].email().toString();
 	}
 
 
-	private boolean isUniqueUserInvited(Event event) {
-		return (event.invitees().length == 1 && event.groupInvitees().length == 0);
+	private boolean isUniqueUserInvited(User[] invitees) {
+		return (invitees.length == 1);
 	}
 
 
@@ -247,7 +249,6 @@ public class EventsPresenter implements Boss {
 			// Should never come here.
 			System.out.println("Should NEVER come here");
 		} else {
-			System.out.println("Not interesting anymore");
 			event.going(user, datetime);
 		}
 		selectEvent(null);

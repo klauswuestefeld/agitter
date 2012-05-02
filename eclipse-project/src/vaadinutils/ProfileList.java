@@ -19,6 +19,7 @@ import com.vaadin.ui.Label;
  * - Can have a Caption + Icon and so is drawn using HTML. 
  * - Can be selected (highlighted)
  * - Can be removable (Showing a remove button on hover)
+ * - Have levels , just like a Tree
  */
 public class ProfileList extends CssLayout {
 
@@ -36,32 +37,40 @@ public class ProfileList extends CssLayout {
 	}
 
 	public void addElementUnremovable(String key) {
-		addElement(key, null, null, false, null);
+		addElement(new ProfileListItem(key), false, null);
 	}
 	
 	public void addElement(String key, String value) {
-		addElement(key, value, null, true, null);
+		addElement(new ProfileListItem(key, value), true, null);
 	}
 
 	public void addElement(String key, String value, String icon) {
-		addElement(key, value, icon, true, null);
+		addElement(new ProfileListItem(key, value, icon), true, null);
 	}
 
 	public void addElementUnremovable(String key, String value) {
-		addElement(key, value, null, false, null);
+		addElement(new ProfileListItem(key, value), false, null);
 	}
 	
 	public void addElementUnremovable(String key, String value, String icon) {
-		addElement(key, value, icon, false, null);
+		addElement(new ProfileListItem(key, value, icon), false, null);
 	}
 	
-	public void addElementUnremovable(String key, String caption,	String icon, String style) {
-		addElement(key, caption, icon, false, style);
+	public void addElementUnremovable(String key, String caption, String icon, String style) {
+		addElement(new ProfileListItem(key, caption, icon), false, style);
+	}
+	
+	public void addElementUnremovable(ProfileListItem o, String style) {
+		addElement(o, false, style);
+	}
+	
+	public void addElement(ProfileListItem o, String style) {
+		addElement(o, true, style);
 	}
 	
 	public void addElements(Iterable<ProfileListItem> elements) {
 		for (ProfileListItem p : elements)
-			addElement(p.key, p.caption, p.icon);
+			addElement(p, true, null);
 	}
 	
 	public void addKeys(Iterable<String> keys) {
@@ -69,10 +78,10 @@ public class ProfileList extends CssLayout {
 			addElement(p, null, null);
 	}
 
-	private void addElement(String key, String value, String icon, boolean removable, String style) {
+	private void addElement(ProfileListItem o, boolean removable, String style) {
 		CssLayout elemLine = new CssLayout(); elemLine.addStyleName("a-remov-elem-list-element");
-		Label caption = newElementCaptionLabel(getHTMLName(key, value, icon));
-		caption.setData(key);
+		Label caption = newElementCaptionLabel(o.toHTML());
+		caption.setData(o.key);
 		
 		if (style != null)
 			caption.addStyleName(style);
@@ -85,20 +94,7 @@ public class ProfileList extends CssLayout {
 		}
 		addComponent(elemLine);
 	}
-	
-	private String getHTMLName(String key, String value, String icon) {
-		if (value == null || value.isEmpty()) return key;
 		
-		if (icon == null)
-			return "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-				   "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
-		else 
-			return "<img src='" + icon + "' class='v-icon v-icon-list'/>" +  
-				   "<span class='a-remov-elem-list-element-value'>" + value + "</span>" +
-			       "<span class='a-remov-elem-list-element-key'>" + key + "</span>";
-	}
-
-	
 	private void removeElement(String key) {
 		List<Component> linesToRemove = new ArrayList<Component>();
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {

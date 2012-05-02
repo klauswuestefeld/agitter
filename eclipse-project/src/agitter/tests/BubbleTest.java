@@ -24,7 +24,7 @@ public class BubbleTest extends CleanTestBase {
 		Events events = agitter.events();
 		events.create(ana, "dinner", 10);
 		Event event = events.toHappen(ana).get(0);
-		event.addInvitee(jose());
+		event.invite(ana, jose());
 		
 		User jose = agitter.users().searchByEmail(email("jose@email.com"));
 		assertEquals(1, events.toHappen(jose).size());

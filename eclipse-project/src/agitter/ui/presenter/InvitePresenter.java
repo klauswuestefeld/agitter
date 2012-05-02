@@ -80,7 +80,7 @@ public class InvitePresenter implements EventView.Boss {
 					//onlyFutureDates(selectedEvent.datetimes()),
 					selectedEvent.datetimes(),
 					sortedInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size(),
+					selectedEvent.allResultingInvitees().length,
 					selectedEvent.isPublic());
 		} else {
 			view.displayReadOnly(
@@ -88,7 +88,7 @@ public class InvitePresenter implements EventView.Boss {
 					selectedEvent.description(), 
 					selectedEvent.datetimesToCome(),
 					sortedKnownInviteesOf(selectedEvent),
-					selectedEvent.allResultingInvitees().size(), 
+					selectedEvent.allResultingInvitees().length, 
 					selectedEvent.isPublic());
 		}
 	}
@@ -99,7 +99,7 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 	private List<ProfileListItem> sortedInviteesOf(Event event) {
-		return ContactChooserHelper.contacts(event.groupInvitees(), event.invitees());
+		return ContactChooserHelper.contacts(event.invitationTree());
 	}
 
 	private List<ProfileListItem> sortedKnownInviteesOf(Event event) {
@@ -160,7 +160,7 @@ public class InvitePresenter implements EventView.Boss {
 		}
 		
 		if (inviteeObj instanceof Group)
-			selectedEvent.addInvitee((Group)inviteeObj);
+			selectedEvent.invite(user, (Group)inviteeObj);
 		else
 			addInvitee((User)inviteeObj);
 
@@ -170,7 +170,7 @@ public class InvitePresenter implements EventView.Boss {
 
 
 	private void onInvitationChanged() {
-		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().size());
+		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().length);
 		onEventDataChanged.run();
 	}
 
@@ -188,9 +188,9 @@ public class InvitePresenter implements EventView.Boss {
 	}
 
 
-	private void addInvitee(User user) {
-		contacts.addContact(user);
-		selectedEvent.addInvitee(user);
+	private void addInvitee(User invitee) {
+		contacts.addContact(invitee);
+		selectedEvent.invite(user, invitee);
 	}
 	
 	
@@ -208,10 +208,8 @@ public class InvitePresenter implements EventView.Boss {
 	public void onInviteeRemoved(String invitee) {
 		Object inviteeObj = toGroupOrUser(invitee);
 		if (inviteeObj == null) return;
-		if (inviteeObj instanceof Group)
-			selectedEvent.removeInvitee((Group)inviteeObj);
-		else
-			selectedEvent.removeInvitee((User)inviteeObj);
+		
+		selectedEvent.uninvite((User)inviteeObj);
 		onInvitationChanged();
 	}
 

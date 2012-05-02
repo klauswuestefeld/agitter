@@ -19,7 +19,7 @@ public class EventGuestsTest extends EventsTestBase {
 	public void emailInvitation() throws Exception {
 		Event event = createEvent(ana, "Dinner at Joes", 1000);
 		assertTrue(subject.toHappen(jose).isEmpty());
-		event.addInvitee(user("jose@email.com"));
+		event.invite(ana, user("jose@email.com"));
 		assertFalse(subject.toHappen(jose).isEmpty());
 		assertFalse(subject.toHappen(ana).isEmpty());
 	}
@@ -34,7 +34,7 @@ public class EventGuestsTest extends EventsTestBase {
 		Group friends = createGroup(anasContacts, "Friends");
 		anasContacts.addContactTo(friends, user("jose@email.com"));
 		
-		event.addInvitee(friends);
+		event.invite(ana, friends);
 		assertFalse(subject.toHappen(jose).isEmpty());
 	}
 
@@ -50,10 +50,10 @@ public class EventGuestsTest extends EventsTestBase {
 		friends.addSubgroup(best);
 		anasContacts.addContactTo(best, user("jose@email.com"));
 		
-		event.addInvitee(family);
+		event.invite(ana, family);
 		assertTrue(subject.toHappen(jose).isEmpty());
 
-		event.addInvitee(friends);
+		event.invite(ana, friends);
 		assertFalse(subject.toHappen(jose).isEmpty());
 	}
 

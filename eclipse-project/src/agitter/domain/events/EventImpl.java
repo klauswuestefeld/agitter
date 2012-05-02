@@ -31,7 +31,6 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public User[] invitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
@@ -49,33 +48,28 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public Group[] groupInvitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public void addInvitee(User invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public void removeInvitee(User invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public void addInvitee(Group invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	@Override
 	public void removeInvitee(Group invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
 	@Override
-	public List<User> allResultingInvitees() {
+	public User[] allResultingInvitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
@@ -176,6 +170,30 @@ public class EventImpl implements Event {
 
 	@Override
 	public void setPublic(boolean publicEvent) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void invite(User host, User invitee) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void invite(User host, Group friends) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void uninvite(User invitee) {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public Invitation invitationTree() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

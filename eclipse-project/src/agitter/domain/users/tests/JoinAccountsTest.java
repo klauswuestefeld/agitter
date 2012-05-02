@@ -87,7 +87,7 @@ public class JoinAccountsTest extends UsersTestBase {
 	protected Event createEvent(Events events, User owner, String description, long startTime, User... invitees) throws Refusal {
 		Event event = events.create(owner, description, startTime);
 		for (User user : invitees)
-			event.addInvitee(user);
+			event.invite(owner, user);
 		for (Event candidate : events.toHappen(owner))
 			if (candidate.description().equals(description) && candidate.datetimes()[0] == startTime)
 				return candidate;
