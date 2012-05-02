@@ -76,7 +76,7 @@ public class EventImpl implements Event {
 
 
 	@Override
-	public long[] interestedDatetimes(User user) {
+	public long[] datetimesInterestingFor(User user) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

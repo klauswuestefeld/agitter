@@ -10,7 +10,7 @@ public interface Event {
 
 	String description();
 	
-	long[] interestedDatetimes(User user);
+	long[] datetimesInterestingFor(User user);
 	long[] datetimes();
 	long[] datetimesToCome();
 	

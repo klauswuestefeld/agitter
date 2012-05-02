@@ -280,7 +280,7 @@ public class EventImpl2 implements Event {
 	}
 	
 	@Override
-	public long[] interestedDatetimes(User user) {
+	public long[] datetimesInterestingFor(User user) {
 		final long start = twoHoursAgo();
 
 		int count = 0;

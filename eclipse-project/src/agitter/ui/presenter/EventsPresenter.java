@@ -174,7 +174,7 @@ public class EventsPresenter implements Boss {
 		List<Event> toHappen = events.toHappen(user);		
 		
 		for (Event event : toHappen) {
-			long[] interesting = event.interestedDatetimes(user);
+			long[] interesting = event.datetimesInterestingFor(user);
 			for (long date : interesting) {
 				User[] invitees = event.allResultingInvitees();
 				
