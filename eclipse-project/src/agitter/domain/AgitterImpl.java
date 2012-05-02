@@ -50,7 +50,6 @@ public class AgitterImpl implements Agitter {
 	
 	@Override
 	public void migrateSchemaIfNecessary() {
-		((EventsImpl2)events2).migrateSchemaIfNecessary();
 	}
 	
 	@Override

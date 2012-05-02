@@ -18,10 +18,6 @@ public class EventImpl2 implements Event {
 
 	private final long id;
 
-	@Deprecated private User _owner;
-	@Deprecated private Set<Group> groupInvitations = new HashSet<Group>();
-	@Deprecated private Set<User> invitees = new HashSet<User>();
-	
 	private Invitation invitationTree;
 	
 	private String _description;
@@ -34,8 +30,7 @@ public class EventImpl2 implements Event {
 	
 	public EventImpl2(long id, User owner, String description, long datetime) throws Refusal {
 		this.id = id;
-		if(null==owner) { throw new IllegalArgumentException("user cannot be null"); }
-		_owner = owner;
+		if (null == owner) { throw new IllegalArgumentException("user cannot be null"); }
 		invitationTree = new InvitationImpl(owner);
 		edit(description, datetime);
 	}
@@ -65,32 +60,6 @@ public class EventImpl2 implements Event {
 		return occurrences;
 	}
 	
-	@Deprecated
-	synchronized
-	public User[] invitees() {
-		return actualInvitees().toArray(new User[actualInvitees().size()]);
-	}
-
-	@Deprecated
-	private Set<User> actualInvitees() {
-		if (invitees==null) invitees = new HashSet<User>();
-		return invitees;
-	}
-
-	@Deprecated
-	synchronized
-	public Group[] groupInvitees() {
-		return actualGroupInvitees().toArray(new Group[actualGroupInvitees().size()]);
-	}
-
-
-	@Deprecated
-	private Set<Group> actualGroupInvitees() {
-		if (groupInvitations==null) groupInvitations = new HashSet<Group>();
-		return groupInvitations;
-	}
-
-
 	@Override
 	public void notInterested(User user) {
 		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
@@ -164,10 +133,6 @@ public class EventImpl2 implements Event {
 		invitationTree.removeInvitee(invitee);
 	}
 	
-	@Deprecated
-	public void removeInvitee(User invitee) {
-		actualInvitees().remove(invitee);
-	}
 	
 	@Override
 	public void addDate(long datetime) {
@@ -193,15 +158,6 @@ public class EventImpl2 implements Event {
 		addDate(to);
 	}
 
-	@Deprecated
-	public void addInvitee(Group invitee) {
-		actualGroupInvitees().add(invitee);
-	}
-
-	@Deprecated
-	public void removeInvitee(Group invitee) {
-		actualGroupInvitees().remove(invitee);
-	}
 
 	@Override
 	public User[] allResultingInvitees() {
@@ -248,7 +204,6 @@ public class EventImpl2 implements Event {
 	}
 
 	private void giveOwnershipTo(User newOwner) {
-		this._owner = newOwner;
 		invitationTree.transferHostTo(newOwner);
 	}
 
@@ -276,14 +231,6 @@ public class EventImpl2 implements Event {
 			occ.copyBehavior(fromUser, toUser);
 	}
 
-	void migrateSchemaIfNecessary() {
-		// 2012-May-01
-		if (invitationTree == null) {
-			invitationTree = new InvitationImpl(_owner);
-			((InvitationImpl)invitationTree).inviteAllUsers(_owner, invitees);
-			((InvitationImpl)invitationTree).inviteAllGroups(_owner, groupInvitations);
-		}
-	}
 
 	@Override
 	public Invitation invitationTree() {

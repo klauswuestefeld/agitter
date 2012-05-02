@@ -75,15 +75,6 @@ public class EventsImpl2 implements Events {
 	}
 
 
-	public void migrateSchemaIfNecessary() {
-		
-		for (Event e : _all) {
-			EventImpl2 impl2 = (EventImpl2) e;
-			impl2.migrateSchemaIfNecessary();
-		}
-		
-	}
-	
 	private long getNextId() {
 		return ++lastId;
 	}

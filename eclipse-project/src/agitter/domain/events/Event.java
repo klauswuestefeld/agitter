@@ -11,8 +11,8 @@ public interface Event {
 	String description();
 	boolean isVisibleTo(User user);
 	
-	Attendance attendance(User ana, long date);
-	void setAttendance(User ana, long date, Attendance att);
+	Attendance attendance(User user, long date);
+	void setAttendance(User user, long date, Attendance att);
 
 	void notInterested(User user);
 	long[] datetimesInterestingFor(User user);
