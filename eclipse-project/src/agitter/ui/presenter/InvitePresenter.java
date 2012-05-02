@@ -163,7 +163,16 @@ public class InvitePresenter implements EventView.Boss {
 
 
 	private void onInvitationChanged() {
-		view.refreshInvitationsHeader(selectedEvent.allResultingInvitees().length);
+		if (events.isEditableBy(user, selectedEvent)) {
+			view.refreshInvitationsHeader(
+					selectedEvent.allResultingInvitees().length, 
+					sortedInviteesOf(selectedEvent));
+		} else {
+			view.refreshInvitationsHeader(
+					selectedEvent.allResultingInvitees().length,
+					sortedKnownInviteesOf(selectedEvent));
+		}
+		
 		onEventDataChanged.run();
 	}
 
@@ -202,7 +211,10 @@ public class InvitePresenter implements EventView.Boss {
 		Object inviteeObj = toGroupOrUser(invitee);
 		if (inviteeObj == null) return;
 		
-		selectedEvent.uninvite((User)inviteeObj);
+		if (inviteeObj instanceof User)
+			selectedEvent.uninvite((User)inviteeObj);
+		else
+			selectedEvent.uninvite((Group)inviteeObj);
 		onInvitationChanged();
 	}
 

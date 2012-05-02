@@ -39,7 +39,6 @@ public class MailingRound {
 
 	private void sendRemindersTo(User user) {
 		try {
-			getLogger(this).info("Sending events to user: " + user);
 			tryToSendRemindersTo(user);
 		} catch(RuntimeException e) {
 			getLogger(this).log(Level.SEVERE, "Error sending email to: " + user+ "/" + user.email() + " - " + e.getMessage(), e);
@@ -52,6 +51,7 @@ public class MailingRound {
 		List<Event> candidateEvents = this._events.toHappen(user);
 		List<Event> toSend = _chooser.choose(candidateEvents);
 		if (toSend.isEmpty()) return;
+		getLogger(this).info("Sending events to user: " + user);
 		sendReminderTo(user, toSend);
 	}
 

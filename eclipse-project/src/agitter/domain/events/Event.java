@@ -21,7 +21,9 @@ public interface Event {
 
 	void invite(User host, User invitee);
 	void invite(User host, Group friends);
-	void uninvite(User invitee); //TODO: Should just the host uninvite his invitees?
+	
+	void uninvite(User invitee);
+	void uninvite(Group invitee);
 	
 	void notInterested(User user);
 	void notInterested(User user, long date);

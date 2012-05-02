@@ -1,6 +1,8 @@
 package agitter.domain.events.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;
 import agitter.domain.events.Invitation;
+import agitter.domain.users.User;
 
 public class EventsTest extends EventsTestBase {
 
@@ -118,8 +121,8 @@ public class EventsTest extends EventsTestBase {
 		assertContentsInAnyOrder(Arrays.asList( event.allResultingInvitees()),jose, paulo);
 		
 		contacts.addContactTo(friends,pedro);
-		assertEquals(2, event.allResultingInvitees().length);
-		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, paulo);
+		assertEquals(3, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, paulo, pedro);
 		
 		event.invite(ana, friends);
 		
@@ -144,14 +147,45 @@ public class EventsTest extends EventsTestBase {
 		assertEquals(jose, event.invitationTree().invitees()[0].host());
 		
 		Invitation[] inviteesByJose = event.invitationTree().invitees()[0].invitees();
-		assertEquals(paulo, inviteesByJose[0].host());
-		assertEquals(pedro, inviteesByJose[1].host());
+		List<User> invitees = new ArrayList<User>();
+		for (Invitation i : inviteesByJose) {
+			invitees.add(i.host());
+		}
+		assertContentsInAnyOrder(invitees, paulo, pedro);
 		
 		assertEquals(null, event.invitationTree().isInvitedBy(ana));
 		assertEquals(ana, event.invitationTree().isInvitedBy(jose));
 		assertEquals(jose, event.invitationTree().isInvitedBy(pedro));
 		assertEquals(jose, event.invitationTree().isInvitedBy(paulo));
+	}
+	
+	@Test
+	public void testInvitationTreeDuplicatedUsers() throws Refusal {	
+		Event event =  subject.create(ana, "Churras 2", 12);
+		event.invite(ana, jose);
+		assertEquals(1, event.allResultingInvitees().length);
+
+		event.invite(jose, ana);
+		event.invite(jose, pedro);
 		
+		assertEquals(2, event.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event.allResultingInvitees()), jose, pedro);
+		
+		Event event2 =  subject.create(jose, "Churras 2", 12);
+		event2.invite(ana, jose);	
+		assertEquals(0, event2.allResultingInvitees().length);
+
+		event2.invite(jose, ana);
+		event2.invite(jose, ana);
+		event2.invite(jose, pedro);
+		event2.invite(jose, pedro);
+		event2.invite(ana, pedro);
+		event2.invite(ana, pedro);
+		event2.invite(pedro, ana);
+		event2.invite(pedro, ana);
+		
+		assertEquals(2, event2.allResultingInvitees().length);
+		assertContentsInAnyOrder(Arrays.asList(event2.allResultingInvitees()), ana, pedro);
 	}
 	
 	@Test

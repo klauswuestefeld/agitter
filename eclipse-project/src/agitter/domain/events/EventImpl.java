@@ -31,13 +31,6 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	public User[] invitees() {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	public long id() {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
 	@Override
 	public User owner() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
@@ -48,31 +41,10 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-	public Group[] groupInvitees() {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	public void addInvitee(User invitee) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	public void removeInvitee(User invitee) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	public void addInvitee(Group invitee) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-	public void removeInvitee(Group invitee) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
 	@Override
 	public User[] allResultingInvitees() {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
-
 
 	@Override
 	public void addDate(long date) {
@@ -161,19 +133,6 @@ public class EventImpl implements Event {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 
-
-	@Override
-	public boolean isPublic() {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-
-	@Override
-	public void setPublic(boolean publicEvent) {
-		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
-	}
-
-
 	@Override
 	public void invite(User host, User invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
@@ -194,6 +153,12 @@ public class EventImpl implements Event {
 
 	@Override
 	public Invitation invitationTree() {
+		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
+	}
+
+
+	@Override
+	public void uninvite(Group invitee) {
 		throw new sneer.foundation.lang.exceptions.NotImplementedYet();
 	}
 

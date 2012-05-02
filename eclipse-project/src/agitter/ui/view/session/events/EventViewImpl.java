@@ -118,9 +118,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	
 		this.description.setValue(description);
 		this.multipleDate.setValue(datetimes);
-		refreshInvitationsHeader(totalInviteesCount);
-		invitations.removeAllElements();
-		invitations.addElements(invitees);
+		refreshInvitationsHeader(totalInviteesCount, invitees);
 
 		saveListenersActive = true;
 
@@ -133,12 +131,15 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 
 	@Override
-	public void refreshInvitationsHeader(int totalInviteesCount) {
+	public void refreshInvitationsHeader(int totalInviteesCount, List<ProfileListItem> invitees) {
 		invitationsHeader.setValue(
 				totalInviteesCount == 0 
 					? "" 
 					: totalInviteesCount + (totalInviteesCount > 1 ? " convidados:"	: " convidado:")
 		);
+		
+		invitations.removeAllElements();
+		invitations.addElements(invitees);
 	}
 	
 
@@ -209,11 +210,7 @@ class EventViewImpl extends CssLayout implements EventView {
 	}
 
 	private boolean onNextInvitee(String key) {
-		// TODO: Add with Icon + Name.
-		boolean result = boss.approveInviteesAdd(key);
-		if (result)
-			invitations.addElement(key, "");
-		return result;
+		return boss.approveInviteesAdd(key);
 	}
 	
 	private void showEditFields(boolean b) {

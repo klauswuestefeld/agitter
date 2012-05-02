@@ -174,7 +174,7 @@ public class EventImpl2 implements Event {
 		return !notInterested.contains(user);
 	}
 	
-	public boolean isInvited(User user) {
+	private boolean isInvited(User user) {
 		return invitationTree.isInvited(user);
 	}
 
@@ -206,19 +206,24 @@ public class EventImpl2 implements Event {
 	@Override
 	public void invite(User host, User invitee) {
 		if (!invitationTree.invite(host, invitee)) {
-			throw new IllegalArgumentException("Host não é convidado");
+			throw new IllegalArgumentException("Host " + host + " não é convidado");
 		}
 	}
 	
 	@Override
 	public void invite(User host, Group invitees) {
 		if (!invitationTree.invite(host, invitees)) {
-			throw new IllegalArgumentException("Host não é convidado");
+			throw new IllegalArgumentException("Host " + host + " não é convidado");
 		}
 	}
 	
 	@Override
 	public void uninvite(User invitee) {
+		invitationTree.removeInvitee(invitee);
+	}
+	
+	@Override
+	public void uninvite(Group invitee) {
 		invitationTree.removeInvitee(invitee);
 	}
 	
@@ -347,5 +352,10 @@ public class EventImpl2 implements Event {
 	@Override
 	public Invitation invitationTree() {
 		return invitationTree;
+	}
+	
+	@Override
+	public String toString() {
+		return description();
 	}
 }

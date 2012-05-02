@@ -26,8 +26,8 @@ public interface EventView {
 
 	void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount);
 	void refreshInviteesToChoose(List<ProfileListItem> inviteesToChoose);
-	void refreshInvitationsHeader(int totalInviteesCount);
-
+	void refreshInvitationsHeader(int totalInviteesCount, List<ProfileListItem> invitees);
+	
 	void displayReadOnly(Pair<String,String> owner, String description, long[] datetimes, List<ProfileListItem> knownInvitees, int totalInviteesCount);
 	
 	CommentsView commentsView();

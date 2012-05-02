@@ -8,10 +8,12 @@ import agitter.domain.users.User;
 public interface Invitation {
 	User host(); // owner
 	Invitation[] invitees(); // his invitees
+	Group[] groupInvitees();
 	
 	void transferHostTo(User newhost); // only when accounts are merged
 	
 	boolean removeInvitee(User invitee);
+	boolean removeInvitee(Group invitee);
 	
 	// associate the invitee with the given host
 	boolean invite(User host, User newInvitee);
@@ -19,6 +21,9 @@ public interface Invitation {
 	
 	Set<User> allResultingInvitees();
 	
-	boolean isInvited(User user);
-	User isInvitedBy(User user);
+	boolean isInvited(User invitee);
+	User isInvitedBy(User invitee);
+	
+	boolean isInvited(Group invitee);
+	User isInvitedBy(Group invitee);
 }

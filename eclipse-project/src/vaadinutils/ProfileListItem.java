@@ -33,6 +33,15 @@ public class ProfileListItem {
 		this.key = key;
 	}
 	
+	@Override
+	public String toString() { 
+		if (caption == null || caption.trim().isEmpty()) {
+			return key; 
+		}
+		
+		return caption;
+	}
+	
 	public String toHTML() {	
 		if (level > 5) level = 5;
 		
