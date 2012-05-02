@@ -1,7 +1,5 @@
 package agitter.domain.users.tests;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
