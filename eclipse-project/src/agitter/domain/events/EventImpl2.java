@@ -23,8 +23,8 @@ public class EventImpl2 implements Event {
 	private Invitation invitationTree;
 	
 	private String _description;
-	@Deprecated private long _datetime;
-	@Deprecated private long[] datetimes;
+	@SuppressWarnings("unused") @Deprecated private long _datetime;
+	@SuppressWarnings("unused") @Deprecated private long[] datetimes;
 	
 	private Set<Occurrence> occurrences = new HashSet<Occurrence>();
 	
