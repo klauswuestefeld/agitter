@@ -6,10 +6,14 @@ import java.util.List;
 import vaadinutils.WidgetUtils;
 
 import com.vaadin.event.LayoutEvents;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.ProgressIndicator;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 
 final class EventListViewImpl extends CssLayout implements EventListView {
 
@@ -32,12 +36,18 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 		poller.setPollingInterval(millisToNextRefresh);
 		addComponent(poller);
 
+		addComponent(searchField());
 		for (EventVO eventData : events)
 			addComponent(new EventListElement(eventData, boss));
 	}
 
 	
 	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
+		if (!(layoutClickEvent.getChildComponent() instanceof EventListElement)) {
+			System.out.println("This is a Hack for the search field");
+			return;
+		}
+		
 		EventListElement eventView = (EventListElement) layoutClickEvent.getChildComponent();
 		if (eventView == null) {
 			// Vaddin Bug? Searching in a limited parent chain. 
@@ -77,5 +87,18 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 			eventItem.setSelected(eventItem.getData().equals(event));
 		}
 	}
+
 	
+	private TextField searchField() {
+		TextField ret = new TextField();
+		ret.setInputPrompt("Search");
+		ret.setImmediate(true);
+		ret.setTextChangeEventMode(TextChangeEventMode.LAZY);
+		ret.setTextChangeTimeout(500);
+		ret.addListener(new TextChangeListener() { @Override public void textChange(TextChangeEvent event) {
+			boss.onSearch(event.getText());
+		}});
+		return ret;
+	}
+
 }

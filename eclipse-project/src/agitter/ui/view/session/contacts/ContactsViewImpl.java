@@ -28,7 +28,6 @@ public class ContactsViewImpl implements ContactsView {
 	private static final String ALL = "Todos";
 
 	private final ComponentContainer container;
-	private final ComponentContainer fixedContainer;
 
 	private final ProfileList groupList = new ProfileList();
 	private final ProfileList memberList = new ProfileList();
@@ -44,9 +43,8 @@ public class ContactsViewImpl implements ContactsView {
 	Button updateFriends = WidgetUtils.createLinkButton("Atualizar");
 	Consumer<Portal> onUpdateFriends;
 
-	public ContactsViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
+	public ContactsViewImpl(ComponentContainer container) {
 		this.container = container;
-		this.fixedContainer = fixedContainer;
 		newGroup.setImmediate(true);
 		newGroupListener = new ValueChangeListener() { @Override public void valueChange(ValueChangeEvent event) {
 			String value = (String) newGroup.getValue();
@@ -63,7 +61,6 @@ public class ContactsViewImpl implements ContactsView {
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		fixedContainer.removeAllComponents();
 
 		CssLayout contactsView = new CssLayout();
 		container.addComponent(contactsView); contactsView.addStyleName("a-contacts-view");

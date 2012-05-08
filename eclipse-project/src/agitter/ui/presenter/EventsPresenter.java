@@ -278,4 +278,9 @@ public class EventsPresenter implements Boss {
 	public void setUpdateContactsListener(Runnable runnable) {
 		invitePresenter().setUpdateContactsListener(runnable);
 	}
+
+	@Override
+	public void onSearch(String fragment) {
+		System.out.println(fragment);
+	}
 }

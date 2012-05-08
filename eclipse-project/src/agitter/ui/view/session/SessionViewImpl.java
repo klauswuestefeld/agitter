@@ -98,7 +98,7 @@ public class SessionViewImpl implements SessionView {
 
 	@Override public EventsView eventsView() {
 		if (eventsView == null)
-			eventsView = new EventsViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
+			eventsView = new EventsViewImpl(mainContent);
 		return eventsView;
 	}
 	
@@ -110,7 +110,7 @@ public class SessionViewImpl implements SessionView {
 	
 	@Override public ContactsView contactsView() { 
 		if (contactsView == null)
-			contactsView = new ContactsViewImpl(mainContent, mainContent);  //  ,fixedContentWrapper);
+			contactsView = new ContactsViewImpl(mainContent);
 		 return contactsView;
 	}  
 	@Override public void showContactsView() {

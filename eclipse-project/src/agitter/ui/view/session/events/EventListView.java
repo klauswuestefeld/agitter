@@ -11,6 +11,7 @@ public interface EventListView {
 		void onEventRemoved(Object removedEvent, long datetime);
 		void goingOnEvent(Object eventObject, long datetime);
 		void mayGoToEvent(Object eventObject, long datetime);
+		void onSearch(String fragment);
 	}
 
 	void startReportingTo(Boss boss);

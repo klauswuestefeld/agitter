@@ -11,22 +11,19 @@ import com.vaadin.ui.CssLayout;
 public class EventsViewImpl implements EventsView {
 
 	private final ComponentContainer container;
-	private final ComponentContainer fixedContainer;
 	private EventListViewImpl eventList;
 	private EventViewImpl inviteView;
 	private Runnable onNewEvent;
 
 
-	public EventsViewImpl(ComponentContainer container, ComponentContainer fixedContainer) {
+	public EventsViewImpl(ComponentContainer container) {
 		this.container = container;
-		this.fixedContainer = fixedContainer;
 	}
 
 
 	@Override
 	public void show() {
 		container.removeAllComponents();
-		fixedContainer.removeAllComponents();
 		
 		CssLayout leftSide = new CssLayout();
 		container.addComponent(leftSide); leftSide.addStyleName("a-events-view-left-side");
@@ -35,7 +32,7 @@ public class EventsViewImpl implements EventsView {
 				Button newEvent = AgitterVaadinUtils.createDefaultNativeButton("Criar novo Agito");
 				newEventWrapper.addComponent(newEvent); newEvent.addStyleName("a-events-view-new-event-button");
 			leftSide.addComponent(eventList);
-		fixedContainer.addComponent(inviteView);
+		container.addComponent((EventViewImpl)inviteView());
 		
 		newEvent.addListener(new ClickListener() { @Override public void buttonClick(ClickEvent ignored) {
 			if (onNewEvent != null) onNewEvent.run();

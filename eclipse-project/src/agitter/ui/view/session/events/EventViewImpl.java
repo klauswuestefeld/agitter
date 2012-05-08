@@ -1,7 +1,6 @@
 package agitter.ui.view.session.events;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import sneer.foundation.lang.Consumer;
@@ -20,8 +19,6 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
