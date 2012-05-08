@@ -91,8 +91,16 @@ public class EventsImpl2 implements Events {
 	
 	@Override
 	public void transferEvents(User receivingEvents, User beingDropped) {
-		for (Event e: _all) {
+		for (Event e: _all)
 			e.replace(beingDropped, receivingEvents);			
-		}
+	}
+
+	@Override
+	public List<Event> search(String fragment) {
+		fragment = fragment.toLowerCase();
+		List<Event> ret = new ArrayList<Event>();
+		for (Event e : _all)
+			if (e.description().toLowerCase().contains(fragment)) ret.add(e);
+		return ret;
 	}
 }
