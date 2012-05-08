@@ -80,29 +80,6 @@ public class EventsTest extends EventsTestBase {
 		assertSame(thirdEvent, subject.toHappen(ana).get(2));			
 	}
 	
-	// OLD Version when a Group object is stored inside the Event.
-	// The New version Stores only users. 
-	/*
-	@Test
-	public void createAndEditEventWithGroups() throws Refusal {
-		ContactsOfAUser contacts = agitter.contacts().contactsOf( ana );
-		Group work = contacts.createGroup( "work" );
-		
-		Event event =  subject.create(ana, "Churras", 12);
-		event.invite(ana, work);
-		assertContents(Arrays.asList(event.groupInvitees()),work);
-		assertContents(Arrays.asList(event.invitees()));
-
-		Group friends = contacts.createGroup( "friends" );
-		event.invite(ana, friends);
-		event.invite(ana, jose);
-		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),work,friends);
-		assertContents(Arrays.asList(event.invitees()),jose);
-		
-		event.removeInvitee(work);
-		assertContentsInAnyOrder(Arrays.asList(event.groupInvitees()),friends);
-		assertContents(Arrays.asList(event.invitees()),jose);
-	}*/
 
 	@Test
 	public void createAndEditEventWithGroups() throws Refusal {
