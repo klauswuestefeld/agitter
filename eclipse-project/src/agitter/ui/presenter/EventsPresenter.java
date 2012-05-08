@@ -286,6 +286,8 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	@Override
 	public void onSearch(String fragment) {
+		eventsListView().refresh(getEventsFrom(events.search(user, fragment),Integer.MAX_VALUE), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		System.out.println(fragment);
+		selectEvent(null);
 	}
 }
