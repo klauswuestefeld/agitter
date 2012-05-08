@@ -161,7 +161,7 @@ button.a-events-view-new-event-button  {
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: #C8C8C8;
-	padding: 8px 8px 8px 12px;
+	padding: 6px 8px 6px 12px;
 }
 .a-event-view:hover {
 	background: #F7F7F7;
@@ -182,6 +182,13 @@ button.a-event-remove-button {
 	border: none;
 	padding: 0px;
 	margin: 0px;
+	background: url('EventNotInterested.png') no-repeat center center;
+}
+button.a-event-remove-button:hover {
+	background: url('EventNotInterestedHover.png') no-repeat center center;
+}
+button.a-event-remove-button-active {
+	background: url('EventNotInterestedHover.png') no-repeat center center;
 }
 
 button.a-event-maybe-button {
@@ -193,9 +200,6 @@ button.a-event-maybe-button {
 	border: none;
 	padding: 0px;
 	margin: 0px;
-}
-
-button.a-event-maybe-button {
 	background: url('EventMaybeButton.png') no-repeat center center;
 }
 button.a-event-maybe-button:hover {
@@ -214,9 +218,6 @@ button.a-event-going-button {
 	border: none;
 	padding: 0px;
 	margin: 0px;
-}
-
-button.a-event-going-button {
 	background: url('EventGoingButton.png') no-repeat center center;
 }
 button.a-event-going-button-active {
@@ -236,22 +237,8 @@ button.a-event-delete-button {
 	padding: 0px;
 	margin: 0px;
 	margin-right: 16px;
-}
-
-button.a-event-remove-button {
-	background: url('EventNotInterested.png') no-repeat center center;
-}
-button.a-event-remove-button:hover {
-	background: url('EventNotInterestedHover.png') no-repeat center center;
-}
-button.a-event-remove-button-active {
-	background: url('EventNotInterestedHover.png') no-repeat center center;
-}
-
-button.a-event-delete-button {
 	background: url('EventDelete.png') no-repeat center center;
 }
-
 button.a-event-delete-button:hover {
 	background: url('EventDeleteHover.png') no-repeat center center;
 }
@@ -261,12 +248,13 @@ button.a-event-delete-button:hover {
 	min-height: 25px;
 	max-height: 25px;
 	overflow: hidden;
+	margin: 3px;
 	font-size: 18px;
     line-height: normal;
     white-space: pre-wrap;
 }
 .a-event-date {
-	margin-top: 4px;
+	margin-top: 2px;
 }
 .a-event-participants {
 	width: 100%;
@@ -336,7 +324,7 @@ textarea.a-invite-description {
 .a-invite-next-invitee {
 	display: inline-block;
 	overflow: hidden;
-	max-width: 410px;
+	margin-top: 3px;
 }
 
 .a-invite-invitations-header {
@@ -455,7 +443,7 @@ textarea.a-invite-description {
 	font-size: 18px;
     line-height: normal;
     white-space: pre-wrap;
-	padding: 10px 4px 12px 4px;
+	padding: 12px 4px 12px 4px;
 	margin: 6px 0 12px;
 	border-width: 1px;
 	border-color: #CCCCCC;
@@ -702,7 +690,7 @@ textarea.a-invite-description {
 }
 
 
-/* Begin Comments  */
+/* Comments  ----------------------------------------------------------------------   */
 
 .a-comments-view {
 }
@@ -716,7 +704,7 @@ textarea.a-invite-description {
 
 .a-comments-view-text {
 	width: 400px;
-	height: 20px;
+	height: 16px;
 	resize: none;
 	font-size: 14px;
 	margin-bottom: 11px;
@@ -729,19 +717,27 @@ textarea.a-invite-description {
 .a-comments-view-post {
 	vertical-align: center;
 	border-style: none;
-	float:left;
 }
 
 .a-comment-ask-name-view {
-	clear:left;
-	padding: 16px 23px 20px 23px;
-	margin: 20px 30px;
-	float: left;
+	clear: both;
+	position: relative;
+	top: -98px;
+	width: 320px;
+	padding: 6px 23px 18px 23px;
+	margin: 20px;
 	background: white;
 	border-radius: 6px;
 	box-shadow: 3px 3px 12px #444;
 	-webkit-box-shadow: 3px 3px 12px #444;
 	-moz-box-shadow: 3px 3px 12px #444;
+}
+.a-comment-ask-name-view .v-captiontext {
+	font-size: 18px;
+	margin-bottom: 6px;
+}
+.a-comment-ask-name-view .v-textfield {
+	width: 194px;
 }
 
 .a-comments-view-list {
@@ -752,7 +748,8 @@ textarea.a-invite-description {
 .a-comment-view {
 	margin: 2px;
 	margin-right: 20px;
-	padding: 4px 2px 8px 2px;
+	padding: 4px 2px 4px 2px;
+	width: 430px;
 }
 
 .a-comment-view:hover {
@@ -767,76 +764,15 @@ textarea.a-invite-description {
 .a-comment-view-text {
 	color: black;
 	word-wrap: break-word;
+	white-space: pre-wrap;
 }
 
 .a-comment-view-date {
 	color: gray;
 }
 
-/* End Comments  */
 
-.v-icon {
-	width:16px;
-	height:16px;
-}
-
-.v-icon-list {
-	padding-right:5px;
-}tom: 11px;
-	float:left;
-}
-.a-comments-view-text-withfocus {
-	height: 80px;
-}
-
-.a-comments-view-post {
-	vertical-align: center;
-	border-style: none;
-	float:left;
-}
-
-.a-comment-ask-name-view {
-	clear:left;
-	padding: 16px 23px 20px 23px;
-	margin: 20px 30px;
-	float: left;
-	background: white;
-	border-radius: 6px;
-	box-shadow: 3px 3px 12px #444;
-	-webkit-box-shadow: 3px 3px 12px #444;
-	-moz-box-shadow: 3px 3px 12px #444;
-}
-
-.a-comments-view-list {
-	clear:left;
-	padding-top: 2px;
-}
-
-.a-comment-view {
-	margin: 2px;
-	margin-right: 20px;
-	padding: 4px 2px 8px 2px;
-}
-
-.a-comment-view:hover {
-	background: #FFFFFF;
-}
-
-.a-comment-view-user {
-	color: dodgerblue;
-	font-weight: bold;
-}
-
-.a-comment-view-text {
-	color: black;
-	word-wrap: break-word;
-}
-
-.a-comment-view-date {
-	color: gray;
-}
-
-/* End Comments  */
+/* End Comment  --- What is next????  -------------------------------------------------------   */
 
 .v-icon {
 	width:16px;

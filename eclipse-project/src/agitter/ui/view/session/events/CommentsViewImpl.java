@@ -137,8 +137,9 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 
 		nameTf.setInputPrompt("Por favor informe seu nome");
 		nameTf.setValue("");
-		nameTf.setColumns(15);
-		popup.addComponent(nameTf); ////MMM criar um CSS
+		// nameTf.setColumns(15);	// Peccin parece não ter efeito
+		nameTf.setSizeUndefined();
+		popup.addComponent(nameTf); // MMM criar um CSS
 
 		okButton.addStyleName("a-login-button"); //MMM arrumar CSS
 		popup.addComponent(okButton);
@@ -185,16 +186,16 @@ class CommentsViewImpl extends CssLayout implements CommentsView {
 		public CommentComponent(String user, String text, String date) {
 			this.addStyleName( "a-comment-view" );
 
-			Label userLabel = new Label(user);
+			Label userLabel = WidgetUtils.createLabel(user);
 			userLabel.addStyleName( "a-comment-view-user" );
 			this.addComponent(userLabel);
 
-			Label textLabel = new Label(text);
+			Label textLabel = WidgetUtils.createLabel(text);
 			textLabel.setContentMode(Label.CONTENT_XHTML);
 			textLabel.addStyleName( "a-comment-view-text" );
 			this.addComponent(textLabel);
 			
-			Label dateLabel = new Label(date);
+			Label dateLabel = WidgetUtils.createLabel(date);
 			dateLabel.addStyleName( "a-comment-view-date" );
 			this.addComponent(dateLabel);
 		}
