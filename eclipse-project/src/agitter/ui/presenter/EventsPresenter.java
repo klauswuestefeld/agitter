@@ -30,7 +30,7 @@ import agitter.ui.view.session.events.EventVO;
 import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
-public class EventsPresenter implements Boss {
+public class EventsPresenter implements Boss, EventsView.Boss {
 	
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 	
@@ -71,6 +71,8 @@ public class EventsPresenter implements Boss {
 		this.view.onNewEvent(new Runnable() { @Override public void run() {
 			onNewEvent();
 		}});
+		
+		eventsView.startRepontingTo(this);
 		
 		refreshContactsToChoose();
 	}
