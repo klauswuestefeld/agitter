@@ -96,20 +96,22 @@ class EventViewImpl extends CssLayout implements EventView {
 	public void refreshInviteesToChoose(List<ProfileListItem> inviteesToChoose) {
 		nextInvitee.setChoices(inviteesToChoose);
 		
-		setWidth(nextInvitee);
+//		setWidth(nextInvitee);
 	}
 
-	public void setWidth(ComponentContainer cc) {
-		Iterator<Component> c = cc.getComponentIterator();
-		while (c.hasNext()) {
-			Component co = c.next();
-			if (!(co instanceof Button))
-				co.setWidth("380px");
-			if (co instanceof ComponentContainer) {
-				setWidth((ComponentContainer)co);
-			}
-		}
-	}
+
+//	TODO Peccin Não sei por que colocaram isso aqui, mas me parece errado... Funciona sem isso, e sem quebrar o layout
+//	public void setWidth(ComponentContainer cc) {
+//		Iterator<Component> c = cc.getComponentIterator();
+//		while (c.hasNext()) {
+//			Component co = c.next();
+//			if (!(co instanceof Button))
+//				co.setWidth("380px");
+//			if (co instanceof ComponentContainer) {
+//				setWidth((ComponentContainer)co);
+//			}
+//		}
+//	}
 
 	@Override
 	public void displayEditting(String description, long[] datetimes, List<ProfileListItem> invitees, int totalInviteesCount) {
@@ -240,10 +242,8 @@ class EventViewImpl extends CssLayout implements EventView {
 		nextInvitee.setListener(new Predicate<String>() { @Override public boolean evaluate(String invitee) {
 			return onNextInvitee(invitee);
 		}});
-		// Peccin Favor Revisar:
-		// Why setting this width here? It works without it. 
-		// WARNING: This breaks the layout. Go to a editable event, readonly event and editable event again. Buttons disappear.
-		nextInvitee.setInputWidth("280px"); //Colocar largura certa
+		// Peccin Preciso setar o tamanho assim pq a combo não permite controlar o tamanho via CSS. Ela sempre faz override...
+		nextInvitee.setInputWidth("407px");
 		addComponent(nextInvitee); nextInvitee.addStyleName("a-invite-next-invitee");
 	}
 
