@@ -175,10 +175,13 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	
 	private List<EventVO> eventsToHappen() {
+		return getEventsFrom(events.toHappen(user), MAX_EVENTS_TO_SHOW);
+	}
+
+	private List<EventVO> getEventsFrom(List<Event> eventsList, int maximumNumberOfEvents) {
 		List<EventVO> result = new ArrayList<EventVO>();
-		List<Event> toHappen = events.toHappen(user);		
 		
-		for (Event event : toHappen) {
+		for (Event event : eventsList) {
 			long[] interesting = event.datetimesInterestingFor(user);
 			for (long date : interesting) {
 				User[] invitees = event.allResultingInvitees();
@@ -192,7 +195,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 					event.attendance(user, date) == GOING));
 			}
 			
-			if (result.size() == MAX_EVENTS_TO_SHOW) break;
+			if (result.size() == maximumNumberOfEvents) break;
 		}
 		
 		Collections.sort(result, new EventVOComparator());
