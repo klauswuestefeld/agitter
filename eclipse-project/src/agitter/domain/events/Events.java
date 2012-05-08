@@ -20,6 +20,6 @@ public interface Events {
 
 	Event get(long eventId);
 	List<Event> toHappen(User user);
-	List<Event> search(String fragment);
+	List<Event> search(User user, String fragment);
 
 }

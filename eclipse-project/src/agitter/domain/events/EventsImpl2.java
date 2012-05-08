@@ -81,11 +81,10 @@ public class EventsImpl2 implements Events {
 
 	@Override
 	public Event get(long eventId) {
-		for (Event e: _all) {
-			if (e.getId() == eventId) {
+		for (Event e: _all)
+			if (e.getId() == eventId)
 				return e;
-			}
-		}
+				
 		return null;
 	}
 	
@@ -96,11 +95,14 @@ public class EventsImpl2 implements Events {
 	}
 
 	@Override
-	public List<Event> search(String fragment) {
+	public List<Event> search(User user, String fragment) {
 		fragment = fragment.toLowerCase();
 		List<Event> ret = new ArrayList<Event>();
-		for (Event e : _all)
-			if (e.description().toLowerCase().contains(fragment)) ret.add(e);
+		for (Event e : _all) {
+			if (!e.description().toLowerCase().contains(fragment)) continue; //Which is faster?
+			if (!e.isVisibleTo(user)) continue; //Which is faster?
+			ret.add(e);
+		}
 		return ret;
 	}
 }
