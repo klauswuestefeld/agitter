@@ -182,7 +182,8 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 		List<EventVO> result = new ArrayList<EventVO>();
 		
 		for (Event event : eventsList) {
-			long[] interesting = event.datetimesInterestingFor(user);
+			//long[] interesting = event.datetimesInterestingFor(user);
+			long[] interesting = event.datetimes();
 			for (long date : interesting) {
 				User[] invitees = event.allResultingInvitees();
 				
