@@ -11,7 +11,7 @@ class SimpleTimer {
 	interface HandleToAvoidLeaks {}
 
 	private static final List<WeakReference<Runnable>> _sleepers = Collections.synchronizedList(new ArrayList<WeakReference<Runnable>>());
-	static final int MILLIS_TO_SLEEP_BETWEEN_ROUNDS = 1000 * 1; //Deliberately fast to stress-test the system.
+	static final int MILLIS_TO_SLEEP_BETWEEN_ROUNDS = 1000 * 5;
 
 	
 	static {
