@@ -132,26 +132,22 @@ public class OAuth {
 						 );
 		startContactImport(provider, user);
 		
-		startMergingAccounts(domain, user.email().toString(), profile.getEmail());
+		startMergingAccountsIfNecessary(domain, user.email().toString(), profile.getEmail());
 		
 		return user;
 	}
 
 	
-	private void startMergingAccounts(final Agitter domain, final String email1, final String email2) {
-		Thread t = new Thread() {
-			@Override
-			public void run() {
-				try {
-					domain.joinAccounts(email1, email2);
-				} catch (UserNotFound e) {
-					e.printStackTrace();
-				} catch (Refusal e) {
-					e.printStackTrace();
-				}
+	private void startMergingAccountsIfNecessary(final Agitter domain, final String email1, final String email2) {
+		new Thread() { @Override public void run() {
+			try {
+				domain.mergeAccountsIfNecessary(email1, email2);
+			} catch (UserNotFound e) {
+				//OK.
+			} catch (Refusal e) {
+				e.printStackTrace();
 			}
-		}; 
-		t.run();
+		}}.start();
 	}
 
 	

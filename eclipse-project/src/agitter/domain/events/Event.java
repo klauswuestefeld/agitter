@@ -32,5 +32,5 @@ public interface Event {
 	
 	long getId();
 	
-	void replace(User beingDropped, User receivingEvents);
+	void transferOwnershipIfNecessary(User receivingEvents, User beingDropped);
 }

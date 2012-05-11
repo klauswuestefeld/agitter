@@ -21,9 +21,9 @@ public interface User {
 	boolean hasUnsubscribedFromEmails();
 	void setUnsubscribedFromEmails(boolean interested);
 
-	String linkedAccountUsername(Portal portal);
-	String linkedAccountImage(Portal portal);
+	void linkAccount(Portal portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email);
 	boolean isAccountLinked(Portal portal);
 	void unlinkAccount(Portal portal);
-	void linkAccount(Portal portal, String username, String oauthVerifier, String oauthToken, String imageProfile, String email);
+	String linkedAccountUsername(Portal portal);
+	String linkedAccountImage(Portal portal);
 }

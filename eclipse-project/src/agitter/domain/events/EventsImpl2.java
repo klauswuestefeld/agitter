@@ -91,7 +91,7 @@ public class EventsImpl2 implements Events {
 	@Override
 	public void transferEvents(User receivingEvents, User beingDropped) {
 		for (Event e: _all)
-			e.replace(beingDropped, receivingEvents);			
+			e.transferOwnershipIfNecessary(receivingEvents, beingDropped);			
 	}
 
 	@Override

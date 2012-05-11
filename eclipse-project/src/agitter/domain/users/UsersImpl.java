@@ -149,7 +149,6 @@ public class UsersImpl implements Users {
 
 	@Override
 	public void delete(User user) {
-		// TODO: Flag to DELETE?
 		users.remove(user);
 	}
 }

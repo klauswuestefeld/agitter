@@ -102,11 +102,9 @@ public class InvitePresenter implements EventView.Boss {
 
 	private List<ProfileListItem> sortedKnownInviteesOf(Event event) {
 		List<User> userList = new ArrayList<User>();
-		for (User u : event.allResultingInvitees()) {
-			if (contacts.isMyFriend(u.email()) && !u.email().equals(user.email())) {
-				userList.add(u);	
-			}
-		}
+		for (User invitee : event.allResultingInvitees())
+			if (invitee != user && contacts.isMyFriend(invitee))
+				userList.add(invitee);	
 		
 		return ContactChooserHelper.contacts(Collections.EMPTY_LIST, userList);
 	}

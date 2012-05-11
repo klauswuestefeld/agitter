@@ -57,7 +57,7 @@ public class JoinAccountsTest extends UsersTestBase {
 		assertContentsInAnyOrder(agitter.contacts().contactsOf(paulo).all(), jose);
 		assertContentsInAnyOrder(agitter.contacts().contactsOf(jose).all(), paulo, pedro, joao);
 			
-		agitter.joinAccounts(ana.email().toString(), jose.email().toString());
+		agitter.mergeAccountsIfNecessary(ana.email().toString(), jose.email().toString());
 		
 		assertContentsInAnyOrder(
 				agitter.events().toHappen(ana),
@@ -70,9 +70,7 @@ public class JoinAccountsTest extends UsersTestBase {
 		try {
 			agitter.users().findByEmail(EmailAddress.email("jose@email.com"));
 			fail();
-		} catch (UserNotFound e) {
-			assertNotNull(e);
-		}
+		} catch (UserNotFound e) {}
 		
 		assertEquals(3, agitter.contacts().contactsOf(ana).all().size());
 		assertEquals(1, agitter.contacts().contactsOf(paulo).all().size());

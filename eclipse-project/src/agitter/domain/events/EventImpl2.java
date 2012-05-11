@@ -212,23 +212,23 @@ public class EventImpl2 implements Event {
 	}
 	
 	@Override
-	public void replace(User fromUser, User toUser) {
-		if (isOwner(fromUser)) {
-			giveOwnershipTo(toUser);
+	public void transferOwnershipIfNecessary(User takingOver, User beingDropped) {
+		if (isOwner(beingDropped)) {
+			giveOwnershipTo(takingOver);
 			return;
 		}
 		
-		User u = invitationTree.userThatInvited(fromUser);
+		User u = invitationTree.userThatInvited(beingDropped);
 		if (u != null) 
-			invite(u, toUser);
+			invite(u, takingOver);
 			
-		if (!isInterested(fromUser)) 
+		if (!isInterested(beingDropped)) 
 			try {
-				notInterested(toUser);	
+				notInterested(takingOver);	
 			} catch (Exception e) {} // Do not need to handle exception. It is ok if it happens. 
 			
 		for (OccurrenceImpl occ : actualOccurrences()) 
-			occ.copyBehavior(fromUser, toUser);
+			occ.copyBehavior(beingDropped, takingOver);
 	}
 
 

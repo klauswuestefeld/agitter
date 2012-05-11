@@ -53,19 +53,19 @@ public class AgitterImpl implements Agitter {
 	}
 	
 	@Override
-	public void joinAccounts(String email1, String email2) throws UserNotFound, Refusal {
+	public void mergeAccountsIfNecessary(String email1, String email2) throws UserNotFound, Refusal {
 		if (email1 == null || email2 == null) return;
 		if (email1.trim().isEmpty() || email2.trim().isEmpty()) return;
 		if (email1.trim().equalsIgnoreCase(email2.trim())) return;
 		
 		try {
-			User takingCareOf = users().findByEmail(EmailAddress.email(email1));
+			User takingOver = users().findByEmail(EmailAddress.email(email1));
 			User beingDropped = users().findByEmail(EmailAddress.email(email2));
 		
-			if (takingCareOf.equals(beingDropped)) return;
+			if (takingOver.equals(beingDropped)) return;
 			
-			events().transferEvents(takingCareOf, beingDropped);
-			contacts().transferContacts(takingCareOf, beingDropped);
+			events().transferEvents(takingOver, beingDropped);
+			contacts().transferContacts(takingOver, beingDropped);
 			
 			users().delete(beingDropped);
 		} catch (UserNotFound u) {
