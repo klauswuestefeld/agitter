@@ -3,6 +3,8 @@ package agitter.ui.presenter;
 import static agitter.domain.events.Event.Attendance.GOING;
 import static agitter.domain.events.Event.Attendance.MAYBE;
 import static agitter.domain.events.Event.Attendance.NOT_GOING;
+import static agitter.ui.presenter.EventsPresenter.Scope.ALL_EVENTS;
+import static agitter.ui.presenter.EventsPresenter.Scope.INTERESTING_EVENTS;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
@@ -31,6 +33,8 @@ import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss, EventsView.Boss {
+
+	enum Scope { ALL_EVENTS, INTERESTING_EVENTS }
 	
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 	
@@ -164,7 +168,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 		if (searchFragment.isEmpty())
 			eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		else
-			eventsListView().refresh(getEventsFrom(events.search(user, searchFragment),Integer.MAX_VALUE), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+			eventsListView().refresh(getEventsFrom(events.search(user, searchFragment),Integer.MAX_VALUE, ALL_EVENTS), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		
 		eventsListView().setSelectedEvent(eventSelected);
 	}
@@ -181,33 +185,37 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	
 	private List<EventVO> eventsToHappen() {
-		return getEventsFrom(events.toHappen(user), MAX_EVENTS_TO_SHOW);
+		return getEventsFrom(events.toHappen(user), MAX_EVENTS_TO_SHOW, INTERESTING_EVENTS);
 	}
 
-	private List<EventVO> getEventsFrom(List<Event> eventsList, int maximumNumberOfEvents) {
+	private List<EventVO> getEventsFrom(List<Event> eventsList, int maximumNumberOfEvents, Scope scope) {
 		List<EventVO> result = new ArrayList<EventVO>();
 		
 		for (Event event : eventsList) {
-			long[] interesting = event.datetimesInterestingFor(user); 
-			//long[] interesting = event.datetimes();//take out this line...
-			for (long date : interesting) {
-				User[] invitees = event.allResultingInvitees();
-				
-				result.add(new EventVO(event, event.description(), 
-					date, event.owner().screenName(), 
-					events.isEditableBy(user, event),
-					invitees.length, 
-					uniqueGroupOrUserInvited(invitees), 
-					isUniqueUserInvited(invitees), 
-					event.attendance(user, date) == GOING));
-			}
+			long[] interesting = (scope == ALL_EVENTS)
+				? event.datetimes()
+				: event.datetimesInterestingFor(user); 
+			
+			for (long date : interesting)
+				result.add(asValueObject(event, date));
 			
 			if (result.size() == maximumNumberOfEvents) break;
 		}
 		
 		Collections.sort(result, new EventVOComparator());
-		
 		return result;
+	}
+
+	private EventVO asValueObject(Event event, long date) {
+		User[] invitees = event.allResultingInvitees();
+		
+		return new EventVO(event, event.description(), 
+			date, event.owner().screenName(), 
+			events.isEditableBy(user, event),
+			invitees.length, 
+			uniqueGroupOrUserInvited(invitees), 
+			isUniqueUserInvited(invitees), 
+			event.attendance(user, date) == GOING);
 	}
 	
 		
