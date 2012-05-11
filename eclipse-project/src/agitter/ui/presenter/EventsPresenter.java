@@ -43,10 +43,12 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	private InvitePresenter invitePresenter;
 	private EventListView eventListView;
 	private Event eventSelected;
+	private String searchFragment = "";
 
 	@SuppressWarnings("unused")
 	private final HandleToAvoidLeaks handle;
 	private final Functor<EmailAddress, User> userProducer;
+
 
 	public EventsPresenter(User user, ContactsOfAUser contacts, Events events, Comments comments, Functor<EmailAddress, User> userProducer, EventsView eventsView, Consumer<String> warningDisplayer, Notifier<String> urlRestPathNotifier) {
 		this.user = user;
@@ -159,7 +161,11 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	
 	synchronized private void refreshEventList() {
-		eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		if (searchFragment.isEmpty())
+			eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		else
+			eventsListView().refresh(getEventsFrom(events.search(user, searchFragment),Integer.MAX_VALUE), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
+		
 		eventsListView().setSelectedEvent(eventSelected);
 	}
 
@@ -281,14 +287,16 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 		invitePresenter().clear();
 	}
 
+	
 	public void setUpdateContactsListener(Runnable runnable) {
 		invitePresenter().setUpdateContactsListener(runnable);
 	}
 
+	
 	@Override
 	public void onSearch(String fragment) {
-		eventsListView().refresh(getEventsFrom(events.search(user, fragment),Integer.MAX_VALUE), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
-		System.out.println(fragment);
-		selectEvent(null);
+		if (fragment == null) fragment = "";
+		searchFragment = fragment.trim();
+		refreshEventList();
 	}
 }

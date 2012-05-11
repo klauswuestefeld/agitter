@@ -38,11 +38,6 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 
 	
 	private void onEventSelected(LayoutClickEvent layoutClickEvent) {
-		if (!(layoutClickEvent.getChildComponent() instanceof EventListElement)) {
-			System.out.println("This is a Hack for the search field");
-			return;
-		}
-		
 		EventListElement eventView = (EventListElement) layoutClickEvent.getChildComponent();
 		if (eventView == null) {
 			// Vaddin Bug? Searching in a limited parent chain. 
@@ -74,7 +69,7 @@ final class EventListViewImpl extends CssLayout implements EventListView {
 
 
 	@Override
-	public void setSelectedEvent(agitter.domain.events.Event event) {
+	public void setSelectedEvent(Object event) {
 		for (Iterator<Component> it = getComponentIterator(); it.hasNext();) {
 			Component item = it.next();
 			if (!(item instanceof EventListElement)) continue;

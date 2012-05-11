@@ -32,10 +32,10 @@ public class EventsViewImpl implements EventsView {
 		
 
 		TextField search = new TextField();
-		search.setInputPrompt("Search");
+		search.setInputPrompt("Pesquisar");
 		search.setImmediate(true);
 		search.setTextChangeEventMode(TextChangeEventMode.LAZY);
-		search.setTextChangeTimeout(500);
+		search.setTextChangeTimeout(200);
 		search.addListener(new TextChangeListener() { @Override public void textChange(TextChangeEvent event) {
 			boss.onSearch(event.getText());
 		}});
@@ -46,7 +46,7 @@ public class EventsViewImpl implements EventsView {
 			leftSide.addComponent(newEventWrapper); newEventWrapper.addStyleName("a-events-view-new-event-wrapper");
 				Button newEvent = AgitterVaadinUtils.createDefaultNativeButton("Criar novo Agito");
 				newEventWrapper.addComponent(newEvent); newEvent.addStyleName("a-events-view-new-event-button");
-				//leftSide.addComponent(search);
+				leftSide.addComponent(search);
 			leftSide.addComponent(eventList);
 		container.addComponent((EventViewImpl)inviteView());
 		
