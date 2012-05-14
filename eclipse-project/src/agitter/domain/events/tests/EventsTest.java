@@ -196,7 +196,7 @@ public class EventsTest extends EventsTestBase {
 		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);
 		assertEquals(1, subject.toHappen(jose).size());
 
-		event.notInterested(jose);
+		event.setNotInterested(jose);
 		assertEquals(0, subject.toHappen(jose).size());
 		assertEquals(1, subject.toHappen(ana).size());
 	}

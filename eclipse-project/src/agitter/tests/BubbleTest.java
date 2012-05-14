@@ -28,7 +28,7 @@ public class BubbleTest extends CleanTestBase {
 		
 		User jose = agitter.users().searchByEmail(email("jose@email.com"));
 		assertEquals(1, events.toHappen(jose).size());
-		event.notInterested(jose); // jose is a bubble wrapper
+		event.setNotInterested(jose); // jose is a bubble wrapper
 		assertEquals(0, events.toHappen(jose).size());
 		
 		PrevaylerBootstrap.close();

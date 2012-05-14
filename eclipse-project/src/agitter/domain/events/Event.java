@@ -14,14 +14,15 @@ public interface Event {
 	Attendance attendance(User user, long date);
 	void setAttendance(User user, long date, Attendance att);
 
-	void notInterested(User user);
-	long[] datetimesInterestingFor(User user);
-	long[] datetimes();
-	long[] datetimesToCome();
-	
+	void setNotInterested(User user);
+	boolean isInterested(User user);
+
 	void addDate(long date);
 	void removeDate(long date);
 	void changeDate(long from, long to);
+	long[] datetimesInterestingFor(User user);
+	long[] datetimes();
+	long[] datetimesToCome();
 
 	Invitation invitationTree();
 	void invite(User host, User invitee);

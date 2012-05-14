@@ -56,6 +56,7 @@ public class EventsImpl2 implements Events {
 		for(Event e : _all) {
 			if (!willHappen(e)) continue;
 			if (!e.isVisibleTo(user)) continue;
+			if (!e.isInterested(user)) continue;
 			result.add(e);
 		}
 		return result;

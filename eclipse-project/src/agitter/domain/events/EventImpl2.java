@@ -61,7 +61,7 @@ public class EventImpl2 implements Event {
 	}
 	
 	@Override
-	public void notInterested(User user) {
+	public void setNotInterested(User user) {
 		if(isOwner(user)) throw new IllegalArgumentException( "Dono do agito deve estar interessado no agito." );
 		if(!isInvited(user)) throw new IllegalArgumentException( "Não convidados não podem deixar de se interessar." );
 		
@@ -72,11 +72,12 @@ public class EventImpl2 implements Event {
 	@Override
 	public boolean isVisibleTo(User user) {
 		if (isOwner(user)) return true;
-		return isInvited(user) && isInterested(user);
+		return isInvited(user);
 	}
 
 	
-	private boolean isInterested(User user) {
+	@Override
+	public boolean isInterested(User user) {
 		return !notInterested.contains(user);
 	}
 	
@@ -224,7 +225,7 @@ public class EventImpl2 implements Event {
 			
 		if (!isInterested(beingDropped)) 
 			try {
-				notInterested(takingOver);	
+				setNotInterested(takingOver);	
 			} catch (Exception e) {} // Do not need to handle exception. It is ok if it happens. 
 			
 		for (OccurrenceImpl occ : actualOccurrences()) 

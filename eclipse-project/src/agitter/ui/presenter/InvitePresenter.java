@@ -242,7 +242,7 @@ public class InvitePresenter implements EventView.Boss {
 			System.out.println("Event Deleted");
 		} else {
 			// It is not the owner of the event. Remove it all. 
-			selectedEvent.notInterested(user);
+			selectedEvent.setNotInterested(user);
 			System.out.println("Event Not Interested");
 		}
 
