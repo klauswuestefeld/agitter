@@ -7,28 +7,38 @@ import java.util.List;
 
 import utils.DateUtils;
 import agitter.domain.events.Event;
+import agitter.domain.events.Events;
+import agitter.domain.users.User;
 
-public class EventChooser {
+public class EventChooserForReminders {
 
 	private static final int MAX_EVENTS_TO_SEND = 5;
 
 	private final long _startTime = DateUtils.daysFromNow(1);
 	private final long _endTime = endTime();
 
+	private final Events events;
 
-	List<Event> choose(List<Event> candidates) {
+
+	EventChooserForReminders(Events events) {
+		this.events = events;
+	}
+
+
+	List<Event> choose(User user) {
 		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
-		for(Event e : candidates) {
+		List<Event> candidates = events.toHappen(user);
+		for (Event e : candidates) {
 			if (result.size() == MAX_EVENTS_TO_SEND) break;
-			if (!isTimeToRemindAbout(e)) continue;
+			if (!isTimeToRemindAbout(e, user)) continue;
 			result.add(e);
 		}
 		return result;
 	}
 
 	
-	private boolean isTimeToRemindAbout(Event e) {
-		for (long datetime : e.datetimes()) 
+	private boolean isTimeToRemindAbout(Event e, User user) {
+		for (long datetime : e.datetimesInterestingFor(user)) 
 			if (datetime >= this._startTime && datetime < this._endTime)
 				return true;
 		

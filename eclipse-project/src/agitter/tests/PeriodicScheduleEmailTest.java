@@ -107,6 +107,23 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 		assertEquals("klaus@email.com", mock.to().toString());
 		assertFragment("matias@email.com - churras", mock.body());
 	}
+
+	@Test
+	public void usersNotInterestedOrNotGoingShouldNotGetReminders() throws Refusal, IOException {
+		User matias = signup("matias");
+
+		User user1 = user("klaus@email.com");
+		User user2 = user("leo@email.com");
+		Event event = createEvent(matias, "churras", startTime+ONE_DAY, user1, user2);
+		event.setNotInterested(user1);
+		event.setAttendance(user2, startTime+ONE_DAY, Event.Attendance.NOT_GOING);
+				
+		Clock.setForCurrentThread(startTime+10);
+		EmailSenderMock mock = sendEmailsAndCaptureLast();
+
+		assertFragmentNotContained("klaus@email.com", mock.to().toString());
+		assertFragmentNotContained("leo@email.com", mock.to().toString());
+	}
 	
 	
 	@Test
@@ -123,6 +140,11 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	private void assertFragment(String expectedFragment, String actual) {
 		assertTrue(actual.contains(expectedFragment));
+	}
+
+	
+	private void assertFragmentNotContained(String prohibitedFragment, String actual) {
+		assertFalse(actual.contains(prohibitedFragment));
 	}
 
 	

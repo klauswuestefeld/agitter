@@ -54,7 +54,6 @@ public class EventsTest extends EventsTestBase {
 		Event secondEvent = createEvent(ana, "D2", 12);
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
-//		subject.setDatetimes(ana, secondEvent, new long[]{14, 15, 16});
 		secondEvent.addDate(14);
 		secondEvent.addDate(15);
 		secondEvent.addDate(16);

@@ -16,15 +16,12 @@ public class MailingRound {
 	private static final String SUBJECT = "Lembretes de Agito";
 
 	private final EmailSender _sender;
-	private final Events _events;
-
 	private final EventsMailFormatter _formatter = new EventsMailFormatter();
-
-	private final EventChooser _chooser = new EventChooser();
+	private final EventChooserForReminders _chooser;
 
 
 	MailingRound(Events events, EmailSender sender) {
-		this._events = events;
+		_chooser = new EventChooserForReminders(events);
 		this._sender = sender;
 	}
 
@@ -48,8 +45,7 @@ public class MailingRound {
 
 	private void tryToSendRemindersTo(User user) {
 		if (user.hasUnsubscribedFromEmails()) return;
-		List<Event> candidateEvents = this._events.toHappen(user);
-		List<Event> toSend = _chooser.choose(candidateEvents);
+		List<Event> toSend = _chooser.choose(user);
 		if (toSend.isEmpty()) return;
 		getLogger(this).info("Sending events to user: " + user);
 		sendReminderTo(user, toSend);
