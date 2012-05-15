@@ -66,6 +66,14 @@ public class EventsTest extends EventsTestBase {
 	}
 
 	@Test
+	public void changingEventDescription() throws Refusal {
+		Event event = createEvent(ana, "Party", 11);
+		subject.setDescription(ana, event, "Funeral");
+
+		assertEquals("Funeral", subject.toHappen(ana).get(0).description());
+	}
+
+	@Test
 	public void recurrentDatesTest() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
 		Event secondEvent = createEvent(ana, "D2", 15);
