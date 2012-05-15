@@ -211,7 +211,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 		
 		return new EventVO(event, event.description(), 
 			date, event.owner().screenName(), 
-			events.isEditableBy(user, event),
+			event.isEditableBy(user),
 			invitees.length, 
 			uniqueGroupOrUserInvited(invitees), 
 			isUniqueUserInvited(invitees), 
@@ -248,7 +248,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	@Override
 	public void onEventRemoved(Object removedEvent, long datetime) {
 		Event event = (Event)removedEvent;
-		if (events.isEditableBy(user, event)) {
+		if (event.isEditableBy(user)) {
 			// This option is disabled on screen
 			// Should never come here.
 			System.out.println("Should NEVER come here");
@@ -266,7 +266,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	@Override
 	public void goingOnEvent(Object eventObject, long datetime) {
 		Event event = (Event)eventObject;
-		if (events.isEditableBy(user, event)) {
+		if (event.isEditableBy(user)) {
 			// This option is disabled on screen
 			// Should never come here.
 			System.out.println("Should NEVER come here");
@@ -282,7 +282,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	@Override
 	public void mayGoToEvent(Object eventObject, long datetime) {
 		Event event = (Event)eventObject;
-		if (events.isEditableBy(user, event)) {
+		if (event.isEditableBy(user)) {
 			// This option is disabled on screen
 			// Should never come here.
 			System.out.println("Should NEVER come here");

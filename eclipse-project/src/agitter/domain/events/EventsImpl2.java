@@ -26,20 +26,16 @@ public class EventsImpl2 implements Events {
 	
 	@Override
 	public void setDescription(User user, Event event, String description) throws Refusal {
-		edit(user, event, description, event.datetimes());
-	};
-	
-	private void edit(User user, Event event, String newDescription, long[] newDatetimes) throws Refusal {
-		if (!isEditableBy(user, event)) throw new IllegalStateException("Event not editable by this user.");
+		if (!event.isEditableBy(user)) throw new IllegalStateException("Event not editable by this user.");
 		EventImpl2 casted = (EventImpl2) event;
 		boolean wasThere = _all.remove(casted); //Event could have been deleted.
 		try {
-			casted.edit(newDescription, newDatetimes);
+			casted.edit(description, event.datetimes());
 		} finally {
 			if (wasThere) _all.add(casted);
 		}
-	}
-
+	};
+	
 	private boolean willHappen(Event e) {
 		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
 		
@@ -62,15 +58,10 @@ public class EventsImpl2 implements Events {
 		return result;
 	}
 	
-	@Override
-	public boolean isEditableBy(User user, Event event) {
-		return event.owner() == user;
-	}
-
 
 	@Override
 	public void delete(User user, Event event) {
-		if (!isEditableBy(user, event))
+		if (!event.isEditableBy(user))
 			throw new IllegalArgumentException("Agito não deletável por este usuário.");
 		_all.remove(event);
 	}

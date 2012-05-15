@@ -8,6 +8,7 @@ public interface Event {
 	enum Attendance { GOING, MAYBE, NOT_GOING }
 
 	User owner();
+	boolean isEditableBy(User user);
 	String description();
 	boolean isVisibleTo(User user);
 	

@@ -13,8 +13,6 @@ public interface Events {
 	Event create(User user, String description, long datetime) throws Refusal;
 	void setDescription(User user, Event event, String description) throws Refusal;
 	
-	boolean isEditableBy(User user, Event event);
-
 	void transferEvents(User receivingEvents, User beingDropped);
 	void delete(User user, Event event);
 

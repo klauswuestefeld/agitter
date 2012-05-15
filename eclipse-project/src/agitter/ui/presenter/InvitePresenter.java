@@ -74,7 +74,7 @@ public class InvitePresenter implements EventView.Boss {
 			return;
 		}
 		
-		if (events.isEditableBy(user, selectedEvent)) {
+		if (selectedEvent.isEditableBy(user)) {
 			view.displayEditting(
 					selectedEvent.description(), 
 					//onlyFutureDates(selectedEvent.datetimes()),
@@ -161,7 +161,7 @@ public class InvitePresenter implements EventView.Boss {
 
 
 	private void onInvitationChanged() {
-		if (events.isEditableBy(user, selectedEvent)) {
+		if (selectedEvent.isEditableBy(user)) {
 			view.refreshInvitationsHeader(
 					selectedEvent.allResultingInvitees().length, 
 					sortedInviteesOf(selectedEvent));
@@ -236,7 +236,7 @@ public class InvitePresenter implements EventView.Boss {
 
 	@Override
 	public void onEventRemoved() {
-		if (events.isEditableBy(user, selectedEvent)) {
+		if (selectedEvent.isEditableBy(user)) {
 			// It is the owner of the event. Remove it. 
 			events.delete(user, selectedEvent);
 			System.out.println("Event Deleted");

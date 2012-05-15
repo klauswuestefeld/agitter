@@ -252,4 +252,9 @@ public class EventImpl2 implements Event {
 	public void setAttendance(User user, long date, Attendance att) {
 		searchOccurrence(date).setAttendance(user, att);
 	}
+
+	@Override
+	public boolean isEditableBy(User user) {
+		return this.owner() == user;
+	}
 }

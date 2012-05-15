@@ -205,8 +205,8 @@ public class EventsTest extends EventsTestBase {
 	public void deletion() throws Refusal {
 		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);
 
-		assertTrue(subject.isEditableBy(ana, event));
-		assertFalse(subject.isEditableBy(jose, event));
+		assertTrue(event.isEditableBy(ana));
+		assertFalse(event.isEditableBy(jose));
 		subject.delete(ana, event);
 		assertEquals(0, subject.toHappen(ana).size());
 		assertEquals(0, subject.toHappen(jose).size());
