@@ -24,17 +24,6 @@ public class EventsImpl2 implements Events {
 		return event;
 	}
 	
-	@Override
-	public void setDescription(User user, Event event, String description) throws Refusal {
-		if (!event.isEditableBy(user)) throw new IllegalStateException("Event not editable by this user.");
-		EventImpl2 casted = (EventImpl2) event;
-		boolean wasThere = _all.remove(casted); //Event could have been deleted.
-		try {
-			casted.edit(description, event.datetimes());
-		} finally {
-			if (wasThere) _all.add(casted);
-		}
-	};
 	
 	private boolean willHappen(Event e) {
 		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;

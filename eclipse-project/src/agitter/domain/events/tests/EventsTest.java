@@ -68,7 +68,7 @@ public class EventsTest extends EventsTestBase {
 	@Test
 	public void changingEventDescription() throws Refusal {
 		Event event = createEvent(ana, "Party", 11);
-		subject.setDescription(ana, event, "Funeral");
+		event.setDescription(ana, "Funeral");
 
 		assertEquals("Funeral", subject.toHappen(ana).get(0).description());
 	}

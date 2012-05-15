@@ -100,16 +100,6 @@ public class EventImpl2 implements Event {
 		addDate(newDatetime);
 	}
 
-	void edit(String newDescription, long[] newDatetimes) throws Refusal {
-		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
-
-		_description = newDescription;
-		actualOccurrences().clear();
-		for (long l : newDatetimes) {
-			addDate(l);
-		}
-	}
-	
 	@Override
 	public void invite(User host, User invitee) {
 		if (!invitationTree.invite(host, invitee)) {
@@ -257,4 +247,12 @@ public class EventImpl2 implements Event {
 	public boolean isEditableBy(User user) {
 		return this.owner() == user;
 	}
+
+	@Override
+	public void setDescription(User user, String newDescription) throws Refusal {
+		if (!isEditableBy(user)) throw new IllegalStateException("Event not editable by this user.");
+		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
+		_description = newDescription;
+	}
+	
 }

@@ -121,7 +121,7 @@ public class InvitePresenter implements EventView.Boss {
 		}
 			
 		try {
-			events.setDescription(user, selectedEvent, newText);
+			selectedEvent.setDescription(user, newText);
 		} catch (Refusal e) {
 			warningDisplayer.consume(e.getMessage());
 			return;

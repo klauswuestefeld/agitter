@@ -1,5 +1,6 @@
 package agitter.domain.events;
 
+import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 
@@ -9,11 +10,12 @@ public interface Event {
 
 	User owner();
 	boolean isEditableBy(User user);
+	void setDescription(User user, String newDescription) throws Refusal;
 	String description();
 	boolean isVisibleTo(User user);
 	
-	Attendance attendance(User user, long date);
 	void setAttendance(User user, long date, Attendance att);
+	Attendance attendance(User user, long date);
 
 	void setNotInterested(User user);
 	boolean isInterested(User user);

@@ -11,7 +11,6 @@ public interface Events {
 
 	@Transaction
 	Event create(User user, String description, long datetime) throws Refusal;
-	void setDescription(User user, Event event, String description) throws Refusal;
 	
 	void transferEvents(User receivingEvents, User beingDropped);
 	void delete(User user, Event event);
