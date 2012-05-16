@@ -5,11 +5,13 @@ import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
 import org.prevayler.bubble.tests.fixtures.SomeApplication;
 import org.prevayler.bubble.tests.fixtures.SomeApplicationImpl;
+import org.prevayler.bubble.tests.fixtures.module1.Box;
 import org.prevayler.bubble.tests.fixtures.module1.Item;
 import org.prevayler.bubble.tests.fixtures.module1.SomeModule;
 import org.prevayler.foundation.serialization.XStreamSerializer;
@@ -134,6 +136,17 @@ public class PrevalentBubbleTest extends CleanTestBase {
 		brick = _subject.module1();
 		assertEquals(1, brick.itemCount());
 		assertEquals("Bar", brick.getItem("Bar").name());
+	}
+	
+	
+	@Ignore
+	@Test //(timeout = 3000)
+	public void mutableTransientObjects_LikeProprietaryCollections_CanBeReturnedIfNotUsedInTransactionPath() {
+		SomeModule module = _subject.module1();
+		module.addItem("item1");
+		Item item = module.getItem("item1");
+		Box box = module.itemsInBoxes().get(0);
+		assertSame(item, box.item());
 	}
 	
 	

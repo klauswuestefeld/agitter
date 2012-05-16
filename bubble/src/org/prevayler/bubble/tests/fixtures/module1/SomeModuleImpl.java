@@ -122,5 +122,14 @@ public class SomeModuleImpl implements SomeModule, Serializable {
 		if (arrayWithSingleItem.length != 1) throw new IllegalStateException();
 		return removerFor(arrayWithSingleItem[0]);
 	}
+
+
+	@Override
+	public List<Box> itemsInBoxes() {
+		List<Box> ret = new ArrayList<Box>();
+		for (Item item : _items)
+			ret.add(new BoxImpl(item));
+		return ret ;
+	}
 	
 }
