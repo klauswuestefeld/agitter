@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
@@ -139,8 +138,7 @@ public class PrevalentBubbleTest extends CleanTestBase {
 	}
 	
 	
-	@Ignore
-	@Test //(timeout = 3000)
+	@Test (timeout = 3000)
 	public void mutableTransientObjects_LikeProprietaryCollections_CanBeReturnedIfNotUsedInTransactionPath() {
 		SomeModule module = _subject.module1();
 		module.addItem("item1");

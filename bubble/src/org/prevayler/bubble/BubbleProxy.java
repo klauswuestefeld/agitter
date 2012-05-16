@@ -43,7 +43,6 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private BubbleProxy(ProducerX<Object, ? extends Exception> producer) {
-		if (producer == null) throw new IllegalArgumentException("Possible Cause: mutable objects returned by the domain were not registered using: PrevalentBubble.getIdMap().register(obj)");
 		_invocationPath = producer;
 	}
 
@@ -75,7 +74,7 @@ class BubbleProxy implements InvocationHandler {
 	}
 
 
-	private Object wrapIfNecessary(Object object, ProducerX<Object, Exception> path) {
+	private Object wrapIfNecessary(final Object object, ProducerX<Object, Exception> path) {
 		if (object == null) return object;
 		
 		Class<?> type = object.getClass();
@@ -91,6 +90,11 @@ class BubbleProxy implements InvocationHandler {
 
 		if (Immutable.isImmutable(type)) return object;
 		if (ReadOnly.class.isAssignableFrom(type)) return object;
+		
+		if (path == null)
+			path = new ProducerX<Object, Exception>() { @Override public Object produce() throws Exception {
+				return object;
+			}};
 		
 		return wrapped(object, path);
 	}
