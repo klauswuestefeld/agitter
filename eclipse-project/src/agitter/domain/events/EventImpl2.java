@@ -164,26 +164,19 @@ public class EventImpl2 implements Event {
 	
 	@Override
 	public long[] datetimesToCome() {
-		final long start = twoHoursAgo();
-
-		int count = 0;
-		long[] ret = new long[actualOccurrences().size()];
-		for (OccurrenceImpl occ : actualOccurrences()) 
-			if (occ.datetime() >= start)
-				ret[count++] = occ.datetime();
-		
-		return Arrays.copyOf(ret, count);
+		return datetimesToComeFilteredBy(null);
 	}
 
-	@Override
-	public long[] datetimesInterestingFor(User user) {
+	long[] datetimesToComeFilteredBy(User user) {
 		final long start = twoHoursAgo();
 
 		int count = 0;
 		long[] ret = new long[actualOccurrences().size()];
-		for (OccurrenceImpl occ : actualOccurrences())
-			if (occ.datetime() >= start && occ.attendance(user) != NOT_GOING)
-				ret[count++] = occ.datetime();
+		for (OccurrenceImpl occ : actualOccurrences()) {
+			if (occ.datetime() < start) continue;
+			if (user != null && occ.attendance(user) == NOT_GOING) continue;
+			ret[count++] = occ.datetime();
+		}
 
 		return Arrays.copyOf(ret, count);
 	}

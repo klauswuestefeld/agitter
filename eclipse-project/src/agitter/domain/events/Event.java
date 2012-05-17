@@ -23,7 +23,6 @@ public interface Event {
 	void addDate(long date);
 	void removeDate(long date);
 	void changeDate(long from, long to);
-	long[] datetimesInterestingFor(User user);
 	long[] datetimes();
 	long[] datetimesToCome();
 

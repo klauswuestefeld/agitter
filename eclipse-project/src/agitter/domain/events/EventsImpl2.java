@@ -2,13 +2,11 @@ package agitter.domain.events;
 
 import java.util.*;
 
-import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 public class EventsImpl2 implements Events {
-	private static final long TWO_HOURS = 1000 * 60 * 60 * 2;
-	
+
 	private long lastId = 0;
 	
 	//Vitor: Important, don't assume _all is sorted by date. Multiple dates had broken this logic! 
@@ -28,7 +26,7 @@ public class EventsImpl2 implements Events {
 		for(Event e : _all) {
 			if (!e.isVisibleTo(user)) continue;
 			if (!e.isInterested(user)) continue;
-			accumulateOccurences(ret, e, e.datetimesInterestingFor(user));
+			accumulateOccurences(ret, e, ((EventImpl2)e).datetimesToComeFilteredBy(user));
 		}
 		Collections.sort(ret);
 		return ret;
