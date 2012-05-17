@@ -4,9 +4,9 @@ import static utils.XssAttackSanitizer.ultraConservativeFilter;
 
 import java.util.List;
 
+import agitter.domain.events.EventOcurrence;
 import sneer.foundation.lang.Clock;
 import agitter.controller.AuthenticationToken;
-import agitter.domain.events.Event;
 import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;
 
@@ -23,7 +23,7 @@ public class EventsMailFormatter {
 	private static final long TWO_DAYS = 1000 * 60 * 60 * 24 * 2;
 
 
-	public String format(User u, List<Event> events) {
+	public String format(User u, List<EventOcurrence> events) {
 		return BODY
 			.replaceAll("%EVENT_LIST%", eventList(events))
 			.replaceAll("%AUTH%", authUri(u));
@@ -33,16 +33,16 @@ public class EventsMailFormatter {
 		return new AuthenticationToken(u.email(), Clock.currentTimeMillis() + TWO_DAYS).asSecureURI();
 	}
 
-	private String eventList(List<Event> events) {
+	private String eventList(List<EventOcurrence> events) {
 		StringBuffer result = new StringBuffer();
 		HTMLFormatter formatter = new HTMLFormatter();
-		for(Event e : events) {
+		for(EventOcurrence occ : events) {
 			if (result.length() != 0)
 				result.append("<BR/><BR/>");
-			result.append(ultraConservativeFilter(e.owner().screenName()));
+			result.append(ultraConservativeFilter(occ.event().owner().screenName()));
 			result.append(" - ");
 			//result.append(ultraConservativeFilter(e.description()));
-			result.append(formatter.makeClickable(e.description()));
+			result.append(formatter.makeClickable(occ.event().description()));
 		}
 		return result.toString();
 	}

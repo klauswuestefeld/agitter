@@ -6,8 +6,8 @@ import static java.util.Calendar.SATURDAY;
 import java.util.List;
 import java.util.logging.Level;
 
+import agitter.domain.events.EventOcurrence;
 import utils.DateUtils;
-import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 
@@ -45,14 +45,14 @@ public class MailingRound {
 
 	private void tryToSendRemindersTo(User user) {
 		if (user.hasUnsubscribedFromEmails()) return;
-		List<Event> toSend = _chooser.choose(user);
+		List<EventOcurrence> toSend = _chooser.choose(user);
 		if (toSend.isEmpty()) return;
 		getLogger(this).info("Sending events to user: " + user);
 		sendReminderTo(user, toSend);
 	}
 
 
-	private void sendReminderTo(User u, List<Event> toSend) {
+	private void sendReminderTo(User u, List<EventOcurrence> toSend) {
 		String body = this._formatter.format(u, toSend);
 		this._sender.send(u.email(), SUBJECT, body);
 	}

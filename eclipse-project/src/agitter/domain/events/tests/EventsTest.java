@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Ignore;
+import agitter.domain.events.EventOcurrence;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -24,7 +24,7 @@ public class EventsTest extends EventsTestBase {
 	public void addNew() throws Exception {
 		createEvent(ana, "Dinner at Joes", 1000);
 		assertEquals(1, subject.toHappen(ana).size());
-		Event event = subject.toHappen(ana).iterator().next();
+		Event event = subject.toHappen(ana).iterator().next().event();
 		assertEquals("Dinner at Joes", event.description());
 		assertEquals(1000, event.datetimes()[0]);
 	}
@@ -47,7 +47,7 @@ public class EventsTest extends EventsTestBase {
 	}
 
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void changingEventTime() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
@@ -59,10 +59,10 @@ public class EventsTest extends EventsTestBase {
 		secondEvent.addDate(16);
 		secondEvent.removeDate(12);
 
-		assertEquals(3, subject.toHappen(ana).size());
-		assertSame(firstEvent, subject.toHappen(ana).get(0));
-		assertSame(thirdEvent, subject.toHappen(ana).get(1));
-		assertSame(secondEvent, subject.toHappen(ana).get(2));		
+		assertEquals(5, subject.toHappen(ana).size());
+		assertSame(firstEvent, subject.toHappen(ana).get(0).event());
+		assertSame(thirdEvent, subject.toHappen(ana).get(1).event());
+		assertSame(secondEvent, subject.toHappen(ana).get(2).event());
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class EventsTest extends EventsTestBase {
 		Event event = createEvent(ana, "Party", 11);
 		event.setDescription(ana, "Funeral");
 
-		assertEquals("Funeral", subject.toHappen(ana).get(0).description());
+		assertEquals("Funeral", subject.toHappen(ana).get(0).event().description());
 	}
 
 	@Test
@@ -82,9 +82,11 @@ public class EventsTest extends EventsTestBase {
 		firstEvent.addDate(17);
 		firstEvent.addDate(14);
 		
-		assertSame(firstEvent, subject.toHappen(ana).get(0));
-		assertSame(secondEvent, subject.toHappen(ana).get(1));
-		assertSame(thirdEvent, subject.toHappen(ana).get(2));			
+		assertSame(firstEvent, subject.toHappen(ana).get(0).event());
+		assertSame(firstEvent, subject.toHappen(ana).get(1).event());
+		assertSame(secondEvent, subject.toHappen(ana).get(2).event());
+		assertSame(firstEvent, subject.toHappen(ana).get(3).event());
+		assertSame(thirdEvent, subject.toHappen(ana).get(4).event());
 	}
 	
 
@@ -179,25 +181,24 @@ public class EventsTest extends EventsTestBase {
 		Event thirdEvent = createEvent(ana, "D3", 13);
 
 		assertEquals(3, subject.toHappen(ana).size());
-		assertSame(firstEvent, subject.toHappen(ana).get(0));
-		assertSame(secondEvent, subject.toHappen(ana).get(1));
-		assertSame(thirdEvent, subject.toHappen(ana).get(2));
+		assertSame(firstEvent, subject.toHappen(ana).get(0).event());
+		assertSame(secondEvent, subject.toHappen(ana).get(1).event());
+		assertSame(thirdEvent, subject.toHappen(ana).get(2).event());
 
 		Clock.setForCurrentThread(TWO_HOURS + 12);
 		assertEquals(2, subject.toHappen(ana).size());
-		assertFalse(subject.toHappen(ana).contains(firstEvent));
-		assertTrue(subject.toHappen(ana).contains(secondEvent));
-		assertTrue(subject.toHappen(ana).contains(thirdEvent));
+		assertFalse(toEvents(subject.toHappen(ana)).contains(firstEvent));
+		assertTrue(toEvents(subject.toHappen(ana)).contains(secondEvent));
+		assertTrue(toEvents(subject.toHappen(ana)).contains(thirdEvent));
 		
 		Clock.setForCurrentThread(TWO_HOURS + 13);
 		assertEquals(1, subject.toHappen(ana).size());
-		assertTrue(subject.toHappen(ana).contains(thirdEvent));
+		assertTrue(toEvents(subject.toHappen(ana)).contains(thirdEvent));
 
 		Clock.setForCurrentThread(TWO_HOURS + 14);
-		assertTrue(subject.toHappen(ana).isEmpty());
+		assertTrue(toEvents(subject.toHappen(ana)).isEmpty());
 	}
-	
-	
+
 	@Test
 	public void notInterested() throws Refusal {
 		Event event = createEvent(ana, "Dinner at Joes", 1000, jose);

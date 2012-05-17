@@ -3,18 +3,16 @@ package agitter.ui.presenter;
 import static agitter.domain.events.Event.Attendance.GOING;
 import static agitter.domain.events.Event.Attendance.MAYBE;
 import static agitter.domain.events.Event.Attendance.NOT_GOING;
-import static agitter.ui.presenter.EventsPresenter.Scope.ALL_EVENTS;
-import static agitter.ui.presenter.EventsPresenter.Scope.INTERESTING_EVENTS;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import agitter.domain.events.EventOcurrence;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -29,13 +27,10 @@ import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
 import agitter.ui.view.session.events.EventListView;
 import agitter.ui.view.session.events.EventListView.Boss;
 import agitter.ui.view.session.events.EventVO;
-import agitter.ui.view.session.events.EventVOComparator;
 import agitter.ui.view.session.events.EventsView;
 
 public class EventsPresenter implements Boss, EventsView.Boss {
 
-	enum Scope { ALL_EVENTS, INTERESTING_EVENTS }
-	
 	private static final int MAX_EVENTS_TO_SHOW = 40;
 	
 	private final User user;
@@ -101,7 +96,7 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 		try {
 			if(string != null && !string.isEmpty())
 				return Long.parseLong(string, 36);
-		} catch(NumberFormatException e) {}
+		} catch(NumberFormatException e) { return null; }
 		return null;
 	}
 
@@ -165,15 +160,12 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	
 	synchronized private void refreshEventList() {
-		if (searchFragment.isEmpty())
-			eventsListView().refresh(eventsToHappen(), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
-		else
-			eventsListView().refresh(getEventsFrom(events.search(user, searchFragment),Integer.MAX_VALUE, ALL_EVENTS), SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
-		
+		List<EventVO> eventsVOs = searchFragment.isEmpty()
+			? eventsToHappen() : search();
+		eventsListView().refresh(eventsVOs, SimpleTimer.MILLIS_TO_SLEEP_BETWEEN_ROUNDS);
 		eventsListView().setSelectedEvent(eventSelected);
 	}
 
-	
 	private EventListView eventsListView() {
 		if (eventListView == null) {
 			eventListView = view.initEventListView();
@@ -185,37 +177,32 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 
 	
 	private List<EventVO> eventsToHappen() {
-		return getEventsFrom(events.toHappen(user), MAX_EVENTS_TO_SHOW, INTERESTING_EVENTS);
+		return asEventVOs(events.toHappen(user), MAX_EVENTS_TO_SHOW);
+	}
+	private List<EventVO> search() {
+		return asEventVOs(events.search(user, searchFragment), Integer.MAX_VALUE);
 	}
 
-	private List<EventVO> getEventsFrom(List<Event> eventsList, int maximumNumberOfEvents, Scope scope) {
+	private List<EventVO> asEventVOs(List<EventOcurrence> eventsList, int maximumNumberOfEvents) {
 		List<EventVO> result = new ArrayList<EventVO>();
-		
-		for (Event event : eventsList) {
-			long[] interesting = (scope == ALL_EVENTS)
-				? event.datetimes()
-				: event.datetimesInterestingFor(user); 
-			
-			for (long date : interesting)
-				result.add(asValueObject(event, date));
-			
+		for (EventOcurrence occurrence : eventsList) {
+			result.add(asValueObject(occurrence));
 			if (result.size() == maximumNumberOfEvents) break;
 		}
-		
-		Collections.sort(result, new EventVOComparator());
 		return result;
 	}
 
-	private EventVO asValueObject(Event event, long date) {
+	private EventVO asValueObject(EventOcurrence occ) {
+		Event event = occ.event();
+
 		User[] invitees = event.allResultingInvitees();
-		
-		return new EventVO(event, event.description(), 
-			date, event.owner().screenName(), 
+		return new EventVO(event, event.description(),
+			occ.datetime(), event.owner().screenName(),
 			event.isEditableBy(user),
 			invitees.length, 
 			uniqueGroupOrUserInvited(invitees), 
 			isUniqueUserInvited(invitees), 
-			event.attendance(user, date) == GOING);
+			event.attendance(user, occ.datetime()) == GOING);
 	}
 	
 		

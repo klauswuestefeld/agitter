@@ -16,7 +16,7 @@ public interface Events {
 	void delete(User user, Event event);
 
 	Event get(long eventId);
-	List<Event> toHappen(User user);
-	List<Event> search(User user, String fragment);
+	List<EventOcurrence> toHappen(User user);
+	List<EventOcurrence> search(User user, String fragment);
 
 }

@@ -1,14 +1,14 @@
 package agitter.controller.mailing;
 
-import static java.util.Calendar.FRIDAY;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.DateUtils;
-import agitter.domain.events.Event;
+import agitter.domain.events.EventOcurrence;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
+import utils.DateUtils;
+
+import static java.util.Calendar.FRIDAY;
 
 public class EventChooserForReminders {
 
@@ -25,31 +25,25 @@ public class EventChooserForReminders {
 	}
 
 
-	List<Event> choose(User user) {
-		List<Event> result = new ArrayList<Event>(MAX_EVENTS_TO_SEND);
-		List<Event> candidates = events.toHappen(user);
-		for (Event e : candidates) {
-			if (result.size() == MAX_EVENTS_TO_SEND) break;
-			if (!isTimeToRemindAbout(e, user)) continue;
+	List<EventOcurrence> choose(User user) {
+		List<EventOcurrence> result = new ArrayList<EventOcurrence>(MAX_EVENTS_TO_SEND);
+		List<EventOcurrence> candidates = events.toHappen(user);
+		for(EventOcurrence e : candidates) {
+			if(result.size()==MAX_EVENTS_TO_SEND) { break; }
+			if(!isTimeToRemindAbout(e)) { continue; }
 			result.add(e);
 		}
 		return result;
 	}
 
-	
-	private boolean isTimeToRemindAbout(Event e, User user) {
-		for (long datetime : e.datetimesInterestingFor(user)) 
-			if (datetime >= this._startTime && datetime < this._endTime)
-				return true;
-		
-		return false;
+	private boolean isTimeToRemindAbout(EventOcurrence e) {
+		return e.datetime() >= this._startTime && e.datetime() < this._endTime;
 	}
-	
 
 	private long endTime() {
 		return DateUtils.isToday(FRIDAY)
-			? DateUtils.daysFromNow(3)
-			: DateUtils.daysFromNow(2);
+				? DateUtils.daysFromNow(3)
+				: DateUtils.daysFromNow(2);
 	}
 
 }

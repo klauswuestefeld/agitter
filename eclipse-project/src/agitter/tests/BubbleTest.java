@@ -2,6 +2,7 @@ package agitter.tests;
 
 import static agitter.domain.emails.EmailAddress.email;
 
+import agitter.domain.events.EventOcurrence;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -23,7 +24,8 @@ public class BubbleTest extends CleanTestBase {
 		User ana = agitter.users().signup(email("ana@email.com"), "abc123");
 		Events events = agitter.events();
 		events.create(ana, "dinner", 10);
-		Event event = events.toHappen(ana).get(0);
+		EventOcurrence eventOcurrence = events.toHappen(ana).get(0);
+		Event event = eventOcurrence.event();
 		event.invite(ana, jose());
 		
 		User jose = agitter.users().searchByEmail(email("jose@email.com"));

@@ -1,5 +1,10 @@
 package agitter.domain.users.tests;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import agitter.domain.events.EventOcurrence;
+import agitter.domain.events.tests.EventsTestBase;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -10,7 +15,7 @@ import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.domain.users.Users.UserNotFound;
 
-public class JoinAccountsTest extends UsersTestBase {
+public class JoinAccountsTest extends EventsTestBase {
 
 	@Test
 	public void joinAccounts() throws Refusal {
@@ -27,15 +32,15 @@ public class JoinAccountsTest extends UsersTestBase {
 		Event paulo3 = createEvent(paulo, "Evento do Paulo 3", 10, jose);
 		
 		assertContentsInAnyOrder(
-				agitter.events().toHappen(ana),
-				ana1, ana2, ana3, jose2);	
+				toEvents(agitter.events().toHappen(ana)),
+				ana1, ana2, ana3, jose2);
 		
 		assertContentsInAnyOrder(
-				agitter.events().toHappen(jose),
+				toEvents(agitter.events().toHappen(jose)),
 				ana1, ana3, jose1, jose2, jose3, paulo1, paulo2, paulo3);	
 		
 		assertContentsInAnyOrder(
-				agitter.events().toHappen(paulo),
+				toEvents(agitter.events().toHappen(paulo)),
 				ana1, ana2, ana3, jose1, paulo1, paulo2, paulo3);	
 		
 		assertEquals(0, agitter.contacts().contactsOf(ana).all().size());
@@ -60,11 +65,11 @@ public class JoinAccountsTest extends UsersTestBase {
 		agitter.mergeAccountsIfNecessary(ana.email().toString(), jose.email().toString());
 		
 		assertContentsInAnyOrder(
-				agitter.events().toHappen(ana),
+				toEvents(agitter.events().toHappen(ana)),
 				ana1, ana2, ana3, jose1, jose2, jose3, paulo1, paulo2, paulo3);	
 		
 		assertContentsInAnyOrder(
-				agitter.events().toHappen(jose),
+				toEvents(agitter.events().toHappen(jose)),
 				ana1, ana3, paulo1, paulo2, paulo3);
 		
 		try {
@@ -86,12 +91,8 @@ public class JoinAccountsTest extends UsersTestBase {
 	}
 
 	protected final Events subject = agitter.events();
-	protected final User ana = user("Ana", "ana@email.com", "123x");
-	protected final User jose = user("Jose", "jose@email.com", "123x");
-	protected final User paulo = user("Paulo", "paulo@email.com", "123x");
-	protected final User pedro = user("Pedro", "Pedro@email.com", "123x");
 	protected final User joao = user("João", "joao@email.com", "123x");
-	
+
 	
 	protected Event createEvent(User owner, String description, long startTime, User... invitees) throws Refusal {
 		return createEvent(subject, owner, description, startTime, invitees);
@@ -101,9 +102,9 @@ public class JoinAccountsTest extends UsersTestBase {
 		Event event = events.create(owner, description, startTime);
 		for (User user : invitees)
 			event.invite(owner, user);
-		for (Event candidate : events.toHappen(owner))
-			if (candidate.description().equals(description) && candidate.datetimes()[0] == startTime)
-				return candidate;
+		for (EventOcurrence candidate : events.toHappen(owner))
+			if (candidate.event().description().equals(description) && candidate.datetime()== startTime)
+				return candidate.event();
 		throw new IllegalStateException("Newly created event not found.");
 	}
 

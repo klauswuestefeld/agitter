@@ -1,6 +1,10 @@
 package agitter.domain.events.tests;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import agitter.domain.events.EventOcurrence;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
@@ -25,9 +29,9 @@ public abstract class EventsTestBase extends UsersTestBase {
 		Event event = events.create(owner, description, startTime);
 		for (User user : invitees)
 			event.invite(owner, user);
-		for (Event candidate : events.toHappen(owner))
-			if (candidate.description().equals(description) && candidate.datetimes()[0] == startTime)
-				return candidate;
+		for (EventOcurrence candidate : events.toHappen(owner))
+			if (candidate.event().description().equals(description) && candidate.event().datetimes()[0] == startTime)
+				return candidate.event();
 		throw new IllegalStateException("Newly created event not found.");
 	}
 
@@ -36,11 +40,19 @@ public abstract class EventsTestBase extends UsersTestBase {
 		Event event = events.create(owner, description, dates[0]);
 		for (int i=1; i<dates.length; i++) 
 			event.addDate(dates[i]);
-		for (Event candidate : events.toHappen(owner))
-			if (candidate.description().equals(description) && candidate.datetimes()[0] == dates[0])
-				return candidate;
+		for (EventOcurrence candidate : events.toHappen(owner))
+			if (candidate.event().description().equals(description) && candidate.event().datetimes()[0] == dates[0])
+				return candidate.event();
 		throw new IllegalStateException("Newly created event not found.");
 	}
-	
+
+	protected List<Event> toEvents(List<EventOcurrence> eventOcurrences) {
+		List<Event> ret = new ArrayList<Event>();
+		for(EventOcurrence occ : eventOcurrences)
+			ret.add(occ.event());
+		return ret;
+	}
+
+
 
 }

@@ -1,9 +1,6 @@
 package agitter.domain.events;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
@@ -23,30 +20,36 @@ public class EventsImpl2 implements Events {
 		_all.add(event);
 		return event;
 	}
-	
-	
-	private boolean willHappen(Event e) {
-		final long twoHoursAgo = Clock.currentTimeMillis() - TWO_HOURS;
-		
-		for (long datetime : e.datetimes()) { 
-			if (datetime >= twoHoursAgo)
-				return true;
-		}
-		return false;
-	}
+
 
 	@Override
-	public List<Event> toHappen(User user) {		
-		List<Event> result = new ArrayList<Event>();
+	public List<EventOcurrence> toHappen(User user) {
+		List<EventOcurrence> ret = new ArrayList<EventOcurrence>();
 		for(Event e : _all) {
-			if (!willHappen(e)) continue;
 			if (!e.isVisibleTo(user)) continue;
 			if (!e.isInterested(user)) continue;
-			result.add(e);
+			accumulateOccurences(ret, e, e.datetimesInterestingFor(user));
 		}
-		return result;
+		Collections.sort(ret);
+		return ret;
 	}
-	
+	@Override
+	public List<EventOcurrence> search(User user, String fragment) {
+		fragment = fragment.toLowerCase();
+		List<EventOcurrence> ret = new ArrayList<EventOcurrence>();
+		for (Event e : _all) {
+			if (!e.isVisibleTo(user)) continue;
+			if (!e.description().toLowerCase().contains(fragment)) continue;
+			accumulateOccurences(ret, e, e.datetimes());
+		}
+		Collections.sort(ret);
+		return ret;
+	}
+
+	private void accumulateOccurences(List<EventOcurrence> ret, Event e, long[] datetimes) {
+		for(long ocurrence : datetimes)
+			ret.add(new EventOcurrenceImpl(e, ocurrence));
+	}
 
 	@Override
 	public void delete(User user, Event event) {
@@ -75,15 +78,4 @@ public class EventsImpl2 implements Events {
 			e.transferOwnershipIfNecessary(receivingEvents, beingDropped);			
 	}
 
-	@Override
-	public List<Event> search(User user, String fragment) {
-		fragment = fragment.toLowerCase();
-		List<Event> ret = new ArrayList<Event>();
-		for (Event e : _all) {
-			if (!e.description().toLowerCase().contains(fragment)) continue; //Which is faster?
-			if (!e.isVisibleTo(user)) continue; //Which is faster?
-			ret.add(e);
-		}
-		return ret;
-	}
 }
