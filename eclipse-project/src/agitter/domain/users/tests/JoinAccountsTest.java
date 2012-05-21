@@ -1,10 +1,5 @@
 package agitter.domain.users.tests;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import agitter.domain.events.EventOcurrence;
-import agitter.domain.events.tests.EventsTestBase;
 import org.junit.Test;
 
 import sneer.foundation.lang.exceptions.Refusal;
@@ -12,6 +7,7 @@ import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
+import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
 import agitter.domain.users.Users.UserNotFound;
 
@@ -92,20 +88,5 @@ public class JoinAccountsTest extends EventsTestBase {
 
 	protected final Events subject = agitter.events();
 	protected final User joao = user("João", "joao@email.com", "123x");
-
-	
-	protected Event createEvent(User owner, String description, long startTime, User... invitees) throws Refusal {
-		return createEvent(subject, owner, description, startTime, invitees);
-	}
-
-	protected Event createEvent(Events events, User owner, String description, long startTime, User... invitees) throws Refusal {
-		Event event = events.create(owner, description, startTime);
-		for (User user : invitees)
-			event.invite(owner, user);
-		for (EventOcurrence candidate : events.toHappen(owner))
-			if (candidate.event().description().equals(description) && candidate.datetime()== startTime)
-				return candidate.event();
-		throw new IllegalStateException("Newly created event not found.");
-	}
 
 }

@@ -4,9 +4,9 @@ package agitter.domain.events.tests;
 import java.util.ArrayList;
 import java.util.List;
 
-import agitter.domain.events.EventOcurrence;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.events.Event;
+import agitter.domain.events.EventOcurrence;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.domain.users.tests.UsersTestBase;
@@ -41,7 +41,7 @@ public abstract class EventsTestBase extends UsersTestBase {
 		for (int i=1; i<dates.length; i++) 
 			event.addDate(dates[i]);
 		for (EventOcurrence candidate : events.toHappen(owner))
-			if (candidate.event().description().equals(description) && candidate.event().datetimes()[0] == dates[0])
+			if (candidate.event().description().equals(description) && candidate.datetime() == dates[0])
 				return candidate.event();
 		throw new IllegalStateException("Newly created event not found.");
 	}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import agitter.domain.events.EventOcurrence;
 import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
@@ -47,7 +46,6 @@ public class EventsTest extends EventsTestBase {
 	}
 
 
-//	@Ignore
 	@Test
 	public void changingEventTime() throws Refusal {
 		Event firstEvent = createEvent(ana, "D1", 11);
