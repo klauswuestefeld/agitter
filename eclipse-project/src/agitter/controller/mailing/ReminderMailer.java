@@ -6,10 +6,10 @@ import java.util.logging.Level;
 
 import agitter.domain.Agitter;
 
-public class PeriodicScheduleMailer {
+public class ReminderMailer {
 
 	public static void start(Agitter agitter, EmailSender sender) {
-		final PeriodicScheduleMailer instance = new PeriodicScheduleMailer(agitter, sender);
+		final ReminderMailer instance = new ReminderMailer(agitter, sender);
 		new Thread() { { setDaemon(true); } @Override public void run() {
 			while(true) {
 				instance.sendEventRemindersIfNecessary();
@@ -22,7 +22,7 @@ public class PeriodicScheduleMailer {
 	private final EmailSender sender;
 	private final Agitter agitter;
 
-	public PeriodicScheduleMailer(Agitter agitter, EmailSender sender) {
+	public ReminderMailer(Agitter agitter, EmailSender sender) {
 		this.agitter = agitter;
 		this.sender = sender;
 	}

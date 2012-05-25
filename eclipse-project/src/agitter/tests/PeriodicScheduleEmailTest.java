@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.exceptions.Refusal;
-import agitter.controller.mailing.PeriodicScheduleMailer;
+import agitter.controller.mailing.ReminderMailer;
 import agitter.controller.mailing.tests.EmailSenderMock;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
@@ -199,7 +199,7 @@ public class PeriodicScheduleEmailTest extends EventsTestBase {
 
 	private EmailSenderMock sendEmailsAndCaptureLast() {
 		EmailSenderMock emailSenderMock = new EmailSenderMock();
-		PeriodicScheduleMailer daemon = new PeriodicScheduleMailer(agitter, emailSenderMock);
+		ReminderMailer daemon = new ReminderMailer(agitter, emailSenderMock);
 		daemon.sendEventRemindersIfNecessary();
 		return emailSenderMock;
 	}
