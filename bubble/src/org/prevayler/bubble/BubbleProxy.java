@@ -36,17 +36,19 @@ class BubbleProxy implements InvocationHandler {
 		if (isRegistered(object))
 			path = new MapLookup(object);
 
-		InvocationHandler handler = new BubbleProxy(path);
+		InvocationHandler handler = new BubbleProxy(object, path);
 		Class<?> delegateClass = object.getClass();
 		return Proxy.newProxyInstance(delegateClass.getClassLoader(), Classes.allInterfacesOf(delegateClass), handler);
 	}
 
 
-	private BubbleProxy(ProducerX<Object, ? extends Exception> producer) {
+	private BubbleProxy(Object wrappedObject, ProducerX<Object, ? extends Exception> producer) {
+		_wrappedObject = wrappedObject;
 		_invocationPath = producer;
 	}
 
 
+	private final Object _wrappedObject;
 	private final ProducerX<Object, ? extends Exception> _invocationPath;
 	
 	
@@ -68,7 +70,7 @@ class BubbleProxy implements InvocationHandler {
 
 
 	private Object invokeQuery(Method method, Object[] args) throws Exception {
-		QueryInvocation extendedPath = new QueryInvocation(_invocationPath, method, args);
+		QueryInvocation extendedPath = new QueryInvocation(_wrappedObject, _invocationPath, method, args);
 		Object ret = PrevalentBubble.execute(extendedPath);
 		return wrapIfNecessary(ret, extendedPath);
 	}

@@ -20,14 +20,14 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	@Override
 	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
-		return produceInsidePrevalence(prevalentSystem, datetime);
+		return invokeInsidePrevalence(prevalentSystem, datetime);
 	}
 
 
 	@Override
-	public Object produce() throws Exception {
+	protected Object invoke() throws Exception {
 		try {
-			return produceAndRegister();
+			return invokeAndRegisterResult();
 		} catch (RuntimeException rx) {
 			if (PrevalentBubble.isReplayingTransactions())
 				Logger.log(rx, "Exception thrown while replaying prevalent transactions: " + rx.getMessage());
@@ -36,8 +36,8 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	}
 
 
-	private Object produceAndRegister() throws Exception {
-		Object result = super.produce();
+	private Object invokeAndRegisterResult() throws Exception {
+		Object result = super.invoke();
 		PrevalentBubble.idMap().registerIfNecessary(result);
 		return result;
 	}

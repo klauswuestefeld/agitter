@@ -8,13 +8,14 @@ import java.util.Date;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.ProducerX;
 
-abstract class Invocation implements ProducerX<Object, Exception>, Serializable {
+abstract class Invocation implements Serializable {
 
 	Invocation(ProducerX<Object, ? extends Exception> targetProducer, Method method, Object[] args) {
 		_targetProducer = targetProducer;
 		_method = method.getName();
 		_argsTypes = method.getParameterTypes();
 		_args = args;
+		
 		PrevalentBubble.idMap().marshal(_args);
 	}
 
@@ -25,21 +26,19 @@ abstract class Invocation implements ProducerX<Object, Exception>, Serializable 
 	private final Object[] _args;
 	
 	
-	@Override
-	public Object produce() throws Exception {
-		Object target = _targetProducer.produce();
-		return invokeOn(target);
+	protected Object invoke() throws Exception {
+		return invokeOn(target());
 	}
 
 
-	protected Object produceInsidePrevalence(Object prevalentSystem, Date datetime) throws Exception {
+	protected Object invokeInsidePrevalence(Object prevalentSystem, Date datetime) throws Exception {
 		PrevalentBubble.setPrevalentSystemIfNecessary((IdMap)prevalentSystem);
 	
 		Long clockState = Clock.memento();
 		Clock.setForCurrentThread(datetime.getTime());
 		PrevalenceFlag.setInsidePrevalence(true);
 		try {
-			return produce();
+			return invoke();
 		} finally {
 			PrevalenceFlag.setInsidePrevalence(false);
 			Clock.restore(clockState);
@@ -61,15 +60,25 @@ abstract class Invocation implements ProducerX<Object, Exception>, Serializable 
 	}
 
 
-	private Method methodOn(Object receiver) throws NoSuchMethodException {
-		Method method = receiver.getClass().getMethod(_method, _argsTypes);
-		method.setAccessible(true);
-		return method;
+	protected Method methodOn(Object receiver) throws NoSuchMethodException {
+		return accessible(receiver.getClass().getMethod(_method, _argsTypes));
 	}
 
 	
+	protected Object target() throws Exception {
+		return _targetProducer.produce();
+	}
+	
+	
 	static private Object[] unmarshal(Object[] args) {
 		return PrevalentBubble.idMap().unmarshal(args);
+	}
+
+	
+	protected static Method accessible(Method method) {
+		if (method != null)
+			method.setAccessible(true);
+		return method;
 	}
 
 	
