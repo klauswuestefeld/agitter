@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import agitter.domain.events.EventOcurrence;
 import sneer.foundation.lang.Clock;
 import sneer.foundation.lang.Consumer;
 import sneer.foundation.lang.Functor;
@@ -21,6 +20,7 @@ import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;
+import agitter.domain.events.EventOcurrence;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.ui.presenter.SimpleTimer.HandleToAvoidLeaks;
@@ -184,12 +184,12 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	}
 
 	private List<EventVO> asEventVOs(List<EventOcurrence> eventsList, int maximumNumberOfEvents) {
-		List<EventVO> result = new ArrayList<EventVO>();
-		for (EventOcurrence occurrence : eventsList) {
-			result.add(asValueObject(occurrence));
-			if (result.size() == maximumNumberOfEvents) break;
+		List<EventVO> ret = new ArrayList<EventVO>();
+		for (EventOcurrence occurrence : eventsList) { //Optimize: This causes several queries on the model across the bubble. Create some sort of mechanism to run arbitrary query code inside the bubble.
+			ret.add(asValueObject(occurrence));
+			if (ret.size() == maximumNumberOfEvents) break;
 		}
-		return result;
+		return ret;
 	}
 
 	private EventVO asValueObject(EventOcurrence occ) {
