@@ -1,7 +1,5 @@
 package agitter.domain.events;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -24,40 +22,26 @@ public class EventsImpl2 implements Events {
 	}
 
 
-	private List<EventOcurrence> search(User user, String fragment, boolean onlyInteresting) {
-		List<EventOcurrence> ret = new ArrayList<EventOcurrence>();
-		for(Event e : _all)
-			accumulateOccurences(ret, e, user, onlyInteresting, fragment);
-		Collections.sort(ret);
-		return ret;
+	@Override
+	public List<EventOcurrence> toHappen(User user) {
+		return new OccurrenceSelector(user, _all) { @Override long[] datetimesToVisit(Event e, User user) {
+			if (!e.isInterested(user)) return null;
+			return ((EventImpl2)e).datetimesToComeFilteredBy(user);
+		}}.result;
+
 	}
 
 	
-	private void accumulateOccurences(List<EventOcurrence> ret, Event e, User user, boolean onlyInteresting, String fragment) {
-		if (!e.isVisibleTo(user)) return;
-		if (onlyInteresting && !e.isInterested(user)) return;
-		if (fragment != null && !e.description().toLowerCase().contains(fragment)) return;
-		long[] datetimes = onlyInteresting
-			? ((EventImpl2)e).datetimesToComeFilteredBy(user)
-			: e.datetimes();
-		accumulateOccurences(ret, e, datetimes);
-	}
-
-
-	@Override
-	public List<EventOcurrence> toHappen(User user) {
-		return search(user, null, true);
-	}
 	@Override
 	public List<EventOcurrence> search(User user, String caseInsensitiveFragment) {
-		String fragment = caseInsensitiveFragment.toLowerCase();
-		return search(user, fragment, false);
+		final String fragment = caseInsensitiveFragment.toLowerCase();
+		return new OccurrenceSelector(user, _all) { @Override long[] datetimesToVisit(Event e, User user) {
+			if (!e.description().toLowerCase().contains(fragment)) return null;
+			return e.datetimes();
+		}}.result;
 	}
 
-	private void accumulateOccurences(List<EventOcurrence> ret, Event e, long[] datetimes) {
-		for(long ocurrence : datetimes)
-			ret.add(new EventOcurrenceImpl(e, ocurrence));
-	}
+	
 
 	@Override
 	public void delete(User user, Event event) {
@@ -71,6 +55,7 @@ public class EventsImpl2 implements Events {
 		return ++lastId;
 	}
 
+	
 	@Override
 	public Event get(long eventId) {
 		for (Event e: _all)
@@ -79,6 +64,7 @@ public class EventsImpl2 implements Events {
 				
 		return null;
 	}
+	
 	
 	@Override
 	public void transferEvents(User receivingEvents, User beingDropped) {
