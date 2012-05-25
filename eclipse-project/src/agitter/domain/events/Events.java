@@ -17,6 +17,6 @@ public interface Events {
 
 	Event get(long eventId);
 	List<EventOcurrence> toHappen(User user);
-	List<EventOcurrence> search(User user, String fragment);
+	List<EventOcurrence> search(User user, String caseInsensitiveFragment);
 
 }
