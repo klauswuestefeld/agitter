@@ -18,7 +18,7 @@ public class EventImpl2 implements Event {
 
 	private final long id;
 
-	private Invitation invitationTree;
+	private InvitationImpl invitationTree;
 	
 	private String _description;
 	@SuppressWarnings("unused") @Deprecated private long _datetime;

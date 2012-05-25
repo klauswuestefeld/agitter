@@ -15,7 +15,7 @@ public class InvitationImpl implements Invitation {
 	}
 	
 	private User host;
-	private Set<Invitation> invitees = new HashSet<Invitation>();
+	private Set<InvitationImpl> invitees = new HashSet<InvitationImpl>();
 	private Set<Group> groupInvitees = new HashSet<Group>();
 	
 	public InvitationImpl(User from) {
@@ -29,17 +29,17 @@ public class InvitationImpl implements Invitation {
 	}
 	
 	@Override
-	public Invitation[] invitees() {
+	public Invitation[] directInvitees() {
 		return actualInvitees().toArray(new Invitation[actualInvitees().size()]);
 	}
 	
 	@Override
-	public Group[] groupInvitees() {
+	public Group[] directGroupInvitees() {
 		return actualGroupInvitees().toArray(new Group[actualGroupInvitees().size()]);
 	}
 	
-	private Set<Invitation> actualInvitees() {
-		if (invitees==null) invitees = new HashSet<Invitation>();
+	private Set<InvitationImpl> actualInvitees() {
+		if (invitees==null) invitees = new HashSet<InvitationImpl>();
 		return invitees;
 	}
 	
@@ -49,25 +49,22 @@ public class InvitationImpl implements Invitation {
 	}
 
 
-	@Override
-	public boolean isInvited(User user) {
+	boolean isInvited(User user) {
 		return userThatInvited(user) != null;
 	}
 	
-	@Override
-	public boolean isInvited(Group invitee) {
+	private boolean isInvited(Group invitee) {
 		return isInvitedBy(invitee) != null;
 	}
 	
-	@Override
-	public User userThatInvited(User user) {
+	User userThatInvited(User user) {
 		// If it is into a group invited by this host.
 		for (Group g : actualGroupInvitees())
 			if (g.deepContains(user)) 
 				return host;
 		
 		// Search in the invitations. 
-		for (Invitation i : actualInvitees()) {
+		for (InvitationImpl i : actualInvitees()) {
 			if (i.host().equals(user)) return host; 
 			
 			// Recursion.
@@ -79,10 +76,9 @@ public class InvitationImpl implements Invitation {
 		return null;
 	}
 	
-	@Override
-	public User isInvitedBy(Group invitee) {
+	private User isInvitedBy(Group invitee) {
 		// Search in the invitations. 
-		for (Invitation i : actualInvitees()) {
+		for (InvitationImpl i : actualInvitees()) {
 			// Recursion.
 			User h = i.isInvitedBy(invitee);
 			if (h != null) 
@@ -100,9 +96,8 @@ public class InvitationImpl implements Invitation {
 		actualGroupInvitees().add(invitee);
 	}
 
-	@Override
-	public boolean removeInvitee(User invitee) {
-		for (Invitation i : actualInvitees()) { 
+	boolean removeInvitee(User invitee) {
+		for (InvitationImpl i : actualInvitees()) { 
 			if (i.host().equals(invitee)) {
 				actualInvitees().remove(i);
 				return true;
@@ -115,14 +110,13 @@ public class InvitationImpl implements Invitation {
 		return false;
 	}
 	
-	@Override
-	public boolean removeInvitee(Group invitee) {
+	boolean removeInvitee(Group invitee) {
 		if (actualGroupInvitees().contains(invitee)) {
 			actualGroupInvitees().remove(invitee);
 			return true;
 		}
 		
-		for (Invitation i : actualInvitees()) { 
+		for (InvitationImpl i : actualInvitees()) { 
 			if (i.removeInvitee(invitee)) 
 				return true;
 		}
@@ -130,15 +124,14 @@ public class InvitationImpl implements Invitation {
 		return false;
 	}
 	
-	@Override
-	public Set<User> allResultingInvitees() {
+	Set<User> allResultingInvitees() {
 		Set<User> result = new HashSet<User>();
 				
 		for (Group g : actualGroupInvitees()) {
 			result.addAll(g.deepMembers());
 		}
 		
-		for (Invitation i : actualInvitees()) {
+		for (InvitationImpl i : actualInvitees()) {
 			result.add(i.host());
 			result.addAll(i.allResultingInvitees());
 		}
@@ -146,8 +139,7 @@ public class InvitationImpl implements Invitation {
 		return result;
 	}
 	
-	@Override
-	public void transferHostTo(User newhost) {
+	void transferHostTo(User newhost) {
 		this.host = newhost;
 	}
 
@@ -166,8 +158,7 @@ public class InvitationImpl implements Invitation {
 	}
 	
 
-	@Override
-	public boolean invite(User host, User newInvitee) {
+	boolean invite(User host, User newInvitee) {
 		if (this.host == newInvitee) return true;
 		if (isInvited(newInvitee)) return true;
 		
@@ -188,8 +179,8 @@ public class InvitationImpl implements Invitation {
 			}
 		}
 		
-		for (Invitation i : actualInvitees()) {
-			if (((InvitationImpl)i).createAnInvitationForAUserIntoAGroup(invitee)) {
+		for (InvitationImpl i : actualInvitees()) {
+			if (i.createAnInvitationForAUserIntoAGroup(invitee)) {
 				return true;
 			}
 		}
@@ -204,8 +195,8 @@ public class InvitationImpl implements Invitation {
 		}
 			
 		// First go deep to find the host. 
-		for (Invitation i : actualInvitees()) {
-			if (((InvitationImpl)i).recursiveInvite(host, newInvitee)) {
+		for (InvitationImpl i : actualInvitees()) {
+			if (i.recursiveInvite(host, newInvitee)) {
 				return true;
 			}
 		}
@@ -214,8 +205,7 @@ public class InvitationImpl implements Invitation {
 	}
 	
 	
-	@Override
-	public boolean invite(User host, Group newInvitee) {
+	boolean invite(User host, Group newInvitee) {
 		if (isInvited(newInvitee)) return true;
 		
 		if (recursiveInvite(host, newInvitee)) return true;
@@ -235,8 +225,8 @@ public class InvitationImpl implements Invitation {
 			return true;
 		}
 		 
-		for (Invitation i : actualInvitees()) {
-			if (((InvitationImpl)i).recursiveInvite(host, newInvitee)) {
+		for (InvitationImpl i : actualInvitees()) {
+			if (i.recursiveInvite(host, newInvitee)) {
 				return true;
 			}
 		}

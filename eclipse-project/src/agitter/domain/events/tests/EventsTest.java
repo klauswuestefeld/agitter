@@ -128,20 +128,16 @@ public class EventsTest extends EventsTestBase {
 		
 		assertEquals(ana,  event.owner());
 		assertEquals(ana,  event.invitationTree().host());
-		assertEquals(jose, event.invitationTree().invitees()[0].host());
+		assertEquals(jose, event.invitationTree().directInvitees()[0].host());
 		
-		Invitation[] inviteesByJose = event.invitationTree().invitees()[0].invitees();
+		Invitation[] inviteesByJose = event.invitationTree().directInvitees()[0].directInvitees();
 		List<User> invitees = new ArrayList<User>();
 		for (Invitation i : inviteesByJose) {
 			invitees.add(i.host());
 		}
 		assertContentsInAnyOrder(invitees, paulo, pedro);
-		
-		assertEquals(null, event.invitationTree().userThatInvited(ana));
-		assertEquals(ana, event.invitationTree().userThatInvited(jose));
-		assertEquals(jose, event.invitationTree().userThatInvited(pedro));
-		assertEquals(jose, event.invitationTree().userThatInvited(paulo));
 	}
+	
 	
 	@Test
 	public void testInvitationTreeDuplicatedUsers() throws Refusal {	

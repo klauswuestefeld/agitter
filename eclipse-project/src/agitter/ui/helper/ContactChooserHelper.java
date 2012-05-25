@@ -23,11 +23,11 @@ public class ContactChooserHelper {
 
 		results.add(createProfile(invitationTree.host(), level));
 
-		for (Group g : invitationTree.groupInvitees()) {
+		for (Group g : invitationTree.directGroupInvitees()) {
 			results.add(createProfile(g, level + 1));
 		}
 
-		for (Invitation inv : invitationTree.invitees()) {
+		for (Invitation inv : invitationTree.directInvitees()) {
 			results.addAll(contacts(inv, level + 1));
 		}
 
