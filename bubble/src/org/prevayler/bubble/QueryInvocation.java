@@ -16,7 +16,7 @@ public class QueryInvocation extends Invocation implements Query { private stati
 	
 	@Override
 	public Object query(Object prevalentSystem, Date datetime) throws Exception {
-		return super.produce(prevalentSystem, datetime);
+		return super.produceInsidePrevalence(prevalentSystem, datetime);
 	}
 
 }

@@ -28,11 +28,11 @@ abstract class Invocation implements ProducerX<Object, Exception>, Serializable 
 	@Override
 	public Object produce() throws Exception {
 		Object target = _targetProducer.produce();
-		return invoke(target, _method, _argsTypes, unmarshal(_args));
+		return invokeOn(target);
 	}
 
 
-	protected Object produce(Object prevalentSystem, Date datetime) throws Exception {
+	protected Object produceInsidePrevalence(Object prevalentSystem, Date datetime) throws Exception {
 		PrevalentBubble.setPrevalentSystemIfNecessary((IdMap)prevalentSystem);
 	
 		Long clockState = Clock.memento();
@@ -47,19 +47,24 @@ abstract class Invocation implements ProducerX<Object, Exception>, Serializable 
 	}
 
 
-	static private Object invoke(Object receiver, String methodName, Class<?>[] argTypes, Object... args) throws Exception {
+	private Object invokeOn(Object target) throws Exception {
 		try {
-			Method method = receiver.getClass().getMethod(methodName, argTypes);
-			method.setAccessible(true);
-			return method.invoke(receiver, args);
+			return methodOn(target).invoke(target, unmarshal(_args));
 		} catch (InvocationTargetException e) {
 			Throwable throwable = e.getTargetException();
 			if (throwable instanceof Error) throw (Error)throwable;
 			if (throwable instanceof Exception) throw (Exception)throwable;
-			throw new IllegalStateException("Throwable thrown by " + receiver.getClass() + "." + methodName, throwable);
-		} catch (Exception e) {
-			throw new IllegalStateException("Exception trying to invoke " + receiver.getClass() + "." + methodName, e);
+			throw new IllegalStateException("Throwable thrown by " + target.getClass() + "." + _method, throwable);
+		} catch (RuntimeException e) {
+			throw new IllegalStateException("Exception trying to invoke " + target.getClass() + "." + _method, e);
 		}
+	}
+
+
+	private Method methodOn(Object receiver) throws NoSuchMethodException {
+		Method method = receiver.getClass().getMethod(_method, _argsTypes);
+		method.setAccessible(true);
+		return method;
 	}
 
 	

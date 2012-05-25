@@ -20,7 +20,7 @@ public class TransactionInvocation extends Invocation implements TransactionWith
 	
 	@Override
 	public Object executeAndQuery(Object prevalentSystem, Date datetime) throws Exception {
-		return produce(prevalentSystem, datetime);
+		return produceInsidePrevalence(prevalentSystem, datetime);
 	}
 
 
