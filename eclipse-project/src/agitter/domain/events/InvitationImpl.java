@@ -64,11 +64,11 @@ public class InvitationImpl implements Invitation {
 		// If it is into a group invited by this host.
 		for (Group g : actualGroupInvitees())
 			if (g.deepContains(user)) 
-				return host();
+				return host;
 		
 		// Search in the invitations. 
 		for (Invitation i : actualInvitees()) {
-			if (i.host().equals(user)) return host(); 
+			if (i.host().equals(user)) return host; 
 			
 			// Recursion.
 			User h = i.userThatInvited(user);
@@ -81,11 +81,6 @@ public class InvitationImpl implements Invitation {
 	
 	@Override
 	public User isInvitedBy(Group invitee) {
-		// If it is into a group invited by this host.
-		if (actualGroupInvitees().contains(invitee)) {
-			host();
-		}
-	
 		// Search in the invitations. 
 		for (Invitation i : actualInvitees()) {
 			// Recursion.
@@ -170,32 +165,21 @@ public class InvitationImpl implements Invitation {
 		return host().equals(user);
 	}
 	
-	// **************************************************************
-	// Add an invitee: 
-	// 0. Do not insert if it is already invited.
-	// 1. Look for the Invitation owned by the host. 
-	// 2. Add the invitee. 
-	// 3. If there is no Invitation owned by the host, the host may be into a group. 
-	// 4. Create a proper invitation for the host. 
-	// 5. Add the invitee to the host invitation. 
-	// 6. User will not be removed if the group is removed. 
-	// **************************************************************
+
 	@Override
 	public boolean invite(User host, User newInvitee) {
-		if (host() == newInvitee) return true;
+		if (this.host == newInvitee) return true;
 		if (isInvited(newInvitee)) return true;
 		
 		if (recursiveInvite(host, newInvitee)) return true;
 		
-		// Could not invite
-		// The host should be into a Group. 
-		// Create an invitation for the host
 		if (createAnInvitationForAUserIntoAGroup(host))
 			return recursiveInvite(host, newInvitee);
 			
 		return false;
 	}
-		
+	
+	
 	private boolean createAnInvitationForAUserIntoAGroup(User invitee) {
 		for (Group g : actualGroupInvitees()) {
 			if (g.deepContains(invitee)) {
