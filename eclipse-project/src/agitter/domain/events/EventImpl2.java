@@ -114,10 +114,26 @@ public class EventImpl2 implements Event {
 		if (!invitationTree.invite(host, invitee))
 			throw new IllegalArgumentException("Usuario não estava convidado para este evento.");
 		
+		sendOutInvitationIfNecessary(invitee);
+	}
+
+	
+	@Override
+	public void invite(User host, Group invitees) {
+		if (!invitationTree.invite(host, invitees))
+			throw new IllegalArgumentException("Usuario não estava convidado para este evento.");
+		
+		for (User invitee : invitees.deepMembers())
+			sendOutInvitationIfNecessary(invitee);
+	}
+
+	
+	private void sendOutInvitationIfNecessary(User invitee) {
 		if (allTimeInvitees().add(invitee))
 			boss.onInvitationToSendOut(invitee, this);
 	}
-
+	
+	
 	private Set<User> allTimeInvitees() {
 		if (allTimeInvitees == null) {
 			allTimeInvitees = new HashSet<User>();
@@ -127,11 +143,6 @@ public class EventImpl2 implements Event {
 		return allTimeInvitees;
 	}
 	
-	@Override
-	public void invite(User host, Group invitees) {
-		if (!invitationTree.invite(host, invitees))
-			throw new IllegalArgumentException("Usuario não estava convidado para este evento.");
-	}
 	
 	@Override
 	public void uninvite(User invitee) {

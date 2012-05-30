@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Collections {
 
-	public static <T> List<T> copy(Collection<T> original) {
+	public static <T, U extends T> List<T> copy(Collection<U> original) {
 		return new ArrayList<T>(original);
 	}
 

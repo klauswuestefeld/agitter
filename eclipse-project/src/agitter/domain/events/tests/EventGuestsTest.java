@@ -39,7 +39,7 @@ public class EventGuestsTest extends EventsTestBase {
 		event.invite(ana, friends);
 		assertFalse(subject.toHappen(jose).isEmpty());
 
-		//assertInvitationToSendOut(jose, event);
+		assertInvitationToSendOut(jose, event);
 	}
 
 	
@@ -60,7 +60,7 @@ public class EventGuestsTest extends EventsTestBase {
 		event.invite(ana, friends);
 		assertFalse(subject.toHappen(jose).isEmpty());
 
-	//	assertInvitationToSendOut(jose, event);
+		assertInvitationToSendOut(jose, event);
 	}
 	
 	

@@ -22,7 +22,7 @@ public class GroupImpl2 implements Group {
 	private static final String TWITTER_USERNAME_RULE = "^[a-zA-Z0-9_]{1,15}$";
 	private String name;
 	private List<User> members = new ArrayList<User>();
-	private List<Group> subgroups = new ArrayList<Group>();
+	private List<GroupImpl2> subgroups = new ArrayList<GroupImpl2>();
 
 
 	public GroupImpl2(String groupName) throws Refusal {
@@ -76,7 +76,7 @@ public class GroupImpl2 implements Group {
 	public void addSubgroup(Group subgroup) {
 		if (subgroup == this) return;
 		if (subgroups.contains(subgroup)) return;
-		subgroups.add(subgroup);
+		subgroups.add((GroupImpl2)subgroup);
 		sortIgnoreCase(subgroups);
 	}
 
@@ -108,16 +108,15 @@ public class GroupImpl2 implements Group {
 	@Override
 	public List<User> deepMembers() {
 		Set<User> result = new HashSet<User>();
-		deepAddMembers(result);
+		deepAccumulateMembers(result);
 		return new ArrayList<User>(result);
 	}
 
 
-	@Override
-	public void deepAddMembers(Set<User> users) {
-		users.addAll(immediateMembers());
-		for(Group subGroup : immediateSubgroups())
-			subGroup.deepAddMembers(users);
+	private void deepAccumulateMembers(Set<User> members) {
+		members.addAll(immediateMembers());
+		for(GroupImpl2 subGroup : subgroups)
+			subGroup.deepAccumulateMembers(members);
 	}
 
 
