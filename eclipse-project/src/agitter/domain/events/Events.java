@@ -19,4 +19,11 @@ public interface Events {
 	List<EventOcurrence> toHappen(User user);
 	List<EventOcurrence> search(User user, String caseInsensitiveFragment);
 
+	@Transaction
+	InvitationToSendOut nextInvitationToSendOut(); //Returns null if none to send.
+	interface InvitationToSendOut {
+		Event event();
+		User invitee();
+	}
+	
 }

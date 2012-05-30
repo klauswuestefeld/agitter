@@ -1,8 +1,10 @@
 package agitter.domain.events;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
@@ -13,6 +15,9 @@ public class EventsImpl2 implements Events {
 	
 	//Vitor: Important, don't assume _all is sorted by date. Multiple dates had broken this logic! 
 	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
+
+	private Queue<InvitationToSendOut> invitationsToSendOut;
+	
 	
 	@Override
 	public Event create(User user, String description, long datetime) throws Refusal {
@@ -70,6 +75,15 @@ public class EventsImpl2 implements Events {
 	public void transferEvents(User receivingEvents, User beingDropped) {
 		for (Event e: _all)
 			e.transferOwnershipIfNecessary(receivingEvents, beingDropped);			
+	}
+
+
+	@Override
+	public InvitationToSendOut nextInvitationToSendOut() {
+		if (invitationsToSendOut == null)
+			invitationsToSendOut = new ConcurrentLinkedQueue<InvitationToSendOut>();
+		
+		return invitationsToSendOut.poll();
 	}
 
 }

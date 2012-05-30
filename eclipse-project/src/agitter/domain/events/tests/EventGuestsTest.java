@@ -16,12 +16,18 @@ public class EventGuestsTest extends EventsTestBase {
 
 	
 	@Test
-	public void emailInvitation() throws Exception {
+	public void userInvitation() throws Exception {
 		Event event = createEvent(ana, "Dinner at Joes", 1000);
 		assertTrue(subject.toHappen(jose).isEmpty());
-		event.invite(ana, user("jose@email.com"));
+		User jo = user("jose@email.com");
+		event.invite(ana, jo);
 		assertFalse(subject.toHappen(jose).isEmpty());
 		assertFalse(subject.toHappen(ana).isEmpty());
+		
+//		InvitationToSendOut invitation = subject.nextInvitationToSendOut();
+//		assertNotNull(invitation);
+//		assertSame(jo, invitation.invitee());
+//		assertSame(event, invitation.event());
 	}
 
 	

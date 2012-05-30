@@ -143,15 +143,6 @@ public class InvitationImpl implements Invitation {
 		this.host = newhost;
 	}
 
-	public void inviteAllUsers(User host, Set<User> invitees) {
-		for (User u : invitees) 
-			invite(host, u);
-	}
-	
-	public void inviteAllGroups(User host, Set<Group> invitees) {
-		for (Group g : invitees)
-			invite(host, g);
-	}
 
 	private boolean isTheHost(User user) {
 		return host().equals(user);

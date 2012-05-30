@@ -102,15 +102,15 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public void invite(User host, User invitee) {
+		
 		if (!invitationTree.invite(host, invitee))
 			throw new IllegalArgumentException("Host " + host + " não é convidado");
 	}
 	
 	@Override
 	public void invite(User host, Group invitees) {
-		if (!invitationTree.invite(host, invitees)) {
+		if (!invitationTree.invite(host, invitees))
 			throw new IllegalArgumentException("Host " + host + " não é convidado");
-		}
 	}
 	
 	@Override
