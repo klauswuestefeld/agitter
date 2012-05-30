@@ -13,8 +13,15 @@ import agitter.domain.users.User;
 
 public class EventImpl2 implements Event {
 	
+	interface Boss {
+		void onInvitationToSendOut(User invitee, Event event);
+	}
+
+	
 	private static final long ONE_HOUR = 1000 * 60 * 60;
 	private static final long TWO_HOURS = ONE_HOUR * 2;
+	
+	private Boss boss;
 
 	private final long id;
 
@@ -27,9 +34,11 @@ public class EventImpl2 implements Event {
 	private Set<OccurrenceImpl> occurrences = new HashSet<OccurrenceImpl>();
 	
 	final private Set<User> notInterested = new HashSet<User>();
+	private Set<User> allTimeInvitees = new HashSet<User>();
 	
-	public EventImpl2(long id, User owner, String description, long datetime) throws Refusal {
+	public EventImpl2(long id, User owner, String description, long datetime, Boss boss) throws Refusal {
 		this.id = id;
+		this.boss = boss;
 		if (null == owner) { throw new IllegalArgumentException("user cannot be null"); }
 		invitationTree = new InvitationImpl(owner);
 		edit(description, datetime);
@@ -102,15 +111,26 @@ public class EventImpl2 implements Event {
 
 	@Override
 	public void invite(User host, User invitee) {
-		
 		if (!invitationTree.invite(host, invitee))
-			throw new IllegalArgumentException("Host " + host + " não é convidado");
+			throw new IllegalArgumentException("Usuario não estava convidado para este evento.");
+		
+		if (allTimeInvitees().add(invitee))
+			boss.onInvitationToSendOut(invitee, this);
+	}
+
+	private Set<User> allTimeInvitees() {
+		if (allTimeInvitees == null) {
+			allTimeInvitees = new HashSet<User>();
+			allTimeInvitees.addAll(Arrays.asList(allResultingInvitees()));
+		}
+		
+		return allTimeInvitees;
 	}
 	
 	@Override
 	public void invite(User host, Group invitees) {
 		if (!invitationTree.invite(host, invitees))
-			throw new IllegalArgumentException("Host " + host + " não é convidado");
+			throw new IllegalArgumentException("Usuario não estava convidado para este evento.");
 	}
 	
 	@Override
@@ -245,6 +265,10 @@ public class EventImpl2 implements Event {
 		if (!isEditableBy(user)) throw new IllegalStateException("Event not editable by this user.");
 		if (null == newDescription) { throw new Refusal("Descrição do agito deve ser preenchida."); }
 		_description = newDescription;
+	}
+
+	void setBossIfNecessary(Boss boss) {
+		this.boss = boss;
 	}
 	
 }

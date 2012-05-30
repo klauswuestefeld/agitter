@@ -22,8 +22,8 @@ public interface Events {
 	@Transaction
 	InvitationToSendOut nextInvitationToSendOut(); //Returns null if none to send.
 	interface InvitationToSendOut {
-		Event event();
 		User invitee();
+		Event event();
 	}
 	
 }

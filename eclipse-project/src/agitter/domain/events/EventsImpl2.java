@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import sneer.foundation.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
-public class EventsImpl2 implements Events {
+public class EventsImpl2 implements Events, EventImpl2.Boss {
 
 	private long lastId = 0;
 	
@@ -21,7 +21,7 @@ public class EventsImpl2 implements Events {
 	
 	@Override
 	public Event create(User user, String description, long datetime) throws Refusal {
-		EventImpl2 event = new EventImpl2(getNextId(), user, description, datetime);
+		EventImpl2 event = new EventImpl2(getNextId(), user, description, datetime, this);
 		_all.add(event);
 		return event;
 	}
@@ -80,10 +80,27 @@ public class EventsImpl2 implements Events {
 
 	@Override
 	public InvitationToSendOut nextInvitationToSendOut() {
+		return invitationsToSendOut().poll();
+	}
+
+
+	@Override
+	public void onInvitationToSendOut(User invitee, Event event) {
+		invitationsToSendOut().add(new InvitationToSendOutImpl(invitee, event));
+	}
+	
+	
+	private Queue<InvitationToSendOut> invitationsToSendOut() {
 		if (invitationsToSendOut == null)
 			invitationsToSendOut = new ConcurrentLinkedQueue<InvitationToSendOut>();
 		
-		return invitationsToSendOut.poll();
+		return invitationsToSendOut;
+	}
+
+
+	public void migrateSchemaIfNecessary() {
+		for (EventImpl2 e : _all)
+			e.setBossIfNecessary(this);
 	}
 
 }
