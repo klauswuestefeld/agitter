@@ -68,7 +68,7 @@ public class GroupImpl2 implements Group {
 
 	@Override
 	public List<Group> immediateSubgroups() {
-		return copy(subgroups);
+		return new ArrayList<Group>(subgroups);
 	}
 	
 	
