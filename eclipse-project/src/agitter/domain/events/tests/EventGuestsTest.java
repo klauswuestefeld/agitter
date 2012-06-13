@@ -2,6 +2,7 @@ package agitter.domain.events.tests;
 
 import static agitter.domain.contacts.tests.ContactsTest.createGroup;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import agitter.domain.contacts.Contacts;
@@ -25,6 +26,10 @@ public class EventGuestsTest extends EventsTestBase {
 		assertFalse(subject.toHappen(ana).isEmpty());
 		
 		assertInvitationToSendOut(jose, event);
+		assertNull(subject.popInvitationToSendOut());
+		
+		event.uninvite(jose);
+		event.invite(ana, jose);
 		assertNull(subject.popInvitationToSendOut());
 	}
 
@@ -62,6 +67,27 @@ public class EventGuestsTest extends EventsTestBase {
 		assertFalse(subject.toHappen(jose).isEmpty());
 
 		assertInvitationToSendOut(jose, event);
+	}
+	
+	
+	@Ignore
+	@Test
+	public void invitationForNewGroupMember() throws Exception {
+		Event event = createEvent(ana, "Dinner at Joes", 1000);
+		
+		ContactsOfAUser anasContacts = contacts.contactsOf(ana);
+		Group friends = createGroup(anasContacts, "Friends");
+		Group best = createGroup(anasContacts, "Best_Friends");
+		friends.addSubgroup(best);
+		event.invite(ana, friends);
+
+		assertNull(subject.popInvitationToSendOut());
+		anasContacts.addContactTo(best, jose);
+		assertInvitationToSendOut(jose, event);
+		
+		anasContacts.removeContactFrom(best, jose);
+		anasContacts.addContactTo(best, jose);
+		assertNull(subject.popInvitationToSendOut());
 	}
 	
 	
