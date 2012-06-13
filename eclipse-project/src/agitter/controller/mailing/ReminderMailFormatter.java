@@ -10,7 +10,7 @@ import agitter.controller.AuthenticationToken;
 import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;
 
-public class EventsMailFormatter {
+public class ReminderMailFormatter {
 
 	private static final String BODY = "Seus amigos estão agitando e querem você lá: <br/><br/>"
 			+"%EVENT_LIST%"

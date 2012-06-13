@@ -76,8 +76,7 @@ public class HTMLFormatter {
 	}
 	
 	public String makeClickableWithBr(String text) {
-		String clickable = makeClickable(text);
-		return clickable.replaceAll(NEWLINE_REGEX, "<BR/>");
+		return makeClickable(text).replaceAll(NEWLINE_REGEX, "<BR/>");
 	}
 
 }

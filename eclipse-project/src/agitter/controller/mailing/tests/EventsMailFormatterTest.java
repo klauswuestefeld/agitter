@@ -6,12 +6,12 @@ import agitter.domain.events.EventOcurrence;
 import agitter.domain.events.EventOcurrenceImpl;
 import org.junit.Test;
 
-import agitter.controller.mailing.EventsMailFormatter;
+import agitter.controller.mailing.ReminderMailFormatter;
 import agitter.domain.events.tests.EventsTestBase;
 
 public class EventsMailFormatterTest extends EventsTestBase {
 
-	private final EventsMailFormatter subject = new EventsMailFormatter();
+	private final ReminderMailFormatter subject = new ReminderMailFormatter();
 	
 
 	@Test

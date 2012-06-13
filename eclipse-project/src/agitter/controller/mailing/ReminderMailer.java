@@ -32,7 +32,7 @@ public class ReminderMailer {
 		if (!agitter.mailing().shouldSendScheduleNow()) return;
 		agitter.mailing().markScheduleSent();
 
-		new MailingRound(agitter.events(), sender).sendRemindersTo(agitter.users().all());
+		new ReminderMailingRound(agitter.events(), sender).sendRemindersTo(agitter.users().all());
 	}
 
 	

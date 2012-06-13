@@ -11,16 +11,16 @@ import utils.DateUtils;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 
-public class MailingRound {
+public class ReminderMailingRound {
 
 	private static final String SUBJECT = "Lembretes de Agito";
 
 	private final EmailSender _sender;
-	private final EventsMailFormatter _formatter = new EventsMailFormatter();
+	private final ReminderMailFormatter _formatter = new ReminderMailFormatter();
 	private final EventChooserForReminders _chooser;
 
 
-	MailingRound(Events events, EmailSender sender) {
+	ReminderMailingRound(Events events, EmailSender sender) {
 		_chooser = new EventChooserForReminders(events);
 		this._sender = sender;
 	}

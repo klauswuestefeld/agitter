@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import sneer.foundation.lang.Functor;
 import agitter.controller.mailing.AmazonEmailSender;
 import agitter.controller.mailing.EmailSender;
+import agitter.controller.mailing.InvitationMailer;
 import agitter.controller.mailing.ReminderMailer;
 import agitter.controller.mailing.SignupEmailController;
 import agitter.controller.oauth.OAuth;
@@ -49,14 +50,16 @@ public class Controller {
 
 
 	private EmailSender initEmailing() {
+		AmazonEmailSender sender;
 		try {
-			AmazonEmailSender sender = new AmazonEmailSender();
-			ReminderMailer.start(domain, sender);
-			return sender;
+			sender = new AmazonEmailSender();
 		} catch (IOException e) {
 			log(e, "Mailing start failed.");
 			return null;
 		}
+		InvitationMailer.start(domain.events(), sender);
+		ReminderMailer.start(domain, sender);
+		return sender;
 	}
 
 	
