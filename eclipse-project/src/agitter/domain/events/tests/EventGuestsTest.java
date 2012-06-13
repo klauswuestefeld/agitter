@@ -70,7 +70,7 @@ public class EventGuestsTest extends EventsTestBase {
 	}
 	
 	
-	@Ignore
+	@Ignore //Implement when this becomes the priority: https://trello.com/card/convite-p-novos-membros-de-grupo/4f2eacbe5afed831356ff269/71
 	@Test
 	public void invitationForNewGroupMember() throws Exception {
 		Event event = createEvent(ana, "Dinner at Joes", 1000);
