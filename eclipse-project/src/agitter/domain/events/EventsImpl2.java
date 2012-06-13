@@ -13,10 +13,10 @@ public class EventsImpl2 implements Events, EventImpl2.Boss {
 
 	private long lastId = 0;
 	
-	//Vitor: Important, don't assume _all is sorted by date. Multiple dates had broken this logic! 
-	private SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
+	//Vitor: Important, don't assume _all is sorted by date. Multiple dates have broken this logic! 
+	private final SortedSet<EventImpl2> _all = new TreeSet<EventImpl2>(new EventComparator());
 
-	private Queue<InvitationToSendOut> invitationsToSendOut;
+	private final Queue<InvitationToSendOut> invitationsToSendOut = new ConcurrentLinkedQueue<InvitationToSendOut>();
 	
 	
 	@Override
@@ -79,28 +79,14 @@ public class EventsImpl2 implements Events, EventImpl2.Boss {
 
 
 	@Override
-	public InvitationToSendOut nextInvitationToSendOut() {
-		return invitationsToSendOut().poll();
+	public InvitationToSendOut popInvitationToSendOut() {
+		return invitationsToSendOut.poll();
 	}
 
 
 	@Override
 	public void onInvitationToSendOut(User invitee, Event event) {
-		invitationsToSendOut().add(new InvitationToSendOutImpl(invitee, event));
-	}
-	
-	
-	private Queue<InvitationToSendOut> invitationsToSendOut() {
-		if (invitationsToSendOut == null)
-			invitationsToSendOut = new ConcurrentLinkedQueue<InvitationToSendOut>();
-		
-		return invitationsToSendOut;
-	}
-
-
-	public void migrateSchemaIfNecessary() {
-		for (EventImpl2 e : _all)
-			e.setBossIfNecessary(this);
+		invitationsToSendOut.add(new InvitationToSendOutImpl(invitee, event));
 	}
 
 }

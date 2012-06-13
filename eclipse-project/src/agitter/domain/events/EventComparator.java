@@ -1,13 +1,10 @@
 package agitter.domain.events;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
 
 
-public class EventComparator implements Comparator<Event>, Serializable {
-
-	private static final long serialVersionUID = -3286972461451511508L;
+public class EventComparator implements Comparator<Event> {
 
 	@Override
 	public int compare(Event a1, Event a2) {

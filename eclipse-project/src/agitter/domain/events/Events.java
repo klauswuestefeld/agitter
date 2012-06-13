@@ -20,7 +20,7 @@ public interface Events {
 	List<EventOcurrence> search(User user, String caseInsensitiveFragment);
 
 	@Transaction
-	InvitationToSendOut nextInvitationToSendOut(); //Returns null if none to send.
+	InvitationToSendOut popInvitationToSendOut(); //Returns null if none to send.
 	interface InvitationToSendOut {
 		User invitee();
 		Event event();

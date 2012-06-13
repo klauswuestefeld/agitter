@@ -21,7 +21,7 @@ public class EventImpl2 implements Event {
 	private static final long ONE_HOUR = 1000 * 60 * 60;
 	private static final long TWO_HOURS = ONE_HOUR * 2;
 	
-	private Boss boss;
+	private final Boss boss;
 
 	private final long id;
 
@@ -278,8 +278,4 @@ public class EventImpl2 implements Event {
 		_description = newDescription;
 	}
 
-	void setBossIfNecessary(Boss boss) {
-		this.boss = boss;
-	}
-	
 }

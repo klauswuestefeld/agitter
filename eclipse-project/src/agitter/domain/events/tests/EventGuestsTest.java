@@ -25,6 +25,7 @@ public class EventGuestsTest extends EventsTestBase {
 		assertFalse(subject.toHappen(ana).isEmpty());
 		
 		assertInvitationToSendOut(jose, event);
+		assertNull(subject.popInvitationToSendOut());
 	}
 
 	
@@ -65,7 +66,7 @@ public class EventGuestsTest extends EventsTestBase {
 	
 	
 	private void assertInvitationToSendOut(User invitee, Event event) {
-		InvitationToSendOut invitation = subject.nextInvitationToSendOut();
+		InvitationToSendOut invitation = subject.popInvitationToSendOut();
 		assertNotNull(invitation);
 		assertSame(invitee, invitation.invitee());
 		assertSame(event, invitation.event());
