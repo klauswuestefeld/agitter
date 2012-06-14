@@ -1,6 +1,6 @@
 package agitter.domain.users;
 
-import sneer.foundation.lang.Functor;
+import basis.lang.Functor;
 import agitter.domain.emails.EmailAddress;
 
 public class UserUtils {

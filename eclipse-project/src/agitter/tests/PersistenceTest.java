@@ -4,7 +4,8 @@ import static agitter.domain.emails.EmailAddress.email;
 
 import org.junit.Test;
 
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.testsupport.CleanTestBase;
+
 import agitter.main.PrevaylerBootstrap;
 
 public class PersistenceTest extends CleanTestBase {

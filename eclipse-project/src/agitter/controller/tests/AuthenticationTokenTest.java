@@ -2,9 +2,10 @@ package agitter.controller.tests;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+import basis.testsupport.CleanTestBase;
+
 import agitter.controller.AuthenticationToken;
 import agitter.domain.emails.EmailAddress;
 

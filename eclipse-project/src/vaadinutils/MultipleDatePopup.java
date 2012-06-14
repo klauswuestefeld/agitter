@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.Consumer;
+
+import basis.lang.Clock;
+import basis.lang.Consumer;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;

@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.contacts.Group;
 import agitter.domain.events.Event;

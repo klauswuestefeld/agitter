@@ -2,8 +2,8 @@ package vaadinutils;
 
 import java.util.List;
 
-import sneer.foundation.lang.Predicate;
 import agitter.ui.view.AgitterVaadinUtils;
+import basis.lang.Predicate;
 
 import com.vaadin.data.Property;
 import com.vaadin.terminal.ExternalResource;

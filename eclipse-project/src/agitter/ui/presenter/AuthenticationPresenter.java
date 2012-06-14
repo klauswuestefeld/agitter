@@ -13,9 +13,10 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Consumer;
+import basis.lang.Functor;
+import basis.lang.exceptions.Refusal;
+
 import utils.Encoders;
 import agitter.common.Portal;
 import agitter.controller.mailing.EmailSender;

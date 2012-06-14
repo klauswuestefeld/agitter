@@ -5,13 +5,13 @@ import static agitter.domain.emails.EmailAddress.email;
 import agitter.domain.events.EventOcurrence;
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
 import agitter.domain.Agitter;
 import agitter.domain.events.Event;
 import agitter.domain.events.Events;
 import agitter.domain.users.User;
 import agitter.main.PrevaylerBootstrap;
+import basis.lang.exceptions.Refusal;
+import basis.testsupport.CleanTestBase;
 
 public class BubbleTest extends CleanTestBase {
 

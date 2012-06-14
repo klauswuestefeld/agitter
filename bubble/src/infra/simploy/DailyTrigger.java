@@ -3,7 +3,8 @@ package infra.simploy;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import sneer.foundation.lang.Clock;
+import basis.lang.Clock;
+
 
 public class DailyTrigger extends Trigger {
 

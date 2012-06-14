@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.prevayler.bubble.Transaction;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.users.User;
 
 public interface Events {

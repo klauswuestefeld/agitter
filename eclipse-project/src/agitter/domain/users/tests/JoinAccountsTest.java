@@ -2,7 +2,8 @@ package agitter.domain.users.tests;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.contacts.Group;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;

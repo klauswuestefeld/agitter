@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import sneer.foundation.lang.Clock;
+import basis.lang.Clock;
+
 import agitter.domain.users.User;
 
 public class CommentsImpl implements Comments {

@@ -1,6 +1,6 @@
 package agitter.domain.events;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
 
 
 public class DuplicateEvent extends Refusal {

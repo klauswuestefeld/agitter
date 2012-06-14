@@ -5,8 +5,9 @@ import java.util.Date;
 
 import org.prevayler.TransactionWithQuery;
 
-import sneer.foundation.lang.Logger;
-import sneer.foundation.lang.ProducerX;
+import basis.lang.Logger;
+import basis.lang.ProducerX;
+
 
 public class TransactionInvocation extends Invocation implements TransactionWithQuery {
 

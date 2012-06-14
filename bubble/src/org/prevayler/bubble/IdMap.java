@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import sneer.foundation.lang.Immutable;
-import sneer.foundation.lang.exceptions.NotImplementedYet;
+
+import basis.lang.Immutable;
+import basis.lang.exceptions.NotImplementedYet;
 
 import com.google.common.collect.MapMaker;
 

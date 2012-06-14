@@ -5,8 +5,9 @@ import static infra.util.ToString.findToString;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.comments.Comment;
 import agitter.domain.comments.Comments;
 import agitter.domain.events.Event;

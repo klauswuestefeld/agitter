@@ -6,7 +6,8 @@ import static agitter.domain.events.Event.Attendance.NOT_GOING;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.events.Event;
 
 public class OccurrenceTest extends EventsTestBase {

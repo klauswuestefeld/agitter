@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Functor;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.Functor;
+import basis.testsupport.CleanTestBase;
+
 
 public class EncoderTest extends CleanTestBase {
 

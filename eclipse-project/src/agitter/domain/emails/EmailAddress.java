@@ -2,8 +2,9 @@ package agitter.domain.emails;
 
 import java.io.Serializable;
 
-import sneer.foundation.lang.Immutable;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Immutable;
+import basis.lang.exceptions.Refusal;
+
 
 public class EmailAddress extends Immutable implements Comparable<EmailAddress>, Serializable {
 

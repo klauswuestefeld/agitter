@@ -5,8 +5,9 @@ import java.util.Arrays;
 import org.brickred.socialauth.Contact;
 import org.junit.Test;
 
-import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Functor;
+import basis.lang.exceptions.Refusal;
+
 import agitter.common.Portal;
 import agitter.controller.oauth.contactsimport.ContactsImport;
 import agitter.domain.contacts.ContactsOfAUser;

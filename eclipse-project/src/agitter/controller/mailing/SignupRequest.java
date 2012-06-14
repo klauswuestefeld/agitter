@@ -2,7 +2,8 @@ package agitter.controller.mailing;
 
 import java.util.Map;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.controller.AuthenticationToken;
 import agitter.domain.emails.EmailAddress;
 

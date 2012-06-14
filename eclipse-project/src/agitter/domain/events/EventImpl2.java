@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.contacts.Group;
 import agitter.domain.users.User;
 

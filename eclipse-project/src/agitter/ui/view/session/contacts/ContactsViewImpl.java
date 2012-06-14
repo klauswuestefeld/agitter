@@ -3,14 +3,14 @@ package agitter.ui.view.session.contacts;
 
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.ProfileList;
 import vaadinutils.ProfileListItem;
 import vaadinutils.WidgetUtils;
 import agitter.common.Portal;
 import agitter.ui.view.AgitterVaadinUtils;
+import basis.lang.Consumer;
+import basis.lang.Predicate;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;

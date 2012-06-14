@@ -9,8 +9,9 @@ import org.junit.After;
 import org.prevayler.PrevaylerFactory;
 import org.prevayler.bubble.PrevalentBubble;
 
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.TestWithMocks;
+import basis.lang.exceptions.Refusal;
+import basis.testsupport.TestWithMocks;
+
 import agitter.domain.Agitter;
 import agitter.domain.AgitterImpl;
 import agitter.domain.users.User;

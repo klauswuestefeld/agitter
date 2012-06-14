@@ -2,7 +2,8 @@ package agitter.domain.emails;
 
 import java.util.regex.Pattern;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 
 
 public class AddressValidator {

@@ -7,8 +7,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.TestWithMocks;
+import basis.lang.exceptions.Refusal;
+import basis.testsupport.TestWithMocks;
+
 import agitter.controller.mailing.SignupEmailController;
 import agitter.domain.users.Users;
 

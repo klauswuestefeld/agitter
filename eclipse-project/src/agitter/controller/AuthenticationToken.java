@@ -2,8 +2,9 @@ package agitter.controller;
 
 import java.util.Map;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import utils.SecureRequest;
 import agitter.domain.emails.EmailAddress;
 

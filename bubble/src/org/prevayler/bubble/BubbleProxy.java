@@ -6,13 +6,14 @@ import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.List;
 
-import sneer.foundation.lang.CacheMap;
-import sneer.foundation.lang.Immutable;
-import sneer.foundation.lang.Producer;
-import sneer.foundation.lang.ProducerX;
-import sneer.foundation.lang.ReadOnly;
-import sneer.foundation.lang.exceptions.NotImplementedYet;
-import sneer.foundation.lang.types.Classes;
+import basis.lang.CacheMap;
+import basis.lang.Immutable;
+import basis.lang.Producer;
+import basis.lang.ProducerX;
+import basis.lang.ReadOnly;
+import basis.lang.exceptions.NotImplementedYet;
+import basis.lang.types.Classes;
+
 
 class BubbleProxy implements InvocationHandler {
 	

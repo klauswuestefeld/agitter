@@ -3,9 +3,6 @@ package agitter.ui.view.session.events;
 import java.util.Date;
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Pair;
-import sneer.foundation.lang.Predicate;
 import vaadinutils.AutoCompleteChooser;
 import vaadinutils.MultipleDatePopup;
 import vaadinutils.ProfileList;
@@ -13,6 +10,9 @@ import vaadinutils.ProfileListItem;
 import vaadinutils.WidgetUtils;
 import agitter.ui.helper.AgitterDateFormatter;
 import agitter.ui.helper.HTMLFormatter;
+import basis.lang.Consumer;
+import basis.lang.Pair;
+import basis.lang.Predicate;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;

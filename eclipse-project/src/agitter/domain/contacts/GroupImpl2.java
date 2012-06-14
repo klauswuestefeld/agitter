@@ -10,7 +10,8 @@ import java.util.Set;
 
 import org.prevayler.bubble.PrevalentBubble;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.users.User;
 
 public class GroupImpl2 implements Group {

@@ -1,7 +1,7 @@
 
 package agitter.domain.contacts;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 

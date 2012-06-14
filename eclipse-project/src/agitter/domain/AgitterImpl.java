@@ -1,6 +1,6 @@
 package agitter.domain;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
 import agitter.domain.comments.Comments;
 import agitter.domain.comments.CommentsImpl;
 import agitter.domain.contacts.Contacts;

@@ -11,8 +11,9 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.users.User;
 import agitter.domain.users.Users;
 import agitter.domain.users.Users.InvalidPassword;

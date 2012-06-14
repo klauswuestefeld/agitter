@@ -6,7 +6,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.users.User;
 
 public class EventsImpl2 implements Events, EventImpl2.Boss {

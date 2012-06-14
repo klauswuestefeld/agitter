@@ -5,7 +5,8 @@ import infra.logging.LogInfra;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import sneer.foundation.lang.Functor;
+import basis.lang.Functor;
+
 import agitter.controller.mailing.AmazonEmailSender;
 import agitter.controller.mailing.EmailSender;
 import agitter.controller.mailing.InvitationMailer;

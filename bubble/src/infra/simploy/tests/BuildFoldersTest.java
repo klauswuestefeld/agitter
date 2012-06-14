@@ -10,8 +10,9 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.Clock;
+import basis.testsupport.CleanTestBase;
+
 
 public class BuildFoldersTest extends CleanTestBase {
 

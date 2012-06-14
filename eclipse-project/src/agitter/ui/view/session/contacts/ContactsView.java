@@ -2,8 +2,9 @@ package agitter.ui.view.session.contacts;
 
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Predicate;
+import basis.lang.Consumer;
+import basis.lang.Predicate;
+
 import vaadinutils.ProfileListItem;
 import agitter.common.Portal;
 

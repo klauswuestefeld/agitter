@@ -2,7 +2,8 @@ package agitter.domain.emails.tests;
 
 import org.junit.Test;
 
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.testsupport.CleanTestBase;
+
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.emails.EmailExtractor;
 

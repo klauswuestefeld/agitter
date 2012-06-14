@@ -6,7 +6,8 @@ import static java.util.Calendar.DAY_OF_WEEK;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import sneer.foundation.lang.Clock;
+import basis.lang.Clock;
+
 
 
 public class DateUtils {

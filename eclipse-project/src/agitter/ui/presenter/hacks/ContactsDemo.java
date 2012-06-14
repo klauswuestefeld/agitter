@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Pair;
+import basis.lang.Consumer;
+import basis.lang.Pair;
+
 import vaadinutils.ProfileListItem;
 import agitter.ui.view.session.contacts.ContactsView;
 

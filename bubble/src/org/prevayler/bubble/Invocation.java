@@ -5,8 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.ProducerX;
+import basis.lang.Clock;
+import basis.lang.ProducerX;
+
 
 abstract class Invocation implements Serializable {
 

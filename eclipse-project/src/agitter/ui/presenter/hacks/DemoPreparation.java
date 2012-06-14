@@ -1,6 +1,6 @@
 package agitter.ui.presenter.hacks;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
 import agitter.domain.Agitter;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.events.Event;

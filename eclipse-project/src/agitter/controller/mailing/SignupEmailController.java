@@ -3,7 +3,8 @@ package agitter.controller.mailing;
 import java.util.HashMap;
 import java.util.Map;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import utils.SecureRequest;
 import agitter.domain.emails.EmailAddress;
 import agitter.domain.users.User;

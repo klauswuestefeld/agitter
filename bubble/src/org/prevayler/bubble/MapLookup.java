@@ -2,7 +2,8 @@ package org.prevayler.bubble;
 
 import java.io.Serializable;
 
-import sneer.foundation.lang.Producer;
+import basis.lang.Producer;
+
 
 //Refactor: OID and MapLookup both only have an id field.
 class MapLookup implements Producer<Object>, Serializable {

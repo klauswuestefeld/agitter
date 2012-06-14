@@ -1,7 +1,7 @@
 package agitter.controller.mailing;
 
 import static utils.XssAttackSanitizer.ultraConservativeFilter;
-import sneer.foundation.lang.Clock;
+import basis.lang.Clock;
 import agitter.controller.AuthenticationToken;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;

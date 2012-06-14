@@ -7,7 +7,8 @@ import static infra.util.ToString.sortIgnoreCase;
 import java.util.ArrayList;
 import java.util.List;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.users.User;
 
 public class ContactsOfAUserImpl2 implements ContactsOfAUser {

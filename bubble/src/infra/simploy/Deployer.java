@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 
-import sneer.foundation.lang.ClosureX;
+import basis.lang.ClosureX;
+
 
 class Deployer {
 

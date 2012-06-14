@@ -15,8 +15,9 @@ import org.prevayler.bubble.tests.fixtures.module1.Item;
 import org.prevayler.bubble.tests.fixtures.module1.SomeModule;
 import org.prevayler.foundation.serialization.XStreamSerializer;
 
-import sneer.foundation.lang.Closure;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.Closure;
+import basis.testsupport.CleanTestBase;
+
 
 public class PrevalentBubbleTest extends CleanTestBase {
 	

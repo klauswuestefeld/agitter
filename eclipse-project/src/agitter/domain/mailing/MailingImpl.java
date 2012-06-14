@@ -3,7 +3,8 @@ package agitter.domain.mailing;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import sneer.foundation.lang.Clock;
+import basis.lang.Clock;
+
 
 
 public class MailingImpl implements Mailing {

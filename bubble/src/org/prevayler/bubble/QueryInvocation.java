@@ -5,7 +5,8 @@ import java.util.Date;
 
 import org.prevayler.Query;
 
-import sneer.foundation.lang.ProducerX;
+import basis.lang.ProducerX;
+
 
 public class QueryInvocation extends Invocation implements Query, ProducerX<Object, Exception> { private static final long serialVersionUID = 1L;
 

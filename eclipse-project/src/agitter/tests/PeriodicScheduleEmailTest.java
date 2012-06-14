@@ -9,8 +9,9 @@ import java.util.GregorianCalendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Clock;
+import basis.lang.exceptions.Refusal;
+
 import agitter.controller.mailing.ReminderMailer;
 import agitter.controller.mailing.tests.EmailSenderMock;
 import agitter.domain.events.Event;

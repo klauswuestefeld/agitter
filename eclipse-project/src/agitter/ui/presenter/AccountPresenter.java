@@ -2,8 +2,9 @@ package agitter.ui.presenter;
 
 import javax.servlet.http.HttpSession;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Consumer;
+import basis.lang.exceptions.Refusal;
+
 import agitter.common.Portal;
 import agitter.controller.oauth.OAuth;
 import agitter.domain.users.User;

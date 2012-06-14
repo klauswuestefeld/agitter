@@ -1,6 +1,6 @@
 package agitter.domain.users;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
 import agitter.common.Portal;
 import agitter.domain.emails.EmailAddress;
 

@@ -3,8 +3,9 @@ package agitter.ui.presenter.tests;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.exceptions.Refusal;
+import basis.testsupport.CleanTestBase;
+
 import agitter.controller.AuthenticationToken;
 import agitter.domain.emails.EmailAddress;
 

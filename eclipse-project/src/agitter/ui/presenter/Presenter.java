@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import sneer.foundation.lang.Consumer;
-import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.exceptions.FriendlyException;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Consumer;
+import basis.lang.Functor;
+import basis.lang.exceptions.FriendlyException;
+import basis.lang.exceptions.Refusal;
+
 import vaadinutils.RestUtils.RestHandler;
 import vaadinutils.SessionUtils;
 import agitter.controller.AuthenticationToken;

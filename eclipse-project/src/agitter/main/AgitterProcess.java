@@ -19,8 +19,8 @@ import java.util.logging.Level;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.prevayler.bubble.PrevalentBubble;
 
-import sneer.foundation.lang.Clock;
 import agitter.controller.Controller;
+import basis.lang.Clock;
 
 import com.vaadin.Application;
 

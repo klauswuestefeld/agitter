@@ -21,8 +21,9 @@ import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.provider.GoogleImpl;
 
-import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Functor;
+import basis.lang.exceptions.Refusal;
+
 import utils.ReflectionUtils;
 import agitter.common.Portal;
 import agitter.controller.oauth.contactsimport.ContactsImport;

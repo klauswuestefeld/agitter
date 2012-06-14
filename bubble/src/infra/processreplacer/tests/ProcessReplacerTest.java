@@ -5,8 +5,9 @@ import infra.processreplacer.ProcessReplacer.ReplaceableProcess;
 
 import org.junit.Test;
 
-import sneer.foundation.testsupport.TestWithMocks;
-import sneer.foundation.util.concurrent.Latch;
+import basis.testsupport.TestWithMocks;
+import basis.util.concurrent.Latch;
+
 
 public class ProcessReplacerTest extends TestWithMocks {
 

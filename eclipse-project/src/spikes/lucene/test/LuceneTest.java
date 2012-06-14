@@ -8,7 +8,8 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import spikes.lucene.LuceneBase;
 import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;

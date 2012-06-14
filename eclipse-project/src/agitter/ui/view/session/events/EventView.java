@@ -2,7 +2,8 @@ package agitter.ui.view.session.events;
 
 import java.util.List;
 
-import sneer.foundation.lang.Pair;
+import basis.lang.Pair;
+
 import vaadinutils.ProfileListItem;
 
 

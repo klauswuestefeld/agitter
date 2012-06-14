@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.prevayler.bubble.Transaction;
 
-import sneer.foundation.lang.Closure;
-import sneer.foundation.lang.Consumer;
+import basis.lang.Closure;
+import basis.lang.Consumer;
+
 
 public interface SomeModule {
 

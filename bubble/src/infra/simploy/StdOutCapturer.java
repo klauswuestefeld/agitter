@@ -3,7 +3,8 @@ package infra.simploy;
 import java.io.IOException;
 import java.io.InputStream;
 
-import sneer.foundation.util.concurrent.Latch;
+import basis.util.concurrent.Latch;
+
 
 public class StdOutCapturer extends Thread {
 

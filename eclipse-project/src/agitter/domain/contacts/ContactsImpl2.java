@@ -1,8 +1,8 @@
 package agitter.domain.contacts;
 
-import sneer.foundation.lang.CacheMap;
-import sneer.foundation.lang.Producer;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.CacheMap;
+import basis.lang.Producer;
+import basis.lang.exceptions.Refusal;
 import agitter.domain.users.User;
 
 public class ContactsImpl2 implements Contacts {

@@ -6,7 +6,8 @@ import java.security.Key;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import sneer.foundation.lang.Functor;
+import basis.lang.Functor;
+
 
 public class Encoders {
 

@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import sneer.foundation.lang.Functor;
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.Functor;
+import basis.lang.exceptions.Refusal;
+
 
 public abstract class SecureRequest {
 

@@ -4,11 +4,11 @@ package agitter.ui.view.session.account;
 import java.util.HashMap;
 import java.util.Map;
 
-import sneer.foundation.lang.Consumer;
 import vaadinutils.ProfileList;
 import vaadinutils.WidgetUtils;
 import agitter.common.Portal;
 import agitter.domain.users.User;
+import basis.lang.Consumer;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;

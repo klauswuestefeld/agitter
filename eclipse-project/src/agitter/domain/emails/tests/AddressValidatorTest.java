@@ -3,7 +3,8 @@ package agitter.domain.emails.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sneer.foundation.lang.exceptions.Refusal;
+import basis.lang.exceptions.Refusal;
+
 import agitter.domain.emails.AddressValidator;
 
 public class AddressValidatorTest extends Assert {

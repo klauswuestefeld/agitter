@@ -4,8 +4,9 @@ import static utils.XssAttackSanitizer.ultraConservativeFilter;
 
 import java.util.List;
 
+import basis.lang.Clock;
+
 import agitter.domain.events.EventOcurrence;
-import sneer.foundation.lang.Clock;
 import agitter.controller.AuthenticationToken;
 import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;

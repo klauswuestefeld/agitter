@@ -4,8 +4,9 @@ import infra.simploy.DailyTrigger;
 
 import org.junit.Test;
 
-import sneer.foundation.lang.Clock;
-import sneer.foundation.testsupport.CleanTestBase;
+import basis.lang.Clock;
+import basis.testsupport.CleanTestBase;
+
 
 public class DailyTriggerTest extends CleanTestBase {
 
