@@ -11,12 +11,12 @@ import java.util.List;
 public class JarFinder {
 
 	public static URL[] languageSupportJars(File root) {
-		return findJars(root, "sneer/foundation/languagesupport");
+		return findJars(root, "basis/languagesupport");
 	}
 
 	
 	public static URL[] testSupportJars(File root) {
-		return findJars(root, "sneer/foundation/testsupport");
+		return findJars(root, "basis/testsupport");
 	}
 
 	
