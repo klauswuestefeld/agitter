@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import basis.lang.Clock;
-import basis.lang.Consumer;
-import basis.lang.Functor;
-import basis.lang.exceptions.Refusal;
-
 import agitter.domain.comments.Comments;
 import agitter.domain.contacts.ContactsOfAUser;
 import agitter.domain.emails.EmailAddress;
@@ -29,6 +24,10 @@ import agitter.ui.view.session.events.EventListView;
 import agitter.ui.view.session.events.EventListView.Boss;
 import agitter.ui.view.session.events.EventVO;
 import agitter.ui.view.session.events.EventsView;
+import basis.lang.Clock;
+import basis.lang.Consumer;
+import basis.lang.Functor;
+import basis.lang.exceptions.Refusal;
 
 public class EventsPresenter implements Boss, EventsView.Boss {
 
@@ -81,16 +80,18 @@ public class EventsPresenter implements Boss, EventsView.Boss {
 	
 	private void tryToSelectEventFromUrl(String value) {
 		Long possibleId = tryToParseId(value);
-		if(possibleId != null) {
-			Event possibleEvent = events.get(possibleId);
-			if(possibleEvent != null)
-				if(possibleEvent.isVisibleTo(user))
-					selectEvent(possibleEvent);
-				else 
-					warningDisplayer.consume("Você não possui acesso ao agito!");	
-			else
-				warningDisplayer.consume("Agito não encontrado.");
+		if (possibleId == null) return;
+	
+		Event possibleEvent = events.get(possibleId);
+		if(possibleEvent == null) {
+			warningDisplayer.consume("Agito não encontrado.");
+			return;
 		}
+		
+		if(possibleEvent.isVisibleTo(user))
+			selectEvent(possibleEvent);
+		else 
+			warningDisplayer.consume("Você não possui acesso ao agito!");	
 	}
 	
 	private Long tryToParseId(String string) {

@@ -32,7 +32,7 @@ public class SignupEmailControllerTest extends TestWithMocks {
 		checking(new Expectations(){{
 			exactly(1).of(users).signup(email("ana+1@mail.com"), "password123");
 		}});
-		Map<String, String[]> params = map("email", "ana+1@mail.com", "expires", "-1", "code", "8B2185CF5384FD691EF4AE5CA7D8AF9D789012F2C957A0C7251E6318228C5FF5");  //Obtained by Regression
+		Map<String, String[]> params = map("email", "ana+1@mail.com", "expires", "-1", "code", "22479E7E30281D6519635B0F7641A6EF420E241D9AA271130F593894FBDC1D31");  //Obtained by Regression
 		subject.onRestInvocation(params);
 	}
 

@@ -120,12 +120,16 @@ public class Presenter implements RestHandler {
 		String command = uri[0];
 		if ("demo".equals(command)) { demo(); return; }
 		if ("anne".equals(command)) { anne(); return; }
-		if ("unsubscribe".equals(command)) { unsubscribe(uri); return; }
+		
 		if ("signup".equals(command)) { restSignup(params); return; }
-		if ("auth".equals(command)) { restAuth(params); return; }
+
 		if ("oauth".equals(command)) { oAuthCallback(params); return; }
 		if ("link".equals(command)) { oAuthLinkCallback(params); return; }
 
+		if ("unsubscribe".equals(command)) { unsubscribe(uri); return; }
+		if ("auth".equals(command)) { restAuth(params); return; }
+//		if ("attend".equals(command)) { attend(params); return; }
+		
 		urlRestPathNotifier.notify(relativeUri);
 	}
 	
@@ -180,12 +184,23 @@ public class Presenter implements RestHandler {
 
 	
 	private void restAuth(Map<String, String[]> params) throws Refusal {
-		AuthenticationToken token = new AuthenticationToken(params);
-		User user = userProducer.evaluate(token.email());
-		onAuthenticate().consume(user);
+		authenticate(new AuthenticationToken(params));
 		view.hideToAvoidExtraBlinkAndRedirect(context.toString());
 	}
 
+
+//	private void attend(Map<String, String[]> params) throws Refusal {
+//		AuthenticationToken token = new AttendToken(params);
+//		authenticate(token);
+//		view.hideToAvoidExtraBlinkAndRedirect(context.toString());
+//	}
+
+	
+	private void authenticate(AuthenticationToken token) {
+		User user = userProducer.evaluate(token.email());
+		onAuthenticate().consume(user);
+	}
+	
 	
 	private void oAuthCallback(Map<String, String[]> params) throws Refusal {
 		try {

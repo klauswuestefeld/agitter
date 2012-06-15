@@ -2,7 +2,6 @@ package utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public abstract class SecureRequest {
 	
 	public String asSecureURI() {
 		addParamToUri("code", securityCode());
-		return asURI(true);
+		return asURI();
 	}
 	
 	private static String encodeUrlValue(String value) {
@@ -37,11 +36,12 @@ public abstract class SecureRequest {
 		}
 	}
 
-	private String asURI(boolean encode) {
+	
+	private String asURI() {
 		String paramsString = "";
 		for(Map.Entry<String, String> entry : params.entrySet()) {
-			String key = encode ? encodeUrlValue(entry.getKey()) : entry.getKey();
-			String value = encode ? encodeUrlValue(entry.getValue()) : entry.getValue();
+			String key = encodeUrlValue(entry.getKey());
+			String value = encodeUrlValue(entry.getValue());
 			if(paramsString.isEmpty())
 				paramsString += "?";
 			else 
@@ -51,9 +51,9 @@ public abstract class SecureRequest {
 		return command() + paramsString;
 	}
 	
+	
 	protected String securityCode() {
-		String input = asURI(false);
-		return Encoders.toHex(HMAC.evaluate(input));
+		return Encoders.toHex(HMAC.evaluate(asURI()));
 	}
 
 	
@@ -69,11 +69,6 @@ public abstract class SecureRequest {
 			throw new Refusal("Requisição inválida.");
 	}
 	
-	
-	public static void main(String[] args) {
-		System.err.println( Arrays.toString( "signup?email=matias@sumersoft.com&code=12789A159BCED6CC42F7EB9D41FA415DB91FE8AA8DBD4CF8985C0664927A6906".split( "\\?" ) ) );
-	}
-
 	
 	protected static Map<String, String[]> parseParams(String command, String uri) throws Refusal {
 		String[] parts = uri.split("\\?");
