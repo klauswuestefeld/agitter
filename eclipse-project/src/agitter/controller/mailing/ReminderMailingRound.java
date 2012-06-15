@@ -53,7 +53,7 @@ public class ReminderMailingRound {
 
 
 	private void sendReminderTo(User u, List<EventOcurrence> toSend) {
-		String body = this._formatter.format(u, toSend);
+		String body = this._formatter.bodyFor(u, toSend);
 		this._sender.send(u.email(), SUBJECT, body);
 	}
 	

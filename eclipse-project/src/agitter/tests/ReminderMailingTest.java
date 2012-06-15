@@ -18,7 +18,7 @@ import agitter.domain.events.Event;
 import agitter.domain.events.tests.EventsTestBase;
 import agitter.domain.users.User;
 
-public class PeriodicScheduleEmailTest extends EventsTestBase {
+public class ReminderMailingTest extends EventsTestBase {
 
 	private static final int ONE_HOUR = 1000 * 60 * 60;
 	private static final long ONE_DAY = ONE_HOUR * 24;

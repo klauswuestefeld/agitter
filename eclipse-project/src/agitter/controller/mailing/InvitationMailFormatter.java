@@ -27,10 +27,10 @@ public class InvitationMailFormatter {
 	}
 	
 	
-	public String bodyFor(Event event, User user) {
+	public String bodyFor(User invitee, Event event) {
 		return BODY
 			.replaceAll("%DESC%", HTML_FORMATTER.makeClickableWithBr(event.description()))
-			.replaceAll("%AUTH%", authUri(user));
+			.replaceAll("%AUTH%", authUri(invitee));
 	}
 
 	

@@ -44,7 +44,7 @@ public class InvitationMailer {
 
 
 	private void tryToSendInvitation(InvitationToSendOut inv) {
-		sender.send(inv.invitee().email(), formatter.subjectFor(inv.event()), formatter.bodyFor(inv.event(), inv.invitee()));
+		sender.send(inv.invitee().email(), formatter.subjectFor(inv.event()), formatter.bodyFor(inv.invitee(), inv.event()));
 	}
 
 	

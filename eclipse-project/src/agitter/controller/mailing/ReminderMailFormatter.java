@@ -24,10 +24,10 @@ public class ReminderMailFormatter {
 	private static final long TWO_DAYS = 1000 * 60 * 60 * 24 * 2;
 
 
-	public String format(User u, List<EventOcurrence> events) {
+	public String bodyFor(User user, List<EventOcurrence> events) {
 		return BODY
 			.replaceAll("%EVENT_LIST%", eventList(events))
-			.replaceAll("%AUTH%", authUri(u));
+			.replaceAll("%AUTH%", authUri(user));
 	}
 
 	private String authUri(User u) {
