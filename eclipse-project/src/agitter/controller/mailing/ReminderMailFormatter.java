@@ -4,14 +4,11 @@ import static utils.XssAttackSanitizer.ultraConservativeFilter;
 
 import java.util.List;
 
-import basis.lang.Clock;
-
 import agitter.domain.events.EventOcurrence;
-import agitter.controller.AuthenticationToken;
 import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;
 
-public class ReminderMailFormatter {
+public class ReminderMailFormatter extends MailFormatter {
 
 	private static final String BODY = "Seus amigos estão agitando e querem você lá: <br/><br/>"
 			+"%EVENT_LIST%"
@@ -21,8 +18,6 @@ public class ReminderMailFormatter {
 			+"<BR/><a href=\"http://agitter.com/%AUTH%\">agitter.com</a><BR/>";
 	//			+"<BR><BR>Para não receber mais nenhum convite clique: <a href=\"http://agitter.com\">unsubscribe</a>";
 
-	private static final long TWO_DAYS = 1000 * 60 * 60 * 24 * 2;
-
 
 	public String bodyFor(User user, List<EventOcurrence> events) {
 		return BODY
@@ -30,9 +25,6 @@ public class ReminderMailFormatter {
 			.replaceAll("%AUTH%", authUri(user));
 	}
 
-	private String authUri(User u) {
-		return new AuthenticationToken(u.email(), Clock.currentTimeMillis() + TWO_DAYS).asSecureURI();
-	}
 
 	private String eventList(List<EventOcurrence> events) {
 		StringBuffer result = new StringBuffer();

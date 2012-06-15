@@ -1,13 +1,11 @@
 package agitter.controller.mailing;
 
 import static utils.XssAttackSanitizer.ultraConservativeFilter;
-import basis.lang.Clock;
-import agitter.controller.AuthenticationToken;
 import agitter.domain.events.Event;
 import agitter.domain.users.User;
 import agitter.ui.helper.HTMLFormatter;
 
-public class InvitationMailFormatter {
+public class InvitationMailFormatter extends MailFormatter {
 
 	private static final String BODY = "%DESC%"
 			+"<BR/><BR/><BR/>"
@@ -16,7 +14,6 @@ public class InvitationMailFormatter {
 			+"<BR/><a href=\"http://agitter.com/%AUTH%\">agitter.com</a><BR/>";
 	//			+"<BR><BR>Para não receber mais nenhum convite clique: <a href=\"http://agitter.com\">unsubscribe</a>";
 
-	private static final long TWO_DAYS = 1000 * 60 * 60 * 24 * 2;
 	private static final HTMLFormatter HTML_FORMATTER = new HTMLFormatter();
 
 
@@ -31,11 +28,6 @@ public class InvitationMailFormatter {
 		return BODY
 			.replaceAll("%DESC%", HTML_FORMATTER.makeClickableWithBr(event.description()))
 			.replaceAll("%AUTH%", authUri(invitee));
-	}
-
-	
-	private String authUri(User u) {
-		return new AuthenticationToken(u.email(), Clock.currentTimeMillis() + TWO_DAYS).asSecureURI();
 	}
 
 }
