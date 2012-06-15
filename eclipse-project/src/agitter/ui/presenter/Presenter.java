@@ -13,11 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import basis.lang.Consumer;
-import basis.lang.Functor;
-import basis.lang.exceptions.FriendlyException;
-import basis.lang.exceptions.Refusal;
-
 import vaadinutils.RestUtils.RestHandler;
 import vaadinutils.SessionUtils;
 import agitter.controller.AuthenticationToken;
@@ -36,6 +31,10 @@ import agitter.ui.presenter.hacks.ContactsDemoBoss;
 import agitter.ui.presenter.hacks.DemoPreparation;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
+import basis.lang.Consumer;
+import basis.lang.Functor;
+import basis.lang.exceptions.FriendlyException;
+import basis.lang.exceptions.Refusal;
 
 // TODO Verificar com o Klaus se já não existe algo no foundation para fazer isso.
 // Caso não tenha, mover a classe para um lugar melhor.
@@ -121,17 +120,16 @@ public class Presenter implements RestHandler {
 		if (uri.length == 0) return;
 
 		String command = uri[0];
-		boolean processed = false;
-		if ("demo".equals(command)) { demo(); processed = true; }
-		if ("anne".equals(command)) { anne(); processed = true; }
-		if ("contacts-demo".equals(command)) { contactsDemo(); processed = true; }
-		if ("unsubscribe".equals(command)) { unsubscribe(uri); processed = true; }
-		if ("signup".equals(command)) { restSignup(params); processed = true; }
-		if ("auth".equals(command)) { restAuth(params); processed = true; }
-		if ("oauth".equals(command)) { oAuthCallback(params); processed = true; }
-		if ("link".equals(command)) { oAuthLinkCallback(params); processed = true; }
-		if(!processed)
-			urlRestPathNotifier.notify(relativeUri);
+		if ("demo".equals(command)) { demo(); return; }
+		if ("anne".equals(command)) { anne(); return; }
+		if ("contacts-demo".equals(command)) { contactsDemo(); return; }
+		if ("unsubscribe".equals(command)) { unsubscribe(uri); return; }
+		if ("signup".equals(command)) { restSignup(params); return; }
+		if ("auth".equals(command)) { restAuth(params); return; }
+		if ("oauth".equals(command)) { oAuthCallback(params); return; }
+		if ("link".equals(command)) { oAuthLinkCallback(params); return; }
+
+		urlRestPathNotifier.notify(relativeUri);
 	}
 	
 
