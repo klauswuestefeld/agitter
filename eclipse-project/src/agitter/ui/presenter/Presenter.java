@@ -26,8 +26,6 @@ import agitter.domain.users.Users.InvalidAuthenticationToken;
 import agitter.domain.users.Users.UserNotActive;
 import agitter.domain.users.Users.UserNotFound;
 import agitter.ui.presenter.hacks.AnnePreparation;
-import agitter.ui.presenter.hacks.ContactsDemo;
-import agitter.ui.presenter.hacks.ContactsDemoBoss;
 import agitter.ui.presenter.hacks.DemoPreparation;
 import agitter.ui.view.AgitterView;
 import agitter.ui.view.session.SessionView;
@@ -122,7 +120,6 @@ public class Presenter implements RestHandler {
 		String command = uri[0];
 		if ("demo".equals(command)) { demo(); return; }
 		if ("anne".equals(command)) { anne(); return; }
-		if ("contacts-demo".equals(command)) { contactsDemo(); return; }
 		if ("unsubscribe".equals(command)) { unsubscribe(uri); return; }
 		if ("signup".equals(command)) { restSignup(params); return; }
 		if ("auth".equals(command)) { restAuth(params); return; }
@@ -135,15 +132,6 @@ public class Presenter implements RestHandler {
 
 	private void recoverFromRedirectWithoutBlink() {
 		view.show();
-	}
-
-
-	private void contactsDemo() {
-		SessionView sessionView = view.showSessionView();
-		sessionView.startReportingTo(new ContactsDemoBoss());
-		sessionView.setUserScreenName("Contacts Demo");
-		sessionView.showContactsView();
-		new ContactsDemo(sessionView.contactsView());
 	}
 
 
