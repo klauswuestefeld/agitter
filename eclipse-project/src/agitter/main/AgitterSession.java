@@ -11,6 +11,9 @@ import agitter.ui.view.AgitterViewImpl;
 
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.terminal.gwt.server.WebBrowser;
+import com.vaadin.ui.Label;
 
 public class AgitterSession extends Application implements HttpServletRequestListener  {
 
@@ -41,6 +44,7 @@ public class AgitterSession extends Application implements HttpServletRequestLis
 		setTheme("agitter");
 		AgitterViewImpl view = new AgitterViewImpl();
 		setMainWindow(view);
+		if (!browserCompatibilityCheck()) return;
 
 		presenter = new Presenter(CONTROLLER, view, firstRequest, firstResponse);
 		firstRequest = null;
@@ -81,6 +85,17 @@ public class AgitterSession extends Application implements HttpServletRequestLis
 	*/
 
 	
+	private boolean browserCompatibilityCheck() {
+		WebBrowser browser = ((WebApplicationContext)getContext()).getBrowser();
+		if (!browser.isIE()) return true;
+		int version = browser.getBrowserMajorVersion();
+		if (version >= 9) return true;
+		getMainWindow().addComponent(new Label("A versão deste browser que você está usando (Internet Explorer " + version + ") é antiga demais."));
+		getMainWindow().addComponent(new Label("Use a versão 9 pra cima ou use outro browser como o Firefox: http://www.mozilla.org/pt-BR/firefox"));
+		return false;			  
+	}
+
+
 	public static SystemMessages getSystemMessages() {
 		CustomizedSystemMessages messages = new CustomizedSystemMessages();
 		messages.setOutOfSyncNotificationEnabled(false);
